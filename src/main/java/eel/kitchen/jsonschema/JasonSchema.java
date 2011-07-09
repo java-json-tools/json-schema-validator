@@ -53,6 +53,7 @@ public final class JasonSchema
     {
         if (node == null)
             throw new IllegalArgumentException("document to validate is null");
+        validationErrors.clear();
 
         final List<String> messages = validateOneNode(schema, node, "$");
 
