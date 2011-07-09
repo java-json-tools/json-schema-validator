@@ -1,0 +1,85 @@
+{
+    "schema": {
+        "type": "object",
+        "description": "A table",
+        "additionalProperties": {
+            "type": "object",
+            "description": "Fields with an identifier column and simple types only",
+            "properties": {
+                "id": {
+                    "description": "An identifier field",
+                    "type": "object",
+                    "required": true,
+                    "properties": {
+                        "column": {
+                            "type": "string",
+                            "required": true
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": {
+                "description": "A standard column definition",
+                "type": "object",
+                "properties": {
+                    "column": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "type": {
+                        "required": true,
+                        "enum": [ "string", "number", "text", "uuid", "int", "date"
+                        ]
+                    },
+                    "unique": {
+                        "type": "boolean"
+                    },
+                    "nullable": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            }
+        }
+    },
+    "ok": {
+        "table1": {
+            "id": {
+                "column" : "hello"
+            },
+            "name": {
+                "type": "string",
+                "column": "name"
+            }
+        },
+
+        "table2": {
+            "id": {
+                "column": "world"
+            },
+            "croute": {
+                "type": "number",
+                "column": "croute"
+            }
+        }
+    },
+    "ko": {
+        "table1": {
+            "name": {
+                "type": "string",
+                "column": "name"
+            }
+        },
+
+        "table2": {
+            "id": {
+                "column": "world"
+            },
+            "croute": {
+                "type": "string",
+                "column": true
+            }
+        }
+    }
+}
