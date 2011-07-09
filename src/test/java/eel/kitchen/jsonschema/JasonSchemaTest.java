@@ -35,4 +35,22 @@ public class JasonSchemaTest
         messages = schema.getValidationErrors();
         assertTrue(messages.isEmpty());
     }
+
+    @Test
+    public void test2()
+        throws MalformedJasonSchemaException, IOException
+    {
+        node = JasonLoader.load("fullschemas/test2.json");
+        schema = new JasonSchema(node.get("schema"));
+
+        assertFalse(schema.validate(node.get("ko")));
+        messages = schema.getValidationErrors();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "$: additional properties were found "
+            + "but schema forbids them");
+
+        assertTrue(schema.validate(node.get("ok")));
+        messages = schema.getValidationErrors();
+        assertTrue(messages.isEmpty());
+    }
 }

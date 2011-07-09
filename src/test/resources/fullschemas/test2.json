@@ -1,0 +1,19 @@
+{
+    "schema": {
+        "type": "object",
+        "patternProperties": {
+            "^(\\w+)2\\1$": {
+                "type": "string"
+            }
+        },
+        "additionalProperties": false
+    },
+    "ko": {
+        "p1": "should not be here",
+        "peer2peer": false
+    },
+    "ok": {
+        "day2day": "as you say",
+        "peer2peer": "nightmare of the mafiaa"
+    }
+}

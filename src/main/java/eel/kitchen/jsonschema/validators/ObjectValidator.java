@@ -221,18 +221,9 @@ public final class ObjectValidator
                     + "but was not found");
             }
 
-        if (!validationErrors.isEmpty())
-            return false;
-
-        /*
-         * Dependencies
-         */
-        String field;
-        Set<String> deps;
-
         for (final Map.Entry<String, Set<String>> entry: dependencies.entrySet()) {
-            field = entry.getKey();
-            deps = entry.getValue();
+            final String field = entry.getKey();
+            final Set<String> deps = entry.getValue();
             if (!fields.contains(field))
                 continue;
             for (final String dep: deps) {
@@ -243,19 +234,22 @@ public final class ObjectValidator
             }
         }
 
-        if (!validationErrors.isEmpty())
-            return false;
-
-        /*
-         * Additional
-         */
         fields.removeAll(properties.keySet());
 
-        if (additionalPropertiesOK)
-            return true;
+        final PatternMatcher matcher = new Perl5Matcher();
+        final Set<String> matches = new HashSet<String>();
 
-        if (fields.isEmpty())
-            return true;
+        for (final String field: fields)
+            for (final Pattern pattern: patternProperties.keySet())
+                if (matcher.matches(field, pattern)) {
+                    matches.add(field);
+                    break;
+                }
+
+        fields.removeAll(matches);
+
+        if (additionalPropertiesOK || fields.isEmpty())
+            return validationErrors.isEmpty();
 
         validationErrors.add("additional properties were found but schema "
             + "forbids them");
@@ -273,7 +267,7 @@ public final class ObjectValidator
         final List<JsonNode> ret = new ArrayList<JsonNode>();
 
         for (final Map.Entry<Pattern, JsonNode> entry: patternProperties.entrySet())
-            if (matcher.matches(subPath, entry.getKey()))
+            if (matcher.contains(subPath, entry.getKey()))
                 ret.add(entry.getValue());
 
         if (!ret.isEmpty())
