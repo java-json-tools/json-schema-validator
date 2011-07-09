@@ -1,0 +1,38 @@
+{
+    "twotypes": {
+        "schema": {
+            "type": [ "string", "boolean" ]
+        },
+        "good": "lad",
+        "bad": 32
+    },
+    "simpleExclude": {
+        "schema": {
+            "type": "any",
+            "disallow": "boolean"
+        },
+        "good": 9.231,
+        "bad": true
+    },
+    "boolean": {
+        "schema": {
+            "type": "boolean"
+        },
+        "good": true,
+        "bad": null
+    },
+    "null": {
+        "schema": {
+            "type": "null"
+        },
+        "good": null,
+        "bad": 1
+    },
+    "enum": {
+        "schema": {
+            "enum": [ [ "a", "b" ], false, null, 3, 3.14, { "a": "b" }, "a" ]
+        },
+        "good": null,
+        "bad": "so what?"
+    }
+}

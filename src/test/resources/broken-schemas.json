@@ -1,0 +1,23 @@
+{
+    "not-a-schema": "what I said, not a schema",
+    "illegal-type": {
+        "type": true
+    },
+    "illegal-type-array": {
+        "type": [ true ]
+    },
+    "empty-type-set": {
+        "type": "string",
+        "disallow": "string"
+    },
+    "disallow-any": {
+        "disallow": "any"
+    },
+    "integer-vs-number": {
+        "type": "integer",
+        "disallow": "number"
+    },
+    "unknown-type": {
+        "type": "pwet"
+    }
+}

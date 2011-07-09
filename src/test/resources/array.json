@@ -1,0 +1,26 @@
+{
+    "minItems": {
+        "schema": {
+            "type": "array",
+            "minItems": 2
+        },
+        "good": [ 1, 2, 3 ],
+        "bad": [ "bisque bisque rage" ]
+    },
+    "maxItems": {
+        "schema": {
+            "type": "array",
+            "maxItems": 3
+        },
+        "good": [ 1, 2, 3 ],
+        "bad": [ "la", "multiplication", "des", "pains" ]
+    },
+    "uniqueItems": {
+        "schema": {
+            "type": "array",
+            "uniqueItems": true
+        },
+        "good": [ 1, { "hello" : "world" }, "pwet" ],
+        "bad": [ "fais passer", "fais passer", "fais passer" ]
+    }
+}

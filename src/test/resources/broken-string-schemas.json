@@ -1,0 +1,24 @@
+{
+    "broken-minLength": {
+        "minLength": 3.3
+    },
+    "negative-minLength": {
+        "minLength": -3
+    },
+    "broken-maxLength": {
+        "maxLength": 3.3
+    },
+    "negative-maxLength": {
+        "maxLength": -3
+    },
+    "inverted-minmax": {
+        "minLength": 9,
+        "maxLength": 3
+    },
+    "broken-pattern-type": {
+        "pattern": true
+    },
+    "illegal-pattern": {
+        "pattern": "+"
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "broken-minItems": {
+        "minItems": false,
+        "maxItems": "whatever",
+        "uniqueItems": "I don't have an opinion"
+    },
+    "broken-maxItems": {
+        "minItems": 3,
+        "maxItems": "whatever",
+        "uniqueItems": "I don't have an opinion"
+    },
+    "inverted-minmax": {
+        "minItems": 3,
+        "maxItems": 2
+    },
+    "broken-uniqueItems": {
+        "uniqueItems": "yep"
+    },
+    "broken-items": {
+        "items": "meh"
+    },
+    "broken-items-value": {
+        "items": [ true ]
+    },
+    "items-duplicates": {
+        "items": [ {}, {} ]
+    },
+    "empty-items": {
+        "items": []
+    }
+}

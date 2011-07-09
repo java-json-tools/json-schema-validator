@@ -1,0 +1,35 @@
+{
+    "broken-minimum": {
+        "minimum": "foo"
+    },
+    "broken-exclusiveMinimum": {
+        "minimum": 2,
+        "exclusiveMinimum": 2
+    },
+    "broken-maximum": {
+        "minimum": -18.2,
+        "exclusiveMinimum": false,
+        "maximum": "oualou"
+    },
+    "broken-exclusiveMaximum": {
+        "minimum": 2,
+        "exclusiveMinimum": false,
+        "maximum": 5,
+        "exclusiveMaximum": 4.24
+    },
+    "inverted-minmax": {
+        "minimum": 980932480987,
+        "maximum": -5.09832
+    },
+    "impossible-match": {
+        "minimum": 42.20045351,
+        "maximum": 42.20045351,
+        "exclusiveMinimum": true
+    },
+    "broken-divisor": {
+        "divisibleBy": "pi"
+    },
+    "zero-divisor": {
+        "divisibleBy": 0.00
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "required": {
+        "schema": {
+            "type": "object",
+            "properties": {
+                "p1": {
+                    "type": "string",
+                    "required": true
+                }
+            }
+        },
+        "good": {
+            "p1": "is there",
+            "p2": "too"
+        },
+        "bad": {
+            "p2": "is lonely"
+        }
+    },
+    "noAdditional": {
+        "schema": {
+            "type": "object",
+            "properties": {
+                "p1": {
+                    "type": "string",
+                    "required": true
+                }
+            },
+            "additionalProperties": false
+        },
+        "good": {
+            "p1": "alone"
+        },
+        "bad": {
+            "p1": "ok",
+            "p2": "should not be there"
+        }
+    },
+    "dependencies": {
+        "schema": {
+            "type": "object",
+            "properties": {
+                "p1": {
+                    "type": "string"
+                }
+            },
+            "dependencies": {
+                "p1": [ "p2", "p3" ]
+            }
+        },
+        "good": {
+            "p1": "and friends",
+            "p2": "Charybde",
+            "p3": "Scylla"
+        },
+        "bad": {
+            "p1": "Laurel",
+            "p2": "Hardy"
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "illegal-enum": {
+        "enum": true
+    },
+    "enum-duplicates": {
+        "enum": [ "beeh", "beeh", "say the sheep" ]
+    }
+}

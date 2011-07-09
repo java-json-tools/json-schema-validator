@@ -1,0 +1,44 @@
+{
+    "minimum": {
+        "schema": {
+            "type": "integer",
+            "minimum": 21
+        },
+        "good": 2131,
+        "bad": -5
+    },
+    "exclusiveMinimum": {
+        "schema": {
+            "type": "integer",
+            "minimum": 21,
+            "exclusiveMinimum": true
+        },
+        "good": 30,
+        "bad": 21
+    },
+    "maximum": {
+        "schema": {
+            "type": "integer",
+            "maximum": 42
+        },
+        "good": 42,
+        "bad": 43
+    },
+    "exclusiveMaximum": {
+        "schema": {
+            "type": "integer",
+            "maximum": 2103,
+            "exclusiveMaximum": true
+        },
+        "good": -7,
+        "bad": 2103
+    },
+    "divisibleBy": {
+        "schema": {
+            "type": "integer",
+            "divisibleBy": 25
+        },
+        "good": 250000,
+        "bad": 22
+    }
+}
