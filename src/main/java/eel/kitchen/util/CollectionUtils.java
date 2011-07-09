@@ -27,8 +27,7 @@ import java.util.Set;
 
 public final class CollectionUtils
 {
-    public static <K, V> Map<K, V> toMap(final Iterator<Map.Entry<K, V>> iterator,
-        final boolean allowDuplicates)
+    public static <K, V> Map<K, V> toMap(final Iterator<Map.Entry<K, V>> iterator)
     {
         final Map<K, V> ret = new HashMap<K , V>();
         Map.Entry<K, V> entry;
@@ -37,20 +36,10 @@ public final class CollectionUtils
 
         while (iterator.hasNext()) {
             entry = iterator.next();
-            key = entry.getKey();
-            value = entry.getValue();
-            if (ret.containsKey(key) && !allowDuplicates)
-                throw new IllegalArgumentException("Duplicate keys are not "
-                    + "allowed");
-            ret.put(key, value);
+            ret.put(entry.getKey(), entry.getValue());
         }
 
         return ret;
-    }
-
-    public static <K, V> Map<K, V> toMap(final Iterator<Map.Entry<K, V>> iterator)
-    {
-        return toMap(iterator, true);
     }
 
     public static <T> Set<T> toSet(final Iterator<T> iterator,
@@ -73,15 +62,5 @@ public final class CollectionUtils
     public static <T> Set<T> toSet(final Iterator<T> iterator)
     {
         return toSet(iterator, true);
-    }
-
-    public static <T> List<T> toList(final Iterator<T> iterator)
-    {
-        final List<T> ret = new ArrayList<T>();
-
-        while (iterator.hasNext())
-            ret.add(iterator.next());
-
-        return ret;
     }
 }
