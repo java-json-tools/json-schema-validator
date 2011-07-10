@@ -1,42 +1,13 @@
 package eel.kitchen.jsonschema.validators.errors;
 
-import eel.kitchen.jsonschema.validators.Validator;
-import org.codehaus.jackson.JsonNode;
-
-import java.util.Arrays;
-import java.util.List;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 
 public final class IllegalSchemaValidator
-    implements Validator
+    extends AbstractValidator
 {
-    private final Exception e;
-
     public IllegalSchemaValidator(final Exception e)
     {
-        this.e = e;
-    }
-
-    @Override
-    public void setup()
-    {
-    }
-
-    @Override
-    public boolean validate(final JsonNode node)
-    {
-        return false;
-    }
-
-    @Override
-    public List<String> getValidationErrors()
-    {
-        return Arrays.asList(String.format("BROKEN SCHEMA: %s: %s",
+        validationErrors.add(String.format("BROKEN SCHEMA: %s: %s",
             e.getClass().getSimpleName(), e.getMessage()));
-    }
-
-    @Override
-    public JsonNode getSchemaForPath(final String subPath)
-    {
-        return null;
     }
 }

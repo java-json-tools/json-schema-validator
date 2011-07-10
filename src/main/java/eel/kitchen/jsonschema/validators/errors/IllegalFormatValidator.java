@@ -12,10 +12,4 @@ public final class IllegalFormatValidator
         super(ignored);
         validationErrors.add("illegal format specification");
     }
-
-    @Override
-    public boolean validate(final JsonNode node)
-    {
-        return false;
-    }
 }

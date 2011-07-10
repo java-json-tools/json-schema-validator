@@ -27,7 +27,7 @@ import java.util.List;
 public abstract class AbstractValidator
     implements Validator
 {
-    protected final JsonNode schemaNode;
+    protected JsonNode schemaNode = null;
     protected final List<String> validationErrors = new LinkedList<String>();
 
     protected AbstractValidator(final JsonNode schemaNode)
@@ -35,10 +35,20 @@ public abstract class AbstractValidator
         this.schemaNode = schemaNode;
     }
 
+    protected AbstractValidator()
+    {
+    }
+
     @Override
     public void setup()
         throws MalformedJasonSchemaException
     {
+    }
+
+    @Override
+    public boolean validate(final JsonNode node)
+    {
+        return false;
     }
 
     @Override
