@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.validators;
 
 import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.type.IntegerValidator;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

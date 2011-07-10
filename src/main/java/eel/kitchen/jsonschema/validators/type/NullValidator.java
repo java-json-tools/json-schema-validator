@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.validators;
+package eel.kitchen.jsonschema.validators.type;
 
 import org.codehaus.jackson.JsonNode;
 
-public final class BooleanValidator
+public final class NullValidator
     extends AbstractValidator
 {
-    public BooleanValidator(final JsonNode schemaNode)
+    public NullValidator(final JsonNode schemaNode)
     {
         super(schemaNode);
     }

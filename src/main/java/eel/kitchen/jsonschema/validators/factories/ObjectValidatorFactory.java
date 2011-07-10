@@ -1,6 +1,6 @@
 package eel.kitchen.jsonschema.validators.factories;
 
-import eel.kitchen.jsonschema.validators.ObjectValidator;
+import eel.kitchen.jsonschema.validators.type.ObjectValidator;
 import org.codehaus.jackson.JsonNode;
 
 public final class ObjectValidatorFactory

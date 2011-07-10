@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.validators;
+package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.type.ArrayValidator;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -30,132 +31,114 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class NumberValidatorTest
+public class ArrayValidatorTest
 {
     private JsonNode testNode, node;
-    private NumberValidator validator;
-    private boolean ret;
+    private ArrayValidator validator;
     private List<String> messages;
+    private boolean ret;
 
     @BeforeClass
     public void setUp()
         throws IOException
     {
-        testNode = JasonLoader.load("number.json");
+        testNode = JasonLoader.load("array.json");
     }
 
     @Test
-    public void testMinimum()
+    public void testMinItems()
         throws MalformedJasonSchemaException
     {
-        node = testNode.get("minimum");
+        node = testNode.get("minItems");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getValidationErrors();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "number is strictly lower than the "
-            + "required minimum");
+        assertEquals(messages.get(0), "array has less than minItems elements");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("good"));
         messages = validator.getValidationErrors();
         assertTrue(ret);
-        assertEquals(messages.size(), 0);
+        assertTrue(messages.isEmpty());
     }
 
     @Test
-    public void testExclusiveMinimum()
+    public void testMaxItems()
         throws MalformedJasonSchemaException
     {
-        node = testNode.get("exclusiveMinimum");
+        node = testNode.get("maxItems");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getValidationErrors();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "number equals to the minimum, "
-            + "but should be strictly greater than it");
+        assertEquals(messages.get(0), "array has more than maxItems elements");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("good"));
         messages = validator.getValidationErrors();
         assertTrue(ret);
-        assertEquals(messages.size(), 0);
+        assertTrue(messages.isEmpty());
     }
 
     @Test
-    public void testMaximum()
+    public void testUniqueItems()
         throws MalformedJasonSchemaException
     {
-        node = testNode.get("maximum");
+        node = testNode.get("uniqueItems");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getValidationErrors();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "number is strictly greater than the " +
-            "required maximum");
+        assertEquals(messages.get(0), "items in the array are not unique");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("good"));
         messages = validator.getValidationErrors();
         assertTrue(ret);
-        assertEquals(messages.size(), 0);
+        assertTrue(messages.isEmpty());
     }
 
     @Test
-    public void testExclusiveMaximum()
+    public void testItemsTuples()
         throws MalformedJasonSchemaException
     {
-        node = testNode.get("exclusiveMaximum");
+        node = testNode.get("itemsTuples");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getValidationErrors();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "number equals to the maximum, " +
-            "but should be strictly lower than it");
+        assertEquals(messages.get(0), "array has extra elements, "
+            + "which the schema disallows");
 
-        validator = new NumberValidator(node.get("schema"));
+        validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("good"));
         messages = validator.getValidationErrors();
         assertTrue(ret);
-        assertEquals(messages.size(), 0);
-    }
-
-    @Test
-    public void testDisivibleBy()
-        throws MalformedJasonSchemaException
-    {
-        node = testNode.get("divisibleBy");
-
-        validator = new NumberValidator(node.get("schema"));
-        validator.setup();
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
-        assertFalse(ret);
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "number is not a multiple of the "
-            + "declared divisor");
-
-        validator = new NumberValidator(node.get("schema"));
-        validator.setup();
-        ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
-        assertTrue(ret);
-        assertEquals(messages.size(), 0);
+        assertTrue(messages.isEmpty());
     }
 }

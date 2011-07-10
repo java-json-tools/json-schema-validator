@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.validators;
+package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.Validator;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -31,18 +32,19 @@ public abstract class AbstractValidator
 {
     protected final JsonNode schemaNode;
     protected final List<String> validationErrors = new LinkedList<String>();
-    protected final JsonNode EMPTY_SCHEMA;
+    protected static final JsonNode EMPTY_SCHEMA;
 
-    AbstractValidator(final JsonNode schemaNode)
+    static {
+        try {
+            EMPTY_SCHEMA = new ObjectMapper().readTree("{}");
+        } catch (IOException e) {
+            throw  new ExceptionInInitializerError();
+        }
+    }
+
+    protected AbstractValidator(final JsonNode schemaNode)
     {
         this.schemaNode = schemaNode;
-
-        final ObjectMapper mapper = new ObjectMapper();
-        try {
-            EMPTY_SCHEMA = mapper.readTree("{}");
-        } catch (IOException e) {
-            throw new RuntimeException("Cannot initialize validator", e);
-        }
     }
 
     @Override
