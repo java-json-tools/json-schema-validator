@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.factories.ValidatorProvider;
 import eel.kitchen.util.CollectionUtils;

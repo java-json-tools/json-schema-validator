@@ -1,7 +1,6 @@
 package eel.kitchen.jsonschema.validators.factories;
 
 import eel.kitchen.jsonschema.validators.EnumValidator;
-import eel.kitchen.jsonschema.validators.IntegerValidator;
 import eel.kitchen.jsonschema.validators.NumberValidator;
 import org.codehaus.jackson.JsonNode;
 

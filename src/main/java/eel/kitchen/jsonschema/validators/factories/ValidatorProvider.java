@@ -18,16 +18,7 @@
 package eel.kitchen.jsonschema.validators.factories;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.ArrayValidator;
-import eel.kitchen.jsonschema.validators.BooleanValidator;
-import eel.kitchen.jsonschema.validators.EnumValidator;
-import eel.kitchen.jsonschema.validators.IntegerValidator;
-import eel.kitchen.jsonschema.validators.NullValidator;
-import eel.kitchen.jsonschema.validators.NumberValidator;
-import eel.kitchen.jsonschema.validators.ObjectValidator;
-import eel.kitchen.jsonschema.validators.StringValidator;
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.jsonschema.validators.format.URIFormatValidator;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

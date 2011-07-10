@@ -5,7 +5,7 @@ import org.codehaus.jackson.JsonNode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HostnameFormatValidator
+public final class HostnameFormatValidator
     extends AbstractFormatValidator
 {
     private static final Pattern hostnamePart

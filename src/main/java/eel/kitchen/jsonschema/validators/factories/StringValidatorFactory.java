@@ -2,7 +2,6 @@ package eel.kitchen.jsonschema.validators.factories;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.EnumValidator;
-import eel.kitchen.jsonschema.validators.ObjectValidator;
 import eel.kitchen.jsonschema.validators.StringValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.format.FormatPicker;

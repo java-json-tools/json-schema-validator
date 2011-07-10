@@ -17,12 +17,10 @@
 
 package eel.kitchen.jsonschema;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.jsonschema.validators.ValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.ValidatorProvider;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -33,46 +31,54 @@ import static org.testng.Assert.assertFalse;
 
 public class BrokenSchemasTest
 {
-    private final ValidatorFactory factory = new ValidatorFactory();
-    private JsonNode testNode, dummy;
+    private static final JsonNode testNode;
+    private static final JsonNode dummy;
+    private static final ValidatorProvider provider
+        = new ValidatorProvider();
+    private static final Class<? extends Validator> typeMismatch
+        = ValidatorProvider.TypeMismatchValidator.class;
+
+    static {
+        try {
+            testNode = JasonLoader.load("broken-schemas.json");
+            dummy = new ObjectMapper().readTree("\"hello\"");
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
+    private JasonSchema2 schema;
     private Validator v;
     private List<String> ret;
-    private final Class<? extends Validator> typeMismatch
-        = ValidatorFactory.TypeMismatchValidator.class;
 
-    @BeforeClass
-    public void setUp()
-        throws IOException
-    {
-        testNode = JasonLoader.load("broken-schemas.json");
-        dummy = new ObjectMapper().readTree("\"hello\"");
-    }
-
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^schema is null$"
-    )
+    @Test
     public void testNullSchema()
-        throws MalformedJasonSchemaException
     {
-        new JasonSchema(null);
+        schema = new JasonSchema2(null);
+        assertFalse(schema.validate(dummy));
+
+        ret = schema.getValidationErrors();
+        assertEquals(ret.size(), 1);
+        assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
+            + "MalformedJasonSchemaException: schema is null");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^schema is not a JSON object$"
-    )
+    @Test
     public void testNotASchema()
-        throws MalformedJasonSchemaException
     {
-        new JasonSchema(testNode.get("not-a-schema"));
+        schema = new JasonSchema2(testNode.get("not-a-schema"));
+        assertFalse(schema.validate(dummy));
+
+        ret = schema.getValidationErrors();
+        assertEquals(ret.size(), 1);
+        assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
+            + "MalformedJasonSchemaException: schema is not a JSON object");
     }
 
     @Test
     public void testIllegalType()
-        throws MalformedJasonSchemaException
     {
-        v = factory.getValidator(testNode.get("illegal-type"), dummy);
+        v = provider.getValidator(testNode.get("illegal-type"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -85,9 +91,8 @@ public class BrokenSchemasTest
 
     @Test
     public void testIllegalTypeArray()
-        throws MalformedJasonSchemaException
     {
-        v = factory.getValidator(testNode.get("illegal-type-array"), dummy);
+        v = provider.getValidator(testNode.get("illegal-type-array"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -100,9 +105,8 @@ public class BrokenSchemasTest
 
     @Test
     public void testEmptyTypeSet()
-        throws MalformedJasonSchemaException
     {
-        v = factory.getValidator(testNode.get("empty-type-set"), dummy);
+        v = provider.getValidator(testNode.get("empty-type-set"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -115,9 +119,8 @@ public class BrokenSchemasTest
 
     @Test
     public void testDisallowAny()
-        throws MalformedJasonSchemaException
     {
-        v = factory.getValidator(testNode.get("disallow-any"), dummy);
+        v = provider.getValidator(testNode.get("disallow-any"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -130,9 +133,8 @@ public class BrokenSchemasTest
 
     @Test
     public void testIntegerVsNumber()
-        throws MalformedJasonSchemaException
     {
-        v = factory.getValidator(testNode.get("integer-vs-number"), dummy);
+        v = provider.getValidator(testNode.get("integer-vs-number"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -145,9 +147,8 @@ public class BrokenSchemasTest
 
     @Test
     public void testUnknownType()
-        throws MalformedJasonSchemaException
     {
-        v = factory.getValidator(testNode.get("unknown-type"), dummy);
+        v = provider.getValidator(testNode.get("unknown-type"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));

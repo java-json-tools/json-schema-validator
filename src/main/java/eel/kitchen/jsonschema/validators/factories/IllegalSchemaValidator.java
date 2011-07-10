@@ -33,7 +33,7 @@ public final class IllegalSchemaValidator
     public List<String> getValidationErrors()
     {
         return Arrays.asList(String.format("BROKEN SCHEMA: %s: %s",
-            e.getClass().getCanonicalName(), e.getMessage()));
+            e.getClass().getSimpleName(), e.getMessage()));
     }
 
     @Override
