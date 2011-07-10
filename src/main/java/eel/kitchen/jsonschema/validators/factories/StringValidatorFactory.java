@@ -21,8 +21,8 @@ public final class StringValidatorFactory
             try {
                 if (!formatNode.isTextual())
                     throw new MalformedJasonSchemaException("");
-                String fmt = formatNode.getTextValue().replaceAll("-", "_")
-                    .toUpperCase();
+                final String fmt = formatNode.getTextValue()
+                    .replaceAll("-", "_").toUpperCase();
                 c = FormatPicker.valueOf(fmt).getValidator();
             } catch (Exception e) {
                 c = IllegalFormatValidator.class;

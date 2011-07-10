@@ -9,7 +9,7 @@ import java.net.URISyntaxException;
 public final class URIFormatValidator
     extends AbstractValidator
 {
-    protected URIFormatValidator(final JsonNode ignored)
+    public URIFormatValidator(final JsonNode ignored)
     {
         super(ignored);
     }

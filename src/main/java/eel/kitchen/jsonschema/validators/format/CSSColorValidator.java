@@ -74,7 +74,7 @@ public final class CSSColorValidator
         }
 
         for (final String color: colors) {
-            int i;
+            final int i;
             try {
                 i = Integer.parseInt(color);
                 if ((i & ~USHORT_MAX) != 0)

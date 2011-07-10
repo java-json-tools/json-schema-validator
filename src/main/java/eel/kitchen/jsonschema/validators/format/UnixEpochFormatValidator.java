@@ -9,6 +9,7 @@ public final class UnixEpochFormatValidator
     extends AbstractValidator
 {
     private static final BigInteger ZERO = new BigInteger("0");
+    private static final int EPOCH_SHIFT = 31;
 
     public UnixEpochFormatValidator(final JsonNode ignored)
     {
@@ -28,7 +29,7 @@ public final class UnixEpochFormatValidator
 
         epoch = node.getDecimalValue().toBigInteger();
 
-        if (ZERO.equals(epoch.shiftRight(31)))
+        if (ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
             return true;
 
         validationErrors.add("epoch time would overflow");

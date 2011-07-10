@@ -25,7 +25,7 @@ public class AbstractValidatorFactory
     }
 
     @Override
-    public Validator getValidator()
+    public final Validator getValidator()
     {
         final LinkedList<Validator> validators
             = new LinkedList<Validator>();
