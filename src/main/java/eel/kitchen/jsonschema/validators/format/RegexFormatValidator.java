@@ -1,11 +1,12 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.Perl5Compiler;
 import org.codehaus.jackson.JsonNode;
 
 public final class RegexFormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     public RegexFormatValidator(final JsonNode ignored)
     {

@@ -1,12 +1,13 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 public final class EmailFormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     public EmailFormatValidator(final JsonNode ignored)
     {

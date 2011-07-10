@@ -1,10 +1,11 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 
 public final class IllegalFormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     public IllegalFormatValidator(final JsonNode ignored)
     {

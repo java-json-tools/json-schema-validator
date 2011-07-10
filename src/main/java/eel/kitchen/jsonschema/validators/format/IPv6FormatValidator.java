@@ -1,12 +1,13 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.net.Inet6Address;
 import java.net.UnknownHostException;
 
 public final class IPv6FormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     public IPv6FormatValidator(final JsonNode ignored)
     {

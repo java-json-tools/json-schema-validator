@@ -1,11 +1,12 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigInteger;
 
 public final class UnixEpochFormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     private static final BigInteger ZERO = new BigInteger("0");
 

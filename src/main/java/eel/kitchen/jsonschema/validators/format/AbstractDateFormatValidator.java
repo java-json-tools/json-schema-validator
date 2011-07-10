@@ -1,12 +1,13 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public abstract class AbstractDateFormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     private final SimpleDateFormat format;
     private final String desc;

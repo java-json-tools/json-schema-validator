@@ -1,12 +1,13 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 public final class URIFormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     protected URIFormatValidator(final JsonNode ignored)
     {

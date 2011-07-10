@@ -1,14 +1,13 @@
 package eel.kitchen.jsonschema.validators;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.type.AbstractTypeValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collection;
 
 public final class EnumValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
     private Collection<JsonNode> values;
 
@@ -36,6 +35,8 @@ public final class EnumValidator
     public boolean validate(final JsonNode node)
     {
         final boolean ret = values.contains(node);
+
+        validationErrors.clear();
 
         if (!ret)
             validationErrors.add("value does not match any member in the "

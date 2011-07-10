@@ -1,6 +1,7 @@
 package eel.kitchen.jsonschema.validators.format;
 
 import com.steadystate.css.parser.SACParserCSS21;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 import org.w3c.css.sac.CSSException;
 import org.w3c.css.sac.InputSource;
@@ -13,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public final class CSSColorValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     private static final List<String> colorNames = Arrays.asList(
         "maroon",

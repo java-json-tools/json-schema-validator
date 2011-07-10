@@ -1,12 +1,13 @@
 package eel.kitchen.jsonschema.validators.format;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class HostnameFormatValidator
-    extends AbstractFormatValidator
+    extends AbstractValidator
 {
     private static final Pattern hostnamePart
         = Pattern.compile("^[a-z0-9]+(-[a-z0-9]+)*$", Pattern.CASE_INSENSITIVE);
