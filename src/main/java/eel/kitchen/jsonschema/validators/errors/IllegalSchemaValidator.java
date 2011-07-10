@@ -1,6 +1,5 @@
-package eel.kitchen.jsonschema.validators.factories;
+package eel.kitchen.jsonschema.validators.errors;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import org.codehaus.jackson.JsonNode;
 
@@ -19,7 +18,6 @@ public final class IllegalSchemaValidator
 
     @Override
     public void setup()
-        throws MalformedJasonSchemaException
     {
     }
 

@@ -3,8 +3,8 @@ package eel.kitchen.jsonschema.validators.factories;
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.EnumValidator;
 import eel.kitchen.jsonschema.validators.Validator;
+import eel.kitchen.jsonschema.validators.errors.IllegalFormatValidator;
 import eel.kitchen.jsonschema.validators.format.FormatPicker;
-import eel.kitchen.jsonschema.validators.format.IllegalFormatValidator;
 import eel.kitchen.jsonschema.validators.type.StringValidator;
 import org.codehaus.jackson.JsonNode;
 

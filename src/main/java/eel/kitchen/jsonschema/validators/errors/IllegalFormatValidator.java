@@ -1,4 +1,4 @@
-package eel.kitchen.jsonschema.validators.format;
+package eel.kitchen.jsonschema.validators.errors;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
