@@ -11,8 +11,10 @@ public abstract class AbstractDateFormatValidator
     private final SimpleDateFormat format;
     private final String desc;
 
-    protected AbstractDateFormatValidator(final String fmt, final String desc)
+    protected AbstractDateFormatValidator(final JsonNode ignored,
+        final String fmt, final String desc)
     {
+        super(ignored);
         format = new SimpleDateFormat(fmt);
         this.desc = desc;
     }

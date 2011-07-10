@@ -2,9 +2,14 @@ package eel.kitchen.jsonschema.validators.format;
 
 import org.codehaus.jackson.JsonNode;
 
-public class PhoneNumberFormatValidator
+public final class PhoneNumberFormatValidator
     extends AbstractFormatValidator
 {
+    public PhoneNumberFormatValidator(final JsonNode ignored)
+    {
+        super(ignored);
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

@@ -5,9 +5,14 @@ import org.codehaus.jackson.JsonNode;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-public class EmailFormatValidator
+public final class EmailFormatValidator
     extends AbstractFormatValidator
 {
+    public EmailFormatValidator(final JsonNode ignored)
+    {
+        super(ignored);
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

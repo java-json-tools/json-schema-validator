@@ -12,6 +12,10 @@ public abstract class AbstractFormatValidator
 {
     protected final List<String> validationErrors = new LinkedList<String>();
 
+    protected AbstractFormatValidator(final JsonNode ignored)
+    {
+    }
+
     @Override
     public void setup()
         throws MalformedJasonSchemaException

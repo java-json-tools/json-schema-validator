@@ -1,10 +1,12 @@
 package eel.kitchen.jsonschema.validators.format;
 
-public class DateFormatValidator
+import org.codehaus.jackson.JsonNode;
+
+public final class DateFormatValidator
     extends AbstractDateFormatValidator
 {
-    public DateFormatValidator()
+    public DateFormatValidator(final JsonNode ignored)
     {
-        super("yyyy-MM-dd", "date");
+        super(ignored, "yyyy-MM-dd", "date");
     }
 }

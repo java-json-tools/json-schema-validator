@@ -12,7 +12,7 @@ import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
 
-public class CSSColorValidator
+public final class CSSColorValidator
     extends AbstractFormatValidator
 {
     private static final List<String> colorNames = Arrays.asList(
@@ -36,6 +36,11 @@ public class CSSColorValidator
     );
 
     private final Parser parser = new SACParserCSS21();
+
+    public CSSColorValidator(final JsonNode ignored)
+    {
+        super(ignored);
+    }
 
     @Override
     public boolean validate(final JsonNode node)

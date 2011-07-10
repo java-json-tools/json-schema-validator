@@ -1,10 +1,12 @@
 package eel.kitchen.jsonschema.validators.format;
 
-public class TimeFormatValidator
+import org.codehaus.jackson.JsonNode;
+
+public final class TimeFormatValidator
     extends AbstractDateFormatValidator
 {
-    public TimeFormatValidator()
+    public TimeFormatValidator(final JsonNode ignored)
     {
-        super("HH:mm:ss", "time");
+        super(ignored, "HH:mm:ss", "time");
     }
 }

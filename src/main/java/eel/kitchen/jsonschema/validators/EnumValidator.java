@@ -6,7 +6,7 @@ import org.codehaus.jackson.JsonNode;
 
 import java.util.Collection;
 
-public class EnumValidator
+public final class EnumValidator
     extends AbstractValidator
 {
     private Collection<JsonNode> values;

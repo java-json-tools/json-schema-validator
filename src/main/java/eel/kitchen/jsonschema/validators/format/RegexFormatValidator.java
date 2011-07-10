@@ -4,9 +4,14 @@ import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.Perl5Compiler;
 import org.codehaus.jackson.JsonNode;
 
-public class RegexFormatValidator
+public final class RegexFormatValidator
     extends AbstractFormatValidator
 {
+    public RegexFormatValidator(final JsonNode ignored)
+    {
+        super(ignored);
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

@@ -5,9 +5,14 @@ import org.codehaus.jackson.JsonNode;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class URIFormatValidator
+public final class URIFormatValidator
     extends AbstractFormatValidator
 {
+    protected URIFormatValidator(final JsonNode ignored)
+    {
+        super(ignored);
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

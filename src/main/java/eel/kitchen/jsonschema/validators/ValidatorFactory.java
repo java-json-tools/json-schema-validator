@@ -177,7 +177,7 @@ public final class ValidatorFactory
         return ret;
     }
 
-    public final class TypeMismatchValidator
+    public static final class TypeMismatchValidator
         implements Validator
     {
         private final String message;

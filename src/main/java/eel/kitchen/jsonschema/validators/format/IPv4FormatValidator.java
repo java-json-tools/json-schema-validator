@@ -5,9 +5,14 @@ import org.codehaus.jackson.JsonNode;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
-public class IPv4FormatValidator
+public final class IPv4FormatValidator
     extends AbstractFormatValidator
 {
+    public IPv4FormatValidator(final JsonNode ignored)
+    {
+        super(ignored);
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

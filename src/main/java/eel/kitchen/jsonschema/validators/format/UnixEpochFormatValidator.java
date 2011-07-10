@@ -2,13 +2,17 @@ package eel.kitchen.jsonschema.validators.format;
 
 import org.codehaus.jackson.JsonNode;
 
-import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class UnixEpochFormatValidator
+public final class UnixEpochFormatValidator
     extends AbstractFormatValidator
 {
     private static final BigInteger ZERO = new BigInteger("0");
+
+    public UnixEpochFormatValidator(final JsonNode ignored)
+    {
+        super(ignored);
+    }
 
     @Override
     public boolean validate(final JsonNode node)
