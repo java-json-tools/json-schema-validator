@@ -1,0 +1,51 @@
+{
+    "schema": {
+        "type": "array",
+        "items": [
+            {
+                "type": "string",
+                "minLength": 3
+            },
+            {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "required": true
+                    },
+                    "elevated": {
+                        "type": "boolean"
+                    },
+                    "spirit": {
+                        "enum": [ "angel", "devil" ]
+                    }
+                },
+                "additionalProperties": false,
+                "dependencies": {
+                    "spirit" : "elevated"
+                }
+            }
+        ],
+        "additionalItems": {
+            "type": "integer"
+        }
+    },
+    "ko": [
+        false,
+        {
+            "name": "Ezekiel",
+            "spirit": "none"
+        },
+        "the end"
+    ],
+    "ok": [
+        "that one is OK",
+        {
+            "name": "Satan",
+            "spirit": "devil",
+            "elevated": true
+        },
+        44,
+        71
+    ]
+}

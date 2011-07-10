@@ -226,7 +226,7 @@ public final class ObjectValidator
                 if (fields.contains(dep))
                     continue;
                 validationErrors.add("property " + field + " depends on " + dep
-                    + " but the latter was not found");
+                    + ", but the latter was not found");
             }
         }
 
