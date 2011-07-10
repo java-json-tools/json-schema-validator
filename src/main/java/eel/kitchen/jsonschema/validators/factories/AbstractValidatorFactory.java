@@ -1,7 +1,7 @@
 package eel.kitchen.jsonschema.validators.factories;
 
+import eel.kitchen.jsonschema.validators.CombinedValidator;
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.jsonschema.validators.combined.CombinedValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.lang.reflect.Constructor;

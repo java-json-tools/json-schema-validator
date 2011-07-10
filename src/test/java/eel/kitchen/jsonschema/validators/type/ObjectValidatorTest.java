@@ -19,7 +19,6 @@ package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.type.ObjectValidator;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

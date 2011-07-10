@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema;
 
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.jsonschema.validators.factories.ValidatorProvider;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.Test;

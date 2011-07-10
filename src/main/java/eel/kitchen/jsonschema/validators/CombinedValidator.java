@@ -1,8 +1,7 @@
-package eel.kitchen.jsonschema.validators.combined;
+package eel.kitchen.jsonschema.validators;
 
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.Validator;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collections;

@@ -15,10 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.validators.factories;
+package eel.kitchen.jsonschema;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
+import eel.kitchen.jsonschema.validators.factories.ArrayValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.BooleanValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.IllegalSchemaValidator;
+import eel.kitchen.jsonschema.validators.factories.IntegerValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.NullValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.NumberValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.ObjectValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.StringValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.ValidatorFactory;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
