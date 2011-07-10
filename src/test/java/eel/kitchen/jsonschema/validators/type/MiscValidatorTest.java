@@ -17,8 +17,8 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.JasonSchema;
+import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -41,7 +41,7 @@ public class MiscValidatorTest
     public void setUp()
         throws IOException
     {
-        testNode = JasonLoader.load("misc.json");
+        testNode = JasonHelper.load("misc.json");
     }
 
     @Test

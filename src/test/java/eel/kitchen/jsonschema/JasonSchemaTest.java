@@ -1,5 +1,6 @@
 package eel.kitchen.jsonschema;
 
+import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.Test;
 
@@ -20,7 +21,7 @@ public class JasonSchemaTest
     public void testDynDB()
         throws IOException
     {
-        node = JasonLoader.load("fullschemas/dyndb.json");
+        node = JasonHelper.load("fullschemas/dyndb.json");
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
@@ -40,7 +41,7 @@ public class JasonSchemaTest
     public void test2()
         throws IOException
     {
-        node = JasonLoader.load("fullschemas/test2.json");
+        node = JasonHelper.load("fullschemas/test2.json");
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
@@ -58,7 +59,7 @@ public class JasonSchemaTest
     public void test3()
         throws IOException
     {
-        node = JasonLoader.load("fullschemas/test3.json");
+        node = JasonHelper.load("fullschemas/test3.json");
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
@@ -80,7 +81,7 @@ public class JasonSchemaTest
     public void test4()
         throws IOException
     {
-        node = JasonLoader.load("fullschemas/test4.json");
+        node = JasonHelper.load("fullschemas/test4.json");
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));

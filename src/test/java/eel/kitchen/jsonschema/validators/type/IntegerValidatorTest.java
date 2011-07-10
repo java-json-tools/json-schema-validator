@@ -17,8 +17,8 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -41,7 +41,7 @@ public class IntegerValidatorTest
     public void setUp()
         throws IOException
     {
-        testNode = JasonLoader.load("integer.json");
+        testNode = JasonHelper.load("integer.json");
     }
 
     @Test

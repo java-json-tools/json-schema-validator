@@ -1,7 +1,7 @@
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.validators.Validator;
+import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.BeforeClass;
@@ -30,7 +30,7 @@ public class FormatValidatorTest
     public void setUp()
         throws IOException
     {
-        inputs = JasonLoader.load("format.json");
+        inputs = JasonHelper.load("format.json");
     }
 
     @Test

@@ -17,9 +17,9 @@
 
 package eel.kitchen.jsonschema.validators;
 
-import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.type.StringValidator;
+import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -34,7 +34,7 @@ public class BrokenStringSchemasTest
     public void setUp()
         throws IOException
     {
-        schemas = JasonLoader.load("broken-string-schemas.json");
+        schemas = JasonHelper.load("broken-string-schemas.json");
     }
 
     @Test(

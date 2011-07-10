@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema;
+package eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,7 +23,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 
-public final class JasonLoader
+public final class JasonHelper
 {
     private static final ObjectMapper mapper = new ObjectMapper();
 
@@ -34,8 +34,26 @@ public final class JasonLoader
             ? resource : '/' + resource;
 
         final InputStream in
-            = JasonLoader.class.getResourceAsStream(realResource);
+            = JasonHelper.class.getResourceAsStream(realResource);
 
         return mapper.readTree(in);
+    }
+
+    public static String getNodeType(final JsonNode node)
+    {
+        if (node.isArray())
+            return "array";
+        if (node.isObject())
+            return "object";
+        if (node.isTextual())
+            return "string";
+        if (node.isNumber())
+            return node.isIntegralNumber() ? "integer" : "number";
+        if (node.isBoolean())
+            return "boolean";
+        if (node.isNull())
+            return "null";
+
+        return null;
     }
 }
