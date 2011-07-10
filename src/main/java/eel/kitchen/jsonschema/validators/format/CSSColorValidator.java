@@ -1,17 +1,12 @@
 package eel.kitchen.jsonschema.validators.format;
 
-import com.steadystate.css.parser.SACParserCSS21;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
-import org.w3c.css.sac.CSSException;
-import org.w3c.css.sac.InputSource;
-import org.w3c.css.sac.LexicalUnit;
-import org.w3c.css.sac.Parser;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class CSSColorValidator
     extends AbstractValidator
@@ -36,7 +31,11 @@ public final class CSSColorValidator
         "white"
     );
 
-    private final Parser parser = new SACParserCSS21();
+    private static final Pattern
+        hash = Pattern.compile("^#[\\da-f]{1,6}$", Pattern.CASE_INSENSITIVE),
+        rgb = Pattern.compile("^rgb\\(([^)]+)\\)$");
+
+    private static final int USHORT_MAX = (1 << 8) - 1;
 
     public CSSColorValidator(final JsonNode ignored)
     {
@@ -53,21 +52,39 @@ public final class CSSColorValidator
         if (colorNames.contains(value.toLowerCase()))
             return true;
 
-        final StringReader reader = new StringReader(value);
-        final InputSource source = new InputSource(reader);
-        final LexicalUnit lexicalUnit;
+        Matcher matcher;
 
-        try {
-            lexicalUnit = parser.parsePropertyValue(source);
-            if (LexicalUnit.SAC_RGBCOLOR != lexicalUnit.getLexicalUnitType())
-                throw new CSSException();
+        matcher = hash.matcher(value);
+
+        if (matcher.lookingAt())
             return true;
-        } catch (CSSException e) {
+
+        matcher = rgb.matcher(value);
+
+        if (!matcher.lookingAt()) {
             validationErrors.add("string is not a valid CSS 2.1 color");
             return false;
-        } catch (IOException e) {
-            validationErrors.add("I/O error, cannot validate!");
+        }
+
+        final String[] colors = matcher.group(1).split("\\s*,\\s*");
+
+        if (colors.length != 3) {
+            validationErrors.add("string is not a valid CSS 2.1 color");
             return false;
         }
+
+        for (final String color: colors) {
+            int i;
+            try {
+                i = Integer.parseInt(color);
+                if ((i & ~USHORT_MAX) != 0)
+                    throw new NumberFormatException("overflow");
+            } catch (NumberFormatException e) {
+                validationErrors.add("string is not a valid CSS 2.1 color");
+                return false;
+            }
+        }
+
+        return true;
     }
 }

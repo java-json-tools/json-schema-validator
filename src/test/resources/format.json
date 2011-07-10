@@ -20,8 +20,8 @@
         "bad": "a++"
     },
     "color": {
-        "good": "#ff00ff",
-        "bad": "0xff"
+        "good": "#ff00",
+        "bad": "rgb(23, 256, 2)"
     },
     "style": {
         "good" : "color: red; background-color:#FFF",

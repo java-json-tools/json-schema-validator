@@ -99,11 +99,6 @@
             <artifactId>mail</artifactId>
             <version>1.4.1</version>
         </dependency>
-        <dependency>
-            <groupId>net.sourceforge.cssparser</groupId>
-            <artifactId>cssparser</artifactId>
-            <version>0.9.5</version>
-        </dependency>
     </dependencies>
     <licenses>
         <license>
