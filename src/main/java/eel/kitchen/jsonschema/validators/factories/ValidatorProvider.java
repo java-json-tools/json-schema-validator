@@ -99,7 +99,13 @@ public final class ValidatorProvider
             return new IllegalSchemaValidator(e);
         }
 
-        return factory.getValidator();
+        final Validator validator = factory.getValidator();
+        try {
+            validator.setup();
+        } catch (MalformedJasonSchemaException e) {
+            return new IllegalSchemaValidator(e);
+        }
+        return validator;
     }
 
     private static String getNodeType(final JsonNode node)

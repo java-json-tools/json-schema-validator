@@ -36,7 +36,6 @@ public class AbstractValidatorFactory
             try {
                 constructor = c.getConstructor(JsonNode.class);
                 v = constructor.newInstance(schemaNode);
-                v.setup();
                 validators.add(v);
             } catch (Exception e) {
                 return new IllegalSchemaValidator(e);
