@@ -21,8 +21,8 @@ import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class ArrayValidator
@@ -30,7 +30,10 @@ public final class ArrayValidator
 {
     private int minItems = 0, maxItems = Integer.MAX_VALUE;
     private boolean uniqueItems = false;
-    private final List<JsonNode> items = new ArrayList<JsonNode>();
+    private final List<JsonNode> items = new LinkedList<JsonNode>();
+    private boolean itemsTuples = false;
+    private boolean additionalItemsOK = true;
+    private JsonNode additionalItems = EMPTY_SCHEMA;
 
     public ArrayValidator(final JsonNode schemaNode)
     {
@@ -71,36 +74,9 @@ public final class ArrayValidator
             uniqueItems = node.getBooleanValue();
         }
 
-        node = schemaNode.get("items");
-
-        if (node == null) {
-            items.add(EMPTY_SCHEMA);
-            return;
-        }
-
-        if (node.isObject()) {
-            items.add(node);
-            return;
-        }
-
-        if (!node.isArray())
-            throw new MalformedJasonSchemaException("items should be an " +
-                "object or an array");
-
-        try {
-            items.addAll(CollectionUtils.toSet(node.getElements(), false));
-        } catch (Exception e) {
-            throw new MalformedJasonSchemaException("duplicate members in the" +
-                " items array");
-        }
-
-        if (items.isEmpty())
-            throw new MalformedJasonSchemaException("the items array is empty");
-
-        for (final JsonNode element: items)
-            if (!element.isObject())
-                throw new MalformedJasonSchemaException("members of the items" +
-                    " array should be objects");
+        computeItems();
+        computeAdditionalItems();
+        finalCheck();
     }
 
     @Override
@@ -118,6 +94,12 @@ public final class ArrayValidator
             return false;
         }
 
+        if (!additionalItemsOK && itemsTuples && nrItems > items.size()) {
+            validationErrors.add("array has extra elements, "
+                + "which the schema disallows");
+            return false;
+        }
+
         if (!uniqueItems)
             return true;
 
@@ -129,6 +111,75 @@ public final class ArrayValidator
         }
 
         return true;
+    }
+
+    private void computeItems()
+        throws MalformedJasonSchemaException
+    {
+        final JsonNode node = schemaNode.get("items");
+
+        if (node == null) {
+            items.add(EMPTY_SCHEMA);
+            return;
+        }
+
+        if (node.isObject()) {
+            items.add(node);
+            return;
+        }
+
+        if (!node.isArray())
+            throw new MalformedJasonSchemaException("items should be an " +
+                "object or an array");
+
+        itemsTuples = true;
+
+        for (final JsonNode element: node) {
+            if (!element.isObject())
+                throw new MalformedJasonSchemaException("members of the items"
+                    + " array should be objects");
+            items.add(element);
+        }
+
+        if (items.isEmpty())
+            throw new MalformedJasonSchemaException("the items array is empty");
+
+    }
+
+    private void computeAdditionalItems()
+        throws MalformedJasonSchemaException
+    {
+        final JsonNode node = schemaNode.get("additionalItems");
+
+        if (node == null)
+            return;
+
+        if (node.isBoolean()) {
+            additionalItemsOK = node.getBooleanValue();
+            return;
+        }
+
+        if (!node.isObject())
+            throw new MalformedJasonSchemaException("additionalItems is "
+                + "neither a boolean nor an array");
+
+        additionalItems = node;
+    }
+
+    private void finalCheck()
+        throws MalformedJasonSchemaException
+    {
+        final int len = items.size();
+
+        if (itemsTuples) {
+            if (minItems > len && !additionalItemsOK)
+                throw new MalformedJasonSchemaException("minItems is greater "
+                    + "than what the schema allows (tuples, additional)");
+            if (maxItems < len)
+                throw new MalformedJasonSchemaException("maxItems is lower "
+                    + "than what the schema requires (tuples, additional)");
+        }
+
     }
 
     @Override

@@ -101,22 +101,44 @@ public class BrokenArraySchemasTest
 
     @Test(
         expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^duplicate members in the items " +
-            "array$"
-    )
-    public void testItemsDuplicates()
-        throws MalformedJasonSchemaException
-    {
-        new ArrayValidator(schemas.get("items-duplicates")).setup();
-    }
-
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
         expectedExceptionsMessageRegExp = "^the items array is empty$"
     )
     public void testEmptyItems()
         throws MalformedJasonSchemaException
     {
         new ArrayValidator(schemas.get("empty-items")).setup();
+    }
+
+    @Test(
+        expectedExceptions = MalformedJasonSchemaException.class,
+        expectedExceptionsMessageRegExp = "^additionalItems is neither a "
+            + "boolean nor an array$"
+    )
+    public void testBrokenAdditionalItems()
+        throws MalformedJasonSchemaException
+    {
+        new ArrayValidator(schemas.get("broken-additionalItems")).setup();
+    }
+
+    @Test(
+        expectedExceptions = MalformedJasonSchemaException.class,
+        expectedExceptionsMessageRegExp = "^minItems is greater than what the"
+            + " schema allows \\(tuples, additional\\)$"
+    )
+    public void testIncoherentMinItems()
+        throws MalformedJasonSchemaException
+    {
+        new ArrayValidator(schemas.get("incoherent-minItems")).setup();
+    }
+
+    @Test(
+        expectedExceptions = MalformedJasonSchemaException.class,
+        expectedExceptionsMessageRegExp = "^maxItems is lower than what the "
+            + "schema requires \\(tuples, additional\\)$"
+    )
+    public void testIncoherentMaxItems()
+        throws MalformedJasonSchemaException
+    {
+        new ArrayValidator(schemas.get("incoherent-maxItems")).setup();
     }
 }

@@ -22,10 +22,19 @@
     "broken-items-value": {
         "items": [ true ]
     },
-    "items-duplicates": {
-        "items": [ {}, {} ]
-    },
     "empty-items": {
         "items": []
+    },
+    "broken-additionalItems": {
+        "additionalItems": "yes, please"
+    },
+    "incoherent-minItems": {
+        "minItems": 2,
+        "items": [ { "type": "boolean" } ],
+        "additionalItems": false
+    },
+    "incoherent-maxItems": {
+        "maxItems": 0,
+        "items": [ { "type": "object" } ]
     }
 }

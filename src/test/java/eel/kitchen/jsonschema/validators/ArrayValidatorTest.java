@@ -52,6 +52,7 @@ public class ArrayValidatorTest
 
         validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getValidationErrors();
         assertFalse(ret);
@@ -60,6 +61,7 @@ public class ArrayValidatorTest
 
         validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("good"));
         messages = validator.getValidationErrors();
         assertTrue(ret);
@@ -74,6 +76,7 @@ public class ArrayValidatorTest
 
         validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getValidationErrors();
         assertFalse(ret);
@@ -82,6 +85,7 @@ public class ArrayValidatorTest
 
         validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("good"));
         messages = validator.getValidationErrors();
         assertTrue(ret);
@@ -96,6 +100,7 @@ public class ArrayValidatorTest
 
         validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getValidationErrors();
         assertFalse(ret);
@@ -104,6 +109,32 @@ public class ArrayValidatorTest
 
         validator = new ArrayValidator(node.get("schema"));
         validator.setup();
+
+        ret = validator.validate(node.get("good"));
+        messages = validator.getValidationErrors();
+        assertTrue(ret);
+        assertTrue(messages.isEmpty());
+    }
+
+    @Test
+    public void testItemsTuples()
+        throws MalformedJasonSchemaException
+    {
+        node = testNode.get("itemsTuples");
+
+        validator = new ArrayValidator(node.get("schema"));
+        validator.setup();
+
+        ret = validator.validate(node.get("bad"));
+        messages = validator.getValidationErrors();
+        assertFalse(ret);
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "array has extra elements, "
+            + "which the schema disallows");
+
+        validator = new ArrayValidator(node.get("schema"));
+        validator.setup();
+
         ret = validator.validate(node.get("good"));
         messages = validator.getValidationErrors();
         assertTrue(ret);
