@@ -21,7 +21,6 @@ import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -183,8 +182,11 @@ public final class ArrayValidator
     }
 
     @Override
-    public List<JsonNode> getSchemasForPath(final String subPath)
+    public JsonNode getSchemaForPath(final String subPath)
     {
-        return Collections.unmodifiableList(items);
+        final int i = Integer.parseInt(subPath);
+        final int size = itemsTuples ? items.size() : 1;
+
+        return i >= size ? additionalItems : items.get(i);
     }
 }

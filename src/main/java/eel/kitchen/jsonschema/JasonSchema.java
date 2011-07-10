@@ -23,10 +23,8 @@ import eel.kitchen.jsonschema.validators.ValidatorFactory;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -104,24 +102,17 @@ public final class JasonSchema
     private List<String> doValidateArray(final Validator validator,
         final Iterable<JsonNode> node, final String path)
     {
+        final List<String> messages = new LinkedList<String>();
+
         int i = 0;
         String subPath;
-        final Collection<JsonNode> subSchemas = validator.getSchemasForPath("");
-        final List<String> messages = new LinkedList<String>();
-        boolean match;
+        JsonNode subSchema;
 
         for (final JsonNode element: node) {
+            subSchema = validator.getSchemaForPath(Integer.toString(i));
             subPath = String.format("%s[%d]", path, i);
             i++;
-            match = false;
-            for (final JsonNode subSchema : subSchemas)
-                if (validateOneNode(subSchema, element, path).isEmpty()) {
-                    match = true;
-                    break;
-                }
-            if (!match)
-                messages.add(String.format("%s: does not match any schema in "
-                    + "items", subPath));
+            messages.addAll(validateOneNode(subSchema, element, subPath));
         }
 
         return messages;
@@ -134,31 +125,14 @@ public final class JasonSchema
         final Map<String, JsonNode> fields = CollectionUtils.toMap(node.getFields());
 
         String subPath, fieldName;
-        JsonNode element;
-        List<JsonNode> subSchemas;
-        boolean match;
+        JsonNode subSchema, element;
 
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
             fieldName = entry.getKey();
             element = entry.getValue();
+            subSchema = validator.getSchemaForPath(fieldName);
             subPath = String.format("%s.%s", path, fieldName);
-            subSchemas = validator.getSchemasForPath(fieldName);
-
-            if (subSchemas.size() == 1) {
-                messages.addAll(validateOneNode(subSchemas.get(0),
-                    element, subPath));
-                continue;
-            }
-            match = false;
-            for (final JsonNode subSchema : subSchemas)
-                if (validateOneNode(subSchema, element, subPath).isEmpty()) {
-                    match = true;
-                    break;
-                }
-
-            if (!match)
-                messages.add(String.format("%s: does not match any schema in "
-                + "object", subPath));
+            messages.addAll(validateOneNode(subSchema, element, subPath));
         }
 
         return messages;

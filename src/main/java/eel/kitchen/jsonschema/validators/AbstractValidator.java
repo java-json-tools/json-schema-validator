@@ -52,9 +52,9 @@ public abstract class AbstractValidator
     }
 
     @Override
-    public List<JsonNode> getSchemasForPath(final String subPath)
+    public JsonNode getSchemaForPath(final String subPath)
     {
-        return Collections.emptyList();
+        return null;
     }
 
     @Override

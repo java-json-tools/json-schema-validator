@@ -30,5 +30,5 @@ public interface Validator
 
     List<String> getValidationErrors();
 
-    List<JsonNode> getSchemasForPath(final String subPath);
+    JsonNode getSchemaForPath(final String subPath);
 }

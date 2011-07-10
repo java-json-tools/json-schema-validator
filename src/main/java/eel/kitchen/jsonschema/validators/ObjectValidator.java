@@ -26,13 +26,9 @@ import org.apache.oro.text.regex.Perl5Compiler;
 import org.apache.oro.text.regex.Perl5Matcher;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -257,22 +253,18 @@ public final class ObjectValidator
     }
 
     @Override
-    public List<JsonNode> getSchemasForPath(final String subPath)
+    public JsonNode getSchemaForPath(final String subPath)
     {
 
         if (properties.containsKey(subPath))
-            return Arrays.asList(properties.get(subPath));
+            return properties.get(subPath);
 
         final PatternMatcher matcher = new Perl5Matcher();
-        final List<JsonNode> ret = new ArrayList<JsonNode>();
 
-        for (final Map.Entry<Pattern, JsonNode> entry: patternProperties.entrySet())
-            if (matcher.contains(subPath, entry.getKey()))
-                ret.add(entry.getValue());
+        for (final Pattern pattern: patternProperties.keySet())
+            if (matcher.contains(subPath, pattern))
+                return patternProperties.get(pattern);
 
-        if (!ret.isEmpty())
-            return Collections.unmodifiableList(ret);
-
-        return Arrays.asList(additionalProperties);
+        return additionalProperties;
     }
 }
