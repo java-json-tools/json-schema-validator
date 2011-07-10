@@ -158,4 +158,17 @@ public class BrokenSchemasTest
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
     }
+
+    @Test
+    public void testUnknownFormat()
+    {
+        v = provider.getValidator(testNode.get("unknown-format"), dummy);
+
+        assertFalse(v.validate(dummy));
+
+        ret = v.getValidationErrors();
+
+        assertEquals(ret.size(), 1);
+        assertEquals(ret.get(0), "illegal format specification");
+    }
 }

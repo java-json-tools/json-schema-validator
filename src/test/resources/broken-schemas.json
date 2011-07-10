@@ -19,5 +19,9 @@
     },
     "unknown-type": {
         "type": "pwet"
+    },
+    "unknown-format": {
+        "type": "string",
+        "format": "c:"
     }
 }
