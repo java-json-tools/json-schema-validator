@@ -75,4 +75,25 @@ public class JasonSchemaTest
         messages = schema.getValidationErrors();
         assertTrue(messages.isEmpty());
     }
+
+    @Test
+    public void test4()
+        throws IOException
+    {
+        node = JasonLoader.load("fullschemas/test4.json");
+        schema = new JasonSchema(node.get("schema"));
+
+        assertFalse(schema.validate(node.get("ko")));
+        messages = schema.getValidationErrors();
+        assertEquals(messages.size(), 3);
+        assertEquals(messages.get(0), "$[0]: node is of type boolean, "
+            + "expected one of [string, integer]");
+        assertEquals(messages.get(1), "$[1]: integer is not a multiple of "
+            + "the declared divisor");
+        assertEquals(messages.get(2), "$[2]: string is not a valid date");
+
+        assertTrue(schema.validate(node.get("ok")));
+        messages = schema.getValidationErrors();
+        assertTrue(messages.isEmpty());
+    }
 }
