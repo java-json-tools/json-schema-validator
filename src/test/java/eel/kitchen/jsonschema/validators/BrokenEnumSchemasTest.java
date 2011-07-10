@@ -40,7 +40,7 @@ public class BrokenEnumSchemasTest
         expectedExceptions = MalformedJasonSchemaException.class,
         expectedExceptionsMessageRegExp = "^enum is not an array$"
     )
-    public void testBrokenMinLength()
+    public void testIllegalEnum()
         throws MalformedJasonSchemaException
     {
         new EnumValidator(schemas.get("illegal-enum")).setup();
@@ -50,7 +50,7 @@ public class BrokenEnumSchemasTest
         expectedExceptions = MalformedJasonSchemaException.class,
         expectedExceptionsMessageRegExp = "^enum has duplicate values$"
     )
-    public void testNegativeMinLength()
+    public void testEnumDuplicates()
         throws MalformedJasonSchemaException
     {
         new EnumValidator(schemas.get("enum-duplicates")).setup();

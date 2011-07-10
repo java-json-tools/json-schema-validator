@@ -8,6 +8,6 @@ public final class ArrayValidatorFactory
 {
     public ArrayValidatorFactory(final JsonNode schemaNode)
     {
-        super(schemaNode, ArrayValidator.class);
+        super(schemaNode, "array", ArrayValidator.class);
     }
 }

@@ -8,6 +8,6 @@ public final class NullValidatorFactory
 {
     public NullValidatorFactory(final JsonNode schemaNode)
     {
-        super(schemaNode, NullValidator.class);
+        super(schemaNode, "null", NullValidator.class);
     }
 }

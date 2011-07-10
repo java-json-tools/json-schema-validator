@@ -172,4 +172,18 @@ public class BrokenSchemasTest
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "illegal format specification");
     }
+
+    @Test
+    public void testVoidEnum()
+    {
+        schema = new JasonSchema(testNode.get("void-enum"));
+
+        assertFalse(schema.validate(dummy));
+
+        ret = schema.getValidationErrors();
+        assertEquals(ret.size(), 1);
+        assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
+            + "MalformedJasonSchemaException: no element in the enumeration "
+            + "has expected type string");
+    }
 }

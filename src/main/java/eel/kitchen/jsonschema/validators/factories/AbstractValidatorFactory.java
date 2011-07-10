@@ -3,10 +3,15 @@ package eel.kitchen.jsonschema.validators.factories;
 import eel.kitchen.jsonschema.validators.CombinedValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.IllegalSchemaValidator;
+import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.JsonNodeFactory;
 
+import javax.mail.internet.NewsAddress;
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
+import java.util.Map;
 
 public class AbstractValidatorFactory
     implements ValidatorFactory
@@ -15,13 +20,21 @@ public class AbstractValidatorFactory
     protected final Class<? extends Validator> typeValidator;
     protected final LinkedList<Class<? extends Validator>> validatorList
         = new LinkedList<Class<? extends Validator>>();
+    private final JsonNodeFactory factory = new ObjectMapper().getNodeFactory();
 
-    AbstractValidatorFactory(final JsonNode schemaNode,
+    AbstractValidatorFactory(final JsonNode schemaNode, final String type,
         final Class<? extends Validator> typeValidator)
     {
-        this.schemaNode = schemaNode;
+        final Map<String, JsonNode> fields
+            = CollectionUtils.toMap(schemaNode.getFields());
+
+        fields.remove("type");
+        fields.put("type", factory.textNode(type));
+
+        this.schemaNode = factory.objectNode().putAll(fields);
         this.typeValidator = typeValidator;
         validatorList.add(typeValidator);
+
     }
 
     @Override

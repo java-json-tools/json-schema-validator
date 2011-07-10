@@ -23,5 +23,9 @@
     "unknown-format": {
         "type": "string",
         "format": "c:"
+    },
+    "void-enum": {
+        "type": "string",
+        "enum": [ true, 21 ]
     }
 }

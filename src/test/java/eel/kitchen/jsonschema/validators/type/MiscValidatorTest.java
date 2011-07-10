@@ -128,7 +128,7 @@ public class MiscValidatorTest
 
         ret = schema.getValidationErrors();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: value does not match any member in the "
+        assertEquals(ret.get(0), "$: node does not match any value in the "
             + "enumeration");
     }
 }

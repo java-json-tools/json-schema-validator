@@ -9,7 +9,7 @@ public final class BooleanValidatorFactory
 {
     public BooleanValidatorFactory(final JsonNode schemaNode)
     {
-        super(schemaNode, BooleanValidator.class);
+        super(schemaNode, "boolean", BooleanValidator.class);
 
         if (schemaNode.has("enum"))
             validatorList.add(EnumValidator.class);

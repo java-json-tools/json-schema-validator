@@ -1,8 +1,10 @@
 {
     "illegal-enum": {
+        "type": "boolean",
         "enum": true
     },
     "enum-duplicates": {
+        "type": "string",
         "enum": [ "beeh", "beeh", "say the sheep" ]
     }
 }

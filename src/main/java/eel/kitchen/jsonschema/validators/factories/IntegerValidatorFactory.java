@@ -9,7 +9,7 @@ public final class IntegerValidatorFactory
 {
     public IntegerValidatorFactory(final JsonNode schemaNode)
     {
-        super(schemaNode, IntegerValidator.class);
+        super(schemaNode, "integer", IntegerValidator.class);
 
         if (schemaNode.has("enum"))
             validatorList.add(EnumValidator.class);

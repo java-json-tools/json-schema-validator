@@ -13,7 +13,7 @@ public final class StringValidatorFactory
 {
     public StringValidatorFactory(final JsonNode schemaNode)
     {
-        super(schemaNode, StringValidator.class);
+        super(schemaNode, "string", StringValidator.class);
 
         if (schemaNode.has("format")) {
             final JsonNode formatNode = schemaNode.get("format");
