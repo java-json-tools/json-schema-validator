@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.Pattern;
@@ -34,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class ObjectValidator
-    extends AbstractValidator
+    extends AbstractTypeValidator
 {
     private final Collection<String> required = new HashSet<String>();
     private boolean additionalPropertiesOK = true;

@@ -17,19 +17,27 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 
-public final class NullValidator
-    extends AbstractTypeValidator
+import java.io.IOException;
+
+public abstract class AbstractTypeValidator
+    extends AbstractValidator
 {
-    public NullValidator(final JsonNode schemaNode)
+    protected static final JsonNode EMPTY_SCHEMA;
+
+    protected AbstractTypeValidator(final JsonNode schemaNode)
     {
         super(schemaNode);
     }
 
-    @Override
-    public boolean validate(final JsonNode node)
-    {
-        return true;
+    static {
+        try {
+            EMPTY_SCHEMA = new ObjectMapper().readTree("{}");
+        } catch (IOException e) {
+            throw  new ExceptionInInitializerError();
+        }
     }
 }

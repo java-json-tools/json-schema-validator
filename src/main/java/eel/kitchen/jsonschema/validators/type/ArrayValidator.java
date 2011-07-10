@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
@@ -26,7 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class ArrayValidator
-    extends AbstractValidator
+    extends AbstractTypeValidator
 {
     private int minItems = 0, maxItems = Integer.MAX_VALUE;
     private boolean uniqueItems = false;

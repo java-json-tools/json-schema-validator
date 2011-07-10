@@ -18,13 +18,12 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigInteger;
 
 public final class IntegerValidator
-    extends AbstractValidator
+    extends AbstractTypeValidator
 {
     private static final BigInteger ZERO = new BigInteger("0");
 

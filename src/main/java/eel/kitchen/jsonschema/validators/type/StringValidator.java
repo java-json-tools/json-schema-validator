@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.Pattern;
 import org.apache.oro.text.regex.PatternMatcher;
@@ -27,7 +26,7 @@ import org.apache.oro.text.regex.Perl5Matcher;
 import org.codehaus.jackson.JsonNode;
 
 public final class StringValidator
-    extends AbstractValidator
+    extends AbstractTypeValidator
 {
     private int minLength = 0, maxLength = Integer.MAX_VALUE;
 

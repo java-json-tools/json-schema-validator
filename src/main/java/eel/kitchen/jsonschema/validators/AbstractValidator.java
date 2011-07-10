@@ -19,9 +19,7 @@ package eel.kitchen.jsonschema.validators;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,15 +29,6 @@ public abstract class AbstractValidator
 {
     protected final JsonNode schemaNode;
     protected final List<String> validationErrors = new LinkedList<String>();
-    protected static final JsonNode EMPTY_SCHEMA;
-
-    static {
-        try {
-            EMPTY_SCHEMA = new ObjectMapper().readTree("{}");
-        } catch (IOException e) {
-            throw  new ExceptionInInitializerError();
-        }
-    }
 
     protected AbstractValidator(final JsonNode schemaNode)
     {
@@ -63,5 +52,4 @@ public abstract class AbstractValidator
     {
         return Collections.unmodifiableList(validationErrors);
     }
-
 }
