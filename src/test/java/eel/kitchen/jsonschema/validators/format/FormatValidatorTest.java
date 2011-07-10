@@ -4,7 +4,6 @@ import eel.kitchen.jsonschema.JasonLoader;
 import eel.kitchen.jsonschema.validators.Validator;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 

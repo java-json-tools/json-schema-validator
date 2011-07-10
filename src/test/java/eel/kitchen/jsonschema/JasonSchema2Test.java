@@ -1,6 +1,5 @@
 package eel.kitchen.jsonschema;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.Test;
 
