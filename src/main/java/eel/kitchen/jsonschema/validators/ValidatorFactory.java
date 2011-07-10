@@ -85,23 +85,6 @@ public final class ValidatorFactory
         return ret;
     }
 
-    public void registerValidator(final String typeName,
-        final Class<? extends Validator> validator)
-        throws MalformedJasonSchemaException
-    {
-        if (validators.containsKey(typeName))
-            throw new MalformedJasonSchemaException("there is already a " +
-                "validator for type " + typeName);
-
-        try {
-            validator.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException e) {
-            throw new MalformedJasonSchemaException("cannot find " +
-                "constructor", e);
-        }
-        validators.put(typeName, validator);
-    }
-
     private static String getNodeType(final JsonNode node)
     {
         if (node.isArray())
