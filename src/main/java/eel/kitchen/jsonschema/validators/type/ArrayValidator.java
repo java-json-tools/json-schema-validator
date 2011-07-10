@@ -124,7 +124,7 @@ public final class ArrayValidator
         }
 
         if (node.isObject()) {
-            items.add(node);
+            additionalItems = node;
             return;
         }
 
@@ -186,8 +186,13 @@ public final class ArrayValidator
     public JsonNode getSchemaForPath(final String subPath)
     {
         final int i = Integer.parseInt(subPath);
-        final int size = itemsTuples ? items.size() : 1;
 
-        return i >= size ? additionalItems : items.get(i);
+        if (!itemsTuples)
+            return additionalItems;
+
+        if (i >= items.size())
+            return additionalItems;
+
+        return items.get(i);
     }
 }

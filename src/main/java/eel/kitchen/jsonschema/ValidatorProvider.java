@@ -38,7 +38,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 
 public final class ValidatorProvider
@@ -184,7 +184,7 @@ public final class ValidatorProvider
             return Collections.emptySet();
         }
 
-        final Collection<String> ret = new HashSet<String>();
+        final Collection<String> ret = new LinkedList<String>();
 
         for (final JsonNode element: node) {
             if (!element.isTextual()) {
