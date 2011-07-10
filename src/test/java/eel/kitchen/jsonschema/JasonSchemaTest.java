@@ -10,10 +10,10 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
-public class JasonSchema2Test
+public class JasonSchemaTest
 {
     private JsonNode node;
-    private JasonSchema2 schema;
+    private JasonSchema schema;
     private List<String> messages;
 
     @Test
@@ -21,7 +21,7 @@ public class JasonSchema2Test
         throws IOException
     {
         node = JasonLoader.load("fullschemas/dyndb.json");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
         messages = schema.getValidationErrors();
@@ -41,7 +41,7 @@ public class JasonSchema2Test
         throws IOException
     {
         node = JasonLoader.load("fullschemas/test2.json");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
         messages = schema.getValidationErrors();
@@ -59,7 +59,7 @@ public class JasonSchema2Test
         throws IOException
     {
         node = JasonLoader.load("fullschemas/test3.json");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
         messages = schema.getValidationErrors();

@@ -18,7 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.JasonLoader;
-import eel.kitchen.jsonschema.JasonSchema2;
+import eel.kitchen.jsonschema.JasonSchema;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -33,7 +33,7 @@ import static org.testng.AssertJUnit.assertEquals;
 public class MiscValidatorTest
 {
     private JsonNode testNode, node;
-    private JasonSchema2 schema;
+    private JasonSchema schema;
     private boolean valid;
     private List<String> ret;
 
@@ -48,7 +48,7 @@ public class MiscValidatorTest
     public void testTwoBaseTypes()
     {
         node = testNode.get("twotypes");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         valid = schema.validate(node.get("good"));
         assertTrue(valid);
@@ -66,7 +66,7 @@ public class MiscValidatorTest
     public void testSimpleExclude()
     {
         node = testNode.get("simpleExclude");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         valid = schema.validate(node.get("good"));
         assertTrue(valid);
@@ -84,7 +84,7 @@ public class MiscValidatorTest
     public void testBoolean()
     {
         node = testNode.get("boolean");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         valid = schema.validate(node.get("good"));
         assertTrue(valid);
@@ -101,7 +101,7 @@ public class MiscValidatorTest
     public void testNull()
     {
         node = testNode.get("null");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         valid = schema.validate(node.get("good"));
         assertTrue(valid);
@@ -118,7 +118,7 @@ public class MiscValidatorTest
     public void testEnum()
     {
         node = testNode.get("enum");
-        schema = new JasonSchema2(node.get("schema"));
+        schema = new JasonSchema(node.get("schema"));
 
         valid = schema.validate(node.get("good"));
         assertTrue(valid);

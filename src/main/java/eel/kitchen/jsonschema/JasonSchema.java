@@ -28,13 +28,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public final class JasonSchema2
+public final class JasonSchema
 {
     private final ValidatorProvider provider = new ValidatorProvider();
     private final List<String> validationErrors = new LinkedList<String>();
     private final JsonNode schema;
 
-    public JasonSchema2(final JsonNode schema)
+    public JasonSchema(final JsonNode schema)
     {
         this.schema = schema;
     }

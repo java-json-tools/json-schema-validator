@@ -46,14 +46,14 @@ public class BrokenSchemasTest
         }
     }
 
-    private JasonSchema2 schema;
+    private JasonSchema schema;
     private Validator v;
     private List<String> ret;
 
     @Test
     public void testNullSchema()
     {
-        schema = new JasonSchema2(null);
+        schema = new JasonSchema(null);
         assertFalse(schema.validate(dummy));
 
         ret = schema.getValidationErrors();
@@ -65,7 +65,7 @@ public class BrokenSchemasTest
     @Test
     public void testNotASchema()
     {
-        schema = new JasonSchema2(testNode.get("not-a-schema"));
+        schema = new JasonSchema(testNode.get("not-a-schema"));
         assertFalse(schema.validate(dummy));
 
         ret = schema.getValidationErrors();
