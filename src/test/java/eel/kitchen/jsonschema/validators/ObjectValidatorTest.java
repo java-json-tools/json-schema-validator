@@ -101,8 +101,8 @@ public class ObjectValidatorTest
         messages = validator.getValidationErrors();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "property p1 depends on p3 but the latter " +
-            "was not found");
+        assertEquals(messages.get(0), "property p1 depends on p3, "
+            + "but the latter was not found");
 
         validator = new ObjectValidator(node.get("schema"));
         validator.setup();
