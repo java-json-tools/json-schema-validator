@@ -97,8 +97,8 @@ public final class JasonSchema
         if (node.isObject())
             return doValidateObject(v, node, path);
 
-        return Arrays.asList(
-            String.format("%s: could not recognize node! " + "BUG", path));
+        return Arrays.asList(String.format("%s: could not recognize node! "
+            + "BUG", path));
     }
 
     private List<String> doValidateArray(final Validator validator,
