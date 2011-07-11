@@ -18,6 +18,8 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.ObjectSchemaProvider;
+import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.util.CollectionUtils;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.Pattern;
@@ -29,7 +31,6 @@ import org.codehaus.jackson.JsonNode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -270,6 +271,13 @@ public final class ObjectValidator
                 return patternProperties.get(pattern);
 
         return additionalProperties;
+    }
+
+    @Override
+    public SchemaProvider getSchemaProvider()
+    {
+        return new ObjectSchemaProvider(properties, patternProperties,
+            additionalProperties);
     }
 
     private Map<String, JsonNode> getSubSchemas(final JsonNode node)

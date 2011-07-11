@@ -18,6 +18,8 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.ArraySchemaProvider;
+import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
@@ -196,6 +198,12 @@ public final class ArrayValidator
             return additionalItems;
 
         return items.get(i);
+    }
+
+    @Override
+    public SchemaProvider getSchemaProvider()
+    {
+        return new ArraySchemaProvider(items, additionalItems);
     }
 
     private Map<String, JsonNode> getSubSchemas(final JsonNode node)

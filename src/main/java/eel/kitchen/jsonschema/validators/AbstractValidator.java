@@ -48,6 +48,12 @@ public abstract class AbstractValidator
     }
 
     @Override
+    public SchemaProvider getSchemaProvider()
+    {
+        return new EmptySchemaProvider();
+    }
+
+    @Override
     public final List<String> getValidationErrors()
     {
         return Collections.unmodifiableList(validationErrors);
