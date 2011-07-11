@@ -168,16 +168,17 @@ public final class ArrayValidator
     private void finalCheck()
         throws MalformedJasonSchemaException
     {
+        if (!itemsTuples)
+            return;
+
         final int len = items.size();
 
-        if (itemsTuples) {
-            if (minItems > len && !additionalItemsOK)
-                throw new MalformedJasonSchemaException("minItems is greater "
-                    + "than what the schema allows (tuples, additional)");
-            if (maxItems < len)
-                throw new MalformedJasonSchemaException("maxItems is lower "
-                    + "than what the schema requires (tuples, additional)");
-        }
+        if (minItems > len && !additionalItemsOK)
+            throw new MalformedJasonSchemaException("minItems is greater "
+                + "than what the schema allows (tuples, additional)");
+        if (maxItems < len)
+            throw new MalformedJasonSchemaException("maxItems is lower "
+                + "than what the schema requires (tuples, additional)");
 
     }
 
