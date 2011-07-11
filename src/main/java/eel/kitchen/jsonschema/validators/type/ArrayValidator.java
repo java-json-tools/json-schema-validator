@@ -118,7 +118,7 @@ public final class ArrayValidator
         final JsonNode node = schemaNode.get("items");
 
         if (node == null) {
-            items.add(EMPTY_SCHEMA);
+            additionalItems = EMPTY_SCHEMA;
             return;
         }
 
