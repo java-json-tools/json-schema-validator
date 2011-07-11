@@ -11,7 +11,6 @@ public final class URIFormatValidator
 {
     public URIFormatValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

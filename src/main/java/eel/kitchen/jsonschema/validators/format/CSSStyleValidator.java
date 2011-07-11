@@ -14,7 +14,6 @@ public final class CSSStyleValidator
 
     public CSSStyleValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

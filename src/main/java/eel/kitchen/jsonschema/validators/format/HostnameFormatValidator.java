@@ -14,7 +14,6 @@ public final class HostnameFormatValidator
 
     public HostnameFormatValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

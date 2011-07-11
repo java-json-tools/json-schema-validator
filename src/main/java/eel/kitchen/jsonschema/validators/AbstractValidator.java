@@ -27,17 +27,7 @@ import java.util.List;
 public abstract class AbstractValidator
     implements Validator
 {
-    protected JsonNode schemaNode = null;
     protected final List<String> validationErrors = new LinkedList<String>();
-
-    protected AbstractValidator(final JsonNode schemaNode)
-    {
-        this.schemaNode = schemaNode;
-    }
-
-    protected AbstractValidator()
-    {
-    }
 
     @Override
     public void setup()

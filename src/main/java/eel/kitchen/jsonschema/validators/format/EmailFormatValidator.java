@@ -11,7 +11,6 @@ public final class EmailFormatValidator
 {
     public EmailFormatValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

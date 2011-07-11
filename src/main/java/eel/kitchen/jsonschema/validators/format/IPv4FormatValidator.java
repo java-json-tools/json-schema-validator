@@ -11,7 +11,6 @@ public final class IPv4FormatValidator
 {
     public IPv4FormatValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

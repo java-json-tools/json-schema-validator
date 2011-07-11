@@ -9,7 +9,6 @@ public final class IllegalFormatValidator
 {
     public IllegalFormatValidator(final JsonNode ignored)
     {
-        super(ignored);
         validationErrors.add("illegal format specification");
     }
 }

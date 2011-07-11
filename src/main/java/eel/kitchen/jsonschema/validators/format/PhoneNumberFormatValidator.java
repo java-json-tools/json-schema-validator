@@ -8,7 +8,6 @@ public final class PhoneNumberFormatValidator
 {
     public PhoneNumberFormatValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

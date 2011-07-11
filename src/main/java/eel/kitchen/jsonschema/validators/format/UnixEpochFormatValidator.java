@@ -13,7 +13,6 @@ public final class UnixEpochFormatValidator
 
     public UnixEpochFormatValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

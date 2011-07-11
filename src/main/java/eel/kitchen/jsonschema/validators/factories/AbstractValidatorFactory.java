@@ -8,7 +8,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
-import javax.mail.internet.NewsAddress;
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.Map;
@@ -20,7 +19,6 @@ public class AbstractValidatorFactory
     protected final Class<? extends Validator> typeValidator;
     protected final LinkedList<Class<? extends Validator>> validatorList
         = new LinkedList<Class<? extends Validator>>();
-    private final JsonNodeFactory factory = new ObjectMapper().getNodeFactory();
 
     AbstractValidatorFactory(final JsonNode schemaNode, final String type,
         final Class<? extends Validator> typeValidator)
@@ -29,6 +27,7 @@ public class AbstractValidatorFactory
             = CollectionUtils.toMap(schemaNode.getFields());
 
         fields.remove("type");
+        final JsonNodeFactory factory = new ObjectMapper().getNodeFactory();
         fields.put("type", factory.textNode(type));
 
         this.schemaNode = factory.objectNode().putAll(fields);

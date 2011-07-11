@@ -1,7 +1,7 @@
 package eel.kitchen.jsonschema.validators;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.util.CollectionUtils;
+import eel.kitchen.jsonschema.validators.type.AbstractTypeValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 
@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public final class EnumValidator
-    extends AbstractValidator
+    extends AbstractTypeValidator
 {
     private final Collection<JsonNode> values = new HashSet<JsonNode>();
 

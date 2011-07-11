@@ -39,7 +39,6 @@ public final class CSSColorValidator
 
     public CSSColorValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

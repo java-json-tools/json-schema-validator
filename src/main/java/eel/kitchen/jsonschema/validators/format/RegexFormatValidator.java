@@ -10,7 +10,6 @@ public final class RegexFormatValidator
 {
     public RegexFormatValidator(final JsonNode ignored)
     {
-        super(ignored);
     }
 
     @Override

@@ -28,9 +28,11 @@ public abstract class AbstractTypeValidator
 {
     protected static final JsonNode EMPTY_SCHEMA;
 
+    protected JsonNode schemaNode = null;
+
     protected AbstractTypeValidator(final JsonNode schemaNode)
     {
-        super(schemaNode);
+        this.schemaNode = schemaNode;
     }
 
     static {
