@@ -21,8 +21,10 @@ import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public final class ArrayValidator
     extends AbstractTypeValidator
@@ -109,6 +111,7 @@ public final class ArrayValidator
             return false;
         }
 
+        getSubSchemas(node);
         return true;
     }
 
@@ -142,7 +145,6 @@ public final class ArrayValidator
 
         if (items.isEmpty())
             throw new MalformedJasonSchemaException("the items array is empty");
-
     }
 
     private void computeAdditionalItems()
@@ -194,5 +196,25 @@ public final class ArrayValidator
             return additionalItems;
 
         return items.get(i);
+    }
+
+    private Map<String, JsonNode> getSubSchemas(final JsonNode node)
+    {
+        final Map<String, JsonNode> ret = new HashMap<String, JsonNode>();
+        final int size = node.size();
+        int i = 0;
+
+        if (itemsTuples)
+            for (final JsonNode element: items) {
+                ret.put("[" + i + "]", element);
+                i++;
+            }
+
+        while (i < size) {
+            ret.put("[" + i + "]", additionalItems);
+            i++;
+        }
+
+        return ret;
     }
 }

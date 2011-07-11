@@ -29,6 +29,7 @@ import org.codehaus.jackson.JsonNode;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -244,8 +245,12 @@ public final class ObjectValidator
 
         fields.removeAll(matches);
 
-        if (additionalPropertiesOK || fields.isEmpty())
-            return validationErrors.isEmpty();
+        if (additionalPropertiesOK || fields.isEmpty()) {
+            final boolean ret = validationErrors.isEmpty();
+            if (ret)
+                getSubSchemas(node);
+            return ret;
+        }
 
         validationErrors.add("additional properties were found but schema "
             + "forbids them");
@@ -255,7 +260,6 @@ public final class ObjectValidator
     @Override
     public JsonNode getSchemaForPath(final String subPath)
     {
-
         if (properties.containsKey(subPath))
             return properties.get(subPath);
 
@@ -266,5 +270,31 @@ public final class ObjectValidator
                 return patternProperties.get(pattern);
 
         return additionalProperties;
+    }
+
+    private Map<String, JsonNode> getSubSchemas(final JsonNode node)
+    {
+        final Set<String> fieldNames = CollectionUtils.toSet(node.getFieldNames());
+        final Map<String, JsonNode> ret = new HashMap<String, JsonNode>();
+        JsonNode element;
+        final PatternMatcher matcher = new Perl5Matcher();
+
+        for (final String fieldName: fieldNames) {
+            element = properties.get(fieldName);
+            if (element != null) {
+                ret.put(fieldName, element);
+                continue;
+            }
+            for (final Pattern pattern: patternProperties.keySet())
+                if (matcher.contains(fieldName, pattern)) {
+                    element = patternProperties.get(pattern);
+                    break;
+                }
+            if (element == null)
+                element = additionalProperties;
+            ret.put(fieldName, element);
+        }
+
+        return ret;
     }
 }
