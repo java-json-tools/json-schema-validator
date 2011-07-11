@@ -237,7 +237,7 @@ public final class ObjectValidator
 
         for (final String field: fields)
             for (final Pattern pattern: patternProperties.keySet())
-                if (matcher.matches(field, pattern)) {
+                if (matcher.contains(field, pattern)) {
                     matches.add(field);
                     break;
                 }
