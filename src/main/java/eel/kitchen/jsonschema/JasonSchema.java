@@ -17,8 +17,10 @@
 
 package eel.kitchen.jsonschema;
 
+import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.CollectionUtils;
+import eel.kitchen.util.IterableJsonNode;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.ArrayList;
@@ -61,61 +63,28 @@ public final class JasonSchema
         final JsonNode node, final String path)
     {
         final Validator v = provider.getValidator(schema, node);
-        final List<String> ret = new ArrayList<String>();
+        final SchemaProvider schemaProvider = v.getSchemaProvider();
+        final IterableJsonNode inode = new IterableJsonNode(node);
+
+        final List<String> messages = new ArrayList<String>();
 
         if (!v.validate(node)) {
             for (final String message: v.getValidationErrors())
-                ret.add(String.format("%s: %s", path, message));
-            return ret;
+                messages.add(String.format("%s: %s", path, message));
+            return messages;
         }
 
-        if (!node.isContainerNode())
-            return Collections.emptyList();
+        String fullpath, subpath;
+        JsonNode subschema, subnode;
+        List<String> submessages;
 
-        if (node.isArray())
-            return doValidateArray(v, node, path);
-
-        if (node.isObject())
-            return doValidateObject(v, node, path);
-
-        return Arrays.asList(String.format("%s: could not recognize node! "
-            + "BUG", path));
-    }
-
-    private List<String> doValidateArray(final Validator validator,
-        final Iterable<JsonNode> node, final String path)
-    {
-        final List<String> messages = new LinkedList<String>();
-
-        int i = 0;
-        String subPath;
-        JsonNode subSchema;
-
-        for (final JsonNode element: node) {
-            subSchema = validator.getSchemaForPath(Integer.toString(i));
-            subPath = String.format("%s.[%d]", path, i);
-            i++;
-            messages.addAll(validateOneNode(subSchema, element, subPath));
-        }
-
-        return messages;
-    }
-
-    private List<String> doValidateObject(final Validator validator,
-        final JsonNode node, final String path)
-    {
-        final List<String> messages = new LinkedList<String>();
-        final Map<String, JsonNode> fields = CollectionUtils.toMap(node.getFields());
-
-        String subPath, fieldName;
-        JsonNode subSchema, element;
-
-        for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
-            fieldName = entry.getKey();
-            element = entry.getValue();
-            subSchema = validator.getSchemaForPath(fieldName);
-            subPath = String.format("%s.%s", path, fieldName);
-            messages.addAll(validateOneNode(subSchema, element, subPath));
+        for (final Map.Entry<String, JsonNode> entry: inode) {
+            subpath = entry.getKey();
+            subnode = entry.getValue();
+            fullpath = String.format("%s.%s", path, subpath);
+            subschema = schemaProvider.getSchemaForPath(subpath);
+            submessages = validateOneNode(subschema, subnode, fullpath);
+            messages.addAll(submessages);
         }
 
         return messages;
