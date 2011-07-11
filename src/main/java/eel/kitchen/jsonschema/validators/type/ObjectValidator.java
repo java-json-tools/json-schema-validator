@@ -246,12 +246,8 @@ public final class ObjectValidator
 
         fields.removeAll(matches);
 
-        if (additionalPropertiesOK || fields.isEmpty()) {
-            final boolean ret = validationErrors.isEmpty();
-            if (ret)
-                getSubSchemas(node);
-            return ret;
-        }
+        if (additionalPropertiesOK || fields.isEmpty())
+            return validationErrors.isEmpty();
 
         validationErrors.add("additional properties were found but schema "
             + "forbids them");
@@ -259,50 +255,9 @@ public final class ObjectValidator
     }
 
     @Override
-    public JsonNode getSchemaForPath(final String subPath)
-    {
-        if (properties.containsKey(subPath))
-            return properties.get(subPath);
-
-        final PatternMatcher matcher = new Perl5Matcher();
-
-        for (final Pattern pattern: patternProperties.keySet())
-            if (matcher.contains(subPath, pattern))
-                return patternProperties.get(pattern);
-
-        return additionalProperties;
-    }
-
-    @Override
     public SchemaProvider getSchemaProvider()
     {
         return new ObjectSchemaProvider(properties, patternProperties,
             additionalProperties);
-    }
-
-    private Map<String, JsonNode> getSubSchemas(final JsonNode node)
-    {
-        final Set<String> fieldNames = CollectionUtils.toSet(node.getFieldNames());
-        final Map<String, JsonNode> ret = new HashMap<String, JsonNode>();
-        JsonNode element;
-        final PatternMatcher matcher = new Perl5Matcher();
-
-        for (final String fieldName: fieldNames) {
-            element = properties.get(fieldName);
-            if (element != null) {
-                ret.put(fieldName, element);
-                continue;
-            }
-            for (final Pattern pattern: patternProperties.keySet())
-                if (matcher.contains(fieldName, pattern)) {
-                    element = patternProperties.get(pattern);
-                    break;
-                }
-            if (element == null)
-                element = additionalProperties;
-            ret.put(fieldName, element);
-        }
-
-        return ret;
     }
 }

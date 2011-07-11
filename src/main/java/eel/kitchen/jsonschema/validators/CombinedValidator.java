@@ -50,12 +50,6 @@ public final class CombinedValidator
     }
 
     @Override
-    public JsonNode getSchemaForPath(final String subPath)
-    {
-        return validators.get(0).getSchemaForPath(subPath);
-    }
-
-    @Override
     public SchemaProvider getSchemaProvider()
     {
         return validators.get(0).getSchemaProvider();

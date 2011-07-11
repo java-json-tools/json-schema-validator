@@ -42,12 +42,6 @@ public abstract class AbstractValidator
     }
 
     @Override
-    public JsonNode getSchemaForPath(final String subPath)
-    {
-        return null;
-    }
-
-    @Override
     public SchemaProvider getSchemaProvider()
     {
         return new EmptySchemaProvider();

@@ -113,7 +113,6 @@ public final class ArrayValidator
             return false;
         }
 
-        getSubSchemas(node);
         return true;
     }
 
@@ -187,42 +186,9 @@ public final class ArrayValidator
     }
 
     @Override
-    public JsonNode getSchemaForPath(final String subPath)
-    {
-        final int i = Integer.parseInt(subPath);
-
-        if (!itemsTuples)
-            return additionalItems;
-
-        if (i >= items.size())
-            return additionalItems;
-
-        return items.get(i);
-    }
-
-    @Override
     public SchemaProvider getSchemaProvider()
     {
         return new ArraySchemaProvider(items, additionalItems);
     }
 
-    private Map<String, JsonNode> getSubSchemas(final JsonNode node)
-    {
-        final Map<String, JsonNode> ret = new HashMap<String, JsonNode>();
-        final int size = node.size();
-        int i = 0;
-
-        if (itemsTuples)
-            for (final JsonNode element: items) {
-                ret.put("[" + i + "]", element);
-                i++;
-            }
-
-        while (i < size) {
-            ret.put("[" + i + "]", additionalItems);
-            i++;
-        }
-
-        return ret;
-    }
 }
