@@ -19,12 +19,10 @@ package eel.kitchen.jsonschema;
 
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.IterableJsonNode;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
