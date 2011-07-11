@@ -65,11 +65,11 @@ public class JasonSchemaTest
         assertFalse(schema.validate(node.get("ko")));
         messages = schema.getValidationErrors();
         assertEquals(messages.size(), 3);
-        assertEquals(messages.get(0), "$[0]: node is of type boolean, "
+        assertEquals(messages.get(0), "$.[0]: node is of type boolean, "
             + "expected string");
-        assertEquals(messages.get(1), "$[1]: property spirit depends on "
+        assertEquals(messages.get(1), "$.[1]: property spirit depends on "
             + "elevated, but the latter was not found");
-        assertEquals(messages.get(2), "$[2]: node is of type string, "
+        assertEquals(messages.get(2), "$.[2]: node is of type string, "
             + "expected integer");
 
         assertTrue(schema.validate(node.get("ok")));
@@ -87,11 +87,11 @@ public class JasonSchemaTest
         assertFalse(schema.validate(node.get("ko")));
         messages = schema.getValidationErrors();
         assertEquals(messages.size(), 3);
-        assertEquals(messages.get(0), "$[0]: node is of type boolean, "
+        assertEquals(messages.get(0), "$.[0]: node is of type boolean, "
             + "expected one of [string, integer]");
-        assertEquals(messages.get(1), "$[1]: integer is not a multiple of "
+        assertEquals(messages.get(1), "$.[1]: integer is not a multiple of "
             + "the declared divisor");
-        assertEquals(messages.get(2), "$[2]: string is not a valid date");
+        assertEquals(messages.get(2), "$.[2]: string is not a valid date");
 
         assertTrue(schema.validate(node.get("ok")));
         messages = schema.getValidationErrors();

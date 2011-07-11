@@ -93,7 +93,7 @@ public final class JasonSchema
 
         for (final JsonNode element: node) {
             subSchema = validator.getSchemaForPath(Integer.toString(i));
-            subPath = String.format("%s[%d]", path, i);
+            subPath = String.format("%s.[%d]", path, i);
             i++;
             messages.addAll(validateOneNode(subSchema, element, subPath));
         }
