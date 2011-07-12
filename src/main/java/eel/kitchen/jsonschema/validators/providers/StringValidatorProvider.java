@@ -1,16 +1,16 @@
-package eel.kitchen.jsonschema.validators.factories;
+package eel.kitchen.jsonschema.validators.providers;
 
 import eel.kitchen.jsonschema.validators.EnumValidator;
 import eel.kitchen.jsonschema.validators.format.FormatValidator;
-import eel.kitchen.jsonschema.validators.type.IntegerValidator;
+import eel.kitchen.jsonschema.validators.type.StringValidator;
 import org.codehaus.jackson.JsonNode;
 
-public final class IntegerValidatorProvider
+public final class StringValidatorProvider
     extends AbstractValidatorProvider
 {
-    public IntegerValidatorProvider(final JsonNode schemaNode)
+    public StringValidatorProvider(final JsonNode schemaNode)
     {
-        super(schemaNode, "integer", IntegerValidator.class);
+        super(schemaNode, "string", StringValidator.class);
 
         if (schemaNode.has("format"))
             validatorList.add(FormatValidator.class);

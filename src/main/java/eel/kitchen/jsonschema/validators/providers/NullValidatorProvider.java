@@ -1,4 +1,4 @@
-package eel.kitchen.jsonschema.validators.factories;
+package eel.kitchen.jsonschema.validators.providers;
 
 import eel.kitchen.jsonschema.validators.type.NullValidator;
 import org.codehaus.jackson.JsonNode;
