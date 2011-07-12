@@ -90,6 +90,7 @@ public final class FormatValidator
         } catch (IllegalArgumentException e) {
             logger.error("No such format \"%s\", format validation ignored",
                 format);
+            return true;
         }
 
         if (!validators.get(nodeType).contains(validatorClass)) {
