@@ -183,11 +183,11 @@ public final class ValidatorFactory
                 continue;
             }
             if (ANY_TYPE.equals(value)) {
-                logger.warn("type/disallow array contains \"" + ANY_TYPE + '\"');
+                logger.warn("type/disallow array contains \"" + ANY_TYPE + "\"");
                 return providers.keySet();
             }
             if (!ret.add(value))
-                logger.warn("duplicate type entry \"{0}\"", value);
+                logger.warn("duplicate type entry \"{}\"", value);
         }
 
         return ret;
