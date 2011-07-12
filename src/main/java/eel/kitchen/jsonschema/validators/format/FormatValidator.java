@@ -23,7 +23,6 @@ public final class FormatValidator
     private static final Map<String, List<Class<? extends Validator>>> validators
         = new HashMap<String, List<Class<? extends Validator>>>();
 
-    private Class<? extends Validator> validatorClass;
     private String format;
 
     static {
@@ -84,6 +83,7 @@ public final class FormatValidator
         }
 
         final String enumKey = format.replaceAll("-", "_").toUpperCase();
+        final Class<? extends Validator> validatorClass;
 
         try {
             validatorClass = FormatPicker.valueOf(enumKey).getValidator();
