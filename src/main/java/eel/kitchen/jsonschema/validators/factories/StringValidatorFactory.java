@@ -5,6 +5,7 @@ import eel.kitchen.jsonschema.validators.EnumValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.IllegalFormatValidator;
 import eel.kitchen.jsonschema.validators.format.FormatPicker;
+import eel.kitchen.jsonschema.validators.format.FormatValidator;
 import eel.kitchen.jsonschema.validators.type.StringValidator;
 import org.codehaus.jackson.JsonNode;
 
@@ -15,21 +16,8 @@ public final class StringValidatorFactory
     {
         super(schemaNode, "string", StringValidator.class);
 
-        if (schemaNode.has("format")) {
-            final JsonNode formatNode = schemaNode.get("format");
-            Class<? extends Validator> c;
-            try {
-                if (!formatNode.isTextual())
-                    throw new MalformedJasonSchemaException("");
-                final String fmt = formatNode.getTextValue()
-                    .replaceAll("-", "_").toUpperCase();
-                c = FormatPicker.valueOf(fmt).getValidator();
-            } catch (Exception e) {
-                c = IllegalFormatValidator.class;
-            }
-            validatorList.add(c);
-        }
-
+        if (schemaNode.has("format"))
+            validatorList.add(FormatValidator.class);
         if (schemaNode.has("enum"))
             validatorList.add(EnumValidator.class);
     }

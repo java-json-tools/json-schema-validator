@@ -18,15 +18,9 @@ public final class UnixEpochFormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        final BigInteger epoch;
-
         validationErrors.clear();
 
-        if (!node.isNumber()) {
-            validationErrors.add("input is not a number");
-        }
-
-        epoch = node.getDecimalValue().toBigInteger();
+        final BigInteger epoch = node.getDecimalValue().toBigInteger();
 
         if (ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
             return true;
