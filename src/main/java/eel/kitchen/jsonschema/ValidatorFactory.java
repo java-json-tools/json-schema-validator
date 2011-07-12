@@ -49,18 +49,18 @@ public final class ValidatorFactory
         = LoggerFactory.getLogger(ValidatorFactory.class);
 
     private static final String ANY_TYPE = "any";
-    private final HashMap<String, Class<? extends ValidatorProvider>> factories
+    private final HashMap<String, Class<? extends ValidatorProvider>> providers
         = new HashMap<String, Class<? extends ValidatorProvider>>();
 
     public ValidatorFactory()
     {
-        factories.put("array", ArrayValidatorProvider.class);
-        factories.put("object", ObjectValidatorProvider.class);
-        factories.put("string", StringValidatorProvider.class);
-        factories.put("number", NumberValidatorProvider.class);
-        factories.put("integer", IntegerValidatorProvider.class);
-        factories.put("boolean", BooleanValidatorProvider.class);
-        factories.put("null", NullValidatorProvider.class);
+        providers.put("array", ArrayValidatorProvider.class);
+        providers.put("object", ObjectValidatorProvider.class);
+        providers.put("string", StringValidatorProvider.class);
+        providers.put("number", NumberValidatorProvider.class);
+        providers.put("integer", IntegerValidatorProvider.class);
+        providers.put("boolean", BooleanValidatorProvider.class);
+        providers.put("null", NullValidatorProvider.class);
     }
 
     public Validator getValidator(final JsonNode schemaNode, final JsonNode node)
@@ -88,7 +88,7 @@ public final class ValidatorFactory
         if (type == null)
             return new IllegalSchemaValidator(err);
 
-        final Class<? extends ValidatorProvider> c = factories.get(type);
+        final Class<? extends ValidatorProvider> c = providers.get(type);
         final Constructor<? extends ValidatorProvider> constructor;
         final ValidatorProvider provider;
 
@@ -133,7 +133,7 @@ public final class ValidatorFactory
 
         node = schema.get("type");
 
-        allowed.addAll(node == null ? factories.keySet() : getTypeValues(node));
+        allowed.addAll(node == null ? providers.keySet() : getTypeValues(node));
 
         allowed.removeAll(disallowed);
 
@@ -152,8 +152,8 @@ public final class ValidatorFactory
         if (node.isTextual()) {
             value = node.getTextValue();
             if (ANY_TYPE.equals(value))
-                return factories.keySet();
-            if (!factories.containsKey(value)) {
+                return providers.keySet();
+            if (!providers.containsKey(value)) {
                 logger.warn(
                     "unknown type \"{}\", " + "did you forget to register it?",
                     value);
@@ -177,14 +177,14 @@ public final class ValidatorFactory
                 continue;
             }
             value = element.getTextValue();
-            if (!factories.containsKey(value)) {
+            if (!providers.containsKey(value)) {
                 logger.warn("no factory for type \"{}\" - did you forget " +
                     "to register it?", value);
                 continue;
             }
             if (ANY_TYPE.equals(value)) {
                 logger.warn("type/disallow array contains \"" + ANY_TYPE + '\"');
-                return factories.keySet();
+                return providers.keySet();
             }
             if (!ret.add(value))
                 logger.warn("duplicate type entry \"{0}\"", value);
