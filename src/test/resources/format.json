@@ -1,4 +1,21 @@
 {
+    "schemas": {
+        "badformat": {
+            "format": true
+        },
+        "typemismatch": {
+            "schema": {
+                "format": "date"
+            },
+            "node": 1.1
+        },
+        "noformats": {
+            "schema": {
+                "format": "date"
+            },
+            "node": true
+        }
+    },
     "date-time": {
         "good": "2007-12-03T14:00:34GMT",
         "bad": "2008-12-12T06:00:00"
