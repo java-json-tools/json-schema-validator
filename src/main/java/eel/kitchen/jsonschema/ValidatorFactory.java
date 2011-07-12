@@ -101,7 +101,7 @@ public final class ValidatorFactory
             constructor = c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException e) {
             logger.error("cannot find appropriate constructor for provider", e);
-            return null;
+            return new IllegalSchemaValidator(e);
         }
 
         try {
