@@ -11,14 +11,16 @@ import java.util.List;
 public final class CombinedValidator
     implements Validator
 {
+    private final Validator typeValidator;
     private final LinkedList<Validator> validators
         = new LinkedList<Validator>();
-    private final LinkedList<String> messages
+    private final List<String> messages
         = new LinkedList<String>();
 
     public CombinedValidator(final LinkedList<Validator> validators)
     {
         this.validators.addAll(validators);
+        typeValidator = validators.get(0);
     }
 
     @Override
@@ -52,6 +54,6 @@ public final class CombinedValidator
     @Override
     public SchemaProvider getSchemaProvider()
     {
-        return validators.get(0).getSchemaProvider();
+        return typeValidator.getSchemaProvider();
     }
 }
