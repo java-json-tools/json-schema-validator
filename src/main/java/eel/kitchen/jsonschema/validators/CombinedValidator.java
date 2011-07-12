@@ -12,10 +12,8 @@ public final class CombinedValidator
     implements Validator
 {
     private final Validator typeValidator;
-    private final LinkedList<Validator> validators
-        = new LinkedList<Validator>();
-    private final List<String> messages
-        = new LinkedList<String>();
+    private final List<Validator> validators = new LinkedList<Validator>();
+    private final List<String> messages = new LinkedList<String>();
 
     public CombinedValidator(final LinkedList<Validator> validators)
     {
