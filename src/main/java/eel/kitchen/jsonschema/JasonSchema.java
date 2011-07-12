@@ -30,7 +30,7 @@ import java.util.Map;
 
 public final class JasonSchema
 {
-    private final ValidatorProvider provider = new ValidatorProvider();
+    private final ValidatorFactory factory = new ValidatorFactory();
     private final List<String> validationErrors = new LinkedList<String>();
     private final JsonNode schema;
 
@@ -60,7 +60,7 @@ public final class JasonSchema
     private List<String> validateOneNode(final JsonNode schema,
         final JsonNode node, final String path)
     {
-        final Validator v = provider.getValidator(schema, node);
+        final Validator v = factory.getValidator(schema, node);
         final SchemaProvider schemaProvider = v.getSchemaProvider();
         final IterableJsonNode inode = new IterableJsonNode(node);
 

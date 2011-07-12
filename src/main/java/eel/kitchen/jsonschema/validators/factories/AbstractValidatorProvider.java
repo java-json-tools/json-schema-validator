@@ -12,8 +12,8 @@ import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.Map;
 
-public class AbstractValidatorFactory
-    implements ValidatorFactory
+public class AbstractValidatorProvider
+    implements ValidatorProvider
 {
     protected final String nodeType;
     protected final JsonNode schemaNode;
@@ -21,7 +21,7 @@ public class AbstractValidatorFactory
     protected final LinkedList<Class<? extends Validator>> validatorList
         = new LinkedList<Class<? extends Validator>>();
 
-    AbstractValidatorFactory(final JsonNode schemaNode, final String nodeType,
+    AbstractValidatorProvider(final JsonNode schemaNode, final String nodeType,
         final Class<? extends Validator> typeValidator)
     {
         this.nodeType = nodeType;

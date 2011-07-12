@@ -34,8 +34,8 @@ public class BrokenSchemasTest
 {
     private static final JsonNode testNode;
     private static final JsonNode dummy;
-    private static final ValidatorProvider provider
-        = new ValidatorProvider();
+    private static final ValidatorFactory factory
+        = new ValidatorFactory();
     private static final Class<? extends Validator> typeMismatch
         = TypeMismatchValidator.class;
 
@@ -79,7 +79,7 @@ public class BrokenSchemasTest
     @Test
     public void testIllegalType()
     {
-        v = provider.getValidator(testNode.get("illegal-type"), dummy);
+        v = factory.getValidator(testNode.get("illegal-type"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -93,7 +93,7 @@ public class BrokenSchemasTest
     @Test
     public void testIllegalTypeArray()
     {
-        v = provider.getValidator(testNode.get("illegal-type-array"), dummy);
+        v = factory.getValidator(testNode.get("illegal-type-array"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -107,7 +107,7 @@ public class BrokenSchemasTest
     @Test
     public void testEmptyTypeSet()
     {
-        v = provider.getValidator(testNode.get("empty-type-set"), dummy);
+        v = factory.getValidator(testNode.get("empty-type-set"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -121,7 +121,7 @@ public class BrokenSchemasTest
     @Test
     public void testDisallowAny()
     {
-        v = provider.getValidator(testNode.get("disallow-any"), dummy);
+        v = factory.getValidator(testNode.get("disallow-any"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -135,7 +135,7 @@ public class BrokenSchemasTest
     @Test
     public void testIntegerVsNumber()
     {
-        v = provider.getValidator(testNode.get("integer-vs-number"), dummy);
+        v = factory.getValidator(testNode.get("integer-vs-number"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));
@@ -149,7 +149,7 @@ public class BrokenSchemasTest
     @Test
     public void testUnknownType()
     {
-        v = provider.getValidator(testNode.get("unknown-type"), dummy);
+        v = factory.getValidator(testNode.get("unknown-type"), dummy);
         assertEquals(v.getClass(), typeMismatch);
 
         assertFalse(v.validate(dummy));

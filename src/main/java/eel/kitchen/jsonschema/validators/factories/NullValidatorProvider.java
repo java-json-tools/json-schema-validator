@@ -3,10 +3,10 @@ package eel.kitchen.jsonschema.validators.factories;
 import eel.kitchen.jsonschema.validators.type.NullValidator;
 import org.codehaus.jackson.JsonNode;
 
-public final class NullValidatorFactory
-    extends AbstractValidatorFactory
+public final class NullValidatorProvider
+    extends AbstractValidatorProvider
 {
-    public NullValidatorFactory(final JsonNode schemaNode)
+    public NullValidatorProvider(final JsonNode schemaNode)
     {
         super(schemaNode, "null", NullValidator.class);
     }

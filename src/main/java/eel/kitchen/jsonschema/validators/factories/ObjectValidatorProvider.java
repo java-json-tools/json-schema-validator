@@ -3,10 +3,10 @@ package eel.kitchen.jsonschema.validators.factories;
 import eel.kitchen.jsonschema.validators.type.ObjectValidator;
 import org.codehaus.jackson.JsonNode;
 
-public final class ObjectValidatorFactory
-    extends AbstractValidatorFactory
+public final class ObjectValidatorProvider
+    extends AbstractValidatorProvider
 {
-    public ObjectValidatorFactory(final JsonNode schemaNode)
+    public ObjectValidatorProvider(final JsonNode schemaNode)
     {
         super(schemaNode, "object", ObjectValidator.class);
     }

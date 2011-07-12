@@ -4,10 +4,10 @@ import eel.kitchen.jsonschema.validators.EnumValidator;
 import eel.kitchen.jsonschema.validators.type.BooleanValidator;
 import org.codehaus.jackson.JsonNode;
 
-public final class BooleanValidatorFactory
-    extends AbstractValidatorFactory
+public final class BooleanValidatorProvider
+    extends AbstractValidatorProvider
 {
-    public BooleanValidatorFactory(final JsonNode schemaNode)
+    public BooleanValidatorProvider(final JsonNode schemaNode)
     {
         super(schemaNode, "boolean", BooleanValidator.class);
 

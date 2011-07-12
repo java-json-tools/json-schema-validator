@@ -2,7 +2,7 @@ package eel.kitchen.jsonschema.validators.factories;
 
 import eel.kitchen.jsonschema.validators.Validator;
 
-public interface ValidatorFactory
+public interface ValidatorProvider
 {
     Validator getValidator();
 }

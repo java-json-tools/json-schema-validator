@@ -21,14 +21,14 @@ import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.IllegalSchemaValidator;
 import eel.kitchen.jsonschema.validators.errors.TypeMismatchValidator;
-import eel.kitchen.jsonschema.validators.factories.ArrayValidatorFactory;
-import eel.kitchen.jsonschema.validators.factories.BooleanValidatorFactory;
-import eel.kitchen.jsonschema.validators.factories.IntegerValidatorFactory;
-import eel.kitchen.jsonschema.validators.factories.NullValidatorFactory;
-import eel.kitchen.jsonschema.validators.factories.NumberValidatorFactory;
-import eel.kitchen.jsonschema.validators.factories.ObjectValidatorFactory;
-import eel.kitchen.jsonschema.validators.factories.StringValidatorFactory;
-import eel.kitchen.jsonschema.validators.factories.ValidatorFactory;
+import eel.kitchen.jsonschema.validators.factories.ArrayValidatorProvider;
+import eel.kitchen.jsonschema.validators.factories.BooleanValidatorProvider;
+import eel.kitchen.jsonschema.validators.factories.IntegerValidatorProvider;
+import eel.kitchen.jsonschema.validators.factories.NullValidatorProvider;
+import eel.kitchen.jsonschema.validators.factories.NumberValidatorProvider;
+import eel.kitchen.jsonschema.validators.factories.ObjectValidatorProvider;
+import eel.kitchen.jsonschema.validators.factories.StringValidatorProvider;
+import eel.kitchen.jsonschema.validators.factories.ValidatorProvider;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,24 +42,24 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class ValidatorProvider
+public final class ValidatorFactory
 {
     private static final Logger logger
-        = LoggerFactory.getLogger(ValidatorProvider.class);
+        = LoggerFactory.getLogger(ValidatorFactory.class);
 
     private static final String ANY_TYPE = "any";
-    private final HashMap<String, Class<? extends ValidatorFactory>> factories
-        = new HashMap<String, Class<? extends ValidatorFactory>>();
+    private final HashMap<String, Class<? extends ValidatorProvider>> factories
+        = new HashMap<String, Class<? extends ValidatorProvider>>();
 
-    public ValidatorProvider()
+    public ValidatorFactory()
     {
-        factories.put("array", ArrayValidatorFactory.class);
-        factories.put("object", ObjectValidatorFactory.class);
-        factories.put("string", StringValidatorFactory.class);
-        factories.put("number", NumberValidatorFactory.class);
-        factories.put("integer", IntegerValidatorFactory.class);
-        factories.put("boolean", BooleanValidatorFactory.class);
-        factories.put("null", NullValidatorFactory.class);
+        factories.put("array", ArrayValidatorProvider.class);
+        factories.put("object", ObjectValidatorProvider.class);
+        factories.put("string", StringValidatorProvider.class);
+        factories.put("number", NumberValidatorProvider.class);
+        factories.put("integer", IntegerValidatorProvider.class);
+        factories.put("boolean", BooleanValidatorProvider.class);
+        factories.put("null", NullValidatorProvider.class);
     }
 
     public Validator getValidator(final JsonNode schemaNode, final JsonNode node)
@@ -87,9 +87,9 @@ public final class ValidatorProvider
         if (type == null)
             return new IllegalSchemaValidator(err);
 
-        final Class<? extends ValidatorFactory> c = factories.get(type);
-        final Constructor<? extends ValidatorFactory> constructor;
-        final ValidatorFactory factory;
+        final Class<? extends ValidatorProvider> c = factories.get(type);
+        final Constructor<? extends ValidatorProvider> constructor;
+        final ValidatorProvider provider;
 
         final List<String> types = validatingTypes(schemaNode);
 
@@ -99,17 +99,17 @@ public final class ValidatorProvider
         try {
             constructor = c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException e) {
-            logger.error("cannot find appropriate constructor for factory", e);
+            logger.error("cannot find appropriate constructor for provider", e);
             return null;
         }
 
         try {
-            factory = constructor.newInstance(schemaNode);
+            provider = constructor.newInstance(schemaNode);
         } catch (Exception e) {
             return new IllegalSchemaValidator(e);
         }
 
-        final Validator validator = factory.getValidator();
+        final Validator validator = provider.getValidator();
         try {
             validator.setup();
         } catch (MalformedJasonSchemaException e) {
