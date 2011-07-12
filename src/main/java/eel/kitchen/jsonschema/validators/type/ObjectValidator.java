@@ -214,10 +214,9 @@ public final class ObjectValidator
          * Required
          */
         for (final String field: required)
-            if (!fields.contains(field)) {
+            if (!fields.contains(field))
                 validationErrors.add("property " + field + " is required "
                     + "but was not found");
-            }
 
         for (final Map.Entry<String, Set<String>> entry: dependencies.entrySet()) {
             final String field = entry.getKey();

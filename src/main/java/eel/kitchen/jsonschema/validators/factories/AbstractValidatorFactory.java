@@ -15,20 +15,23 @@ import java.util.Map;
 public class AbstractValidatorFactory
     implements ValidatorFactory
 {
+    protected final String nodeType;
     protected final JsonNode schemaNode;
     protected final Class<? extends Validator> typeValidator;
     protected final LinkedList<Class<? extends Validator>> validatorList
         = new LinkedList<Class<? extends Validator>>();
 
-    AbstractValidatorFactory(final JsonNode schemaNode, final String type,
+    AbstractValidatorFactory(final JsonNode schemaNode, final String nodeType,
         final Class<? extends Validator> typeValidator)
     {
+        this.nodeType = nodeType;
+
         final Map<String, JsonNode> fields
             = CollectionUtils.toMap(schemaNode.getFields());
 
         fields.remove("type");
         final JsonNodeFactory factory = new ObjectMapper().getNodeFactory();
-        fields.put("type", factory.textNode(type));
+        fields.put("type", factory.textNode(nodeType));
 
         this.schemaNode = factory.objectNode().putAll(fields);
         this.typeValidator = typeValidator;

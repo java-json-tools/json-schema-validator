@@ -19,7 +19,7 @@ public enum FormatPicker
     IPV6(IPv6FormatValidator.class),
     HOST_NAME(HostnameFormatValidator.class);
 
-    private Class<? extends Validator> v;
+    private final Class<? extends Validator> v;
 
     FormatPicker(final Class<? extends Validator> v)
     {
