@@ -29,6 +29,7 @@ import eel.kitchen.jsonschema.validators.providers.NumberValidatorProvider;
 import eel.kitchen.jsonschema.validators.providers.ObjectValidatorProvider;
 import eel.kitchen.jsonschema.validators.providers.StringValidatorProvider;
 import eel.kitchen.jsonschema.validators.providers.ValidatorProvider;
+import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +82,7 @@ public final class ValidatorFactory
         if (node == null)
             return new IllegalSchemaValidator(err);
 
-        final String type = getNodeType(node);
+        final String type = JasonHelper.getNodeType(node);
         err = new MalformedJasonSchemaException("cannot determine node type");
 
         if (type == null)
@@ -116,24 +117,6 @@ public final class ValidatorFactory
             return new IllegalSchemaValidator(e);
         }
         return validator;
-    }
-
-    private static String getNodeType(final JsonNode node)
-    {
-        if (node.isArray())
-            return "array";
-        if (node.isObject())
-            return "object";
-        if (node.isTextual())
-            return "string";
-        if (node.isNumber())
-            return node.isIntegralNumber() ? "integer" : "number";
-        if (node.isBoolean())
-            return "boolean";
-        if (node.isNull())
-            return "null";
-
-        return null;
     }
 
     private List<String> validatingTypes(final JsonNode schema)
