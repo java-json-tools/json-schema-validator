@@ -10,6 +10,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 
 import java.lang.reflect.Constructor;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class AbstractValidatorProvider
@@ -18,7 +19,7 @@ public class AbstractValidatorProvider
     protected final String nodeType;
     protected final JsonNode schemaNode;
     protected final Class<? extends Validator> typeValidator;
-    protected final LinkedList<Class<? extends Validator>> validatorList
+    protected final List<Class<? extends Validator>> validatorList
         = new LinkedList<Class<? extends Validator>>();
 
     AbstractValidatorProvider(final JsonNode schemaNode, final String nodeType,
