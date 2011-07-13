@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ObjectSchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.util.CollectionUtils;
@@ -35,7 +36,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class ObjectValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
     private final Collection<String> required = new HashSet<String>();
     private boolean additionalPropertiesOK = true;
@@ -47,9 +48,9 @@ public final class ObjectValidator
     private final Map<Pattern, JsonNode> patternProperties
         = new HashMap<Pattern, JsonNode>();
 
-    public ObjectValidator(final JsonNode schemaNode)
+    public ObjectValidator(final JsonNode schema)
     {
-        super(schemaNode);
+        super(schema);
     }
 
     @Override
@@ -65,7 +66,7 @@ public final class ObjectValidator
     private void computeProperties()
         throws MalformedJasonSchemaException
     {
-        final JsonNode node = schemaNode.get("properties");
+        final JsonNode node = schema.get("properties");
 
         if (node == null)
             return;
@@ -99,7 +100,7 @@ public final class ObjectValidator
     private void computeAdditional()
         throws MalformedJasonSchemaException
     {
-        final JsonNode node = schemaNode.get("additionalProperties");
+        final JsonNode node = schema.get("additionalProperties");
 
         if (node == null)
             return;
@@ -121,7 +122,7 @@ public final class ObjectValidator
     {
         //TODO: object dependencies
 
-        final JsonNode node = schemaNode.get("dependencies");
+        final JsonNode node = schema.get("dependencies");
 
         if (node == null)
             return;
@@ -173,7 +174,7 @@ public final class ObjectValidator
     private void computePatternProperties()
         throws MalformedJasonSchemaException
     {
-        final JsonNode node = schemaNode.get("patternProperties");
+        final JsonNode node = schema.get("patternProperties");
 
         if (node == null)
             return;
@@ -215,7 +216,7 @@ public final class ObjectValidator
          */
         for (final String field: required)
             if (!fields.contains(field))
-                validationErrors.add("property " + field + " is required "
+                messages.add("property " + field + " is required "
                     + "but was not found");
 
         for (final Map.Entry<String, Set<String>> entry: dependencies.entrySet()) {
@@ -226,7 +227,7 @@ public final class ObjectValidator
             for (final String dep: deps) {
                 if (fields.contains(dep))
                     continue;
-                validationErrors.add("property " + field + " depends on " + dep
+                messages.add("property " + field + " depends on " + dep
                     + ", but the latter was not found");
             }
         }
@@ -246,9 +247,9 @@ public final class ObjectValidator
         fields.removeAll(matches);
 
         if (additionalPropertiesOK || fields.isEmpty())
-            return validationErrors.isEmpty();
+            return messages.isEmpty();
 
-        validationErrors.add("additional properties were found but schema "
+        messages.add("additional properties were found but schema "
             + "forbids them");
         return false;
     }

@@ -54,7 +54,7 @@ public class FormatValidatorTest
         v.setup();
 
         assertTrue(v.validate(node.get("node")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -66,7 +66,7 @@ public class FormatValidatorTest
         v.setup();
 
         assertTrue(v.validate(node.get("node")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -77,7 +77,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -88,7 +88,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -99,7 +99,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -121,7 +121,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -132,7 +132,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -154,7 +154,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -165,7 +165,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -176,7 +176,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -187,7 +187,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -198,7 +198,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 
     @Test
@@ -209,7 +209,7 @@ public class FormatValidatorTest
 
         assertFalse(v.validate(node.get("bad")));
         assertTrue(v.validate(node.get("good")));
-        assertTrue(v.getValidationErrors().isEmpty());
+        assertTrue(v.getMessages().isEmpty());
     }
 }
 

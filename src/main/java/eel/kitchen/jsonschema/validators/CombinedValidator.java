@@ -4,16 +4,14 @@ package eel.kitchen.jsonschema.validators;
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public final class CombinedValidator
-    implements Validator
+    extends AbstractValidator
 {
     private final Validator typeValidator;
     private final List<Validator> validators = new LinkedList<Validator>();
-    private final List<String> messages = new LinkedList<String>();
 
     public CombinedValidator(final LinkedList<Validator> validators)
     {
@@ -36,17 +34,11 @@ public final class CombinedValidator
 
         for (final Validator v: validators)
             if (!v.validate(node)) {
-                messages.addAll(v.getValidationErrors());
+                messages.addAll(v.getMessages());
                 return false;
             }
 
         return true;
-    }
-
-    @Override
-    public List<String> getValidationErrors()
-    {
-        return Collections.unmodifiableList(messages);
     }
 
     @Override

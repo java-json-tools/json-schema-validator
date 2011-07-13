@@ -1,6 +1,5 @@
 package eel.kitchen.jsonschema.validators.providers;
 
-import eel.kitchen.jsonschema.validators.EnumValidator;
 import eel.kitchen.jsonschema.validators.type.BooleanValidator;
 import org.codehaus.jackson.JsonNode;
 

@@ -84,7 +84,7 @@ public class BrokenSchemasTest
 
         assertFalse(v.validate(dummy));
 
-        ret = v.getValidationErrors();
+        ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -98,7 +98,7 @@ public class BrokenSchemasTest
 
         assertFalse(v.validate(dummy));
 
-        ret = v.getValidationErrors();
+        ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -112,7 +112,7 @@ public class BrokenSchemasTest
 
         assertFalse(v.validate(dummy));
 
-        ret = v.getValidationErrors();
+        ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -126,7 +126,7 @@ public class BrokenSchemasTest
 
         assertFalse(v.validate(dummy));
 
-        ret = v.getValidationErrors();
+        ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -140,7 +140,7 @@ public class BrokenSchemasTest
 
         assertFalse(v.validate(dummy));
 
-        ret = v.getValidationErrors();
+        ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -154,7 +154,7 @@ public class BrokenSchemasTest
 
         assertFalse(v.validate(dummy));
 
-        ret = v.getValidationErrors();
+        ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");

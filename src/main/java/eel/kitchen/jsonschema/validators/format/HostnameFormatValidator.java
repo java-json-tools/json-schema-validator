@@ -23,12 +23,12 @@ public final class HostnameFormatValidator
         final String[] parts = value.split("\\.");
         Matcher matcher;
 
-        validationErrors.clear();
+        messages.clear();
 
         for (final String part: parts) {
             matcher = hostnamePart.matcher(part);
             if (!matcher.matches()) {
-                validationErrors.add("string is not a valid hostname");
+                messages.add("string is not a valid hostname");
                 return false;
             }
         }

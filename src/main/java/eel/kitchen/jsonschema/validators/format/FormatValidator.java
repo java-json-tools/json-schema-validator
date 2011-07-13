@@ -1,8 +1,8 @@
 package eel.kitchen.jsonschema.validators.format;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.jsonschema.validators.type.AbstractTypeValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class FormatValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
     private static final Logger logger
         = LoggerFactory.getLogger(FormatValidator.class);
@@ -60,7 +60,7 @@ public final class FormatValidator
     public void setup()
         throws MalformedJasonSchemaException
     {
-        final JsonNode value = schemaNode.get("format");
+        final JsonNode value = schema.get("format");
 
         if (!value.isTextual())
             throw new MalformedJasonSchemaException("format node is not a "
@@ -72,7 +72,7 @@ public final class FormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         final String nodeType = JasonHelper.getNodeType(node);
 
@@ -106,20 +106,20 @@ public final class FormatValidator
         try {
             constructor = validatorClass.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException e) {
-            validationErrors.add("cannot find constructor: " + e.getMessage());
+            messages.add("cannot find constructor: " + e.getMessage());
             return false;
         }
 
         try {
-            v = constructor.newInstance(schemaNode);
+            v = constructor.newInstance(schema);
         } catch (Exception e) {
-            validationErrors.add(String.format("cannot instantiate validator: "
+            messages.add(String.format("cannot instantiate validator: "
                 + "%s: %s", e.getClass().getCanonicalName(), e.getMessage()));
             return false;
         }
 
         ret = v.validate(node);
-        validationErrors.addAll(v.getValidationErrors());
+        messages.addAll(v.getMessages());
         return ret;
     }
 }

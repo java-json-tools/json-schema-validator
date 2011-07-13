@@ -53,7 +53,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "number is strictly lower than the "
@@ -62,7 +62,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -76,7 +76,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "number equals to the minimum, "
@@ -85,7 +85,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -99,7 +99,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "number is strictly greater than the " +
@@ -108,7 +108,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -122,7 +122,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "number equals to the maximum, " +
@@ -131,7 +131,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -145,7 +145,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "number is not a multiple of the "
@@ -154,7 +154,7 @@ public class NumberValidatorTest
         validator = new NumberValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }

@@ -15,13 +15,13 @@ public final class RegexFormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         try {
             new Perl5Compiler().compile(node.getTextValue());
             return true;
         } catch (MalformedPatternException e) {
-            validationErrors.add("input is not a valid regular expression");
+            messages.add("input is not a valid regular expression");
             return false;
         }
     }

@@ -16,13 +16,13 @@ public final class EmailFormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         try {
             new InternetAddress(node.getTextValue());
             return true;
         } catch (AddressException e) {
-            validationErrors.add("string is not a valid email address");
+            messages.add("string is not a valid email address");
             return false;
         }
     }

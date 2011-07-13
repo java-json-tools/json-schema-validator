@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.apache.oro.text.regex.MalformedPatternException;
 import org.apache.oro.text.regex.Pattern;
 import org.apache.oro.text.regex.PatternMatcher;
@@ -26,16 +27,16 @@ import org.apache.oro.text.regex.Perl5Matcher;
 import org.codehaus.jackson.JsonNode;
 
 public final class StringValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
     private int minLength = 0, maxLength = Integer.MAX_VALUE;
 
     private Pattern pattern = null;
     private final PatternMatcher matcher = new Perl5Matcher();
 
-    public StringValidator(final JsonNode schemaNode)
+    public StringValidator(final JsonNode schema)
     {
-        super(schemaNode);
+        super(schema);
     }
 
     @Override
@@ -44,8 +45,8 @@ public final class StringValidator
     {
         JsonNode node;
 
-        if (schemaNode.has("minLength")) {
-            node = schemaNode.get("minLength");
+        if (schema.has("minLength")) {
+            node = schema.get("minLength");
             if (!node.isInt())
                 throw new MalformedJasonSchemaException("minLength should be " +
                     "an integer");
@@ -55,8 +56,8 @@ public final class StringValidator
                     "greater than or equal to 0");
         }
 
-        if (schemaNode.has("maxLength")) {
-            node = schemaNode.get("maxLength");
+        if (schema.has("maxLength")) {
+            node = schema.get("maxLength");
             if (!node.isInt())
                 throw new MalformedJasonSchemaException("maxLength should be " +
                     "an integer");
@@ -70,8 +71,8 @@ public final class StringValidator
             throw new MalformedJasonSchemaException("maxLength should be " +
                 "greater than or equal to minLength");
 
-        if (schemaNode.has("pattern")) {
-            node = schemaNode.get("pattern");
+        if (schema.has("pattern")) {
+            node = schema.get("pattern");
             if (!node.isTextual())
                 throw new MalformedJasonSchemaException("pattern should be a " +
                     "string");
@@ -93,12 +94,12 @@ public final class StringValidator
         final int len = value.length();
 
         if (len < minLength) {
-            validationErrors.add("string length is less than the required minimum");
+            messages.add("string length is less than the required minimum");
             return false;
         }
 
         if (len > maxLength) {
-            validationErrors.add("string length exceeds the required maximum");
+            messages.add("string length exceeds the required maximum");
             return false;
         }
 
@@ -108,7 +109,7 @@ public final class StringValidator
         if (matcher.contains(value, pattern))
             return true;
 
-        validationErrors.add("string does not match regular expression");
+        messages.add("string does not match regular expression");
 
         return false;
     }

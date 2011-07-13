@@ -22,13 +22,13 @@ public abstract class AbstractDateFormatValidator
     @Override
     public final boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         try {
             format.parse(node.getTextValue());
             return true;
         } catch (ParseException e) {
-            validationErrors.add(String.format("string is not a valid %s",
+            messages.add(String.format("string is not a valid %s",
                 desc));
             return false;
         }

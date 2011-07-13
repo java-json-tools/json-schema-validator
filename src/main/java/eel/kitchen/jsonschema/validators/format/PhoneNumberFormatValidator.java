@@ -21,12 +21,12 @@ public final class PhoneNumberFormatValidator
             .replaceAll(" ", "")
             .replaceAll("\\d", "");
 
-        validationErrors.clear();
+        messages.clear();
 
         if (transformed.isEmpty())
             return true;
 
-        validationErrors.add("string is not a recognized phone number");
+        messages.add("string is not a recognized phone number");
         return false;
     }
 }

@@ -18,14 +18,14 @@ public final class UnixEpochFormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         final BigInteger epoch = node.getDecimalValue().toBigInteger();
 
         if (ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
             return true;
 
-        validationErrors.add("epoch time would overflow");
+        messages.add("epoch time would overflow");
         return false;
     }
 }

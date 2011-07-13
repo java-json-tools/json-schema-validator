@@ -16,13 +16,13 @@ public final class IPv6FormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         try {
             Inet6Address.getByName(node.getTextValue());
             return true;
         } catch (UnknownHostException e) {
-            validationErrors.add("string is not a valid IPv6 address");
+            messages.add("string is not a valid IPv6 address");
             return false;
         }
     }

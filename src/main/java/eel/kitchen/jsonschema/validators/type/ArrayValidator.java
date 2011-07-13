@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ArraySchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.util.CollectionUtils;
@@ -27,7 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public final class ArrayValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
     private int minItems = 0, maxItems = Integer.MAX_VALUE;
     private boolean uniqueItems = false;
@@ -36,9 +37,9 @@ public final class ArrayValidator
     private boolean additionalItemsOK = true;
     private JsonNode additionalItems = EMPTY_SCHEMA;
 
-    public ArrayValidator(final JsonNode schemaNode)
+    public ArrayValidator(final JsonNode schema)
     {
-        super(schemaNode);
+        super(schema);
     }
 
     @Override
@@ -47,7 +48,7 @@ public final class ArrayValidator
     {
         JsonNode node;
 
-        node = schemaNode.get("minItems");
+        node = schema.get("minItems");
         if (node != null) {
             if (!node.isInt())
                 throw new MalformedJasonSchemaException("minItems should be " +
@@ -55,7 +56,7 @@ public final class ArrayValidator
             minItems = node.getIntValue();
         }
 
-        node = schemaNode.get("maxItems");
+        node = schema.get("maxItems");
         if (node != null) {
             if (!node.isInt())
                 throw new MalformedJasonSchemaException("maxItems should be " +
@@ -67,7 +68,7 @@ public final class ArrayValidator
             throw new MalformedJasonSchemaException("minItems should be less" +
                 " than or equal to maxItems");
 
-        node = schemaNode.get("uniqueItems");
+        node = schema.get("uniqueItems");
         if (node != null) {
             if (!node.isBoolean())
                 throw new MalformedJasonSchemaException("uniqueItems should " +
@@ -86,17 +87,17 @@ public final class ArrayValidator
         final int nrItems = node.size();
 
         if (nrItems < minItems) {
-            validationErrors.add("array has less than minItems elements");
+            messages.add("array has less than minItems elements");
             return false;
         }
 
         if (nrItems > maxItems) {
-            validationErrors.add("array has more than maxItems elements");
+            messages.add("array has more than maxItems elements");
             return false;
         }
 
         if (!additionalItemsOK && itemsTuples && nrItems > items.size()) {
-            validationErrors.add("array has extra elements, "
+            messages.add("array has extra elements, "
                 + "which the schema disallows");
             return false;
         }
@@ -107,7 +108,7 @@ public final class ArrayValidator
         try {
             CollectionUtils.toSet(node.getElements(), false);
         } catch (IllegalArgumentException e) {
-            validationErrors.add("items in the array are not unique");
+            messages.add("items in the array are not unique");
             return false;
         }
 
@@ -117,7 +118,7 @@ public final class ArrayValidator
     private void computeItems()
         throws MalformedJasonSchemaException
     {
-        final JsonNode node = schemaNode.get("items");
+        final JsonNode node = schema.get("items");
 
         if (node == null) {
             additionalItems = EMPTY_SCHEMA;
@@ -149,7 +150,7 @@ public final class ArrayValidator
     private void computeAdditionalItems()
         throws MalformedJasonSchemaException
     {
-        final JsonNode node = schemaNode.get("additionalItems");
+        final JsonNode node = schema.get("additionalItems");
 
         if (node == null)
             return;

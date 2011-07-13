@@ -53,7 +53,7 @@ public class ObjectValidatorTest
         validator = new ObjectValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "property p1 is required but was not found");
@@ -61,7 +61,7 @@ public class ObjectValidatorTest
         validator = new ObjectValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -75,7 +75,7 @@ public class ObjectValidatorTest
         validator = new ObjectValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "additional properties were found but " +
@@ -84,7 +84,7 @@ public class ObjectValidatorTest
         validator = new ObjectValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -98,7 +98,7 @@ public class ObjectValidatorTest
         validator = new ObjectValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "property p1 depends on p3, "
@@ -107,7 +107,7 @@ public class ObjectValidatorTest
         validator = new ObjectValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }

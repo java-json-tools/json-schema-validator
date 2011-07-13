@@ -16,13 +16,13 @@ public final class URIFormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         try {
             new URI(node.getTextValue());
             return true;
         } catch (URISyntaxException e) {
-            validationErrors.add("string is not a valid URI");
+            messages.add("string is not a valid URI");
             return false;
         }
     }

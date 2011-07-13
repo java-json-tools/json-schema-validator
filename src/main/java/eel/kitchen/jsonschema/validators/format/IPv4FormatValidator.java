@@ -16,13 +16,13 @@ public final class IPv4FormatValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         try {
             Inet4Address.getByName(node.getTextValue());
             return true;
         } catch (UnknownHostException e) {
-            validationErrors.add("string is not a valid IPv4 address");
+            messages.add("string is not a valid IPv4 address");
             return false;
         }
     }

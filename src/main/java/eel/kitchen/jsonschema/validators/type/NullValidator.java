@@ -17,14 +17,15 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 public final class NullValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
-    public NullValidator(final JsonNode schemaNode)
+    public NullValidator(final JsonNode schema)
     {
-        super(schemaNode);
+        super(schema);
     }
 
     @Override

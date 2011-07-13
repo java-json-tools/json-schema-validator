@@ -22,12 +22,12 @@ public final class CSSStyleValidator
         final String[] rules = node.getTextValue().split("\\s*;\\s*");
         Matcher matcher;
 
-        validationErrors.clear();
+        messages.clear();
 
         for (final String rule: rules) {
             matcher = pattern.matcher(rule);
             if (!matcher.lookingAt()) {
-                validationErrors.add("string is not a valid CSS 2.1 style");
+                messages.add("string is not a valid CSS 2.1 style");
                 return false;
             }
         }

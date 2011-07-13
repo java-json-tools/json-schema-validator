@@ -53,7 +53,7 @@ public class StringValidatorTest
         validator = new StringValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string length is less than the required " +
@@ -62,7 +62,7 @@ public class StringValidatorTest
         validator = new StringValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -76,7 +76,7 @@ public class StringValidatorTest
         validator = new StringValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string length exceeds the required maximum");
@@ -84,7 +84,7 @@ public class StringValidatorTest
         validator = new StringValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -98,7 +98,7 @@ public class StringValidatorTest
         validator = new StringValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string does not match regular expression");
@@ -106,7 +106,7 @@ public class StringValidatorTest
         validator = new StringValidator(node.get("schema"));
         validator.setup();
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }

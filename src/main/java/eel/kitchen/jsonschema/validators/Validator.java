@@ -24,11 +24,13 @@ import java.util.List;
 
 public interface Validator
 {
+    void setSchema(final JsonNode schema);
+
     void setup() throws MalformedJasonSchemaException;
 
     boolean validate(final JsonNode node);
 
-    List<String> getValidationErrors();
+    List<String> getMessages();
 
     SchemaProvider getSchemaProvider();
 }

@@ -67,7 +67,7 @@ public final class JasonSchema
         final List<String> messages = new ArrayList<String>();
 
         if (!v.validate(node)) {
-            for (final String message: v.getValidationErrors())
+            for (final String message: v.getMessages())
                 messages.add(String.format("%s: %s", path, message));
             return messages;
         }

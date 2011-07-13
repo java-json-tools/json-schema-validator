@@ -1,7 +1,6 @@
 package eel.kitchen.jsonschema.validators;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.type.AbstractTypeValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 
@@ -9,20 +8,20 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public final class EnumValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
     private final Collection<JsonNode> values = new HashSet<JsonNode>();
 
-    public EnumValidator(final JsonNode schemaNode)
+    public EnumValidator(final JsonNode schema)
     {
-        super(schemaNode);
+        super(schema);
     }
 
     @Override
     public void setup() throws MalformedJasonSchemaException
     {
-        final JsonNode node = schemaNode.get("enum");
-        final String expected = schemaNode.get("type").getTextValue();
+        final JsonNode node = schema.get("enum");
+        final String expected = schema.get("type").getTextValue();
 
         if (!node.isArray())
             throw new MalformedJasonSchemaException("enum is not an array");
@@ -43,12 +42,12 @@ public final class EnumValidator
     @Override
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
         if (values.contains(node))
             return true;
 
-        validationErrors.add("node does not match any value in the enumeration");
+        messages.add("node does not match any value in the enumeration");
         return false;
     }
 }

@@ -42,6 +42,6 @@ public final class TypeMismatchValidator
             message = String.format("node is of type %s, "
                 + "expected one of %s", actual, types);
         }
-        validationErrors.add(message);
+        messages.add(message);
     }
 }

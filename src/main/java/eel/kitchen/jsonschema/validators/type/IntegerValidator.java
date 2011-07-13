@@ -18,21 +18,22 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigInteger;
 
 public final class IntegerValidator
-    extends AbstractTypeValidator
+    extends AbstractValidator
 {
     private static final BigInteger ZERO = new BigInteger("0");
 
     private BigInteger minimum = null, maximum = null, divisor = null;
     private boolean exclusiveMinimum = false, exclusiveMaximum = false;
 
-    public IntegerValidator(final JsonNode schemaNode)
+    public IntegerValidator(final JsonNode schema)
     {
-        super(schemaNode);
+        super(schema);
     }
 
     @Override
@@ -41,7 +42,7 @@ public final class IntegerValidator
     {
         JsonNode node;
 
-        node = schemaNode.get("minimum");
+        node = schema.get("minimum");
 
         if (node != null) {
             if (!node.isIntegralNumber())
@@ -50,7 +51,7 @@ public final class IntegerValidator
             minimum = node.getBigIntegerValue();
         }
 
-        node = schemaNode.get("exclusiveMinimum");
+        node = schema.get("exclusiveMinimum");
 
         if (node != null) {
             if (!node.isBoolean())
@@ -59,7 +60,7 @@ public final class IntegerValidator
             exclusiveMinimum = node.getBooleanValue();
         }
 
-        node = schemaNode.get("maximum");
+        node = schema.get("maximum");
 
         if (node != null) {
             if (!node.isIntegralNumber())
@@ -68,7 +69,7 @@ public final class IntegerValidator
             maximum = node.getBigIntegerValue();
         }
 
-        node = schemaNode.get("exclusiveMaximum");
+        node = schema.get("exclusiveMaximum");
 
         if (node != null) {
             if (!node.isBoolean())
@@ -88,7 +89,7 @@ public final class IntegerValidator
                     "is excluded from matching");
         }
 
-        node = schemaNode.get("divisibleBy");
+        node = schema.get("divisibleBy");
 
         if (node != null) {
             if (!node.isIntegralNumber())
@@ -111,12 +112,12 @@ public final class IntegerValidator
         if (minimum != null) {
             tmp = value.compareTo(minimum);
             if (tmp < 0) {
-                validationErrors.add("integer is strictly lower than the "
+                messages.add("integer is strictly lower than the "
                     + "required minimum");
                 return false;
             }
             if (tmp == 0 && exclusiveMinimum) {
-                validationErrors.add("integer equals to the minimum, "
+                messages.add("integer equals to the minimum, "
                     + "but should be strictly greater than it");
                 return false;
             }
@@ -125,12 +126,12 @@ public final class IntegerValidator
         if (maximum != null) {
             tmp = value.compareTo(maximum);
             if (tmp > 0) {
-                validationErrors.add("integer is strictly greater than the "
+                messages.add("integer is strictly greater than the "
                     + "required maximum");
                 return false;
             }
             if (tmp == 0 && exclusiveMaximum) {
-                validationErrors.add("integer equals to the maximum, "
+                messages.add("integer equals to the maximum, "
                     + "but should be strictly lower than it");
                 return false;
             }
@@ -142,7 +143,7 @@ public final class IntegerValidator
         if (ZERO.equals(value.remainder(divisor)))
             return true;
 
-        validationErrors.add("integer is not a multiple of the declared divisor");
+        messages.add("integer is not a multiple of the declared divisor");
         return false;
     }
 }

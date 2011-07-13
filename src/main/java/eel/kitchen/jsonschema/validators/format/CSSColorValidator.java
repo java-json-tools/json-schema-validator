@@ -46,7 +46,7 @@ public final class CSSColorValidator
     {
         final String value = node.getTextValue();
 
-        validationErrors.clear();
+        messages.clear();
 
         if (colorNames.contains(value.toLowerCase()))
             return true;
@@ -61,14 +61,14 @@ public final class CSSColorValidator
         matcher = rgb.matcher(value);
 
         if (!matcher.lookingAt()) {
-            validationErrors.add("string is not a valid CSS 2.1 color");
+            messages.add("string is not a valid CSS 2.1 color");
             return false;
         }
 
         final String[] colors = matcher.group(1).split("\\s*,\\s*");
 
         if (colors.length != 3) {
-            validationErrors.add("string is not a valid CSS 2.1 color");
+            messages.add("string is not a valid CSS 2.1 color");
             return false;
         }
 
@@ -79,7 +79,7 @@ public final class CSSColorValidator
                 if ((i & ~USHORT_MAX) != 0)
                     throw new NumberFormatException("overflow");
             } catch (NumberFormatException e) {
-                validationErrors.add("string is not a valid CSS 2.1 color");
+                messages.add("string is not a valid CSS 2.1 color");
                 return false;
             }
         }

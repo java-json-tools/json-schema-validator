@@ -54,7 +54,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has less than minItems elements");
@@ -63,7 +63,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -78,7 +78,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has more than maxItems elements");
@@ -87,7 +87,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -102,7 +102,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "items in the array are not unique");
@@ -111,7 +111,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -126,7 +126,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has extra elements, "
@@ -136,7 +136,7 @@ public class ArrayValidatorTest
         validator.setup();
 
         ret = validator.validate(node.get("good"));
-        messages = validator.getValidationErrors();
+        messages = validator.getMessages();
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }

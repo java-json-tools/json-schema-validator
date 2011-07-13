@@ -23,7 +23,7 @@ public final class IllegalSchemaValidator
 
     public IllegalSchemaValidator(final Exception e)
     {
-        validationErrors.add(String.format("BROKEN SCHEMA: %s: %s",
+        messages.add(String.format("BROKEN SCHEMA: %s: %s",
             e.getClass().getSimpleName(), e.getMessage()));
     }
 }
