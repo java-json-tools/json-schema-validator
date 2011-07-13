@@ -8,6 +8,6 @@ public final class ArrayValidatorProvider
 {
     public ArrayValidatorProvider(final JsonNode schemaNode)
     {
-        super(schemaNode, "array", ArrayValidator.class);
+        super(schemaNode, "array", ArrayValidator.class, false, false);
     }
 }

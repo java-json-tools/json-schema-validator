@@ -1,8 +1,10 @@
 package eel.kitchen.jsonschema.validators.providers;
 
 import eel.kitchen.jsonschema.validators.CombinedValidator;
+import eel.kitchen.jsonschema.validators.EnumValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.IllegalSchemaValidator;
+import eel.kitchen.jsonschema.validators.format.FormatValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -22,8 +24,10 @@ public class AbstractValidatorProvider
     protected final List<Class<? extends Validator>> validatorList
         = new LinkedList<Class<? extends Validator>>();
 
+
     AbstractValidatorProvider(final JsonNode schemaNode, final String nodeType,
-        final Class<? extends Validator> typeValidator)
+        final Class<? extends Validator> typeValidator, final boolean hasEnum,
+        final boolean hasFormat)
     {
         this.nodeType = nodeType;
 
@@ -38,6 +42,10 @@ public class AbstractValidatorProvider
         this.typeValidator = typeValidator;
         validatorList.add(typeValidator);
 
+        if (hasEnum && schemaNode.has("enum"))
+            validatorList.add(EnumValidator.class);
+        if (hasFormat && schemaNode.has("format"))
+            validatorList.add(FormatValidator.class);
     }
 
     @Override

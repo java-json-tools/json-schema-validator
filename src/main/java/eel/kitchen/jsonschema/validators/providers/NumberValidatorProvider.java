@@ -10,11 +10,6 @@ public final class NumberValidatorProvider
 {
     public NumberValidatorProvider(final JsonNode schemaNode)
     {
-        super(schemaNode, "number", NumberValidator.class);
-
-        if (schemaNode.has("format"))
-            validatorList.add(FormatValidator.class);
-        if (schemaNode.has("enum"))
-            validatorList.add(EnumValidator.class);
+        super(schemaNode, "number", NumberValidator.class, true, true);
     }
 }

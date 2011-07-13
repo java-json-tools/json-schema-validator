@@ -10,11 +10,6 @@ public final class IntegerValidatorProvider
 {
     public IntegerValidatorProvider(final JsonNode schemaNode)
     {
-        super(schemaNode, "integer", IntegerValidator.class);
-
-        if (schemaNode.has("format"))
-            validatorList.add(FormatValidator.class);
-        if (schemaNode.has("enum"))
-            validatorList.add(EnumValidator.class);
+        super(schemaNode, "integer", IntegerValidator.class, true, true);
     }
 }

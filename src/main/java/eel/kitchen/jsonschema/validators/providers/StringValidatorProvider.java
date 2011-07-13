@@ -10,11 +10,6 @@ public final class StringValidatorProvider
 {
     public StringValidatorProvider(final JsonNode schemaNode)
     {
-        super(schemaNode, "string", StringValidator.class);
-
-        if (schemaNode.has("format"))
-            validatorList.add(FormatValidator.class);
-        if (schemaNode.has("enum"))
-            validatorList.add(EnumValidator.class);
+        super(schemaNode, "string", StringValidator.class, true, true);
     }
 }

@@ -9,9 +9,6 @@ public final class BooleanValidatorProvider
 {
     public BooleanValidatorProvider(final JsonNode schemaNode)
     {
-        super(schemaNode, "boolean", BooleanValidator.class);
-
-        if (schemaNode.has("enum"))
-            validatorList.add(EnumValidator.class);
+        super(schemaNode, "boolean", BooleanValidator.class, true, false);
     }
 }
