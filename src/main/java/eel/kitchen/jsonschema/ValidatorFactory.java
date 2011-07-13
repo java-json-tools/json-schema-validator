@@ -85,7 +85,7 @@ public final class ValidatorFactory
         final String type = JasonHelper.getNodeType(node);
         err = new MalformedJasonSchemaException("cannot determine node type");
 
-        if (type == null)
+        if ("unknown".equals(type))
             return new IllegalSchemaValidator(err);
 
         final Class<? extends ValidatorProvider> c = providers.get(type);
