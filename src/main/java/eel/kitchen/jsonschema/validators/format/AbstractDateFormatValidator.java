@@ -10,13 +10,13 @@ public abstract class AbstractDateFormatValidator
     extends AbstractValidator
 {
     private final SimpleDateFormat format;
-    private final String desc;
+    private final String errmsg;
 
     protected AbstractDateFormatValidator(final JsonNode ignored,
         final String fmt, final String desc)
     {
         format = new SimpleDateFormat(fmt);
-        this.desc = desc;
+        errmsg = String.format("value is not a valid %s", desc);
     }
 
     @Override
@@ -28,8 +28,7 @@ public abstract class AbstractDateFormatValidator
             format.parse(node.getTextValue());
             return true;
         } catch (ParseException e) {
-            messages.add(String.format("string is not a valid %s",
-                desc));
+            messages.add(errmsg);
             return false;
         }
     }

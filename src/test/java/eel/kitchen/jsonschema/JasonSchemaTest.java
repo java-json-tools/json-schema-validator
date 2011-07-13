@@ -91,7 +91,7 @@ public class JasonSchemaTest
             + "expected one of [string, integer]");
         assertEquals(messages.get(1), "$.[1]: integer is not a multiple of "
             + "the declared divisor");
-        assertEquals(messages.get(2), "$.[2]: string is not a valid date");
+        assertEquals(messages.get(2), "$.[2]: value is not a valid date");
 
         assertTrue(schema.validate(node.get("ok")));
         messages = schema.getValidationErrors();
