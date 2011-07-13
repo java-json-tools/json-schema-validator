@@ -161,7 +161,7 @@ public final class ArrayValidator
 
         if (!node.isObject())
             throw new MalformedJasonSchemaException("additionalItems is "
-                + "neither a boolean nor an array");
+                + "neither a boolean nor an object");
 
         additionalItems = node;
     }

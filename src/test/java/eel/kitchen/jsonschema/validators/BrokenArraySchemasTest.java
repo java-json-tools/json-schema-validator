@@ -113,7 +113,7 @@ public class BrokenArraySchemasTest
     @Test(
         expectedExceptions = MalformedJasonSchemaException.class,
         expectedExceptionsMessageRegExp = "^additionalItems is neither a "
-            + "boolean nor an array$"
+            + "boolean nor an object$"
     )
     public void testBrokenAdditionalItems()
         throws MalformedJasonSchemaException
