@@ -197,46 +197,52 @@ public final class ObjectValidator
     {
         messages.clear();
         final Set<String> fields = CollectionUtils.toSet(node.getFieldNames());
+        final Collection<String> set = new HashSet<String>();
 
-        /*
-         * Required
-         */
-        for (final String field: required)
-            if (!fields.contains(field))
+        set.addAll(required);
+        set.removeAll(fields);
+
+        if (!set.isEmpty())
+            for (final String field: set)
                 messages.add("property " + field + " is required "
                     + "but was not found");
 
-        for (final Map.Entry<String, Set<String>> entry: dependencies.entrySet()) {
+        set.clear();
+        set.addAll(dependencies.keySet());
+        set.retainAll(fields);
+        final Map<String, Set<String>> map
+            = new HashMap<String, Set<String>>(set.size());
+
+        for (final String dep: set)
+            map.put(dep, dependencies.get(dep));
+
+        for (final Map.Entry<String, Set<String>> entry: map.entrySet()) {
             final String field = entry.getKey();
-            final Set<String> deps = entry.getValue();
-            if (!fields.contains(field))
-                continue;
-            for (final String dep: deps) {
-                if (fields.contains(dep))
-                    continue;
+            set.clear();
+            set.addAll(entry.getValue());
+            set.removeAll(fields);
+            for (final String dep: set)
                 messages.add("property " + field + " depends on " + dep
                     + ", but the latter was not found");
-            }
         }
 
         fields.removeAll(properties.keySet());
 
-        final Set<String> matches = new HashSet<String>();
+        set.clear();
 
         for (final String field: fields)
             for (final String regex: patternProperties.keySet())
                 if (RhinoHelper.regMatch(regex, field)) {
-                    matches.add(field);
+                    set.add(field);
                     break;
                 }
 
-        fields.removeAll(matches);
+        fields.removeAll(set);
 
         if (additionalPropertiesOK || fields.isEmpty())
             return messages.isEmpty();
 
-        messages.add("additional properties were found but schema "
-            + "forbids them");
+        messages.add("additional properties were found but schema forbids them");
         return false;
     }
 
