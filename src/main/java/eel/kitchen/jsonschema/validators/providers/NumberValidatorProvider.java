@@ -1,13 +1,12 @@
 package eel.kitchen.jsonschema.validators.providers;
 
 import eel.kitchen.jsonschema.validators.type.NumberValidator;
-import org.codehaus.jackson.JsonNode;
 
 public final class NumberValidatorProvider
     extends AbstractValidatorProvider
 {
-    public NumberValidatorProvider(final JsonNode schemaNode)
+    public NumberValidatorProvider()
     {
-        super(schemaNode, "number", NumberValidator.class, true, true);
+        super("number", NumberValidator.class, true, true);
     }
 }

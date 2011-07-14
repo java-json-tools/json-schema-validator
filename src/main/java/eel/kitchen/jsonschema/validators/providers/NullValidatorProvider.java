@@ -1,13 +1,12 @@
 package eel.kitchen.jsonschema.validators.providers;
 
 import eel.kitchen.jsonschema.validators.type.NullValidator;
-import org.codehaus.jackson.JsonNode;
 
 public final class NullValidatorProvider
     extends AbstractValidatorProvider
 {
-    public NullValidatorProvider(final JsonNode schemaNode)
+    public NullValidatorProvider()
     {
-        super(schemaNode, "null", NullValidator.class, false, false);
+        super("null", NullValidator.class, false, false);
     }
 }

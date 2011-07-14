@@ -1,13 +1,12 @@
 package eel.kitchen.jsonschema.validators.providers;
 
 import eel.kitchen.jsonschema.validators.type.StringValidator;
-import org.codehaus.jackson.JsonNode;
 
 public final class StringValidatorProvider
     extends AbstractValidatorProvider
 {
-    public StringValidatorProvider(final JsonNode schemaNode)
+    public StringValidatorProvider()
     {
-        super(schemaNode, "string", StringValidator.class, true, true);
+        super("string", StringValidator.class, true, true);
     }
 }

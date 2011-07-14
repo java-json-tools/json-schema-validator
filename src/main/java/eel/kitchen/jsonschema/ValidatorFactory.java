@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
+import eel.kitchen.jsonschema.validators.errors.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.validators.errors.IllegalSchemaValidator;
 import eel.kitchen.jsonschema.validators.errors.TypeMismatchValidator;
 import eel.kitchen.jsonschema.validators.providers.ArrayValidatorProvider;
@@ -34,7 +35,6 @@ import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -63,18 +63,18 @@ public final class ValidatorFactory
         providers.put("null", NullValidatorProvider.class);
     }
 
-    public Validator getValidator(final JsonNode schemaNode, final JsonNode node)
+    public Validator getValidator(final JsonNode schema, final JsonNode node)
     {
         MalformedJasonSchemaException err;
 
         err = new MalformedJasonSchemaException("schema is null");
 
-        if (schemaNode == null)
+        if (schema == null)
             return new IllegalSchemaValidator(err);
 
         err = new MalformedJasonSchemaException("schema is not a JSON object");
 
-        if (!schemaNode.isObject())
+        if (!schema.isObject())
             return new IllegalSchemaValidator(err);
 
         err = new MalformedJasonSchemaException("node to validate is null");
@@ -89,26 +89,23 @@ public final class ValidatorFactory
             return new IllegalSchemaValidator(err);
 
         final Class<? extends ValidatorProvider> c = providers.get(type);
-        final Constructor<? extends ValidatorProvider> constructor;
         final ValidatorProvider provider;
 
-        final List<String> types = validatingTypes(schemaNode);
+        final List<String> types = validatingTypes(schema);
 
         if (!types.contains(type))
             return new TypeMismatchValidator(types, type);
 
         try {
-            constructor = c.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException e) {
-            logger.error("cannot find appropriate constructor for provider", e);
-            return new IllegalSchemaValidator(e);
+            provider = c.getConstructor().newInstance();
+        } catch (Exception e) {
+            logger.error("cannot instantiate validator provider", e);
+            return new AlwaysFalseValidator(String.format("cannot "
+                + "instantiate validator provider: %s: %s",
+                e.getClass().getCanonicalName(), e.getMessage()));
         }
 
-        try {
-            provider = constructor.newInstance(schemaNode);
-        } catch (Exception e) {
-            return new IllegalSchemaValidator(e);
-        }
+        provider.setSchema(schema);
 
         final Validator validator = provider.getValidator();
         try {

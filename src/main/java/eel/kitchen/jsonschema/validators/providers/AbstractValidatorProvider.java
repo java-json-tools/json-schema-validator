@@ -37,14 +37,6 @@ public abstract class AbstractValidatorProvider
         this.hasFormat = hasFormat;
     }
 
-    protected AbstractValidatorProvider(final JsonNode schema,
-        final String nodeType, final Class<? extends Validator> typeValidator,
-        final boolean hasEnum, final boolean hasFormat)
-    {
-        this(nodeType, typeValidator, hasEnum, hasFormat);
-        setSchema(schema);
-    }
-
     @Override
     public final void setSchema(final JsonNode schema)
     {
