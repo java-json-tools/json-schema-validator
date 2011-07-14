@@ -14,7 +14,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0</version>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
@@ -23,7 +22,6 @@
             <plugin>
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
-                <version>1.6.1</version>
                 <configuration>
                     <header>src/main/resources/header.txt</header>
                 </configuration>
@@ -39,7 +37,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.7</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -77,11 +74,6 @@
             <version>1.8.3</version>
             <type>jar</type>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
