@@ -12,14 +12,6 @@ public final class HostnameFormatValidator
     private static final Pattern hostnamePart
         = Pattern.compile("^[a-z0-9]+(-[a-z0-9]+)*$", Pattern.CASE_INSENSITIVE);
 
-    public HostnameFormatValidator(final JsonNode ignored)
-    {
-    }
-
-    public HostnameFormatValidator()
-    {
-    }
-
     @Override
     public boolean validate(final JsonNode node)
     {

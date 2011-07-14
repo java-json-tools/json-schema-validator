@@ -31,19 +31,10 @@ public final class CSSColorValidator
         "white"
     );
 
+    private static final int USHORT_MAX = (1 << 8) - 1;
     private static final Pattern
         hash = Pattern.compile("^#[\\da-f]{1,6}$", Pattern.CASE_INSENSITIVE),
         rgb = Pattern.compile("^rgb\\(([^)]+)\\)$");
-
-    public CSSColorValidator()
-    {
-    }
-
-    private static final int USHORT_MAX = (1 << 8) - 1;
-
-    public CSSColorValidator(final JsonNode ignored)
-    {
-    }
 
     @Override
     public boolean validate(final JsonNode node)

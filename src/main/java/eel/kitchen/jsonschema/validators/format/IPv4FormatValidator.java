@@ -9,14 +9,6 @@ import java.net.UnknownHostException;
 public final class IPv4FormatValidator
     extends AbstractValidator
 {
-    public IPv4FormatValidator(final JsonNode ignored)
-    {
-    }
-
-    public IPv4FormatValidator()
-    {
-    }
-
     @Override
     public boolean validate(final JsonNode node)
     {

@@ -7,14 +7,6 @@ import org.codehaus.jackson.JsonNode;
 public final class RegexFormatValidator
     extends AbstractValidator
 {
-    public RegexFormatValidator(final JsonNode ignored)
-    {
-    }
-
-    public RegexFormatValidator()
-    {
-    }
-
     @Override
     public boolean validate(final JsonNode node)
     {

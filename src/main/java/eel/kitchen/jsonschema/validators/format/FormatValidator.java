@@ -41,11 +41,6 @@ public final class FormatValidator
         registerFormat("string", URIFormatValidator.class);
     }
 
-    public FormatValidator(final JsonNode schemaNode)
-    {
-        super(schemaNode);
-    }
-
     public FormatValidator()
     {
     }

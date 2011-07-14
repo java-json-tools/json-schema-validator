@@ -6,14 +6,6 @@ import org.codehaus.jackson.JsonNode;
 public final class PhoneNumberFormatValidator
     extends AbstractValidator
 {
-    public PhoneNumberFormatValidator(final JsonNode ignored)
-    {
-    }
-
-    public PhoneNumberFormatValidator()
-    {
-    }
-
     @Override
     public boolean validate(final JsonNode node)
     {

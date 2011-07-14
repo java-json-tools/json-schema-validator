@@ -12,13 +12,6 @@ public abstract class AbstractDateFormatValidator
     private final SimpleDateFormat format;
     private final String errmsg;
 
-    protected AbstractDateFormatValidator(final JsonNode ignored,
-        final String fmt, final String desc)
-    {
-        format = new SimpleDateFormat(fmt);
-        errmsg = String.format("value is not a valid %s", desc);
-    }
-
     protected AbstractDateFormatValidator(final String fmt, final String desc)
     {
         format = new SimpleDateFormat(fmt);

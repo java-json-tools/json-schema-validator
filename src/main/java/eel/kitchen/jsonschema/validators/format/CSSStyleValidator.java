@@ -12,14 +12,6 @@ public final class CSSStyleValidator
     private static final Pattern pattern
         = Pattern.compile("^\\s*[^:]+\\s*:\\s*[^;]+$", Pattern.CASE_INSENSITIVE);
 
-    public CSSStyleValidator(final JsonNode ignored)
-    {
-    }
-
-    public CSSStyleValidator()
-    {
-    }
-
     @Override
     public boolean validate(final JsonNode node)
     {
