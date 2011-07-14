@@ -22,11 +22,7 @@ import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ObjectSchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.util.CollectionUtils;
-import org.apache.oro.text.regex.MalformedPatternException;
-import org.apache.oro.text.regex.Pattern;
-import org.apache.oro.text.regex.PatternMatcher;
-import org.apache.oro.text.regex.Perl5Compiler;
-import org.apache.oro.text.regex.Perl5Matcher;
+import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collection;
@@ -45,8 +41,8 @@ public final class ObjectValidator
         = new HashMap<String, Set<String>>();
     private final Map<String, JsonNode> properties
         = new HashMap<String, JsonNode>();
-    private final Map<Pattern, JsonNode> patternProperties
-        = new HashMap<Pattern, JsonNode>();
+    private final Map<String, JsonNode> patternProperties
+        = new HashMap<String, JsonNode>();
 
     public ObjectValidator(final JsonNode schema)
     {
@@ -185,24 +181,19 @@ public final class ObjectValidator
 
         final Map<String, JsonNode> map = CollectionUtils.toMap(node.getFields());
 
-        final Perl5Compiler compiler = new Perl5Compiler();
         String regex;
-        Pattern pattern;
         JsonNode value;
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             regex = entry.getKey();
             value = entry.getValue();
-            try {
-                pattern = compiler.compile(regex);
-            } catch (MalformedPatternException e) {
+            if (!RhinoHelper.regexIsValid(regex))
                 throw new MalformedJasonSchemaException("invalid regex found " +
-                    "in patternProperties", e);
-            }
+                    "in patternProperties");
             if (!value.isObject())
                 throw new MalformedJasonSchemaException("values from " +
                     "patternProperties should be objects");
-            patternProperties.put(pattern, value);
+            patternProperties.put(regex, value);
         }
     }
 
@@ -234,12 +225,11 @@ public final class ObjectValidator
 
         fields.removeAll(properties.keySet());
 
-        final PatternMatcher matcher = new Perl5Matcher();
         final Set<String> matches = new HashSet<String>();
 
         for (final String field: fields)
-            for (final Pattern pattern: patternProperties.keySet())
-                if (matcher.contains(field, pattern)) {
+            for (final String regex: patternProperties.keySet())
+                if (RhinoHelper.regMatch(regex, field)) {
                     matches.add(field);
                     break;
                 }

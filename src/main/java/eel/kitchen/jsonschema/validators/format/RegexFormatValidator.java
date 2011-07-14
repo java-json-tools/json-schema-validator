@@ -1,8 +1,7 @@
 package eel.kitchen.jsonschema.validators.format;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
-import org.apache.oro.text.regex.MalformedPatternException;
-import org.apache.oro.text.regex.Perl5Compiler;
+import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 public final class RegexFormatValidator
@@ -17,12 +16,10 @@ public final class RegexFormatValidator
     {
         messages.clear();
 
-        try {
-            new Perl5Compiler().compile(node.getTextValue());
+        if (RhinoHelper.regexIsValid(node.getTextValue()))
             return true;
-        } catch (MalformedPatternException e) {
-            messages.add("input is not a valid regular expression");
-            return false;
-        }
+
+        messages.add("input is not a valid regular expression");
+        return false;
     }
 }

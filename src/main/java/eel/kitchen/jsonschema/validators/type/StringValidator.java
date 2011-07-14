@@ -19,20 +19,14 @@ package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
-import org.apache.oro.text.regex.MalformedPatternException;
-import org.apache.oro.text.regex.Pattern;
-import org.apache.oro.text.regex.PatternMatcher;
-import org.apache.oro.text.regex.Perl5Compiler;
-import org.apache.oro.text.regex.Perl5Matcher;
+import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 public final class StringValidator
     extends AbstractValidator
 {
     private int minLength = 0, maxLength = Integer.MAX_VALUE;
-
-    private Pattern pattern = null;
-    private final PatternMatcher matcher = new Perl5Matcher();
+    private String regex = null;
 
     public StringValidator(final JsonNode schema)
     {
@@ -76,13 +70,10 @@ public final class StringValidator
             if (!node.isTextual())
                 throw new MalformedJasonSchemaException("pattern should be a " +
                     "string");
-            final String regex = node.getTextValue();
-            try {
-                pattern = new Perl5Compiler().compile(regex);
-            } catch (MalformedPatternException e) {
+            regex = node.getTextValue();
+            if (!RhinoHelper.regexIsValid(regex))
                 throw new MalformedJasonSchemaException("pattern is an " +
-                    "invalid regular expression", e);
-            }
+                    "invalid regular expression");
         }
     }
 
@@ -103,10 +94,10 @@ public final class StringValidator
             return false;
         }
 
-        if (pattern == null)
+        if (regex == null)
             return true;
 
-        if (matcher.contains(value, pattern))
+        if (RhinoHelper.regMatch(regex, value))
             return true;
 
         messages.add("string does not match regular expression");

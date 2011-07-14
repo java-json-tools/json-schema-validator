@@ -1,8 +1,6 @@
 package eel.kitchen.jsonschema.validators;
 
-import org.apache.oro.text.regex.Pattern;
-import org.apache.oro.text.regex.PatternMatcher;
-import org.apache.oro.text.regex.Perl5Matcher;
+import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.HashMap;
@@ -13,13 +11,12 @@ public final class ObjectSchemaProvider
 {
     private final Map<String, JsonNode> properties
         = new HashMap<String, JsonNode>();
-    private final Map<Pattern, JsonNode> patternProperties
-        = new HashMap<Pattern, JsonNode>();
+    private final Map<String, JsonNode> patternProperties
+        = new HashMap<String, JsonNode>();
     private final JsonNode additionalProperties;
-    private final PatternMatcher matcher = new Perl5Matcher();
 
     public ObjectSchemaProvider(final Map<String, JsonNode> properties,
-        final Map<Pattern, JsonNode> patternProperties,
+        final Map<String, JsonNode> patternProperties,
         final JsonNode additionalProperties)
     {
         this.properties.putAll(properties);
@@ -33,9 +30,9 @@ public final class ObjectSchemaProvider
         if (properties.containsKey(path))
             return properties.get(path);
 
-        for (final Pattern pattern: patternProperties.keySet())
-            if (matcher.contains(path, pattern))
-                return patternProperties.get(pattern);
+        for (final String regex: patternProperties.keySet())
+            if (RhinoHelper.regMatch(regex, path))
+                return patternProperties.get(regex);
 
         return additionalProperties;
     }
