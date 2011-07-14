@@ -3,14 +3,13 @@ package eel.kitchen.jsonschema.validators.providers;
 import eel.kitchen.jsonschema.validators.CombinedValidator;
 import eel.kitchen.jsonschema.validators.EnumValidator;
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.jsonschema.validators.errors.IllegalSchemaValidator;
+import eel.kitchen.jsonschema.validators.errors.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.validators.format.FormatValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
-import java.lang.reflect.Constructor;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -55,16 +54,17 @@ public class AbstractValidatorProvider
             = new LinkedList<Validator>();
 
         Validator v;
-        Constructor<? extends Validator> constructor;
 
         for (final Class<? extends Validator> c: validatorList) {
             try {
-                constructor = c.getConstructor(JsonNode.class);
-                v = constructor.newInstance(schemaNode);
-                validators.add(v);
+                v = c.getConstructor().newInstance();
             } catch (Exception e) {
-                return new IllegalSchemaValidator(e);
+                return new AlwaysFalseValidator(String.format("cannot "
+                    + "instantiate validator: %s: %s",
+                    e.getClass().getCanonicalName(), e.getMessage()));
             }
+            v.setSchema(schemaNode);
+            validators.add(v);
         }
         return new CombinedValidator(validators);
     }

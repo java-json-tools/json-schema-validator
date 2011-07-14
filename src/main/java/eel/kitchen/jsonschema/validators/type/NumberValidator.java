@@ -36,6 +36,10 @@ public final class NumberValidator
         super(schema);
     }
 
+    public NumberValidator()
+    {
+    }
+
     @Override
     public void setup()
         throws MalformedJasonSchemaException

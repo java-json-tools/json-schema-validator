@@ -31,6 +31,10 @@ public final class IntegerValidator
     private BigInteger minimum = null, maximum = null, divisor = null;
     private boolean exclusiveMinimum = false, exclusiveMaximum = false;
 
+    public IntegerValidator()
+    {
+    }
+
     public IntegerValidator(final JsonNode schema)
     {
         super(schema);

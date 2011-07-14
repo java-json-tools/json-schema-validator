@@ -47,6 +47,10 @@ public final class FormatValidator
         super(schemaNode);
     }
 
+    public FormatValidator()
+    {
+    }
+
     private static void registerFormat(final String type,
         final Class<? extends Validator> validator)
     {

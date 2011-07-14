@@ -24,7 +24,7 @@ import java.util.List;
 
 public interface Validator
 {
-    void setSchema(final JsonNode schema);
+    Validator setSchema(final JsonNode schema);
 
     void setup() throws MalformedJasonSchemaException;
 

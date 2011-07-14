@@ -17,6 +17,10 @@ public final class EnumValidator
         super(schema);
     }
 
+    public EnumValidator()
+    {
+    }
+
     @Override
     public void setup() throws MalformedJasonSchemaException
     {

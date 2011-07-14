@@ -37,6 +37,10 @@ public final class ArrayValidator
     private boolean additionalItemsOK = true;
     private JsonNode additionalItems = EMPTY_SCHEMA;
 
+    public ArrayValidator()
+    {
+    }
+
     public ArrayValidator(final JsonNode schema)
     {
         super(schema);

@@ -28,6 +28,10 @@ public final class NullValidator
         super(schema);
     }
 
+    public NullValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

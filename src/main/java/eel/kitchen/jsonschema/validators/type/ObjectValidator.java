@@ -49,6 +49,10 @@ public final class ObjectValidator
         super(schema);
     }
 
+    public ObjectValidator()
+    {
+    }
+
     @Override
     public void setup()
         throws MalformedJasonSchemaException

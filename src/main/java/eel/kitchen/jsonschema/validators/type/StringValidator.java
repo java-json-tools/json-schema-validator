@@ -33,6 +33,10 @@ public final class StringValidator
         super(schema);
     }
 
+    public StringValidator()
+    {
+    }
+
     @Override
     public void setup()
         throws MalformedJasonSchemaException

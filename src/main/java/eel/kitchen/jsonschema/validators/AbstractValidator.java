@@ -52,9 +52,10 @@ public abstract class AbstractValidator
     }
 
     @Override
-    public void setSchema(final JsonNode schema)
+    public final Validator setSchema(final JsonNode schema)
     {
         this.schema = schema;
+        return this;
     }
 
     @Override
