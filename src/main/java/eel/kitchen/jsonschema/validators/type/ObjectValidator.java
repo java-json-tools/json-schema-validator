@@ -44,15 +44,6 @@ public final class ObjectValidator
     private final Map<String, JsonNode> patternProperties
         = new HashMap<String, JsonNode>();
 
-    public ObjectValidator(final JsonNode schema)
-    {
-        super(schema);
-    }
-
-    public ObjectValidator()
-    {
-    }
-
     @Override
     public void setup()
         throws MalformedJasonSchemaException
@@ -204,6 +195,7 @@ public final class ObjectValidator
     @Override
     public boolean validate(final JsonNode node)
     {
+        messages.clear();
         final Set<String> fields = CollectionUtils.toSet(node.getFieldNames());
 
         /*

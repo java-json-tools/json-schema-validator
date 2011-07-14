@@ -28,15 +28,6 @@ public final class StringValidator
     private int minLength = 0, maxLength = Integer.MAX_VALUE;
     private String regex = null;
 
-    public StringValidator(final JsonNode schema)
-    {
-        super(schema);
-    }
-
-    public StringValidator()
-    {
-    }
-
     @Override
     public void setup()
         throws MalformedJasonSchemaException
@@ -87,6 +78,8 @@ public final class StringValidator
     {
         final String value = node.getTextValue();
         final int len = value.length();
+
+        messages.clear();
 
         if (len < minLength) {
             messages.add("string length is less than the required minimum");

@@ -31,15 +31,6 @@ public final class NumberValidator
     private BigDecimal minimum = null, maximum = null, divisor = null;
     private boolean exclusiveMinimum = false, exclusiveMaximum = false;
 
-    public NumberValidator(final JsonNode schema)
-    {
-        super(schema);
-    }
-
-    public NumberValidator()
-    {
-    }
-
     @Override
     public void setup()
         throws MalformedJasonSchemaException
@@ -109,6 +100,7 @@ public final class NumberValidator
     @Override
     public boolean validate(final JsonNode node)
     {
+        messages.clear();
         final BigDecimal value = node.getDecimalValue();
 
         int tmp;

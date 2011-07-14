@@ -44,7 +44,7 @@ public class BrokenArraySchemasTest
     public void testBrokenMinItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("broken-minItems")).setup();
+        new ArrayValidator().setSchema(schemas.get("broken-minItems")).setup();
     }
 
     @Test(
@@ -54,7 +54,7 @@ public class BrokenArraySchemasTest
     public void testBrokenMaxItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("broken-maxItems")).setup();
+        new ArrayValidator().setSchema(schemas.get("broken-maxItems")).setup();
     }
 
     @Test(
@@ -65,7 +65,7 @@ public class BrokenArraySchemasTest
     public void testInvertedMinMax()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("inverted-minmax")).setup();
+        new ArrayValidator().setSchema(schemas.get("inverted-minmax")).setup();
     }
 
     @Test(
@@ -75,7 +75,7 @@ public class BrokenArraySchemasTest
     public void testBrokenUniqueItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("broken-uniqueItems")).setup();
+        new ArrayValidator().setSchema(schemas.get("broken-uniqueItems")).setup();
     }
 
     @Test(
@@ -86,7 +86,7 @@ public class BrokenArraySchemasTest
     public void testBrokenItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("broken-items")).setup();
+        new ArrayValidator().setSchema(schemas.get("broken-items")).setup();
     }
 
     @Test(
@@ -97,7 +97,7 @@ public class BrokenArraySchemasTest
     public void testBrokenItemsValue()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("broken-items-value")).setup();
+        new ArrayValidator().setSchema(schemas.get("broken-items-value")).setup();
     }
 
     @Test(
@@ -107,7 +107,7 @@ public class BrokenArraySchemasTest
     public void testEmptyItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("empty-items")).setup();
+        new ArrayValidator().setSchema(schemas.get("empty-items")).setup();
     }
 
     @Test(
@@ -118,7 +118,8 @@ public class BrokenArraySchemasTest
     public void testBrokenAdditionalItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("broken-additionalItems")).setup();
+        new ArrayValidator().setSchema(schemas.get("broken-additionalItems"))
+            .setup();
     }
 
     @Test(
@@ -129,7 +130,7 @@ public class BrokenArraySchemasTest
     public void testIncoherentMinItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("incoherent-minItems")).setup();
+        new ArrayValidator().setSchema(schemas.get("incoherent-minItems")).setup();
     }
 
     @Test(
@@ -140,6 +141,6 @@ public class BrokenArraySchemasTest
     public void testIncoherentMaxItems()
         throws MalformedJasonSchemaException
     {
-        new ArrayValidator(schemas.get("incoherent-maxItems")).setup();
+        new ArrayValidator().setSchema(schemas.get("incoherent-maxItems")).setup();
     }
 }

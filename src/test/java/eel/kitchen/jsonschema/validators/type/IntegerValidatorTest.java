@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
@@ -33,7 +34,7 @@ import static org.testng.Assert.assertTrue;
 public class IntegerValidatorTest
 {
     private JsonNode testNode, node;
-    private IntegerValidator validator;
+    private Validator validator;
     private boolean ret;
     private List<String> messages;
 
@@ -50,8 +51,9 @@ public class IntegerValidatorTest
     {
         node = testNode.get("minimum");
 
-        validator = new IntegerValidator(node.get("schema"));
+        validator = new IntegerValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -59,8 +61,6 @@ public class IntegerValidatorTest
         assertEquals(messages.get(0), "integer is strictly lower than the "
             + "required minimum");
 
-        validator = new IntegerValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -74,8 +74,9 @@ public class IntegerValidatorTest
     {
         node = testNode.get("exclusiveMinimum");
 
-        validator = new IntegerValidator(node.get("schema"));
+        validator = new IntegerValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -83,8 +84,6 @@ public class IntegerValidatorTest
         assertEquals(messages.get(0), "integer equals to the minimum, " +
             "but should be strictly greater than it");
 
-        validator = new IntegerValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -97,8 +96,9 @@ public class IntegerValidatorTest
     {
         node = testNode.get("maximum");
 
-        validator = new IntegerValidator(node.get("schema"));
+        validator = new IntegerValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -106,8 +106,6 @@ public class IntegerValidatorTest
         assertEquals(messages.get(0),
             "integer is strictly greater than the " + "required maximum");
 
-        validator = new IntegerValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -120,8 +118,9 @@ public class IntegerValidatorTest
     {
         node = testNode.get("exclusiveMaximum");
 
-        validator = new IntegerValidator(node.get("schema"));
+        validator = new IntegerValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -129,8 +128,6 @@ public class IntegerValidatorTest
         assertEquals(messages.get(0), "integer equals to the maximum, " +
             "but should be strictly lower than it");
 
-        validator = new IntegerValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -143,8 +140,9 @@ public class IntegerValidatorTest
     {
         node = testNode.get("divisibleBy");
 
-        validator = new IntegerValidator(node.get("schema"));
+        validator = new IntegerValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -152,8 +150,6 @@ public class IntegerValidatorTest
         assertEquals(messages.get(0), "integer is not a multiple of the "
             + "declared divisor");
 
-        validator = new IntegerValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);

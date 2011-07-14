@@ -37,15 +37,6 @@ public final class ArrayValidator
     private boolean additionalItemsOK = true;
     private JsonNode additionalItems = EMPTY_SCHEMA;
 
-    public ArrayValidator()
-    {
-    }
-
-    public ArrayValidator(final JsonNode schema)
-    {
-        super(schema);
-    }
-
     @Override
     public void setup()
         throws MalformedJasonSchemaException
@@ -88,6 +79,7 @@ public final class ArrayValidator
     @Override
     public boolean validate(final JsonNode node)
     {
+        messages.clear();
         final int nrItems = node.size();
 
         if (nrItems < minItems) {
@@ -101,8 +93,7 @@ public final class ArrayValidator
         }
 
         if (!additionalItemsOK && itemsTuples && nrItems > items.size()) {
-            messages.add("array has extra elements, "
-                + "which the schema disallows");
+            messages.add("array has extra elements, which the schema disallows");
             return false;
         }
 

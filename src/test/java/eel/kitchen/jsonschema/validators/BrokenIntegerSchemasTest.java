@@ -44,7 +44,7 @@ public class BrokenIntegerSchemasTest
     public void testBrokenMinimum()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("broken-minimum")).setup();
+        new IntegerValidator().setSchema(schemas.get("broken-minimum")).setup();
     }
 
     @Test(
@@ -54,7 +54,7 @@ public class BrokenIntegerSchemasTest
     public void testBrokenExclusiveMinimum()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("broken-exclusiveMinimum"))
+        new IntegerValidator().setSchema(schemas.get("broken-exclusiveMinimum"))
             .setup();
     }
 
@@ -65,7 +65,7 @@ public class BrokenIntegerSchemasTest
     public void testBrokenMaximum()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("broken-maximum")).setup();
+        new IntegerValidator().setSchema(schemas.get("broken-maximum")).setup();
     }
 
     @Test(
@@ -75,7 +75,7 @@ public class BrokenIntegerSchemasTest
     public void testBrokenExclusiveMaximum()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("broken-exclusiveMaximum"))
+        new IntegerValidator().setSchema(schemas.get("broken-exclusiveMaximum"))
             .setup();
     }
 
@@ -87,7 +87,7 @@ public class BrokenIntegerSchemasTest
     public void testInvertedMinMax()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("inverted-minmax")).setup();
+        new IntegerValidator().setSchema(schemas.get("inverted-minmax")).setup();
     }
 
     @Test(
@@ -99,7 +99,7 @@ public class BrokenIntegerSchemasTest
     public void testImpossibleMatch()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("impossible-match")).setup();
+        new IntegerValidator().setSchema(schemas.get("impossible-match")).setup();
     }
 
     @Test(
@@ -109,7 +109,7 @@ public class BrokenIntegerSchemasTest
     public void testBrokenDivisor()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("broken-divisor")).setup();
+        new IntegerValidator().setSchema(schemas.get("broken-divisor")).setup();
     }
 
     @Test(
@@ -119,6 +119,6 @@ public class BrokenIntegerSchemasTest
     public void testZeroDivisor()
         throws MalformedJasonSchemaException
     {
-        new IntegerValidator(schemas.get("zero-divisor")).setup();
+        new IntegerValidator().setSchema(schemas.get("zero-divisor")).setup();
     }
 }

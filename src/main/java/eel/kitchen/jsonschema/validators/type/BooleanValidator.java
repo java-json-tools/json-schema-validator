@@ -23,15 +23,6 @@ import org.codehaus.jackson.JsonNode;
 public final class BooleanValidator
     extends AbstractValidator
 {
-    public BooleanValidator()
-    {
-    }
-
-    public BooleanValidator(final JsonNode schema)
-    {
-        super(schema);
-    }
-
     @Override
     public boolean validate(final JsonNode node)
     {

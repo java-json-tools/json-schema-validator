@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
@@ -33,7 +34,7 @@ import static org.testng.Assert.assertTrue;
 public class ObjectValidatorTest
 {
     private JsonNode testNode, node;
-    private ObjectValidator validator;
+    private Validator validator;
     private boolean ret;
     private List<String> messages;
 
@@ -50,16 +51,15 @@ public class ObjectValidatorTest
     {
         node = testNode.get("required");
 
-        validator = new ObjectValidator(node.get("schema"));
+        validator = new ObjectValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "property p1 is required but was not found");
 
-        validator = new ObjectValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -72,8 +72,9 @@ public class ObjectValidatorTest
     {
         node = testNode.get("noAdditional");
 
-        validator = new ObjectValidator(node.get("schema"));
+        validator = new ObjectValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -81,8 +82,6 @@ public class ObjectValidatorTest
         assertEquals(messages.get(0), "additional properties were found but " +
             "schema forbids them");
 
-        validator = new ObjectValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -95,8 +94,9 @@ public class ObjectValidatorTest
     {
         node = testNode.get("dependencies");
 
-        validator = new ObjectValidator(node.get("schema"));
+        validator = new ObjectValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -104,8 +104,6 @@ public class ObjectValidatorTest
         assertEquals(messages.get(0), "property p1 depends on p3, "
             + "but the latter was not found");
 
-        validator = new ObjectValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);

@@ -44,7 +44,7 @@ public class BrokenStringSchemasTest
     public void testBrokenMinLength()
         throws MalformedJasonSchemaException
     {
-        new StringValidator(schemas.get("broken-minLength")).setup();
+        new StringValidator().setSchema(schemas.get("broken-minLength")).setup();
     }
 
     @Test(
@@ -55,7 +55,7 @@ public class BrokenStringSchemasTest
     public void testNegativeMinLength()
         throws MalformedJasonSchemaException
     {
-        new StringValidator(schemas.get("negative-minLength")).setup();
+        new StringValidator().setSchema(schemas.get("negative-minLength")).setup();
     }
 
     @Test(
@@ -65,7 +65,7 @@ public class BrokenStringSchemasTest
     public void testBrokenMaxLength()
         throws MalformedJasonSchemaException
     {
-        new StringValidator(schemas.get("broken-maxLength")).setup();
+        new StringValidator().setSchema(schemas.get("broken-maxLength")).setup();
     }
 
     @Test(
@@ -76,7 +76,7 @@ public class BrokenStringSchemasTest
     public void testNegativeMaxLength()
         throws MalformedJasonSchemaException
     {
-        new StringValidator(schemas.get("negative-maxLength")).setup();
+        new StringValidator().setSchema(schemas.get("negative-maxLength")).setup();
     }
 
     @Test(
@@ -87,7 +87,7 @@ public class BrokenStringSchemasTest
     public void testInvertedMinMax()
         throws MalformedJasonSchemaException
     {
-        new StringValidator(schemas.get("inverted-minmax")).setup();
+        new StringValidator().setSchema(schemas.get("inverted-minmax")).setup();
     }
 
     @Test(
@@ -97,7 +97,7 @@ public class BrokenStringSchemasTest
     public void testBrokenPatternType()
         throws MalformedJasonSchemaException
     {
-        new StringValidator(schemas.get("broken-pattern-type"))
+        new StringValidator().setSchema(schemas.get("broken-pattern-type"))
             .setup();
     }
 
@@ -109,6 +109,6 @@ public class BrokenStringSchemasTest
     public void testIllegalPattern()
         throws MalformedJasonSchemaException
     {
-        new StringValidator(schemas.get("illegal-pattern")).setup();
+        new StringValidator().setSchema(schemas.get("illegal-pattern")).setup();
     }
 }

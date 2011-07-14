@@ -44,7 +44,7 @@ public class BrokenObjectSchemasTest
     public void testBrokenProperties()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-properties")).setup();
+        new ObjectValidator().setSchema(schemas.get("broken-properties")).setup();
     }
 
     @Test(
@@ -55,7 +55,7 @@ public class BrokenObjectSchemasTest
     public void testBrokenProperty()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-property")).setup();
+        new ObjectValidator().setSchema(schemas.get("broken-property")).setup();
     }
 
     @Test(
@@ -65,7 +65,7 @@ public class BrokenObjectSchemasTest
     public void testBrokenRequired()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-required")).setup();
+        new ObjectValidator().setSchema(schemas.get("broken-required")).setup();
     }
 
     @Test(
@@ -76,7 +76,7 @@ public class BrokenObjectSchemasTest
     public void testBrokenAdditional()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-additional")).setup();
+        new ObjectValidator().setSchema(schemas.get("broken-additional")).setup();
     }
 
     @Test(
@@ -86,8 +86,7 @@ public class BrokenObjectSchemasTest
     public void testBrokenDependencies()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-dependencies"))
-            .setup();
+        new ObjectValidator().setSchema(schemas.get("broken-dependencies")).setup();
     }
 
     @Test(
@@ -98,7 +97,7 @@ public class BrokenObjectSchemasTest
     public void testBrokenDependency()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-dependency")).setup();
+        new ObjectValidator().setSchema(schemas.get("broken-dependency")).setup();
     }
 
     @Test(
@@ -109,7 +108,8 @@ public class BrokenObjectSchemasTest
     public void testBrokenDependencyInArray()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-dependency-in-array")).setup();
+        new ObjectValidator().setSchema(schemas.get("broken-dependency-in-array"))
+            .setup();
     }
 
     @Test(
@@ -120,7 +120,8 @@ public class BrokenObjectSchemasTest
     public void testDuplicateDependency()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("duplicate-dependency")).setup();
+        new ObjectValidator().setSchema(schemas.get("duplicate-dependency"))
+            .setup();
     }
     @Test(
         expectedExceptions = MalformedJasonSchemaException.class,
@@ -130,7 +131,7 @@ public class BrokenObjectSchemasTest
     public void testSelfDependency()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("self-dependency")).setup();
+        new ObjectValidator().setSchema(schemas.get("self-dependency")).setup();
     }
 
     @Test(
@@ -141,7 +142,7 @@ public class BrokenObjectSchemasTest
     public void testBrokenPatternProperties()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("broken-patternprops")).setup();
+        new ObjectValidator().setSchema(schemas.get("broken-patternprops")).setup();
     }
 
     @Test(
@@ -152,7 +153,7 @@ public class BrokenObjectSchemasTest
     public void testPatternPropertiesBrokenRegex()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("patternprops-brokenregex"))
+        new ObjectValidator().setSchema(schemas.get("patternprops-brokenregex"))
             .setup();
     }
 
@@ -164,7 +165,7 @@ public class BrokenObjectSchemasTest
     public void testPatternPropertiesBrokenValue()
         throws MalformedJasonSchemaException
     {
-        new ObjectValidator(schemas.get("patternprops-brokenvalue"))
+        new ObjectValidator().setSchema(schemas.get("patternprops-brokenvalue"))
             .setup();
     }
 }

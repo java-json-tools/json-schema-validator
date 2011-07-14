@@ -22,7 +22,7 @@ public abstract class AbstractValidatorProvider
     protected final Class<? extends Validator> typeValidator;
     protected final List<Class<? extends Validator>> validatorList
         = new LinkedList<Class<? extends Validator>>();
-    protected boolean hasEnum, hasFormat;
+    protected final boolean hasEnum, hasFormat;
 
     protected AbstractValidatorProvider(final String nodeType,
         final Class<? extends Validator> typeValidator,

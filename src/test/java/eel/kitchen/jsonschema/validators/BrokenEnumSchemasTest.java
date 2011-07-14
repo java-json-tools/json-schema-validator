@@ -43,7 +43,7 @@ public class BrokenEnumSchemasTest
     public void testIllegalEnum()
         throws MalformedJasonSchemaException
     {
-        new EnumValidator(schemas.get("illegal-enum")).setup();
+        new EnumValidator().setSchema(schemas.get("illegal-enum")).setup();
     }
 
     @Test(
@@ -53,6 +53,6 @@ public class BrokenEnumSchemasTest
     public void testEnumDuplicates()
         throws MalformedJasonSchemaException
     {
-        new EnumValidator(schemas.get("enum-duplicates")).setup();
+        new EnumValidator().setSchema(schemas.get("enum-duplicates")).setup();
     }
 }

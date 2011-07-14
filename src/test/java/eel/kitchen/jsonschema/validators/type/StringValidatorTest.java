@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
@@ -33,7 +34,7 @@ import static org.testng.Assert.assertTrue;
 public class StringValidatorTest
 {
     private JsonNode testNode, node;
-    private StringValidator validator;
+    private Validator validator;
     private boolean ret;
     private List<String> messages;
 
@@ -50,8 +51,9 @@ public class StringValidatorTest
     {
         node = testNode.get("minLength");
 
-        validator = new StringValidator(node.get("schema"));
+        validator = new StringValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
@@ -59,8 +61,6 @@ public class StringValidatorTest
         assertEquals(messages.get(0), "string length is less than the required " +
             "minimum");
 
-        validator = new StringValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -73,16 +73,15 @@ public class StringValidatorTest
     {
         node = testNode.get("maxLength");
 
-        validator = new StringValidator(node.get("schema"));
+        validator = new StringValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string length exceeds the required maximum");
 
-        validator = new StringValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);
@@ -95,16 +94,15 @@ public class StringValidatorTest
     {
         node = testNode.get("pattern");
 
-        validator = new StringValidator(node.get("schema"));
+        validator = new StringValidator().setSchema(node.get("schema"));
         validator.setup();
+
         ret = validator.validate(node.get("bad"));
         messages = validator.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string does not match regular expression");
 
-        validator = new StringValidator(node.get("schema"));
-        validator.setup();
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
         assertTrue(ret);

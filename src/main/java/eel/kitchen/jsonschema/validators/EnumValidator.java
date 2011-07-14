@@ -12,15 +12,6 @@ public final class EnumValidator
 {
     private final Collection<JsonNode> values = new HashSet<JsonNode>();
 
-    public EnumValidator(final JsonNode schema)
-    {
-        super(schema);
-    }
-
-    public EnumValidator()
-    {
-    }
-
     @Override
     public void setup() throws MalformedJasonSchemaException
     {

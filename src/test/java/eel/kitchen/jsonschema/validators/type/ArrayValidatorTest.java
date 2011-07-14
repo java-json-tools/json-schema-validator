@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
@@ -33,7 +34,7 @@ import static org.testng.Assert.assertTrue;
 public class ArrayValidatorTest
 {
     private JsonNode testNode, node;
-    private ArrayValidator validator;
+    private Validator validator;
     private List<String> messages;
     private boolean ret;
 
@@ -50,7 +51,7 @@ public class ArrayValidatorTest
     {
         node = testNode.get("minItems");
 
-        validator = new ArrayValidator(node.get("schema"));
+        validator = new ArrayValidator().setSchema(node.get("schema"));
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
@@ -58,9 +59,6 @@ public class ArrayValidatorTest
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has less than minItems elements");
-
-        validator = new ArrayValidator(node.get("schema"));
-        validator.setup();
 
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
@@ -74,7 +72,7 @@ public class ArrayValidatorTest
     {
         node = testNode.get("maxItems");
 
-        validator = new ArrayValidator(node.get("schema"));
+        validator = new ArrayValidator().setSchema(node.get("schema"));
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
@@ -82,9 +80,6 @@ public class ArrayValidatorTest
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has more than maxItems elements");
-
-        validator = new ArrayValidator(node.get("schema"));
-        validator.setup();
 
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
@@ -98,7 +93,7 @@ public class ArrayValidatorTest
     {
         node = testNode.get("uniqueItems");
 
-        validator = new ArrayValidator(node.get("schema"));
+        validator = new ArrayValidator().setSchema(node.get("schema"));
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
@@ -106,9 +101,6 @@ public class ArrayValidatorTest
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "items in the array are not unique");
-
-        validator = new ArrayValidator(node.get("schema"));
-        validator.setup();
 
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();
@@ -122,7 +114,7 @@ public class ArrayValidatorTest
     {
         node = testNode.get("itemsTuples");
 
-        validator = new ArrayValidator(node.get("schema"));
+        validator = new ArrayValidator().setSchema(node.get("schema"));
         validator.setup();
 
         ret = validator.validate(node.get("bad"));
@@ -131,9 +123,6 @@ public class ArrayValidatorTest
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has extra elements, "
             + "which the schema disallows");
-
-        validator = new ArrayValidator(node.get("schema"));
-        validator.setup();
 
         ret = validator.validate(node.get("good"));
         messages = validator.getMessages();

@@ -31,15 +31,6 @@ public final class IntegerValidator
     private BigInteger minimum = null, maximum = null, divisor = null;
     private boolean exclusiveMinimum = false, exclusiveMaximum = false;
 
-    public IntegerValidator()
-    {
-    }
-
-    public IntegerValidator(final JsonNode schema)
-    {
-        super(schema);
-    }
-
     @Override
     public void setup()
         throws MalformedJasonSchemaException
@@ -109,6 +100,7 @@ public final class IntegerValidator
     @Override
     public boolean validate(final JsonNode node)
     {
+        messages.clear();
         final BigInteger value = node.getBigIntegerValue();
 
         int tmp;
