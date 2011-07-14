@@ -8,7 +8,6 @@ import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -103,19 +102,11 @@ public final class FormatValidator
             return true;
         }
 
-        final Constructor<? extends Validator> constructor;
         final Validator v;
         final boolean ret;
 
         try {
-            constructor = validatorClass.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException e) {
-            messages.add("cannot find constructor: " + e.getMessage());
-            return false;
-        }
-
-        try {
-            v = constructor.newInstance(schema);
+            v = validatorClass.getConstructor().newInstance();
         } catch (Exception e) {
             messages.add(String.format("cannot instantiate validator: "
                 + "%s: %s", e.getClass().getCanonicalName(), e.getMessage()));

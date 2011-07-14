@@ -10,6 +10,10 @@ public final class PhoneNumberFormatValidator
     {
     }
 
+    public PhoneNumberFormatValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

@@ -15,6 +15,10 @@ public final class UnixEpochFormatValidator
     {
     }
 
+    public UnixEpochFormatValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

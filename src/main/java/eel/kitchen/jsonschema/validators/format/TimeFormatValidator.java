@@ -9,4 +9,9 @@ public final class TimeFormatValidator
     {
         super(ignored, "HH:mm:ss", "time");
     }
+
+    public TimeFormatValidator()
+    {
+        super("HH:mm:ss", "time");
+    }
 }

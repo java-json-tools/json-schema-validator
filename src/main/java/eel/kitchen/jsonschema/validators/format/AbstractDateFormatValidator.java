@@ -19,6 +19,12 @@ public abstract class AbstractDateFormatValidator
         errmsg = String.format("value is not a valid %s", desc);
     }
 
+    protected AbstractDateFormatValidator(final String fmt, final String desc)
+    {
+        format = new SimpleDateFormat(fmt);
+        errmsg = String.format("value is not a valid %s", desc);
+    }
+
     @Override
     public final boolean validate(final JsonNode node)
     {

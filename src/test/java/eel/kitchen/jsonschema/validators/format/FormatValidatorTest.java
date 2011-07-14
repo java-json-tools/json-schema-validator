@@ -42,7 +42,7 @@ public class FormatValidatorTest
     public void testBadFormat()
         throws MalformedJasonSchemaException
     {
-        new FormatValidator(schemas.get("badformat")).setup();
+        new FormatValidator().setSchema(schemas.get("badformat")).setup();
     }
 
     @Test
@@ -50,7 +50,7 @@ public class FormatValidatorTest
         throws MalformedJasonSchemaException
     {
         node = schemas.get("typemismatch");
-        v = new FormatValidator(node.get("schema"));
+        v = new FormatValidator().setSchema(node.get("schema"));
         v.setup();
 
         assertTrue(v.validate(node.get("node")));
@@ -62,7 +62,7 @@ public class FormatValidatorTest
         throws MalformedJasonSchemaException
     {
         node = schemas.get("noformats");
-        v = new FormatValidator(node.get("schema"));
+        v = new FormatValidator().setSchema(node.get("schema"));
         v.setup();
 
         assertTrue(v.validate(node.get("node")));

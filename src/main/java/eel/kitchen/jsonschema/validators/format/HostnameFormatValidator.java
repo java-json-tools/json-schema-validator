@@ -16,6 +16,10 @@ public final class HostnameFormatValidator
     {
     }
 
+    public HostnameFormatValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

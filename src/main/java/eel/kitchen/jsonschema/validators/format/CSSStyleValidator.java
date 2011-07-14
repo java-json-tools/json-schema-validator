@@ -16,6 +16,10 @@ public final class CSSStyleValidator
     {
     }
 
+    public CSSStyleValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

@@ -13,6 +13,10 @@ public final class URIFormatValidator
     {
     }
 
+    public URIFormatValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

@@ -9,4 +9,9 @@ public final class DateFormatValidator
     {
         super(ignored, "yyyy-MM-dd", "date");
     }
+
+    public DateFormatValidator()
+    {
+        super("yyyy-MM-dd", "date");
+    }
 }

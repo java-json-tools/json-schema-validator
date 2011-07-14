@@ -13,6 +13,10 @@ public final class IPv4FormatValidator
     {
     }
 
+    public IPv4FormatValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

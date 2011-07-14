@@ -13,6 +13,10 @@ public final class EmailFormatValidator
     {
     }
 
+    public EmailFormatValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {

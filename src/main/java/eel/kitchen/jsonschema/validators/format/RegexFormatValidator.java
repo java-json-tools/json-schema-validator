@@ -11,6 +11,10 @@ public final class RegexFormatValidator
     {
     }
 
+    public RegexFormatValidator()
+    {
+    }
+
     @Override
     public boolean validate(final JsonNode node)
     {
