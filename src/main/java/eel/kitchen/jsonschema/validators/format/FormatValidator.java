@@ -24,26 +24,26 @@ public final class FormatValidator
     private static final Logger logger
         = LoggerFactory.getLogger(FormatValidator.class);
 
-    private static final Map<String, List<Class<? extends Validator>>> validators
-        = new HashMap<String, List<Class<? extends Validator>>>();
+    private static final Map<NodeType, List<Class<? extends Validator>>> validators
+        = new HashMap<NodeType, List<Class<? extends Validator>>>();
 
     private String format;
 
     static {
-        registerFormat("string", CSSColorValidator.class);
-        registerFormat("string", CSSStyleValidator.class);
-        registerFormat("string", DateFormatValidator.class);
-        registerFormat("string", EmailFormatValidator.class);
-        registerFormat("string", HostnameFormatValidator.class);
-        registerFormat("string", IPv4FormatValidator.class);
-        registerFormat("string", IPv6FormatValidator.class);
-        registerFormat("string", ISO8601DateFormatValidator.class);
-        registerFormat("string", PhoneNumberFormatValidator.class);
-        registerFormat("string", RegexFormatValidator.class);
-        registerFormat("string", TimeFormatValidator.class);
-        registerFormat("integer", UnixEpochFormatValidator.class);
-        registerFormat("number", UnixEpochFormatValidator.class);
-        registerFormat("string", URIFormatValidator.class);
+        registerFormat(NodeType.STRING, CSSColorValidator.class);
+        registerFormat(NodeType.STRING, CSSStyleValidator.class);
+        registerFormat(NodeType.STRING, DateFormatValidator.class);
+        registerFormat(NodeType.STRING, EmailFormatValidator.class);
+        registerFormat(NodeType.STRING, HostnameFormatValidator.class);
+        registerFormat(NodeType.STRING, IPv4FormatValidator.class);
+        registerFormat(NodeType.STRING, IPv6FormatValidator.class);
+        registerFormat(NodeType.STRING, ISO8601DateFormatValidator.class);
+        registerFormat(NodeType.STRING, PhoneNumberFormatValidator.class);
+        registerFormat(NodeType.STRING, RegexFormatValidator.class);
+        registerFormat(NodeType.STRING, TimeFormatValidator.class);
+        registerFormat(NodeType.INTEGER, UnixEpochFormatValidator.class);
+        registerFormat(NodeType.NUMBER, UnixEpochFormatValidator.class);
+        registerFormat(NodeType.STRING, URIFormatValidator.class);
     }
 
     public FormatValidator()
@@ -57,7 +57,7 @@ public final class FormatValidator
         return FIELDS;
     }
 
-    private static void registerFormat(final String type,
+    private static void registerFormat(final NodeType type,
         final Class<? extends Validator> validator)
     {
         if (!validators.containsKey(type))
@@ -84,11 +84,11 @@ public final class FormatValidator
 
         messages.clear();
 
-        final String nodeType = JasonHelper.getNodeType(node);
+        final NodeType nodeType = NodeType.getNodeType(node);
 
         if (!validators.containsKey(nodeType)) {
             logger.warn("no format validators for node of type {}, "
-                + "format validation ignored");
+                + "format validation ignored", nodeType);
             return true;
         }
 
