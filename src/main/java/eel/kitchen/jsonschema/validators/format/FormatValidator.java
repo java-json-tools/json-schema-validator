@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,8 +18,8 @@ public final class FormatValidator
     private static final Logger logger
         = LoggerFactory.getLogger(FormatValidator.class);
 
-    private static final Map<NodeType, List<Class<? extends Validator>>> validators
-        = new HashMap<NodeType, List<Class<? extends Validator>>>();
+    private static final Map<NodeType, List<Class<? extends Validator>>> checkers
+        = new EnumMap<NodeType, List<Class<? extends Validator>>>(NodeType.class);
 
     private String format;
 
@@ -48,10 +48,10 @@ public final class FormatValidator
     private static void registerFormat(final NodeType type,
         final Class<? extends Validator> validator)
     {
-        if (!validators.containsKey(type))
-            validators.put(type, new ArrayList<Class<? extends Validator>>());
+        if (!checkers.containsKey(type))
+            checkers.put(type, new ArrayList<Class<? extends Validator>>());
 
-        validators.get(type).add(validator);
+        checkers.get(type).add(validator);
     }
 
     @Override
@@ -74,7 +74,7 @@ public final class FormatValidator
 
         final NodeType nodeType = NodeType.getNodeType(node);
 
-        if (!validators.containsKey(nodeType)) {
+        if (!checkers.containsKey(nodeType)) {
             logger.warn("no format validators for node of type {}, "
                 + "format validation ignored", nodeType);
             return true;
@@ -91,7 +91,7 @@ public final class FormatValidator
             return true;
         }
 
-        if (!validators.get(nodeType).contains(validatorClass)) {
+        if (!checkers.get(nodeType).contains(validatorClass)) {
             logger.warn("format \"{}\" cannot validate nodes of type \"{}\", "
                 + "format validation ignored", format, nodeType);
             return true;
