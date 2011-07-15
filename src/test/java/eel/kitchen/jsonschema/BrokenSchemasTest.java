@@ -170,7 +170,7 @@ public class BrokenSchemasTest
 
         ret = schema.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: no element in enum has expected type "
-            + "string");
+        assertEquals(ret.get(0), "$: node does not match any value in the "
+            + "enumeration");
     }
 }

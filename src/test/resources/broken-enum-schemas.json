@@ -2,13 +2,5 @@
     "illegal-enum": {
         "type": "boolean",
         "enum": true
-    },
-    "enum-duplicates": {
-        "type": "string",
-        "enum": [ "beeh", "beeh", "say the sheep" ]
-    },
-    "enum-nomatch": {
-        "type": "boolean",
-        "enum": [ 1, 2, 3 ]
     }
 }

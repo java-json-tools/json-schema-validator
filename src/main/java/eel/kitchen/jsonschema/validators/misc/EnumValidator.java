@@ -1,7 +1,7 @@
 package eel.kitchen.jsonschema.validators.misc;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
-import eel.kitchen.util.JasonHelper;
+import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -36,23 +36,8 @@ public final class EnumValidator
         if (!super.doSetup())
             return false;
 
-        final JsonNode node = schema.get("enum");
-        final String expected = schema.get("type").getTextValue();
-
-        for (final JsonNode element: node) {
-            if (!expected.equals(JasonHelper.getNodeType(element)))
-                continue;
-            if (!values.add(element)) {
-                messages.add("enum has duplicate values");
-                return false;
-            }
-        }
-
-        if (!values.isEmpty())
-            return true;
-
-        messages.add("no element in enum has expected type " + expected);
-        return false;
+        values.addAll(CollectionUtils.toSet(schema.get("enum").iterator()));
+        return true;
     }
 
     @Override

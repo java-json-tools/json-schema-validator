@@ -31,52 +31,20 @@ import static org.testng.Assert.assertFalse;
 
 public class BrokenEnumSchemasTest
 {
-    private JsonNode schemas;
-    private Validator v;
-    private List<String> messages;
-
-    @BeforeClass
-    public void setUp()
-        throws IOException
-    {
-        schemas = JasonHelper.load("broken-enum-schemas.json");
-    }
 
     @Test
     public void testIllegalEnum()
+        throws IOException
     {
-        v = new EnumValidator().setSchema(schemas.get("illegal-enum"));
+        final JsonNode schemas = JasonHelper.load("broken-enum-schemas.json");
+        final Validator v = new EnumValidator()
+            .setSchema(schemas.get("illegal-enum"));
 
         assertFalse(v.setup());
 
-        messages = v.getMessages();
+        final List<String> messages = v.getMessages();
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "enum is of type boolean, "
             + "expected [array]");
-    }
-
-    @Test
-    public void testEnumDuplicates()
-    {
-        v = new EnumValidator().setSchema(schemas.get("enum-duplicates"));
-
-        assertFalse(v.setup());
-
-        messages = v.getMessages();
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "enum has duplicate values");
-    }
-
-    @Test
-    public void testEnumNoMatch()
-    {
-        v = new EnumValidator().setSchema(schemas.get("enum-nomatch"));
-
-        assertFalse(v.setup());
-
-        messages = v.getMessages();
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "no element in enum has expected type "
-            + "boolean");
     }
 }
