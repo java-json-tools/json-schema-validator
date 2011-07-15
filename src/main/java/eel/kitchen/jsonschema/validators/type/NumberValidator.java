@@ -19,17 +19,39 @@ package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
+import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
+import java.util.EnumSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public final class NumberValidator
     extends AbstractValidator
 {
+    private static final Map<String, EnumSet<NodeType>> FIELDS
+        = new LinkedHashMap<String, EnumSet<NodeType>>();
+
     private static final BigDecimal ZERO = new BigDecimal("0");
 
     private BigDecimal minimum = null, maximum = null, divisor = null;
     private boolean exclusiveMinimum = false, exclusiveMaximum = false;
+
+    public NumberValidator()
+    {
+        registerField("minimum", NodeType.NUMBER);
+        registerField("maximum", NodeType.NUMBER);
+        registerField("divisibleBy", NodeType.NUMBER);
+        registerField("exclusiveMinimum", NodeType.BOOLEAN);
+        registerField("exclusiveMaximum", NodeType.BOOLEAN);
+    }
+
+    @Override
+    protected Map<String, EnumSet<NodeType>> fieldMap()
+    {
+        return FIELDS;
+    }
 
     @Override
     public void setup()

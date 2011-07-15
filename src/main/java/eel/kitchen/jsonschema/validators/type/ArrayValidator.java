@@ -22,20 +22,45 @@ import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ArraySchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.util.CollectionUtils;
+import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public final class ArrayValidator
     extends AbstractValidator
 {
+    private static final Map<String, EnumSet<NodeType>> FIELDS
+        = new LinkedHashMap<String, EnumSet<NodeType>>();
+
     private int minItems = 0, maxItems = Integer.MAX_VALUE;
     private boolean uniqueItems = false;
     private final List<JsonNode> items = new LinkedList<JsonNode>();
     private boolean itemsTuples = false;
     private boolean additionalItemsOK = true;
     private JsonNode additionalItems = EMPTY_SCHEMA;
+
+    @Override
+    protected Map<String, EnumSet<NodeType>> fieldMap()
+    {
+        return FIELDS;
+    }
+
+    public ArrayValidator()
+    {
+        registerField("minItems", NodeType.INTEGER);
+        registerField("maxItems", NodeType.INTEGER);
+        registerField("uniqueItems", NodeType.BOOLEAN);
+        registerField("items", NodeType.OBJECT);
+        registerField("items", NodeType.ARRAY);
+        registerField("additionalItems", NodeType.BOOLEAN);
+        registerField("additionalItems", NodeType.OBJECT);
+    }
 
     @Override
     public void setup()

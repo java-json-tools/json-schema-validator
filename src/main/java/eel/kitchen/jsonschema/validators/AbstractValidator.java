@@ -18,13 +18,18 @@
 package eel.kitchen.jsonschema.validators;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.util.CollectionUtils;
+import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public abstract class AbstractValidator
     implements Validator
@@ -71,5 +76,47 @@ public abstract class AbstractValidator
     public final List<String> getMessages()
     {
         return Collections.unmodifiableList(messages);
+    }
+
+    protected Map<String, EnumSet<NodeType>> fieldMap()
+    {
+        return Collections.emptyMap();
+    }
+
+    protected final void registerField(final String name, final NodeType type)
+    {
+        final Map<String, EnumSet<NodeType>> fields = fieldMap();
+
+        if (fields.containsKey(name)) {
+            fields.get(name).add(type);
+            return;
+        }
+
+        fields.put(name, EnumSet.of(type));
+    }
+
+    @Override
+    public boolean isWellFormed()
+    {
+        final Map<String, EnumSet<NodeType>> fields = fieldMap();
+        boolean ret = true;
+        EnumSet<NodeType> expected;
+        NodeType actual;
+
+        final Set<String> fieldnames = fields.keySet();
+        fieldnames.retainAll(CollectionUtils.toSet(schema.getFieldNames()));
+
+        for (final String field: fieldnames) {
+            expected = fields.get(field);
+            actual = NodeType.getNodeType(schema.get(field));
+            if (!expected.contains(actual)) {
+                ret = false;
+                messages.add(String.format(
+                    "field \"%s\" is of type %s, " + "expected %s", field,
+                    actual, expected));
+            }
+        }
+
+        return ret;
     }
 }

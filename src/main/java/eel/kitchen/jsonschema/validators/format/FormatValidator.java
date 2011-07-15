@@ -4,18 +4,25 @@ import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
+import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public final class FormatValidator
     extends AbstractValidator
 {
+    private static final Map<String, EnumSet<NodeType>> FIELDS
+        = new LinkedHashMap<String, EnumSet<NodeType>>();
+
     private static final Logger logger
         = LoggerFactory.getLogger(FormatValidator.class);
 
@@ -39,6 +46,17 @@ public final class FormatValidator
         registerFormat("integer", UnixEpochFormatValidator.class);
         registerFormat("number", UnixEpochFormatValidator.class);
         registerFormat("string", URIFormatValidator.class);
+    }
+
+    public FormatValidator()
+    {
+        registerField("format", NodeType.STRING);
+    }
+
+    @Override
+    protected Map<String, EnumSet<NodeType>> fieldMap()
+    {
+        return FIELDS;
     }
 
     private static void registerFormat(final String type,

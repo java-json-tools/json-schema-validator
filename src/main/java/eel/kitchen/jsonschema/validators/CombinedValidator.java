@@ -28,15 +28,34 @@ public final class CombinedValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    public boolean isWellFormed()
     {
         messages.clear();
 
         for (final Validator v: validators)
+            if (!v.isWellFormed()) {
+                messages.addAll(v.getMessages());
+                return false;
+            }
+
+        return true;
+    }
+
+    @Override
+    public boolean validate(final JsonNode node)
+    {
+        messages.clear();
+
+        for (final Validator v: validators) {
+            if (!v.isWellFormed()) {
+                messages.addAll(v.getMessages());
+                return false;
+            }
             if (!v.validate(node)) {
                 messages.addAll(v.getMessages());
                 return false;
             }
+        }
 
         return true;
     }

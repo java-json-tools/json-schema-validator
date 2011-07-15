@@ -2,15 +2,34 @@ package eel.kitchen.jsonschema.validators;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.util.JasonHelper;
+import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public final class EnumValidator
     extends AbstractValidator
 {
+    private static final Map<String, EnumSet<NodeType>> FIELDS
+        = new LinkedHashMap<String, EnumSet<NodeType>>();
+
     private final Collection<JsonNode> values = new HashSet<JsonNode>();
+
+    public EnumValidator()
+    {
+        registerField("enum", NodeType.ARRAY);
+    }
+
+    @Override
+    protected Map<String, EnumSet<NodeType>> fieldMap()
+    {
+        return FIELDS;
+    }
 
     @Override
     public void setup() throws MalformedJasonSchemaException

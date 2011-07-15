@@ -22,18 +22,24 @@ import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ObjectSchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.util.CollectionUtils;
+import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 public final class ObjectValidator
     extends AbstractValidator
 {
+    private static final Map<String, EnumSet<NodeType>> FIELDS
+        = new LinkedHashMap<String, EnumSet<NodeType>>();
+
     private final Collection<String> required = new HashSet<String>();
     private boolean additionalPropertiesOK = true;
     private JsonNode additionalProperties = EMPTY_SCHEMA;
@@ -43,6 +49,21 @@ public final class ObjectValidator
         = new HashMap<String, JsonNode>();
     private final Map<String, JsonNode> patternProperties
         = new HashMap<String, JsonNode>();
+
+    public ObjectValidator()
+    {
+        registerField("properties", NodeType.OBJECT);
+        registerField("additionalProperties", NodeType.OBJECT);
+        registerField("additionalProperties", NodeType.BOOLEAN);
+        registerField("patternProperties", NodeType.OBJECT);
+        registerField("dependencies", NodeType.OBJECT);
+    }
+
+    @Override
+    protected Map<String, EnumSet<NodeType>> fieldMap()
+    {
+        return FIELDS;
+    }
 
     @Override
     public void setup()

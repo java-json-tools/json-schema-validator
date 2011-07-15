@@ -26,6 +26,8 @@ public interface Validator
 {
     Validator setSchema(final JsonNode schema);
 
+    boolean isWellFormed();
+
     void setup() throws MalformedJasonSchemaException;
 
     boolean validate(final JsonNode node);
