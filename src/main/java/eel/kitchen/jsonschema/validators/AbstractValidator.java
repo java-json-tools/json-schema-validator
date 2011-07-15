@@ -34,15 +34,6 @@ public abstract class AbstractValidator
     protected JsonNode schema;
     protected final List<String> messages = new LinkedList<String>();
 
-    protected AbstractValidator()
-    {
-    }
-
-    protected AbstractValidator(final JsonNode schema)
-    {
-        this.schema = schema;
-    }
-
     static {
         try {
             EMPTY_SCHEMA = new ObjectMapper().readTree("{}");

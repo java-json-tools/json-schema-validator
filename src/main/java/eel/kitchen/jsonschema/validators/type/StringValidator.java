@@ -72,7 +72,6 @@ public final class StringValidator
         }
     }
 
-    //TODO: format
     @Override
     public boolean validate(final JsonNode node)
     {
