@@ -17,10 +17,9 @@
 
 package eel.kitchen.jsonschema;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.SchemaValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.AlwaysFalseValidator;
-import eel.kitchen.jsonschema.validators.errors.IllegalSchemaValidator;
 import eel.kitchen.jsonschema.validators.errors.TypeMismatchValidator;
 import eel.kitchen.jsonschema.validators.providers.ArrayValidatorProvider;
 import eel.kitchen.jsonschema.validators.providers.BooleanValidatorProvider;
@@ -65,29 +64,15 @@ public final class ValidatorFactory
 
     public Validator getValidator(final JsonNode schema, final JsonNode node)
     {
-        MalformedJasonSchemaException err;
+        final Validator schemaValidator = new SchemaValidator();
 
-        err = new MalformedJasonSchemaException("schema is null");
-
-        if (schema == null)
-            return new IllegalSchemaValidator(err);
-
-        err = new MalformedJasonSchemaException("schema is not a JSON object");
-
-        if (!schema.isObject())
-            return new IllegalSchemaValidator(err);
-
-        err = new MalformedJasonSchemaException("node to validate is null");
+        if (!schemaValidator.setSchema(schema).setup())
+            return schemaValidator;
 
         if (node == null)
-            return new IllegalSchemaValidator(err);
+            return new AlwaysFalseValidator("node to validate is null");
 
         final String type = JasonHelper.getNodeType(node);
-        err = new MalformedJasonSchemaException("cannot determine node type");
-
-        if ("unknown".equals(type))
-            return new IllegalSchemaValidator(err);
-
         final Class<? extends ValidatorProvider> c = providers.get(type);
         final ValidatorProvider provider;
 

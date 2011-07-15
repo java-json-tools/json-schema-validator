@@ -2,7 +2,6 @@ package eel.kitchen.jsonschema.validators.format;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.util.JasonHelper;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;

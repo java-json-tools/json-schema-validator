@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema;
 
+import eel.kitchen.jsonschema.validators.SchemaValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.TypeMismatchValidator;
 import eel.kitchen.util.JasonHelper;
@@ -36,8 +37,9 @@ public class BrokenSchemasTest
     private static final JsonNode dummy;
     private static final ValidatorFactory factory
         = new ValidatorFactory();
-    private static final Class<? extends Validator> typeMismatch
-        = TypeMismatchValidator.class;
+    private static final Class<? extends Validator>
+        typeMismatch = TypeMismatchValidator.class,
+        schemaFailure = SchemaValidator.class;
 
     static {
         try {
@@ -60,8 +62,7 @@ public class BrokenSchemasTest
 
         ret = schema.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
-            + "MalformedJasonSchemaException: schema is null");
+        assertEquals(ret.get(0), "$: schema is null");
     }
 
     @Test
@@ -72,36 +73,36 @@ public class BrokenSchemasTest
 
         ret = schema.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
-            + "MalformedJasonSchemaException: schema is not a JSON object");
+        assertEquals(ret.get(0), "$: schema is not an object");
     }
 
     @Test
     public void testIllegalType()
     {
         v = factory.getValidator(testNode.get("illegal-type"), dummy);
-        assertEquals(v.getClass(), typeMismatch);
+        assertEquals(v.getClass(), schemaFailure);
 
         assertFalse(v.validate(dummy));
 
         ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "schema does not allow any type??");
+        assertEquals(ret.get(0), "type property is neither a string nor an "
+            + "array");
     }
 
     @Test
     public void testIllegalTypeArray()
     {
         v = factory.getValidator(testNode.get("illegal-type-array"), dummy);
-        assertEquals(v.getClass(), typeMismatch);
+        assertEquals(v.getClass(), schemaFailure);
 
         assertFalse(v.validate(dummy));
 
         ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "schema does not allow any type??");
+        assertEquals(ret.get(0), "non string element in type property array");
     }
 
     @Test
@@ -150,14 +151,14 @@ public class BrokenSchemasTest
     public void testUnknownType()
     {
         v = factory.getValidator(testNode.get("unknown-type"), dummy);
-        assertEquals(v.getClass(), typeMismatch);
+        assertEquals(v.getClass(), schemaFailure);
 
         assertFalse(v.validate(dummy));
 
         ret = v.getMessages();
 
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "schema does not allow any type??");
+        assertEquals(ret.get(0), "unknown type pwet");
     }
 
     @Test
