@@ -1,6 +1,7 @@
 package eel.kitchen.jsonschema.validators.errors;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
+import org.codehaus.jackson.JsonNode;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import java.util.List;
 public final class TypeMismatchValidator
     extends AbstractValidator
 {
+    private final String message;
     /**
      * Constructor for this particular validator.
      *
@@ -29,19 +31,24 @@ public final class TypeMismatchValidator
      */
     public TypeMismatchValidator(final List<String> types, final String actual)
     {
-        final String message;
         switch (types.size()) {
-        case 0:
-            message = "schema does not allow any type??";
-            break;
-        case 1:
-            message = String.format("node is of type %s, expected %s",
-                actual, types.get(0));
-            break;
-        default:
-            message = String.format("node is of type %s, "
-                + "expected one of %s", actual, types);
+            case 0:
+                message = "schema does not allow any type??";
+                break;
+            case 1:
+                message = String.format("node is of type %s, expected %s",
+                    actual, types.get(0));
+                break;
+            default:
+                message = String.format("node is of type %s, "
+                    + "expected one of %s", actual, types);
         }
+    }
+
+    @Override
+    protected boolean doValidate(final JsonNode node)
+    {
         messages.add(message);
+        return false;
     }
 }

@@ -12,6 +12,7 @@ public final class EnumValidator
     extends AbstractValidator
 {
     private final Collection<JsonNode> values = new HashSet<JsonNode>();
+    private boolean voidEnum = false;
 
     public EnumValidator()
     {
@@ -24,18 +25,21 @@ public final class EnumValidator
         if (!super.doSetup())
             return false;
 
-        values.addAll(CollectionUtils.toSet(schema.get("enum").iterator()));
+        final JsonNode node = schema.get("enum");
+
+        if (node != null)
+            values.addAll(CollectionUtils.toSet(node.iterator()));
+        else
+            voidEnum = true;
+
         return true;
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        if (!setup())
-            return false;
-
-        messages.clear();
-
+        if (voidEnum)
+            return true;
         if (values.contains(node))
             return true;
 

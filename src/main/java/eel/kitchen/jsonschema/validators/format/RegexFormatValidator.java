@@ -8,10 +8,8 @@ public final class RegexFormatValidator
     extends AbstractValidator
 {
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        messages.clear();
-
         if (RhinoHelper.regexIsValid(node.getTextValue()))
             return true;
 

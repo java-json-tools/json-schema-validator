@@ -93,13 +93,8 @@ public final class ArrayValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        if (!setup())
-            return false;
-
-        messages.clear();
-
         final int nrItems = node.size();
 
         if (nrItems < minItems) {

@@ -10,10 +10,8 @@ public final class IPv6FormatValidator
     extends AbstractValidator
 {
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        messages.clear();
-
         try {
             Inet6Address.getByName(node.getTextValue());
             return true;

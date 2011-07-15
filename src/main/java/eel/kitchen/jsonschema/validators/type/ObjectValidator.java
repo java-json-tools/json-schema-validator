@@ -17,10 +17,11 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ObjectSchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
+import eel.kitchen.jsonschema.validators.misc.DependenciesValidator;
+import eel.kitchen.jsonschema.validators.misc.RequiredValidator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
@@ -35,11 +36,8 @@ import java.util.Set;
 public final class ObjectValidator
     extends AbstractValidator
 {
-    private final Collection<String> required = new HashSet<String>();
     private boolean additionalPropertiesOK = true;
     private JsonNode additionalProperties = EMPTY_SCHEMA;
-    private final Map<String, Set<String>> dependencies
-        = new HashMap<String, Set<String>>();
     private final Map<String, JsonNode> properties
         = new HashMap<String, JsonNode>();
     private final Map<String, JsonNode> patternProperties
@@ -51,14 +49,16 @@ public final class ObjectValidator
         registerField("additionalProperties", NodeType.OBJECT);
         registerField("additionalProperties", NodeType.BOOLEAN);
         registerField("patternProperties", NodeType.OBJECT);
-        registerField("dependencies", NodeType.OBJECT);
+
+        registerValidator(new DependenciesValidator());
+        registerValidator(new RequiredValidator());
     }
 
     @Override
     protected boolean doSetup()
     {
         return super.doSetup() && computeProperties() && computeAdditional()
-            && computeDependencies() && computePatternProperties();
+            && computePatternProperties();
 
     }
 
@@ -71,7 +71,7 @@ public final class ObjectValidator
 
         final Map<String, JsonNode> map = CollectionUtils.toMap(node.getFields());
 
-        JsonNode value, truthValue;
+        JsonNode value;
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             value = entry.getValue();
@@ -79,15 +79,6 @@ public final class ObjectValidator
                 messages.add("values of properties should be objects");
                 return false;
             }
-            truthValue = value.get("required");
-            if (truthValue == null)
-                continue;
-            if (!truthValue.isBoolean()) {
-                messages.add("required should be a boolean");
-                return false;
-            }
-            if (truthValue.getBooleanValue())
-                required.add(entry.getKey());
         }
 
         properties.putAll(map);
@@ -105,62 +96,6 @@ public final class ObjectValidator
             additionalProperties = node;
 
         return true;
-    }
-
-    private boolean computeDependencies()
-    {
-        //TODO: object dependencies
-
-        final JsonNode node = schema.path("dependencies");
-
-        if (!node.isObject())
-            return true;
-
-        final Map<String, JsonNode> map = CollectionUtils.toMap(node.getFields());
-        Set<String> deps;
-        String fieldName;
-
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            try {
-                deps = computeOneDependency(entry.getValue());
-            } catch (MalformedJasonSchemaException e) {
-                messages.add(e.getMessage());
-                return false;
-            }
-            fieldName = entry.getKey();
-            if (deps.contains(fieldName)) {
-                messages.add("a property cannot depend on itself");
-                return false;
-            }
-            dependencies.put(fieldName, deps);
-        }
-        return true;
-    }
-
-    private static Set<String> computeOneDependency(final JsonNode node)
-        throws MalformedJasonSchemaException
-    {
-        final Set<String> ret = new HashSet<String>();
-
-        if (node.isTextual()) {
-            ret.add(node.getTextValue());
-            return ret;
-        }
-
-        if (!node.isArray())
-            throw new MalformedJasonSchemaException("dependency value should "
-                + "be a string or an array");
-
-        for (final JsonNode element: node) {
-            if (!element.isTextual())
-                throw new MalformedJasonSchemaException("dependency "
-                    + "array elements should be strings");
-            if (!ret.add(element.getTextValue()))
-                throw new MalformedJasonSchemaException("duplicate entries "
-                    + "in dependency array");
-        }
-
-        return ret;
     }
 
     private boolean computePatternProperties()
@@ -192,45 +127,12 @@ public final class ObjectValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        if (!setup())
-            return false;
-
-        messages.clear();
         final Set<String> fields = CollectionUtils.toSet(node.getFieldNames());
         final Collection<String> set = new HashSet<String>();
 
-        set.addAll(required);
-        set.removeAll(fields);
-
-        if (!set.isEmpty())
-            for (final String field: set)
-                messages.add("property " + field + " is required "
-                    + "but was not found");
-
-        set.clear();
-        set.addAll(dependencies.keySet());
-        set.retainAll(fields);
-        final Map<String, Set<String>> map
-            = new HashMap<String, Set<String>>(set.size());
-
-        for (final String dep: set)
-            map.put(dep, dependencies.get(dep));
-
-        for (final Map.Entry<String, Set<String>> entry: map.entrySet()) {
-            final String field = entry.getKey();
-            set.clear();
-            set.addAll(entry.getValue());
-            set.removeAll(fields);
-            for (final String dep: set)
-                messages.add("property " + field + " depends on " + dep
-                    + ", but the latter was not found");
-        }
-
         fields.removeAll(properties.keySet());
-
-        set.clear();
 
         for (final String field: fields)
             for (final String regex: patternProperties.keySet())

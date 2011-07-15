@@ -60,17 +60,19 @@ public final class FormatValidator
         if (!super.doSetup())
             return false;
 
-        format = schema.get("format").getTextValue();
+        final JsonNode formatNode = schema.get("format");
+
+        if (formatNode != null)
+            format = formatNode.getTextValue();
+
         return true;
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        if (!setup())
-            return false;
-
-        messages.clear();
+        if (format == null)
+            return true;
 
         final NodeType nodeType = NodeType.getNodeType(node);
 

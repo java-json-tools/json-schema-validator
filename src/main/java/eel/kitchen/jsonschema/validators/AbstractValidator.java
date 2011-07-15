@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +40,8 @@ public abstract class AbstractValidator
     protected JsonNode schema;
     protected final Map<String, EnumSet<NodeType>> fieldMap
         = new HashMap<String, EnumSet<NodeType>>();
+    protected final Set<Validator> validators
+        = new HashSet<Validator>();
     protected final List<String> messages = new LinkedList<String>();
     protected boolean setupDone = false, validSchema = false;
 
@@ -50,6 +53,11 @@ public abstract class AbstractValidator
         }
     }
 
+    protected AbstractValidator()
+    {
+        schema = EMPTY_SCHEMA;
+    }
+
     @Override
     public final Validator setSchema(final JsonNode schema)
     {
@@ -57,6 +65,8 @@ public abstract class AbstractValidator
         setupDone = false;
         validSchema = false;
         this.schema = schema;
+        for (final Validator v: validators)
+            v.setSchema(schema);
         return this;
     }
 
@@ -65,6 +75,10 @@ public abstract class AbstractValidator
     {
         if (!setupDone) {
             validSchema = doSetup();
+            for (final Validator v: validators) {
+                validSchema = validSchema && v.setup();
+                messages.addAll(v.getMessages());
+            }
             setupDone = true;
         }
 
@@ -77,10 +91,24 @@ public abstract class AbstractValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    public final boolean validate(final JsonNode node)
     {
-        return false;
+        if (!setup())
+            return false;
+
+        messages.clear();
+
+        boolean ret = doValidate(node);
+
+        for (final Validator v: validators) {
+            ret = ret && v.validate(node);
+            messages.addAll(v.getMessages());
+        }
+
+        return ret;
     }
+
+    protected abstract boolean doValidate(final JsonNode node);
 
     @Override
     public SchemaProvider getSchemaProvider()
@@ -102,6 +130,11 @@ public abstract class AbstractValidator
         }
 
         fieldMap.put(name, EnumSet.of(type));
+    }
+
+    protected final void registerValidator(final Validator validator)
+    {
+        validators.add(validator);
     }
 
     private boolean isWellFormed()

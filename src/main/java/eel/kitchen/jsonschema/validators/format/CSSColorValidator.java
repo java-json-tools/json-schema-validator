@@ -37,11 +37,9 @@ public final class CSSColorValidator
         rgb = Pattern.compile("^rgb\\(([^)]+)\\)$");
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
         final String value = node.getTextValue();
-
-        messages.clear();
 
         if (colorNames.contains(value.toLowerCase()))
             return true;

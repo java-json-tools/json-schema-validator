@@ -24,7 +24,7 @@ public final class NullValidator
     extends AbstractValidator
 {
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
         return true;
     }

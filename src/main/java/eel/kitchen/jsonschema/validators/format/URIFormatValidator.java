@@ -10,10 +10,8 @@ public final class URIFormatValidator
     extends AbstractValidator
 {
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        messages.clear();
-
         try {
             new URI(node.getTextValue());
             return true;

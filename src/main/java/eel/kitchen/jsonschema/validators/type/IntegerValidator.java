@@ -18,6 +18,8 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
+import eel.kitchen.jsonschema.validators.format.FormatValidator;
+import eel.kitchen.jsonschema.validators.misc.EnumValidator;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -38,6 +40,9 @@ public final class IntegerValidator
         registerField("divisibleBy", NodeType.INTEGER);
         registerField("exclusiveMinimum", NodeType.BOOLEAN);
         registerField("exclusiveMaximum", NodeType.BOOLEAN);
+
+        registerValidator(new EnumValidator());
+        registerValidator(new FormatValidator());
     }
 
     @Override
@@ -90,12 +95,8 @@ public final class IntegerValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        if (!setup())
-            return false;
-
-        messages.clear();
         final BigInteger value = node.getBigIntegerValue();
 
         int tmp;

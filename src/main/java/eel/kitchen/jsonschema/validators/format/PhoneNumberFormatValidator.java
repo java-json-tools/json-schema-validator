@@ -7,7 +7,7 @@ public final class PhoneNumberFormatValidator
     extends AbstractValidator
 {
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
         final String input = node.getTextValue();
 
@@ -16,8 +16,6 @@ public final class PhoneNumberFormatValidator
             .replaceAll("-(?=\\d)", "")
             .replaceAll(" ", "")
             .replaceAll("\\d", "");
-
-        messages.clear();
 
         if (transformed.isEmpty())
             return true;

@@ -10,10 +10,8 @@ public final class IPv4FormatValidator
     extends AbstractValidator
 {
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        messages.clear();
-
         try {
             Inet4Address.getByName(node.getTextValue());
             return true;

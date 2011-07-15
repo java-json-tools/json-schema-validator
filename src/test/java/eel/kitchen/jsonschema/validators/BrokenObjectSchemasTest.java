@@ -134,30 +134,6 @@ public class BrokenObjectSchemasTest
     }
 
     @Test
-    public void testSelfDependency()
-    {
-        v = new ObjectValidator().setSchema(schemas.get("self-dependency"));
-
-        assertFalse(v.setup());
-
-        messages = v.getMessages();
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "a property cannot depend on itself");
-    }
-
-    @Test
-    public void testDuplicateDependency()
-    {
-        v = new ObjectValidator().setSchema(schemas.get("duplicate-dependency"));
-
-        assertFalse(v.setup());
-
-        messages = v.getMessages();
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "duplicate entries in dependency array");
-    }
-
-    @Test
     public void testBrokenPatternProperties()
     {
         v = new ObjectValidator().setSchema(schemas.get("broken-patternprops"));

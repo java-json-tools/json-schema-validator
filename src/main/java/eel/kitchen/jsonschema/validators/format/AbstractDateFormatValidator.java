@@ -19,10 +19,8 @@ public abstract class AbstractDateFormatValidator
     }
 
     @Override
-    public final boolean validate(final JsonNode node)
+    protected final boolean doValidate(final JsonNode node)
     {
-        messages.clear();
-
         try {
             format.parse(node.getTextValue());
             return true;

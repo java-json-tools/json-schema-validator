@@ -13,13 +13,11 @@ public final class HostnameFormatValidator
         = Pattern.compile("^[a-z0-9]+(-[a-z0-9]+)*$", Pattern.CASE_INSENSITIVE);
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
         final String value = node.getTextValue();
         final String[] parts = value.split("\\.");
         Matcher matcher;
-
-        messages.clear();
 
         for (final String part: parts) {
             matcher = hostnamePart.matcher(part);

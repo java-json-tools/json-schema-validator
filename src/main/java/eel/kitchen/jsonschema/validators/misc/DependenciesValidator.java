@@ -80,7 +80,7 @@ public final class DependenciesValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
         boolean ret = true;
 

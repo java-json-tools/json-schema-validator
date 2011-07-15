@@ -13,12 +13,10 @@ public final class CSSStyleValidator
         = Pattern.compile("^\\s*[^:]+\\s*:\\s*[^;]+$", Pattern.CASE_INSENSITIVE);
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
         final String[] rules = node.getTextValue().split("\\s*;\\s*");
         Matcher matcher;
-
-        messages.clear();
 
         for (final String rule: rules) {
             matcher = pattern.matcher(rule);

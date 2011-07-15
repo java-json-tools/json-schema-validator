@@ -21,14 +21,13 @@ import eel.kitchen.jsonschema.validators.SchemaValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.validators.errors.TypeMismatchValidator;
-import eel.kitchen.jsonschema.validators.providers.ArrayValidatorProvider;
-import eel.kitchen.jsonschema.validators.providers.BooleanValidatorProvider;
-import eel.kitchen.jsonschema.validators.providers.IntegerValidatorProvider;
-import eel.kitchen.jsonschema.validators.providers.NullValidatorProvider;
-import eel.kitchen.jsonschema.validators.providers.NumberValidatorProvider;
-import eel.kitchen.jsonschema.validators.providers.ObjectValidatorProvider;
-import eel.kitchen.jsonschema.validators.providers.StringValidatorProvider;
-import eel.kitchen.jsonschema.validators.providers.ValidatorProvider;
+import eel.kitchen.jsonschema.validators.type.ArrayValidator;
+import eel.kitchen.jsonschema.validators.type.BooleanValidator;
+import eel.kitchen.jsonschema.validators.type.IntegerValidator;
+import eel.kitchen.jsonschema.validators.type.NullValidator;
+import eel.kitchen.jsonschema.validators.type.NumberValidator;
+import eel.kitchen.jsonschema.validators.type.ObjectValidator;
+import eel.kitchen.jsonschema.validators.type.StringValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
@@ -48,18 +47,18 @@ public final class ValidatorFactory
         = LoggerFactory.getLogger(ValidatorFactory.class);
 
     private static final String ANY_TYPE = "any";
-    private final HashMap<String, Class<? extends ValidatorProvider>> providers
-        = new HashMap<String, Class<? extends ValidatorProvider>>();
+    private final HashMap<String, Class<? extends Validator>> validators
+        = new HashMap<String, Class<? extends Validator>>();
 
     public ValidatorFactory()
     {
-        providers.put("array", ArrayValidatorProvider.class);
-        providers.put("object", ObjectValidatorProvider.class);
-        providers.put("string", StringValidatorProvider.class);
-        providers.put("number", NumberValidatorProvider.class);
-        providers.put("integer", IntegerValidatorProvider.class);
-        providers.put("boolean", BooleanValidatorProvider.class);
-        providers.put("null", NullValidatorProvider.class);
+        validators.put("array", ArrayValidator.class);
+        validators.put("object", ObjectValidator.class);
+        validators.put("string", StringValidator.class);
+        validators.put("number", NumberValidator.class);
+        validators.put("integer", IntegerValidator.class);
+        validators.put("boolean", BooleanValidator.class);
+        validators.put("null", NullValidator.class);
     }
 
     public Validator getValidator(final JsonNode schema, final JsonNode node)
@@ -73,26 +72,25 @@ public final class ValidatorFactory
             return new AlwaysFalseValidator("node to validate is null");
 
         final String type = JasonHelper.getNodeType(node);
-        final Class<? extends ValidatorProvider> c = providers.get(type);
-        final ValidatorProvider provider;
-
         final List<String> types = validatingTypes(schema);
 
         if (!types.contains(type))
             return new TypeMismatchValidator(types, type);
 
+        final Class<? extends Validator> c = validators.get(type);
+        final Validator validator;
+
         try {
-            provider = c.getConstructor().newInstance();
+            validator = c.getConstructor().newInstance();
         } catch (Exception e) {
-            logger.error("cannot instantiate validator provider", e);
+            logger.error("cannot instantiate validator", e);
             return new AlwaysFalseValidator(String.format("cannot "
-                + "instantiate validator provider: %s: %s",
+                + "instantiate validator: %s: %s",
                 e.getClass().getCanonicalName(), e.getMessage()));
         }
 
-        provider.setSchema(schema);
+        validator.setSchema(schema);
 
-        final Validator validator = provider.getValidator();
         if (!validator.setup())
             return new AlwaysFalseValidator(validator.getMessages());
         return validator;
@@ -112,7 +110,7 @@ public final class ValidatorFactory
 
         node = schema.get("type");
 
-        allowed.addAll(node == null ? providers.keySet() : getTypeValues(node));
+        allowed.addAll(node == null ? validators.keySet() : getTypeValues(node));
 
         allowed.removeAll(disallowed);
 
@@ -131,8 +129,8 @@ public final class ValidatorFactory
         if (node.isTextual()) {
             value = node.getTextValue();
             if (ANY_TYPE.equals(value))
-                return providers.keySet();
-            if (!providers.containsKey(value)) {
+                return validators.keySet();
+            if (!validators.containsKey(value)) {
                 logger.warn(
                     "unknown type \"{}\", " + "did you forget to register it?",
                     value);
@@ -156,14 +154,14 @@ public final class ValidatorFactory
                 continue;
             }
             value = element.getTextValue();
-            if (!providers.containsKey(value)) {
+            if (!validators.containsKey(value)) {
                 logger.warn("no factory for type \"{}\" - did you forget " +
                     "to register it?", value);
                 continue;
             }
             if (ANY_TYPE.equals(value)) {
                 logger.warn("type/disallow array contains \"" + ANY_TYPE + "\"");
-                return providers.keySet();
+                return validators.keySet();
             }
             if (!ret.add(value))
                 logger.warn("duplicate type entry \"{}\"", value);

@@ -45,13 +45,8 @@ public final class RequiredValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        if (!setup())
-            return false;
-
-        messages.clear();
-
         final Set<String> remaining = new HashSet<String>(required);
 
         remaining.removeAll(CollectionUtils.toSet(node.getFieldNames()));

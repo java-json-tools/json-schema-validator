@@ -18,6 +18,8 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
+import eel.kitchen.jsonschema.validators.format.FormatValidator;
+import eel.kitchen.jsonschema.validators.misc.EnumValidator;
 import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
@@ -33,6 +35,9 @@ public final class StringValidator
         registerField("minLength", NodeType.INTEGER);
         registerField("maxLength", NodeType.INTEGER);
         registerField("pattern", NodeType.STRING);
+
+        registerValidator(new EnumValidator());
+        registerValidator(new FormatValidator());
     }
 
     @Override
@@ -95,13 +100,8 @@ public final class StringValidator
     }
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        if (!setup())
-            return false;
-
-        messages.clear();
-
         final String value = node.getTextValue();
         final int len = value.length();
 

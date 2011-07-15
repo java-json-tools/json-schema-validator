@@ -12,10 +12,8 @@ public final class UnixEpochFormatValidator
     private static final int EPOCH_SHIFT = 31;
 
     @Override
-    public boolean validate(final JsonNode node)
+    protected boolean doValidate(final JsonNode node)
     {
-        messages.clear();
-
         final BigInteger epoch = node.getDecimalValue().toBigInteger();
 
         if (ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
