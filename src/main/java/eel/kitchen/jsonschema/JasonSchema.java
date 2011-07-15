@@ -31,7 +31,7 @@ import java.util.Map;
 public final class JasonSchema
 {
     private final ValidatorFactory factory = new ValidatorFactory();
-    private final List<String> validationErrors = new LinkedList<String>();
+    private final List<String> messages = new LinkedList<String>();
     private final JsonNode schema;
 
     public JasonSchema(final JsonNode schema)
@@ -41,20 +41,20 @@ public final class JasonSchema
 
     public boolean validate(final JsonNode node)
     {
-        validationErrors.clear();
+        messages.clear();
 
-        final List<String> messages = validateOneNode(schema, node, "$");
+        final List<String> list = validateOneNode(schema, node, "$");
 
-        if (messages.isEmpty())
+        if (list.isEmpty())
             return true;
 
-        validationErrors.addAll(messages);
+        messages.addAll(list);
         return false;
     }
 
-    public List<String> getValidationErrors()
+    public List<String> getMessages()
     {
-        return Collections.unmodifiableList(validationErrors);
+        return Collections.unmodifiableList(messages);
     }
 
     private List<String> validateOneNode(final JsonNode schema,

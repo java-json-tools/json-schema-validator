@@ -58,7 +58,7 @@ public class BrokenSchemasTest
         schema = new JasonSchema(null);
         assertFalse(schema.validate(dummy));
 
-        ret = schema.getValidationErrors();
+        ret = schema.getMessages();
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
             + "MalformedJasonSchemaException: schema is null");
@@ -70,7 +70,7 @@ public class BrokenSchemasTest
         schema = new JasonSchema(testNode.get("not-a-schema"));
         assertFalse(schema.validate(dummy));
 
-        ret = schema.getValidationErrors();
+        ret = schema.getMessages();
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
             + "MalformedJasonSchemaException: schema is not a JSON object");
@@ -167,7 +167,7 @@ public class BrokenSchemasTest
 
         assertFalse(schema.validate(dummy));
 
-        ret = schema.getValidationErrors();
+        ret = schema.getMessages();
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "$: BROKEN SCHEMA: "
             + "MalformedJasonSchemaException: no element in the enumeration "

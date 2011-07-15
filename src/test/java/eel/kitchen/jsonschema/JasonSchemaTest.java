@@ -25,7 +25,7 @@ public class JasonSchemaTest
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertEquals(messages.size(), 2);
         assertEquals(messages.get(0), "$.table1: property id is required but "
             + "was not found");
@@ -33,7 +33,7 @@ public class JasonSchemaTest
             + "type boolean, expected string");
 
         assertTrue(schema.validate(node.get("ok")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertTrue(messages.isEmpty());
     }
 
@@ -45,13 +45,13 @@ public class JasonSchemaTest
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "$: additional properties were found "
             + "but schema forbids them");
 
         assertTrue(schema.validate(node.get("ok")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertTrue(messages.isEmpty());
     }
 
@@ -63,7 +63,7 @@ public class JasonSchemaTest
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertEquals(messages.size(), 3);
         assertEquals(messages.get(0), "$.[0]: node is of type boolean, "
             + "expected string");
@@ -73,7 +73,7 @@ public class JasonSchemaTest
             + "expected integer");
 
         assertTrue(schema.validate(node.get("ok")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertTrue(messages.isEmpty());
     }
 
@@ -85,7 +85,7 @@ public class JasonSchemaTest
         schema = new JasonSchema(node.get("schema"));
 
         assertFalse(schema.validate(node.get("ko")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertEquals(messages.size(), 3);
         assertEquals(messages.get(0), "$.[0]: node is of type boolean, "
             + "expected one of [string, integer]");
@@ -94,7 +94,7 @@ public class JasonSchemaTest
         assertEquals(messages.get(2), "$.[2]: value is not a valid date");
 
         assertTrue(schema.validate(node.get("ok")));
-        messages = schema.getValidationErrors();
+        messages = schema.getMessages();
         assertTrue(messages.isEmpty());
     }
 }
