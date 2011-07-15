@@ -16,9 +16,14 @@ import static org.testng.Assert.assertTrue;
 
 public final class DependenciesValidatorTest
 {
+    private static final List<String> ref = Arrays.asList(
+        "property p1 depends on p3, but the latter was not found",
+        "property p1 depends on p4, but the latter was not found"
+    );
+
     private JsonNode brokenSchemas, schema;
     private JsonNode testNode;
-    private Validator v;
+    private final Validator v = new DependenciesValidator();
     private List<String> messages;
 
     @BeforeClass
@@ -29,18 +34,12 @@ public final class DependenciesValidatorTest
         brokenSchemas = testNode.get("broken");
     }
 
-    @Test
+    @Test(priority = 1)
     public void testDependencyValidator()
     {
         schema = testNode.get("schema");
-        v = new DependenciesValidator();
-
-        final List<String> ref = Arrays.asList(
-            "property p1 depends on p3, but the latter was not found",
-            "property p1 depends on p4, but the latter was not found"
-        );
-
         v.setSchema(schema);
+
         assertTrue(v.setup());
         assertTrue(v.getMessages().isEmpty());
 
@@ -56,7 +55,7 @@ public final class DependenciesValidatorTest
     public void testInvalidType()
     {
         schema = brokenSchemas.get("invalid-type");
-        v = new DependenciesValidator().setSchema(schema);
+        v.setSchema(schema);
 
         assertFalse(v.setup());
 
@@ -70,21 +69,21 @@ public final class DependenciesValidatorTest
     public void testInvalidValue()
     {
         schema = brokenSchemas.get("invalid-value");
-        v = new DependenciesValidator().setSchema(schema);
+        v.setSchema(schema);
 
         assertFalse(v.setup());
 
         messages = v.getMessages();
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "dependency value should be a string "
-            + "or an array");
+        assertEquals(messages.get(0),
+            "dependency value should be a string " + "or an array");
     }
 
     @Test
     public void testInvalidElement()
     {
         schema = brokenSchemas.get("invalid-element");
-        v = new DependenciesValidator().setSchema(schema);
+        v.setSchema(schema);
 
         assertFalse(v.setup());
 

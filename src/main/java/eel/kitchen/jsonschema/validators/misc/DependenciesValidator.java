@@ -40,7 +40,12 @@ public final class DependenciesValidator
         if (!super.doSetup())
             return false;
 
+        dependencies.clear();
+
         final JsonNode depsNode = schema.get("dependencies");
+        if (depsNode == null)
+            return true;
+
         final IterableJsonNode inode = new IterableJsonNode(depsNode);
 
         String fieldName;
