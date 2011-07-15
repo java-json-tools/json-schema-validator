@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -38,6 +37,7 @@ public abstract class AbstractValidator
 
     protected JsonNode schema;
     protected final List<String> messages = new LinkedList<String>();
+    protected boolean setupDone = false, validSchema = false;
 
     static {
         try {
@@ -50,14 +50,27 @@ public abstract class AbstractValidator
     @Override
     public final Validator setSchema(final JsonNode schema)
     {
+        messages.clear();
+        setupDone = false;
+        validSchema = false;
         this.schema = schema;
         return this;
     }
 
     @Override
-    public void setup()
-        throws MalformedJasonSchemaException
+    public final boolean setup()
     {
+        if (!setupDone) {
+            validSchema = doSetup();
+            setupDone = true;
+        }
+
+        return validSchema;
+    }
+
+    protected boolean doSetup()
+    {
+        return isWellFormed();
     }
 
     @Override
@@ -95,8 +108,7 @@ public abstract class AbstractValidator
         fields.put(name, EnumSet.of(type));
     }
 
-    @Override
-    public boolean isWellFormed()
+    private boolean isWellFormed()
     {
         final Map<String, EnumSet<NodeType>> fields = fieldMap();
         boolean ret = true;
@@ -112,8 +124,8 @@ public abstract class AbstractValidator
             if (!expected.contains(actual)) {
                 ret = false;
                 messages.add(String.format(
-                    "field \"%s\" is of type %s, " + "expected %s", field,
-                    actual, expected));
+                    "%s is of type %s, " + "expected %s", field, actual,
+                    expected));
             }
         }
 

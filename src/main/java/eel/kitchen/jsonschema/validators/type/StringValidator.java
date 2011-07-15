@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
@@ -40,7 +39,7 @@ public final class StringValidator
     {
         registerField("minLength", NodeType.INTEGER);
         registerField("maxLength", NodeType.INTEGER);
-        registerField("regex", NodeType.STRING);
+        registerField("pattern", NodeType.STRING);
     }
 
     @Override
@@ -50,56 +49,74 @@ public final class StringValidator
     }
 
     @Override
-    public void setup()
-        throws MalformedJasonSchemaException
+    protected boolean doSetup()
     {
-        JsonNode node;
+        if (!super.doSetup())
+            return false;
 
-        if (schema.has("minLength")) {
-            node = schema.get("minLength");
-            if (!node.isInt())
-                throw new MalformedJasonSchemaException("minLength should be " +
-                    "an integer");
-            minLength = node.getIntValue();
-            if (minLength < 0)
-                throw new MalformedJasonSchemaException("minLength should be " +
-                    "greater than or equal to 0");
+        if (!computeMinMax())
+            return false;
+
+        final JsonNode pattern = schema.get("pattern");
+
+        if (pattern == null)
+            return true;
+
+        regex = pattern.getTextValue();
+
+        if (RhinoHelper.regexIsValid(regex))
+            return true;
+
+        messages.add("pattern is an invalid regular expression");
+        return false;
+    }
+
+    private boolean computeMinMax()
+    {
+        final JsonNode min = schema.get("minLength"),
+            max = schema.get("maxLength");
+
+        if (min != null) {
+            if (!min.isInt()) {
+                messages.add("minLength overflow");
+                return false;
+            }
+            minLength = min.getIntValue();
+            if (minLength < 0) {
+                messages.add("minLength is lower than 0");
+                return false;
+            }
         }
 
-        if (schema.has("maxLength")) {
-            node = schema.get("maxLength");
-            if (!node.isInt())
-                throw new MalformedJasonSchemaException("maxLength should be " +
-                    "an integer");
-            maxLength = node.getIntValue();
-            if (maxLength < 0)
-                throw new MalformedJasonSchemaException("maxLength should be " +
-                    "greater than or equal to 0");
+        if (max != null) {
+            if (!max.isInt()) {
+                messages.add("maxLength overflow");
+                return false;
+            }
+            maxLength = max.getIntValue();
+            if (maxLength < 0) {
+                messages.add("maxLength is lower than 0");
+                return false;
+            }
         }
 
-        if (maxLength < minLength)
-            throw new MalformedJasonSchemaException("maxLength should be " +
-                "greater than or equal to minLength");
-
-        if (schema.has("pattern")) {
-            node = schema.get("pattern");
-            if (!node.isTextual())
-                throw new MalformedJasonSchemaException("pattern should be a " +
-                    "string");
-            regex = node.getTextValue();
-            if (!RhinoHelper.regexIsValid(regex))
-                throw new MalformedJasonSchemaException("pattern is an " +
-                    "invalid regular expression");
+        if (maxLength < minLength) {
+            messages.add("minLength is greater than maxLength");
+            return false;
         }
+        return true;
     }
 
     @Override
     public boolean validate(final JsonNode node)
     {
-        final String value = node.getTextValue();
-        final int len = value.length();
+        if (!setup())
+            return false;
 
         messages.clear();
+
+        final String value = node.getTextValue();
+        final int len = value.length();
 
         if (len < minLength) {
             messages.add("string length is less than the required minimum");

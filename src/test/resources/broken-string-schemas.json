@@ -2,11 +2,17 @@
     "broken-minLength": {
         "minLength": 3.3
     },
+    "minLength-overflow": {
+        "minLength": 999129309999012938019283
+    },
     "negative-minLength": {
         "minLength": -3
     },
     "broken-maxLength": {
-        "maxLength": 3.3
+        "maxLength": "Pouic pouic"
+    },
+    "maxLength-overflow": {
+        "maxLength": 91298310923019804918092841029
     },
     "negative-maxLength": {
         "maxLength": -3

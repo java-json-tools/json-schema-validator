@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.type.ObjectValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -25,10 +24,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class BrokenObjectSchemasTest
 {
     private JsonNode schemas;
+    private Validator v;
+    private List<String> messages;
 
     @BeforeClass
     public void setUp()
@@ -37,135 +42,159 @@ public class BrokenObjectSchemasTest
         schemas = JasonHelper.load("broken-object-schemas.json");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^properties is not an object$"
-    )
+    @Test
     public void testBrokenProperties()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-properties")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("broken-properties"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "properties is of type string, "
+            + "expected [object]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^value of a property should be an " +
-            "object$"
-    )
+    @Test
     public void testBrokenProperty()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-property")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("broken-property"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "values of properties should be "
+            + "objects");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^required should be a boolean$"
-    )
+    @Test
     public void testBrokenRequired()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-required")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("broken-required"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "required should be a boolean");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^additionalProperties is neither a" +
-            " boolean nor an object$"
-    )
+    @Test
     public void testBrokenAdditional()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-additional")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("broken-additional"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "additionalProperties is of type "
+            + "string, expected [boolean, object]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^dependencies should be an object$"
-    )
+    @Test
     public void testBrokenDependencies()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-dependencies")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("broken-dependencies"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0),
+            "dependencies is of type boolean, " + "expected [object]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^dependency value is neither a "
-            + "string nor an array$"
-    )
+    @Test
     public void testBrokenDependency()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-dependency")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("broken-dependency"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "dependency value should be a string "
+            + "or an array");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^dependency element is not a "
-            + "string$"
-    )
+    @Test
     public void testBrokenDependencyInArray()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-dependency-in-array"))
-            .setup();
+        v = new ObjectValidator()
+            .setSchema(schemas.get("broken-dependency-element"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "dependency array elements should be "
+            + "strings");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^duplicate entries in dependencies" +
-            " array$"
-    )
-    public void testDuplicateDependency()
-        throws MalformedJasonSchemaException
-    {
-        new ObjectValidator().setSchema(schemas.get("duplicate-dependency"))
-            .setup();
-    }
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^a property cannot depend on " +
-            "itself$"
-    )
+    @Test
     public void testSelfDependency()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("self-dependency")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("self-dependency"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "a property cannot depend on itself");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^patternProperties should be an " +
-            "object$"
-    )
+    @Test
+    public void testDuplicateDependency()
+    {
+        v = new ObjectValidator().setSchema(schemas.get("duplicate-dependency"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "duplicate entries in dependency array");
+    }
+
+    @Test
     public void testBrokenPatternProperties()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("broken-patternprops")).setup();
+        v = new ObjectValidator().setSchema(schemas.get("broken-patternprops"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "patternProperties is of type string, "
+            + "expected [object]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^invalid regex found in " +
-            "patternProperties$"
-    )
+    @Test
     public void testPatternPropertiesBrokenRegex()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("patternprops-brokenregex"))
-            .setup();
+        v = new ObjectValidator()
+            .setSchema(schemas.get("patternprops-brokenregex"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "invalid regex found in "
+            + "patternProperties");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^values from patternProperties " +
-            "should be objects$"
-    )
+    @Test
     public void testPatternPropertiesBrokenValue()
-        throws MalformedJasonSchemaException
     {
-        new ObjectValidator().setSchema(schemas.get("patternprops-brokenvalue"))
-            .setup();
+        v = new ObjectValidator()
+            .setSchema(schemas.get("patternprops-brokenvalue"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "values of patternProperties should be "
+            + "objects");
     }
 }

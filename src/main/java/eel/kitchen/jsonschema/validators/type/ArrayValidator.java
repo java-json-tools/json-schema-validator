@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ArraySchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
@@ -26,7 +25,6 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.EnumSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,48 +61,57 @@ public final class ArrayValidator
     }
 
     @Override
-    public void setup()
-        throws MalformedJasonSchemaException
+    protected boolean doSetup()
     {
+        if (!super.doSetup())
+            return false;
+
         JsonNode node;
 
         node = schema.get("minItems");
         if (node != null) {
-            if (!node.isInt())
-                throw new MalformedJasonSchemaException("minItems should be " +
-                    "an integer");
+            if (!node.isInt()) {
+                messages.add("minItems overflow");
+                return false;
+            }
             minItems = node.getIntValue();
+            if (minItems < 0) {
+                messages.add("minItems is negative");
+                return false;
+            }
         }
 
         node = schema.get("maxItems");
         if (node != null) {
-            if (!node.isInt())
-                throw new MalformedJasonSchemaException("maxItems should be " +
-                    "an integer");
+            if (!node.isInt()) {
+                messages.add("maxItems overflow");
+                return false;
+            }
             maxItems = node.getIntValue();
+            if (maxItems < 0) {
+                messages.add("maxItems is negative");
+                return false;
+            }
         }
 
-        if (maxItems < minItems)
-            throw new MalformedJasonSchemaException("minItems should be less" +
-                " than or equal to maxItems");
-
-        node = schema.get("uniqueItems");
-        if (node != null) {
-            if (!node.isBoolean())
-                throw new MalformedJasonSchemaException("uniqueItems should " +
-                    "be a boolean");
-            uniqueItems = node.getBooleanValue();
+        if (maxItems < minItems) {
+            messages.add("minItems is greater than maxItems");
+            return false;
         }
 
-        computeItems();
-        computeAdditionalItems();
-        finalCheck();
+        uniqueItems = schema.path("uniqueItems").getValueAsBoolean();
+
+        return computeItems() && computeAdditionalItems() && finalCheck();
     }
 
     @Override
     public boolean validate(final JsonNode node)
     {
+        if (!setup())
+            return false;
+
         messages.clear();
+
         final int nrItems = node.size();
 
         if (nrItems < minItems) {
@@ -135,73 +142,61 @@ public final class ArrayValidator
         return true;
     }
 
-    private void computeItems()
-        throws MalformedJasonSchemaException
+    private boolean computeItems()
     {
         final JsonNode node = schema.get("items");
 
-        if (node == null) {
-            additionalItems = EMPTY_SCHEMA;
-            return;
-        }
+        if (node == null)
+            return true;
 
         if (node.isObject()) {
             additionalItems = node;
-            return;
+            return true;
         }
-
-        if (!node.isArray())
-            throw new MalformedJasonSchemaException("items should be an " +
-                "object or an array");
 
         itemsTuples = true;
 
         for (final JsonNode element: node) {
-            if (!element.isObject())
-                throw new MalformedJasonSchemaException("members of the items"
-                    + " array should be objects");
+            if (!element.isObject()) {
+                messages.add("members of the items array should be objects");
+                return false;
+            }
             items.add(element);
         }
 
-        if (items.isEmpty())
-            throw new MalformedJasonSchemaException("the items array is empty");
+        return true;
     }
 
-    private void computeAdditionalItems()
-        throws MalformedJasonSchemaException
+    private boolean computeAdditionalItems()
     {
         final JsonNode node = schema.get("additionalItems");
 
         if (node == null)
-            return;
+            return true;
 
         if (node.isBoolean()) {
             additionalItemsOK = node.getBooleanValue();
-            return;
+            return true;
         }
 
-        if (!node.isObject())
-            throw new MalformedJasonSchemaException("additionalItems is "
-                + "neither a boolean nor an object");
-
         additionalItems = node;
+        return true;
     }
 
-    private void finalCheck()
-        throws MalformedJasonSchemaException
+    private boolean finalCheck()
     {
         if (!itemsTuples)
-            return;
+            return true;
 
-        final int len = items.size();
+        if (additionalItemsOK)
+            return true;
 
-        if (minItems > len && !additionalItemsOK)
-            throw new MalformedJasonSchemaException("minItems is greater "
-                + "than what the schema allows (tuples, additional)");
-        if (maxItems < len)
-            throw new MalformedJasonSchemaException("maxItems is lower "
-                + "than what the schema requires (tuples, additional)");
+        if (minItems <= items.size())
+            return true;
 
+        messages.add("minItems is greater than what the schema allows "
+            + "(tuples, additional)");
+        return false;
     }
 
     @Override

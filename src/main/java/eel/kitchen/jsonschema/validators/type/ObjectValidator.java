@@ -66,26 +66,19 @@ public final class ObjectValidator
     }
 
     @Override
-    public void setup()
-        throws MalformedJasonSchemaException
+    protected boolean doSetup()
     {
-        computeProperties();
-        computeAdditional();
-        computeDependencies();
-        computePatternProperties();
+        return super.doSetup() && computeProperties() && computeAdditional()
+            && computeDependencies() && computePatternProperties();
+
     }
 
-    private void computeProperties()
-        throws MalformedJasonSchemaException
+    private boolean computeProperties()
     {
         final JsonNode node = schema.get("properties");
 
         if (node == null)
-            return;
-
-        if (!node.isObject())
-            throw new MalformedJasonSchemaException("properties is not an " +
-                "object");
+            return true;
 
         final Map<String, JsonNode> map = CollectionUtils.toMap(node.getFields());
 
@@ -93,68 +86,66 @@ public final class ObjectValidator
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             value = entry.getValue();
-            if (!value.isObject())
-                throw new MalformedJasonSchemaException("value of a property " +
-                    "should be an object");
+            if (!value.isObject()) {
+                messages.add("values of properties should be objects");
+                return false;
+            }
             truthValue = value.get("required");
             if (truthValue == null)
                 continue;
-            if (!truthValue.isBoolean())
-                throw new MalformedJasonSchemaException("required should be " +
-                    "a boolean");
+            if (!truthValue.isBoolean()) {
+                messages.add("required should be a boolean");
+                return false;
+            }
             if (truthValue.getBooleanValue())
                 required.add(entry.getKey());
         }
 
         properties.putAll(map);
+        return true;
     }
 
-    private void computeAdditional()
-        throws MalformedJasonSchemaException
+    private boolean computeAdditional()
     {
-        final JsonNode node = schema.get("additionalProperties");
+        final JsonNode node = schema.path("additionalProperties");
 
-        if (node == null)
-            return;
-
-        if (node.isBoolean()) {
+        if (node.isBoolean())
             additionalPropertiesOK = node.getBooleanValue();
-            return;
-        }
 
-        if (!node.isObject())
-            throw new MalformedJasonSchemaException("additionalProperties" +
-                " is neither a boolean nor an object");
+        if (node.isObject())
+            additionalProperties = node;
 
-        additionalProperties = node;
+        return true;
     }
 
-    private void computeDependencies()
-        throws MalformedJasonSchemaException
+    private boolean computeDependencies()
     {
         //TODO: object dependencies
 
-        final JsonNode node = schema.get("dependencies");
-
-        if (node == null)
-            return;
+        final JsonNode node = schema.path("dependencies");
 
         if (!node.isObject())
-            throw new MalformedJasonSchemaException("dependencies should be "
-                + "an object");
+            return true;
 
         final Map<String, JsonNode> map = CollectionUtils.toMap(node.getFields());
         Set<String> deps;
         String fieldName;
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            deps = computeOneDependency(entry.getValue());
+            try {
+                deps = computeOneDependency(entry.getValue());
+            } catch (MalformedJasonSchemaException e) {
+                messages.add(e.getMessage());
+                return false;
+            }
             fieldName = entry.getKey();
-            if (deps.contains(fieldName))
-                throw new MalformedJasonSchemaException("a property cannot " +
-                    "depend on itself");
+            if (deps.contains(fieldName)) {
+                messages.add("a property cannot depend on itself");
+                return false;
+            }
             dependencies.put(fieldName, deps);
         }
+        return true;
     }
 
     private static Set<String> computeOneDependency(final JsonNode node)
@@ -168,32 +159,27 @@ public final class ObjectValidator
         }
 
         if (!node.isArray())
-            throw new MalformedJasonSchemaException("dependency value is "
-                + "neither a string nor an array");
+            throw new MalformedJasonSchemaException("dependency value should "
+                + "be a string or an array");
 
         for (final JsonNode element: node) {
             if (!element.isTextual())
-                throw new MalformedJasonSchemaException("dependency element "
-                    + "is not a string");
+                throw new MalformedJasonSchemaException("dependency "
+                    + "array elements should be strings");
             if (!ret.add(element.getTextValue()))
                 throw new MalformedJasonSchemaException("duplicate entries "
-                    + "in dependencies array");
+                    + "in dependency array");
         }
 
         return ret;
     }
 
-    private void computePatternProperties()
-        throws MalformedJasonSchemaException
+    private boolean computePatternProperties()
     {
         final JsonNode node = schema.get("patternProperties");
 
         if (node == null)
-            return;
-
-        if (!node.isObject())
-            throw new MalformedJasonSchemaException("patternProperties should" +
-                " be an object");
+            return true;
 
         final Map<String, JsonNode> map = CollectionUtils.toMap(node.getFields());
 
@@ -203,19 +189,25 @@ public final class ObjectValidator
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             regex = entry.getKey();
             value = entry.getValue();
-            if (!RhinoHelper.regexIsValid(regex))
-                throw new MalformedJasonSchemaException("invalid regex found " +
-                    "in patternProperties");
-            if (!value.isObject())
-                throw new MalformedJasonSchemaException("values from " +
-                    "patternProperties should be objects");
+            if (!RhinoHelper.regexIsValid(regex)) {
+                messages.add("invalid regex found in patternProperties");
+                return false;
+            }
+            if (!value.isObject()) {
+                messages.add("values of patternProperties should be objects");
+                return false;
+            }
             patternProperties.put(regex, value);
         }
+        return true;
     }
 
     @Override
     public boolean validate(final JsonNode node)
     {
+        if (!setup())
+            return false;
+
         messages.clear();
         final Set<String> fields = CollectionUtils.toSet(node.getFieldNames());
         final Collection<String> set = new HashSet<String>();

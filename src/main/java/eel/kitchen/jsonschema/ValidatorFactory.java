@@ -108,11 +108,8 @@ public final class ValidatorFactory
         provider.setSchema(schema);
 
         final Validator validator = provider.getValidator();
-        try {
-            validator.setup();
-        } catch (MalformedJasonSchemaException e) {
-            return new IllegalSchemaValidator(e);
-        }
+        if (!validator.setup())
+            return new AlwaysFalseValidator(validator.getMessages());
         return validator;
     }
 

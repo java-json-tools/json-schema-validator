@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -40,8 +39,11 @@ public final class NumberValidator
 
     public NumberValidator()
     {
+        registerField("minimum", NodeType.INTEGER);
         registerField("minimum", NodeType.NUMBER);
+        registerField("maximum", NodeType.INTEGER);
         registerField("maximum", NodeType.NUMBER);
+        registerField("divisibleBy", NodeType.INTEGER);
         registerField("divisibleBy", NodeType.NUMBER);
         registerField("exclusiveMinimum", NodeType.BOOLEAN);
         registerField("exclusiveMaximum", NodeType.BOOLEAN);
@@ -54,74 +56,60 @@ public final class NumberValidator
     }
 
     @Override
-    public void setup()
-        throws MalformedJasonSchemaException
+    protected boolean doSetup()
     {
+        if (!super.doSetup())
+            return false;
+
         JsonNode node;
 
-        node = schema.get("minimum");
+        node = schema.path("minimum");
 
-        if (node != null) {
-            if (!node.isNumber())
-                throw new MalformedJasonSchemaException("minimum is not a " +
-                    "number");
+        if (node.isNumber())
             minimum = node.getDecimalValue();
-        }
 
-        node = schema.get("exclusiveMinimum");
+        exclusiveMinimum = schema.path("exclusiveMinimum").getValueAsBoolean();
 
-        if (node != null) {
-            if (!node.isBoolean())
-                throw new MalformedJasonSchemaException("exclusiveMinimum is " +
-                    "not a boolean");
-            exclusiveMinimum = node.getBooleanValue();
-        }
+        node = schema.path("maximum");
 
-        node = schema.get("maximum");
-
-        if (node != null) {
-            if (!node.isNumber())
-                throw new MalformedJasonSchemaException("maximum is not a " +
-                    "number");
+        if (node.isNumber())
             maximum = node.getDecimalValue();
-        }
 
-        node = schema.get("exclusiveMaximum");
-
-        if (node != null) {
-            if (!node.isBoolean())
-                throw new MalformedJasonSchemaException("exclusiveMaximum is " +
-                    "not a boolean");
-            exclusiveMaximum = node.getBooleanValue();
-        }
+        exclusiveMaximum = schema.path("exclusiveMaximum").getValueAsBoolean();
 
         if (minimum != null && maximum != null) {
             final int tmp = minimum.compareTo(maximum);
-            if (tmp > 0)
-                throw new MalformedJasonSchemaException("minimum should be " +
-                    "less than or equal to maximum");
-            if (tmp == 0 && (exclusiveMinimum || exclusiveMaximum))
-                throw new MalformedJasonSchemaException("schema can never " +
-                    "validate: minimum equals maximum, but one, or both, " +
-                    "is excluded from matching");
+            if (tmp > 0) {
+                messages.add("minimum is greater than maximum");
+                return false;
+            }
+            if (tmp == 0 && (exclusiveMinimum || exclusiveMaximum)) {
+                messages.add("schema can never validate: minimum and maximum "
+                    + "are equal but are excluded from matching");
+                return false;
+            }
         }
 
         node = schema.get("divisibleBy");
 
-        if (node != null) {
-            if (!node.isNumber())
-                throw new MalformedJasonSchemaException("divisibleBy is not " +
-                    "a number");
-            divisor = node.getDecimalValue();
-            if (divisor.compareTo(ZERO) == 0)
-                throw new MalformedJasonSchemaException("divisibleBy cannot " +
-                    "be zero");
-        }
+        if (node == null)
+            return true;
+
+        divisor = node.getDecimalValue();
+
+        if (ZERO.compareTo(divisor) != 0)
+            return true;
+
+        messages.add("divisibleBy is 0");
+        return false;
     }
 
     @Override
     public boolean validate(final JsonNode node)
     {
+        if (!setup())
+            return false;
+
         messages.clear();
         final BigDecimal value = node.getDecimalValue();
 

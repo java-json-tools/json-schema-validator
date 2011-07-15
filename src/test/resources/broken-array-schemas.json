@@ -1,13 +1,21 @@
 {
     "broken-minItems": {
-        "minItems": false,
-        "maxItems": "whatever",
-        "uniqueItems": "I don't have an opinion"
+        "minItems": false
     },
     "broken-maxItems": {
-        "minItems": 3,
-        "maxItems": "whatever",
-        "uniqueItems": "I don't have an opinion"
+        "maxItems": "whatever"
+    },
+    "negative-minItems": {
+        "minItems": -1
+    },
+    "minItems-overflow": {
+        "minItems": 499809124807193840984098
+    },
+    "negative-maxItems": {
+        "maxItems": -43
+    },
+    "maxItems-overflow": {
+        "maxItems": 1209809104809802934801984013984
     },
     "inverted-minmax": {
         "minItems": 3,
@@ -22,9 +30,6 @@
     "broken-items-value": {
         "items": [ true ]
     },
-    "empty-items": {
-        "items": []
-    },
     "broken-additionalItems": {
         "additionalItems": "yes, please"
     },
@@ -32,9 +37,5 @@
         "minItems": 2,
         "items": [ { "type": "boolean" } ],
         "additionalItems": false
-    },
-    "incoherent-maxItems": {
-        "maxItems": 0,
-        "items": [ { "type": "object" } ]
     }
 }

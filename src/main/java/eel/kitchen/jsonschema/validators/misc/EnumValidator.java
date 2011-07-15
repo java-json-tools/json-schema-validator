@@ -1,13 +1,11 @@
 package eel.kitchen.jsonschema.validators.misc;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.JasonHelper;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -33,30 +31,36 @@ public final class EnumValidator
     }
 
     @Override
-    public void setup() throws MalformedJasonSchemaException
+    protected boolean doSetup()
     {
+        if (!super.doSetup())
+            return false;
+
         final JsonNode node = schema.get("enum");
         final String expected = schema.get("type").getTextValue();
-
-        if (!node.isArray())
-            throw new MalformedJasonSchemaException("enum is not an array");
 
         for (final JsonNode element: node) {
             if (!expected.equals(JasonHelper.getNodeType(element)))
                 continue;
-            if (!values.add(element))
-                throw new MalformedJasonSchemaException("enum has duplicate "
-                    + "values");
+            if (!values.add(element)) {
+                messages.add("enum has duplicate values");
+                return false;
+            }
         }
 
-        if (values.isEmpty())
-            throw new MalformedJasonSchemaException("no element in the "
-                + "enumeration has expected type " + expected);
+        if (!values.isEmpty())
+            return true;
+
+        messages.add("no element in enum has expected type " + expected);
+        return false;
     }
 
     @Override
     public boolean validate(final JsonNode node)
     {
+        if (!setup())
+            return false;
+
         messages.clear();
 
         if (values.contains(node))

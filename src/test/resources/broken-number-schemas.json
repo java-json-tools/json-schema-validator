@@ -9,7 +9,7 @@
     "broken-maximum": {
         "minimum": -18.2,
         "exclusiveMinimum": false,
-        "maximum": "oualou"
+        "maximum": [ 1, 2, 3 ]
     },
     "broken-exclusiveMaximum": {
         "minimum": 2,

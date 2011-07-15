@@ -1,7 +1,6 @@
 package eel.kitchen.jsonschema.validators.misc;
 
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.jsonschema.validators.Validator;
@@ -23,20 +22,10 @@ public final class CombinedValidator
     }
 
     @Override
-    public void setup()
-        throws MalformedJasonSchemaException
+    protected boolean doSetup()
     {
         for (final Validator v: validators)
-            v.setup();
-    }
-
-    @Override
-    public boolean isWellFormed()
-    {
-        messages.clear();
-
-        for (final Validator v: validators)
-            if (!v.isWellFormed()) {
+            if (!v.setup()) {
                 messages.addAll(v.getMessages());
                 return false;
             }
@@ -47,10 +36,13 @@ public final class CombinedValidator
     @Override
     public boolean validate(final JsonNode node)
     {
+        if (!setup())
+            return false;
+
         messages.clear();
 
         for (final Validator v: validators) {
-            if (!v.isWellFormed()) {
+            if (!v.setup()) {
                 messages.addAll(v.getMessages());
                 return false;
             }

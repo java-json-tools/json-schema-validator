@@ -15,20 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.validators;
+package eel.kitchen.jsonschema.validators.misc;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
-import eel.kitchen.jsonschema.validators.misc.EnumValidator;
+import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class BrokenEnumSchemasTest
 {
     private JsonNode schemas;
+    private Validator v;
+    private List<String> messages;
 
     @BeforeClass
     public void setUp()
@@ -37,23 +42,41 @@ public class BrokenEnumSchemasTest
         schemas = JasonHelper.load("broken-enum-schemas.json");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^enum is not an array$"
-    )
+    @Test
     public void testIllegalEnum()
-        throws MalformedJasonSchemaException
     {
-        new EnumValidator().setSchema(schemas.get("illegal-enum")).setup();
+        v = new EnumValidator().setSchema(schemas.get("illegal-enum"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "enum is of type boolean, "
+            + "expected [array]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^enum has duplicate values$"
-    )
+    @Test
     public void testEnumDuplicates()
-        throws MalformedJasonSchemaException
     {
-        new EnumValidator().setSchema(schemas.get("enum-duplicates")).setup();
+        v = new EnumValidator().setSchema(schemas.get("enum-duplicates"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "enum has duplicate values");
+    }
+
+    @Test
+    public void testEnumNoMatch()
+    {
+        v = new EnumValidator().setSchema(schemas.get("enum-nomatch"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "no element in enum has expected type "
+            + "boolean");
     }
 }

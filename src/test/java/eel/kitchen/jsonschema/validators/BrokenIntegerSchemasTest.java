@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.type.IntegerValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -25,10 +24,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class BrokenIntegerSchemasTest
 {
     private JsonNode schemas;
+    private Validator v;
+    private List<String> messages;
 
     @BeforeClass
     public void setUp()
@@ -37,88 +42,107 @@ public class BrokenIntegerSchemasTest
         schemas = JasonHelper.load("broken-integer-schemas.json");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^minimum is not an integer$"
-    )
+    @Test
     public void testBrokenMinimum()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("broken-minimum")).setup();
+        v = new IntegerValidator().setSchema(schemas.get("broken-minimum"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minimum is of type number, "
+            + "expected [integer]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^exclusiveMinimum is not a boolean$"
-    )
+    @Test
     public void testBrokenExclusiveMinimum()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("broken-exclusiveMinimum"))
-            .setup();
+        v = new IntegerValidator()
+            .setSchema(schemas.get("broken-exclusiveMinimum"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "exclusiveMinimum is of type integer, "
+            + "expected [boolean]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^maximum is not an integer$"
-    )
+    @Test
     public void testBrokenMaximum()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("broken-maximum")).setup();
+        v = new IntegerValidator().setSchema(schemas.get("broken-maximum"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0),
+            "maximum is of type string, " + "expected [integer]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^exclusiveMaximum is not a boolean$"
-    )
+    @Test
     public void testBrokenExclusiveMaximum()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("broken-exclusiveMaximum"))
-            .setup();
+        v = new IntegerValidator()
+            .setSchema(schemas.get("broken-exclusiveMaximum"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0),
+            "exclusiveMaximum is of type number, " + "expected [boolean]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^minimum should be less than or " +
-            "equal to maximum$"
-    )
+    @Test
     public void testInvertedMinMax()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("inverted-minmax")).setup();
+        v = new IntegerValidator().setSchema(schemas.get("inverted-minmax"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minimum is greater than maximum");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^schema can never validate: " +
-            "minimum equals maximum, but one, or both, " +
-            "is excluded from matching$"
-    )
+    @Test
     public void testImpossibleMatch()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("impossible-match")).setup();
+        v = new IntegerValidator().setSchema(schemas.get("impossible-match"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "schema can never validate: minimum and"
+            + " maximum are equal but are excluded from matching");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^divisibleBy is not an integer$"
-    )
+    @Test
     public void testBrokenDivisor()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("broken-divisor")).setup();
+        v = new IntegerValidator().setSchema(schemas.get("broken-divisor"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "divisibleBy is of type string, "
+            + "expected [integer]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^divisibleBy cannot be zero$"
-    )
+    @Test
     public void testZeroDivisor()
-        throws MalformedJasonSchemaException
     {
-        new IntegerValidator().setSchema(schemas.get("zero-divisor")).setup();
+        v = new IntegerValidator().setSchema(schemas.get("zero-divisor"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "divisibleBy is 0");
     }
 }

@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.List;
@@ -26,9 +25,7 @@ public interface Validator
 {
     Validator setSchema(final JsonNode schema);
 
-    boolean isWellFormed();
-
-    void setup() throws MalformedJasonSchemaException;
+    boolean setup();
 
     boolean validate(final JsonNode node);
 

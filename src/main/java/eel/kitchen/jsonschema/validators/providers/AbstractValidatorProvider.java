@@ -1,10 +1,10 @@
 package eel.kitchen.jsonschema.validators.providers;
 
-import eel.kitchen.jsonschema.validators.misc.CombinedValidator;
-import eel.kitchen.jsonschema.validators.misc.EnumValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.validators.format.FormatValidator;
+import eel.kitchen.jsonschema.validators.misc.CombinedValidator;
+import eel.kitchen.jsonschema.validators.misc.EnumValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;

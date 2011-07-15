@@ -1,6 +1,5 @@
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
@@ -10,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -69,21 +67,21 @@ public final class FormatValidator
     }
 
     @Override
-    public void setup()
-        throws MalformedJasonSchemaException
+    protected boolean doSetup()
     {
-        final JsonNode value = schema.get("format");
+        if (!super.doSetup())
+            return false;
 
-        if (!value.isTextual())
-            throw new MalformedJasonSchemaException("format node is not a "
-                + "string");
-
-        format = value.getTextValue();
+        format = schema.get("format").getTextValue();
+        return true;
     }
 
     @Override
     public boolean validate(final JsonNode node)
     {
+        if (!setup())
+            return false;
+
         messages.clear();
 
         final String nodeType = JasonHelper.getNodeType(node);

@@ -25,10 +25,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class BrokenStringSchemasTest
 {
     private JsonNode schemas;
+    private Validator v;
+    private List<String> messages;
 
     @BeforeClass
     public void setUp()
@@ -37,78 +43,117 @@ public class BrokenStringSchemasTest
         schemas = JasonHelper.load("broken-string-schemas.json");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^minLength should be an integer$"
-    )
+    @Test
     public void testBrokenMinLength()
-        throws MalformedJasonSchemaException
     {
-        new StringValidator().setSchema(schemas.get("broken-minLength")).setup();
+        v = new StringValidator().setSchema(schemas.get("broken-minLength"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minLength is of type number, "
+            + "expected [integer]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^minLength should be greater than " +
-            "or equal to 0$"
-    )
+    @Test
     public void testNegativeMinLength()
-        throws MalformedJasonSchemaException
     {
-        new StringValidator().setSchema(schemas.get("negative-minLength")).setup();
+        v = new StringValidator().setSchema(schemas.get("negative-minLength"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minLength is lower than 0");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^maxLength should be an integer$"
-    )
+    @Test
+    public void testMinLengthOverflow()
+    {
+        v = new StringValidator().setSchema(schemas.get("minLength-overflow"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minLength overflow");
+    }
+
+    @Test
     public void testBrokenMaxLength()
-        throws MalformedJasonSchemaException
     {
-        new StringValidator().setSchema(schemas.get("broken-maxLength")).setup();
+        v = new StringValidator().setSchema(schemas.get("broken-maxLength"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "maxLength is of type string, "
+            + "expected [integer]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^maxLength should be greater than " +
-            "or equal to 0$"
-    )
+    @Test
     public void testNegativeMaxLength()
-        throws MalformedJasonSchemaException
     {
-        new StringValidator().setSchema(schemas.get("negative-maxLength")).setup();
+        v = new StringValidator().setSchema(schemas.get("negative-maxLength"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "maxLength is lower than 0");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^maxLength should be greater than " +
-            "or equal to minLength$"
-    )
+    @Test
+    public void testMaxLengthOverflow()
+    {
+        v = new StringValidator().setSchema(schemas.get("maxLength-overflow"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "maxLength overflow");
+    }
+
+    @Test
     public void testInvertedMinMax()
-        throws MalformedJasonSchemaException
     {
-        new StringValidator().setSchema(schemas.get("inverted-minmax")).setup();
+        v = new StringValidator().setSchema(schemas.get("inverted-minmax"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minLength is greater than maxLength");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^pattern should be a string$"
-    )
+    @Test
     public void testBrokenPatternType()
         throws MalformedJasonSchemaException
     {
-        new StringValidator().setSchema(schemas.get("broken-pattern-type"))
-            .setup();
+        v = new StringValidator().setSchema(schemas.get("broken-pattern-type"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "pattern is of type boolean, "
+            + "expected [string]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^pattern is an invalid regular " +
-            "expression"
-    )
+    @Test
     public void testIllegalPattern()
         throws MalformedJasonSchemaException
     {
-        new StringValidator().setSchema(schemas.get("illegal-pattern")).setup();
+        v = new StringValidator().setSchema(schemas.get("illegal-pattern"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "pattern is an invalid regular "
+            + "expression");
     }
 }

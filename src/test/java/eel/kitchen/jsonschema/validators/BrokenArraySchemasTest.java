@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.type.ArrayValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -25,10 +24,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 public class BrokenArraySchemasTest
 {
     private JsonNode schemas;
+    private Validator v;
+    private List<String> messages;
 
     @BeforeClass
     public void setUp()
@@ -37,110 +42,155 @@ public class BrokenArraySchemasTest
         schemas = JasonHelper.load("broken-array-schemas.json");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^minItems should be an integer$"
-    )
+    @Test
     public void testBrokenMinItems()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("broken-minItems")).setup();
+        v = new ArrayValidator().setSchema(schemas.get("broken-minItems"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minItems is of type boolean, "
+            + "expected [integer]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^maxItems should be an integer$"
-    )
+    @Test
     public void testBrokenMaxItems()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("broken-maxItems")).setup();
+        v = new ArrayValidator().setSchema(schemas.get("broken-maxItems"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "maxItems is of type string, "
+            + "expected [integer]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^minItems should be less than or " +
-            "equal to maxItems$"
-    )
+    @Test
+    public void testNegativeMinItems()
+    {
+        v = new ArrayValidator().setSchema(schemas.get("negative-minItems"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minItems is negative");
+    }
+
+    @Test
+    public void testMinItemsOverflow()
+    {
+        v = new ArrayValidator().setSchema(schemas.get("minItems-overflow"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minItems overflow");
+    }
+
+    @Test
+    public void testNegativeMaxItems()
+    {
+        v = new ArrayValidator().setSchema(schemas.get("negative-maxItems"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "maxItems is negative");
+    }
+
+    @Test
+    public void testMaxItemsOverflow()
+    {
+        v = new ArrayValidator().setSchema(schemas.get("maxItems-overflow"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "maxItems overflow");
+    }
+
+    @Test
     public void testInvertedMinMax()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("inverted-minmax")).setup();
+        v = new ArrayValidator().setSchema(schemas.get("inverted-minmax"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minItems is greater than maxItems");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^uniqueItems should be a boolean$"
-    )
+    @Test
     public void testBrokenUniqueItems()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("broken-uniqueItems")).setup();
+        v = new ArrayValidator().setSchema(schemas.get("broken-uniqueItems"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "uniqueItems is of type string, "
+            + "expected [boolean]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^items should be an object or an " +
-            "array$"
-    )
+    @Test
     public void testBrokenItems()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("broken-items")).setup();
+        v = new ArrayValidator().setSchema(schemas.get("broken-items"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "items is of type string, "
+            + "expected [array, object]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^members of the items array should" +
-            " be objects$"
-    )
+    @Test
     public void testBrokenItemsValue()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("broken-items-value")).setup();
+        v = new ArrayValidator().setSchema(schemas.get("broken-items-value"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0),
+            "members of the items array should be " + "objects");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^the items array is empty$"
-    )
-    public void testEmptyItems()
-        throws MalformedJasonSchemaException
-    {
-        new ArrayValidator().setSchema(schemas.get("empty-items")).setup();
-    }
-
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^additionalItems is neither a "
-            + "boolean nor an object$"
-    )
+    @Test
     public void testBrokenAdditionalItems()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("broken-additionalItems"))
-            .setup();
+        v = new ArrayValidator()
+            .setSchema(schemas.get("broken-additionalItems"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "additionalItems is of type string, "
+            + "expected [boolean, object]");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^minItems is greater than what the"
-            + " schema allows \\(tuples, additional\\)$"
-    )
+    @Test
     public void testIncoherentMinItems()
-        throws MalformedJasonSchemaException
     {
-        new ArrayValidator().setSchema(schemas.get("incoherent-minItems")).setup();
-    }
+        v = new ArrayValidator().setSchema(schemas.get("incoherent-minItems"));
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^maxItems is lower than what the "
-            + "schema requires \\(tuples, additional\\)$"
-    )
-    public void testIncoherentMaxItems()
-        throws MalformedJasonSchemaException
-    {
-        new ArrayValidator().setSchema(schemas.get("incoherent-maxItems")).setup();
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "minItems is greater than what the "
+            + "schema allows (tuples, additional)");
     }
 }

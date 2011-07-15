@@ -25,7 +25,7 @@
             "p1": 2
         }
     },
-    "broken-dependency-in-array": {
+    "broken-dependency-element": {
         "dependencies": {
             "p1": [ 2 ]
         }

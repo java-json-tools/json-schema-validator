@@ -24,10 +24,4 @@ public final class MalformedJasonSchemaException
     {
         super(message);
     }
-
-    public MalformedJasonSchemaException(final String message,
-        final Throwable e)
-    {
-        super(message, e);
-    }
 }

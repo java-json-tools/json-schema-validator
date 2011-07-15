@@ -1,6 +1,5 @@
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -8,7 +7,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -25,19 +26,21 @@ public class FormatValidatorTest
         schemas = inputs.get("schemas");
     }
 
-    @Test(
-        expectedExceptions = MalformedJasonSchemaException.class,
-        expectedExceptionsMessageRegExp = "^format node is not a string$"
-    )
+    @Test
     public void testBadFormat()
-        throws MalformedJasonSchemaException
     {
-        new FormatValidator().setSchema(schemas.get("badformat")).setup();
+        v = new FormatValidator().setSchema(schemas.get("badformat"));
+
+        assertFalse(v.setup());
+
+        final List<String> messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "format is of type boolean, "
+            + "expected [string]");
     }
 
     @Test
     public void testTypeMismatch()
-        throws MalformedJasonSchemaException
     {
         node = schemas.get("typemismatch");
         v = new FormatValidator().setSchema(node.get("schema"));
@@ -49,7 +52,6 @@ public class FormatValidatorTest
 
     @Test
     public void testNoFormats()
-        throws MalformedJasonSchemaException
     {
         node = schemas.get("noformats");
         v = new FormatValidator().setSchema(node.get("schema"));
