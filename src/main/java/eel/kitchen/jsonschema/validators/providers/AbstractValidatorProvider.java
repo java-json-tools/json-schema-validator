@@ -1,7 +1,7 @@
 package eel.kitchen.jsonschema.validators.providers;
 
-import eel.kitchen.jsonschema.validators.CombinedValidator;
-import eel.kitchen.jsonschema.validators.EnumValidator;
+import eel.kitchen.jsonschema.validators.misc.CombinedValidator;
+import eel.kitchen.jsonschema.validators.misc.EnumValidator;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.jsonschema.validators.errors.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.validators.format.FormatValidator;

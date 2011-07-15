@@ -1,6 +1,7 @@
-package eel.kitchen.jsonschema.validators;
+package eel.kitchen.jsonschema.validators.misc;
 
 import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
+import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.JasonHelper;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
