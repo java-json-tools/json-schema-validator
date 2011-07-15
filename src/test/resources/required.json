@@ -1,0 +1,35 @@
+{
+    "schema": {
+        "type": "object",
+        "properties": {
+            "p1": {
+                "required": false
+            },
+            "p2": {
+            },
+            "p3": {
+                "required": true
+            },
+            "p4": {
+                "required": true
+            }
+        }
+    },
+    "good": {
+        "p1": "and friends",
+        "p2": "Charybde",
+        "p3": "Scylla",
+        "p4": "Jupiter"
+    },
+    "bad": {
+        "p1": "Laurel",
+        "p2": "Hardy"
+    },
+    "broken": {
+        "properties": {
+            "p1": {
+                "required": "yes"
+            }
+        }
+    }
+}
