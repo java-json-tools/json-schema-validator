@@ -24,30 +24,18 @@ import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.EnumSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 public final class ArrayValidator
     extends AbstractValidator
 {
-    private static final Map<String, EnumSet<NodeType>> FIELDS
-        = new LinkedHashMap<String, EnumSet<NodeType>>();
-
     private int minItems = 0, maxItems = Integer.MAX_VALUE;
     private boolean uniqueItems = false;
     private final List<JsonNode> items = new LinkedList<JsonNode>();
     private boolean itemsTuples = false;
     private boolean additionalItemsOK = true;
     private JsonNode additionalItems = EMPTY_SCHEMA;
-
-    @Override
-    protected Map<String, EnumSet<NodeType>> fieldMap()
-    {
-        return FIELDS;
-    }
 
     public ArrayValidator()
     {

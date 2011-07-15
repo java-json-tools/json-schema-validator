@@ -25,6 +25,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,8 @@ public abstract class AbstractValidator
     protected static final JsonNode EMPTY_SCHEMA;
 
     protected JsonNode schema;
+    protected final Map<String, EnumSet<NodeType>> fieldMap
+        = new HashMap<String, EnumSet<NodeType>>();
     protected final List<String> messages = new LinkedList<String>();
     protected boolean setupDone = false, validSchema = false;
 
@@ -91,35 +94,27 @@ public abstract class AbstractValidator
         return Collections.unmodifiableList(messages);
     }
 
-    protected Map<String, EnumSet<NodeType>> fieldMap()
-    {
-        return Collections.emptyMap();
-    }
-
     protected final void registerField(final String name, final NodeType type)
     {
-        final Map<String, EnumSet<NodeType>> fields = fieldMap();
-
-        if (fields.containsKey(name)) {
-            fields.get(name).add(type);
+        if (fieldMap.containsKey(name)) {
+            fieldMap.get(name).add(type);
             return;
         }
 
-        fields.put(name, EnumSet.of(type));
+        fieldMap.put(name, EnumSet.of(type));
     }
 
     private boolean isWellFormed()
     {
-        final Map<String, EnumSet<NodeType>> fields = fieldMap();
         boolean ret = true;
         EnumSet<NodeType> expected;
         NodeType actual;
 
-        final Set<String> fieldnames = fields.keySet();
+        final Set<String> fieldnames = fieldMap.keySet();
         fieldnames.retainAll(CollectionUtils.toSet(schema.getFieldNames()));
 
         for (final String field: fieldnames) {
-            expected = fields.get(field);
+            expected = fieldMap.get(field);
             actual = NodeType.getNodeType(schema.get(field));
             if (!expected.contains(actual)) {
                 ret = false;

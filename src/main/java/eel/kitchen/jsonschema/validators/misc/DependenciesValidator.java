@@ -7,27 +7,16 @@ import eel.kitchen.util.IterableJsonNode;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
 public final class DependenciesValidator
     extends AbstractValidator
 {
-    private static final Map<String, EnumSet<NodeType>> FIELDS
-        = new LinkedHashMap<String, EnumSet<NodeType>>();
-
     private final Map<String, Set<String>> dependencies
         = new HashMap<String, Set<String>>();
-
-    @Override
-    protected Map<String, EnumSet<NodeType>> fieldMap()
-    {
-        return FIELDS;
-    }
 
     public DependenciesValidator()
     {

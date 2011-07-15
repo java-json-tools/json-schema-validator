@@ -8,18 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 public final class FormatValidator
     extends AbstractValidator
 {
-    private static final Map<String, EnumSet<NodeType>> FIELDS
-        = new LinkedHashMap<String, EnumSet<NodeType>>();
-
     private static final Logger logger
         = LoggerFactory.getLogger(FormatValidator.class);
 
@@ -48,12 +43,6 @@ public final class FormatValidator
     public FormatValidator()
     {
         registerField("format", NodeType.STRING);
-    }
-
-    @Override
-    protected Map<String, EnumSet<NodeType>> fieldMap()
-    {
-        return FIELDS;
     }
 
     private static void registerFormat(final NodeType type,

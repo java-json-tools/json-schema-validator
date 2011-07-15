@@ -22,16 +22,9 @@ import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.EnumSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 public final class StringValidator
     extends AbstractValidator
 {
-    private static final Map<String, EnumSet<NodeType>> FIELDS
-        = new LinkedHashMap<String, EnumSet<NodeType>>();
-
     private int minLength = 0, maxLength = Integer.MAX_VALUE;
     private String regex = null;
 
@@ -40,12 +33,6 @@ public final class StringValidator
         registerField("minLength", NodeType.INTEGER);
         registerField("maxLength", NodeType.INTEGER);
         registerField("pattern", NodeType.STRING);
-    }
-
-    @Override
-    protected Map<String, EnumSet<NodeType>> fieldMap()
-    {
-        return FIELDS;
     }
 
     @Override

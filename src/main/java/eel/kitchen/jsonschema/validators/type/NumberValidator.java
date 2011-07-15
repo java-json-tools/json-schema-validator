@@ -22,16 +22,10 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
-import java.util.EnumSet;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 public final class NumberValidator
     extends AbstractValidator
 {
-    private static final Map<String, EnumSet<NodeType>> FIELDS
-        = new LinkedHashMap<String, EnumSet<NodeType>>();
-
     private static final BigDecimal ZERO = new BigDecimal("0");
 
     private BigDecimal minimum = null, maximum = null, divisor = null;
@@ -47,12 +41,6 @@ public final class NumberValidator
         registerField("divisibleBy", NodeType.NUMBER);
         registerField("exclusiveMinimum", NodeType.BOOLEAN);
         registerField("exclusiveMaximum", NodeType.BOOLEAN);
-    }
-
-    @Override
-    protected Map<String, EnumSet<NodeType>> fieldMap()
-    {
-        return FIELDS;
     }
 
     @Override
