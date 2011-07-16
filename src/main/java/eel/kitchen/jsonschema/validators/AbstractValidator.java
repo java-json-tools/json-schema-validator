@@ -122,6 +122,11 @@ public abstract class AbstractValidator
         return this;
     }
 
+    /**
+     * Reset this instance. This function is called from
+     * <code>setSchema()</code>. In this function, an implementor must reset
+     * all of its internal state in order to accept the new schema.
+     */
     protected abstract void reset();
 
     /**
