@@ -43,9 +43,6 @@ public final class DependenciesValidator
     @Override
     protected boolean doSetup()
     {
-        if (!super.doSetup())
-            return false;
-
         dependencies.clear();
 
         final JsonNode depsNode = schema.get("dependencies");

@@ -77,7 +77,7 @@ public abstract class AbstractValidator
     public final boolean setup()
     {
         if (!setupDone) {
-            validSchema = doSetup();
+            validSchema = isWellFormed() && doSetup();
             for (final Validator v: validators) {
                 validSchema = validSchema && v.setup();
                 schemaErrors.addAll(v.getMessages());
@@ -88,10 +88,7 @@ public abstract class AbstractValidator
         return validSchema;
     }
 
-    protected boolean doSetup()
-    {
-        return isWellFormed();
-    }
+    protected abstract boolean doSetup();
 
     @Override
     public final boolean validate(final JsonNode node)

@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 public final class PhoneNumberFormatValidator
-    extends AbstractValidator
+    extends AbstractFormatValidator
 {
     @Override
     protected boolean doValidate(final JsonNode node)

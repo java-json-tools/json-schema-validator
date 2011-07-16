@@ -74,9 +74,6 @@ public final class FormatValidator
     @Override
     protected boolean doSetup()
     {
-        if (!super.doSetup())
-            return false;
-
         final JsonNode formatNode = schema.get("format");
 
         if (formatNode != null)

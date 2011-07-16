@@ -24,6 +24,12 @@ public final class BooleanValidator
     extends AbstractValidator
 {
     @Override
+    protected boolean doSetup()
+    {
+        return true;
+    }
+
+    @Override
     protected boolean doValidate(final JsonNode node)
     {
         return true;

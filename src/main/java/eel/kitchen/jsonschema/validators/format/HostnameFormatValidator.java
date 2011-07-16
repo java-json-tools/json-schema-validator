@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class HostnameFormatValidator
-    extends AbstractValidator
+    extends AbstractFormatValidator
 {
     private static final Pattern hostnamePart
         = Pattern.compile("^[a-z0-9]+(-[a-z0-9]+)*$", Pattern.CASE_INSENSITIVE);

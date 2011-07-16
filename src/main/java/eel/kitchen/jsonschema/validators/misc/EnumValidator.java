@@ -39,9 +39,6 @@ public final class EnumValidator
     @Override
     protected boolean doSetup()
     {
-        if (!super.doSetup())
-            return false;
-
         final JsonNode node = schema.get("enum");
 
         if (node != null)

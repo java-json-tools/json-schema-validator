@@ -51,9 +51,6 @@ public final class NumberValidator
     @Override
     protected boolean doSetup()
     {
-        if (!super.doSetup())
-            return false;
-
         JsonNode node;
 
         node = schema.path("minimum");

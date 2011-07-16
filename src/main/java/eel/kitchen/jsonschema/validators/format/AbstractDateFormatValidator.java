@@ -36,6 +36,12 @@ public abstract class AbstractDateFormatValidator
     }
 
     @Override
+    protected boolean doSetup()
+    {
+        return true;
+    }
+
+    @Override
     protected final boolean doValidate(final JsonNode node)
     {
         try {

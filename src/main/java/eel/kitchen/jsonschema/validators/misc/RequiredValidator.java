@@ -32,9 +32,6 @@ public final class RequiredValidator
     @Override
     protected boolean doSetup()
     {
-        if (!super.doSetup())
-            return false;
-
         required.clear();
 
         final JsonNode properties = schema.get("properties");

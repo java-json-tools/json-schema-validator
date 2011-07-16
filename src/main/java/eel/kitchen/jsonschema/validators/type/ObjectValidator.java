@@ -57,9 +57,8 @@ public final class ObjectValidator
     @Override
     protected boolean doSetup()
     {
-        return super.doSetup() && computeProperties() && computeAdditional()
+        return computeProperties() && computeAdditional()
             && computePatternProperties();
-
     }
 
     private boolean computeProperties()

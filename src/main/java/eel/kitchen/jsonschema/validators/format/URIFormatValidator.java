@@ -24,7 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public final class URIFormatValidator
-    extends AbstractValidator
+    extends AbstractFormatValidator
 {
     @Override
     protected boolean doValidate(final JsonNode node)

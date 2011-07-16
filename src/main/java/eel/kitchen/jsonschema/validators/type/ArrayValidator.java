@@ -51,9 +51,6 @@ public final class ArrayValidator
     @Override
     protected boolean doSetup()
     {
-        if (!super.doSetup())
-            return false;
-
         JsonNode node;
 
         node = schema.get("minItems");

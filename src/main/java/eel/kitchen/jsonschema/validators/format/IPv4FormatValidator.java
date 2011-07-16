@@ -24,7 +24,7 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
 public final class IPv4FormatValidator
-    extends AbstractValidator
+    extends AbstractFormatValidator
 {
     @Override
     protected boolean doValidate(final JsonNode node)

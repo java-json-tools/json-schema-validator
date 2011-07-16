@@ -22,7 +22,7 @@ import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 public final class RegexFormatValidator
-    extends AbstractValidator
+    extends AbstractFormatValidator
 {
     @Override
     protected boolean doValidate(final JsonNode node)

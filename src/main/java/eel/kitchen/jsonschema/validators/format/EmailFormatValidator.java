@@ -24,7 +24,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 public final class EmailFormatValidator
-    extends AbstractValidator
+    extends AbstractFormatValidator
 {
     @Override
     protected boolean doValidate(final JsonNode node)

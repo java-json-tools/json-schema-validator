@@ -43,9 +43,6 @@ public final class StringValidator
     @Override
     protected boolean doSetup()
     {
-        if (!super.doSetup())
-            return false;
-
         if (!computeMinMax())
             return false;
 

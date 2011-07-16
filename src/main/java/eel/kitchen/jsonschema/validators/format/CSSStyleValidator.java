@@ -24,7 +24,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class CSSStyleValidator
-    extends AbstractValidator
+    extends AbstractFormatValidator
 {
     private static final Pattern pattern
         = Pattern.compile("^\\s*[^:]+\\s*:\\s*[^;]+$", Pattern.CASE_INSENSITIVE);
