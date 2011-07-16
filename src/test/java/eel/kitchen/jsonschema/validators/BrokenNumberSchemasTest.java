@@ -32,7 +32,7 @@ import static org.testng.Assert.assertFalse;
 public class BrokenNumberSchemasTest
 {
     private JsonNode schemas;
-    private Validator v;
+    private final Validator v = new NumberValidator();
     private List<String> messages;
 
     @BeforeClass
@@ -45,7 +45,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testBrokenMinimum()
     {
-        v = new NumberValidator().setSchema(schemas.get("broken-minimum"));
+        v.setSchema(schemas.get("broken-minimum"));
 
         assertFalse(v.setup());
 
@@ -58,8 +58,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testBrokenExclusiveMinimum()
     {
-        v = new NumberValidator()
-            .setSchema(schemas.get("broken-exclusiveMinimum"));
+        v.setSchema(schemas.get("broken-exclusiveMinimum"));
 
         assertFalse(v.setup());
 
@@ -72,7 +71,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testBrokenMaximum()
     {
-        v = new NumberValidator().setSchema(schemas.get("broken-maximum"));
+        v.setSchema(schemas.get("broken-maximum"));
 
         assertFalse(v.setup());
 
@@ -85,8 +84,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testBrokenExclusiveMaximum()
     {
-        v = new NumberValidator()
-            .setSchema(schemas.get("broken-exclusiveMaximum"));
+        v.setSchema(schemas.get("broken-exclusiveMaximum"));
 
         assertFalse(v.setup());
 
@@ -99,7 +97,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testInvertedMinMax()
     {
-        v = new NumberValidator().setSchema(schemas.get("inverted-minmax"));
+        v.setSchema(schemas.get("inverted-minmax"));
 
         assertFalse(v.setup());
 
@@ -111,7 +109,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testImpossibleMatch()
     {
-        v = new NumberValidator().setSchema(schemas.get("impossible-match"));
+        v.setSchema(schemas.get("impossible-match"));
 
         assertFalse(v.setup());
 
@@ -124,7 +122,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testBrokenDivisor()
     {
-        v = new NumberValidator().setSchema(schemas.get("broken-divisor"));
+        v.setSchema(schemas.get("broken-divisor"));
 
         assertFalse(v.setup());
 
@@ -137,7 +135,7 @@ public class BrokenNumberSchemasTest
     @Test
     public void testZeroDivisor()
     {
-        v = new NumberValidator().setSchema(schemas.get("zero-divisor"));
+        v.setSchema(schemas.get("zero-divisor"));
 
         assertFalse(v.setup());
 

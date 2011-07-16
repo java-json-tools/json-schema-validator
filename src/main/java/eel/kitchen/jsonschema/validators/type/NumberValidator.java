@@ -55,6 +55,13 @@ public final class NumberValidator
     }
 
     @Override
+    protected void reset()
+    {
+        minimum = maximum = divisor = null;
+        exclusiveMinimum = exclusiveMaximum = false;
+    }
+
+    @Override
     protected boolean doSetup()
     {
         JsonNode node;

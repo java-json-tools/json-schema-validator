@@ -33,7 +33,7 @@ import static org.testng.Assert.assertTrue;
 public class IntegerValidatorTest
 {
     private JsonNode testNode, node;
-    private Validator validator;
+    private final Validator v = new IntegerValidator();
     private boolean ret;
     private List<String> messages;
 
@@ -48,19 +48,23 @@ public class IntegerValidatorTest
     public void testMinimum()
     {
         node = testNode.get("minimum");
+        v.setSchema(node.get("schema"));
 
-        validator = new IntegerValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "integer is strictly lower than the "
             + "required minimum");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertEquals(messages.size(), 0);
 
@@ -70,19 +74,23 @@ public class IntegerValidatorTest
     public void testExclusiveMinimum()
     {
         node = testNode.get("exclusiveMinimum");
+        v.setSchema(node.get("schema"));
 
-        validator = new IntegerValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "integer equals to the minimum, " +
             "but should be strictly greater than it");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -91,19 +99,23 @@ public class IntegerValidatorTest
     public void testMaximum()
     {
         node = testNode.get("maximum");
+        v.setSchema(node.get("schema"));
 
-        validator = new IntegerValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0),
             "integer is strictly greater than the " + "required maximum");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -112,19 +124,23 @@ public class IntegerValidatorTest
     public void testExclusiveMaximum()
     {
         node = testNode.get("exclusiveMaximum");
+        v.setSchema(node.get("schema"));
 
-        validator = new IntegerValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "integer equals to the maximum, " +
             "but should be strictly lower than it");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -133,19 +149,21 @@ public class IntegerValidatorTest
     public void testDisivibleBy()
     {
         node = testNode.get("divisibleBy");
+        v.setSchema(node.get("schema"));
 
-        validator = new IntegerValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "integer is not a multiple of the "
             + "declared divisor");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }

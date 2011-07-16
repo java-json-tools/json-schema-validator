@@ -96,6 +96,12 @@ public final class FormatValidator
         checkers.get(type).add(validator);
     }
 
+    @Override
+    protected void reset()
+    {
+        format = null;
+    }
+
     /**
      * Always returns true. It only fills in format if it is present in the
      * schema.

@@ -36,6 +36,11 @@ public final class RequiredValidator
      */
     private final Set<String> required = new HashSet<String>();
 
+    @Override
+    protected void reset()
+    {
+        required.clear();
+    }
 
     /**
      * Validate the schema. The only validation done is checking that the

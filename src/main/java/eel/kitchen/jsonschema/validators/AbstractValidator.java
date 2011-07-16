@@ -113,6 +113,7 @@ public abstract class AbstractValidator
     {
         schemaErrors.clear();
         messages.clear();
+        reset();
         setupDone = false;
         validSchema = false;
         this.schema = schema;
@@ -120,6 +121,8 @@ public abstract class AbstractValidator
             v.setSchema(schema);
         return this;
     }
+
+    protected abstract void reset();
 
     /**
      * <p>Checks that the schema passed in as an argument is valid,

@@ -32,7 +32,7 @@ import static org.testng.Assert.assertFalse;
 public class BrokenObjectSchemasTest
 {
     private JsonNode schemas;
-    private Validator v;
+    private final Validator v = new ObjectValidator();
     private List<String> messages;
 
     @BeforeClass
@@ -45,7 +45,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenProperties()
     {
-        v = new ObjectValidator().setSchema(schemas.get("broken-properties"));
+        v.setSchema(schemas.get("broken-properties"));
 
         assertFalse(v.setup());
 
@@ -58,7 +58,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenProperty()
     {
-        v = new ObjectValidator().setSchema(schemas.get("broken-property"));
+        v.setSchema(schemas.get("broken-property"));
 
         assertFalse(v.setup());
 
@@ -71,7 +71,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenRequired()
     {
-        v = new ObjectValidator().setSchema(schemas.get("broken-required"));
+        v.setSchema(schemas.get("broken-required"));
 
         assertFalse(v.setup());
 
@@ -83,7 +83,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenAdditional()
     {
-        v = new ObjectValidator().setSchema(schemas.get("broken-additional"));
+        v.setSchema(schemas.get("broken-additional"));
 
         assertFalse(v.setup());
 
@@ -96,7 +96,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenDependencies()
     {
-        v = new ObjectValidator().setSchema(schemas.get("broken-dependencies"));
+        v.setSchema(schemas.get("broken-dependencies"));
 
         assertFalse(v.setup());
 
@@ -109,7 +109,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenDependency()
     {
-        v = new ObjectValidator().setSchema(schemas.get("broken-dependency"));
+        v.setSchema(schemas.get("broken-dependency"));
 
         assertFalse(v.setup());
 
@@ -122,8 +122,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenDependencyInArray()
     {
-        v = new ObjectValidator()
-            .setSchema(schemas.get("broken-dependency-element"));
+        v.setSchema(schemas.get("broken-dependency-element"));
 
         assertFalse(v.setup());
 
@@ -136,7 +135,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testBrokenPatternProperties()
     {
-        v = new ObjectValidator().setSchema(schemas.get("broken-patternprops"));
+        v.setSchema(schemas.get("broken-patternprops"));
 
         assertFalse(v.setup());
 
@@ -149,8 +148,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testPatternPropertiesBrokenRegex()
     {
-        v = new ObjectValidator()
-            .setSchema(schemas.get("patternprops-brokenregex"));
+        v.setSchema(schemas.get("patternprops-brokenregex"));
 
         assertFalse(v.setup());
 
@@ -163,8 +161,7 @@ public class BrokenObjectSchemasTest
     @Test
     public void testPatternPropertiesBrokenValue()
     {
-        v = new ObjectValidator()
-            .setSchema(schemas.get("patternprops-brokenvalue"));
+        v.setSchema(schemas.get("patternprops-brokenvalue"));
 
         assertFalse(v.setup());
 

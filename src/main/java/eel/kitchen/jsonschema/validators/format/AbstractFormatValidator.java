@@ -30,6 +30,11 @@ public abstract class AbstractFormatValidator
     extends AbstractValidator
 {
     @Override
+    protected void reset()
+    {
+    }
+
+    @Override
     protected final boolean doSetup()
     {
         return true;

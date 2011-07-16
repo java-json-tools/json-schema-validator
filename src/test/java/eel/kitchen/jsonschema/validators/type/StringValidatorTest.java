@@ -33,7 +33,7 @@ import static org.testng.Assert.assertTrue;
 public class StringValidatorTest
 {
     private JsonNode testNode, node;
-    private Validator validator;
+    private final Validator v = new StringValidator();
     private boolean ret;
     private List<String> messages;
 
@@ -48,19 +48,23 @@ public class StringValidatorTest
     public void testMinLength()
     {
         node = testNode.get("minLength");
+        v.setSchema(node.get("schema"));
 
-        validator = new StringValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string length is less than the required " +
             "minimum");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -69,18 +73,22 @@ public class StringValidatorTest
     public void testMaxLength()
     {
         node = testNode.get("maxLength");
+        v.setSchema(node.get("schema"));
 
-        validator = new StringValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string length exceeds the required maximum");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }
@@ -89,18 +97,22 @@ public class StringValidatorTest
     public void testPattern()
     {
         node = testNode.get("pattern");
+        v.setSchema(node.get("schema"));
 
-        validator = new StringValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "string does not match regular expression");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertEquals(messages.size(), 0);
     }

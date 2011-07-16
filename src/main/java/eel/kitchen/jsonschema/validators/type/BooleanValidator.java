@@ -36,6 +36,11 @@ public final class BooleanValidator
     }
 
     @Override
+    protected void reset()
+    {
+    }
+
+    @Override
     protected boolean doSetup()
     {
         return true;

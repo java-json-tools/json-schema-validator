@@ -79,6 +79,15 @@ public final class ObjectValidator
         registerValidator(new RequiredValidator());
     }
 
+    @Override
+    protected void reset()
+    {
+        additionalPropertiesOK = true;
+        additionalProperties = EMPTY_SCHEMA;
+        properties.clear();
+        patternProperties.clear();
+    }
+
     /**
      * Validates the provided schema. It calls, in this order,
      * <code>computeProperties()</code>, <code>computeAdditional()</code>

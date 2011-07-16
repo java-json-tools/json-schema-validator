@@ -48,6 +48,13 @@ public final class EnumValidator
         registerField("enum", NodeType.ARRAY);
     }
 
+    @Override
+    protected void reset()
+    {
+        values.clear();
+        voidEnum = false;
+    }
+
     /**
      * Fill the <code>values</code> set, if necessary. Duplicates are
      * ignored, as the spec does not mention that values in an enum should be

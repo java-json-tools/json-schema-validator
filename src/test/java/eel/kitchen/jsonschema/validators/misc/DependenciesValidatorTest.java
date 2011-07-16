@@ -92,8 +92,8 @@ public final class DependenciesValidatorTest
 
         messages = v.getMessages();
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0),
-            "dependency value should be a string " + "or an array");
+        assertEquals(messages.get(0), "dependency value should be a string "
+            + "or an array");
     }
 
     @Test

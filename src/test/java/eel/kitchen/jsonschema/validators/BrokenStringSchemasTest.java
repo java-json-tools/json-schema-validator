@@ -32,7 +32,7 @@ import static org.testng.Assert.assertFalse;
 public class BrokenStringSchemasTest
 {
     private JsonNode schemas;
-    private Validator v;
+    private final Validator v = new StringValidator();
     private List<String> messages;
 
     @BeforeClass
@@ -45,7 +45,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testBrokenMinLength()
     {
-        v = new StringValidator().setSchema(schemas.get("broken-minLength"));
+        v.setSchema(schemas.get("broken-minLength"));
 
         assertFalse(v.setup());
 
@@ -58,7 +58,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testNegativeMinLength()
     {
-        v = new StringValidator().setSchema(schemas.get("negative-minLength"));
+        v.setSchema(schemas.get("negative-minLength"));
 
         assertFalse(v.setup());
 
@@ -70,7 +70,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testMinLengthOverflow()
     {
-        v = new StringValidator().setSchema(schemas.get("minLength-overflow"));
+        v.setSchema(schemas.get("minLength-overflow"));
 
         assertFalse(v.setup());
 
@@ -82,7 +82,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testBrokenMaxLength()
     {
-        v = new StringValidator().setSchema(schemas.get("broken-maxLength"));
+        v.setSchema(schemas.get("broken-maxLength"));
 
         assertFalse(v.setup());
 
@@ -95,7 +95,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testNegativeMaxLength()
     {
-        v = new StringValidator().setSchema(schemas.get("negative-maxLength"));
+        v.setSchema(schemas.get("negative-maxLength"));
 
         assertFalse(v.setup());
 
@@ -107,7 +107,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testMaxLengthOverflow()
     {
-        v = new StringValidator().setSchema(schemas.get("maxLength-overflow"));
+        v.setSchema(schemas.get("maxLength-overflow"));
 
         assertFalse(v.setup());
 
@@ -119,7 +119,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testInvertedMinMax()
     {
-        v = new StringValidator().setSchema(schemas.get("inverted-minmax"));
+        v.setSchema(schemas.get("inverted-minmax"));
 
         assertFalse(v.setup());
 
@@ -131,7 +131,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testBrokenPatternType()
     {
-        v = new StringValidator().setSchema(schemas.get("broken-pattern-type"));
+        v.setSchema(schemas.get("broken-pattern-type"));
 
         assertFalse(v.setup());
 
@@ -144,7 +144,7 @@ public class BrokenStringSchemasTest
     @Test
     public void testIllegalPattern()
     {
-        v = new StringValidator().setSchema(schemas.get("illegal-pattern"));
+        v.setSchema(schemas.get("illegal-pattern"));
 
         assertFalse(v.setup());
 

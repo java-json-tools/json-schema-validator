@@ -32,7 +32,7 @@ import static org.testng.Assert.assertFalse;
 public class BrokenArraySchemasTest
 {
     private JsonNode schemas;
-    private Validator v;
+    private final Validator v = new ArrayValidator();
     private List<String> messages;
 
     @BeforeClass
@@ -45,7 +45,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testBrokenMinItems()
     {
-        v = new ArrayValidator().setSchema(schemas.get("broken-minItems"));
+        v.setSchema(schemas.get("broken-minItems"));
 
         assertFalse(v.setup());
 
@@ -58,7 +58,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testBrokenMaxItems()
     {
-        v = new ArrayValidator().setSchema(schemas.get("broken-maxItems"));
+        v.setSchema(schemas.get("broken-maxItems"));
 
         assertFalse(v.setup());
 
@@ -71,7 +71,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testNegativeMinItems()
     {
-        v = new ArrayValidator().setSchema(schemas.get("negative-minItems"));
+        v.setSchema(schemas.get("negative-minItems"));
 
         assertFalse(v.setup());
 
@@ -83,7 +83,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testMinItemsOverflow()
     {
-        v = new ArrayValidator().setSchema(schemas.get("minItems-overflow"));
+        v.setSchema(schemas.get("minItems-overflow"));
 
         assertFalse(v.setup());
 
@@ -95,7 +95,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testNegativeMaxItems()
     {
-        v = new ArrayValidator().setSchema(schemas.get("negative-maxItems"));
+        v.setSchema(schemas.get("negative-maxItems"));
 
         assertFalse(v.setup());
 
@@ -107,7 +107,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testMaxItemsOverflow()
     {
-        v = new ArrayValidator().setSchema(schemas.get("maxItems-overflow"));
+        v.setSchema(schemas.get("maxItems-overflow"));
 
         assertFalse(v.setup());
 
@@ -119,7 +119,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testInvertedMinMax()
     {
-        v = new ArrayValidator().setSchema(schemas.get("inverted-minmax"));
+        v.setSchema(schemas.get("inverted-minmax"));
 
         assertFalse(v.setup());
 
@@ -131,7 +131,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testBrokenUniqueItems()
     {
-        v = new ArrayValidator().setSchema(schemas.get("broken-uniqueItems"));
+        v.setSchema(schemas.get("broken-uniqueItems"));
 
         assertFalse(v.setup());
 
@@ -144,7 +144,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testBrokenItems()
     {
-        v = new ArrayValidator().setSchema(schemas.get("broken-items"));
+        v.setSchema(schemas.get("broken-items"));
 
         assertFalse(v.setup());
 
@@ -157,7 +157,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testBrokenItemsValue()
     {
-        v = new ArrayValidator().setSchema(schemas.get("broken-items-value"));
+        v.setSchema(schemas.get("broken-items-value"));
 
         assertFalse(v.setup());
 
@@ -170,8 +170,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testBrokenAdditionalItems()
     {
-        v = new ArrayValidator()
-            .setSchema(schemas.get("broken-additionalItems"));
+        v.setSchema(schemas.get("broken-additionalItems"));
 
         assertFalse(v.setup());
 
@@ -184,7 +183,7 @@ public class BrokenArraySchemasTest
     @Test
     public void testIncoherentMinItems()
     {
-        v = new ArrayValidator().setSchema(schemas.get("incoherent-minItems"));
+        v.setSchema(schemas.get("incoherent-minItems"));
 
         assertFalse(v.setup());
 

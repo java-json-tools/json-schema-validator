@@ -53,6 +53,14 @@ public final class StringValidator
         registerValidator(new FormatValidator());
     }
 
+    @Override
+    protected void reset()
+    {
+        minLength = 0;
+        maxLength = Integer.MAX_VALUE;
+        regex = null;
+    }
+
     /**
      * Validates the provided schema. This function only validates the
      * pattern field, and calls <code>computeMinMax()</code> to validate

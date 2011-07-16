@@ -63,6 +63,13 @@ public final class IntegerValidator
         registerValidator(new FormatValidator());
     }
 
+    @Override
+    protected void reset()
+    {
+        minimum = maximum = divisor = null;
+        exclusiveMinimum = exclusiveMaximum = false;
+    }
+
     /**
      * <p>Validates the schema. Causes for validation failures are many:</p>
      * <ul>

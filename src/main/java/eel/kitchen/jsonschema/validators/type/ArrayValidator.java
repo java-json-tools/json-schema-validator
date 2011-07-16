@@ -93,6 +93,16 @@ public final class ArrayValidator
         registerValidator(new EnumValidator());
     }
 
+    @Override
+    protected void reset()
+    {
+        minItems = 0;
+        maxItems = Integer.MAX_VALUE;
+        uniqueItems = itemsTuples = false;
+        items.clear();
+        additionalItemsOK = true;
+        additionalItems = EMPTY_SCHEMA;
+    }
 
     /**
      * <p>Validates the schema and fills in the different parameters. In itself,

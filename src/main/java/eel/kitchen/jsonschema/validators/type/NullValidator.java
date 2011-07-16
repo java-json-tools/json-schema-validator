@@ -24,6 +24,11 @@ public final class NullValidator
     extends AbstractValidator
 {
     @Override
+    protected void reset()
+    {
+    }
+
+    @Override
     protected boolean doSetup()
     {
         return true;

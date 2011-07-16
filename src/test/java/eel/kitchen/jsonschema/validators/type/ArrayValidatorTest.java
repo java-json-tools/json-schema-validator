@@ -33,7 +33,7 @@ import static org.testng.Assert.assertTrue;
 public class ArrayValidatorTest
 {
     private JsonNode testNode, node;
-    private Validator validator;
+    private final Validator v = new ArrayValidator();
     private List<String> messages;
     private boolean ret;
 
@@ -48,18 +48,20 @@ public class ArrayValidatorTest
     public void testMinItems()
     {
         node = testNode.get("minItems");
+        v.setSchema(node.get("schema"));
 
-        validator = new ArrayValidator().setSchema(node.get("schema"));
-        validator.setup();
+        assertTrue(v.setup());
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has less than minItems elements");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -68,18 +70,20 @@ public class ArrayValidatorTest
     public void testMaxItems()
     {
         node = testNode.get("maxItems");
+        v.setSchema(node.get("schema"));
 
-        validator = new ArrayValidator().setSchema(node.get("schema"));
-        validator.setup();
+        assertTrue(v.setup());
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has more than maxItems elements");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -88,18 +92,20 @@ public class ArrayValidatorTest
     public void testUniqueItems()
     {
         node = testNode.get("uniqueItems");
+        v.setSchema(node.get("schema"));
 
-        validator = new ArrayValidator().setSchema(node.get("schema"));
-        validator.setup();
+        assertTrue(v.setup());
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "items in the array are not unique");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -108,19 +114,21 @@ public class ArrayValidatorTest
     public void testItemsTuples()
     {
         node = testNode.get("itemsTuples");
+        v.setSchema(node.get("schema"));
 
-        validator = new ArrayValidator().setSchema(node.get("schema"));
-        validator.setup();
+        assertTrue(v.setup());
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "array has extra elements, "
             + "which the schema disallows");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }

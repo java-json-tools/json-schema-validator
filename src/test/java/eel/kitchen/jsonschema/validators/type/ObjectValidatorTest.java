@@ -33,7 +33,7 @@ import static org.testng.Assert.assertTrue;
 public class ObjectValidatorTest
 {
     private JsonNode testNode, node;
-    private Validator validator;
+    private final Validator v = new ObjectValidator();
     private boolean ret;
     private List<String> messages;
 
@@ -48,18 +48,22 @@ public class ObjectValidatorTest
     public void testRequired()
     {
         node = testNode.get("required");
+        v.setSchema(node.get("schema"));
 
-        validator = new ObjectValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "property p1 is required but was not found");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -68,19 +72,23 @@ public class ObjectValidatorTest
     public void testNoAdditional()
     {
         node = testNode.get("noAdditional");
+        v.setSchema(node.get("schema"));
 
-        validator = new ObjectValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "additional properties were found but " +
             "schema forbids them");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }
@@ -89,19 +97,23 @@ public class ObjectValidatorTest
     public void testDependencies()
     {
         node = testNode.get("dependencies");
+        v.setSchema(node.get("schema"));
 
-        validator = new ObjectValidator().setSchema(node.get("schema"));
-        validator.setup();
+        ret = v.setup();
 
-        ret = validator.validate(node.get("bad"));
-        messages = validator.getMessages();
+        assertTrue(ret);
+
+        ret = v.validate(node.get("bad"));
+        messages = v.getMessages();
+
         assertFalse(ret);
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "property p1 depends on p3, "
             + "but the latter was not found");
 
-        ret = validator.validate(node.get("good"));
-        messages = validator.getMessages();
+        ret = v.validate(node.get("good"));
+        messages = v.getMessages();
+
         assertTrue(ret);
         assertTrue(messages.isEmpty());
     }

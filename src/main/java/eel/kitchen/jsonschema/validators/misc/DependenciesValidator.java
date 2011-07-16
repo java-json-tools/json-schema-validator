@@ -45,6 +45,12 @@ public final class DependenciesValidator
         registerField("dependencies", NodeType.OBJECT);
     }
 
+    @Override
+    protected void reset()
+    {
+        dependencies.clear();
+    }
+
     /**
      * <p>Build the dependencies array. This method in itself never returns
      * false, but <code>computeOneDependency()</code> can throw an exception,
