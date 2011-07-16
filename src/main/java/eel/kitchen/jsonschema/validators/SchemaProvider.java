@@ -17,9 +17,29 @@
 
 package eel.kitchen.jsonschema.validators;
 
+import eel.kitchen.util.IterableJsonNode;
 import org.codehaus.jackson.JsonNode;
+
+/**
+ * <p>Provide schemas for individual elements of container JSON nodes
+ * (arrays, objects). Should be paired with an {@link IterableJsonNode} for
+ * safety. Never goes more than one level deep.
+ * </p>
+ *
+ * @see {@link IterableJsonNode}
+ */
 
 public interface SchemaProvider
 {
+    /**
+     * <p>Get a subschema in the shape of a {@link JsonNode} for the given
+     * path specification. See sections 6.2.1 and 6.2.2 of the JSON Schema
+     * draft specification. For arrays, this is a string containing the index
+     * within the array, for an object this is the URL encoded name of the
+     * property (think spaces).</p>
+     *
+     * @param path The subpath
+     * @return the schema associated with this subpath
+     */
     JsonNode getSchemaForPath(final String path);
 }
