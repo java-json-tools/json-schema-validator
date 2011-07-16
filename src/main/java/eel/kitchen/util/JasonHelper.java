@@ -19,16 +19,12 @@ package eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 public final class JasonHelper
 {
-    private static final Logger logger
-        = LoggerFactory.getLogger(JasonHelper.class);
     private static final ObjectMapper mapper = new ObjectMapper();
 
     public static JsonNode load(final String resource)
@@ -41,25 +37,5 @@ public final class JasonHelper
             = JasonHelper.class.getResourceAsStream(realResource);
 
         return mapper.readTree(in);
-    }
-
-    public static String getNodeType(final JsonNode node)
-    {
-        if (node.isArray())
-            return "array";
-        if (node.isObject())
-            return "object";
-        if (node.isTextual())
-            return "string";
-        if (node.isNumber())
-            return node.isIntegralNumber() ? "integer" : "number";
-        if (node.isBoolean())
-            return "boolean";
-        if (node.isNull())
-            return "null";
-
-        logger.warn("Could not determine node type??? Dump follows");
-        logger.warn(node.toString());
-        return "unknown";
     }
 }

@@ -30,7 +30,7 @@ public class JasonSchemaTest
         assertEquals(messages.get(0), "$.table1: property id is required but "
             + "was not found");
         assertEquals(messages.get(1), "$.table2.croute.column: node is of "
-            + "type boolean, expected string");
+            + "type boolean, expected [string]");
 
         assertTrue(schema.validate(node.get("ok")));
         messages = schema.getMessages();
@@ -66,11 +66,11 @@ public class JasonSchemaTest
         messages = schema.getMessages();
         assertEquals(messages.size(), 3);
         assertEquals(messages.get(0), "$.[0]: node is of type boolean, "
-            + "expected string");
+            + "expected [string]");
         assertEquals(messages.get(1), "$.[1]: property spirit depends on "
             + "elevated, but the latter was not found");
         assertEquals(messages.get(2), "$.[2]: node is of type string, "
-            + "expected integer");
+            + "expected [integer]");
 
         assertTrue(schema.validate(node.get("ok")));
         messages = schema.getMessages();
@@ -88,7 +88,7 @@ public class JasonSchemaTest
         messages = schema.getMessages();
         assertEquals(messages.size(), 3);
         assertEquals(messages.get(0), "$.[0]: node is of type boolean, "
-            + "expected one of [string, integer]");
+            + "expected [integer, string]");
         assertEquals(messages.get(1), "$.[1]: integer is not a multiple of "
             + "the declared divisor");
         assertEquals(messages.get(2), "$.[2]: value is not a valid date");

@@ -58,8 +58,8 @@ public class MiscValidatorTest
 
         ret = schema.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: node is of type integer, expected one"
-            + " of [string, boolean]");
+        assertEquals(ret.get(0), "$: node is of type integer, expected "
+            + "[boolean, string]");
     }
 
     @Test
@@ -76,8 +76,8 @@ public class MiscValidatorTest
 
         ret = schema.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: node is of type boolean, expected one of "
-            + "[integer, string, number, object, null, array]");
+        assertEquals(ret.get(0), "$: node is of type boolean, expected "
+            + "[array, integer, number, null, object, string]");
     }
 
     @Test
@@ -94,7 +94,8 @@ public class MiscValidatorTest
 
         ret = schema.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: node is of type null, expected boolean");
+        assertEquals(ret.get(0), "$: node is of type null, "
+            + "expected [boolean]");
     }
 
     @Test
@@ -111,7 +112,8 @@ public class MiscValidatorTest
 
         ret = schema.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: node is of type integer, expected null");
+        assertEquals(ret.get(0), "$: node is of type integer, "
+            + "expected [null]");
     }
 
     @Test

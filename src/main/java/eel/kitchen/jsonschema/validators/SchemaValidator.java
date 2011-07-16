@@ -5,7 +5,9 @@ import org.codehaus.jackson.JsonNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public final class SchemaValidator
     implements Validator
@@ -13,7 +15,13 @@ public final class SchemaValidator
     private static final String ANY_TYPE = "any";
     private JsonNode schema;
     private final List<String> messages = new ArrayList<String>();
+    private final Set<String> registeredTypes = new HashSet<String>();
     private boolean setupDone, validSchema;
+
+    public SchemaValidator(final Set<String> extraTypes)
+    {
+        registeredTypes.addAll(extraTypes);
+    }
 
     @Override
     public Validator setSchema(final JsonNode schema)
@@ -72,8 +80,8 @@ public final class SchemaValidator
 
         for (final JsonNode element: node) {
             if (!element.isTextual()) {
-                messages.add(String.format("non string element in %s "
-                    + "property array", field));
+                messages.add(String.format("non string element in %s property "
+                    + "array", field));
                 return false;
             }
             if (!validateTypeName(element.getTextValue()))
@@ -87,6 +95,8 @@ public final class SchemaValidator
     {
         try {
             if (ANY_TYPE.equals(textValue))
+                return true;
+            if (registeredTypes.contains(textValue))
                 return true;
             NodeType.valueOf(textValue.toUpperCase());
             return true;

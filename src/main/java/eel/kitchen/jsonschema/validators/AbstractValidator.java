@@ -38,12 +38,12 @@ public abstract class AbstractValidator
     protected static final JsonNode EMPTY_SCHEMA;
 
     protected JsonNode schema;
-    protected final Map<String, EnumSet<NodeType>> fieldMap
-        = new HashMap<String, EnumSet<NodeType>>();
-    protected final Set<Validator> validators
-        = new HashSet<Validator>();
     protected final List<String> messages = new LinkedList<String>();
-    protected boolean setupDone = false, validSchema = false;
+
+    private final Map<String, EnumSet<NodeType>> fieldMap
+        = new HashMap<String, EnumSet<NodeType>>();
+    private final Set<Validator> validators = new HashSet<Validator>();
+    private boolean setupDone = false, validSchema = false;
 
     static {
         try {

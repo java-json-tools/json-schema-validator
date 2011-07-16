@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema;
 
 import eel.kitchen.jsonschema.validators.SchemaProvider;
-import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.IterableJsonNode;
 import org.codehaus.jackson.JsonNode;
 
@@ -30,7 +29,7 @@ import java.util.Map;
 
 public final class JasonSchema
 {
-    private final ValidatorFactory factory = new ValidatorFactory();
+    private final SchemaNodeFactory factory = new SchemaNodeFactory();
     private final List<String> messages = new LinkedList<String>();
     private final JsonNode schema;
 
@@ -60,14 +59,13 @@ public final class JasonSchema
     private List<String> validateOneNode(final JsonNode schema,
         final JsonNode node, final String path)
     {
-        final Validator v = factory.getValidator(schema, node);
-        final SchemaProvider schemaProvider = v.getSchemaProvider();
+        final SchemaNode schemaNode = factory.getSchemaNode(schema);
         final IterableJsonNode inode = new IterableJsonNode(node);
 
         final List<String> messages = new ArrayList<String>();
 
-        if (!v.validate(node)) {
-            for (final String message: v.getMessages())
+        if (!schemaNode.validate(node)) {
+            for (final String message: schemaNode.getMessages())
                 messages.add(String.format("%s: %s", path, message));
             return messages;
         }
@@ -76,11 +74,13 @@ public final class JasonSchema
         JsonNode subschema, subnode;
         List<String> submessages;
 
+        final SchemaProvider provider = schemaNode.getSchemaProvider();
+
         for (final Map.Entry<String, JsonNode> entry: inode) {
             subpath = entry.getKey();
             subnode = entry.getValue();
             fullpath = String.format("%s.%s", path, subpath);
-            subschema = schemaProvider.getSchemaForPath(subpath);
+            subschema = provider.getSchemaForPath(subpath);
             submessages = validateOneNode(subschema, subnode, fullpath);
             messages.addAll(submessages);
         }

@@ -17,9 +17,6 @@
 
 package eel.kitchen.jsonschema;
 
-import eel.kitchen.jsonschema.validators.SchemaValidator;
-import eel.kitchen.jsonschema.validators.Validator;
-import eel.kitchen.jsonschema.validators.errors.TypeMismatchValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -35,11 +32,12 @@ public class BrokenSchemasTest
 {
     private static final JsonNode testNode;
     private static final JsonNode dummy;
-    private static final ValidatorFactory factory
-        = new ValidatorFactory();
-    private static final Class<? extends Validator>
-        typeMismatch = TypeMismatchValidator.class,
-        schemaFailure = SchemaValidator.class;
+    private static final SchemaNodeFactory factory
+        = new SchemaNodeFactory();
+
+    private JasonSchema schema;
+    private SchemaNode schemaNode;
+    private List<String> ret;
 
     static {
         try {
@@ -49,10 +47,6 @@ public class BrokenSchemasTest
             throw new ExceptionInInitializerError(e);
         }
     }
-
-    private JasonSchema schema;
-    private Validator v;
-    private List<String> ret;
 
     @Test
     public void testNullSchema()
@@ -68,23 +62,22 @@ public class BrokenSchemasTest
     @Test
     public void testNotASchema()
     {
-        schema = new JasonSchema(testNode.get("not-a-schema"));
-        assertFalse(schema.validate(dummy));
+        schemaNode = factory.getSchemaNode(testNode.get("not-a-schema"));
 
-        ret = schema.getMessages();
+        assertFalse(schemaNode.isValid());
+
+        ret = schemaNode.getMessages();
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "$: schema is not an object");
+        assertEquals(ret.get(0), "schema is not an object");
     }
 
     @Test
     public void testIllegalType()
     {
-        v = factory.getValidator(testNode.get("illegal-type"), dummy);
-        assertEquals(v.getClass(), schemaFailure);
+        schemaNode = factory.getSchemaNode(testNode.get("illegal-type"));
 
-        assertFalse(v.validate(dummy));
-
-        ret = v.getMessages();
+        assertFalse(schemaNode.isValid());
+        ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "type property is neither a string nor an "
@@ -94,12 +87,11 @@ public class BrokenSchemasTest
     @Test
     public void testIllegalTypeArray()
     {
-        v = factory.getValidator(testNode.get("illegal-type-array"), dummy);
-        assertEquals(v.getClass(), schemaFailure);
+        schemaNode = factory.getSchemaNode(testNode.get("illegal-type-array"));
 
-        assertFalse(v.validate(dummy));
+        assertFalse(schemaNode.isValid());
 
-        ret = v.getMessages();
+        ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "non string element in type property array");
@@ -108,12 +100,11 @@ public class BrokenSchemasTest
     @Test
     public void testEmptyTypeSet()
     {
-        v = factory.getValidator(testNode.get("empty-type-set"), dummy);
-        assertEquals(v.getClass(), typeMismatch);
+        schemaNode = factory.getSchemaNode(testNode.get("empty-type-set"));
 
-        assertFalse(v.validate(dummy));
+        assertFalse(schemaNode.isValid());
 
-        ret = v.getMessages();
+        ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -122,12 +113,11 @@ public class BrokenSchemasTest
     @Test
     public void testDisallowAny()
     {
-        v = factory.getValidator(testNode.get("disallow-any"), dummy);
-        assertEquals(v.getClass(), typeMismatch);
+        schemaNode = factory.getSchemaNode(testNode.get("disallow-any"));
 
-        assertFalse(v.validate(dummy));
+        assertFalse(schemaNode.isValid());
 
-        ret = v.getMessages();
+        ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -136,12 +126,11 @@ public class BrokenSchemasTest
     @Test
     public void testIntegerVsNumber()
     {
-        v = factory.getValidator(testNode.get("integer-vs-number"), dummy);
-        assertEquals(v.getClass(), typeMismatch);
+        schemaNode = factory.getSchemaNode(testNode.get("integer-vs-number"));
 
-        assertFalse(v.validate(dummy));
+        assertFalse(schemaNode.isValid());
 
-        ret = v.getMessages();
+        ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "schema does not allow any type??");
@@ -150,12 +139,11 @@ public class BrokenSchemasTest
     @Test
     public void testUnknownType()
     {
-        v = factory.getValidator(testNode.get("unknown-type"), dummy);
-        assertEquals(v.getClass(), schemaFailure);
+        schemaNode = factory.getSchemaNode(testNode.get("unknown-type"));
 
-        assertFalse(v.validate(dummy));
+        assertFalse(schemaNode.isValid());
 
-        ret = v.getMessages();
+        ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "unknown type pwet");
