@@ -62,7 +62,7 @@ public final class IterableJsonNode
         else {
             int i = 0;
             for (final JsonNode element: node)
-                tmp.put(String.format("[%d]", i++), element);
+                tmp.put(Integer.toString(i++), element);
         }
 
         map = Collections.unmodifiableMap(tmp);

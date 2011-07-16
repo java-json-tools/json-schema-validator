@@ -42,7 +42,7 @@ public final class JasonSchema
     {
         messages.clear();
 
-        final List<String> list = validateOneNode(schema, node, "$");
+        final List<String> list = validateOneNode(schema, node, "#");
 
         if (list.isEmpty())
             return true;
@@ -79,7 +79,7 @@ public final class JasonSchema
         for (final Map.Entry<String, JsonNode> entry: inode) {
             subpath = entry.getKey();
             subnode = entry.getValue();
-            fullpath = String.format("%s.%s", path, subpath);
+            fullpath = String.format("%s/%s", path, subpath);
             subschema = provider.getSchemaForPath(subpath);
             submessages = validateOneNode(subschema, subnode, fullpath);
             messages.addAll(submessages);

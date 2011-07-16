@@ -37,7 +37,7 @@ public final class ArraySchemaProvider
         int i = 0;
 
         for (final JsonNode item: itemList)
-            items.put(String.format("[%d]", i++), item);
+            items.put(Integer.toString(i++), item);
 
         this.additionalItems = additionalItems;
     }
