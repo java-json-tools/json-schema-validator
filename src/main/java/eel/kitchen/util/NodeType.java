@@ -19,6 +19,11 @@ package eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Enumeration for the different types of JSON instances which can be
+ * encountered.
+ */
+
 public enum NodeType
 {
     ARRAY("array"),
@@ -29,6 +34,9 @@ public enum NodeType
     OBJECT("object"),
     STRING("string");
 
+    /**
+     * The name for this type, as encountered in a JSON schema
+     */
     private final String name;
 
     NodeType(final String name)
@@ -42,6 +50,13 @@ public enum NodeType
         return name;
     }
 
+    /**
+     * Given a {@link JsonNode} as an argument, return its type. The argument
+     * MUST NOT BE NULL.
+     *
+     * @param node the node to determine the type of
+     * @return the type for this node
+     */
     public static NodeType getNodeType(final JsonNode node)
     {
         if (node.isArray())
