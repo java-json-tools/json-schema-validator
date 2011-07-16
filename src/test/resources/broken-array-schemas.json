@@ -37,5 +37,9 @@
         "minItems": 2,
         "items": [ { "type": "boolean" } ],
         "additionalItems": false
+    },
+    "notuples-additional": {
+        "items": {},
+        "additionalItems": {}
     }
 }

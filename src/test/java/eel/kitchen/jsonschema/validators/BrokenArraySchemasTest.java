@@ -192,4 +192,17 @@ public class BrokenArraySchemasTest
         assertEquals(messages.get(0), "minItems is greater than what the "
             + "schema allows (tuples, additional)");
     }
+
+    @Test
+    public void testNoTuplesAdditional()
+    {
+        v.setSchema(schemas.get("notuples-additional"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "additionalItems is an object but "
+            + "tuple validation is not in effect");
+    }
 }

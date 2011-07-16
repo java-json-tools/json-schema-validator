@@ -278,7 +278,7 @@ public abstract class AbstractValidator
      *
      * @return true if the validation succeeds.
      */
-    private final boolean isWellFormed()
+    private boolean isWellFormed()
     {
         boolean ret = true;
         EnumSet<NodeType> expected;
