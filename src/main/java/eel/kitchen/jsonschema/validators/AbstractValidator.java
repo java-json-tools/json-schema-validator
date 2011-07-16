@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -274,13 +275,13 @@ public abstract class AbstractValidator
      *
      * @return true if the validation succeeds.
      */
-    private boolean isWellFormed()
+    private final boolean isWellFormed()
     {
         boolean ret = true;
         EnumSet<NodeType> expected;
         NodeType actual;
 
-        final Set<String> fieldnames = fieldMap.keySet();
+        final Set<String> fieldnames = new HashSet<String>(fieldMap.keySet());
         fieldnames.retainAll(CollectionUtils.toSet(schema.getFieldNames()));
 
         for (final String field: fieldnames) {
