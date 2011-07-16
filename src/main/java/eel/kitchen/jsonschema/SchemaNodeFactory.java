@@ -42,17 +42,11 @@ public final class SchemaNodeFactory
     public SchemaNodeFactory()
     {
         registerValidator("array", ArrayValidator.class, ARRAY);
-
         registerValidator("boolean", BooleanValidator.class, BOOLEAN);
-
         registerValidator("integer", IntegerValidator.class, INTEGER);
-
         registerValidator("number", NumberValidator.class, NUMBER);
-
         registerValidator("null", NullValidator.class, NULL);
-
         registerValidator("object", ObjectValidator.class, OBJECT);
-
         registerValidator("string", StringValidator.class, STRING);
     }
 
