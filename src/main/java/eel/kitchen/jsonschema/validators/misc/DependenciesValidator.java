@@ -59,7 +59,7 @@ public final class DependenciesValidator
             try {
                 set = computeOneDependency(entry.getValue());
             } catch (MalformedJasonSchemaException e) {
-                messages.add(e.getMessage());
+                schemaErrors.add(e.getMessage());
                 return false;
             }
             set.remove(fieldName);

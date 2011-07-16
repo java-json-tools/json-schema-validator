@@ -67,11 +67,11 @@ public final class IntegerValidator
         if (minimum != null && maximum != null) {
             final int tmp = minimum.compareTo(maximum);
             if (tmp > 0) {
-                messages.add("minimum is greater than maximum");
+                schemaErrors.add("minimum is greater than maximum");
                 return false;
             }
             if (tmp == 0 && (exclusiveMinimum || exclusiveMaximum)) {
-                messages.add("schema can never validate: minimum and maximum "
+                schemaErrors.add("schema can never validate: minimum and maximum "
                     + "are equal but are excluded from matching");
                 return false;
             }
@@ -87,7 +87,7 @@ public final class IntegerValidator
         if (!ZERO.equals(divisor))
             return true;
 
-        messages.add("divisibleBy is 0");
+        schemaErrors.add("divisibleBy is 0");
         return false;
     }
 

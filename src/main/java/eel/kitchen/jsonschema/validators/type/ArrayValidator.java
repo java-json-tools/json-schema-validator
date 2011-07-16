@@ -56,12 +56,12 @@ public final class ArrayValidator
         node = schema.get("minItems");
         if (node != null) {
             if (!node.isInt()) {
-                messages.add("minItems overflow");
+                schemaErrors.add("minItems overflow");
                 return false;
             }
             minItems = node.getIntValue();
             if (minItems < 0) {
-                messages.add("minItems is negative");
+                schemaErrors.add("minItems is negative");
                 return false;
             }
         }
@@ -69,18 +69,18 @@ public final class ArrayValidator
         node = schema.get("maxItems");
         if (node != null) {
             if (!node.isInt()) {
-                messages.add("maxItems overflow");
+                schemaErrors.add("maxItems overflow");
                 return false;
             }
             maxItems = node.getIntValue();
             if (maxItems < 0) {
-                messages.add("maxItems is negative");
+                schemaErrors.add("maxItems is negative");
                 return false;
             }
         }
 
         if (maxItems < minItems) {
-            messages.add("minItems is greater than maxItems");
+            schemaErrors.add("minItems is greater than maxItems");
             return false;
         }
 
@@ -138,7 +138,7 @@ public final class ArrayValidator
 
         for (final JsonNode element: node) {
             if (!element.isObject()) {
-                messages.add("members of the items array should be objects");
+                schemaErrors.add("members of the items array should be objects");
                 return false;
             }
             items.add(element);
@@ -174,7 +174,7 @@ public final class ArrayValidator
         if (minItems <= items.size())
             return true;
 
-        messages.add("minItems is greater than what the schema allows "
+        schemaErrors.add("minItems is greater than what the schema allows "
             + "(tuples, additional)");
         return false;
     }

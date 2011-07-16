@@ -48,7 +48,7 @@ public final class RequiredValidator
             if (node == null)
                 continue;
             if (!node.isBoolean()) {
-                messages.add("required should be a boolean");
+                schemaErrors.add("required should be a boolean");
                 return false;
             }
             if (node.getBooleanValue())

@@ -75,7 +75,7 @@ public final class ObjectValidator
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             value = entry.getValue();
             if (!value.isObject()) {
-                messages.add("values of properties should be objects");
+                schemaErrors.add("values of properties should be objects");
                 return false;
             }
         }
@@ -113,11 +113,11 @@ public final class ObjectValidator
             regex = entry.getKey();
             value = entry.getValue();
             if (!RhinoHelper.regexIsValid(regex)) {
-                messages.add("invalid regex found in patternProperties");
+                schemaErrors.add("invalid regex found in patternProperties");
                 return false;
             }
             if (!value.isObject()) {
-                messages.add("values of patternProperties should be objects");
+                schemaErrors.add("values of patternProperties should be objects");
                 return false;
             }
             patternProperties.put(regex, value);

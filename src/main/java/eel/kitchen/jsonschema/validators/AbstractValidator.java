@@ -156,7 +156,7 @@ public abstract class AbstractValidator
             actual = NodeType.getNodeType(schema.get(field));
             if (!expected.contains(actual)) {
                 ret = false;
-                messages.add(String.format("%s is of type %s, "
+                schemaErrors.add(String.format("%s is of type %s, "
                     + "expected %s", field, actual, expected));
             }
         }

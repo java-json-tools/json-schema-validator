@@ -56,7 +56,7 @@ public final class StringValidator
         if (RhinoHelper.regexIsValid(regex))
             return true;
 
-        messages.add("pattern is an invalid regular expression");
+        schemaErrors.add("pattern is an invalid regular expression");
         return false;
     }
 
@@ -67,30 +67,30 @@ public final class StringValidator
 
         if (min != null) {
             if (!min.isInt()) {
-                messages.add("minLength overflow");
+                schemaErrors.add("minLength overflow");
                 return false;
             }
             minLength = min.getIntValue();
             if (minLength < 0) {
-                messages.add("minLength is lower than 0");
+                schemaErrors.add("minLength is lower than 0");
                 return false;
             }
         }
 
         if (max != null) {
             if (!max.isInt()) {
-                messages.add("maxLength overflow");
+                schemaErrors.add("maxLength overflow");
                 return false;
             }
             maxLength = max.getIntValue();
             if (maxLength < 0) {
-                messages.add("maxLength is lower than 0");
+                schemaErrors.add("maxLength is lower than 0");
                 return false;
             }
         }
 
         if (maxLength < minLength) {
-            messages.add("minLength is greater than maxLength");
+            schemaErrors.add("minLength is greater than maxLength");
             return false;
         }
         return true;
