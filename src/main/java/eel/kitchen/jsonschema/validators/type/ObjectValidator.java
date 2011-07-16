@@ -21,6 +21,7 @@ import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.jsonschema.validators.ObjectSchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.jsonschema.validators.misc.DependenciesValidator;
+import eel.kitchen.jsonschema.validators.misc.EnumValidator;
 import eel.kitchen.jsonschema.validators.misc.RequiredValidator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
@@ -77,6 +78,7 @@ public final class ObjectValidator
 
         registerValidator(new DependenciesValidator());
         registerValidator(new RequiredValidator());
+        registerValidator(new EnumValidator());
     }
 
     @Override
