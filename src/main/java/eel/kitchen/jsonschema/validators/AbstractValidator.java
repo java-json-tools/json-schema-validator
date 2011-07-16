@@ -38,7 +38,9 @@ public abstract class AbstractValidator
     protected static final JsonNode EMPTY_SCHEMA;
 
     protected JsonNode schema;
-    protected final List<String> messages = new LinkedList<String>();
+    protected final List<String>
+        schemaErrors = new LinkedList<String>(),
+        messages = new LinkedList<String>();
 
     private final Map<String, EnumSet<NodeType>> fieldMap
         = new HashMap<String, EnumSet<NodeType>>();
@@ -61,6 +63,7 @@ public abstract class AbstractValidator
     @Override
     public final Validator setSchema(final JsonNode schema)
     {
+        schemaErrors.clear();
         messages.clear();
         setupDone = false;
         validSchema = false;
@@ -77,7 +80,7 @@ public abstract class AbstractValidator
             validSchema = doSetup();
             for (final Validator v: validators) {
                 validSchema = validSchema && v.setup();
-                messages.addAll(v.getMessages());
+                schemaErrors.addAll(v.getMessages());
             }
             setupDone = true;
         }
@@ -119,7 +122,12 @@ public abstract class AbstractValidator
     @Override
     public final List<String> getMessages()
     {
-        return Collections.unmodifiableList(messages);
+        final List<String> ret = new LinkedList<String>();
+
+        ret.addAll(schemaErrors);
+        ret.addAll(messages);
+
+        return Collections.unmodifiableList(ret);
     }
 
     protected final void registerField(final String name, final NodeType type)
@@ -151,9 +159,8 @@ public abstract class AbstractValidator
             actual = NodeType.getNodeType(schema.get(field));
             if (!expected.contains(actual)) {
                 ret = false;
-                messages.add(String.format(
-                    "%s is of type %s, " + "expected %s", field, actual,
-                    expected));
+                messages.add(String.format("%s is of type %s, "
+                    + "expected %s", field, actual, expected));
             }
         }
 
