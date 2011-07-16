@@ -33,13 +33,38 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * <p>Validator for an object instance. It covers the following keywords:</p>
+ * <ul>
+ *     <li>properties (5.2);</li>
+ *     <li>patternProperties (5.3);</li>
+ *     <li>additionalProperties (5.4)</li>
+ * </ul>
+ */
 public final class ObjectValidator
     extends AbstractValidator
 {
+    /**
+     * Whether additional properties are allowed beyond the ones defined by
+     * properties. It will only be set to false if the additionalProperties
+     * keyword is set to false.
+     */
     private boolean additionalPropertiesOK = true;
+
+    /**
+     * The additional properties schema. By default, an empty schema.
+     */
     private JsonNode additionalProperties = EMPTY_SCHEMA;
+
+    /**
+     * Properties defined by the properties keyword, if any
+     */
     private final Map<String, JsonNode> properties
         = new HashMap<String, JsonNode>();
+
+    /**
+     * Properties defined by the patternProperties keyword, if any
+     */
     private final Map<String, JsonNode> patternProperties
         = new HashMap<String, JsonNode>();
 
@@ -54,6 +79,14 @@ public final class ObjectValidator
         registerValidator(new RequiredValidator());
     }
 
+    /**
+     * Validates the provided schema. It calls, in this order,
+     * <code>computeProperties()</code>, <code>computeAdditional()</code>
+     * and <code>computePatternProperties()</code> and returns the logical
+     * and of these three.
+     *
+     * @return true if the schema is valid, false otherwise
+     */
     @Override
     protected boolean doSetup()
     {
@@ -61,6 +94,12 @@ public final class ObjectValidator
             && computePatternProperties();
     }
 
+    /**
+     * Computes, and validates, the properties keywords. It will fail to
+     * validate if one of the values defined in properties is not an object.
+     *
+     * @return false if the condition above is met
+     */
     private boolean computeProperties()
     {
         final JsonNode node = schema.get("properties");
@@ -84,6 +123,11 @@ public final class ObjectValidator
         return true;
     }
 
+    /**
+     * Computes the additionalPropertiesOK and additionalProperties keyword.
+     *
+     * @return always true
+     */
     private boolean computeAdditional()
     {
         final JsonNode node = schema.path("additionalProperties");
@@ -97,6 +141,13 @@ public final class ObjectValidator
         return true;
     }
 
+    /**
+     * Computes and validates the patternProperties keyword. It will fail to
+     * validate if one of the fields is not a valid ECMA 262 regex,
+     * or if the value for this field is not an object.
+     *
+     * @return false if either of the conditions above is met
+     */
     private boolean computePatternProperties()
     {
         final JsonNode node = schema.get("patternProperties");
@@ -149,6 +200,14 @@ public final class ObjectValidator
         return false;
     }
 
+    /**
+     * Returns a schema provider for this object instance. It is,
+     * with {@link ArrayValidator}, the only validator which returns a non
+     * empty schema provider.
+     *
+     * @return an {@link ObjectSchemaProvider} built with the values computed
+     * by this validator
+     */
     @Override
     public SchemaProvider getSchemaProvider()
     {

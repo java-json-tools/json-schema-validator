@@ -18,11 +18,23 @@
 package eel.kitchen.jsonschema.validators.type;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
+import eel.kitchen.jsonschema.validators.misc.EnumValidator;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Validate against a boolean value. This validator by itself pretty much
+ * always returns true. It will only return false if the registered {@link
+ * EnumValidator} constrains the boolean to be true or false and the value
+ * isn't that.
+ */
 public final class BooleanValidator
     extends AbstractValidator
 {
+    public BooleanValidator()
+    {
+        registerValidator(new EnumValidator());
+    }
+
     @Override
     protected boolean doSetup()
     {

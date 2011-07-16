@@ -25,10 +25,22 @@ import org.codehaus.jackson.JsonNode;
 import java.util.Collection;
 import java.util.HashSet;
 
+/**
+ * Validator for the "enum" keyword (section 5.19). This validator is
+ * completely type agnostic.
+ */
 public final class EnumValidator
     extends AbstractValidator
 {
+    /**
+     * The set of values found in the enumeration
+     */
     private final Collection<JsonNode> values = new HashSet<JsonNode>();
+
+    /**
+     * Set to true if no enum was found - in which case the validation always
+     * succeeds
+     */
     private boolean voidEnum = false;
 
     public EnumValidator()
@@ -36,6 +48,13 @@ public final class EnumValidator
         registerField("enum", NodeType.ARRAY);
     }
 
+    /**
+     * Fill the <code>values</code> set, if necessary. Duplicates are
+     * ignored, as the spec does not mention that values in an enum should be
+     * unique.
+     *
+     * @return always true
+     */
     @Override
     protected boolean doSetup()
     {
@@ -49,6 +68,18 @@ public final class EnumValidator
         return true;
     }
 
+    /**
+     * <p>Validates against the enum, if one is present,
+     * otherwise checks whether one of the members in the enumeration
+     * strictly equals to the instance.</p>
+     *
+     * <p>This is really simple since {@link JsonNode}'s .equals() does the
+     * job for us.</p>
+     *
+     * @param node the instance to validate
+     * @return false iff an enum is present and the instance matches none of
+     * the elements
+     */
     @Override
     protected boolean doValidate(final JsonNode node)
     {

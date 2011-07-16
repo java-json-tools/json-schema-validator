@@ -24,12 +24,25 @@ import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Validator for a string instance. This covers the minLength (5.17),
+ * maxLength (5.18) and pattern (5.16) keywords.
+ */
 public final class StringValidator
     extends AbstractValidator
 {
+    /**
+     * Values in the minLength and maxLength fields. Set to 0 and
+     * Integer.MAX_VALUE by default.
+     */
     private int minLength = 0, maxLength = Integer.MAX_VALUE;
     private String regex = null;
 
+    /**
+     * Constructor. Apart from registering the three fields above,
+     * it also registers an {@link EnumValidator} and a {@link
+     * FormatValidator}.
+     */
     public StringValidator()
     {
         registerField("minLength", NodeType.INTEGER);
@@ -40,6 +53,13 @@ public final class StringValidator
         registerValidator(new FormatValidator());
     }
 
+    /**
+     * Validates the provided schema. This function only validates the
+     * pattern field, and calls <code>computeMinMax()</code> to validate
+     * minLength and maxLength.
+     *
+     * @return false if pattern is present but is an invalid ECMA 262 regex
+     */
     @Override
     protected boolean doSetup()
     {
@@ -60,6 +80,18 @@ public final class StringValidator
         return false;
     }
 
+    /**
+     * <p>Sets up and validates minLength and maxLength,
+     * if present. It will fail on either of the following conditions:</p>
+     * <ul>
+     *     <li>minLength, or maxLength, overflow (they don't fit in an
+     *     integer);</li>
+     *     <li>minLength, or maxLength, are lower than 0;</li>
+     *     <li>minLength is greater than maxLength</li>
+     * </ul>
+     *
+     * @return false if either of the above conditions is met
+     */
     private boolean computeMinMax()
     {
         final JsonNode min = schema.get("minLength"),

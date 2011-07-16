@@ -24,11 +24,25 @@ import org.codehaus.jackson.JsonNode;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Validator for the "required" keyword (section 5.7). This validator only
+ * makes sense for an object instance.
+ */
 public final class RequiredValidator
     extends AbstractValidator
 {
+    /**
+     * The set of required properties for this object instance, if any
+     */
     private final Set<String> required = new HashSet<String>();
 
+
+    /**
+     * Validate the schema. The only validation done is checking that the
+     * "required" keyword, if present, is a boolean.
+     *
+     * @return false if a "required" keyword was found which is not a boolean
+     */
     @Override
     protected boolean doSetup()
     {

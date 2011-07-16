@@ -25,6 +25,12 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
+/**
+ * Validates a number. This is essentially the same as {@link
+ * IntegerValidator}, except it also works with floating point numbers.
+ *
+ * @see {@link IntegerValidator}
+ */
 public final class NumberValidator
     extends AbstractValidator
 {

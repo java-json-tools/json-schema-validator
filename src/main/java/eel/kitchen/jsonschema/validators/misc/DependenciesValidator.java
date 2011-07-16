@@ -28,6 +28,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Validator for the "dependencies" keyword (section 5.8 of the spec draft).
+ * Right now it only handles simple dependencies (a property alone,
+ * or several in an array). This validator only makes sense for an object
+ * instance.
+ */
 public final class DependenciesValidator
     extends AbstractValidator
 {
@@ -39,6 +45,16 @@ public final class DependenciesValidator
         registerField("dependencies", NodeType.OBJECT);
     }
 
+    /**
+     * <p>Build the dependencies array. This method in itself never returns
+     * false, but <code>computeOneDependency()</code> can throw an exception,
+     * which makes this function return false.</p>
+     *
+     * <p>It will remove theproperty itself from the list of computed
+     * dependencies, since it makes no sense at all.</p>
+     *
+     * @return true if the schema is valid
+     */
     @Override
     protected boolean doSetup()
     {
@@ -68,6 +84,25 @@ public final class DependenciesValidator
         return true;
     }
 
+    /**
+     * <p>Compute a dependency. This is the only real place where a
+     * dependency schema validation can fail:</p>
+     * <ul>
+     *     <li>the entry is neither a string nor an array;</li>
+     *     <li>if the entry is an array, some of its elements are not
+     *     strings.</li>
+     * </ul>
+     * <p>As mentioned in the introduction, this doesn't implement the draft
+     * fully, as dependencies can also be schemas - however the use of
+     * schemas as dependencies is quite unclear to me.
+     * </p>
+     *
+     * @param node the dependency node to validate
+     * @return a {@link Set} of string dependencies representing the
+     * properties names
+     * @throws IllegalArgumentException if the dependency does not abide to
+     * the rules above
+     */
     private static Set<String> computeOneDependency(final JsonNode node)
         throws IllegalArgumentException
     {

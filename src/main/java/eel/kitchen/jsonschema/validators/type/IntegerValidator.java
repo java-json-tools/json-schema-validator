@@ -25,11 +25,29 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigInteger;
 
+/**
+ * <p>Validator for an integer. This covers the following keywords of the spec
+ * (the same are used by {@link NumberValidator}, except the latter validates
+ * decimal numbers in addition to integers):</p>
+ * <ul>
+ *     <li>minimum and maximum (5.9 and 5.10);</li>
+ *     <li>exclusiveMinimum and exclusiveMaximum (5.11 and 5.12);</li>
+ *     <li>divisibleBy (5.24).</li>
+ * </ul>
+ * <p>As no limit is made to the size of the number,
+ * this uses {@link BigInteger} objects to read and validate numbers.</p>
+ */
 public final class IntegerValidator
     extends AbstractValidator
 {
+    /**
+     * Zero as a big integer.
+     */
     private static final BigInteger ZERO = new BigInteger("0");
 
+    /**
+     * fields corresponding to the different keywords.
+     */
     private BigInteger minimum = null, maximum = null, divisor = null;
     private boolean exclusiveMinimum = false, exclusiveMaximum = false;
 
@@ -45,6 +63,17 @@ public final class IntegerValidator
         registerValidator(new FormatValidator());
     }
 
+    /**
+     * <p>Validates the schema. Causes for validation failures are many:</p>
+     * <ul>
+     *     <li>minimum is greater than maximum;</li>
+     *     <li>minimum and maximum are equal, but one of exclusive* is set,
+     *     effectively disallowing this schema to validate anything;</li>
+     *     <li>divisibleBy is 0.</li>
+     * </ul>
+     *
+     * @return false if one of the conditions above is met
+     */
     @Override
     protected boolean doSetup()
     {
