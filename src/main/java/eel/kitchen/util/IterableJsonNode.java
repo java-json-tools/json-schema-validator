@@ -17,6 +17,7 @@
 
 package eel.kitchen.util;
 
+import eel.kitchen.jsonschema.validators.SchemaProvider;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collections;
@@ -33,11 +34,13 @@ import java.util.Map;
  * {@link Iterator}, and we use that to build our map. For other types, we take
  * advantage of the fact that JsonNode itself implements
  * Iterable&lt;JsonNode&gt;, and that the iterator is non empty only for arrays.
- * In the case of an array, the keys are <code>[x]</code>, where <code>x</code>
+ * In the case of an array, the keys are <code>x</code>, where <code>x</code>
  * is the index within the array. We guarantee the order by using a
  * {@link LinkedHashMap} internally. The internal map is read-protected by using
- * {@link Collections}' * .unmodifiableMap() method.
+ * {@link Collections}' .unmodifiableMap() method.
  * </p>
+ *
+ * @see {@link SchemaProvider}
  */
 
 public final class IterableJsonNode
@@ -55,6 +58,8 @@ public final class IterableJsonNode
 
     public IterableJsonNode(final JsonNode node)
     {
+        // TODO: spaces in property names!!
+
         final Map<String, JsonNode> tmp = new LinkedHashMap<String, JsonNode>();
 
         if (node.isObject())
