@@ -26,18 +26,33 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+/**
+ * General-purpose format validator (section 5.23 of the spec draft). It is
+ * responsible for instantiating other format validators.
+ */
 public final class FormatValidator
     extends AbstractValidator
 {
+    /**
+     * The logger
+     */
     private static final Logger logger
         = LoggerFactory.getLogger(FormatValidator.class);
 
-    private static final Map<NodeType, List<Class<? extends Validator>>> checkers
-        = new EnumMap<NodeType, List<Class<? extends Validator>>>(NodeType.class);
+    /**
+     * Registered list of format checkers. Probably shouldn't sit there...
+     */
+    private static final Map<NodeType, Set<Class<? extends Validator>>> checkers
+        = new EnumMap<NodeType, Set<Class<? extends Validator>>>(NodeType.class);
 
+    /**
+     * The value of the "format" property of the schema - if any
+     */
     private String format;
 
     static {
@@ -57,20 +72,38 @@ public final class FormatValidator
         registerFormat(NodeType.STRING, URIFormatValidator.class);
     }
 
+    /**
+     * Constructor. The only field it registers is "format",
+     * which must be a JSON string.
+     */
     public FormatValidator()
     {
         registerField("format", NodeType.STRING);
     }
 
+    /**
+     * Helper to register a format checker. Note that a checker can
+     * potentially check more than one format, this is the case for {@link
+     * UnixEpochFormatValidator}, for instance.
+     *
+     * @param type the node type which this checker is valid against
+     * @param validator the validator class
+     */
     private static void registerFormat(final NodeType type,
         final Class<? extends Validator> validator)
     {
         if (!checkers.containsKey(type))
-            checkers.put(type, new ArrayList<Class<? extends Validator>>());
+            checkers.put(type, new HashSet<Class<? extends Validator>>());
 
         checkers.get(type).add(validator);
     }
 
+    /**
+     * Always returns true. It only fills in format if it is present in the
+     * schema.
+     *
+     * @return true
+     */
     @Override
     protected boolean doSetup()
     {
@@ -82,6 +115,15 @@ public final class FormatValidator
         return true;
     }
 
+    /**
+     * Validate an instance against a format checker. Only returns false if
+     * the checker exists and fails to validate. In all other cases (format
+     * is null, no registered checkers for this node type,
+     * no such format validator), returns true.
+     *
+     * @param node the instance to validate
+     * @return true if the instance is valid
+     */
     @Override
     protected boolean doValidate(final JsonNode node)
     {

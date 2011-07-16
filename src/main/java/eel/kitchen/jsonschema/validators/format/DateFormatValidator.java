@@ -17,6 +17,11 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
+/**
+ * Validates the "date" format.
+ *
+ * @see {@link AbstractDateFormatValidator}
+ */
 public final class DateFormatValidator
     extends AbstractDateFormatValidator
 {

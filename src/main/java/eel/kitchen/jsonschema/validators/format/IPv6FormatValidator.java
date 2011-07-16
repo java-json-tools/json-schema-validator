@@ -17,12 +17,16 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.net.Inet6Address;
 import java.net.UnknownHostException;
 
+/**
+ * Validate an IPv6 address. Java has just the tool for that:
+ * <code>Inet6Address.getByName()</code>. When passed a literal IP address as
+ * an argument, it will check for its validity only.
+ */
 public final class IPv6FormatValidator
     extends AbstractFormatValidator
 {

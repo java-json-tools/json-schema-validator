@@ -17,12 +17,16 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 
+/**
+ * Validate an IPv4 address. Java has just the tool for that:
+ * <code>Inet4Address.getByName()</code>. When passed a literal IP adddress,
+ * it will just check for the validity of it.
+ */
 public final class IPv4FormatValidator
     extends AbstractFormatValidator
 {

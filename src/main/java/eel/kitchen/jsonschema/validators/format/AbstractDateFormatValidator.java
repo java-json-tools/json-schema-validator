@@ -23,12 +23,41 @@ import org.codehaus.jackson.JsonNode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * <p>Base date validation format. All implementations of date format validation
+ * (save for {@link UnixEpochFormatValidator}) use date formats which can be
+ * reproduced using Java's {@link SimpleDateFormat}. The validation process
+ * is therefore always the same, and implemented here.</p>
+ *
+ * <p>In the same vein as {@link AbstractFormatValidator},
+ * <code>doSetup()</code> is also overriden here to always return true, as
+ * it is up to {@link FormatValidator} to do the real schema validation.</p>
+ */
 public abstract class AbstractDateFormatValidator
     extends AbstractValidator
 {
+    /**
+     * The {@link SimpleDateFormat} instance
+     */
     private final SimpleDateFormat format;
+
+    /**
+     * The error message in the event of an instance validation failure
+     */
     private final String errmsg;
 
+    /**
+     * Sole constructor. It will build a {@link SimpleDateFormat} instance
+     * out of the format parameter, and the error message out of the
+     * description parameter. Note that the format parameter MUST be valid.
+     *
+     * @param fmt the date format
+     * @param desc the format description
+     * @throws IllegalArgumentException if the format is not valid (but see
+     * above)
+     * @throws NullPointerException if the format is null (but again,
+     * see above)
+     */
     protected AbstractDateFormatValidator(final String fmt, final String desc)
     {
         format = new SimpleDateFormat(fmt);
@@ -41,6 +70,14 @@ public abstract class AbstractDateFormatValidator
         return true;
     }
 
+    /**
+     * Validate an instance. It is just as simple as calling
+     * <code>parse()</code> on the {@link SimpleDateFormat} instance for this
+     * validator.
+     *
+     * @param node the instance to validate
+     * @return true if the instance is valid
+     */
     @Override
     protected final boolean doValidate(final JsonNode node)
     {

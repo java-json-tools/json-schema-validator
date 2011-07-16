@@ -20,6 +20,12 @@ package eel.kitchen.jsonschema.validators.format;
 
 import eel.kitchen.jsonschema.validators.Validator;
 
+/**
+ * Helper enum for the {@link FormatValidator} class to pick an enum out of a
+ * format string. Sketchy, should probably be replaced with a factory of some
+ * sort, especially since it is non extensible - and the spec says you MAY
+ * create custom formats.
+ */
 public enum FormatPicker
 {
     DATE_TIME(ISO8601DateFormatValidator.class),

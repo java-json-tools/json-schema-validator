@@ -17,14 +17,28 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigInteger;
 
+/**
+ * <p>Validate a Unix epoch. It can either be an integer or a decimal,
+ * and represents, as always, the number of seconds since Jan 1st 1970 00:00:00
+ * GMT.</p>
+ *
+ * <p>This validator checks for overflows: even if Java's
+ * <code>System.getCurrentTimeMillis()</code> returns a long,
+ * internally the counter is a signed 32 bit integer. It will therefore
+ * overflow if the provided number is strictly greater than 2^31 - 1.</p>
+ */
 public final class UnixEpochFormatValidator
     extends AbstractFormatValidator
 {
+    /**
+     * Zero as a {@link BigInteger}, and the right shift to use. If the
+     * grabbed BigInteger shifted right by EPOCH_SHIFT is not ZERO,
+     * then we have an overflow.
+     */
     private static final BigInteger ZERO = new BigInteger("0");
     private static final int EPOCH_SHIFT = 31;
 

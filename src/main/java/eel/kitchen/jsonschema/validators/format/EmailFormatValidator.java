@@ -17,15 +17,27 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+/**
+ * Validate an email address. Note that the spec does not specify (nor RFC
+ * 822 dictates) that the email should be a "fully qualified" email,
+ * ie with a right part after a @. Such emails with no right part ARE valid,
+ * and that's the end of it.
+ */
 public final class EmailFormatValidator
     extends AbstractFormatValidator
 {
+    /**
+     * Validates this instance by calling javax.mail.internet's
+     * InternetAddress() on the input, which fits the bill perfectly.
+     *
+     * @param node the instance to validate
+     * @return true if the instance is valid
+     */
     @Override
     protected boolean doValidate(final JsonNode node)
     {

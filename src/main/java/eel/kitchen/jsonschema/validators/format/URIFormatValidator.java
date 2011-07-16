@@ -17,12 +17,14 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * URI validator. Java's {@link URI} constructor fits the bill.
+ */
 public final class URIFormatValidator
     extends AbstractFormatValidator
 {

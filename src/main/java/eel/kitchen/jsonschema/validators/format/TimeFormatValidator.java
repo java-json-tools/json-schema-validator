@@ -17,6 +17,11 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
+/**
+ * Validate a time value in the shape HH:mm:ss
+ *
+ * @see {@link AbstractDateFormatValidator}
+ */
 public final class TimeFormatValidator
     extends AbstractDateFormatValidator
 {

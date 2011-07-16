@@ -17,6 +17,10 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
+/**
+ * Validate a date using the full ISO 8601 date format.
+ */
+
 public final class ISO8601DateFormatValidator
     extends AbstractDateFormatValidator
 {

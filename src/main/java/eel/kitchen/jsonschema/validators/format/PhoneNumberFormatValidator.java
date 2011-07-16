@@ -17,9 +17,19 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * <p>Validate a phone number. Well, try to validate one, that is. The standard
+ * says it may match E.123, but for the heck of me I cannot find it explained
+ * in layman terms, so these are the shapes recognized by this validator:
+ * </p>
+ * <ul>
+ *     <li>(xxx) xxx-xx xx-...</li>
+ *     <li>+xxx xxx xx xx</li>
+ * </ul>
+ * <p>Also, there's no E.123 format validation Java library that I know of.</p>
+ */
 public final class PhoneNumberFormatValidator
     extends AbstractFormatValidator
 {
@@ -31,7 +41,7 @@ public final class PhoneNumberFormatValidator
         final String transformed = input.replaceFirst("^\\((\\d+)\\)", "\\1")
             .replaceFirst("^\\+", "")
             .replaceAll("-(?=\\d)", "")
-            .replaceAll(" ", "")
+            .replaceAll(" (?=\\d)", "")
             .replaceAll("\\d", "");
 
         if (transformed.isEmpty())

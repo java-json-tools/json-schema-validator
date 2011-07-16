@@ -17,10 +17,13 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Validate an ECMA 262 regex using Rhino. Uses {@link RhinoHelper}'s
+ * <code>regexIsValid()</code>.
+ */
 public final class RegexFormatValidator
     extends AbstractFormatValidator
 {

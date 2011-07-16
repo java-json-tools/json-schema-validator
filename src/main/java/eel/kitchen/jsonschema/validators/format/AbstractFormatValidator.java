@@ -19,6 +19,13 @@ package eel.kitchen.jsonschema.validators.format;
 
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 
+/**
+ * Simple extension over {@link AbstractValidator}. As all format validators
+ * will be instantiated from {@link FormatValidator}, and the latter will be
+ * responsible for correct format checking, it only overrides
+ * <code>doSetup()</code> so that it always succeeds.
+ *
+ */
 public abstract class AbstractFormatValidator
     extends AbstractValidator
 {

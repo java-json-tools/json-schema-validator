@@ -17,18 +17,42 @@
 
 package eel.kitchen.jsonschema.validators.format;
 
-import eel.kitchen.jsonschema.validators.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * <p>Validate a CSS style. As for {@link CSSColorValidator},
+ * this is highly experimental and done use regex matching as long as I
+ * cannot manage to use cssbox properly. See the documentation of
+ * CSSColorValidator for more detail.</p>
+ *
+ * <p>In particular, this validator will <i>not</i> check whether the style
+ * elements are actually correct, it will just check (I <i>think</i>) that it
+ * is well formed.</p>
+ */
 public final class CSSStyleValidator
     extends AbstractFormatValidator
 {
-    private static final Pattern pattern
+    /**
+     * <p>Pattern to recognize one style element. It is assumed that a style
+     * element has the shape "something: whatever".</p>
+     *
+     * <p>Notes about anchored regexes and Java's matching mistakes apply.
+     * Call me stubborn.</p>
+     */
+    private static final Pattern styleElement
         = Pattern.compile("^\\s*[^:]+\\s*:\\s*[^;]+$", Pattern.CASE_INSENSITIVE);
 
+    /**
+     * Validate this instance. It does so by splitting the input against the
+     * semicolon and checking that each input is valid against the
+     * styleElement regex.
+     *
+     * @param node the instance to validate
+     * @return true if the instance is valid
+     */
     @Override
     protected boolean doValidate(final JsonNode node)
     {
@@ -36,7 +60,7 @@ public final class CSSStyleValidator
         Matcher matcher;
 
         for (final String rule: rules) {
-            matcher = pattern.matcher(rule);
+            matcher = styleElement.matcher(rule);
             if (!matcher.lookingAt()) {
                 messages.add("string is not a valid CSS 2.1 style");
                 return false;
