@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.misc;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.AbstractValidator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.IterableJsonNode;
@@ -58,7 +57,7 @@ public final class DependenciesValidator
             fieldName = entry.getKey();
             try {
                 set = computeOneDependency(entry.getValue());
-            } catch (MalformedJasonSchemaException e) {
+            } catch (IllegalArgumentException e) {
                 schemaErrors.add(e.getMessage());
                 return false;
             }
@@ -70,7 +69,7 @@ public final class DependenciesValidator
     }
 
     private static Set<String> computeOneDependency(final JsonNode node)
-        throws MalformedJasonSchemaException
+        throws IllegalArgumentException
     {
         final Set<String> ret = new HashSet<String>();
 
@@ -80,13 +79,13 @@ public final class DependenciesValidator
         }
 
         if (!node.isArray())
-            throw new MalformedJasonSchemaException("dependency value should "
-                + "be a string or an array");
+            throw new IllegalArgumentException("dependency value should be "
+                + "a string or an array");
 
         for (final JsonNode element: node) {
             if (!element.isTextual())
-                throw new MalformedJasonSchemaException("dependency "
-                    + "array elements should be strings");
+                throw new IllegalArgumentException("dependency array elements "
+                    + "should be strings");
             ret.add(element.getTextValue());
         }
 

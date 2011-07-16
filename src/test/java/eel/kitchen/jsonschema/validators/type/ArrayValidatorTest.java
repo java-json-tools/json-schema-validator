@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -47,7 +46,6 @@ public class ArrayValidatorTest
 
     @Test
     public void testMinItems()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("minItems");
 
@@ -68,7 +66,6 @@ public class ArrayValidatorTest
 
     @Test
     public void testMaxItems()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("maxItems");
 
@@ -89,7 +86,6 @@ public class ArrayValidatorTest
 
     @Test
     public void testUniqueItems()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("uniqueItems");
 
@@ -110,7 +106,6 @@ public class ArrayValidatorTest
 
     @Test
     public void testItemsTuples()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("itemsTuples");
 

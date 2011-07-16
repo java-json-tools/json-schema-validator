@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -47,7 +46,6 @@ public class StringValidatorTest
 
     @Test
     public void testMinLength()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("minLength");
 
@@ -69,7 +67,6 @@ public class StringValidatorTest
 
     @Test
     public void testMaxLength()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("maxLength");
 
@@ -90,7 +87,6 @@ public class StringValidatorTest
 
     @Test
     public void testPattern()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("pattern");
 

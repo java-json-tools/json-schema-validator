@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -47,7 +46,6 @@ public class ObjectValidatorTest
 
     @Test
     public void testRequired()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("required");
 
@@ -68,7 +66,6 @@ public class ObjectValidatorTest
 
     @Test
     public void testNoAdditional()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("noAdditional");
 
@@ -90,7 +87,6 @@ public class ObjectValidatorTest
 
     @Test
     public void testDependencies()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("dependencies");
 

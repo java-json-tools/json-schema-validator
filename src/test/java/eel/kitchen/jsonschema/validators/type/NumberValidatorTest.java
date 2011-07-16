@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.validators.type;
 
-import eel.kitchen.jsonschema.exception.MalformedJasonSchemaException;
 import eel.kitchen.jsonschema.validators.Validator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
@@ -47,7 +46,6 @@ public class NumberValidatorTest
 
     @Test
     public void testMinimum()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("minimum");
 
@@ -69,7 +67,6 @@ public class NumberValidatorTest
 
     @Test
     public void testExclusiveMinimum()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("exclusiveMinimum");
 
@@ -91,7 +88,6 @@ public class NumberValidatorTest
 
     @Test
     public void testMaximum()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("maximum");
 
@@ -113,7 +109,6 @@ public class NumberValidatorTest
 
     @Test
     public void testExclusiveMaximum()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("exclusiveMaximum");
 
@@ -135,7 +130,6 @@ public class NumberValidatorTest
 
     @Test
     public void testDisivibleBy()
-        throws MalformedJasonSchemaException
     {
         node = testNode.get("divisibleBy");
 
