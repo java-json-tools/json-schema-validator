@@ -46,16 +46,37 @@ import static eel.kitchen.util.NodeType.NUMBER;
 import static eel.kitchen.util.NodeType.OBJECT;
 import static eel.kitchen.util.NodeType.STRING;
 
+/**
+ * <p>The {@link SchemaNode} provider. Allows to register custom types. Its
+ * only user is {@link JasonSchema} for now.</p>
+ *
+ * @see {@link JasonSchema}
+ * @see {@link SchemaNode}
+ */
 public final class SchemaNodeFactory
 {
+    /**
+     * The logger
+     */
     private static final Logger logger
         = LoggerFactory.getLogger(SchemaNodeFactory.class);
 
+    /**
+     * Full list of registered validators, may be expanded
+     */
     private final Map<NodeType, Set<Class<? extends Validator>>> registeredValidators
         = new EnumMap<NodeType, Set<Class<? extends Validator>>>(NodeType.class);
+
+    /**
+     * Full list of registered types, may be expanded
+     */
     private final Map<String, EnumSet<NodeType>> registeredTypes
         = new HashMap<String, EnumSet<NodeType>>();
 
+    /**
+     * The constructor. It starts by registering all built in validators by
+     * calling <code>registerValidator()</code> below.
+     */
     public SchemaNodeFactory()
     {
         registerValidator("array", ArrayValidator.class, ARRAY);
@@ -68,6 +89,15 @@ public final class SchemaNodeFactory
     }
 
 
+    /**
+     * Register one validator for a given type. Will silently fail if a
+     * validator is already registered for this type.
+     *
+     * @param type the type name
+     * @param validator the validator class
+     * @param nodeTypes the list of primitive node types associated with this
+     * type name
+     */
     private void registerValidator(final String type,
         final Class<? extends Validator> validator, final NodeType... nodeTypes)
     {
@@ -90,6 +120,12 @@ public final class SchemaNodeFactory
                 registeredValidators.put(nodeType, set);
     }
 
+    /**
+     * Spawns a schema node associated with a JSON schema
+     *
+     * @param schema the JSON schema
+     * @return a {@link SchemaNodeFactory}
+     */
     public SchemaNode getSchemaNode(final JsonNode schema)
     {
         return new SchemaNode(schema, registeredValidators, registeredTypes);

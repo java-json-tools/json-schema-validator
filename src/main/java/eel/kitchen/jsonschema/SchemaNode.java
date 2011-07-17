@@ -35,24 +35,76 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * <p>The main interface to validation. A new instance is spawned by a {@link
+ * SchemaNodeFactory} when validating a schema. This is where, for instance,
+ * main schema validation is done (via a {@link SchemaValidator}) and type
+ * mismatch detected (an instance is to be validated by a schema,
+ * but the schema cannot validate the type for the instance).</p>
+ *
+ * <p>It is spawned with a schema and the list of all possible types and
+ * validators, and removes from its internal structures the types which the
+ * provided schema (if valid!) cannot validate.</p>
+ *
+ * @see {@link Validator}
+ * @see {@link SchemaValidator}
+ * @see {@link SchemaNodeFactory}
+ * @see {@link NodeType}
+ */
 public final class SchemaNode
 {
+    /**
+     * Special type keyword for any type
+     */
     private static final String ANY_TYPE = "any";
 
+    /**
+     * Map of primitive JSON node types (a {@link NodeType}) as keys,
+     * and a set of Validator classes as values.
+     */
     private final Map<NodeType, Set<Class<? extends Validator>>> ctors
         = new EnumMap<NodeType, Set<Class<? extends Validator>>>(NodeType.class);
+
+    /**
+     * Map of type names as keys, and the corresponding node types as values
+     */
     private final Map<String, EnumSet<NodeType>> types
         = new HashMap<String, EnumSet<NodeType>>();
 
+    /**
+     * The provided schema
+     */
     private final JsonNode schema;
+
+    /**
+     * List of validators which will be filled in from the schema
+     */
     private final Map<NodeType, Set<Validator>> validators
         = new EnumMap<NodeType, Set<Validator>>(NodeType.class);
 
+    /**
+     * Validation messages, only filled in on errors
+     */
     private final List<String> messages = new LinkedList<String>();
 
+    /**
+     * Whether the schema is broken ({@link SchemaValidator} fails to
+     * validate the provided schema)
+     */
     private boolean brokenSchema = false;
+
+    /**
+     * The validator which could successfully validate an instance
+     */
     private Validator successful;
 
+    /**
+     * Constructor. It is at this stage that the schema is validated.
+     *
+     * @param schema the schema
+     * @param allValidators the list of all registered validators
+     * @param allTypes the list of all registered types
+     */
     public SchemaNode(final JsonNode schema,
         final Map<NodeType, Set<Class<? extends Validator>>> allValidators,
         final Map<String, EnumSet<NodeType>> allTypes)
@@ -71,6 +123,12 @@ public final class SchemaNode
         setup();
     }
 
+    /**
+     * Cleans up the <code>types</code> and <code>ctors</code> map. It can
+     * declare the schema as  broken if it cannot validate types (think:
+     * { "disallow": "any" } for instance). After cleanup is done, calls
+     * <code>buildValidators()</code>.
+     */
     private void setup()
     {
         final Set<String>
@@ -95,6 +153,11 @@ public final class SchemaNode
         buildValidators();
     }
 
+    /**
+     * Fills in the <code>validators</code> map. Declares the schema as
+     * broken if it cannot instantiate at least one validator (this normally
+     * should not happen).
+     */
     private void buildValidators()
     {
         boolean oops;
@@ -120,6 +183,17 @@ public final class SchemaNode
         }
     }
 
+    /**
+     * Builds one set of validators from a class set. Called by
+     * <code>buildValidators()</code>.
+     *
+     * @param set the set of classes
+     * @return the set of instantiated validators
+     * @throws NoSuchMethodException as a possible class instantiation failure
+     * @throws InvocationTargetException as a possible class instantiation failure
+     * @throws IllegalAccessException as a possible class instantiation failure
+     * @throws InstantiationException as a possible class instantiation failure
+     */
     private Set<Validator> validatorSet(final Set<Class<? extends Validator>> set)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
@@ -136,6 +210,12 @@ public final class SchemaNode
         return result;
     }
 
+    /**
+     * Builds the set of possible validating types for a schema by computing
+     * the values from the "type" and "disallow" fields of the schema
+     *
+     * @return a set of types, possibly empty
+     */
     private Set<String> getValidatingTypes()
     {
         final Set<String> ret = new HashSet<String>();
@@ -176,6 +256,13 @@ public final class SchemaNode
         return ret;
     }
 
+    /**
+     * Check that this instance is valid, that is, the schema is valid,
+     * it can validate at least one type and all validators could be
+     * instantiated.
+     *
+     * @return true if all of the above is true
+     */
     public boolean isValid()
     {
         if (brokenSchema)
@@ -195,6 +282,15 @@ public final class SchemaNode
         return ret;
     }
 
+    /**
+     * Validates one instance. First checks that the instance is not null,
+     * then determines its primitive type, and calls all registered
+     * validators for this primitive type one after the other (if any).
+     * Returns true if one succeeds.
+     *
+     * @param node the instance to validate
+     * @return true if the above conditions are met
+     */
     public boolean validate(final JsonNode node)
     {
         if (!isValid())
@@ -226,11 +322,21 @@ public final class SchemaNode
         return false;
     }
 
+    /**
+     * Returns the schema provider associated with the successful validator.
+     *
+     * @return a {@link SchemaProvider}
+     */
     public SchemaProvider getSchemaProvider()
     {
         return successful.getSchemaProvider();
     }
 
+    /**
+     * Returns the list of messages associated with validation
+     *
+     * @return the content of <code>messages</code> as an unmodifiable list
+     */
     public List<String> getMessages()
     {
         return Collections.unmodifiableList(messages);

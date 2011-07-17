@@ -27,10 +27,29 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>The central validating class. Instantiate it with the main schema to
+ * use, and call <code>validate()</code> on one instance. Reusable.</p>
+ *
+ * <p>Note: it uses slash-delimited paths for displays only,
+ * although the draft specifies that one could use dot-delimited paths
+ * instead, see sections 6.2.1 and 6.2.2</p>
+ */
 public final class JasonSchema
 {
+    /**
+     * The {@link SchemaNodeFactory} used by this instance
+     */
     private final SchemaNodeFactory factory = new SchemaNodeFactory();
+
+    /**
+     * The list of validation messages
+     */
     private final List<String> messages = new LinkedList<String>();
+
+    /**
+     * The associated schema
+     */
     private final JsonNode schema;
 
     public JasonSchema(final JsonNode schema)
@@ -38,6 +57,13 @@ public final class JasonSchema
         this.schema = schema;
     }
 
+    /**
+     * Validate an instance. Calls <code>validateOneNode</code> on this
+     * instance with <code>#</code> as a path
+     *
+     * @param node the instance to validate
+     * @return true if the instance is valid
+     */
     public boolean validate(final JsonNode node)
     {
         messages.clear();
@@ -51,11 +77,29 @@ public final class JasonSchema
         return false;
     }
 
+    /**
+     * Get the list of validation messages
+     *
+     * @return the content of <code>messages</code> as an unmodifiable list
+     */
     public List<String> getMessages()
     {
         return Collections.unmodifiableList(messages);
     }
 
+    /**
+     * Validate one instance. Calls itself recursively,
+     * with the appropriate paths, if the instance to validate is a container
+     * instance (objet or array).
+     *
+     * @param schema the schema used to validate this instance
+     * @param node the instance to validate
+     * @param path the slash-delimited JSON path to this instance
+     * @return a list of validation messages
+     *
+     * @see {@link IterableJsonNode}
+     * @see {@link SchemaProvider}
+     */
     private List<String> validateOneNode(final JsonNode schema,
         final JsonNode node, final String path)
     {
