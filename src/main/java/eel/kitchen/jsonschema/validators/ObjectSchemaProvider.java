@@ -17,19 +17,34 @@
 
 package eel.kitchen.jsonschema.validators;
 
+import eel.kitchen.jsonschema.validators.type.ObjectValidator;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Schema provider spawned by {@link ObjectValidator}.
+ *
+ * @see {@link SchemaProvider}
+ * @see {@link ObjectValidator}
+ */
 public final class ObjectSchemaProvider
     implements SchemaProvider
 {
-    private final Map<String, JsonNode> properties
-        = new HashMap<String, JsonNode>();
-    private final Map<String, JsonNode> patternProperties
-        = new HashMap<String, JsonNode>();
+
+    /**
+     * Map of properties and additional properties found in the schema,
+     * if any, and of patternProperties, if any
+     */
+    private final Map<String, JsonNode>
+        properties = new HashMap<String, JsonNode>(),
+        patternProperties = new HashMap<String, JsonNode>();
+
+    /**
+     * Schema for additional properties
+     */
     private final JsonNode additionalProperties;
 
     public ObjectSchemaProvider(final Map<String, JsonNode> properties,
@@ -41,6 +56,20 @@ public final class ObjectSchemaProvider
         this.additionalProperties = additionalProperties;
     }
 
+    /**
+     * <p>Get the schema associated with the relative path in the current
+     * instance. In order, it will try to find and then return:</p>
+     * <ul>
+     *     <li>the corresponding schema in the properties map on an exact key
+     *     match;</li>
+     *     <li>the corresponding schema to a regex in patternProperties if
+     *     the path matches that regex;</li>
+     *     <li>the schema defined by additionalProperties</li>
+     * </ul>
+     *
+     * @param path the subpath
+     * @return the corresponding schema
+     */
     @Override
     public JsonNode getSchemaForPath(final String path)
     {

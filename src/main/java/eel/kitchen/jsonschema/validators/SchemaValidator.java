@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.validators;
 
+import eel.kitchen.jsonschema.SchemaNode;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -26,18 +27,58 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * <p>A special purpose validator to validate a schema before it is fed to
+ * "real" validators. It only validates that:</p>
+ * <ul>
+ *     <li>the schema is not null,</li>
+ *     <li>it is an object, and</li>
+ *     <li>the "type" and "disallow" elements are either simple strings or
+ *     array of strings.
+ *     </li>
+ * </ul>
+ * <p>The draft specifies other possible values for type or disallow,
+ * but as this implementation does not currently support this,
+ * the limitation is enforced by this validator.</p>
+ *
+ * @see {@link SchemaNode}
+ */
 public final class SchemaValidator
     implements Validator
 {
+    /**
+     * Special value for any type
+     */
     private static final String ANY_TYPE = "any";
+
+    /**
+     * The schema to validate
+     */
     private JsonNode schema;
+
+    /**
+     * List of error messages, if any
+     */
     private final List<String> messages = new ArrayList<String>();
+
+    /**
+     * The set of supported keywords in "type" and "disallow"
+     */
     private final Set<String> registeredTypes = new HashSet<String>();
+
+    /**
+     * Whether the setup is done, and whether the provided schema is valid
+     */
     private boolean setupDone, validSchema;
 
-    public SchemaValidator(final Set<String> extraTypes)
+    /**
+     * Constructor.
+     *
+     * @param typeSet a set of types supported by this schema
+     */
+    public SchemaValidator(final Set<String> typeSet)
     {
-        registeredTypes.addAll(extraTypes);
+        registeredTypes.addAll(typeSet);
     }
 
     @Override
@@ -58,6 +99,11 @@ public final class SchemaValidator
         return validSchema;
     }
 
+    /**
+     * Validates the schema, see class description for the rules.
+     *
+     * @return true if valid
+     */
     private boolean doSetup()
     {
         messages.clear();
@@ -74,12 +120,24 @@ public final class SchemaValidator
         return validateTypeElement("type") && validateTypeElement("disallow");
     }
 
+    /**
+     * Only ever calls <code>setup()</code>
+     *
+     * @param node The instance to validate
+     * @return see <code>setup()</code>
+     */
     @Override
     public boolean validate(final JsonNode node)
     {
         return setup();
     }
 
+    /**
+     * Validate one of "type" or "disallow".
+     *
+     * @param field either "type" or "disallow"
+     * @return false if the property exists and has an invalid value
+     */
     private boolean validateTypeElement(final String field)
     {
         final JsonNode node = schema.get(field);
@@ -108,6 +166,14 @@ public final class SchemaValidator
         return true;
     }
 
+    /**
+     * Validate one type name: it can be <code>ANY_TYPE</code>,
+     * a value in <code>registeredTypes</code>, or any valid value in {@link
+     * NodeType}.
+     *
+     * @param textValue the type name
+     * @return true if valid
+     */
     private boolean validateTypeName(final String textValue)
     {
         try {

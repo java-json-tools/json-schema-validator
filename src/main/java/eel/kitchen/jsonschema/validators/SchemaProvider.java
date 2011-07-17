@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.validators;
 
+import eel.kitchen.jsonschema.SchemaNode;
 import eel.kitchen.util.IterableJsonNode;
 import org.codehaus.jackson.JsonNode;
 
@@ -26,7 +27,7 @@ import org.codehaus.jackson.JsonNode;
  * safety. Never goes more than one level deep.
  * </p>
  *
- * @see {@link IterableJsonNode}
+ * @see {@link IterableJsonNode}, {@link SchemaNode}
  */
 
 public interface SchemaProvider

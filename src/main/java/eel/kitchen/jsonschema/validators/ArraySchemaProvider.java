@@ -17,20 +17,44 @@
 
 package eel.kitchen.jsonschema.validators;
 
+import eel.kitchen.jsonschema.validators.type.ArrayValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * <p>Schema provider for JSON nodes of type array. This type of schema
+ * provider is spawned from an {@link ArrayValidator}.</p>
+ *
+ * @see {@link SchemaProvider}
+ * @see {@link ArrayValidator}
+ */
 public final class ArraySchemaProvider
     implements SchemaProvider
 {
+    /**
+     * A map of schemas found by {@link ArrayValidator} in the items property
+     * of a JSON schema, with keys being the index in the items array as
+     * strings. It will be non empty only if item tuple validation is in effect.
+     */
     private final Map<String, JsonNode> items
         = new HashMap<String, JsonNode>();
 
+    /**
+     * The value for additionalItems, or items if tuple validation is not in
+     * effect.
+     */
     private final JsonNode additionalItems;
 
+    /**
+     * Constructor.
+     *
+     * @param itemList list of schemas in the items property if it is an array,
+     * in the order of elements in this array
+     * @param additionalItems schema for all array elements not in items
+     */
     public ArraySchemaProvider(final List<JsonNode> itemList,
         final JsonNode additionalItems)
     {
@@ -42,6 +66,13 @@ public final class ArraySchemaProvider
         this.additionalItems = additionalItems;
     }
 
+    /**
+     * Get the schema associated with the given path. Returns the
+     * corresponding element in items if found, otherwise additionalItems.
+     *
+     * @param path The subpath
+     * @return the matching schema
+     */
     @Override
     public JsonNode getSchemaForPath(final String path)
     {

@@ -19,9 +19,20 @@ package eel.kitchen.jsonschema.validators;
 
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Empty schema provider. Spawned by every validator which is not an array or
+ * object validator.
+ */
 public final class EmptySchemaProvider
     implements SchemaProvider
 {
+    /**
+     * For this particular provider, this method should never be called.
+     *
+     * @param path The subpath
+     * @return nothing...
+     * @throws RuntimeException
+     */
     @Override
     public JsonNode getSchemaForPath(final String path)
     {
