@@ -6,6 +6,9 @@
         "minimum": 2,
         "exclusiveMinimum": 2
     },
+    "exclusiveMinimum-without-minimum": {
+        "exclusiveMinimum": true
+    },
     "broken-maximum": {
         "minimum": -18.2,
         "exclusiveMinimum": false,
@@ -16,6 +19,9 @@
         "exclusiveMinimum": false,
         "maximum": 5,
         "exclusiveMaximum": 4.24
+    },
+    "exclusiveMaximum-without-maximum": {
+        "exclusiveMaximum": true
     },
     "inverted-minmax": {
         "minimum": 980932480987,

@@ -76,13 +76,41 @@ public final class IntegerValidator
      *     <li>minimum is greater than maximum;</li>
      *     <li>minimum and maximum are equal, but one of exclusive* is set,
      *     effectively disallowing this schema to validate anything;</li>
+     *     <li>exclusiveM{in,ax}imum without m{in,ax}imum;</li>
      *     <li>divisibleBy is 0.</li>
      * </ul>
+     * <p>The first three points are checked by <code>checkMinMax()</code>.
+     * </p>
      *
      * @return false if one of the conditions above is met
      */
     @Override
     protected boolean doSetup()
+    {
+        if (!checkMinMax())
+            return false;
+
+        final JsonNode node = schema.get("divisibleBy");
+
+        if (node == null)
+            return true;
+
+        divisor = node.getBigIntegerValue();
+
+        if (!ZERO.equals(divisor))
+            return true;
+
+        schemaErrors.add("divisibleBy is 0");
+        return false;
+    }
+
+    /**
+     * Check coherency of minimum, maximum, exclusiveMinimum and
+     * exclusiveMaximum as described in <code>doSetup()</code>.
+     *
+     * @return true if these values are coherent, false otherwise
+     */
+    private boolean checkMinMax()
     {
         JsonNode node;
 
@@ -91,14 +119,30 @@ public final class IntegerValidator
         if (node.isIntegralNumber())
             minimum = node.getBigIntegerValue();
 
-        exclusiveMinimum = schema.path("exclusiveMinimum").getValueAsBoolean();
+        node = schema.get("exclusiveMinimum");
+
+        if (node != null) {
+            if (minimum == null) {
+                schemaErrors.add("exclusiveMinimum without minimum");
+                return false;
+            }
+            exclusiveMinimum = node.getBooleanValue();
+        }
 
         node = schema.path("maximum");
 
         if (node.isIntegralNumber())
             maximum = node.getBigIntegerValue();
 
-        exclusiveMaximum = schema.path("exclusiveMaximum").getValueAsBoolean();
+        node = schema.get("exclusiveMaximum");
+
+        if (node != null) {
+            if (maximum == null) {
+                schemaErrors.add("exclusiveMaximum without maximum");
+                return false;
+            }
+            exclusiveMaximum = node.getBooleanValue();
+        }
 
         if (minimum != null && maximum != null) {
             final int tmp = minimum.compareTo(maximum);
@@ -112,19 +156,7 @@ public final class IntegerValidator
                 return false;
             }
         }
-
-        node = schema.get("divisibleBy");
-
-        if (node == null)
-            return true;
-
-        divisor = node.getBigIntegerValue();
-
-        if (!ZERO.equals(divisor))
-            return true;
-
-        schemaErrors.add("divisibleBy is 0");
-        return false;
+        return true;
     }
 
     @Override

@@ -64,6 +64,25 @@ public final class NumberValidator
     @Override
     protected boolean doSetup()
     {
+        if (!checkMinMax())
+            return false;
+
+        final JsonNode node = schema.get("divisibleBy");
+
+        if (node == null)
+            return true;
+
+        divisor = node.getDecimalValue();
+
+        if (ZERO.compareTo(divisor) != 0)
+            return true;
+
+        schemaErrors.add("divisibleBy is 0");
+        return false;
+    }
+
+    private boolean checkMinMax()
+    {
         JsonNode node;
 
         node = schema.path("minimum");
@@ -71,14 +90,30 @@ public final class NumberValidator
         if (node.isNumber())
             minimum = node.getDecimalValue();
 
-        exclusiveMinimum = schema.path("exclusiveMinimum").getValueAsBoolean();
+        node = schema.get("exclusiveMinimum");
+
+        if (node != null) {
+            if (minimum == null) {
+                schemaErrors.add("exclusiveMinimum without minimum");
+                return false;
+            }
+            exclusiveMinimum = node.getBooleanValue();
+        }
 
         node = schema.path("maximum");
 
         if (node.isNumber())
             maximum = node.getDecimalValue();
 
-        exclusiveMaximum = schema.path("exclusiveMaximum").getValueAsBoolean();
+        node = schema.get("exclusiveMaximum");
+
+        if (node != null) {
+            if (maximum == null) {
+                schemaErrors.add("exclusiveMaximum without maximum");
+                return false;
+            }
+            exclusiveMaximum = node.getBooleanValue();
+        }
 
         if (minimum != null && maximum != null) {
             final int tmp = minimum.compareTo(maximum);
@@ -92,19 +127,7 @@ public final class NumberValidator
                 return false;
             }
         }
-
-        node = schema.get("divisibleBy");
-
-        if (node == null)
-            return true;
-
-        divisor = node.getDecimalValue();
-
-        if (ZERO.compareTo(divisor) != 0)
-            return true;
-
-        schemaErrors.add("divisibleBy is 0");
-        return false;
+        return true;
     }
 
     @Override

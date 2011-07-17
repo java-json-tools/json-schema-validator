@@ -69,6 +69,18 @@ public class BrokenNumberSchemasTest
     }
 
     @Test
+    public void testExclusiveMinimumWithoutMinimum()
+    {
+        v.setSchema(schemas.get("exclusiveMinimum-without-minimum"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "exclusiveMinimum without minimum");
+    }
+
+    @Test
     public void testBrokenMaximum()
     {
         v.setSchema(schemas.get("broken-maximum"));
@@ -92,6 +104,18 @@ public class BrokenNumberSchemasTest
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0), "exclusiveMaximum is of type number, "
             + "expected [boolean]");
+    }
+
+    @Test
+    public void testExclusiveMaximumWithoutMaximum()
+    {
+        v.setSchema(schemas.get("exclusiveMaximum-without-maximum"));
+
+        assertFalse(v.setup());
+
+        messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "exclusiveMaximum without maximum");
     }
 
     @Test
