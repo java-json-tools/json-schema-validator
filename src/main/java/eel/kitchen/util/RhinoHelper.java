@@ -63,7 +63,7 @@ public final class RhinoHelper
     public static boolean regexIsValid(final String regex)
     {
         try {
-            engine.eval(String.format(REGEX_FORMAT, regex));
+            engine.eval(String.format(REGEX_FORMAT, escape(regex)));
             return true;
         } catch (ScriptException e) {
             return false;
@@ -86,7 +86,7 @@ public final class RhinoHelper
      */
     public static boolean regMatch(final String regex, final String input)
     {
-        final String js = String.format(REGEX_VALIDATE, regex, input);
+        final String js = String.format(REGEX_VALIDATE, escape(regex), input);
 
         try {
             return (Boolean) engine.eval(js);
@@ -94,5 +94,18 @@ public final class RhinoHelper
             throw new RuntimeException("Should never have reached this point!"
                 + " Regex SHOULD have been validated already");
         }
+    }
+
+    /**
+     * Utility function to escape slashes in a given regex string. Given that we
+     * feed the regex to Rhino as <code>/re/</code>,
+     * we need to prepend a backslash to all slashes found in <code>re</code>.
+     *
+     * @param regex the regex as a String
+     * @return the regex, with all slashes escaped
+     */
+    private static String escape(final String regex)
+    {
+        return regex.replaceAll("(?=/)", "\\\\");
     }
 }
