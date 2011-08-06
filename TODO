@@ -1,0 +1,4 @@
+- $ref on self (will allow to validate a schema using the "JSON schema schema")
+- $ref on URLs (will allow full validation of the card schema: geo and adr
+  are URLs)
+- complex types (on type, dependencies) and schema merging
