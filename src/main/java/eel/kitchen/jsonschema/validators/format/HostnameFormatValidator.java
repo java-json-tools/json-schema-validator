@@ -39,19 +39,17 @@ public final class HostnameFormatValidator
     extends AbstractFormatValidator
 {
     /**
-     * <p>Regex to validate a hostname part. Source: Wikipedia, which thankfully
-     * translated into layman terms what RFC 1123 says:</p>
+     * <p>Regex to validate a hostname part, and maximum hostname part length.
+     * Source: Wikipedia, which thankfully translated into layman terms what RFC
+     * 1123 says:</p>
      * <ul>
-     *     <li>only ASCII digits and letters, plus the hyphen, are allowed,
-     *     </li>
-     *     <li>the first and last character must not be a hyphen,</li>
-     *     <li>maximum length of 255 characters.</li>
+     *     <li>only ASCII digits and letters, plus the hyphen, are allowed,</li>
+     *     <li>the first and last character must not be a hyphen.</li>
      * </ul>
-     * <p>Yes, I have to use a lazy quantifier, but I see no other way.</p>
      */
-    private static final Pattern hostnamePart
-        = Pattern.compile("^[a-z0-9][-a-z0-9]{0,253}?[a-z0-9]?$",
-            Pattern.CASE_INSENSITIVE);
+    private static final Pattern HOSTNAME_PART_REGEX
+        = Pattern.compile("^[a-z0-9]+(-[a-z0-9]*)*$", Pattern.CASE_INSENSITIVE);
+    private static final int HOSTNAME_PART_MAXLEN = 255;
 
     @Override
     protected boolean doValidate(final JsonNode node)
@@ -59,15 +57,22 @@ public final class HostnameFormatValidator
         final String value = node.getTextValue();
         final String[] parts = value.split("\\.");
         Matcher matcher;
+        boolean ret = true;
 
         for (final String part: parts) {
-            matcher = hostnamePart.matcher(part);
+            matcher = HOSTNAME_PART_REGEX.matcher(part);
+            if (part.length() > HOSTNAME_PART_MAXLEN) {
+                ret = false;
+                break;
+            }
             if (!matcher.lookingAt()) {
-                messages.add("string is not a valid hostname");
-                return false;
+                ret = false;
+                break;
             }
         }
 
-        return true;
+        if (!ret)
+            messages.add("string is not a valid hostname");
+        return ret;
     }
 }
