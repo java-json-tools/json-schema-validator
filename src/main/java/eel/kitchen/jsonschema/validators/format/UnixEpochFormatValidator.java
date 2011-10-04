@@ -35,9 +35,8 @@ public final class UnixEpochFormatValidator
     extends AbstractFormatValidator
 {
     /**
-     * Zero as a {@link BigInteger}, and the right shift to use. If the
-     * grabbed BigInteger shifted right by EPOCH_SHIFT is not ZERO,
-     * then we have an overflow.
+     * The right shift to use. If the grabbed BigInteger shifted right by
+     * EPOCH_SHIFT is not zero, then we have an overflow.
      */
     private static final int EPOCH_SHIFT = 31;
 
