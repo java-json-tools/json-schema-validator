@@ -48,7 +48,7 @@ public final class HostnameFormatValidator
      * </ul>
      */
     private static final Pattern HOSTNAME_PART_REGEX
-        = Pattern.compile("^[a-z0-9]+(-[a-z0-9]*)*$", Pattern.CASE_INSENSITIVE);
+        = Pattern.compile("^[a-z0-9]+(-[a-z0-9]+)*$", Pattern.CASE_INSENSITIVE);
     private static final int HOSTNAME_PART_MAXLEN = 255;
 
     @Override
