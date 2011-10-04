@@ -41,11 +41,6 @@ public final class IntegerValidator
     extends AbstractValidator
 {
     /**
-     * Zero as a big integer.
-     */
-    private static final BigInteger ZERO = new BigInteger("0");
-
-    /**
      * fields corresponding to the different keywords.
      */
     private BigInteger minimum = null, maximum = null, divisor = null;
@@ -97,7 +92,7 @@ public final class IntegerValidator
 
         divisor = node.getBigIntegerValue();
 
-        if (!ZERO.equals(divisor))
+        if (!BigInteger.ZERO.equals(divisor))
             return true;
 
         schemaErrors.add("divisibleBy is 0");
@@ -197,7 +192,7 @@ public final class IntegerValidator
         if (divisor == null)
             return true;
 
-        if (ZERO.equals(value.remainder(divisor)))
+        if (BigInteger.ZERO.equals(value.remainder(divisor)))
             return true;
 
         messages.add("integer is not a multiple of the declared divisor");

@@ -39,7 +39,6 @@ public final class UnixEpochFormatValidator
      * grabbed BigInteger shifted right by EPOCH_SHIFT is not ZERO,
      * then we have an overflow.
      */
-    private static final BigInteger ZERO = new BigInteger("0");
     private static final int EPOCH_SHIFT = 31;
 
     @Override
@@ -47,7 +46,7 @@ public final class UnixEpochFormatValidator
     {
         final BigInteger epoch = node.getDecimalValue().toBigInteger();
 
-        if (ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
+        if (BigInteger.ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
             return true;
 
         messages.add("epoch time would overflow");

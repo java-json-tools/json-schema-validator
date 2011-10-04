@@ -34,8 +34,6 @@ import java.math.BigDecimal;
 public final class NumberValidator
     extends AbstractValidator
 {
-    private static final BigDecimal ZERO = new BigDecimal("0");
-
     private BigDecimal minimum = null, maximum = null, divisor = null;
     private boolean exclusiveMinimum = false, exclusiveMaximum = false;
 
@@ -74,7 +72,7 @@ public final class NumberValidator
 
         divisor = node.getDecimalValue();
 
-        if (ZERO.compareTo(divisor) != 0)
+        if (BigDecimal.ZERO.compareTo(divisor) != 0)
             return true;
 
         schemaErrors.add("divisibleBy is 0");
@@ -168,7 +166,7 @@ public final class NumberValidator
         if (divisor == null)
             return true;
 
-        if (ZERO.compareTo(value.remainder(divisor)) == 0)
+        if (BigDecimal.ZERO.compareTo(value.remainder(divisor)) == 0)
             return true;
 
         messages.add("number is not a multiple of the declared divisor");
