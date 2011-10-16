@@ -159,7 +159,7 @@ public final class ArrayValidator
             return false;
         }
 
-        uniqueItems = schema.path("uniqueItems").getValueAsBoolean();
+        uniqueItems = schema.path("uniqueItems").asBoolean();
 
         return computeItems() && computeAdditionalItems() && finalCheck();
     }
