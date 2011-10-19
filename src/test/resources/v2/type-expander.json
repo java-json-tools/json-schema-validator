@@ -1,0 +1,112 @@
+{
+    "simpletype": {
+        "input": {
+            "type": "string",
+            "something": "else"
+        },
+        "output": [
+            {
+                "type": "string",
+                "something": "else"
+            }
+        ]
+    },
+    "notype": {
+        "input": {
+            "something": "else"
+        },
+        "output": [
+            {
+                "type": "null",
+                "something": "else"
+            },
+            {
+                "type": "string",
+                "something": "else"
+            },
+            {
+                "type": "boolean",
+                "something": "else"
+            },
+            {
+                "type": "integer",
+                "something": "else"
+            },
+            {
+                "type": "number",
+                "something": "else"
+            },
+            {
+                "type": "object",
+                "something": "else"
+            },
+            {
+                "type": "array",
+                "something": "else"
+            }
+        ]
+    },
+    "complextype": {
+        "input": {
+            "type": [
+                "array",
+                {
+                    "type": ["boolean", "number"],
+                    "don't worry": "be happy"
+                }
+            ],
+            "something": "else"
+        },
+        "output": [
+            {
+                "type": "array",
+                "something": "else"
+            },
+            {
+                "type": "boolean",
+                "don't worry": "be happy"
+            },
+            {
+                "type": "number",
+                "don't worry": "be happy"
+            }
+        ]
+    },
+    "complextype2": {
+        "input": {
+            "type": [
+                "array",
+                {
+                    "type": [
+                        "boolean",
+                        "number",
+                        {
+                            "type": "string",
+                            "emacs": "sucks"
+                        }
+                    ],
+                    "don't worry": "be happy"
+                }
+            ],
+            "something": "else"
+        },
+        "output": [
+            {
+                "type": "array",
+                "something": "else"
+            },
+            {
+                "type": "boolean",
+                "don't worry": "be happy"
+            },
+            {
+                "type": "number",
+                "don't worry": "be happy"
+            },
+            {
+                "type": "string",
+                "emacs": "sucks"
+            }
+        ]
+    }
+}
