@@ -154,9 +154,14 @@ public final class SchemaValidator
         }
 
         for (final JsonNode element: node) {
+            if (element.isObject()) {
+                messages.add(String.format("Sorry, union types not implemented"
+                    + " yet (found subschema in field %s)", field));
+                return false;
+            }
             if (!element.isTextual()) {
-                messages.add(String.format("non string element in %s property "
-                    + "array", field));
+                messages.add(String.format("non string or schema element in "
+                    + "%s property array", field));
                 return false;
             }
             if (!validateTypeName(element.getTextValue()))

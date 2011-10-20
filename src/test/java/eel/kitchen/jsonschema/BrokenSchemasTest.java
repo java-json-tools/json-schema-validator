@@ -32,8 +32,7 @@ public class BrokenSchemasTest
 {
     private static final JsonNode testNode;
     private static final JsonNode dummy;
-    private static final SchemaNodeFactory factory
-        = new SchemaNodeFactory();
+    private static final SchemaNodeFactory factory = new SchemaNodeFactory();
 
     private JasonSchema schema;
     private SchemaNode schemaNode;
@@ -94,7 +93,8 @@ public class BrokenSchemasTest
         ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "non string element in type property array");
+        assertEquals(ret.get(0), "non string or schema element in type "
+            + "property array");
     }
 
     @Test

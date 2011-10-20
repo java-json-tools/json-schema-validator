@@ -1,0 +1,5 @@
+{
+    "uniontypes": {
+        "type": [ "boolean", { "other": "schema" } ]
+    }
+}
