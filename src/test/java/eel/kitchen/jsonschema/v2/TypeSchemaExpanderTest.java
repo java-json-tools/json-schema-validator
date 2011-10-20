@@ -59,6 +59,19 @@ public final class TypeSchemaExpanderTest
     {
         doTest("notype");
     }
+
+    @Test
+    public void testTypeAny()
+    {
+        doTest("typeany");
+    }
+
+    @Test
+    public void testTypeAny2()
+    {
+        doTest("typeany2");
+    }
+
     @Test
     public void testComplexType()
     {

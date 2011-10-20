@@ -23,17 +23,30 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
+import java.util.Set;
 
 public final class TypeSchemaExpander
     implements Iterator<JsonSubSchema>
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+
+    private static final JsonNode ANY = factory.textNode("any");
+
+    private static final Set<JsonNode> ALL_SIMPLE_TYPES;
+
+    static {
+        ALL_SIMPLE_TYPES = new HashSet<JsonNode>();
+        for (final NodeType type: EnumSet.allOf(NodeType.class))
+            ALL_SIMPLE_TYPES.add(factory.textNode(type.toString()));
+    }
 
     private final Queue<JsonNode> typeNodes = new ArrayDeque<JsonNode>();
 
@@ -52,17 +65,25 @@ public final class TypeSchemaExpander
         subSchema = factory.objectNode().putAll(fields);
 
         if (typeNode == null) {
-            for (final NodeType type : EnumSet.allOf(NodeType.class))
-                typeNodes.add(factory.textNode(type.toString()));
+            typeNodes.addAll(ALL_SIMPLE_TYPES);
             return;
         }
+
+        final Collection<JsonNode> elements = new HashSet<JsonNode>();
 
         if (typeNode.isTextual()) {
-            typeNodes.add(typeNode);
-            return;
-        }
+            if (!ANY.equals(typeNode))
+                NodeType.valueOf(typeNode.getTextValue().toUpperCase());
+            elements.add(typeNode);
+        } else if (typeNode.isArray())
+            elements.addAll(CollectionUtils.toSet(typeNode.getElements()));
+        else
+            throw new IllegalArgumentException("illegal type for type node");
 
-        typeNodes.addAll(CollectionUtils.toSet(typeNode.getElements()));
+        if (elements.remove(ANY))
+            elements.addAll(ALL_SIMPLE_TYPES);
+
+        typeNodes.addAll(elements);
     }
 
     @Override
