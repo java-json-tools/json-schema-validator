@@ -19,27 +19,21 @@ package eel.kitchen.jsonschema.v2;
 
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.JasonHelper;
-import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import static org.testng.Assert.assertEquals;
 
 public final class TypeSchemaExpanderTest
 {
-    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
-
     private JsonNode allTests;
-    private final Set<JsonSubSchema> actual = new HashSet<JsonSubSchema>();
-    private final Set<JsonSubSchema> expected = new HashSet<JsonSubSchema>();
+    private final Set<JsonNode> actual = new HashSet<JsonNode>();
+    private final Set<JsonNode> expected = new HashSet<JsonNode>();
 
     @BeforeClass
     public void setUp()
@@ -94,24 +88,8 @@ public final class TypeSchemaExpanderTest
 
         actual.addAll(CollectionUtils.toSet(new TypeSchemaExpander(input)));
 
-        final Iterator<JsonNode>iterator = output.getElements();
-
-        while (iterator.hasNext())
-            expected.add(toSubSchema(iterator.next()));
+        expected.addAll(CollectionUtils.toSet(output.getElements()));
 
         assertEquals(actual, expected);
-    }
-
-    private static JsonSubSchema toSubSchema(final JsonNode node)
-    {
-        final Map<String, JsonNode> fields
-            = CollectionUtils.toMap(node.getFields());
-
-        final String typeName = fields.remove("type").getTextValue()
-            .toUpperCase();
-
-        final JsonNode schema = factory.objectNode().putAll(fields);
-
-        return new JsonSubSchema(NodeType.valueOf(typeName), schema);
     }
 }

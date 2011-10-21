@@ -21,20 +21,19 @@ import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.EnumSet;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Set;
 
 public final class TypeSchemaExpander
-    implements Iterator<JsonSubSchema>
+    implements Iterator<JsonNode>
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
@@ -50,19 +49,15 @@ public final class TypeSchemaExpander
 
     private final Queue<JsonNode> typeNodes = new ArrayDeque<JsonNode>();
 
-    private final JsonNode subSchema;
+    private final ObjectNode fields = factory.objectNode();
 
-    private Iterator<JsonSubSchema> next = null;
+    private Iterator<JsonNode> next = null;
 
     public TypeSchemaExpander(final JsonNode schema)
     {
-        final Map<String, JsonNode> fields = new HashMap<String, JsonNode>();
-
         fields.putAll(CollectionUtils.toMap(schema.getFields()));
 
         final JsonNode typeNode = fields.remove("type");
-
-        subSchema = factory.objectNode().putAll(fields);
 
         if (typeNode == null) {
             typeNodes.addAll(ALL_SIMPLE_TYPES);
@@ -93,7 +88,7 @@ public final class TypeSchemaExpander
     }
 
     @Override
-    public JsonSubSchema next()
+    public JsonNode next()
     {
         if (!hasNext())
             throw new NoSuchElementException();
@@ -106,9 +101,12 @@ public final class TypeSchemaExpander
 
         final JsonNode node = typeNodes.remove();
 
+
         if (node.isTextual()) {
-            final String typeName = node.getTextValue().toUpperCase();
-            return new JsonSubSchema(NodeType.valueOf(typeName), subSchema);
+            final ObjectNode ret = factory.objectNode();
+            ret.putAll(fields);
+            ret.put("type", node.getTextValue());
+            return ret;
         }
 
         next = new TypeSchemaExpander(node);
