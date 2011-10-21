@@ -23,10 +23,14 @@ import java.net.Inet6Address;
 import java.net.UnknownHostException;
 
 /**
- * Validate an IPv6 address. Java has just the tool for that:
- * <code>Inet6Address.getByName()</code>. When passed a literal IP address as
- * an argument, it will check for its validity only.
+ * Validate an IPv6 address. As for {@link IPv4FormatValidator}, we must first
+ * check that the candidate is a potential IPv6 address and not a hostname --
+ * easy, just look for a <code>:</code>, which is invalid in a hostname.
+ * Then use <code>Inet6Address.getByName()</code>.
  */
+
+// TODO: more tests
+
 public final class IPv6FormatValidator
     extends AbstractFormatValidator
 {
@@ -34,7 +38,10 @@ public final class IPv6FormatValidator
     protected boolean doValidate(final JsonNode node)
     {
         try {
-            Inet6Address.getByName(node.getTextValue());
+            final String ipaddr = node.getTextValue();
+            if (ipaddr.indexOf(':') == -1)
+                throw new UnknownHostException();
+            Inet6Address.getByName(ipaddr);
             return true;
         } catch (UnknownHostException e) {
             messages.add("string is not a valid IPv6 address");
