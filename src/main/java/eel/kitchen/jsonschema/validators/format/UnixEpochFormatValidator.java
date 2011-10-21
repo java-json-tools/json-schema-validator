@@ -31,6 +31,9 @@ import java.math.BigInteger;
  * internally the counter is a signed 32 bit integer. It will therefore
  * overflow if the provided number is strictly greater than 2^31 - 1.</p>
  */
+
+// TODO: write more tests
+
 public final class UnixEpochFormatValidator
     extends AbstractFormatValidator
 {
@@ -44,6 +47,11 @@ public final class UnixEpochFormatValidator
     protected boolean doValidate(final JsonNode node)
     {
         final BigInteger epoch = node.getDecimalValue().toBigInteger();
+
+        if (BigInteger.ZERO.compareTo(epoch) > 0) {
+            messages.add("epoch cannot be negative");
+            return false;
+        }
 
         if (BigInteger.ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
             return true;
