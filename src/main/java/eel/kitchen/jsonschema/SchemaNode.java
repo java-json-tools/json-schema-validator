@@ -93,9 +93,10 @@ public final class SchemaNode
     private boolean brokenSchema = false;
 
     /**
-     * The validator which could successfully validate an instance
+     * The {@link SchemaProvider} provided by the {@link Validator} if
+     * validation succeeds
      */
-    private Validator successful;
+    private SchemaProvider schemaProvider;
 
     /**
      * Constructor. It is at this stage that the schema is validated.
@@ -286,7 +287,7 @@ public final class SchemaNode
         final Validator v = validators.get(nodeType);
 
         if (v.validate(node)) {
-            successful = v;
+            schemaProvider = v.getSchemaProvider();
             messages.clear();
             return true;
         }
@@ -302,7 +303,7 @@ public final class SchemaNode
      */
     public SchemaProvider getSchemaProvider()
     {
-        return successful.getSchemaProvider();
+        return schemaProvider;
     }
 
     /**
