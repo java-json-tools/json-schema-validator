@@ -38,11 +38,6 @@ import java.util.Map;
 public final class JasonSchema
 {
     /**
-     * The {@link SchemaNodeFactory} used by this instance
-     */
-    private final SchemaNodeFactory factory = new SchemaNodeFactory();
-
-    /**
      * The list of validation messages
      */
     private final List<String> messages = new LinkedList<String>();
@@ -100,10 +95,10 @@ public final class JasonSchema
      * @see {@link IterableJsonNode}
      * @see {@link SchemaProvider}
      */
-    private List<String> validateOneNode(final JsonNode schema,
+    private static List<String> validateOneNode(final JsonNode schema,
         final JsonNode node, final String path)
     {
-        final SchemaNode schemaNode = factory.getSchemaNode(schema);
+        final SchemaNode schemaNode = new SchemaNode(schema);
         final IterableJsonNode inode = new IterableJsonNode(node);
 
         final List<String> messages = new ArrayList<String>();

@@ -32,7 +32,6 @@ import static org.testng.AssertJUnit.assertEquals;
 public final class UnsupportedSchemasTest
 {
     private static final JsonNode testNode;
-    private static final SchemaNodeFactory factory = new SchemaNodeFactory();
 
     private SchemaNode schemaNode;
     private List<String> ret;
@@ -48,7 +47,7 @@ public final class UnsupportedSchemasTest
     @Test
     public void testUnionType()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("uniontypes"));
+        schemaNode = new SchemaNode(testNode.get("uniontypes"));
 
         assertFalse(schemaNode.isValid());
 
@@ -61,7 +60,7 @@ public final class UnsupportedSchemasTest
     @Test
     public void testRef()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("$ref"));
+        schemaNode = new SchemaNode(testNode.get("$ref"));
 
         assertFalse(schemaNode.isValid());
 
@@ -74,7 +73,7 @@ public final class UnsupportedSchemasTest
     @Test
     public void testExtends()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("extends"));
+        schemaNode = new SchemaNode(testNode.get("extends"));
 
         assertFalse(schemaNode.isValid());
 

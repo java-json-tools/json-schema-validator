@@ -20,6 +20,13 @@ package eel.kitchen.jsonschema;
 import eel.kitchen.jsonschema.validators.SchemaProvider;
 import eel.kitchen.jsonschema.validators.SchemaValidator;
 import eel.kitchen.jsonschema.validators.Validator;
+import eel.kitchen.jsonschema.validators.type.ArrayValidator;
+import eel.kitchen.jsonschema.validators.type.BooleanValidator;
+import eel.kitchen.jsonschema.validators.type.IntegerValidator;
+import eel.kitchen.jsonschema.validators.type.NullValidator;
+import eel.kitchen.jsonschema.validators.type.NumberValidator;
+import eel.kitchen.jsonschema.validators.type.ObjectValidator;
+import eel.kitchen.jsonschema.validators.type.StringValidator;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -27,27 +34,18 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * <p>The main interface to validation. A new instance is spawned by a {@link
- * SchemaNodeFactory} when validating a schema. This is where, for instance,
- * main schema validation is done (via a {@link SchemaValidator}) and type
- * mismatch detected (an instance is to be validated by a schema,
- * but the schema cannot validate the type for the instance).</p>
- *
- * <p>It is spawned with a schema and the list of all possible types and
- * validators, and removes from its internal structures the types which the
- * provided schema (if valid!) cannot validate.</p>
+ * <p>The main interface to validation. This is where, for instance, main schema
+ * validation is done (via a {@link SchemaValidator}) and type mismatch detected
+ * (an instance is to be validated by a schema, but the schema cannot validate
+ * the type for the instance).</p>
  *
  * @see {@link Validator}
  * @see {@link SchemaValidator}
- * @see {@link SchemaNodeFactory}
  * @see {@link NodeType}
  */
 public final class SchemaNode
@@ -61,19 +59,28 @@ public final class SchemaNode
      * Map of primitive JSON node types (a {@link NodeType}) as keys,
      * and a set of Validator classes as values.
      */
-    private final Map<NodeType, Class<? extends Validator>> ctors
+    private static final Map<NodeType, Class<? extends Validator>> ctors
         = new EnumMap<NodeType, Class<? extends Validator>>(NodeType.class);
 
-    /**
-     * Map of type names as keys, and the corresponding node types as values
-     */
-    private final Map<String, EnumSet<NodeType>> types
-        = new HashMap<String, EnumSet<NodeType>>();
+    static {
+        ctors.put(NodeType.ARRAY, ArrayValidator.class);
+        ctors.put(NodeType.BOOLEAN, BooleanValidator.class);
+        ctors.put(NodeType.INTEGER, IntegerValidator.class);
+        ctors.put(NodeType.NULL, NullValidator.class);
+        ctors.put(NodeType.NUMBER, NumberValidator.class);
+        ctors.put(NodeType.OBJECT, ObjectValidator.class);
+        ctors.put(NodeType.STRING, StringValidator.class);
+    }
 
     /**
      * The provided schema
      */
     private final JsonNode schema;
+
+    /**
+     * The validator used for this schema
+     */
+    private Validator validator;
 
     /**
      * List of validators which will be filled in from the schema
@@ -93,59 +100,17 @@ public final class SchemaNode
     private boolean brokenSchema = false;
 
     /**
-     * The {@link SchemaProvider} provided by the {@link Validator} if
-     * validation succeeds
-     */
-    private SchemaProvider schemaProvider;
-
-    /**
      * Constructor. It is at this stage that the schema is validated.
      *
      * @param schema the schema
-     * @param allValidators the list of all registered validators
-     * @param allTypes the list of all registered types
      */
-    public SchemaNode(final JsonNode schema,
-        final Map<NodeType, Class<? extends Validator>> allValidators,
-        final Map<String, EnumSet<NodeType>> allTypes)
+    public SchemaNode(final JsonNode schema)
     {
         this.schema = schema;
-        final Validator schemaValidator = new SchemaValidator(allTypes.keySet());
+
+        final Validator schemaValidator = new SchemaValidator();
         if (!schemaValidator.setSchema(schema).setup()) {
             messages.addAll(schemaValidator.getMessages());
-            brokenSchema = true;
-            return;
-        }
-
-        ctors.putAll(allValidators);
-        types.putAll(allTypes);
-
-        setup();
-    }
-
-    /**
-     * Cleans up the <code>types</code> and <code>ctors</code> map. It can
-     * declare the schema as  broken if it cannot validate types (think:
-     * { "disallow": "any" } for instance). After cleanup is done, calls
-     * <code>buildValidators()</code>.
-     */
-    private void setup()
-    {
-        final Set<String>
-            typeNames = getValidatingTypes(),
-            allTypes = new HashSet<String>(types.keySet());
-
-        allTypes.removeAll(typeNames);
-        EnumSet<NodeType> goodbye;
-
-        for (final String unsupported: allTypes) {
-            goodbye = types.remove(unsupported);
-            for (final NodeType nodeType: goodbye)
-                ctors.remove(nodeType);
-        }
-
-        if (ctors.isEmpty()) {
-            messages.add("schema does not allow any type??");
             brokenSchema = true;
             return;
         }
@@ -162,7 +127,7 @@ public final class SchemaNode
     {
         boolean oops;
 
-        for (final NodeType type: ctors.keySet()) {
+        for (final NodeType type: getSupportedTypes()) {
             oops = false;
             try {
                 final Class<? extends Validator> c = ctors.get(type);
@@ -192,42 +157,52 @@ public final class SchemaNode
      *
      * @return a set of types, possibly empty
      */
-    private Set<String> getValidatingTypes()
+    private EnumSet<NodeType> getSupportedTypes()
     {
-        final Set<String> ret = new HashSet<String>();
+        final EnumSet<NodeType> ret = typeSet(schema.get("type"));
 
-        final JsonNode
-            typeNode = schema.get("type"),
-            disallowNode = schema.get("disallow");
-
-        if (typeNode == null)
-            ret.addAll(types.keySet());
-        else if (typeNode.isTextual())
-            ret.add(typeNode.getTextValue());
-        else
-            for (final JsonNode element: typeNode)
-                ret.add(element.getTextValue());
-
-        if (ret.remove(ANY_TYPE))
-            ret.addAll(types.keySet());
+        final JsonNode disallowNode = schema.get("disallow");
 
         if (disallowNode == null)
             return ret;
 
-        final Set<String> disallow = new HashSet<String>();
-
-        if (disallowNode.isTextual())
-            disallow.add(disallowNode.getTextValue());
-        else
-            for (final JsonNode element: disallowNode)
-                disallow.add(element.getTextValue());
-
-        if (disallow.remove(ANY_TYPE))
-            return Collections.emptySet();
+        final EnumSet<NodeType> disallow = typeSet(disallowNode);
 
         ret.removeAll(disallow);
-        if (ret.contains("integer") && disallow.contains("number"))
-            ret.remove("integer");
+
+        if (disallow.contains(NodeType.NUMBER))
+            ret.remove(NodeType.INTEGER);
+
+        return ret;
+    }
+
+    /**
+     * Given a type node (ie, "type" or "disallow", turn it into a set of
+     * {@link NodeType}s.
+     *
+     * @param node the node to transform
+     * @return an {@link EnumSet}
+     */
+    private static EnumSet<NodeType> typeSet(final JsonNode node)
+    {
+        if (node == null)
+            return EnumSet.allOf(NodeType.class);
+
+        String s;
+
+        if (node.isTextual()) {
+            s = node.getTextValue();
+            if (ANY_TYPE.equals(s))
+                return EnumSet.allOf(NodeType.class);
+            return EnumSet.of(NodeType.valueOf(s.toUpperCase()));
+        }
+
+        final EnumSet<NodeType> ret = EnumSet.noneOf(NodeType.class);
+
+        for (final JsonNode element: node) {
+            s = element.getTextValue();
+            ret.add(NodeType.valueOf(s.toUpperCase()));
+        }
 
         return ret;
     }
@@ -243,6 +218,11 @@ public final class SchemaNode
     {
         if (brokenSchema)
             return false;
+
+        if (validators.isEmpty()) {
+            messages.add("schema does not allow any type??");
+            return false;
+        }
 
         boolean ret = true;
 
@@ -284,14 +264,14 @@ public final class SchemaNode
             return false;
         }
 
-        final Validator v = validators.get(nodeType);
+        validator = validators.get(nodeType);
 
-        if (v.validate(node)) {
-            schemaProvider = v.getSchemaProvider();
+        if (validator.validate(node)) {
             messages.clear();
             return true;
         }
-        messages.addAll(v.getMessages());
+
+        messages.addAll(validator.getMessages());
 
         return false;
     }
@@ -303,7 +283,7 @@ public final class SchemaNode
      */
     public SchemaProvider getSchemaProvider()
     {
-        return schemaProvider;
+        return validator.getSchemaProvider();
     }
 
     /**

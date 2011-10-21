@@ -32,7 +32,6 @@ public class BrokenSchemasTest
 {
     private static final JsonNode testNode;
     private static final JsonNode dummy;
-    private static final SchemaNodeFactory factory = new SchemaNodeFactory();
 
     private JasonSchema schema;
     private SchemaNode schemaNode;
@@ -61,7 +60,7 @@ public class BrokenSchemasTest
     @Test
     public void testNotASchema()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("not-a-schema"));
+        schemaNode = new SchemaNode(testNode.get("not-a-schema"));
 
         assertFalse(schemaNode.isValid());
 
@@ -73,7 +72,7 @@ public class BrokenSchemasTest
     @Test
     public void testIllegalType()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("illegal-type"));
+        schemaNode = new SchemaNode(testNode.get("illegal-type"));
 
         assertFalse(schemaNode.isValid());
         ret = schemaNode.getMessages();
@@ -86,7 +85,7 @@ public class BrokenSchemasTest
     @Test
     public void testIllegalTypeArray()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("illegal-type-array"));
+        schemaNode = new SchemaNode(testNode.get("illegal-type-array"));
 
         assertFalse(schemaNode.isValid());
 
@@ -100,7 +99,7 @@ public class BrokenSchemasTest
     @Test
     public void testEmptyTypeSet()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("empty-type-set"));
+        schemaNode = new SchemaNode(testNode.get("empty-type-set"));
 
         assertFalse(schemaNode.isValid());
 
@@ -113,7 +112,7 @@ public class BrokenSchemasTest
     @Test
     public void testDisallowAny()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("disallow-any"));
+        schemaNode = new SchemaNode(testNode.get("disallow-any"));
 
         assertFalse(schemaNode.isValid());
 
@@ -126,7 +125,7 @@ public class BrokenSchemasTest
     @Test
     public void testIntegerVsNumber()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("integer-vs-number"));
+        schemaNode = new SchemaNode(testNode.get("integer-vs-number"));
 
         assertFalse(schemaNode.isValid());
 
@@ -139,7 +138,7 @@ public class BrokenSchemasTest
     @Test
     public void testUnknownType()
     {
-        schemaNode = factory.getSchemaNode(testNode.get("unknown-type"));
+        schemaNode = new SchemaNode(testNode.get("unknown-type"));
 
         assertFalse(schemaNode.isValid());
 

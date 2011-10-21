@@ -62,24 +62,9 @@ public final class SchemaValidator
     private final List<String> messages = new ArrayList<String>();
 
     /**
-     * The set of supported keywords in "type" and "disallow"
-     */
-    private final Set<String> registeredTypes = new HashSet<String>();
-
-    /**
      * Whether the setup is done, and whether the provided schema is valid
      */
     private boolean setupDone, validSchema;
-
-    /**
-     * Constructor.
-     *
-     * @param typeSet a set of types supported by this schema
-     */
-    public SchemaValidator(final Set<String> typeSet)
-    {
-        registeredTypes.addAll(typeSet);
-    }
 
     @Override
     public Validator setSchema(final JsonNode schema)
@@ -155,8 +140,20 @@ public final class SchemaValidator
         if (node == null)
             return true;
 
-        if (node.isTextual())
-            return validateTypeName(node.getTextValue());
+        String s;
+
+        if (node.isTextual()) {
+            s = node.getTextValue();
+            if (ANY_TYPE.equals(s))
+                return true;
+            try {
+                NodeType.valueOf(s.toUpperCase());
+                return true;
+            } catch (IllegalArgumentException ignored) {
+                messages.add("unknown type " + s);
+                return false;
+            }
+        }
 
         if (!node.isArray()) {
             messages.add("type property is neither a string nor an array");
@@ -173,34 +170,18 @@ public final class SchemaValidator
                     + "%s property array", field));
                 return false;
             }
-            if (!validateTypeName(element.getTextValue()))
+            s = element.getTextValue();
+            if (ANY_TYPE.equals(s))
+                return true;
+            try {
+                NodeType.valueOf(s.toUpperCase());
+            } catch (IllegalArgumentException ignored) {
+                messages.add("unknown type " + s);
                 return false;
+            }
         }
 
         return true;
-    }
-
-    /**
-     * Validate one type name: it can be <code>ANY_TYPE</code>,
-     * a value in <code>registeredTypes</code>, or any valid value in {@link
-     * NodeType}.
-     *
-     * @param textValue the type name
-     * @return true if valid
-     */
-    private boolean validateTypeName(final String textValue)
-    {
-        try {
-            if (ANY_TYPE.equals(textValue))
-                return true;
-            if (registeredTypes.contains(textValue))
-                return true;
-            NodeType.valueOf(textValue.toUpperCase());
-            return true;
-        } catch (IllegalArgumentException e) {
-            messages.add(String.format("unknown type %s", textValue));
-            return false;
-        }
     }
 
     @Override
