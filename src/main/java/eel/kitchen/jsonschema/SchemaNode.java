@@ -29,7 +29,6 @@ import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -62,8 +61,8 @@ public final class SchemaNode
      * Map of primitive JSON node types (a {@link NodeType}) as keys,
      * and a set of Validator classes as values.
      */
-    private final Map<NodeType, Set<Class<? extends Validator>>> ctors
-        = new EnumMap<NodeType, Set<Class<? extends Validator>>>(NodeType.class);
+    private final Map<NodeType, Class<? extends Validator>> ctors
+        = new EnumMap<NodeType, Class<? extends Validator>>(NodeType.class);
 
     /**
      * Map of type names as keys, and the corresponding node types as values
@@ -79,8 +78,8 @@ public final class SchemaNode
     /**
      * List of validators which will be filled in from the schema
      */
-    private final Map<NodeType, Set<Validator>> validators
-        = new EnumMap<NodeType, Set<Validator>>(NodeType.class);
+    private final Map<NodeType, Validator> validators
+        = new EnumMap<NodeType, Validator>(NodeType.class);
 
     /**
      * Validation messages, only filled in on errors
@@ -106,7 +105,7 @@ public final class SchemaNode
      * @param allTypes the list of all registered types
      */
     public SchemaNode(final JsonNode schema,
-        final Map<NodeType, Set<Class<? extends Validator>>> allValidators,
+        final Map<NodeType, Class<? extends Validator>> allValidators,
         final Map<String, EnumSet<NodeType>> allTypes)
     {
         this.schema = schema;
@@ -165,7 +164,10 @@ public final class SchemaNode
         for (final NodeType type: ctors.keySet()) {
             oops = false;
             try {
-                validators.put(type, validatorSet(ctors.get(type)));
+                final Class<? extends Validator> c = ctors.get(type);
+                final Validator v = c.getConstructor().newInstance();
+                v.setSchema(schema);
+                validators.put(type, v);
             } catch (NoSuchMethodException e) {
                 oops = true;
             } catch (InvocationTargetException e) {
@@ -181,33 +183,6 @@ public final class SchemaNode
                 return;
             }
         }
-    }
-
-    /**
-     * Builds one set of validators from a class set. Called by
-     * <code>buildValidators()</code>.
-     *
-     * @param set the set of classes
-     * @return the set of instantiated validators
-     * @throws NoSuchMethodException as a possible class instantiation failure
-     * @throws InvocationTargetException as a possible class instantiation failure
-     * @throws IllegalAccessException as a possible class instantiation failure
-     * @throws InstantiationException as a possible class instantiation failure
-     */
-    private Set<Validator> validatorSet(final Set<Class<? extends Validator>> set)
-        throws NoSuchMethodException, InvocationTargetException,
-        IllegalAccessException, InstantiationException
-    {
-        final Set<Validator> result = new LinkedHashSet<Validator>();
-        Validator v;
-
-        for (final Class<? extends Validator> c: set) {
-            v = c.getConstructor().newInstance();
-            v.setSchema(schema);
-            result.add(v);
-        }
-
-        return result;
     }
 
     /**
@@ -271,11 +246,10 @@ public final class SchemaNode
         boolean ret = true;
 
         for (final NodeType nodeType: validators.keySet()) {
-            for (final Validator v: validators.get(nodeType)) {
-                if (!v.setup()) {
-                    messages.addAll(v.getMessages());
-                    ret = false;
-                }
+            final Validator v = validators.get(nodeType);
+            if (!v.setup()) {
+                messages.addAll(v.getMessages());
+                ret = false;
             }
         }
 
@@ -309,16 +283,15 @@ public final class SchemaNode
             return false;
         }
 
-        final Set<Validator> set = validators.get(nodeType);
+        final Validator v = validators.get(nodeType);
 
-        for (final Validator v: set) {
-            if (v.validate(node)) {
-                successful = v;
-                messages.clear();
-                return true;
-            }
-            messages.addAll(v.getMessages());
+        if (v.validate(node)) {
+            successful = v;
+            messages.clear();
+            return true;
         }
+        messages.addAll(v.getMessages());
+
         return false;
     }
 

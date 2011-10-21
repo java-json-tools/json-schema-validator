@@ -34,9 +34,7 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static eel.kitchen.util.NodeType.ARRAY;
 import static eel.kitchen.util.NodeType.BOOLEAN;
@@ -56,16 +54,10 @@ import static eel.kitchen.util.NodeType.STRING;
 public final class SchemaNodeFactory
 {
     /**
-     * The logger
+     * Full list of validators
      */
-    private static final Logger logger
-        = LoggerFactory.getLogger(SchemaNodeFactory.class);
-
-    /**
-     * Full list of registered validators, may be expanded
-     */
-    private final Map<NodeType, Set<Class<? extends Validator>>> registeredValidators
-        = new EnumMap<NodeType, Set<Class<? extends Validator>>>(NodeType.class);
+    private final Map<NodeType, Class<? extends Validator>> registeredValidators
+        = new EnumMap<NodeType, Class<? extends Validator>>(NodeType.class);
 
     /**
      * Full list of registered types, may be expanded
@@ -101,23 +93,20 @@ public final class SchemaNodeFactory
     private void registerValidator(final String type,
         final Class<? extends Validator> validator, final NodeType... nodeTypes)
     {
-        if (registeredTypes.containsKey(type)) {
-            logger.error("type {} already registered");
-            return;
-        }
+        if (registeredTypes.containsKey(type))
+            throw new RuntimeException("tried to register a second validator "
+                + "for a primitive type");
 
         final EnumSet<NodeType> types = EnumSet.copyOf(Arrays.asList(nodeTypes));
 
         registeredTypes.put(type, types);
-        final Set<Class<? extends Validator>> set
-            = new LinkedHashSet<Class<? extends Validator>>();
-        set.add(validator);
 
-        for (final NodeType nodeType: types)
+        for (final NodeType nodeType: types) {
             if (registeredValidators.containsKey(nodeType))
-                registeredValidators.get(nodeType).addAll(set);
-            else
-                registeredValidators.put(nodeType, set);
+                throw new RuntimeException("tried to register a second "
+                    + "validator for a primitive type");
+            registeredValidators.put(nodeType, validator);
+        }
     }
 
     /**
