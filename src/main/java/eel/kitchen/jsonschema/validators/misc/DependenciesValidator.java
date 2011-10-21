@@ -114,6 +114,10 @@ public final class DependenciesValidator
     {
         final Set<String> ret = new HashSet<String>();
 
+        if (node.isObject())
+            throw new IllegalArgumentException("Sorry, schema dependencies "
+                + "not implemented yet");
+
         if (node.isTextual()) {
             ret.add(node.getTextValue());
             return ret;

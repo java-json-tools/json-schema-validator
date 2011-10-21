@@ -7,5 +7,10 @@
     },
     "extends": {
         "extends": "whatever"
+    },
+    "schemadep": {
+        "dependencies": {
+            "foo": {}
+        }
     }
 }

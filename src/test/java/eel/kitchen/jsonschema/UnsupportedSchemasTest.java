@@ -17,9 +17,10 @@
 
 package eel.kitchen.jsonschema;
 
+import eel.kitchen.jsonschema.validators.Validator;
+import eel.kitchen.jsonschema.validators.type.ObjectValidator;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -82,5 +83,21 @@ public final class UnsupportedSchemasTest
 
         assertEquals(ret.size(), 1);
         assertEquals(ret.get(0), "Sorry, extends not implemented yet");
+    }
+
+    @Test
+    public void testSchemaDep()
+    {
+        final Validator v = new ObjectValidator();
+
+        v.setSchema(testNode.get("schemadep"));
+
+        assertFalse(v.setup());
+
+        ret = v.getMessages();
+
+        assertEquals(ret.size(), 1);
+        assertEquals(ret.get(0), "Sorry, schema dependencies "
+            + "not implemented yet");
     }
 }
