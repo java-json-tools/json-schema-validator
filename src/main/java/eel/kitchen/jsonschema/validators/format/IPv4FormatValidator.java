@@ -21,22 +21,38 @@ import org.codehaus.jackson.JsonNode;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
+import java.util.regex.Pattern;
 
 /**
- * Validate an IPv4 address. Java has just the tool for that:
- * <code>Inet4Address.getByName()</code>. When passed a literal IP adddress,
- * it will just check for the validity of it.
+ * Validate an IPv4 address. Java has <code>Inet4Address.getByName()</code>:
+ * when passed a literal IP adddress, it will just check for the validity of it.
+ *
+ * <p>But first we need to know whether this is actually an IP address, since
+ * this same operation will try to resolve a hostname if it is passed a
+ * hostname.</p>
  */
+
+// TODO: write more tests
+
 public final class IPv4FormatValidator
     extends AbstractFormatValidator
 {
+    /**
+     * Pattern to recognize a dotted quad number
+     */
+    private static final Pattern pattern
+        = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
+
     @Override
     protected boolean doValidate(final JsonNode node)
     {
         try {
-            Inet4Address.getByName(node.getTextValue());
+            final String ipaddr = node.getTextValue();
+            if (!pattern.matcher(ipaddr).matches())
+                throw new UnknownHostException();
+            Inet4Address.getByName(ipaddr);
             return true;
-        } catch (UnknownHostException e) {
+        } catch (UnknownHostException ignored) {
             messages.add("string is not a valid IPv4 address");
             return false;
         }
