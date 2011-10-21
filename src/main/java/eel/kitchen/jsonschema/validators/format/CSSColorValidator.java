@@ -114,7 +114,7 @@ public final class CSSColorValidator
                 i = Integer.parseInt(color);
                 /*
                  * A color element must not be negative or greater than 255.
-                 * This means left shifting by 8 should yield 0.
+                 * This means right shifting by 8 should yield 0.
                  */
                 if ((i >> 8) != 0)
                     throw new NumberFormatException();
