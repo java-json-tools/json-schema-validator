@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
  * a hostname with no dots in it is VALID. This checker will therefore return
  * true with such an input.</p>
  */
+
 public final class HostnameFormatValidator
     extends AbstractFormatValidator
 {
@@ -46,9 +47,16 @@ public final class HostnameFormatValidator
      *     <li>only ASCII digits and letters, plus the hyphen, are allowed,</li>
      *     <li>the first and last character must not be a hyphen.</li>
      * </ul>
+     * <p>This regex is used with .matches(), so we don't need to anchor it.</p>
      */
+
     private static final Pattern HOSTNAME_PART_REGEX
-        = Pattern.compile("^[a-z0-9]+(-[a-z0-9]+)*$", Pattern.CASE_INSENSITIVE);
+        = Pattern.compile("[a-z0-9]+(-[a-z0-9]+)*");
+
+    /**
+     * Maximum length of a hostname part
+     */
+
     private static final int HOSTNAME_PART_MAXLEN = 255;
 
     @Override
@@ -60,12 +68,12 @@ public final class HostnameFormatValidator
         boolean ret = true;
 
         for (final String part: parts) {
-            matcher = HOSTNAME_PART_REGEX.matcher(part);
+            matcher = HOSTNAME_PART_REGEX.matcher(part.toLowerCase());
             if (part.length() > HOSTNAME_PART_MAXLEN) {
                 ret = false;
                 break;
             }
-            if (!matcher.lookingAt()) {
+            if (!matcher.matches()) {
                 ret = false;
                 break;
             }

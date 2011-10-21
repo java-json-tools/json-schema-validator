@@ -221,7 +221,8 @@ public class FormatValidatorTest
         node = inputs.get("hostname");
         final Validator validator = new HostnameFormatValidator();
 
-        assertFalse(validator.validate(node.get("bad")));
+        for (final JsonNode element: node.get("bad"))
+            assertFalse(validator.validate(element));
         assertTrue(validator.validate(node.get("good")));
         assertTrue(validator.getMessages().isEmpty());
     }
