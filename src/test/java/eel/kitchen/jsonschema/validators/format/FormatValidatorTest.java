@@ -119,7 +119,8 @@ public class FormatValidatorTest
         node = inputs.get("utc-millisec");
         final Validator validator = new UnixEpochFormatValidator();
 
-        assertFalse(validator.validate(node.get("bad")));
+        for (final JsonNode element: node.get("bad"))
+            assertFalse(validator.validate(element));
         assertTrue(validator.validate(node.get("good")));
         assertTrue(validator.getMessages().isEmpty());
     }
@@ -196,7 +197,8 @@ public class FormatValidatorTest
         node = inputs.get("ip-address");
         final Validator validator = new IPv4FormatValidator();
 
-        assertFalse(validator.validate(node.get("bad")));
+        for (final JsonNode element: node.get("bad"))
+            assertFalse(validator.validate(element));
         assertTrue(validator.validate(node.get("good")));
         assertTrue(validator.getMessages().isEmpty());
     }
@@ -207,7 +209,8 @@ public class FormatValidatorTest
         node = inputs.get("ipv6");
         final Validator validator = new IPv6FormatValidator();
 
-        assertFalse(validator.validate(node.get("bad")));
+        for (final JsonNode element: node.get("bad"))
+            assertFalse(validator.validate(element));
         assertTrue(validator.validate(node.get("good")));
         assertTrue(validator.getMessages().isEmpty());
     }
