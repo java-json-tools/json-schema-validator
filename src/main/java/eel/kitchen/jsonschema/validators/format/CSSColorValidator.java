@@ -63,22 +63,14 @@ public final class CSSColorValidator
     );
 
     /**
-     * Constant to logical negative-and with a color number element. If the
-     * result is non zero, it means the number is greater than 255 and
-     * therefore invalid.
-     */
-    private static final int USHORT_MAX = (1 << 8) - 1;
-
-    /**
      * <p>Patterns to recognize hash-defined colors (#xxx...) and rgb-defined
      * colors (rgb(x,y,z)).</p>
      *
-     * <p>Note: I am so irritated by Java's wrongness with regex "matching"
-     * that I use anchored regexes and use .lookingAt().</p>
+     * <p>As we use .matches(), we don't need to anchor regexes.</p>
      */
     private static final Pattern
-        hash = Pattern.compile("^#[\\da-f]{1,6}$", Pattern.CASE_INSENSITIVE),
-        rgb = Pattern.compile("^rgb\\(([^)]+)\\)$");
+        hash = Pattern.compile("#[\\da-f]{1,6}", Pattern.CASE_INSENSITIVE),
+        rgb = Pattern.compile("rgb\\(([^)]+)\\)");
 
     /**
      * Validate this instance.
@@ -98,12 +90,12 @@ public final class CSSColorValidator
 
         matcher = hash.matcher(value);
 
-        if (matcher.lookingAt())
+        if (matcher.matches())
             return true;
 
         matcher = rgb.matcher(value);
 
-        if (!matcher.lookingAt()) {
+        if (!matcher.matches()) {
             messages.add("string is not a valid CSS 2.1 color");
             return false;
         }
@@ -120,8 +112,12 @@ public final class CSSColorValidator
         for (final String color: colors) {
             try {
                 i = Integer.parseInt(color);
-                if ((i & ~USHORT_MAX) != 0)
-                    throw new NumberFormatException("overflow");
+                /*
+                 * A color element must not be negative or greater than 255.
+                 * This means left shifting by 8 should yield 0.
+                 */
+                if ((i >> 8) != 0)
+                    throw new NumberFormatException();
             } catch (NumberFormatException e) {
                 messages.add("string is not a valid CSS 2.1 color");
                 return false;
