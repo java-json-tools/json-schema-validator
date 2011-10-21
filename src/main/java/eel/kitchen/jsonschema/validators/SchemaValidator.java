@@ -117,6 +117,16 @@ public final class SchemaValidator
             return false;
         }
 
+        if (schema.has("$ref")) {
+            messages.add("Sorry, $ref not implemented yet");
+            return false;
+        }
+
+        if (schema.has("extends")) {
+            messages.add("Sorry, extends not implemented yet");
+            return false;
+        }
+
         return validateTypeElement("type") && validateTypeElement("disallow");
     }
 

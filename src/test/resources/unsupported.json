@@ -1,5 +1,11 @@
 {
     "uniontypes": {
         "type": [ "boolean", { "other": "schema" } ]
+    },
+    "$ref": {
+        "$ref": "whatever"
+    },
+    "extends": {
+        "extends": "whatever"
     }
 }
