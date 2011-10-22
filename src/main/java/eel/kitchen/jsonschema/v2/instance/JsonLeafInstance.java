@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2;
+package eel.kitchen.jsonschema.v2.instance;
 
+import eel.kitchen.jsonschema.v2.validator.JsonValidator;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 

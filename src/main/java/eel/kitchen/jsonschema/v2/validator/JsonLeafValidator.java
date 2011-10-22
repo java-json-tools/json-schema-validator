@@ -15,8 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2;
+package eel.kitchen.jsonschema.v2.validator;
 
+import eel.kitchen.jsonschema.v2.instance.JsonInstance;
+import eel.kitchen.jsonschema.v2.keyword.KeywordValidator;
+import eel.kitchen.jsonschema.v2.keyword.KeywordValidatorProvider;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -25,7 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-public final class JsonLeafValidator
+final class JsonLeafValidator
     implements JsonValidator
 {
     private static final KeywordValidatorProvider provider

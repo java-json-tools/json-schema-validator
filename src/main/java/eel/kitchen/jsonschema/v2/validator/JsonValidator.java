@@ -15,16 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2;
+package eel.kitchen.jsonschema.v2.validator;
 
-import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.v2.instance.JsonInstance;
 
-public interface JsonInstance
+import java.util.List;
+
+public interface JsonValidator
 {
-    boolean accept(final JsonValidator validator);
+    boolean validate(final JsonInstance instance);
 
-    NodeType getNodeType();
+    boolean visit(final JsonInstance instance);
 
-    JsonNode getInstance();
+    List<String> getMessages();
 }

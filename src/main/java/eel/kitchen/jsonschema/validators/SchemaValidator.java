@@ -23,9 +23,7 @@ import org.codehaus.jackson.JsonNode;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>A special purpose validator to validate a schema before it is fed to

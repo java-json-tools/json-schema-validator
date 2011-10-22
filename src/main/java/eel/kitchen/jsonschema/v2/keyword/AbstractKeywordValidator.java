@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2;
+package eel.kitchen.jsonschema.v2.keyword;
 
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -29,7 +29,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractKeywordValidator
+abstract class AbstractKeywordValidator
     implements KeywordValidator
 {
     protected final JsonNode schema;
