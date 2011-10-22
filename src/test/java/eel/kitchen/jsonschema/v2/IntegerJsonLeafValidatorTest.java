@@ -90,7 +90,7 @@ public final class IntegerJsonLeafValidatorTest
         final String errmsg = node.get("errmsg").getTextValue();
         final JsonValidator v = new JsonLeafValidator(NodeType.INTEGER, schema);
 
-        assertFalse(v.visit(dummy));
+        assertFalse(v.validate(dummy));
 
         final List<String> messages = v.getMessages();
         assertEquals(messages.size(), 1);
@@ -108,8 +108,8 @@ public final class IntegerJsonLeafValidatorTest
 
         final JsonValidator v = new JsonLeafValidator(NodeType.INTEGER, schema);
 
-        assertTrue(v.visit(new JsonLeafInstance(good)));
-        assertFalse(v.visit(new JsonLeafInstance(bad)));
+        assertTrue(v.validate(new JsonLeafInstance(good)));
+        assertFalse(v.validate(new JsonLeafInstance(bad)));
 
         final List<String> messages = v.getMessages();
         assertEquals(messages.size(), 1);

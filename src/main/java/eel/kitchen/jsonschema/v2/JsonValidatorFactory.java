@@ -74,6 +74,12 @@ public final class JsonValidatorFactory
         return new JsonValidator()
         {
             @Override
+            public boolean validate(final JsonInstance instance)
+            {
+                return false;
+            }
+
+            @Override
             public boolean visit(final JsonInstance instance)
             {
                 return false;
