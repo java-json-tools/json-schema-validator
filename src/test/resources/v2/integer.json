@@ -1,0 +1,31 @@
+{
+    "invalid-schemas": {
+        "invalid-minimum": { "minimum": "yes" },
+        "invalid-exclusiveminimum": { "minimum": 1, "exclusiveMinimum": "yes" }
+    },
+    "tests": {
+        "minimum-only": {
+            "schema": {
+                "minimum": 3
+            },
+            "good": 3,
+            "bad": -13
+        },
+        "inclusive-minimum": {
+            "schema": {
+                "minimum": 3,
+                "exclusiveMinimum": false
+            },
+            "good": 10,
+            "bad": -13
+        },
+        "exclusive-minimum": {
+            "schema": {
+                "minimum": 3,
+                "exclusiveMinimum": true
+            },
+            "good": 32,
+            "bad": 3
+        }
+    }
+}
