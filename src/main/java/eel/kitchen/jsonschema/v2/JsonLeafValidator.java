@@ -46,7 +46,8 @@ public final class JsonLeafValidator
         final NodeType nodeType = instance.getNodeType();
 
         if (type != nodeType) {
-            messages.add("node is of type " + nodeType + ", expected " + type);
+            messages.add("instance is of type " + nodeType + ", expected "
+                + type);
             return false;
         }
 
