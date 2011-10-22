@@ -17,7 +17,11 @@
 
 package eel.kitchen.jsonschema.v2;
 
+import java.util.List;
+
 public interface JsonValidator
 {
     boolean visit(final JsonInstance instance);
+
+    List<String> getMessages();
 }

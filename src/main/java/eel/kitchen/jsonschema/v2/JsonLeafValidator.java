@@ -20,6 +20,9 @@ package eel.kitchen.jsonschema.v2;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public final class JsonLeafValidator
@@ -28,6 +31,8 @@ public final class JsonLeafValidator
     private final NodeType type;
 
     private final JsonNode schema;
+
+    private final List<String> messages = new LinkedList<String>();
 
     public JsonLeafValidator(final NodeType type, final JsonNode schema)
     {
@@ -38,8 +43,12 @@ public final class JsonLeafValidator
     @Override
     public boolean visit(final JsonInstance instance)
     {
-        if (type != instance.getNodeType())
+        final NodeType nodeType = instance.getNodeType();
+
+        if (type != nodeType) {
+            messages.add("node is of type " + nodeType + ", expected " + type);
             return false;
+        }
 
         final JsonNode node = instance.getInstance();
 
@@ -49,8 +58,17 @@ public final class JsonLeafValidator
         boolean ret = true;
 
         for (final KeywordValidator validator: validators)
-            ret = ret && validator.validate(node);
+            if (!validator.validate(node)) {
+                messages.addAll(validator.getMessages());
+                ret = false;
+            }
 
         return ret;
+    }
+
+    @Override
+    public List<String> getMessages()
+    {
+        return Collections.unmodifiableList(messages);
     }
 }
