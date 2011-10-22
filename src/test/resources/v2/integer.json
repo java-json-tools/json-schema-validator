@@ -26,6 +26,11 @@
             },
             "good": 32,
             "bad": 3
+        },
+        "type-mismatch": {
+            "schema": {},
+            "good": 0,
+            "bad": true
         }
     }
 }

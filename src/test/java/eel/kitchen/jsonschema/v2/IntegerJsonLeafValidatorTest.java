@@ -75,6 +75,12 @@ public final class IntegerJsonLeafValidatorTest
         testValidation("exclusive-minimum");
     }
 
+    @Test
+    public void testTypeMismatch()
+    {
+        testValidation("type-mismatch");
+    }
+
     private void testInvalidSchema(final String name)
     {
         final JsonNode schema = invalidSchemas.get(name);
