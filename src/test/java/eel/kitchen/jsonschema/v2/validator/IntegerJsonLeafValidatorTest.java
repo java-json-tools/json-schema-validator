@@ -48,7 +48,6 @@ public final class IntegerJsonLeafValidatorTest
         tests = node.get("tests");
     }
 
-
     @Test
     public void testInvalidMinimum()
     {
@@ -59,6 +58,17 @@ public final class IntegerJsonLeafValidatorTest
     public void testInvalidExclusiveMinimum()
     {
         testInvalidSchema("invalid-exclusiveminimum");
+    }
+    @Test
+    public void testInvalidMaximum()
+    {
+        testInvalidSchema("invalid-maximum");
+    }
+
+    @Test
+    public void testInvalidExclusiveMaximum()
+    {
+        testInvalidSchema("invalid-exclusivemaximum");
     }
 
     @Test
@@ -77,6 +87,24 @@ public final class IntegerJsonLeafValidatorTest
     public void testExclusiveMinimum()
     {
         testValidation("exclusive-minimum");
+    }
+
+    @Test
+    public void testMaximumOnly()
+    {
+        testValidation("maximum-only");
+    }
+
+    @Test
+    public void testInclusiveMaximum()
+    {
+        testValidation("inclusive-maximum");
+    }
+
+    @Test
+    public void testExclusiveMaximum()
+    {
+        testValidation("exclusive-maximum");
     }
 
     @Test

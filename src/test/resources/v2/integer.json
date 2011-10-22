@@ -7,6 +7,14 @@
         "invalid-exclusiveminimum": {
             "schema": { "minimum": 1, "exclusiveMinimum": "yes" },
             "errmsg": "invalid schema: exclusiveMinimum is of type string, should be one of [boolean]"
+        },
+        "invalid-maximum": {
+            "schema": { "maximum": "yes" },
+            "errmsg": "invalid schema: maximum is of type string, should be one of [integer, number]"
+        },
+        "invalid-exclusivemaximum": {
+            "schema": { "maximum": 1, "exclusiveMaximum": "yes" },
+            "errmsg": "invalid schema: exclusiveMaximum is of type string, should be one of [boolean]"
         }
     },
     "tests": {
@@ -35,6 +43,32 @@
             "good": 32,
             "bad": 3,
             "errmsg": "instance is not strictly greater than the required minimum"
+        },
+        "maximum-only": {
+            "schema": {
+                "maximum": 3
+            },
+            "good": 3,
+            "bad": 13,
+            "errmsg": "instance is greater than the required maximum"
+        },
+        "inclusive-maximum": {
+            "schema": {
+                "maximum": 3,
+                "exclusiveMaximum": false
+            },
+            "good": 3,
+            "bad": 13,
+            "errmsg": "instance is greater than the required maximum"
+        },
+        "exclusive-maximum": {
+            "schema": {
+                "maximum": 3,
+                "exclusiveMaximum": true
+            },
+            "good": 2,
+            "bad": 3,
+            "errmsg": "instance is not strictly lower than the required maximum"
         },
         "type-mismatch": {
             "schema": {},
