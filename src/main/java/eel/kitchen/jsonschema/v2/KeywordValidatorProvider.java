@@ -20,16 +20,20 @@ package eel.kitchen.jsonschema.v2;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+import java.lang.reflect.Constructor;
+import java.util.Arrays;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 public final class KeywordValidatorProvider
 {
-    private static final Map<String, KeywordValidator> validators
-        = new HashMap<String, KeywordValidator>();
+    private static final Map<String, Class<? extends KeywordValidator>> validators
+        = new HashMap<String, Class<? extends KeywordValidator>>();
 
     public static Set<KeywordValidator> getValidators(final JsonNode schema,
         final NodeType type)
@@ -38,17 +42,59 @@ public final class KeywordValidatorProvider
 
         final Iterator<String> fields = schema.getFieldNames();
 
+        Class<? extends KeywordValidator> c;
+        Constructor<? extends KeywordValidator> constructor;
         KeywordValidator validator;
+        String field;
 
         while (fields.hasNext()) {
-            validator = validators.get(fields.next());
-            if (validator == null)
+            field = fields.next();
+            c = validators.get(field);
+            if (c == null)
                 continue;
+
+            try {
+                constructor = c.getConstructor(JsonNode.class);
+                validator = constructor.newInstance(schema);
+            } catch (Exception e) {
+                return failure(field, e);
+            }
             if (!validator.getNodeTypes().contains(type))
                 continue;
             ret.add(validator);
         }
 
         return ret;
+    }
+
+    private static Set<KeywordValidator> failure(final String field,
+        final Exception e)
+    {
+        final String message = String.format("failed to instantiate validator"
+            + " for keyword %s: %s: %s", field, e.getClass().getCanonicalName(),
+            e.getMessage());
+
+        final KeywordValidator v = new KeywordValidator()
+        {
+            @Override
+            public EnumSet<NodeType> getNodeTypes()
+            {
+                return EnumSet.allOf(NodeType.class);
+            }
+
+            @Override
+            public boolean validate(final JsonNode instance)
+            {
+                return false;
+            }
+
+            @Override
+            public List<String> getMessages()
+            {
+                return Arrays.asList(message);
+            }
+        };
+
+        return new HashSet<KeywordValidator>(Arrays.asList(v));
     }
 }
