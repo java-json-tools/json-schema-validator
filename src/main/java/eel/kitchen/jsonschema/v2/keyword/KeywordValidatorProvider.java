@@ -40,6 +40,9 @@ public final class KeywordValidatorProvider
 
     static {
         validators.put("minimum", MinimumKeywordValidator.class);
+        validators.put("maximum", MaximumKeywordValidator.class);
+        validators.put("divisibleBy", DivisibleByKeywordValidator.class);
+        validators.put("enum", EnumKeywordValidator.class);
     }
 
     private KeywordValidatorProvider()

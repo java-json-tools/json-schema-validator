@@ -40,7 +40,7 @@ final class JsonLeafValidator
 
     private final List<String> messages = new LinkedList<String>();
 
-    public JsonLeafValidator(final NodeType type, final JsonNode schema)
+    JsonLeafValidator(final NodeType type, final JsonNode schema)
     {
         this.type = type;
         this.schema = schema;
