@@ -38,9 +38,12 @@ public final class KeywordValidatorProvider
     private static final Map<String, Class<? extends KeywordValidator>> validators
         = new HashMap<String, Class<? extends KeywordValidator>>();
 
+    static {
+        validators.put("minimum", MinimumKeywordValidator.class);
+    }
+
     private KeywordValidatorProvider()
     {
-        validators.put("minimum", MinimumKeywordValidator.class);
     }
 
     public static KeywordValidatorProvider getInstance()
