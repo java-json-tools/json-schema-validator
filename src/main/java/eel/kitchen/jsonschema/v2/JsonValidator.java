@@ -19,5 +19,5 @@ package eel.kitchen.jsonschema.v2;
 
 public interface JsonValidator
 {
-    boolean visit(final JsonLeafInstance instance);
+    boolean visit(final JsonInstance instance);
 }
