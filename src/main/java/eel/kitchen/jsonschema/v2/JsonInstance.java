@@ -18,10 +18,13 @@
 package eel.kitchen.jsonschema.v2;
 
 import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
 
 public interface JsonInstance
 {
     boolean accept(final JsonValidator validator);
 
     NodeType getNodeType();
+
+    JsonNode getInstance();
 }
