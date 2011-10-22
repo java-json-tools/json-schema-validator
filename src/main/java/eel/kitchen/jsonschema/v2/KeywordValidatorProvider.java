@@ -32,14 +32,23 @@ import java.util.Set;
 
 public final class KeywordValidatorProvider
 {
+    private static final KeywordValidatorProvider instance
+        = new KeywordValidatorProvider();
+
     private static final Map<String, Class<? extends KeywordValidator>> validators
         = new HashMap<String, Class<? extends KeywordValidator>>();
 
-    static {
+    private KeywordValidatorProvider()
+    {
         validators.put("minimum", MinimumKeywordValidator.class);
     }
 
-    public static Set<KeywordValidator> getValidators(final JsonNode schema,
+    public static KeywordValidatorProvider getInstance()
+    {
+        return instance;
+    }
+
+    public Set<KeywordValidator> getValidators(final JsonNode schema,
         final NodeType type)
     {
         final Set<KeywordValidator> ret = new HashSet<KeywordValidator>();

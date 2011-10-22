@@ -28,6 +28,9 @@ import java.util.Set;
 public final class JsonLeafValidator
     implements JsonValidator
 {
+    private static final KeywordValidatorProvider provider
+        = KeywordValidatorProvider.getInstance();
+
     private final NodeType type;
 
     private final JsonNode schema;
@@ -54,7 +57,7 @@ public final class JsonLeafValidator
         final JsonNode node = instance.getInstance();
 
         final Set<KeywordValidator> validators
-            = KeywordValidatorProvider.getValidators(schema, type);
+            = provider.getValidators(schema, type);
 
         boolean ret = true;
 
