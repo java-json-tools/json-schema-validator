@@ -25,7 +25,9 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -83,10 +85,16 @@ public final class IntegerJsonLeafValidatorTest
 
     private void testInvalidSchema(final String name)
     {
-        final JsonNode schema = invalidSchemas.get(name);
+        final JsonNode node = invalidSchemas.get(name);
+        final JsonNode schema = node.get("schema");
+        final String errmsg = node.get("errmsg").getTextValue();
         final JsonValidator v = new JsonLeafValidator(NodeType.INTEGER, schema);
 
         assertFalse(v.visit(dummy));
+
+        final List<String> messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), errmsg);
     }
 
     private void testValidation(final String name)
@@ -96,10 +104,15 @@ public final class IntegerJsonLeafValidatorTest
             schema = node.get("schema"),
             good = node.get("good"),
             bad = node.get("bad");
+        final String errmsg = node.get("errmsg").getTextValue();
 
         final JsonValidator v = new JsonLeafValidator(NodeType.INTEGER, schema);
 
         assertTrue(v.visit(new JsonLeafInstance(good)));
         assertFalse(v.visit(new JsonLeafInstance(bad)));
+
+        final List<String> messages = v.getMessages();
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), errmsg);
     }
 }

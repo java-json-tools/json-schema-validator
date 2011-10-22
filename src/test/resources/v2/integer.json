@@ -1,7 +1,13 @@
 {
     "invalid-schemas": {
-        "invalid-minimum": { "minimum": "yes" },
-        "invalid-exclusiveminimum": { "minimum": 1, "exclusiveMinimum": "yes" }
+        "invalid-minimum": {
+            "schema": { "minimum": "yes" },
+            "errmsg": "minimum is not a number"
+        },
+        "invalid-exclusiveminimum": {
+            "schema": { "minimum": 1, "exclusiveMinimum": "yes" },
+            "errmsg": "exclusiveMinimum is not a boolean"
+        }
     },
     "tests": {
         "minimum-only": {
@@ -9,7 +15,8 @@
                 "minimum": 3
             },
             "good": 3,
-            "bad": -13
+            "bad": -13,
+            "errmsg": "instance is lower than the required minimum"
         },
         "inclusive-minimum": {
             "schema": {
@@ -17,7 +24,8 @@
                 "exclusiveMinimum": false
             },
             "good": 10,
-            "bad": -13
+            "bad": -13,
+            "errmsg": "instance is lower than the required minimum"
         },
         "exclusive-minimum": {
             "schema": {
@@ -25,12 +33,14 @@
                 "exclusiveMinimum": true
             },
             "good": 32,
-            "bad": 3
+            "bad": 3,
+            "errmsg": "instance is not strictly greater than the required minimum"
         },
         "type-mismatch": {
             "schema": {},
             "good": 0,
-            "bad": true
+            "bad": true,
+            "errmsg": "instance is of type boolean, expected integer"
         }
     }
 }
