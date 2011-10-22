@@ -1,0 +1,29 @@
+{
+    "nullschema": {
+        "errmsg": "schema is null"
+    },
+    "not-a-schema": {
+        "schema": 1,
+        "errmsg": "JSON document is not a schema"
+    },
+    "$ref": {
+        "schema": { "$ref": "#" },
+        "errmsg": "Sorry, $ref not implemented yet"
+    },
+    "extends": {
+        "schema": { "extends": "whatever" },
+        "errmsg": "Sorry, extends not implemented yet"
+    },
+    "no-type": {
+        "schema": {},
+        "errmsg": "Sorry, I need a type element for now"
+    },
+    "complex-type": {
+        "schema": { "type": [ "string", "boolean" ] },
+        "errmsg": "Sorry, I only support simple types for now"
+    },
+    "unknown-type": {
+        "schema": { "type": "boo" },
+        "errmsg": "unknown type boo"
+    }
+}
