@@ -165,8 +165,7 @@ public final class SchemaValidator
 
         for (final JsonNode element: node) {
             if (element.isObject()) {
-                messages.add(String.format("Sorry, union types not implemented"
-                    + " yet (found subschema in field %s)", field));
+                messages.add("Sorry, union types not implemented yet");
                 return false;
             }
             if (!element.isTextual()) {

@@ -55,12 +55,11 @@ public final class UnsupportedSchemasTest
         ret = schemaNode.getMessages();
 
         assertEquals(ret.size(), 1);
-        assertEquals(ret.get(0), "Sorry, union types not implemented yet "
-            + "(found subschema in field type)");
+        assertEquals(ret.get(0), "Sorry, union types not implemented yet");
     }
 
     @Test
-    public void test$ref()
+    public void testRef()
     {
         schemaNode = factory.getSchemaNode(testNode.get("$ref"));
 
