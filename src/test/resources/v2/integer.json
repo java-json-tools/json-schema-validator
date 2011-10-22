@@ -2,11 +2,11 @@
     "invalid-schemas": {
         "invalid-minimum": {
             "schema": { "minimum": "yes" },
-            "errmsg": "minimum is not a number"
+            "errmsg": "invalid schema: minimum is of type string, should be one of [integer, number]"
         },
         "invalid-exclusiveminimum": {
             "schema": { "minimum": 1, "exclusiveMinimum": "yes" },
-            "errmsg": "exclusiveMinimum is not a boolean"
+            "errmsg": "invalid schema: exclusiveMinimum is of type string, should be one of [boolean]"
         }
     },
     "tests": {

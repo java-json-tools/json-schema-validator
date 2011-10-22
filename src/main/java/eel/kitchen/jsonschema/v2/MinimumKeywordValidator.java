@@ -30,29 +30,16 @@ public final class MinimumKeywordValidator
 
     public MinimumKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.INTEGER, NodeType.NUMBER);
+        super(schema, NodeType.INTEGER, NodeType.NUMBER);
+        registerField("minimum", NodeType.INTEGER, NodeType.NUMBER);
+        registerField("exclusiveMinimum", NodeType.BOOLEAN);
+    }
 
-        JsonNode node = schema.get("minimum");
-
-        if (!node.isNumber()) {
-            valid = false;
-            messages.add("minimum is not a number");
-            return;
-        }
-
-        minimum = node.getDecimalValue();
-
-        node = schema.get("exclusiveMinimum");
-
-        if (node == null)
-            return;
-
-        if (!node.isBoolean()) {
-            valid = false;
-            messages.add("exclusiveMinimum is not a boolean");
-        }
-
-        exclusiveMinimum = node.getBooleanValue();
+    @Override
+    protected void setup()
+    {
+        minimum = schema.get("minimum").getDecimalValue();
+        exclusiveMinimum = schema.path("exclusiveMinimum").asBoolean(false);
     }
 
     @Override
