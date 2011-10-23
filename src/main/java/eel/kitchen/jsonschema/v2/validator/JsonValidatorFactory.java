@@ -49,12 +49,6 @@ public final class JsonValidatorFactory
         if (!messages.isEmpty())
             return failure(messages);
 
-        if (schema.has("$ref"))
-            return failure("Sorry, $ref not implemented yet");
-
-        if (schema.has("extends"))
-            return failure("Sorry, extends not implemented yet");
-
         if (!schema.has("type"))
             return failure("Sorry, I need a type element for now");
 
