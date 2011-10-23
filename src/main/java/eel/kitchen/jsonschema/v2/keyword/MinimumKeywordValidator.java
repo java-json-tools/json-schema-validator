@@ -22,7 +22,7 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
-final class MinimumKeywordValidator
+public final class MinimumKeywordValidator
     extends AbstractKeywordValidator
 {
     private BigDecimal minimum = null;
@@ -31,8 +31,6 @@ final class MinimumKeywordValidator
     public MinimumKeywordValidator(final JsonNode schema)
     {
         super(schema, NodeType.INTEGER, NodeType.NUMBER);
-        registerField("minimum", NodeType.INTEGER, NodeType.NUMBER);
-        registerField("exclusiveMinimum", NodeType.BOOLEAN);
     }
 
     @Override

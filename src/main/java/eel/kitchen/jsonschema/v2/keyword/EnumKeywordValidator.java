@@ -24,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
 import java.util.HashSet;
 import java.util.Set;
 
-final class EnumKeywordValidator
+public final class EnumKeywordValidator
     extends AbstractKeywordValidator
 {
     private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
@@ -32,7 +32,6 @@ final class EnumKeywordValidator
     public EnumKeywordValidator(final JsonNode schema)
     {
         super(schema, NodeType.values());
-        registerField("enum", NodeType.ARRAY);
     }
 
     @Override

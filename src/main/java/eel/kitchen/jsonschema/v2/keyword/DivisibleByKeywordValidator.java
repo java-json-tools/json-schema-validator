@@ -22,7 +22,7 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
-final class DivisibleByKeywordValidator
+public final class DivisibleByKeywordValidator
     extends AbstractKeywordValidator
 {
     private BigDecimal divisor = null;
@@ -30,7 +30,6 @@ final class DivisibleByKeywordValidator
     public DivisibleByKeywordValidator(final JsonNode schema)
     {
         super(schema, NodeType.INTEGER, NodeType.NUMBER);
-        registerField("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
     }
 
     @Override

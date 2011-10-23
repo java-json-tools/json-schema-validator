@@ -22,7 +22,7 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
-final class MaximumKeywordValidator
+public final class MaximumKeywordValidator
     extends AbstractKeywordValidator
 {
     private BigDecimal maximum = null;
@@ -31,8 +31,6 @@ final class MaximumKeywordValidator
     public MaximumKeywordValidator(final JsonNode schema)
     {
         super(schema, NodeType.INTEGER, NodeType.NUMBER);
-        registerField("maximum", NodeType.INTEGER, NodeType.NUMBER);
-        registerField("exclusiveMaximum", NodeType.BOOLEAN);
     }
 
     @Override

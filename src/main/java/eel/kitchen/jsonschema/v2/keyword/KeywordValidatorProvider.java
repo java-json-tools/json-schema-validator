@@ -21,6 +21,7 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -75,7 +76,13 @@ public final class KeywordValidatorProvider
             try {
                 constructor = c.getConstructor(JsonNode.class);
                 validator = constructor.newInstance(schema);
-            } catch (Exception e) {
+            } catch (InvocationTargetException e) {
+                return failure(field, e);
+            } catch (NoSuchMethodException e) {
+                return failure(field, e);
+            } catch (InstantiationException e) {
+                return failure(field, e);
+            } catch (IllegalAccessException e) {
                 return failure(field, e);
             }
             if (!validator.getNodeTypes().contains(type))

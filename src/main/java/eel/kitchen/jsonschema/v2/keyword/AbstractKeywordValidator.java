@@ -24,19 +24,23 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 abstract class AbstractKeywordValidator
     implements KeywordValidator
 {
     protected final JsonNode schema;
+
+    /**
+     * List of node types supported by this validator
+     */
     protected final EnumSet<NodeType> nodeTypes = EnumSet.noneOf(NodeType.class);
     protected final List<String> messages = new LinkedList<String>();
-    protected final Map<String, EnumSet<NodeType>> fields
-        = new HashMap<String, EnumSet<NodeType>>();
 
     protected AbstractKeywordValidator(final JsonNode schema,
         final NodeType... types)
@@ -64,43 +68,8 @@ abstract class AbstractKeywordValidator
     @Override
     public final boolean validate(final JsonNode instance)
     {
-        if (!checkFields())
-            return false;
-
         setup();
 
         return doValidate(instance);
-    }
-
-    private boolean checkFields()
-    {
-        final Iterator<String> iterator = schema.getFieldNames();
-
-        boolean ret = true;
-
-        String field;
-        NodeType nodeType;
-        EnumSet<NodeType> typeSet;
-
-        while (iterator.hasNext()) {
-            field = iterator.next();
-            if (!fields.containsKey(field))
-                continue;
-            nodeType = NodeType.getNodeType(schema.get(field));
-            typeSet = fields.get(field);
-            if (typeSet.contains(nodeType))
-                continue;
-            messages.add("invalid schema: " + field + " is of type " + nodeType
-                + ", should be one of " + typeSet);
-            ret = false;
-        }
-
-        return ret;
-    }
-
-    protected final void registerField(final String name,
-        final NodeType... types)
-    {
-        fields.put(name, EnumSet.copyOf(Arrays.asList(types)));
     }
 }

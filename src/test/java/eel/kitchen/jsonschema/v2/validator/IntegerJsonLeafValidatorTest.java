@@ -38,6 +38,8 @@ public final class IntegerJsonLeafValidatorTest
     private JsonNode invalidSchemas, tests;
     private static final JsonInstance dummy
         = new JsonLeafInstance(JsonNodeFactory.instance.numberNode(3));
+    private static final JsonValidatorFactory factory
+        = JsonValidatorFactory.getInstance();
 
     @BeforeClass
     public void setUp()
@@ -118,7 +120,7 @@ public final class IntegerJsonLeafValidatorTest
         final JsonNode node = invalidSchemas.get(name);
         final JsonNode schema = node.get("schema");
         final String errmsg = node.get("errmsg").getTextValue();
-        final JsonValidator v = new JsonLeafValidator(NodeType.INTEGER, schema);
+        final JsonValidator v = factory.getValidator(schema);
 
         assertFalse(v.validate(dummy));
 
@@ -136,7 +138,7 @@ public final class IntegerJsonLeafValidatorTest
             bad = node.get("bad");
         final String errmsg = node.get("errmsg").getTextValue();
 
-        final JsonValidator v = new JsonLeafValidator(NodeType.INTEGER, schema);
+        final JsonValidator v = factory.getValidator(schema);
 
         assertTrue(v.validate(new JsonLeafInstance(good)));
         assertFalse(v.validate(new JsonLeafInstance(bad)));
