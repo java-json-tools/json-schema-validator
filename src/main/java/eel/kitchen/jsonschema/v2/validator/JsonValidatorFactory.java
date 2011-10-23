@@ -17,17 +17,21 @@
 
 package eel.kitchen.jsonschema.v2.validator;
 
+import eel.kitchen.jsonschema.v2.check.SchemaChecker;
 import eel.kitchen.jsonschema.v2.instance.JsonInstance;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public final class JsonValidatorFactory
 {
     private static final JsonValidatorFactory instance
         = new JsonValidatorFactory();
+
+    private static final SchemaChecker checker = SchemaChecker.getInstance();
 
     private JsonValidatorFactory()
     {
@@ -40,11 +44,10 @@ public final class JsonValidatorFactory
 
     public JsonValidator getValidator(final JsonNode schema)
     {
-        if (schema == null)
-            return failure("schema is null");
+        final List<String> messages = checker.check(schema);
 
-        if (!schema.isObject())
-            return failure("JSON document is not a schema");
+        if (!messages.isEmpty())
+            return failure(messages);
 
         if (schema.has("$ref"))
             return failure("Sorry, $ref not implemented yet");
@@ -57,17 +60,9 @@ public final class JsonValidatorFactory
 
         final JsonNode typeNode = schema.get("type");
 
-        if (!typeNode.isTextual())
-            return failure("Sorry, I only support simple types for now");
-
         final String typeName = typeNode.getTextValue();
-
-        try {
-            final NodeType type = NodeType.valueOf(typeName.toUpperCase());
-            return new JsonLeafValidator(type, schema);
-        } catch (IllegalArgumentException e) {
-            return failure("unknown type " + typeName);
-        }
+        final NodeType type = NodeType.valueOf(typeName.toUpperCase());
+        return new JsonLeafValidator(type, schema);
     }
 
     private static JsonValidator failure(final String message)
@@ -90,6 +85,30 @@ public final class JsonValidatorFactory
             public List<String> getMessages()
             {
                 return Arrays.asList(message);
+            }
+        };
+    }
+
+    private static JsonValidator failure(final List<String> messages)
+    {
+        return new JsonValidator()
+        {
+            @Override
+            public boolean validate(final JsonInstance instance)
+            {
+                return false;
+            }
+
+            @Override
+            public boolean visit(final JsonInstance instance)
+            {
+                return false;
+            }
+
+            @Override
+            public List<String> getMessages()
+            {
+                return Collections.unmodifiableList(messages);
             }
         };
     }

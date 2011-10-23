@@ -20,7 +20,7 @@
     },
     "complex-type": {
         "schema": { "type": [ "string", "boolean" ] },
-        "errmsg": "Sorry, I only support simple types for now"
+        "errmsg": "Sorry, I only support one simple type for now"
     },
     "unknown-type": {
         "schema": { "type": "boo" },
