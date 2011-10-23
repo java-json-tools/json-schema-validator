@@ -76,12 +76,6 @@ public final class JsonValidatorFactory
             }
 
             @Override
-            public boolean visit(final JsonInstance instance)
-            {
-                return false;
-            }
-
-            @Override
             public List<String> getMessages()
             {
                 return Arrays.asList(message);
@@ -95,12 +89,6 @@ public final class JsonValidatorFactory
         {
             @Override
             public boolean validate(final JsonInstance instance)
-            {
-                return false;
-            }
-
-            @Override
-            public boolean visit(final JsonInstance instance)
             {
                 return false;
             }

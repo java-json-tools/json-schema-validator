@@ -23,8 +23,6 @@ import org.codehaus.jackson.JsonNode;
 
 public interface JsonInstance
 {
-    boolean accept(final JsonValidator validator);
-
     NodeType getNodeType();
 
     JsonNode getInstance();

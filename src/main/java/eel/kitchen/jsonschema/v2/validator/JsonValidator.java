@@ -25,7 +25,5 @@ public interface JsonValidator
 {
     boolean validate(final JsonInstance instance);
 
-    boolean visit(final JsonInstance instance);
-
     List<String> getMessages();
 }

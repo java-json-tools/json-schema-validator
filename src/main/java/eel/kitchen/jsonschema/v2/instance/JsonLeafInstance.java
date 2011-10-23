@@ -32,12 +32,6 @@ public final class JsonLeafInstance
     }
 
     @Override
-    public boolean accept(final JsonValidator validator)
-    {
-        return validator.visit(this);
-    }
-
-    @Override
     public NodeType getNodeType()
     {
         return NodeType.getNodeType(node);
