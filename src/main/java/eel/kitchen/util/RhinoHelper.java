@@ -92,7 +92,7 @@ public final class RhinoHelper
             return (Boolean) engine.eval(js);
         } catch (ScriptException e) {
             throw new RuntimeException("Should never have reached this point!"
-                + " Regex SHOULD have been validated already");
+                + " Regex SHOULD have been validated already", e);
         }
     }
 
