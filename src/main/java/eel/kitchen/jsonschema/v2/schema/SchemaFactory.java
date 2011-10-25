@@ -20,6 +20,8 @@ package eel.kitchen.jsonschema.v2.schema;
 import eel.kitchen.jsonschema.v2.check.SchemaChecker;
 import eel.kitchen.jsonschema.v2.instance.Instance;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +29,8 @@ import java.util.List;
 public final class SchemaFactory
 {
     private static final SchemaChecker checker = SchemaChecker.getInstance();
+    private static final JsonNodeFactory nodeFactory
+        = JsonNodeFactory.instance;
 
     public Schema getSchema(final JsonNode schema)
     {
@@ -35,26 +39,16 @@ public final class SchemaFactory
         if (!messages.isEmpty())
             return failure(messages);
 
+        if (!(schema.has("type") || schema.has("disallow")))
+            ((ObjectNode) schema).put("type", "any");
         //TODO: implement
         return null;
     }
 
-    private Schema failure(final List<String> messages)
+    private static Schema failure(final List<String> messages)
     {
         return new Schema()
         {
-            @Override
-            public JsonNode getRawSchema()
-            {
-                return null;
-            }
-
-            @Override
-            public boolean canExpand()
-            {
-                return false;
-            }
-
             @Override
             public Schema getSchema(final String path)
             {
