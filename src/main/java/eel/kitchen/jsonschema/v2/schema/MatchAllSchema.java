@@ -24,7 +24,7 @@ import java.util.Set;
 public final class MatchAllSchema
     extends AbstractMultiSchema
 {
-    MatchAllSchema(final Set<Schema> schemas)
+    public MatchAllSchema(final Set<Schema> schemas)
     {
         super(schemas);
     }
