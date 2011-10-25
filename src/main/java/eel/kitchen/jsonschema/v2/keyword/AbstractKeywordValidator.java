@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
+import eel.kitchen.jsonschema.v2.schema.Schema;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -43,16 +44,22 @@ abstract class AbstractKeywordValidator
     protected abstract ValidationStatus doValidate(final JsonNode instance);
 
     @Override
+    public final ValidationStatus validate(final JsonNode instance)
+    {
+        setup();
+
+        return doValidate(instance);
+    }
+
+    @Override
     public final List<String> getMessages()
     {
         return Collections.unmodifiableList(messages);
     }
 
     @Override
-    public final ValidationStatus validate(final JsonNode instance)
+    public Schema getNextSchema()
     {
-        setup();
-
-        return doValidate(instance);
+        throw new IllegalArgumentException("I should have been implemented");
     }
 }
