@@ -28,6 +28,9 @@ abstract class AbstractMultiSchema
 
     AbstractMultiSchema(final Set<Schema> schemas)
     {
+        if (schemas.isEmpty())
+            throw new IllegalArgumentException("schema set is empty");
+
         this.schemas.addAll(schemas);
     }
 
