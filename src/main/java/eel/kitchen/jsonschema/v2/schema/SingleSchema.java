@@ -79,7 +79,7 @@ public final class SingleSchema
         final JsonNode node = instance.getRawInstance();
 
         final Set<KeywordValidator> validators
-            = validatorProvider.getValidators(node, instanceType);
+            = validatorProvider.getValidators(schemaNode, instanceType);
 
         boolean ret = true;
 
