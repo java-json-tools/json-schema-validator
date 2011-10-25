@@ -25,23 +25,18 @@ import java.math.BigDecimal;
 public final class MinimumKeywordValidator
     extends AbstractKeywordValidator
 {
-    private BigDecimal minimum = null;
-    private boolean exclusiveMinimum = false;
+    private final BigDecimal minimum;
+    private final boolean exclusiveMinimum;
 
     public MinimumKeywordValidator(final JsonNode schema)
     {
         super(schema);
-    }
-
-    @Override
-    protected void setup()
-    {
         minimum = schema.get("minimum").getDecimalValue();
         exclusiveMinimum = schema.path("exclusiveMinimum").asBoolean(false);
     }
 
     @Override
-    public ValidationStatus doValidate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode instance)
     {
         final int cmp = minimum.compareTo(instance.getDecimalValue());
 

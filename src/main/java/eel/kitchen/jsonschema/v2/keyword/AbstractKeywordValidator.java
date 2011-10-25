@@ -39,18 +39,6 @@ abstract class AbstractKeywordValidator
         this.schema = schema;
     }
 
-    protected abstract void setup();
-
-    protected abstract ValidationStatus doValidate(final JsonNode instance);
-
-    @Override
-    public final ValidationStatus validate(final JsonNode instance)
-    {
-        setup();
-
-        return doValidate(instance);
-    }
-
     @Override
     public final List<String> getMessages()
     {

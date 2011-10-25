@@ -25,21 +25,16 @@ import java.math.BigDecimal;
 public final class DivisibleByKeywordValidator
     extends AbstractKeywordValidator
 {
-    private BigDecimal divisor = null;
+    private final BigDecimal divisor;
 
     public DivisibleByKeywordValidator(final JsonNode schema)
     {
         super(schema);
-    }
-
-    @Override
-    protected void setup()
-    {
         divisor = schema.get("divisibleBy").getDecimalValue();
     }
 
     @Override
-    protected ValidationStatus doValidate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode instance)
     {
         if (BigDecimal.ZERO.compareTo(divisor) == 0) {
             messages.add("disivibleBy is 0");

@@ -25,23 +25,18 @@ import java.math.BigDecimal;
 public final class MaximumKeywordValidator
     extends AbstractKeywordValidator
 {
-    private BigDecimal maximum = null;
-    private boolean exclusiveMaximum = false;
+    private final BigDecimal maximum;
+    private final boolean exclusiveMaximum;
 
     public MaximumKeywordValidator(final JsonNode schema)
     {
         super(schema);
-    }
-
-    @Override
-    protected void setup()
-    {
         maximum = schema.get("maximum").getDecimalValue();
         exclusiveMaximum = schema.path("exclusiveMaximum").asBoolean(false);
     }
 
     @Override
-    public ValidationStatus doValidate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode instance)
     {
         final int cmp = maximum.compareTo(instance.getDecimalValue());
 

@@ -32,17 +32,12 @@ public final class EnumKeywordValidator
     public EnumKeywordValidator(final JsonNode schema)
     {
         super(schema);
-    }
-
-    @Override
-    protected void setup()
-    {
         enumValues.addAll(CollectionUtils.toSet(schema.get("enum")
             .getElements()));
     }
 
     @Override
-    protected ValidationStatus doValidate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode instance)
     {
         if (enumValues.contains(instance))
             return ValidationStatus.SUCCESS;
