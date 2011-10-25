@@ -39,19 +39,19 @@ public final class DivisibleByKeywordValidator
     }
 
     @Override
-    protected boolean doValidate(final JsonNode instance)
+    protected ValidationStatus doValidate(final JsonNode instance)
     {
         if (BigDecimal.ZERO.compareTo(divisor) == 0) {
             messages.add("disivibleBy is 0");
-            return false;
+            return ValidationStatus.FAILURE;
         }
 
         final BigDecimal number = instance.getDecimalValue();
 
         if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
-            return true;
+            return ValidationStatus.SUCCESS;
 
         messages.add("instance is not a multiple of divisibleBy");
-        return false;
+        return ValidationStatus.FAILURE;
     }
 }

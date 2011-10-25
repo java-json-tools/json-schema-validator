@@ -41,21 +41,21 @@ public final class MaximumKeywordValidator
     }
 
     @Override
-    public boolean doValidate(final JsonNode instance)
+    public ValidationStatus doValidate(final JsonNode instance)
     {
         final int cmp = maximum.compareTo(instance.getDecimalValue());
 
         if (cmp < 0) {
             messages.add("instance is greater than the required maximum");
-            return false;
+            return ValidationStatus.FAILURE;
         }
 
         if (cmp == 0 && exclusiveMaximum) {
             messages.add("instance is not strictly lower than the required "
                 + "maximum");
-            return false;
+            return ValidationStatus.FAILURE;
         }
 
-        return true;
+        return ValidationStatus.SUCCESS;
     }
 }

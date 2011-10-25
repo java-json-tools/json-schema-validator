@@ -3,6 +3,7 @@ package eel.kitchen.jsonschema.v2.schema;
 import eel.kitchen.jsonschema.v2.instance.Instance;
 import eel.kitchen.jsonschema.v2.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.v2.keyword.KeywordValidatorProvider;
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -66,7 +67,7 @@ public final class SingleSchema
         boolean ret = true;
 
         for (final KeywordValidator validator: validators)
-            if (!validator.validate(node)) {
+            if (validator.validate(node) != ValidationStatus.SUCCESS) {
                 messages.addAll(validator.getMessages());
                 ret = false;
             }

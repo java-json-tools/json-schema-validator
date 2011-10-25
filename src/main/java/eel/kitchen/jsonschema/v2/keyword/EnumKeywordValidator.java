@@ -42,12 +42,12 @@ public final class EnumKeywordValidator
     }
 
     @Override
-    protected boolean doValidate(final JsonNode instance)
+    protected ValidationStatus doValidate(final JsonNode instance)
     {
         if (enumValues.contains(instance))
-            return true;
+            return ValidationStatus.SUCCESS;
 
         messages.add("instance does not match any enumerated element");
-        return false;
+        return ValidationStatus.FAILURE;
     }
 }

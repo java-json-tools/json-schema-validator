@@ -27,7 +27,7 @@ public interface KeywordValidator
 {
     EnumSet<NodeType> getNodeTypes();
 
-    boolean validate(final JsonNode instance);
+    ValidationStatus validate(final JsonNode instance);
 
     List<String> getMessages();
 }

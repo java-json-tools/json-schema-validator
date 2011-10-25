@@ -23,13 +23,8 @@ import org.codehaus.jackson.JsonNode;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 abstract class AbstractKeywordValidator
     implements KeywordValidator
@@ -51,7 +46,7 @@ abstract class AbstractKeywordValidator
 
     protected abstract void setup();
 
-    protected abstract boolean doValidate(final JsonNode instance);
+    protected abstract ValidationStatus doValidate(final JsonNode instance);
 
     @Override
     public final EnumSet<NodeType> getNodeTypes()
@@ -66,7 +61,7 @@ abstract class AbstractKeywordValidator
     }
 
     @Override
-    public final boolean validate(final JsonNode instance)
+    public final ValidationStatus validate(final JsonNode instance)
     {
         setup();
 
