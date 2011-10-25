@@ -41,10 +41,4 @@ abstract class AbstractKeywordValidator
     {
         return Collections.unmodifiableList(messages);
     }
-
-    @Override
-    public Schema getNextSchema()
-    {
-        throw new IllegalArgumentException("I should have been implemented");
-    }
 }

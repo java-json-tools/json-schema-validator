@@ -22,7 +22,7 @@ import org.codehaus.jackson.JsonNode;
 import java.math.BigDecimal;
 
 public final class DivisibleByKeywordValidator
-    extends AbstractKeywordValidator
+    extends TrueFalseKeywordValidator
 {
     private final BigDecimal divisor;
 

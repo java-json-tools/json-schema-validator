@@ -17,31 +17,20 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
-import eel.kitchen.util.CollectionUtils;
+import eel.kitchen.jsonschema.v2.schema.Schema;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.HashSet;
-import java.util.Set;
-
-public final class EnumKeywordValidator
-    extends TrueFalseKeywordValidator
+abstract class TrueFalseKeywordValidator
+    extends AbstractKeywordValidator
 {
-    private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
-
-    public EnumKeywordValidator(final JsonNode schema)
+    protected TrueFalseKeywordValidator(final JsonNode schema)
     {
         super(schema);
-        enumValues.addAll(CollectionUtils.toSet(schema.get("enum")
-            .getElements()));
     }
 
     @Override
-    public ValidationStatus validate(final JsonNode instance)
+    public Schema getNextSchema()
     {
-        if (enumValues.contains(instance))
-            return ValidationStatus.SUCCESS;
-
-        messages.add("instance does not match any enumerated element");
-        return ValidationStatus.FAILURE;
+        throw new IllegalArgumentException("I should have been implemented");
     }
 }

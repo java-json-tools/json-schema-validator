@@ -22,7 +22,7 @@ import org.codehaus.jackson.JsonNode;
 import java.math.BigDecimal;
 
 public final class MinimumKeywordValidator
-    extends AbstractKeywordValidator
+    extends TrueFalseKeywordValidator
 {
     private final BigDecimal minimum;
     private final boolean exclusiveMinimum;
