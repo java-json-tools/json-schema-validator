@@ -18,10 +18,8 @@
 package eel.kitchen.jsonschema.v2.keyword;
 
 import eel.kitchen.jsonschema.v2.schema.Schema;
-import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.EnumSet;
 import java.util.List;
 
 public interface KeywordValidator

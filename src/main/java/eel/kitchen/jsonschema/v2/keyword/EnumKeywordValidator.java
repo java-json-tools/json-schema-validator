@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.v2.keyword;
 
 import eel.kitchen.util.CollectionUtils;
-import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.HashSet;

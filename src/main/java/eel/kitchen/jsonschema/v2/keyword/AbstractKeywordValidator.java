@@ -18,12 +18,9 @@
 package eel.kitchen.jsonschema.v2.keyword;
 
 import eel.kitchen.jsonschema.v2.schema.Schema;
-import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.LinkedList;
 import java.util.List;
 
