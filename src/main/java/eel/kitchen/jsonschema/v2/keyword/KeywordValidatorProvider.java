@@ -39,11 +39,25 @@ public final class KeywordValidatorProvider
     private static final Map<String, Class<? extends KeywordValidator>> validators
         = new HashMap<String, Class<? extends KeywordValidator>>();
 
+    private static final Map<String, EnumSet<NodeType>> typeMap
+        = new HashMap<String, EnumSet<NodeType>>();
+
     static {
-        validators.put("minimum", MinimumKeywordValidator.class);
-        validators.put("maximum", MaximumKeywordValidator.class);
-        validators.put("divisibleBy", DivisibleByKeywordValidator.class);
-        validators.put("enum", EnumKeywordValidator.class);
+        registerValidator("minimum", MinimumKeywordValidator.class,
+            NodeType.INTEGER, NodeType.NUMBER);
+        registerValidator("maximum", MaximumKeywordValidator.class,
+            NodeType.INTEGER, NodeType.NUMBER);
+        registerValidator("divisibleBy", DivisibleByKeywordValidator.class,
+            NodeType.INTEGER, NodeType.NUMBER);
+        registerValidator("enum", EnumKeywordValidator.class, NodeType.values());
+    }
+
+    private static void registerValidator(final String field,
+        final Class<? extends KeywordValidator> validator,
+        final NodeType... types)
+    {
+        validators.put(field, validator);
+        typeMap.put(field, EnumSet.copyOf(Arrays.asList(types)));
     }
 
     private KeywordValidatorProvider()
@@ -62,20 +76,23 @@ public final class KeywordValidatorProvider
 
         final Iterator<String> fields = schema.getFieldNames();
 
+        String field;
+        EnumSet<NodeType> types;
         Class<? extends KeywordValidator> c;
         Constructor<? extends KeywordValidator> constructor;
         KeywordValidator validator;
-        String field;
 
         while (fields.hasNext()) {
             field = fields.next();
-            c = validators.get(field);
-            if (c == null)
+            types = typeMap.get(field);
+            if (types == null)
                 continue;
+            c = validators.get(field);
 
             try {
                 constructor = c.getConstructor(JsonNode.class);
                 validator = constructor.newInstance(schema);
+                ret.add(validator);
             } catch (InvocationTargetException e) {
                 return failure(field, e);
             } catch (NoSuchMethodException e) {
@@ -85,9 +102,6 @@ public final class KeywordValidatorProvider
             } catch (IllegalAccessException e) {
                 return failure(field, e);
             }
-            if (!validator.getNodeTypes().contains(type))
-                continue;
-            ret.add(validator);
         }
 
         return ret;
@@ -102,12 +116,6 @@ public final class KeywordValidatorProvider
 
         final KeywordValidator v = new KeywordValidator()
         {
-            @Override
-            public EnumSet<NodeType> getNodeTypes()
-            {
-                return EnumSet.allOf(NodeType.class);
-            }
-
             @Override
             public ValidationStatus validate(final JsonNode instance)
             {

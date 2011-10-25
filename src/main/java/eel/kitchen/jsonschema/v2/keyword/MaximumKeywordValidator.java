@@ -30,7 +30,7 @@ public final class MaximumKeywordValidator
 
     public MaximumKeywordValidator(final JsonNode schema)
     {
-        super(schema, NodeType.INTEGER, NodeType.NUMBER);
+        super(schema);
     }
 
     @Override

@@ -31,28 +31,16 @@ abstract class AbstractKeywordValidator
 {
     protected final JsonNode schema;
 
-    /**
-     * List of node types supported by this validator
-     */
-    protected final EnumSet<NodeType> nodeTypes = EnumSet.noneOf(NodeType.class);
     protected final List<String> messages = new LinkedList<String>();
 
-    protected AbstractKeywordValidator(final JsonNode schema,
-        final NodeType... types)
+    protected AbstractKeywordValidator(final JsonNode schema)
     {
         this.schema = schema;
-        nodeTypes.addAll(Arrays.asList(types));
     }
 
     protected abstract void setup();
 
     protected abstract ValidationStatus doValidate(final JsonNode instance);
-
-    @Override
-    public final EnumSet<NodeType> getNodeTypes()
-    {
-        return EnumSet.copyOf(nodeTypes);
-    }
 
     @Override
     public final List<String> getMessages()

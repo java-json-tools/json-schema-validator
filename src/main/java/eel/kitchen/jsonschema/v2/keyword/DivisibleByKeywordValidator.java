@@ -29,7 +29,7 @@ public final class DivisibleByKeywordValidator
 
     public DivisibleByKeywordValidator(final JsonNode schema)
     {
-        super(schema, NodeType.INTEGER, NodeType.NUMBER);
+        super(schema);
     }
 
     @Override

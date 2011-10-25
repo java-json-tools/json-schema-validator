@@ -31,7 +31,7 @@ public final class EnumKeywordValidator
 
     public EnumKeywordValidator(final JsonNode schema)
     {
-        super(schema, NodeType.values());
+        super(schema);
     }
 
     @Override

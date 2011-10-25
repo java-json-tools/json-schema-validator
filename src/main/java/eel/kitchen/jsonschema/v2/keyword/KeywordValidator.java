@@ -25,8 +25,6 @@ import java.util.List;
 
 public interface KeywordValidator
 {
-    EnumSet<NodeType> getNodeTypes();
-
     ValidationStatus validate(final JsonNode instance);
 
     List<String> getMessages();
