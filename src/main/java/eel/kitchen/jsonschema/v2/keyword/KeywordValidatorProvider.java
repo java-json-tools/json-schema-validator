@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
+import eel.kitchen.jsonschema.v2.schema.Schema;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -126,6 +127,12 @@ public final class KeywordValidatorProvider
             public List<String> getMessages()
             {
                 return Arrays.asList(message);
+            }
+
+            @Override
+            public Schema getNextSchema()
+            {
+                return null;
             }
         };
 
