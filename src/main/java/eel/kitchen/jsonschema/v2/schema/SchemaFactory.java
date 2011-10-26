@@ -29,8 +29,6 @@ import java.util.List;
 public final class SchemaFactory
 {
     private static final SchemaChecker checker = SchemaChecker.getInstance();
-    private static final JsonNodeFactory nodeFactory
-        = JsonNodeFactory.instance;
 
     public Schema getSchema(final JsonNode schema)
     {
@@ -39,8 +37,6 @@ public final class SchemaFactory
         if (!messages.isEmpty())
             return failure(messages);
 
-        if (!(schema.has("type") || schema.has("disallow")))
-            ((ObjectNode) schema).put("type", "any");
         //TODO: implement
         return null;
     }
