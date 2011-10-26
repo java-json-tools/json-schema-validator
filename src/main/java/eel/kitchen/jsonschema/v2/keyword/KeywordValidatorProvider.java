@@ -88,6 +88,8 @@ public final class KeywordValidatorProvider
             types = typeMap.get(field);
             if (types == null)
                 continue;
+            if (!types.contains(type))
+                continue;
             c = validators.get(field);
 
             try {
