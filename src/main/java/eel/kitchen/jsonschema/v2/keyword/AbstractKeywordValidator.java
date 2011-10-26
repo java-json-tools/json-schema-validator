@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
-import eel.kitchen.jsonschema.v2.schema.Schema;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collections;
