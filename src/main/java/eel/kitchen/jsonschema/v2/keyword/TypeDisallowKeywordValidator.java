@@ -109,7 +109,7 @@ public final class TypeDisallowKeywordValidator
         next = computeNextSchema(typeSchemas, disallowSchemas);
     }
 
-    private static Schema computeNextSchema(final Set<JsonNode> typeSchemas,
+    private Schema computeNextSchema(final Set<JsonNode> typeSchemas,
         final Set<JsonNode> disallowSchemas)
     {
         final Schema allow = computeSchema(typeSchemas);
@@ -128,12 +128,12 @@ public final class TypeDisallowKeywordValidator
         return new MatchAllSchema(ret);
     }
 
-    private static Schema computeSchema(final Set<JsonNode> schemas)
+    private Schema computeSchema(final Set<JsonNode> schemas)
     {
         if (schemas.isEmpty())
             return null;
 
-        final SchemaFactory factory = new SchemaFactory();
+        final SchemaFactory factory = new SchemaFactory(schema);
 
         if (schemas.size() == 1)
             return new SingleSchema(factory, schemas.iterator().next());

@@ -28,6 +28,13 @@ public final class SchemaFactory
 {
     private static final SchemaChecker checker = SchemaChecker.getInstance();
 
+    private final JsonNode schema;
+
+    public SchemaFactory(final JsonNode schema)
+    {
+        this.schema = schema;
+    }
+
     public Schema getSchema(final JsonNode schema)
     {
         final List<String> messages = checker.check(schema);

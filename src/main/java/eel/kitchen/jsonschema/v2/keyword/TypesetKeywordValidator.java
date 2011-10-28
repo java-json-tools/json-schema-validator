@@ -36,7 +36,7 @@ abstract class TypesetKeywordValidator
     protected final Set<JsonNode> nextSchemas = new LinkedHashSet<JsonNode>();
 
     //TODO: this really should not be here
-    protected final SchemaFactory factory = new SchemaFactory();
+    protected final SchemaFactory factory = new SchemaFactory(schema);
     protected Schema nextSchema = null;
 
     protected TypesetKeywordValidator(final String field, final JsonNode schema)
