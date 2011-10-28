@@ -23,7 +23,6 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 

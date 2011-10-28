@@ -20,8 +20,6 @@ package eel.kitchen.jsonschema.v2.schema;
 import eel.kitchen.jsonschema.v2.check.SchemaChecker;
 import eel.kitchen.jsonschema.v2.instance.Instance;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
-import org.codehaus.jackson.node.ObjectNode;
 
 import java.util.Collections;
 import java.util.List;
