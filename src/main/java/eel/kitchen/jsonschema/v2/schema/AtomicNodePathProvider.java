@@ -29,7 +29,7 @@ public final class AtomicNodePathProvider
     {
     }
 
-    public static AtomicNodePathProvider getInstance()
+    public static PathProvider getInstance()
     {
         return instance;
     }
