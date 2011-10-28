@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class TypeSchemaExpanderTest
 {
