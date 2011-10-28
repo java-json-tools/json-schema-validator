@@ -35,7 +35,7 @@ public final class SingleSchema
     private final SchemaFactory factory;
     private final JsonNode schemaNode;
 
-    private PathProvider pathProvider = AtomicNodePathProvider.getInstance();
+    private PathProvider pathProvider = ScalarPathProvider.getInstance();
 
     public SingleSchema(final SchemaFactory factory, final JsonNode schemaNode)
     {

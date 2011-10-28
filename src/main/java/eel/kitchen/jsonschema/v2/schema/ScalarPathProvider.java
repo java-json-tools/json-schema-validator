@@ -19,13 +19,13 @@ package eel.kitchen.jsonschema.v2.schema;
 
 import org.codehaus.jackson.JsonNode;
 
-public final class AtomicNodePathProvider
+public final class ScalarPathProvider
     implements PathProvider
 {
-    private static final AtomicNodePathProvider instance
-        = new AtomicNodePathProvider();
+    private static final ScalarPathProvider instance
+        = new ScalarPathProvider();
 
-    private AtomicNodePathProvider()
+    private ScalarPathProvider()
     {
     }
 
