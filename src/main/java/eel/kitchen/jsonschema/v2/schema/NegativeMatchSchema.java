@@ -43,12 +43,9 @@ public final class NegativeMatchSchema
 
         schema.validate(current, instance);
 
-        if (current.isFailure()) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (current.isFailure())
             return;
-        }
 
-        state.setStatus(ValidationStatus.FAILURE);
         state.addMessage("instance matches a forbidden schema");
     }
 }

@@ -39,12 +39,9 @@ public final class EnumKeywordValidator
     @Override
     public void validate(final ValidationState state, final JsonNode node)
     {
-        if (enumValues.contains(node)) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (enumValues.contains(node))
             return;
-        }
 
         state.addMessage("instance does not match any enumerated element");
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

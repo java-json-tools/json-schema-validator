@@ -41,14 +41,10 @@ abstract class SingleTypeSyntaxValidator
     {
         final NodeType actual = NodeType.getNodeType(schema.get(fieldName));
 
-        if (expected == actual) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (expected == actual)
             return;
-        }
 
-        state.addMessage(String
-            .format("illegal type for field %s: is %s, expected %s",
-                fieldName, actual, expected));
-        state.setStatus(ValidationStatus.FAILURE);
+        state.addMessage(String.format("illegal type for field %s: is %s, "
+            + "expected %s", fieldName, actual, expected));
     }
 }

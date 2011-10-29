@@ -67,7 +67,6 @@ public final class SchemaFactory
             public void validate(final ValidationState state,
                 final Instance instance)
             {
-                state.setStatus(ValidationStatus.FAILURE);
                 state.addMessages(messages);
             }
         };

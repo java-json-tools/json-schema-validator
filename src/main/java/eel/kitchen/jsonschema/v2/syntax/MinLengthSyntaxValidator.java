@@ -42,13 +42,10 @@ public final class MinLengthSyntaxValidator
 
         if (!node.isInt()) {
             state.addMessage("minLength is too large");
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (node.getIntValue() < 0) {
+        if (node.getIntValue() < 0)
             state.addMessage("minLength is negative");
-            state.setStatus(ValidationStatus.FAILURE);
-        }
     }
 }

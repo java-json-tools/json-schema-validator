@@ -42,17 +42,11 @@ public final class MinimumKeywordValidator
 
         if (cmp > 0) {
             state.addMessage("instance is lower than the required minimum");
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (cmp == 0 && exclusiveMinimum) {
+        if (cmp == 0 && exclusiveMinimum)
             state.addMessage("instance is not strictly greater than the "
                 + "required minimum");
-            state.setStatus(ValidationStatus.FAILURE);
-            return;
-        }
-
-        state.setStatus(ValidationStatus.SUCCESS);
     }
 }

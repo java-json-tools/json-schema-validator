@@ -44,19 +44,15 @@ public final class DisallowKeywordValidator
 
         if (typeSet.contains(nodeType)) {
             state.addMessage("instance matches forbidden type " + nodeType);
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (nextSchemas.isEmpty()) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (nextSchemas.isEmpty())
             return;
-        }
 
         buildNext(state.getFactory());
 
         state.setNextSchema(nextSchema);
-        state.setStatus(ValidationStatus.DUNNO);
     }
 
     @Override

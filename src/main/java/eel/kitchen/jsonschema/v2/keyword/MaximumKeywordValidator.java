@@ -42,17 +42,11 @@ public final class MaximumKeywordValidator
 
         if (cmp < 0) {
             state.addMessage("instance is greater than the required maximum");
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (cmp == 0 && exclusiveMaximum) {
-            state.addMessage(
-                "instance is not strictly lower than the required " + "maximum");
-            state.setStatus(ValidationStatus.FAILURE);
-            return;
-        }
-
-        state.setStatus(ValidationStatus.SUCCESS);
+        if (cmp == 0 && exclusiveMaximum)
+            state.addMessage("instance is not strictly lower than the required "
+                + "maximum");
     }
 }

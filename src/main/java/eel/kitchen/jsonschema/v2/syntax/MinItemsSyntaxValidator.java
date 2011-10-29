@@ -42,13 +42,10 @@ public final class MinItemsSyntaxValidator
 
         if (!node.isInt()) {
             state.addMessage("minItems is too large");
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (node.getIntValue() < 0) {
+        if (node.getIntValue() < 0)
             state.addMessage("minItems is negative");
-            state.setStatus(ValidationStatus.FAILURE);
-        }
     }
 }

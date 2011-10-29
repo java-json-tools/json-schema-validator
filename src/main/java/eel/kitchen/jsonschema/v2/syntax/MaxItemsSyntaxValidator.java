@@ -42,13 +42,10 @@ public final class MaxItemsSyntaxValidator
 
         if (!node.isInt()) {
             state.addMessage("maxItems is too large");
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (node.getIntValue() < 0) {
+        if (node.getIntValue() < 0)
             state.addMessage("maxItems is negative");
-            state.setStatus(ValidationStatus.FAILURE);
-        }
     }
 }

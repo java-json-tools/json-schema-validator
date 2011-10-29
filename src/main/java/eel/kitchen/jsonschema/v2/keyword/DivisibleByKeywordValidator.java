@@ -38,12 +38,9 @@ public final class DivisibleByKeywordValidator
     {
         final BigDecimal number = node.getDecimalValue();
 
-        if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
             return;
-        }
 
         state.addMessage("instance is not a multiple of divisibleBy");
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

@@ -93,22 +93,15 @@ public final class SchemaChecker
         SyntaxValidator checker;
 
         final ValidationState state = new ValidationState(factory);
-        final ValidationState tmp = new ValidationState(factory);
 
 
         for (final String keyword: keywords) {
             if (!checkers.containsKey(keyword)) {
                 state.addMessage("unknown keyword " + keyword);
-                state.setStatus(ValidationStatus.FAILURE);
                 continue;
             }
             checker = getChecker(keyword);
-            tmp.clearMessages();
-            checker.validate(tmp, schema);
-            if (tmp.isFailure()) {
-                state.setStatus(ValidationStatus.FAILURE);
-                state.addMessages(tmp.getMessages());
-            }
+            checker.validate(state, schema);
         }
 
         return Collections.unmodifiableList(state.getMessages());

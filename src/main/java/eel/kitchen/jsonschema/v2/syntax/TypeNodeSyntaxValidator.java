@@ -70,13 +70,11 @@ public abstract class TypeNodeSyntaxValidator
                         NodeType.valueOf(s.toUpperCase());
                 } catch (IllegalArgumentException ignored) {
                     state.addMessage(fieldName + ": unknown type " + s);
-                    state.setStatus(ValidationStatus.FAILURE);
                 }
                 return;
             default:
                 state.addMessage("invalid element of type " + type + " in "
                     + keyword + " array");
-                state.setStatus(ValidationStatus.FAILURE);
         }
     }
 }

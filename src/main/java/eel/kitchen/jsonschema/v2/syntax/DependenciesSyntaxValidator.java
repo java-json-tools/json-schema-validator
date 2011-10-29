@@ -46,16 +46,13 @@ public final class DependenciesSyntaxValidator
                     break;
                 case ARRAY:
                     for (final JsonNode subNode: element)
-                        if (!subNode.isTextual()) {
+                        if (!subNode.isTextual())
                             state.addMessage("Non string dependency in "
                                 + "dependency array");
-                            state.setStatus(ValidationStatus.FAILURE);
-                        }
                     break;
                 default:
                     state.addMessage("dependencies: illegal value of type "
                         + type);
-                    state.setStatus(ValidationStatus.FAILURE);
             }
         }
     }

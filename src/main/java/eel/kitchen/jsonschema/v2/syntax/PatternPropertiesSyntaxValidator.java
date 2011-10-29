@@ -50,12 +50,10 @@ public final class PatternPropertiesSyntaxValidator
             if (!RhinoHelper.regexIsValid(entry.getKey())) {
                 state.addMessage("patternProperties: invalid regex "
                     + entry.getKey());
-                state.setStatus(ValidationStatus.FAILURE);
+                continue;
             }
-            if (!entry.getValue().isObject()) {
+            if (!entry.getValue().isObject())
                 state.addMessage("non schema value in patternProperties");
-                state.setStatus(ValidationStatus.FAILURE);
-            }
         }
     }
 }

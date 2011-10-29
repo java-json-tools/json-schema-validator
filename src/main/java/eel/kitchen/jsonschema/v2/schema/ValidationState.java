@@ -29,7 +29,7 @@ public final class ValidationState
 {
     private final SchemaFactory factory;
     private final List<String> messages = new LinkedList<String>();
-    private ValidationStatus status = DUNNO;
+    private ValidationStatus status = SUCCESS;
     private Schema nextSchema;
 
     public ValidationState(final SchemaFactory factory)
@@ -58,11 +58,13 @@ public final class ValidationState
 
     public void addMessage(final String message)
     {
+        status = FAILURE;
         messages.add(message);
     }
 
     public void addMessages(final List<String> messages)
     {
+        status = FAILURE;
         this.messages.addAll(messages);
     }
 
@@ -74,22 +76,6 @@ public final class ValidationState
     public List<String> getMessages()
     {
         return Collections.unmodifiableList(messages);
-    }
-
-    public ValidationStatus getStatus()
-    {
-        return status;
-    }
-
-    public void setStatus(final ValidationStatus status)
-    {
-        this.status = status;
-
-        if (status != DUNNO)
-            nextSchema = null;
-
-        if (status == SUCCESS)
-            messages.clear();
     }
 
     public boolean isResolved()
@@ -112,6 +98,7 @@ public final class ValidationState
 
     public void setNextSchema(final Schema nextSchema)
     {
+        status = DUNNO;
         this.nextSchema = nextSchema;
     }
 }

@@ -44,10 +44,7 @@ public final class ItemsSyntaxValidator
             return;
 
         for (final JsonNode element: node)
-            if (!element.isObject()) {
+            if (!element.isObject())
                 state.addMessage("non schema element in items array");
-                state.setStatus(ValidationStatus.FAILURE);
-                return;
-            }
     }
 }

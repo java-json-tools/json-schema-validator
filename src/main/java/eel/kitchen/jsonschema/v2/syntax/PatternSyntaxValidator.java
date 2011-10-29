@@ -45,6 +45,5 @@ public final class PatternSyntaxValidator
             return;
 
         state.addMessage("pattern: invalid regex " + regex);
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

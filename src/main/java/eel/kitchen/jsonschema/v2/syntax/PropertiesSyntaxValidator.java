@@ -47,7 +47,6 @@ public final class PropertiesSyntaxValidator
     {
         if (!element.isObject()) {
             state.addMessage("non schema value in properties");
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
@@ -59,6 +58,5 @@ public final class PropertiesSyntaxValidator
 
         state.addMessage("required attribute of schema in properties is not a"
             + " boolean");
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

@@ -42,13 +42,10 @@ public final class MaxLengthSyntaxValidator
 
         if (!node.isInt()) {
             state.addMessage("maxLength is too large");
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (node.getIntValue() < 0) {
+        if (node.getIntValue() < 0)
             state.addMessage("maxLength is negative");
-            state.setStatus(ValidationStatus.FAILURE);
-        }
     }
 }

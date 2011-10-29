@@ -38,12 +38,9 @@ public final class ExclusiveMinimumSyntaxValidator
         if (state.isFailure())
             return;
 
-        if (schema.has("minimum")) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (schema.has("minimum"))
             return;
-        }
 
         state.addMessage("exclusiveMinimum without minimum");
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

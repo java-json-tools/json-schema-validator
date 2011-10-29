@@ -42,12 +42,9 @@ public final class DivisibleBySyntaxValidator
 
         final BigDecimal divisor  = schema.get("divisibleBy").getDecimalValue();
 
-        if (BigDecimal.ZERO.compareTo(divisor) != 0) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (BigDecimal.ZERO.compareTo(divisor) != 0)
             return;
-        }
 
         state.addMessage("divisibleBy is 0");
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

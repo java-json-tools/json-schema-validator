@@ -43,19 +43,15 @@ public final class TypeKeywordValidator
         if (!typeSet.contains(nodeType)) {
             state.addMessage("Instance is of type " + nodeType + ", "
                 + "expected one of " + typeSet);
-            state.setStatus(ValidationStatus.FAILURE);
             return;
         }
 
-        if (nextSchemas.isEmpty()) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (nextSchemas.isEmpty())
             return;
-        }
 
         buildNext(state.getFactory());
 
         state.setNextSchema(nextSchema);
-        state.setStatus(ValidationStatus.DUNNO);
     }
 
     @Override

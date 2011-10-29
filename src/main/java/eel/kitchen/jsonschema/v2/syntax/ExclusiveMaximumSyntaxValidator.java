@@ -38,12 +38,9 @@ public final class ExclusiveMaximumSyntaxValidator
         if (state.isFailure())
             return;
 
-        if (schema.has("maximum")) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (schema.has("maximum"))
             return;
-        }
 
         state.addMessage("exclusiveMaximum without maximum");
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

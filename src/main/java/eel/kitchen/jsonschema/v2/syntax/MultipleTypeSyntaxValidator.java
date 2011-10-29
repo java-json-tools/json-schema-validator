@@ -45,14 +45,10 @@ abstract class MultipleTypeSyntaxValidator
     {
         final NodeType actual = NodeType.getNodeType(schema.get(fieldName));
 
-        if (expected.contains(actual)) {
-            state.setStatus(ValidationStatus.SUCCESS);
+        if (expected.contains(actual))
             return;
-        }
 
-        state.addMessage(String
-            .format("illegal type for field %s: is %s, " + "expected one of %s",
-                fieldName, actual, expected));
-        state.setStatus(ValidationStatus.FAILURE);
+        state.addMessage(String.format("illegal type for field %s: is %s, "
+            + "expected one of %s", fieldName, actual, expected));
     }
 }

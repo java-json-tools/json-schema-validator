@@ -36,6 +36,5 @@ abstract class UnsupportedSyntaxValidator
         final JsonNode schema)
     {
         state.addMessage(message);
-        state.setStatus(ValidationStatus.FAILURE);
     }
 }

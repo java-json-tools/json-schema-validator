@@ -123,7 +123,6 @@ public final class KeywordValidatorProvider
                 final JsonNode node)
             {
                 state.addMessage(message);
-                state.setStatus(ValidationStatus.FAILURE);
             }
         };
 
