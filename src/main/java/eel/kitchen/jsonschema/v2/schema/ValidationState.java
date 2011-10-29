@@ -68,8 +68,9 @@ public final class ValidationState
         this.messages.addAll(messages);
     }
 
-    public void clearMessages()
+    public void reset()
     {
+        status = SUCCESS;
         messages.clear();
     }
 
