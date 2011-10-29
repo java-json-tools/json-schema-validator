@@ -114,6 +114,66 @@ public final class SchemaCheckerTest
         testKeyword("extends");
     }
 
+    @Test
+    public void testFormat()
+    {
+        testKeyword("format");
+    }
+
+    @Test
+    public void testId()
+    {
+        testKeyword("id");
+    }
+
+    @Test
+    public void testItems()
+    {
+        testKeyword("items");
+    }
+
+    @Test
+    public void testMaximum()
+    {
+        testKeyword("maximum");
+    }
+
+    @Test
+    public void testMaxItems()
+    {
+        testKeyword("maxItems");
+    }
+
+    @Test
+    public void testMaxLength()
+    {
+        testKeyword("maxLength");
+    }
+
+    @Test
+    public void testMinimum()
+    {
+        testKeyword("minimum");
+    }
+
+    @Test
+    public void testMinItems()
+    {
+        testKeyword("minItems");
+    }
+
+    @Test
+    public void testMinLength()
+    {
+        testKeyword("minLength");
+    }
+
+    @Test
+    public void testPatternProperties()
+    {
+        testKeyword("patternProperties");
+    }
+
     private void testKeyword(final String keyword)
     {
         final JsonNode node = allTests.get(keyword);
@@ -140,7 +200,7 @@ public final class SchemaCheckerTest
         for (final JsonNode message: element.get("messages"))
             expected.add(message.getTextValue());
 
-        assertEquals(messages, expected, "message list differs from "
-            + "expectations while validating " + schema);
+        assertEqualsNoOrder(messages.toArray(), expected.toArray(),
+            "message list differs from expectations while validating " + schema);
     }
 }

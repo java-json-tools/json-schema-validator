@@ -41,16 +41,14 @@ public final class PatternPropertiesSyntaxValidator
         if (state.isFailure())
             return;
 
-        final JsonNode node = schema.get("properties");
+        final JsonNode node = schema.get(fieldName);
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(node.getFields());
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            if (!RhinoHelper.regexIsValid(entry.getKey())) {
+            if (!RhinoHelper.regexIsValid(entry.getKey()))
                 state.addMessage("patternProperties: invalid regex "
                     + entry.getKey());
-                continue;
-            }
             if (!entry.getValue().isObject())
                 state.addMessage("non schema value in patternProperties");
         }

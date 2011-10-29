@@ -342,5 +342,297 @@
                 "non schema element in extends array"
             ]
         }
+    ],
+    "format": [
+        {
+            "schema": {
+                "format": "datetime"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "format": {}
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field format: is object, expected string"
+            ]
+        }
+    ],
+    "id": [
+        {
+            "schema": {
+                "id": "#"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "id": "http://json-schema.org/schema/v3#/a/b"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "id": false
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field id: is boolean, expected string"
+            ]
+        },
+        {
+            "schema": {
+                "id": "+23:"
+            },
+            "valid": false,
+            "messages": [
+                "id: invalid URI +23:"
+            ]
+        }
+    ],
+    "items": [
+        {
+            "schema": {
+                "items": {}
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "items": [{}, {}]
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "items": null
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field items: is null, expected one of [array, object]"
+            ]
+        },
+        {
+            "schema": {
+                "items": [ {}, 5, true]
+            },
+            "valid": false,
+            "messages": [
+                "non schema element in items array",
+                "non schema element in items array"
+            ]
+        }
+    ],
+    "maximum": [
+        {
+            "schema": {
+                "maximum": 30
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "maximum": -64.23114
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "maximum": "unbounded"
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field maximum: is string, expected one of [integer, number]"
+            ]
+        }
+    ],
+    "maxItems": [
+        {
+            "schema": {
+                "maxItems": 20
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "maxItems": 12339809814981293098102938
+            },
+            "valid": false,
+            "messages": [
+                "maxItems is too large"
+            ]
+        },
+        {
+            "schema": {
+                "maxItems": -33
+            },
+            "valid": false,
+            "messages": [
+                "maxItems is negative"
+            ]
+        },
+        {
+            "schema": {
+                "maxItems": 3.1
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field maxItems: is number, expected integer"
+            ]
+        }
+    ],
+    "maxLength": [
+        {
+            "schema": {
+                "maxLength": 20
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "maxLength": 12339809814981293098102938
+            },
+            "valid": false,
+            "messages": [
+                "maxLength is too large"
+            ]
+        },
+        {
+            "schema": {
+                "maxLength": -33
+            },
+            "valid": false,
+            "messages": [
+                "maxLength is negative"
+            ]
+        },
+        {
+            "schema": {
+                "maxLength": 3.1
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field maxLength: is number, expected integer"
+            ]
+        }
+    ],
+    "minimum": [
+        {
+            "schema": {
+                "minimum": 30
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "minimum": -64.23114
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "minimum": "unbounded"
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field minimum: is string, expected one of [integer, number]"
+            ]
+        }
+    ],
+    "minItems": [
+        {
+            "schema": {
+                "minItems": 20
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "minItems": 12339809814981293098102938
+            },
+            "valid": false,
+            "messages": [
+                "minItems is too large"
+            ]
+        },
+        {
+            "schema": {
+                "minItems": -33
+            },
+            "valid": false,
+            "messages": [
+                "minItems is negative"
+            ]
+        },
+        {
+            "schema": {
+                "minItems": 3.1
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field minItems: is number, expected integer"
+            ]
+        }
+    ],
+    "minLength": [
+        {
+            "schema": {
+                "minLength": 20
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "minLength": 12339809814981293098102938
+            },
+            "valid": false,
+            "messages": [
+                "minLength is too large"
+            ]
+        },
+        {
+            "schema": {
+                "minLength": -33
+            },
+            "valid": false,
+            "messages": [
+                "minLength is negative"
+            ]
+        },
+        {
+            "schema": {
+                "minLength": 3.1
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field minLength: is number, expected integer"
+            ]
+        }
+    ],
+    "patternProperties": [
+        {
+            "schema": {
+                "patternProperties": {
+                    "a+": {},
+                    "z/": {}
+                }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "patternProperties": {
+                    "a++": {},
+                    "^[a-zA-Z\\d]+$": false
+                }
+            },
+            "valid": false,
+            "messages": [
+                "patternProperties: invalid regex a++",
+                "non schema value in patternProperties"
+            ]
+        }
     ]
 }
