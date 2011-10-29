@@ -134,7 +134,7 @@ public final class SchemaCheckerTest
         for (final JsonNode message: element.get("messages"))
             expected.add(message.getTextValue());
 
-        assertEquals(expected, messages, "message list differs from "
+        assertEquals(messages, expected, "message list differs from "
             + "expectations while validating " + schema);
     }
 }

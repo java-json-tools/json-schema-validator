@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.v2.syntax;
 
-import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;

@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.instance.Instance;
-import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 
 public final class NegativeMatchSchema
     implements Schema
