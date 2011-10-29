@@ -60,6 +60,18 @@ public final class SchemaCheckerTest
         testKeyword("dependencies");
     }
 
+    @Test
+    public void testDescription()
+    {
+        testKeyword("description");
+    }
+
+    @Test
+    public void testDisallow()
+    {
+        testKeyword("disallow");
+    }
+
     private void testKeyword(final String keyword)
     {
         final JsonNode node = allTests.get(keyword);

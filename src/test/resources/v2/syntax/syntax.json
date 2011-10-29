@@ -79,5 +79,69 @@
                 "Non string dependency in dependency array"
             ]
         }
+    ],
+    "description": [
+        {
+            "schema": {
+                "description": "hello"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "description": 3.24
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field description: is number, expected string"
+            ]
+        }
+    ],
+    "disallow": [
+        {
+            "schema": {
+                "disallow": "string"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "disallow": "any"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "disallow": [ "boolean", { "$ref": "#/schema2" } ]
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "disallow": false
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field disallow: is boolean, expected one of [array, string]"
+            ]
+        },
+        {
+            "schema": {
+                "disallow": "hammer"
+            },
+            "valid": false,
+            "messages": [
+                "disallow: unknown type hammer"
+            ]
+        },
+        {
+            "schema": {
+                "disallow": [ "boolean", {}, []]
+            },
+            "valid": false,
+            "messages": [
+                "invalid element of type array in disallow array"
+            ]
+        }
     ]
 }
