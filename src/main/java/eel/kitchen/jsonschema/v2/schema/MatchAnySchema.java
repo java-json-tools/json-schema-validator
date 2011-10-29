@@ -46,19 +46,4 @@ public final class MatchAnySchema
             state.mergeWith(current);
         }
     }
-
-    @Override
-    public boolean validate(final Instance instance)
-    {
-        for (final Schema schema: schemas) {
-            if (schema.validate(instance)) {
-                winner = schema;
-                messages.clear();
-                return true;
-            }
-            messages.addAll(schema.getMessages());
-        }
-
-        return false;
-    }
 }

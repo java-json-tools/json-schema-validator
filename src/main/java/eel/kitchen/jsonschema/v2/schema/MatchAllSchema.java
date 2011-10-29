@@ -43,18 +43,4 @@ public final class MatchAllSchema
             winner = schema;
         }
     }
-
-    @Override
-    public boolean validate(final Instance instance)
-    {
-        for (final Schema schema: schemas) {
-            if (!schema.validate(instance)) {
-                messages.addAll(schema.getMessages());
-                return false;
-            }
-            winner = schema;
-        }
-
-        return true;
-    }
 }

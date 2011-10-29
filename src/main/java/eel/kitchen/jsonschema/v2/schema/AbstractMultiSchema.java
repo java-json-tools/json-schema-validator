@@ -21,7 +21,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 abstract class AbstractMultiSchema
-    extends AbstractSchema
+    implements Schema
 {
     protected final Set<Schema> schemas = new LinkedHashSet<Schema>();
     protected Schema winner = null;

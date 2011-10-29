@@ -71,18 +71,6 @@ public final class SchemaFactory
                 state.setStatus(ValidationStatus.FAILURE);
                 state.addMessages(messages);
             }
-
-            @Override
-            public boolean validate(final Instance instance)
-            {
-                return false;
-            }
-
-            @Override
-            public List<String> getMessages()
-            {
-                return Collections.unmodifiableList(messages);
-            }
         };
 
     }

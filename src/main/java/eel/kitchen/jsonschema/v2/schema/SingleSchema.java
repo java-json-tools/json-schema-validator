@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class SingleSchema
-    extends AbstractSchema
+    implements Schema
 {
     private static final KeywordValidatorProvider validatorProvider
         = KeywordValidatorProvider.getInstance();
@@ -74,52 +74,7 @@ public final class SingleSchema
 
         for (final Instance child: instance) {
             schema = getSchema(child.getPathElement());
-            state.compatMergeWith(schema, child);
+            schema.validate(state, instance);
         }
-    }
-
-    @Override
-    public boolean validate(final Instance instance)
-    {
-        final NodeType instanceType = instance.getType();
-
-        final JsonNode node = instance.getRawInstance();
-
-        final Set<KeywordValidator> validators
-            = validatorProvider.getValidators(schemaNode, instanceType);
-
-        boolean ret = true;
-
-        for (final KeywordValidator validator: validators) {
-            ValidationStatus status = validator.validate(node);
-            if (status == ValidationStatus.DUNNO) {
-                ret = validator.getNextSchema().validate(instance);
-                status = ret ? ValidationStatus.SUCCESS
-                    : ValidationStatus.FAILURE;
-            }
-            if (status != ValidationStatus.SUCCESS) {
-                messages.addAll(validator.getMessages());
-                ret = false;
-            }
-        }
-
-        if (!ret)
-            return false;
-
-        pathProvider = instanceType == NodeType.ARRAY
-            ? new ArrayPathProvider(node)
-            : new ObjectPathProvider(node);
-
-        Schema schema;
-
-        for (final Instance child: instance) {
-            schema = getSchema(child.getPathElement());
-            if (schema.validate(child))
-                continue;
-            messages.addAll(schema.getMessages());
-            ret = false;
-        }
-
-        return ret;
     }
 }

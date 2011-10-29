@@ -53,17 +53,6 @@ public final class ValidationState
         status = FAILURE;
     }
 
-    public void compatMergeWith(final Schema schema, final Instance instance)
-    {
-        final boolean ret = schema.validate(instance);
-
-        if (ret)
-            return;
-
-        messages.addAll(schema.getMessages());
-        status = FAILURE;
-    }
-
     public SchemaFactory getFactory()
     {
         return factory;
