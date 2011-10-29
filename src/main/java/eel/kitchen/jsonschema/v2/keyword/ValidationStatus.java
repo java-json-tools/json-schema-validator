@@ -21,5 +21,6 @@ public enum ValidationStatus
 {
     SUCCESS,
     FAILURE,
-    DUNNO
+    DUNNO,
+    ERROR
 }
