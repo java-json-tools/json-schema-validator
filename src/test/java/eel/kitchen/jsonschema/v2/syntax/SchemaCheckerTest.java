@@ -108,6 +108,12 @@ public final class SchemaCheckerTest
         testKeyword("exclusiveMinimum");
     }
 
+    @Test
+    public void testExtends()
+    {
+        testKeyword("extends");
+    }
+
     private void testKeyword(final String keyword)
     {
         final JsonNode node = allTests.get(keyword);

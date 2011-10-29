@@ -306,5 +306,41 @@
                 "exclusiveMinimum without minimum"
             ]
         }
+    ],
+    "extends": [
+        {
+            "schema": {
+                "extends": {
+                    "type": "string"
+                }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "extends": [{"what": "ever"}, {"you": "want"}, {}]
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "extends": 42
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field extends: is integer, expected one of [array, object]"
+            ]
+        },
+        {
+            "schema": {
+                "extends": [ 1, true, "boo" ]
+            },
+            "valid": false,
+            "messages": [
+                "non schema element in extends array",
+                "non schema element in extends array",
+                "non schema element in extends array"
+            ]
+        }
     ]
 }

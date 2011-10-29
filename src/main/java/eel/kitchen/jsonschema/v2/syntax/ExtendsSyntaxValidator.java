@@ -43,9 +43,7 @@ public final class ExtendsSyntaxValidator
             return;
 
         for (final JsonNode element: node)
-            if (!element.isObject()) {
+            if (!element.isObject())
                 state.addMessage("non schema element in extends array");
-                return;
-            }
     }
 }
