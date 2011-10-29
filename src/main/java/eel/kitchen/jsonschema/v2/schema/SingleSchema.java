@@ -58,13 +58,13 @@ public final class SingleSchema
         final Set<KeywordValidator> validators
             = validatorProvider.getValidators(schemaNode, instanceType);
 
+        final JsonNode node = instance.getRawInstance();
+
         for (final KeywordValidator validator: validators)
-            state.compatMergeWith(validator, instance);
+            validator.validate(state, node);
 
         if (state.isFailure())
             return;
-
-        final JsonNode node = instance.getRawInstance();
 
         pathProvider = instanceType == NodeType.ARRAY
             ? new ArrayPathProvider(node)

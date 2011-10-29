@@ -64,23 +64,6 @@ public final class ValidationState
         status = FAILURE;
     }
 
-    public void compatMergeWith(final KeywordValidator validator,
-        final Instance instance)
-    {
-        final ValidationStatus tmp = validator.validate(instance.getRawInstance());
-
-        if (tmp == DUNNO) {
-            compatMergeWith(validator.getNextSchema(), instance);
-            return;
-        }
-
-        if (tmp != FAILURE)
-            return;
-
-        status = FAILURE;
-        messages.addAll(validator.getMessages());
-    }
-
     public SchemaFactory getFactory()
     {
         return factory;
