@@ -17,14 +17,13 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.util.NodeType;
+
 public final class FormatSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends SingleTypeSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public FormatSyntaxValidator()
     {
-        super("format");
-        //super("format", NodeType.STRING);
+        super("format", NodeType.STRING);
     }
 }

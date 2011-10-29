@@ -17,34 +17,41 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
+
 public final class DependenciesSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends SingleTypeSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public DependenciesSyntaxValidator()
     {
-        super("dependencies");
-        //super("dependencies", NodeType.OBJECT);
+        super("dependencies", NodeType.OBJECT);
     }
 
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        if (!super.validate(schema))
-//            return false;
-//
-//        final JsonNode node = schema.get("dependencies");
-//
-//        boolean ret = true;
-//
-//        for (final JsonNode element: node)
-//            if (!(element.isTextual() || element.isObject())) {
-//                messages.add("dependency is neither a simple dependency or "
-//                    + "schema dependency");
-//                ret = false;
-//            }
-//
-//        return ret;
-//    }
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        for (final JsonNode element: schema.get(fieldName)) {
+            if (element.isTextual())
+                continue;
+            if (element.isObject())
+                continue;
+            if (element.isArray()) {
+                for (final JsonNode subNode: element)
+                    if (!element.isTextual()) {
+                        state.addMessage("Non string dependency in "
+                            + "dependency array");
+                        state.setStatus(ValidationStatus.FAILURE);
+                        return;
+                    }
+            }
+        }
+    }
 }

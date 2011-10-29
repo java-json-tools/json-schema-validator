@@ -17,35 +17,38 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
+
 public final class MinLengthSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends SingleTypeSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public MinLengthSyntaxValidator()
     {
-        super("minLength");
-        //super("minLength", NodeType.INTEGER);
+        super("minLength", NodeType.INTEGER);
     }
 
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        if (!super.validate(schema))
-//            return false;
-//
-//        final JsonNode node = schema.get("minLength");
-//
-//        if (!node.isInt()) {
-//            messages.add("minLength is too large");
-//            return false;
-//        }
-//
-//        if (node.getIntValue() < 0) {
-//            messages.add("minLength is negative");
-//            return false;
-//        }
-//
-//        return true;
-//    }
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        final JsonNode node = schema.get("minLength");
+
+        if (!node.isInt()) {
+            state.addMessage("minLength is too large");
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        if (node.getIntValue() < 0) {
+            state.addMessage("minLength is negative");
+            state.setStatus(ValidationStatus.FAILURE);
+        }
+    }
 }

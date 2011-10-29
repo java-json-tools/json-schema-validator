@@ -17,34 +17,37 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
+
 public final class ItemsSyntaxValidator
-    extends UnsupportedSyntaxValidator
+    extends MultipleTypeSyntaxValidator
 {
-    public ItemsSyntaxValidator(final String fieldName)
+    public ItemsSyntaxValidator()
     {
-        super(fieldName);
+        super("items", NodeType.OBJECT, NodeType.ARRAY);
     }
 
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        final JsonNode node = schema.get("items");
-//
-//        if (!node.isContainerNode()) {
-//            messages.add("items is neither a schema or an array of schemas");
-//            return false;
-//        }
-//
-//        boolean ret = true;
-//
-//        if (node.isArray())
-//            for (final JsonNode element: node)
-//                if (!element.isObject()) {
-//                    messages.add("non schema element in items array");
-//                    ret = false;
-//                }
-//
-//        return ret;
-//    }
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        final JsonNode node = schema.get(fieldName);
+
+        if (node.isObject())
+            return;
+
+        for (final JsonNode element: node)
+            if (!element.isObject()) {
+                state.addMessage("non schema element in items array");
+                state.setStatus(ValidationStatus.FAILURE);
+                return;
+            }
+    }
 }

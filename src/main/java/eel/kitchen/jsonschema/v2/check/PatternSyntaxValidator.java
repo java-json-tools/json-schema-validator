@@ -17,27 +17,34 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.NodeType;
+import eel.kitchen.util.RhinoHelper;
+import org.codehaus.jackson.JsonNode;
+
 public final class PatternSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends SingleTypeSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public PatternSyntaxValidator()
     {
-        super("pattern");
-        //super("pattern", NodeType.STRING);
+        super("pattern", NodeType.STRING);
     }
 
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        if (!super.validate(schema))
-//            return false;
-//
-//        if (RhinoHelper.regexIsValid(schema.get("pattern").getTextValue()))
-//            return true;
-//
-//        messages.add("invalid regex in pattern");
-//        return false;
-//    }
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        final String regex = schema.get(fieldName).getTextValue();
+
+        if (RhinoHelper.regexIsValid(regex))
+            return;
+
+        state.addMessage("pattern: invalid regex " + regex);
+        state.setStatus(ValidationStatus.FAILURE);
+    }
 }

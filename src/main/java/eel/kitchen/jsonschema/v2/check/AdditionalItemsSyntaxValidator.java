@@ -17,14 +17,13 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.util.NodeType;
+
 public final class AdditionalItemsSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends MultipleTypeSyntaxValidator
+    extends MultipleTypeSyntaxValidator
 {
     public AdditionalItemsSyntaxValidator()
     {
-        super("additionalItems");
-        //super("additionalItems", NodeType.OBJECT, NodeType.BOOLEAN);
+        super("additionalItems", NodeType.OBJECT, NodeType.BOOLEAN);
     }
 }

@@ -45,7 +45,6 @@ abstract class URISyntaxValidator
 
         try {
             new URI(textValue);
-            state.setStatus(ValidationStatus.SUCCESS);
         } catch (URISyntaxException e) {
             state.setStatus(ValidationStatus.FAILURE);
             state.addMessage("Invalid URI " + textValue + " :" + e.getMessage());

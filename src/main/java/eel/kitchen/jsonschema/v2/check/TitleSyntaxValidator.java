@@ -17,14 +17,13 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.util.NodeType;
+
 public final class TitleSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends SingleTypeSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public TitleSyntaxValidator()
     {
-        super("title");
-        //super("title", NodeType.STRING);
+        super("title", NodeType.STRING);
     }
 }

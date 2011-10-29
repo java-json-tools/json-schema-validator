@@ -17,31 +17,37 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
+
 public final class ExtendsSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends MultipleTypeSyntaxValidator
+    extends MultipleTypeSyntaxValidator
 {
     public ExtendsSyntaxValidator()
     {
-        super("extends");
-        //super("extends", NodeType.OBJECT, NodeType.ARRAY);
+        super("extends", NodeType.OBJECT, NodeType.ARRAY);
     }
 
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        if (!super.validate(schema))
-//            return false;
-//
-//        boolean ret = true;
-//
-//        for (final JsonNode element: schema.get("extends"))
-//            if (!element.isObject()) {
-//                messages.add("non schema element in extends array");
-//                ret = false;
-//            }
-//
-//        return ret;
-//    }
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        final JsonNode node = schema.get(fieldName);
+
+        if (node.isObject())
+            return;
+
+        for (final JsonNode element: node)
+            if (!element.isObject()) {
+                state.addMessage("non schema element in extends array");
+                state.setStatus(ValidationStatus.FAILURE);
+                return;
+            }
+    }
 }

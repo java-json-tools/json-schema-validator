@@ -17,10 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
 public final class IdSyntaxValidator
     extends URISyntaxValidator
-//    extends URISyntaxValidator
 {
     public IdSyntaxValidator()
     {

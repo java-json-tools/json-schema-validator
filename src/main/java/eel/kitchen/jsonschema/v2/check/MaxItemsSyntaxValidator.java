@@ -17,35 +17,38 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
+
 public final class MaxItemsSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends SingleTypeSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public MaxItemsSyntaxValidator()
     {
-        super("maxItems");
-        //super("maxItems", NodeType.INTEGER);
+        super("maxItems", NodeType.INTEGER);
     }
 
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        if (!super.validate(schema))
-//            return false;
-//
-//        final JsonNode node = schema.get("maxItems");
-//
-//        if (!node.isInt()) {
-//            messages.add("maxItems is too large");
-//            return false;
-//        }
-//
-//        if (node.getIntValue() < 0) {
-//            messages.add("maxItems is negative");
-//            return false;
-//        }
-//
-//        return true;
-//    }
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        final JsonNode node = schema.get("maxItems");
+
+        if (!node.isInt()) {
+            state.addMessage("maxItems is too large");
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        if (node.getIntValue() < 0) {
+            state.addMessage("maxItems is negative");
+            state.setStatus(ValidationStatus.FAILURE);
+        }
+    }
 }

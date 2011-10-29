@@ -17,41 +17,45 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.CollectionUtils;
+import eel.kitchen.util.NodeType;
+import eel.kitchen.util.RhinoHelper;
+import org.codehaus.jackson.JsonNode;
+
+import java.util.Map;
+
 public final class PatternPropertiesSyntaxValidator
-    extends UnsupportedSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public PatternPropertiesSyntaxValidator()
     {
-        super("patternProperties");
+        super("patternProperties", NodeType.OBJECT);
     }
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        final JsonNode node = schema.get("properties");
-//
-//        if (!node.isObject()) {
-//            messages.add("illegal type for properties attribute (is "
-//                + NodeType.getNodeType(node) + " , expected object");
-//            return false;
-//        }
-//
-//        boolean ret = true;
-//
-//        final Map<String, JsonNode> map
-//            = CollectionUtils.toMap(node.getFields());
-//
-//        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-//            if (!RhinoHelper.regexIsValid(entry.getKey())) {
-//                messages.add("patternProperties: regex " + entry.getKey()
-//                    + " is invalid");
-//                ret = false;
-//            }
-//            if (!entry.getValue().isObject()) {
-//                messages.add("non schema value in patternProperties");
-//                ret = false;
-//            }
-//        }
-//        return ret;
-//    }
+
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        final JsonNode node = schema.get("properties");
+        final Map<String, JsonNode> map
+            = CollectionUtils.toMap(node.getFields());
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            if (!RhinoHelper.regexIsValid(entry.getKey())) {
+                state.addMessage("patternProperties: invalid regex "
+                    + entry.getKey());
+                state.setStatus(ValidationStatus.FAILURE);
+            }
+            if (!entry.getValue().isObject()) {
+                state.addMessage("non schema value in patternProperties");
+                state.setStatus(ValidationStatus.FAILURE);
+            }
+        }
+    }
 }

@@ -17,14 +17,13 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.util.NodeType;
+
 public final class UniqueItemsSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends SingleTypeSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public UniqueItemsSyntaxValidator()
     {
-        super("uniqueItems");
-        //super("uniqueItems", NodeType.BOOLEAN);
+        super("uniqueItems", NodeType.BOOLEAN);
     }
 }

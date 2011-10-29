@@ -17,10 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
 public final class DollarSchemaSyntaxValidator
-    extends UnsupportedSyntaxValidator
-//    extends URISyntaxValidator
+    extends URISyntaxValidator
 {
     public DollarSchemaSyntaxValidator()
     {

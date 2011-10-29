@@ -52,15 +52,8 @@ public abstract class TypeNodeSyntaxValidator
             return;
         }
 
-        // TODO: implement
-        state.addMessage("Sorry, I only support one simple type for now");
-        state.setStatus(ValidationStatus.FAILURE);
-//        boolean ret = true;
-//
-//        for (final JsonNode element: node)
-//            ret = validateOne(element) && ret;
-//
-//        return ret;
+        for (final JsonNode element: node)
+            validateOne(state, element);
     }
 
     private void validateOne(final ValidationState state,
@@ -70,26 +63,17 @@ public abstract class TypeNodeSyntaxValidator
 
         switch (type) {
             case OBJECT:
-                // TODO: implement
-                //return true;
-                state.addMessage(
-                    "Sorry, I only support one simple type for now");
-                state.setStatus(ValidationStatus.FAILURE);
                 return;
             case STRING:
                 final String s = element.getTextValue();
-                if (ANY.equals(s)) {
-                    state.setStatus(ValidationStatus.SUCCESS);
-                    break;
-                }
                 try {
-                    NodeType.valueOf(s.toUpperCase());
-                    state.setStatus(ValidationStatus.SUCCESS);
-                } catch (IllegalArgumentException e) {
-                    state.addMessage("unknown type " + s);
+                    if (!ANY.equals(s))
+                        NodeType.valueOf(s.toUpperCase());
+                } catch (IllegalArgumentException ignored) {
+                    state.addMessage(fieldName + ": unknown type " + s);
                     state.setStatus(ValidationStatus.FAILURE);
                 }
-                break;
+                return;
             default:
                 state.addMessage("invalid element of type " + type + " in "
                     + keyword + " array");

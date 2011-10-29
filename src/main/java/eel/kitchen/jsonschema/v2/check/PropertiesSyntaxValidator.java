@@ -17,51 +17,48 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
-//TODO: implement
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
+
 public final class PropertiesSyntaxValidator
-    extends UnsupportedSyntaxValidator
+    extends SingleTypeSyntaxValidator
 {
     public PropertiesSyntaxValidator(final String fieldName)
     {
-        super("properties");
+        super("properties", NodeType.OBJECT);
     }
 
-//    @Override
-//    public boolean validate(final JsonNode schema)
-//    {
-//        final JsonNode node = schema.get("properties");
-//
-//        if (!node.isObject()) {
-//            messages.add("illegal type for properties attribute (is "
-//                + NodeType.getNodeType(node) + " , expected object");
-//            return false;
-//        }
-//
-//        boolean ret = true;
-//
-//        final Iterator<JsonNode> iterator = node.getElements();
-//
-//        while (iterator.hasNext())
-//            ret = validateOne(iterator.next()) && ret;
-//
-//        return ret;
-//    }
+    @Override
+    public void validate(final ValidationState state, final JsonNode schema)
+    {
+        super.validate(state, schema);
 
-//    private boolean validateOne(final JsonNode element)
-//    {
-//        if (!element.isObject()) {
-//            messages.add("non schema value in properties");
-//            return false;
-//        }
-//
-//        if (!element.has("required"))
-//            return true;
-//
-//        if (element.get("required").isBoolean())
-//            return true;
-//
-//        messages.add("required attribute of schema in properties is not a"
-//            + " boolean");
-//        return false;
-//    }
+        if (state.isFailure())
+            return;
+
+        for (final JsonNode element: schema.get(fieldName))
+            validateOne(state, element);
+    }
+
+    private static void validateOne(final ValidationState state,
+        final JsonNode element)
+    {
+        if (!element.isObject()) {
+            state.addMessage("non schema value in properties");
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        if (!element.has("required"))
+            return;
+
+        if (element.get("required").isBoolean())
+            return;
+
+        state.addMessage("required attribute of schema in properties is not a"
+            + " boolean");
+        state.setStatus(ValidationStatus.FAILURE);
+    }
 }
