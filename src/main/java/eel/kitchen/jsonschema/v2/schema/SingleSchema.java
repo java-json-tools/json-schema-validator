@@ -24,6 +24,7 @@ import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+import java.util.List;
 import java.util.Set;
 
 public final class SingleSchema
@@ -47,6 +48,34 @@ public final class SingleSchema
     public Schema getSchema(final String path)
     {
         return factory.getSchema(pathProvider.getSchema(path));
+    }
+
+    @Override
+    public void validate(final ValidationState state, final Instance instance)
+    {
+        final NodeType instanceType = instance.getType();
+
+        final Set<KeywordValidator> validators
+            = validatorProvider.getValidators(schemaNode, instanceType);
+
+        for (final KeywordValidator validator: validators)
+            state.compatMergeWith(validator, instance);
+
+        if (state.isFailure())
+            return;
+
+        final JsonNode node = instance.getRawInstance();
+
+        pathProvider = instanceType == NodeType.ARRAY
+            ? new ArrayPathProvider(node)
+            : new ObjectPathProvider(node);
+
+        Schema schema;
+
+        for (final Instance child: instance) {
+            schema = getSchema(child.getPathElement());
+            state.compatMergeWith(schema, child);
+        }
     }
 
     @Override

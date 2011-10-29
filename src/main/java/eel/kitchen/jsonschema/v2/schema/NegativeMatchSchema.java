@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.instance.Instance;
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 
 public final class NegativeMatchSchema
     extends AbstractSchema
@@ -33,6 +34,22 @@ public final class NegativeMatchSchema
     public Schema getSchema(final String path)
     {
         return schema.getSchema(path);
+    }
+
+    @Override
+    public void validate(final ValidationState state, final Instance instance)
+    {
+        final ValidationState current = new ValidationState(state);
+
+        schema.validate(current, instance);
+
+        if (current.isFailure()) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
+
+        state.setStatus(ValidationStatus.FAILURE);
+        state.addMessage("instance matches a forbidden schema");
     }
 
     @Override

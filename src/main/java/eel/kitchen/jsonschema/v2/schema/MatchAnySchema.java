@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.instance.Instance;
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 
 import java.util.Set;
 
@@ -27,6 +28,23 @@ public final class MatchAnySchema
     public MatchAnySchema(final Set<Schema> schemas)
     {
         super(schemas);
+    }
+
+    @Override
+    public void validate(final ValidationState state, final Instance instance)
+    {
+        ValidationState current;
+
+        for (final Schema schema: schemas) {
+            current = new ValidationState(state);
+            schema.validate(current, instance);
+            if (!current.isFailure()) {
+                winner = schema;
+                state.setStatus(ValidationStatus.SUCCESS);
+                return;
+            }
+            state.mergeWith(current);
+        }
     }
 
     @Override

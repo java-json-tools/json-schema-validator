@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.check.SchemaChecker;
 import eel.kitchen.jsonschema.v2.instance.Instance;
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
@@ -61,6 +62,14 @@ public final class SchemaFactory
             public Schema getSchema(final String path)
             {
                 return null;
+            }
+
+            @Override
+            public void validate(final ValidationState state,
+                final Instance instance)
+            {
+                state.setStatus(ValidationStatus.FAILURE);
+                state.addMessages(messages);
             }
 
             @Override

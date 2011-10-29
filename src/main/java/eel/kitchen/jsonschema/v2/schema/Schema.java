@@ -25,6 +25,8 @@ public interface Schema
 {
     Schema getSchema(final String path);
 
+    void validate(final ValidationState state, final Instance instance);
+
     boolean validate(final Instance instance);
 
     List<String> getMessages();

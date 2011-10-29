@@ -30,6 +30,21 @@ public final class MatchAllSchema
     }
 
     @Override
+    public void validate(final ValidationState state, final Instance instance)
+    {
+        final ValidationState current = new ValidationState(state);
+
+        for (final Schema schema: schemas) {
+            schema.validate(current, instance);
+            if (current.isFailure()) {
+                state.mergeWith(current);
+                return;
+            }
+            winner = schema;
+        }
+    }
+
+    @Override
     public boolean validate(final Instance instance)
     {
         for (final Schema schema: schemas) {
