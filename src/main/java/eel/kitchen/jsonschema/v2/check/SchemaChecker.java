@@ -36,37 +36,37 @@ public final class SchemaChecker
 {
     private static final SchemaChecker instance = new SchemaChecker();
 
-    private static final Map<String, Class<? extends KeywordChecker>> checkers
-        = new HashMap<String, Class<? extends KeywordChecker>>();
+    private static final Map<String, Class<? extends SyntaxValidator>> checkers
+        = new HashMap<String, Class<? extends SyntaxValidator>>();
 
     static {
-        checkers.put("additionalItems", AdditionalItemsKeywordChecker.class);
-        checkers.put("additionalProperties", AdditionalPropertiesKeywordChecker.class);
-        checkers.put("dependencies", DependenciesKeywordChecker.class);
-        checkers.put("description", DescriptionKeywordChecker.class);
-        checkers.put("disallow", DisallowKeywordChecker.class);
-        checkers.put("divisibleBy", DivisibleByKeywordChecker.class);
-        checkers.put("$ref", DollarRefKeywordChecker.class);
-        checkers.put("$schema", DollarSchemaKeywordChecker.class);
-        checkers.put("enum", EnumKeywordChecker.class);
-        checkers.put("exclusiveMaximum", ExclusiveMaximumKeywordChecker.class);
-        checkers.put("exclusiveMinimum", ExclusiveMinimumKeywordChecker.class);
-        checkers.put("extends", ExtendsKeywordChecker.class);
-        checkers.put("format", FormatKeywordChecker.class);
-        checkers.put("id", IdKeywordChecker.class);
-        checkers.put("items", ItemsKeywordChecker.class);
-        checkers.put("maximum", MaximumKeywordChecker.class);
-        checkers.put("maxItems", MaxItemsKeywordChecker.class);
-        checkers.put("maxLength", MaxLengthKeywordChecker.class);
-        checkers.put("minimum", MinimumKeywordChecker.class);
-        checkers.put("minItems", MinItemsKeywordChecker.class);
-        checkers.put("minLength", MinLengthKeywordChecker.class);
-        checkers.put("pattern", PatternKeywordChecker.class);
-        checkers.put("patternProperties", PatternPropertiesKeywordChecker.class);
-        checkers.put("properties", PropertiesKeywordChecker.class);
-        checkers.put("title", TitleKeywordChecker.class);
-        checkers.put("type", TypeKeywordChecker.class);
-        checkers.put("uniqueItems", UniqueItemsKeywordChecker.class);
+        checkers.put("additionalItems", AdditionalItemsSyntaxValidator.class);
+        checkers.put("additionalProperties", AdditionalPropertiesSyntaxValidator.class);
+        checkers.put("dependencies", DependenciesSyntaxValidator.class);
+        checkers.put("description", DescriptionSyntaxValidator.class);
+        checkers.put("disallow", DisallowSyntaxValidator.class);
+        checkers.put("divisibleBy", DivisibleBySyntaxValidator.class);
+        checkers.put("$ref", DollarRefSyntaxValidator.class);
+        checkers.put("$schema", DollarSchemaSyntaxValidator.class);
+        checkers.put("enum", EnumSyntaxValidator.class);
+        checkers.put("exclusiveMaximum", ExclusiveMaximumSyntaxValidator.class);
+        checkers.put("exclusiveMinimum", ExclusiveMinimumSyntaxValidator.class);
+        checkers.put("extends", ExtendsSyntaxValidator.class);
+        checkers.put("format", FormatSyntaxValidator.class);
+        checkers.put("id", IdSyntaxValidator.class);
+        checkers.put("items", ItemsSyntaxValidator.class);
+        checkers.put("maximum", MaximumSyntaxValidator.class);
+        checkers.put("maxItems", MaxItemsSyntaxValidator.class);
+        checkers.put("maxLength", MaxLengthSyntaxValidator.class);
+        checkers.put("minimum", MinimumSyntaxValidator.class);
+        checkers.put("minItems", MinItemsSyntaxValidator.class);
+        checkers.put("minLength", MinLengthSyntaxValidator.class);
+        checkers.put("pattern", PatternSyntaxValidator.class);
+        checkers.put("patternProperties", PatternPropertiesSyntaxValidator.class);
+        checkers.put("properties", PropertiesSyntaxValidator.class);
+        checkers.put("title", TitleSyntaxValidator.class);
+        checkers.put("type", TypeSyntaxValidator.class);
+        checkers.put("uniqueItems", UniqueItemsSyntaxValidator.class);
     }
 
     private SchemaChecker()
@@ -91,7 +91,7 @@ public final class SchemaChecker
         final Set<String> keywords = CollectionUtils.toSet(schema
             .getFieldNames());
 
-        KeywordChecker checker;
+        SyntaxValidator checker;
 
         for (final String keyword: keywords) {
             if (!checkers.containsKey(keyword)) {
@@ -107,10 +107,10 @@ public final class SchemaChecker
         return Collections.unmodifiableList(ret);
     }
 
-    private static KeywordChecker getChecker(final String keyword)
+    private static SyntaxValidator getChecker(final String keyword)
     {
-        final Class<? extends KeywordChecker> c = checkers.get(keyword);
-        final Constructor<? extends KeywordChecker> constructor;
+        final Class<? extends SyntaxValidator> c = checkers.get(keyword);
+        final Constructor<? extends SyntaxValidator> constructor;
 
         try {
             constructor = c.getConstructor();
@@ -129,10 +129,10 @@ public final class SchemaChecker
         }
     }
 
-    private static KeywordChecker failure(final String keyword,
+    private static SyntaxValidator failure(final String keyword,
         final Exception e)
     {
-        return new KeywordChecker()
+        return new SyntaxValidator()
         {
             @Override
             public boolean validate(final JsonNode schema)
