@@ -72,6 +72,9 @@ public final class SingleSchema
         if (state.isFailure())
             return;
 
+        if (!node.isContainerNode())
+            return;
+
         pathProvider = instanceType == NodeType.ARRAY
             ? new ArrayPathProvider(node)
             : new ObjectPathProvider(node);

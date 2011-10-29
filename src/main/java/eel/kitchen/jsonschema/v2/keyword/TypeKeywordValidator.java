@@ -37,14 +37,16 @@ public final class TypeKeywordValidator
     public void validate(final ValidationState state, final JsonNode node)
     {
         final NodeType nodeType = NodeType.getNodeType(node);
-        if (!typeSet.contains(nodeType)) {
-            state.addMessage("Instance is of type " + nodeType + ", "
-                + "expected one of " + typeSet);
+
+        if (typeSet.contains(nodeType))
+            return;
+
+        if (nextSchemas.isEmpty()) {
+            state.addMessage("instance is of type " + nodeType + ", "
+                + "but no defined simple type (" + typeSet + ") matches that,"
+                + " and there are no further schemas to test");
             return;
         }
-
-        if (nextSchemas.isEmpty())
-            return;
 
         buildNext(state.getFactory());
 

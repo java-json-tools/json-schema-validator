@@ -60,10 +60,10 @@ abstract class TypesetKeywordValidator
         }
 
         for (final JsonNode element: typeNode) {
-            if (!typeNode.isTextual())
+            if (!element.isTextual())
                 nextSchemas.add(element);
             else {
-                s = typeNode.getTextValue();
+                s = element.getTextValue();
                 if (ANY.equals(s))
                     typeSet.addAll(EnumSet.allOf(NodeType.class));
                 else

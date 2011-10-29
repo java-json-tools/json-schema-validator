@@ -1,0 +1,14 @@
+{
+    "schema": {
+        "type": [ "integer", { "type": "string" } ],
+        "divisibleBy": 3
+    },
+    "good": [
+        9,
+        "hello"
+    ],
+    "bad": [
+        9.0,
+        false
+    ]
+}
