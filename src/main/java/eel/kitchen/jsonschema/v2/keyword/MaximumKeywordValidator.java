@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
@@ -32,6 +33,27 @@ public final class MaximumKeywordValidator
         super(schema);
         maximum = schema.get("maximum").getDecimalValue();
         exclusiveMaximum = schema.path("exclusiveMaximum").asBoolean(false);
+    }
+
+    @Override
+    public void validate(final ValidationState state, final JsonNode node)
+    {
+        final int cmp = maximum.compareTo(node.getDecimalValue());
+
+        if (cmp < 0) {
+            state.addMessage("instance is greater than the required maximum");
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        if (cmp == 0 && exclusiveMaximum) {
+            state.addMessage("instance is not strictly lower than the required "
+                + "maximum");
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        state.setStatus(ValidationStatus.SUCCESS);
     }
 
     @Override

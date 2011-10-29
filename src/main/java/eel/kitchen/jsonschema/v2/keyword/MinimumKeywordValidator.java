@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
@@ -32,6 +33,27 @@ public final class MinimumKeywordValidator
         super(schema);
         minimum = schema.get("minimum").getDecimalValue();
         exclusiveMinimum = schema.path("exclusiveMinimum").asBoolean(false);
+    }
+
+    @Override
+    public void validate(final ValidationState state, final JsonNode node)
+    {
+        final int cmp = minimum.compareTo(node.getDecimalValue());
+
+        if (cmp > 0) {
+            state.addMessage("instance is lower than the required minimum");
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        if (cmp == 0 && exclusiveMinimum) {
+            state.addMessage("instance is not strictly greater than the "
+                + "required minimum");
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        state.setStatus(ValidationStatus.SUCCESS);
     }
 
     @Override

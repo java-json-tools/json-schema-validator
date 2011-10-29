@@ -18,12 +18,15 @@
 package eel.kitchen.jsonschema.v2.keyword;
 
 import eel.kitchen.jsonschema.v2.schema.Schema;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.List;
 
 public interface KeywordValidator
 {
+    void validate(final ValidationState state, final JsonNode node);
+
     ValidationStatus validate(final JsonNode instance);
 
     List<String> getMessages();

@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
@@ -33,6 +34,18 @@ public final class EnumKeywordValidator
         super(schema);
         enumValues.addAll(CollectionUtils.toSet(schema.get("enum")
             .getElements()));
+    }
+
+    @Override
+    public void validate(final ValidationState state, final JsonNode node)
+    {
+        if (enumValues.contains(node)) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
+
+        state.addMessage("instance does not match any enumerated element");
+        state.setStatus(ValidationStatus.FAILURE);
     }
 
     @Override

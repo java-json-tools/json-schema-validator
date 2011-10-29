@@ -21,6 +21,7 @@ import eel.kitchen.jsonschema.v2.schema.MatchAnySchema;
 import eel.kitchen.jsonschema.v2.schema.NegativeMatchSchema;
 import eel.kitchen.jsonschema.v2.schema.Schema;
 import eel.kitchen.jsonschema.v2.schema.SingleSchema;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -33,6 +34,26 @@ public final class DisallowKeywordValidator
     public DisallowKeywordValidator(final JsonNode schema)
     {
         super("disallow", schema);
+    }
+
+    @Override
+    public void validate(final ValidationState state, final JsonNode node)
+    {
+        final NodeType nodeType = NodeType.getNodeType(node);
+
+        if (typeSet.contains(nodeType)) {
+            state.addMessage("instance matches forbidden type " + nodeType);
+            state.setStatus(ValidationStatus.FAILURE);
+            return;
+        }
+
+        if (nextSchemas.isEmpty()) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
+
+        state.setNextSchema(nextSchema);
+        state.setStatus(ValidationStatus.DUNNO);
     }
 
     @Override

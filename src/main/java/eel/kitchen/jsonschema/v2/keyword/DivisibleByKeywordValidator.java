@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
@@ -30,6 +31,20 @@ public final class DivisibleByKeywordValidator
     {
         super(schema);
         divisor = schema.get("divisibleBy").getDecimalValue();
+    }
+
+    @Override
+    public void validate(final ValidationState state, final JsonNode node)
+    {
+        final BigDecimal number = node.getDecimalValue();
+
+        if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
+
+        state.addMessage("instance is not a multiple of divisibleBy");
+        state.setStatus(ValidationStatus.FAILURE);
     }
 
     @Override

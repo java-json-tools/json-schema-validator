@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.v2.keyword;
 
 import eel.kitchen.jsonschema.v2.schema.Schema;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -119,6 +120,14 @@ public final class KeywordValidatorProvider
 
         final KeywordValidator v = new KeywordValidator()
         {
+            @Override
+            public void validate(final ValidationState state,
+                final JsonNode node)
+            {
+                state.addMessage(message);
+                state.setStatus(ValidationStatus.FAILURE);
+            }
+
             @Override
             public ValidationStatus validate(final JsonNode instance)
             {
