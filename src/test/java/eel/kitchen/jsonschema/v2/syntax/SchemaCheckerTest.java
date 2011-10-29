@@ -20,6 +20,8 @@ package eel.kitchen.jsonschema.v2.syntax;
 import eel.kitchen.jsonschema.v2.schema.SchemaFactory;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,6 +35,8 @@ public final class SchemaCheckerTest
 {
     private static final SchemaFactory factory = new SchemaFactory(null);
     private static final SchemaChecker checker = SchemaChecker.getInstance();
+    private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+
     private JsonNode allTests;
 
     @BeforeClass
@@ -40,6 +44,33 @@ public final class SchemaCheckerTest
         throws IOException
     {
         allTests = JasonHelper.load("/v2/syntax/syntax.json");
+    }
+
+    @Test
+    public void testNullSchema()
+    {
+        final List<String> messages = checker.check(factory, null);
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "schema is null");
+    }
+
+    @Test
+    public void testNonObjectSchema()
+    {
+        final JsonNode schema = nodeFactory.textNode("hello");
+        final List<String> messages = checker.check(factory, schema);
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "JSON document is not a schema");
+    }
+
+    @Test
+    public void testUnknownKeyword()
+    {
+        final ObjectNode schema = nodeFactory.objectNode();
+        schema.put("toto", 2);
+        final List<String> messages = checker.check(factory, schema);
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0), "unknown keyword toto");
     }
 
     @Test
