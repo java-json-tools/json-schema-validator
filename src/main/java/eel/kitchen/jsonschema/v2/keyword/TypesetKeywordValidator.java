@@ -44,12 +44,6 @@ abstract class TypesetKeywordValidator
         setUp();
     }
 
-    @Override
-    public final Schema getNextSchema()
-    {
-        return nextSchema;
-    }
-
     protected abstract void buildNext(final SchemaFactory factory);
 
     private void setUp()

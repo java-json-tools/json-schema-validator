@@ -23,7 +23,7 @@ import org.codehaus.jackson.JsonNode;
 import java.math.BigDecimal;
 
 public final class MinimumKeywordValidator
-    extends TrueFalseKeywordValidator
+    extends AbstractKeywordValidator
 {
     private final BigDecimal minimum;
     private final boolean exclusiveMinimum;
@@ -54,24 +54,5 @@ public final class MinimumKeywordValidator
         }
 
         state.setStatus(ValidationStatus.SUCCESS);
-    }
-
-    @Override
-    public ValidationStatus validate(final JsonNode node)
-    {
-        final int cmp = minimum.compareTo(node.getDecimalValue());
-
-        if (cmp > 0) {
-            messages.add("instance is lower than the required minimum");
-            return ValidationStatus.FAILURE;
-        }
-
-        if (cmp == 0 && exclusiveMinimum) {
-            messages.add("instance is not strictly greater than the required "
-                + "minimum");
-            return ValidationStatus.FAILURE;
-        }
-
-        return ValidationStatus.SUCCESS;
     }
 }

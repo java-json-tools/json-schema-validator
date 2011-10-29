@@ -26,10 +26,4 @@ import java.util.List;
 public interface KeywordValidator
 {
     void validate(final ValidationState state, final JsonNode node);
-
-    ValidationStatus validate(final JsonNode node);
-
-    List<String> getMessages();
-
-    Schema getNextSchema();
 }

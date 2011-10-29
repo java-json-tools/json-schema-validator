@@ -28,16 +28,8 @@ abstract class AbstractKeywordValidator
 {
     protected final JsonNode schema;
 
-    protected final List<String> messages = new LinkedList<String>();
-
     protected AbstractKeywordValidator(final JsonNode schema)
     {
         this.schema = schema;
-    }
-
-    @Override
-    public final List<String> getMessages()
-    {
-        return Collections.unmodifiableList(messages);
     }
 }

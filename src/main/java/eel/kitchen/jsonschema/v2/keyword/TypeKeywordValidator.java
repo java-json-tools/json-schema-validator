@@ -59,19 +59,6 @@ public final class TypeKeywordValidator
     }
 
     @Override
-    public ValidationStatus validate(final JsonNode node)
-    {
-        if (!typeSet.contains(NodeType.getNodeType(node)))
-            return ValidationStatus.FAILURE;
-
-        if (nextSchemas.isEmpty())
-            return ValidationStatus.SUCCESS;
-
-        buildNext(new SchemaFactory(schema));
-        return null;
-    }
-
-    @Override
     protected void buildNext(final SchemaFactory factory)
     {
         if (nextSchemas.size() == 1) {

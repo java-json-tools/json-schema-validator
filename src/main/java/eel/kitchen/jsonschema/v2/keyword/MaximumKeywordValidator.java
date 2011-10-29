@@ -23,7 +23,7 @@ import org.codehaus.jackson.JsonNode;
 import java.math.BigDecimal;
 
 public final class MaximumKeywordValidator
-    extends TrueFalseKeywordValidator
+    extends AbstractKeywordValidator
 {
     private final BigDecimal maximum;
     private final boolean exclusiveMaximum;
@@ -54,24 +54,5 @@ public final class MaximumKeywordValidator
         }
 
         state.setStatus(ValidationStatus.SUCCESS);
-    }
-
-    @Override
-    public ValidationStatus validate(final JsonNode node)
-    {
-        final int cmp = maximum.compareTo(node.getDecimalValue());
-
-        if (cmp < 0) {
-            messages.add("instance is greater than the required maximum");
-            return ValidationStatus.FAILURE;
-        }
-
-        if (cmp == 0 && exclusiveMaximum) {
-            messages.add("instance is not strictly lower than the required "
-                + "maximum");
-            return ValidationStatus.FAILURE;
-        }
-
-        return ValidationStatus.SUCCESS;
     }
 }

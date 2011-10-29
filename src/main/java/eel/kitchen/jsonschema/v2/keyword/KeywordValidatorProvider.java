@@ -127,24 +127,6 @@ public final class KeywordValidatorProvider
                 state.addMessage(message);
                 state.setStatus(ValidationStatus.FAILURE);
             }
-
-            @Override
-            public ValidationStatus validate(final JsonNode node)
-            {
-                return ValidationStatus.FAILURE;
-            }
-
-            @Override
-            public List<String> getMessages()
-            {
-                return Arrays.asList(message);
-            }
-
-            @Override
-            public Schema getNextSchema()
-            {
-                return null;
-            }
         };
 
         return new HashSet<KeywordValidator>(Arrays.asList(v));

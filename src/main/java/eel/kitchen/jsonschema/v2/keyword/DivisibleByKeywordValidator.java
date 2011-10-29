@@ -23,7 +23,7 @@ import org.codehaus.jackson.JsonNode;
 import java.math.BigDecimal;
 
 public final class DivisibleByKeywordValidator
-    extends TrueFalseKeywordValidator
+    extends AbstractKeywordValidator
 {
     private final BigDecimal divisor;
 
@@ -45,22 +45,5 @@ public final class DivisibleByKeywordValidator
 
         state.addMessage("instance is not a multiple of divisibleBy");
         state.setStatus(ValidationStatus.FAILURE);
-    }
-
-    @Override
-    public ValidationStatus validate(final JsonNode node)
-    {
-        if (BigDecimal.ZERO.compareTo(divisor) == 0) {
-            messages.add("disivibleBy is 0");
-            return ValidationStatus.FAILURE;
-        }
-
-        final BigDecimal number = node.getDecimalValue();
-
-        if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
-            return ValidationStatus.SUCCESS;
-
-        messages.add("instance is not a multiple of divisibleBy");
-        return ValidationStatus.FAILURE;
     }
 }

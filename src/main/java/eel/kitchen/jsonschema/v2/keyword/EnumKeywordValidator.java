@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class EnumKeywordValidator
-    extends TrueFalseKeywordValidator
+    extends AbstractKeywordValidator
 {
     private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
 
@@ -46,15 +46,5 @@ public final class EnumKeywordValidator
 
         state.addMessage("instance does not match any enumerated element");
         state.setStatus(ValidationStatus.FAILURE);
-    }
-
-    @Override
-    public ValidationStatus validate(final JsonNode node)
-    {
-        if (enumValues.contains(node))
-            return ValidationStatus.SUCCESS;
-
-        messages.add("instance does not match any enumerated element");
-        return ValidationStatus.FAILURE;
     }
 }
