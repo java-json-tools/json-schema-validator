@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -29,16 +31,19 @@ public final class ExclusiveMaximumSyntaxValidator
     }
 
     @Override
-    public boolean validate(final JsonNode schema)
+    public void validate(final ValidationState state, final JsonNode schema)
     {
-        if (!super.validate(schema))
-            return false;
+        super.validate(state, schema);
 
-        if (schema.has("maximum"))
-            return true;
+        if (state.isFailure())
+            return;
 
-        messages.add("exclusiveMaximum without maximum");
-        return false;
+        if (schema.has("maximum")) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
 
+        state.addMessage("exclusiveMaximum without maximum");
+        state.setStatus(ValidationStatus.FAILURE);
     }
 }

@@ -20,7 +20,6 @@ package eel.kitchen.jsonschema.v2.check;
 //TODO: implement
 public final class ItemsSyntaxValidator
     extends UnsupportedSyntaxValidator
-//    extends AbstractSyntaxValidator
 {
     public ItemsSyntaxValidator(final String fieldName)
     {

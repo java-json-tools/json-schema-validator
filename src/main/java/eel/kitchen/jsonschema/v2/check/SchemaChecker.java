@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -80,8 +82,6 @@ public final class SchemaChecker
 
     public List<String> check(final JsonNode schema)
     {
-        final List<String> ret = new LinkedList<String>();
-
         if (schema == null)
             return Arrays.asList("schema is null");
 
@@ -93,18 +93,26 @@ public final class SchemaChecker
 
         SyntaxValidator checker;
 
+        final ValidationState state = new ValidationState();
+        final ValidationState tmp = new ValidationState();
+
+
         for (final String keyword: keywords) {
             if (!checkers.containsKey(keyword)) {
-                ret.add("unknown keyword " + keyword);
+                state.addMessage("unknown keyword " + keyword);
+                state.setStatus(ValidationStatus.FAILURE);
                 continue;
             }
             checker = getChecker(keyword);
-            if (checker.validate(schema))
-                continue;
-            ret.addAll(checker.getMessages());
+            tmp.clearMessages();
+            checker.validate(tmp, schema);
+            if (tmp.isFailure()) {
+                state.setStatus(ValidationStatus.FAILURE);
+                state.addMessages(tmp.getMessages());
+            }
         }
 
-        return Collections.unmodifiableList(ret);
+        return Collections.unmodifiableList(state.getMessages());
     }
 
     private static SyntaxValidator getChecker(final String keyword)
@@ -135,15 +143,10 @@ public final class SchemaChecker
         return new SyntaxValidator()
         {
             @Override
-            public boolean validate(final JsonNode schema)
+            public void validate(final ValidationState state,
+                final JsonNode schema)
             {
-                return false;
-            }
-
-            @Override
-            public List<String> getMessages()
-            {
-                return Arrays.asList(String.format("cannot instantiate " +
+                state.addMessage(String.format("cannot instantiate " +
                     "checker for keyword %s: %s: %s", keyword,
                     e.getClass().getName(), e.getMessage()));
             }

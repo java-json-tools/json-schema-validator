@@ -20,7 +20,6 @@ package eel.kitchen.jsonschema.v2.check;
 //TODO: implement
 public final class PatternPropertiesSyntaxValidator
     extends UnsupportedSyntaxValidator
-//    extends AbstractSyntaxValidator
 {
     public PatternPropertiesSyntaxValidator()
     {

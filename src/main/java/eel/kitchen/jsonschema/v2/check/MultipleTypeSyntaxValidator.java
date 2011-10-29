@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -24,7 +26,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 abstract class MultipleTypeSyntaxValidator
-    extends AbstractSyntaxValidator
+    implements SyntaxValidator
 {
     protected final String fieldName;
 
@@ -39,16 +41,17 @@ abstract class MultipleTypeSyntaxValidator
     }
 
     @Override
-    public boolean validate(final JsonNode schema)
+    public void validate(final ValidationState state, final JsonNode schema)
     {
         final NodeType actual = NodeType.getNodeType(schema.get(fieldName));
 
-        if (expected.contains(actual))
-            return true;
+        if (expected.contains(actual)) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
 
-        messages.add(String.format(
-            "illegal type for field %s: is %s, expected" + " one of %s",
-            fieldName, actual, expected));
-        return false;
+        state.addMessage(String.format("illegal type for field %s: is %s, "
+            + "expected one of %s", fieldName, actual, expected));
+        state.setStatus(ValidationStatus.FAILURE);
     }
 }

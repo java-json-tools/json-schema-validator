@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -32,16 +34,21 @@ abstract class URISyntaxValidator
     }
 
     @Override
-    public boolean validate(final JsonNode schema)
+    public void validate(final ValidationState state, final JsonNode schema)
     {
-        if (!super.validate(schema))
-            return false;
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
+
+        final String textValue = schema.get(fieldName).getTextValue();
 
         try {
-            new URI(schema.get(fieldName).getTextValue());
-            return true;
+            new URI(textValue);
+            state.setStatus(ValidationStatus.SUCCESS);
         } catch (URISyntaxException e) {
-            return false;
+            state.setStatus(ValidationStatus.FAILURE);
+            state.addMessage("Invalid URI " + textValue + " :" + e.getMessage());
         }
     }
 }

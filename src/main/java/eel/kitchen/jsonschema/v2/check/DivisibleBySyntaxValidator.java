@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -31,17 +33,21 @@ public final class DivisibleBySyntaxValidator
     }
 
     @Override
-    public boolean validate(final JsonNode schema)
+    public void validate(final ValidationState state, final JsonNode schema)
     {
-        if (!super.validate(schema))
-            return false;
+        super.validate(state, schema);
+
+        if (state.isFailure())
+            return;
 
         final BigDecimal divisor  = schema.get("divisibleBy").getDecimalValue();
 
-        if (BigDecimal.ZERO.compareTo(divisor) != 0)
-            return true;
+        if (BigDecimal.ZERO.compareTo(divisor) != 0) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
 
-        messages.add("divisibleBy is 0");
-        return false;
+        state.addMessage("divisibleBy is 0");
+        state.setStatus(ValidationStatus.FAILURE);
     }
 }

@@ -17,11 +17,13 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 abstract class SingleTypeSyntaxValidator
-    extends AbstractSyntaxValidator
+    implements SyntaxValidator
 {
     protected final String fieldName;
 
@@ -35,16 +37,17 @@ abstract class SingleTypeSyntaxValidator
     }
 
     @Override
-    public boolean validate(final JsonNode schema)
+    public void validate(final ValidationState state, final JsonNode schema)
     {
         final NodeType actual = NodeType.getNodeType(schema.get(fieldName));
 
-        if (expected == actual)
-            return true;
+        if (expected == actual) {
+            state.setStatus(ValidationStatus.SUCCESS);
+            return;
+        }
 
-        messages.add(String
-            .format("illegal type for field %s: is %s, " + "expected %s",
-                fieldName, actual, expected));
-        return false;
+        state.addMessage(String.format("illegal type for field %s: is %s, "
+            + "expected %s", fieldName, actual, expected));
+        state.setStatus(ValidationStatus.FAILURE);
     }
 }

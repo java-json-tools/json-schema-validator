@@ -17,13 +17,12 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.List;
 
 public interface SyntaxValidator
 {
-    boolean validate(final JsonNode schema);
-
-    List<String> getMessages();
+    void validate(final ValidationState state, final JsonNode schema);
 }

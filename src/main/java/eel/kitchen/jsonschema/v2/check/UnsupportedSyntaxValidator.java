@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.check;
 
+import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Arrays;
@@ -33,14 +35,10 @@ abstract class UnsupportedSyntaxValidator
     }
 
     @Override
-    public final boolean validate(final JsonNode schema)
+    public final void validate(final ValidationState state,
+        final JsonNode schema)
     {
-        return false;
-    }
-
-    @Override
-    public final List<String> getMessages()
-    {
-        return Arrays.asList(message);
+        state.addMessage(message);
+        state.setStatus(ValidationStatus.FAILURE);
     }
 }
