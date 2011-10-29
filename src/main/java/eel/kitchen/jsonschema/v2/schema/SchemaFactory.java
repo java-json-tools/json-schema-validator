@@ -29,11 +29,11 @@ public final class SchemaFactory
     private static final SchemaChecker checker = SchemaChecker.getInstance();
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
-    private final JsonNode schema;
+    private final JsonNode rootSchema;
 
-    public SchemaFactory(final JsonNode schema)
+    public SchemaFactory(final JsonNode rootSchema)
     {
-        this.schema = schema;
+        this.rootSchema = rootSchema;
     }
 
     public static JsonNodeFactory getNodeFactory()
