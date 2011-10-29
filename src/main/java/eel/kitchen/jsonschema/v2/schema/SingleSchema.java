@@ -60,8 +60,15 @@ public final class SingleSchema
 
         final JsonNode node = instance.getRawInstance();
 
-        for (final KeywordValidator validator: validators)
-            validator.validate(state, node);
+        ValidationState current;
+
+        for (final KeywordValidator validator: validators) {
+            current = new ValidationState(state);
+            validator.validate(current, node);
+            if (!current.isResolved())
+                current.getNextSchema().validate(current, instance);
+            state.mergeWith(current);
+        }
 
         if (state.isFailure())
             return;
