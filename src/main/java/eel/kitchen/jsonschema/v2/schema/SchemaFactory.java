@@ -17,9 +17,9 @@
 
 package eel.kitchen.jsonschema.v2.schema;
 
-import eel.kitchen.jsonschema.v2.syntax.SchemaChecker;
 import eel.kitchen.jsonschema.v2.instance.Instance;
 import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.syntax.SchemaChecker;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 

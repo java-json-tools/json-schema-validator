@@ -19,8 +19,6 @@ package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.instance.Instance;
 
-import java.util.List;
-
 public interface Schema
 {
     Schema getSchema(final String path);

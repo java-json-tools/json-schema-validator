@@ -20,11 +20,9 @@ package eel.kitchen.jsonschema.v2.schema;
 import eel.kitchen.jsonschema.v2.instance.Instance;
 import eel.kitchen.jsonschema.v2.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.v2.keyword.KeywordValidatorProvider;
-import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.List;
 import java.util.Set;
 
 public final class SingleSchema

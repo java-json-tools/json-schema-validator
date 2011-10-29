@@ -19,10 +19,6 @@ package eel.kitchen.jsonschema.v2.keyword;
 
 import org.codehaus.jackson.JsonNode;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 abstract class AbstractKeywordValidator
     implements KeywordValidator
 {

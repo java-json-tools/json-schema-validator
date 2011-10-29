@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
-import eel.kitchen.jsonschema.v2.schema.Schema;
 import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -29,7 +28,6 @@ import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
