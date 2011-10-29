@@ -174,6 +174,36 @@ public final class SchemaCheckerTest
         testKeyword("patternProperties");
     }
 
+    @Test
+    public void testPattern()
+    {
+        testKeyword("pattern");
+    }
+
+    @Test
+    public void testProperties()
+    {
+        testKeyword("properties");
+    }
+
+    @Test
+    public void testTitle()
+    {
+        testKeyword("title");
+    }
+
+    @Test
+    public void testType()
+    {
+        testKeyword("type");
+    }
+
+    @Test
+    public void testUniqueItems()
+    {
+        testKeyword("uniqueItems");
+    }
+
     private void testKeyword(final String keyword)
     {
         final JsonNode node = allTests.get(keyword);
@@ -190,7 +220,7 @@ public final class SchemaCheckerTest
         final List<String> messages = checker.check(factory, schema);
 
         if (valid) {
-            assertTrue(messages.isEmpty(), "schema " + schema + "considered "
+            assertTrue(messages.isEmpty(), "schema " + schema + " considered "
                 + "invalid");
             return;
         }

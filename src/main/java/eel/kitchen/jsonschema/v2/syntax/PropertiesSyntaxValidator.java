@@ -24,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
 public final class PropertiesSyntaxValidator
     extends SingleTypeSyntaxValidator
 {
-    public PropertiesSyntaxValidator(final String fieldName)
+    public PropertiesSyntaxValidator()
     {
         super("properties", NodeType.OBJECT);
     }

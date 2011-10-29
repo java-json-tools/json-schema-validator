@@ -633,6 +633,159 @@
                 "patternProperties: invalid regex a++",
                 "non schema value in patternProperties"
             ]
+        },
+        {
+            "schema": {
+                "patternProperties": 2
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field patternProperties: is integer, expected object"
+            ]
+        }
+    ],
+    "pattern": [
+        {
+            "schema": {
+                "pattern": "a+"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "pattern": "f*+"
+            },
+            "valid": false,
+            "messages": [
+                "pattern: invalid regex f*+"
+            ]
+        },
+        {
+            "schema": {
+                "pattern": [1, 2, 3]
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field pattern: is array, expected string"
+            ]
+        }
+    ],
+    "properties": [
+        {
+            "schema": {
+                "properties": {
+                    "p1": {},
+                    "p2": {
+                        "required": true
+                    }
+                }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "properties": null
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field properties: is null, expected object"
+            ]
+        },
+        {
+            "schema": {
+                "properties": {
+                    "p1": 3,
+                    "p2": {
+                        "required": "yes"
+                    }
+                }
+            },
+            "valid": false,
+            "messages": [
+                "non schema value in properties",
+                "required attribute of schema in properties is not a boolean"
+            ]
+        }
+    ],
+    "title": [
+        {
+            "schema": {
+                "title": "a day in hell"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "title": 42.3
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field title: is number, expected string"
+            ]
+        }
+    ],
+    "type": [
+        {
+            "schema": {
+                "type": "string"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "type": "any"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "type": [ "boolean", { "$ref": "#/schema2" } ]
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "type": false
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field type: is boolean, expected one of [array, string]"
+            ]
+        },
+        {
+            "schema": {
+                "type": "hammer"
+            },
+            "valid": false,
+            "messages": [
+                "type: unknown type hammer"
+            ]
+        },
+        {
+            "schema": {
+                "type": [ "boolean", {}, []]
+            },
+            "valid": false,
+            "messages": [
+                "invalid element of type array in type array"
+            ]
+        }
+    ],
+    "uniqueItems": [
+        {
+            "schema": {
+                "uniqueItems": true
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "uniqueItems": "yes please"
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field uniqueItems: is string, expected boolean"
+            ]
         }
     ]
 }
