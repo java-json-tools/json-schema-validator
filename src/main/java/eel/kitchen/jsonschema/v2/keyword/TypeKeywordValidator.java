@@ -17,16 +17,13 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
-import eel.kitchen.jsonschema.v2.schema.MatchAnySchema;
-import eel.kitchen.jsonschema.v2.schema.Schema;
 import eel.kitchen.jsonschema.v2.schema.SchemaFactory;
-import eel.kitchen.jsonschema.v2.schema.SingleSchema;
+import eel.kitchen.jsonschema.v2.schema.ValidationMode;
 import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.EnumSet;
 
 public final class TypeKeywordValidator
     extends TypesetKeywordValidator
@@ -57,20 +54,9 @@ public final class TypeKeywordValidator
     @Override
     protected void buildNext(final SchemaFactory factory)
     {
-        if (nextSchemas.size() == 1) {
-            nextSchema = new SingleSchema(factory,
-                nextSchemas.iterator().next());
-            return;
-        }
+        final EnumSet<ValidationMode> mode
+            = EnumSet.of(ValidationMode.VALIDATE_ANY);
 
-        final Set<Schema> set = new LinkedHashSet<Schema>();
-        Schema schema;
-
-        for (final JsonNode element: nextSchemas) {
-            schema = new SingleSchema(factory, element);
-            set.add(schema);
-        }
-
-        nextSchema = new MatchAnySchema(set);
+        nextSchema = factory.buildSchema(mode, nextSchemas);
     }
 }
