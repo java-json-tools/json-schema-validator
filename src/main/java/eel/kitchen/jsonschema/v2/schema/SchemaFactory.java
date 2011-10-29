@@ -20,6 +20,7 @@ package eel.kitchen.jsonschema.v2.schema;
 import eel.kitchen.jsonschema.v2.check.SchemaChecker;
 import eel.kitchen.jsonschema.v2.instance.Instance;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,12 +28,18 @@ import java.util.List;
 public final class SchemaFactory
 {
     private static final SchemaChecker checker = SchemaChecker.getInstance();
+    private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
     private final JsonNode schema;
 
     public SchemaFactory(final JsonNode schema)
     {
         this.schema = schema;
+    }
+
+    public static JsonNodeFactory getNodeFactory()
+    {
+        return nodeFactory;
     }
 
     public Schema getSchema(final JsonNode schema)
