@@ -17,13 +17,12 @@
 
 package eel.kitchen.jsonschema.v2.schema;
 
-import eel.kitchen.jsonschema.v2.check.SchemaChecker;
+import eel.kitchen.jsonschema.v2.syntax.SchemaChecker;
 import eel.kitchen.jsonschema.v2.instance.Instance;
 import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
-import java.util.Collections;
 import java.util.List;
 
 public final class SchemaFactory
