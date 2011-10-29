@@ -1,0 +1,90 @@
+/*
+ * Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package eel.kitchen.jsonschema.v2.syntax;
+
+import eel.kitchen.jsonschema.v2.schema.SchemaFactory;
+import eel.kitchen.util.JasonHelper;
+import org.codehaus.jackson.JsonNode;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.testng.Assert.*;
+
+public final class SchemaCheckerTest
+{
+    private static final SchemaFactory factory = new SchemaFactory(null);
+    private static final SchemaChecker checker = SchemaChecker.getInstance();
+    private JsonNode allTests;
+
+    @BeforeClass
+    public void setUp()
+        throws IOException
+    {
+        allTests = JasonHelper.load("/v2/syntax/syntax.json");
+    }
+
+    @Test
+    public void testAdditionalItems()
+    {
+        testKeyword("additionalItems");
+    }
+
+    @Test
+    public void testAdditionalProperties()
+    {
+        testKeyword("additionalProperties");
+    }
+
+    @Test
+    public void testDependencies()
+    {
+        testKeyword("dependencies");
+    }
+
+    private void testKeyword(final String keyword)
+    {
+        final JsonNode node = allTests.get(keyword);
+
+        for (final JsonNode element: node)
+            testEntry(element);
+    }
+
+    private static void testEntry(final JsonNode element)
+    {
+        final JsonNode schema = element.get("schema");
+        final boolean valid = element.get("valid").getBooleanValue();
+
+        final List<String> messages = checker.check(factory, schema);
+
+        if (valid) {
+            assertTrue(messages.isEmpty());
+            return;
+        }
+
+        final List<String> expected = new LinkedList<String>();
+
+        for (final JsonNode message: element.get("messages"))
+            expected.add(message.getTextValue());
+
+        assertEquals(expected, messages);
+    }
+}

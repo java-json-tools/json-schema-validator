@@ -38,19 +38,24 @@ public final class DependenciesSyntaxValidator
         if (state.isFailure())
             return;
 
+        NodeType type;
         for (final JsonNode element: schema.get(fieldName)) {
-            if (element.isTextual())
-                continue;
-            if (element.isObject())
-                continue;
-            if (element.isArray()) {
-                for (final JsonNode subNode: element)
-                    if (!element.isTextual()) {
-                        state.addMessage("Non string dependency in "
-                            + "dependency array");
-                        state.setStatus(ValidationStatus.FAILURE);
-                        return;
-                    }
+            type = NodeType.getNodeType(element);
+            switch (type) {
+                case STRING: case OBJECT:
+                    break;
+                case ARRAY:
+                    for (final JsonNode subNode: element)
+                        if (!subNode.isTextual()) {
+                            state.addMessage("Non string dependency in "
+                                + "dependency array");
+                            state.setStatus(ValidationStatus.FAILURE);
+                        }
+                    break;
+                default:
+                    state.addMessage("dependencies: illegal value of type "
+                        + type);
+                    state.setStatus(ValidationStatus.FAILURE);
             }
         }
     }

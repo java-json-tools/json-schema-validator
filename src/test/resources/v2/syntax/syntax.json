@@ -1,0 +1,83 @@
+{
+    "additionalItems": [
+        {
+            "schema": {
+                "additionalItems": true
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "additionalItems": {}
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "additionalItems": "no"
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field additionalItems: is string, expected one of [boolean, object]"
+            ]
+        }
+    ],
+    "additionalProperties": [
+        {
+            "schema": {
+                "additionalProperties": true
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "additionalProperties": {}
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "additionalProperties": [ 1, 2, 3 ]
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field additionalProperties: is array, expected one of [boolean, object]"
+            ]
+        }
+    ],
+    "dependencies": [
+        {
+            "schema": {
+                "dependencies": {
+                    "a": "b",
+                    "c": {
+                        "type": [ "string", "boolean" ]
+                    }
+                }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "dependencies": false
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field dependencies: is boolean, expected object"
+            ]
+        },
+        {
+            "schema": {
+                "dependencies": {
+                    "a": 3,
+                    "b": [ {} ]
+                }
+            },
+            "valid": false,
+            "messages": [
+                "dependencies: illegal value of type integer",
+                "Non string dependency in dependency array"
+            ]
+        }
+    ]
+}

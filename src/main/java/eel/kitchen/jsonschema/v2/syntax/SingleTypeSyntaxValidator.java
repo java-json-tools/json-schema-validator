@@ -47,7 +47,7 @@ abstract class SingleTypeSyntaxValidator
         }
 
         state.addMessage(String
-            .format("illegal type for field %s: is %s, " + "expected %s",
+            .format("illegal type for field %s: is %s, expected %s",
                 fieldName, actual, expected));
         state.setStatus(ValidationStatus.FAILURE);
     }
