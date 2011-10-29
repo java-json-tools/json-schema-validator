@@ -143,5 +143,168 @@
                 "invalid element of type array in disallow array"
             ]
         }
+    ],
+    "divisibleBy": [
+        {
+            "schema": {
+                "divisibleBy": 3
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "divisibleBy": 0.0
+            },
+            "valid": false,
+            "messages": [
+                "divisibleBy is 0"
+            ]
+        },
+        {
+            "schema": {
+                "divisibleBy": "anything"
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field divisibleBy: is string, expected one of [integer, number]"
+            ]
+        }
+    ],
+    "$ref": [
+        {
+            "schema": {
+                "$ref": "#"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "$ref": "http://json-schema.org/schema/v3#/a/b"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "$ref": false
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field $ref: is boolean, expected string"
+            ]
+        },
+        {
+            "schema": {
+                "$ref": "+23:"
+            },
+            "valid": false,
+            "messages": [
+                "$ref: invalid URI +23:"
+            ]
+        }
+    ],
+    "$schema": [
+        {
+            "schema": {
+                "$schema": "#"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "$schema": "http://json-schema.org/schema/v3#/a/b"
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "$schema": false
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field $schema: is boolean, expected string"
+            ]
+        },
+        {
+            "schema": {
+                "$schema": "+23:"
+            },
+            "valid": false,
+            "messages": [
+                "$schema: invalid URI +23:"
+            ]
+        }
+    ],
+    "enum": [
+        {
+            "schema": {
+                "enum": []
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "enum": 1
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field enum: is integer, expected array"
+            ]
+        }
+    ],
+    "exclusiveMaximum": [
+        {
+            "schema": {
+                "maximum": 3,
+                "exclusiveMaximum": false
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "maximum": 3,
+                "exclusiveMaximum": "no"
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field exclusiveMaximum: is string, expected boolean"
+            ]
+        },
+        {
+            "schema": {
+                "exclusiveMaximum": true
+            },
+            "valid": false,
+            "messages": [
+                "exclusiveMaximum without maximum"
+            ]
+        }
+    ],
+    "exclusiveMinimum": [
+        {
+            "schema": {
+                "minimum": 3,
+                "exclusiveMinimum": false
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "minimum": 3,
+                "exclusiveMinimum": "no"
+            },
+            "valid": false,
+            "messages": [
+                "illegal type for field exclusiveMinimum: is string, expected boolean"
+            ]
+        },
+        {
+            "schema": {
+                "exclusiveMinimum": true
+            },
+            "valid": false,
+            "messages": [
+                "exclusiveMinimum without minimum"
+            ]
+        }
     ]
 }

@@ -72,6 +72,42 @@ public final class SchemaCheckerTest
         testKeyword("disallow");
     }
 
+    @Test
+    public void testDivisibleBy()
+    {
+        testKeyword("divisibleBy");
+    }
+
+    @Test
+    public void testDollarRef()
+    {
+        testKeyword("$ref");
+    }
+
+    @Test
+    public void testDollarSchema()
+    {
+        testKeyword("$schema");
+    }
+
+    @Test
+    public void testEnum()
+    {
+        testKeyword("enum");
+    }
+
+    @Test
+    public void testExclusiveMaximum()
+    {
+        testKeyword("exclusiveMaximum");
+    }
+
+    @Test
+    public void testExclusiveMinimum()
+    {
+        testKeyword("exclusiveMinimum");
+    }
+
     private void testKeyword(final String keyword)
     {
         final JsonNode node = allTests.get(keyword);
@@ -88,7 +124,8 @@ public final class SchemaCheckerTest
         final List<String> messages = checker.check(factory, schema);
 
         if (valid) {
-            assertTrue(messages.isEmpty());
+            assertTrue(messages.isEmpty(), "schema " + schema + "considered "
+                + "invalid");
             return;
         }
 
@@ -97,6 +134,7 @@ public final class SchemaCheckerTest
         for (final JsonNode message: element.get("messages"))
             expected.add(message.getTextValue());
 
-        assertEquals(expected, messages);
+        assertEquals(expected, messages, "message list differs from "
+            + "expectations while validating " + schema);
     }
 }
