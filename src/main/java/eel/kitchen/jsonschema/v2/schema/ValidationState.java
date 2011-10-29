@@ -27,19 +27,25 @@ import static eel.kitchen.jsonschema.v2.keyword.ValidationStatus.*;
 
 public final class ValidationState
 {
-    private SchemaFactory factory;
+    private final SchemaFactory factory;
     private final List<String> messages = new LinkedList<String>();
     private ValidationStatus status = DUNNO;
     private Schema nextSchema;
 
+    public ValidationState(final SchemaFactory factory)
+    {
+        this.factory = factory;
+    }
+
+    public ValidationState(final ValidationState other)
+    {
+        factory = other.factory;
+    }
+
+
     public SchemaFactory getFactory()
     {
         return factory;
-    }
-
-    public void setFactory(final SchemaFactory factory)
-    {
-        this.factory = factory;
     }
 
     public void addMessage(final String message)

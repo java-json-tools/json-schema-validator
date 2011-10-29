@@ -44,7 +44,7 @@ public final class SchemaFactory
 
     public Schema getSchema(final JsonNode schema)
     {
-        final List<String> messages = checker.check(schema);
+        final List<String> messages = checker.check(this, schema);
 
         if (!messages.isEmpty())
             return failure(messages);

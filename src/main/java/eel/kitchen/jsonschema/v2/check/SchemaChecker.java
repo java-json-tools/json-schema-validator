@@ -18,18 +18,16 @@
 package eel.kitchen.jsonschema.v2.check;
 
 import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
+import eel.kitchen.jsonschema.v2.schema.SchemaFactory;
 import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
 
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -80,7 +78,8 @@ public final class SchemaChecker
         return instance;
     }
 
-    public List<String> check(final JsonNode schema)
+    public List<String> check(final SchemaFactory factory,
+        final JsonNode schema)
     {
         if (schema == null)
             return Arrays.asList("schema is null");
@@ -93,8 +92,8 @@ public final class SchemaChecker
 
         SyntaxValidator checker;
 
-        final ValidationState state = new ValidationState();
-        final ValidationState tmp = new ValidationState();
+        final ValidationState state = new ValidationState(factory);
+        final ValidationState tmp = new ValidationState(factory);
 
 
         for (final String keyword: keywords) {
@@ -151,15 +150,5 @@ public final class SchemaChecker
                     e.getClass().getName(), e.getMessage()));
             }
         };
-    }
-
-    public static void main(final String... args)
-        throws IOException
-    {
-        final JsonNode schema = new ObjectMapper().readTree("{ "
-            + "\"exclusiveMaximum\": true}");
-
-        for (final String msg: SchemaChecker.getInstance().check(schema))
-            System.out.println(msg);
     }
 }
