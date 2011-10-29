@@ -22,12 +22,25 @@ import eel.kitchen.jsonschema.v2.syntax.SchemaChecker;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+
+import static eel.kitchen.jsonschema.v2.schema.ValidationMode.*;
 
 public final class SchemaFactory
 {
     private static final SchemaChecker checker = SchemaChecker.getInstance();
+
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+
+    private static final EnumSet<ValidationMode> SET_MODES
+        = EnumSet.of(VALIDATE_ALL, VALIDATE_ANY);
+
+    private static final EnumSet<ValidationMode> BOOLEAN_MODES
+        = EnumSet.of(VALIDATE_NEGATE, VALIDATE_NORMAL);
 
     private final JsonNode rootSchema;
 
@@ -41,15 +54,74 @@ public final class SchemaFactory
         return nodeFactory;
     }
 
-    public Schema getSchema(final JsonNode schema)
+    public Schema buildSchema(final EnumSet<ValidationMode> mode,
+        final Set<JsonNode> set)
     {
-        final List<String> messages = checker.check(this, schema);
+        if (!isValid(mode))
+            return failure(Arrays.asList("illegal schema build flags"));
 
-        if (!messages.isEmpty())
-            return failure(messages);
+        final ValidationMode setMode = toSetMode(mode),
+            booleanMode = toBooleanMode(mode);
 
-        //TODO: implement
-        return null;
+        if (set.size() == 1)
+            return buildSingleSchema(booleanMode, set.iterator().next());
+
+        final Set<Schema> schemaSet = new LinkedHashSet<Schema>();
+
+        for (final JsonNode node: set)
+            schemaSet.add(buildSingleSchema(VALIDATE_NORMAL, node));
+
+        Schema ret;
+
+        switch (setMode) {
+            case VALIDATE_ALL:
+                ret = new MatchAllSchema(schemaSet);
+                break;
+            case VALIDATE_ANY:
+                ret = new MatchAnySchema(schemaSet);
+                break;
+            default:
+                throw new RuntimeException("How did I even get there???");
+        }
+
+        if (booleanMode == VALIDATE_NEGATE)
+            ret = new NegativeMatchSchema(ret);
+
+        return ret;
+    }
+
+    public Schema buildSingleSchema(final ValidationMode mode,
+        final JsonNode node)
+    {
+        Schema ret = new SingleSchema(this, node);
+
+        if (mode == VALIDATE_NEGATE)
+            ret = new NegativeMatchSchema(ret);
+
+        return ret;
+    }
+
+    private static boolean isValid(final EnumSet<ValidationMode> mode)
+    {
+        if (mode.containsAll(SET_MODES))
+            return false;
+
+        if (mode.containsAll(BOOLEAN_MODES))
+            return false;
+
+        return true;
+    }
+
+    private static ValidationMode toSetMode(final EnumSet<ValidationMode> mode)
+    {
+        return mode.contains(VALIDATE_ALL) ? VALIDATE_ALL : VALIDATE_ANY;
+    }
+
+    private static ValidationMode toBooleanMode(
+        final EnumSet<ValidationMode> mode)
+    {
+        return mode.contains(VALIDATE_NEGATE) ? VALIDATE_NEGATE
+            :  VALIDATE_NORMAL;
     }
 
     private static Schema failure(final List<String> messages)

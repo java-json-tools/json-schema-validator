@@ -45,7 +45,8 @@ public final class SingleSchema
     @Override
     public Schema getSchema(final String path)
     {
-        return factory.getSchema(pathProvider.getSchema(path));
+        return factory.buildSingleSchema(ValidationMode.VALIDATE_NORMAL,
+            pathProvider.getSchema(path));
     }
 
     @Override

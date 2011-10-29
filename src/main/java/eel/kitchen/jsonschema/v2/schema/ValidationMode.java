@@ -1,11 +1,9 @@
 package eel.kitchen.jsonschema.v2.schema;
 
-public final class ValidationMode
+public enum ValidationMode
 {
-    public static final int
-        ANY = 1 << 0,
-        ALL = 1 << 1,
-        NEGATE = 1 << 2;
-
-    private static final int SET = ANY | ALL;
+    VALIDATE_NORMAL,
+    VALIDATE_NEGATE,
+    VALIDATE_ANY,
+    VALIDATE_ALL
 }
