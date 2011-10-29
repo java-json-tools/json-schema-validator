@@ -35,8 +35,6 @@ abstract class TypesetKeywordValidator
     protected final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
     protected final Set<JsonNode> nextSchemas = new LinkedHashSet<JsonNode>();
 
-    //TODO: this really should not be here
-    protected final SchemaFactory factory = new SchemaFactory(schema);
     protected Schema nextSchema = null;
 
     protected TypesetKeywordValidator(final String field, final JsonNode schema)
@@ -52,7 +50,7 @@ abstract class TypesetKeywordValidator
         return nextSchema;
     }
 
-    protected abstract void buildNext();
+    protected abstract void buildNext(final SchemaFactory factory);
 
     private void setUp()
     {
@@ -81,8 +79,5 @@ abstract class TypesetKeywordValidator
 
         if (typeSet.contains(NodeType.NUMBER))
             typeSet.add(NodeType.INTEGER);
-
-        if (!nextSchemas.isEmpty())
-            buildNext();
     }
 }

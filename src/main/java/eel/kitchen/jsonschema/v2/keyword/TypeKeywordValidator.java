@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.v2.keyword;
 
 import eel.kitchen.jsonschema.v2.schema.MatchAnySchema;
 import eel.kitchen.jsonschema.v2.schema.Schema;
+import eel.kitchen.jsonschema.v2.schema.SchemaFactory;
 import eel.kitchen.jsonschema.v2.schema.SingleSchema;
 import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
@@ -51,6 +52,8 @@ public final class TypeKeywordValidator
             return;
         }
 
+        buildNext(state.getFactory());
+
         state.setNextSchema(nextSchema);
         state.setStatus(ValidationStatus.DUNNO);
     }
@@ -64,11 +67,12 @@ public final class TypeKeywordValidator
         if (nextSchemas.isEmpty())
             return ValidationStatus.SUCCESS;
 
+        buildNext(new SchemaFactory(schema));
         return null;
     }
 
     @Override
-    protected void buildNext()
+    protected void buildNext(final SchemaFactory factory)
     {
         if (nextSchemas.size() == 1) {
             nextSchema = new SingleSchema(factory,
