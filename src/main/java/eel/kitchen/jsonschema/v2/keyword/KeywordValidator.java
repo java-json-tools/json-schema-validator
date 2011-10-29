@@ -27,7 +27,7 @@ public interface KeywordValidator
 {
     void validate(final ValidationState state, final JsonNode node);
 
-    ValidationStatus validate(final JsonNode instance);
+    ValidationStatus validate(final JsonNode node);
 
     List<String> getMessages();
 

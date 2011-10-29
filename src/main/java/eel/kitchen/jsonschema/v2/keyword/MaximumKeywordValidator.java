@@ -47,8 +47,8 @@ public final class MaximumKeywordValidator
         }
 
         if (cmp == 0 && exclusiveMaximum) {
-            state.addMessage("instance is not strictly lower than the required "
-                + "maximum");
+            state.addMessage(
+                "instance is not strictly lower than the required " + "maximum");
             state.setStatus(ValidationStatus.FAILURE);
             return;
         }
@@ -57,9 +57,9 @@ public final class MaximumKeywordValidator
     }
 
     @Override
-    public ValidationStatus validate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode node)
     {
-        final int cmp = maximum.compareTo(instance.getDecimalValue());
+        final int cmp = maximum.compareTo(node.getDecimalValue());
 
         if (cmp < 0) {
             messages.add("instance is greater than the required maximum");

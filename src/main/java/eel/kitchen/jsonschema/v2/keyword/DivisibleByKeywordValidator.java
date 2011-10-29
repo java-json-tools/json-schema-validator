@@ -48,14 +48,14 @@ public final class DivisibleByKeywordValidator
     }
 
     @Override
-    public ValidationStatus validate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode node)
     {
         if (BigDecimal.ZERO.compareTo(divisor) == 0) {
             messages.add("disivibleBy is 0");
             return ValidationStatus.FAILURE;
         }
 
-        final BigDecimal number = instance.getDecimalValue();
+        final BigDecimal number = node.getDecimalValue();
 
         if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
             return ValidationStatus.SUCCESS;

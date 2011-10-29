@@ -57,9 +57,9 @@ public final class MinimumKeywordValidator
     }
 
     @Override
-    public ValidationStatus validate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode node)
     {
-        final int cmp = minimum.compareTo(instance.getDecimalValue());
+        final int cmp = minimum.compareTo(node.getDecimalValue());
 
         if (cmp > 0) {
             messages.add("instance is lower than the required minimum");

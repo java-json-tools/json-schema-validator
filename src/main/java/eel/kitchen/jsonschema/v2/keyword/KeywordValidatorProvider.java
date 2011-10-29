@@ -129,7 +129,7 @@ public final class KeywordValidatorProvider
             }
 
             @Override
-            public ValidationStatus validate(final JsonNode instance)
+            public ValidationStatus validate(final JsonNode node)
             {
                 return ValidationStatus.FAILURE;
             }

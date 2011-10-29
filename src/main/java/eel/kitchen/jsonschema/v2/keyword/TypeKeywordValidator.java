@@ -59,9 +59,9 @@ public final class TypeKeywordValidator
     }
 
     @Override
-    public ValidationStatus validate(final JsonNode instance)
+    public ValidationStatus validate(final JsonNode node)
     {
-        if (!typeSet.contains(NodeType.getNodeType(instance)))
+        if (!typeSet.contains(NodeType.getNodeType(node)))
             return ValidationStatus.FAILURE;
 
         if (nextSchemas.isEmpty())
