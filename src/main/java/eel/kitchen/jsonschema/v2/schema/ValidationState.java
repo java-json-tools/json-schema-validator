@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.schema;
 
+import eel.kitchen.jsonschema.v2.instance.Instance;
+import eel.kitchen.jsonschema.v2.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
 
 import java.util.Collections;
@@ -42,6 +44,42 @@ public final class ValidationState
         factory = other.factory;
     }
 
+    public void mergeWith(final ValidationState other)
+    {
+        if (!other.isFailure())
+            return;
+
+        messages.addAll(other.messages);
+        status = FAILURE;
+    }
+
+    public void compatMergeWith(final Schema schema, final Instance instance)
+    {
+        final boolean ret = schema.validate(instance);
+
+        if (ret)
+            return;
+
+        messages.addAll(schema.getMessages());
+        status = FAILURE;
+    }
+
+    public void compatMergeWith(final KeywordValidator validator,
+        final Instance instance)
+    {
+        final ValidationStatus tmp = validator.validate(instance.getRawInstance());
+
+        if (tmp == DUNNO) {
+            compatMergeWith(validator.getNextSchema(), instance);
+            return;
+        }
+
+        if (tmp != FAILURE)
+            return;
+
+        status = FAILURE;
+        messages.addAll(validator.getMessages());
+    }
 
     public SchemaFactory getFactory()
     {
@@ -76,14 +114,24 @@ public final class ValidationState
     public void setStatus(final ValidationStatus status)
     {
         this.status = status;
+
         if (status != DUNNO)
             nextSchema = null;
+
+        if (status == SUCCESS)
+            messages.clear();
+    }
+
+    public boolean isResolved()
+    {
+        return status != DUNNO;
     }
 
     public boolean isFailure()
     {
         return status == FAILURE || status == ERROR;
     }
+
     public Schema getNextSchema()
     {
         if (nextSchema == null)
