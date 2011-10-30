@@ -47,4 +47,10 @@ public final class NegativeMatchSchema
 
         state.addMessage("instance matches a forbidden schema");
     }
+
+    @Override
+    public String toString()
+    {
+        return new StringBuilder("NOT(").append(schema).append(")").toString();
+    }
 }

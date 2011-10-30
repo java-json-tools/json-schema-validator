@@ -86,4 +86,10 @@ public final class SingleSchema
             schema.validate(state, instance);
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return schemaNode.toString();
+    }
 }

@@ -19,6 +19,8 @@ package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.instance.Instance;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.Set;
 
 public final class MatchAnySchema
@@ -45,5 +47,20 @@ public final class MatchAnySchema
         }
 
         state.mergeWith(current);
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder buf = new StringBuilder("OR(");
+
+        final Queue<Schema> queue = new ArrayDeque<Schema>(schemas);
+
+        buf.append(queue.remove());
+
+        while (!queue.isEmpty())
+            buf.append(", ").append(queue.remove());
+
+        return buf.append(")").toString();
     }
 }
