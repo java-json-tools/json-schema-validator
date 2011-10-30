@@ -80,7 +80,7 @@ public final class ValidationState
 
     public boolean isFailure()
     {
-        return status == FAILURE || status == ERROR;
+        return status == FAILURE;
     }
 
     public Schema getNextSchema()
