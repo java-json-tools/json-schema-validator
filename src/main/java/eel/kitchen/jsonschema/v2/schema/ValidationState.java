@@ -30,6 +30,7 @@ public final class ValidationState
     private final SchemaFactory factory;
     private final List<String> messages = new LinkedList<String>();
     private ValidationStatus status = SUCCESS;
+    private boolean resolved = true;
     private Schema nextSchema;
 
     public ValidationState(final SchemaFactory factory)
@@ -75,7 +76,7 @@ public final class ValidationState
 
     public boolean isResolved()
     {
-        return status != DUNNO;
+        return resolved;
     }
 
     public boolean isFailure()
@@ -93,7 +94,7 @@ public final class ValidationState
 
     public void setNextSchema(final Schema nextSchema)
     {
-        status = DUNNO;
+        resolved = false;
         this.nextSchema = nextSchema;
     }
 }
