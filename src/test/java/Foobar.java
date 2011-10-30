@@ -59,7 +59,7 @@ public final class Foobar
         Schema schema = factory.buildSingleSchema(ValidationMode
             .VALIDATE_NORMAL, schemaNode);
 
-        Instance instance = new AtomicInstance(target);
+        Instance instance = new AtomicInstance("", target);
 
         schema.validate(state, instance);
 
@@ -72,7 +72,7 @@ public final class Foobar
 
         target = value.get("bad");
 
-        instance = new AtomicInstance(target);
+        instance = new AtomicInstance("", target);
 
         schema.validate(state, instance);
 

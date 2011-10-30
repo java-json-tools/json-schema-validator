@@ -28,9 +28,11 @@ public final class AtomicInstance
 {
     private final JsonNode node;
     private final NodeType type;
+    private final String pathElement;
 
-    public AtomicInstance(final JsonNode node)
+    public AtomicInstance(final String pathElement, final JsonNode node)
     {
+        this.pathElement = pathElement;
         this.node = node;
         type = NodeType.getNodeType(node);
     }
@@ -50,8 +52,7 @@ public final class AtomicInstance
     @Override
     public String getPathElement()
     {
-        //TODO: implement
-        return null;
+        return pathElement;
     }
 
     @Override

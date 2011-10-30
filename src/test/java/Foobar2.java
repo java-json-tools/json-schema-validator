@@ -69,7 +69,7 @@ public final class Foobar2
     {
         final ValidationState state = new ValidationState(factory);
 
-        final Instance instance = new AtomicInstance(element);
+        final Instance instance = new AtomicInstance("", element);
 
         schema.validate(state, instance);
 
