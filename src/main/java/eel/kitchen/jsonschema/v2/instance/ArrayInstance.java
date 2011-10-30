@@ -26,17 +26,16 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 final class ArrayInstance
-    implements Instance
+    extends ContainerInstance
 {
-    private final String pathElement;
-    private final JsonNode node;
-    private Set<Instance> children;
-
     ArrayInstance(final String pathElement, final JsonNode node)
     {
-        this.node = node;
-        this.pathElement = pathElement;
+        super(pathElement, node, NodeType.ARRAY);
+    }
 
+    @Override
+    protected void buildChildren()
+    {
         children = new LinkedHashSet<Instance>();
 
         int i = 0;
@@ -46,36 +45,5 @@ final class ArrayInstance
                 element));
 
         children = Collections.unmodifiableSet(children);
-    }
-
-    @Override
-    public JsonNode getRawInstance()
-    {
-        return node;
-    }
-
-    @Override
-    public NodeType getType()
-    {
-        return NodeType.ARRAY;
-    }
-
-    @Override
-    public String getPathElement()
-    {
-        return pathElement;
-    }
-
-    @Override
-    public String getAbsolutePath()
-    {
-        //TODO: implement
-        return null;
-    }
-
-    @Override
-    public Iterator<Instance> iterator()
-    {
-        return children.iterator();
     }
 }

@@ -28,17 +28,16 @@ import java.util.Map;
 import java.util.Set;
 
 final class ObjectInstance
-    implements Instance
+    extends ContainerInstance
 {
-    private final JsonNode node;
-    private final String pathElement;
-    private Set<Instance> children;
-
     ObjectInstance(final String pathElement, final JsonNode node)
     {
-        this.node = node;
-        this.pathElement = pathElement;
+        super(pathElement, node, NodeType.OBJECT);
+    }
 
+    @Override
+    protected void buildChildren()
+    {
         children = new HashSet<Instance>();
 
         final Map<String, JsonNode> map = CollectionUtils.toMap(node
@@ -49,36 +48,5 @@ final class ObjectInstance
                 entry.getValue()));
 
         children = Collections.unmodifiableSet(children);
-    }
-
-    @Override
-    public JsonNode getRawInstance()
-    {
-        return node;
-    }
-
-    @Override
-    public NodeType getType()
-    {
-        return NodeType.OBJECT;
-    }
-
-    @Override
-    public String getPathElement()
-    {
-        return pathElement;
-    }
-
-    @Override
-    public String getAbsolutePath()
-    {
-        //TODO: implement
-        return null;
-    }
-
-    @Override
-    public Iterator<Instance> iterator()
-    {
-        return children.iterator();
     }
 }
