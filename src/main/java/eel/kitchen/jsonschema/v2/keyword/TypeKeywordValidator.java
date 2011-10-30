@@ -42,8 +42,7 @@ public final class TypeKeywordValidator
             return;
 
         if (nextSchemas.isEmpty()) {
-            state.addMessage("instance is of type " + nodeType + ", "
-                + "but no defined simple type (" + typeSet + ") matches that,"
+            state.addMessage("instance did not match any simple type,"
                 + " and there are no further schemas to test");
             return;
         }
