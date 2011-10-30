@@ -37,7 +37,7 @@ import java.util.Set;
 import static eel.kitchen.jsonschema.v2.schema.ValidationMode.*;
 
 public final class DependenciesKeywordValidator
-    extends AbstractKeywordValidator
+    extends ExtensibleKeywordValidator
 {
     private final JsonNode dependencies;
 
@@ -116,25 +116,22 @@ public final class DependenciesKeywordValidator
         if (schemaDependencies.isEmpty())
             return;
 
-        buildNext(state);
+        buildNext(state.getFactory());
+        state.setNextSchema(nextSchema);
     }
 
-    private void buildNext(final ValidationState state)
+    @Override
+    protected void buildNext(final SchemaFactory factory)
     {
         final EnumSet<ValidationMode> mode
             = EnumSet.of(VALIDATE_ALL, VALIDATE_NORMAL);
 
-        final SchemaFactory factory = state.getFactory();
-
         final Set<Schema> set = new HashSet<Schema>();
-
-        final Schema next;
 
         for (final Map.Entry<String, JsonNode> entry: schemaDependencies.entrySet())
             set.add(buildOneSchema(factory, entry));
 
-        next = factory.buildSchemaFromSet(mode, set);
-        state.setNextSchema(next);
+        nextSchema = factory.buildSchemaFromSet(mode, set);
     }
 
     private static Schema buildOneSchema(final SchemaFactory factory,
