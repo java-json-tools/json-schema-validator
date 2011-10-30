@@ -15,9 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import eel.kitchen.jsonschema.v2.instance.AtomicInstance;
 import eel.kitchen.jsonschema.v2.instance.Instance;
-import eel.kitchen.jsonschema.v2.instance.ObjectInstance;
+import eel.kitchen.jsonschema.v2.instance.InstanceFactory;
 import eel.kitchen.jsonschema.v2.schema.Schema;
 import eel.kitchen.jsonschema.v2.schema.SchemaFactory;
 import eel.kitchen.jsonschema.v2.schema.ValidationMode;
@@ -70,7 +69,7 @@ public final class Foobar3
     {
         final ValidationState state = new ValidationState(factory);
 
-        final Instance instance = new ObjectInstance(element);
+        final Instance instance = InstanceFactory.buildInstance("", element);
 
         schema.validate(state, instance);
 

@@ -30,15 +30,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 
-public final class ObjectInstance
+final class ObjectInstance
     implements Instance
 {
     private final JsonNode node;
+    private final String pathElement;
     private Set<Instance> children;
 
-    public ObjectInstance(final JsonNode node)
+    ObjectInstance(final String pathElement, final JsonNode node)
     {
         this.node = node;
+        this.pathElement = pathElement;
 
         children = new HashSet<Instance>();
 
@@ -46,7 +48,8 @@ public final class ObjectInstance
             .getFields());
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
-            children.add(new AtomicInstance(entry.getKey(), entry.getValue()));
+            children.add(InstanceFactory.buildInstance(entry.getKey(),
+                entry.getValue()));
 
         children = Collections.unmodifiableSet(children);
     }
@@ -66,8 +69,7 @@ public final class ObjectInstance
     @Override
     public String getPathElement()
     {
-        //TODO: implement
-        return null;
+        return pathElement;
     }
 
     @Override

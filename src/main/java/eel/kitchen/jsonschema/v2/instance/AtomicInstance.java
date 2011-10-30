@@ -23,14 +23,14 @@ import org.codehaus.jackson.JsonNode;
 import java.util.Collections;
 import java.util.Iterator;
 
-public final class AtomicInstance
+final class AtomicInstance
     implements Instance
 {
     private final JsonNode node;
     private final NodeType type;
     private final String pathElement;
 
-    public AtomicInstance(final String pathElement, final JsonNode node)
+    AtomicInstance(final String pathElement, final JsonNode node)
     {
         this.pathElement = pathElement;
         this.node = node;
