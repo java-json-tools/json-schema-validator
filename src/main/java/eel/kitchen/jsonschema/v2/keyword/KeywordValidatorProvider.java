@@ -43,6 +43,8 @@ public final class KeywordValidatorProvider
         = new HashMap<String, EnumSet<NodeType>>();
 
     static {
+        registerValidator("additionalItems",
+            AdditionalItemsKeywordValidator.class, NodeType.ARRAY);
         registerValidator("additionalProperties",
             AdditionalPropertiesKeywordValidator.class, NodeType.OBJECT);
         registerValidator("dependencies", DependenciesKeywordValidator.class,
@@ -55,8 +57,16 @@ public final class KeywordValidatorProvider
             NodeType.values());
         registerValidator("minimum", MinimumKeywordValidator.class,
             NodeType.INTEGER, NodeType.NUMBER);
+        registerValidator("minItems", MinItemsKeywordValidator.class,
+            NodeType.ARRAY);
+        registerValidator("minLength", MinLengthKeywordValidator.class,
+            NodeType.STRING);
         registerValidator("maximum", MaximumKeywordValidator.class,
             NodeType.INTEGER, NodeType.NUMBER);
+        registerValidator("maxItems", MaxItemsKeywordValidator.class,
+            NodeType.ARRAY);
+        registerValidator("maxLength", MaxLengthKeywordValidator.class,
+            NodeType.STRING);
         registerValidator("pattern", PatternKeywordValidator.class,
             NodeType.STRING);
         registerValidator("patternProperties",
@@ -65,6 +75,8 @@ public final class KeywordValidatorProvider
             NodeType.OBJECT);
         registerValidator("type", TypeKeywordValidator.class,
             NodeType.values());
+        registerValidator("uniqueItems", UniqueItemsKeywordValidator.class,
+            NodeType.ARRAY);
     }
 
     private static void registerValidator(final String field,
