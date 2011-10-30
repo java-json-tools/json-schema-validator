@@ -43,6 +43,8 @@ public final class KeywordValidatorProvider
         = new HashMap<String, EnumSet<NodeType>>();
 
     static {
+        registerValidator("additionalProperties",
+            AdditionalPropertiesKeywordValidator.class, NodeType.OBJECT);
         registerValidator("disallow", DisallowKeywordValidator.class,
             NodeType.values());
         registerValidator("divisibleBy", DivisibleByKeywordValidator.class,
@@ -53,6 +55,10 @@ public final class KeywordValidatorProvider
             NodeType.INTEGER, NodeType.NUMBER);
         registerValidator("maximum", MaximumKeywordValidator.class,
             NodeType.INTEGER, NodeType.NUMBER);
+        registerValidator("patternProperties",
+            PatternPropertiesKeywordValidator.class, NodeType.OBJECT);
+        registerValidator("properties", PropertiesKeywordValidator.class,
+            NodeType.OBJECT);
         registerValidator("type", TypeKeywordValidator.class,
             NodeType.values());
     }

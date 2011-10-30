@@ -1,14 +1,28 @@
 {
     "schema": {
-        "type": [ "integer", { "type": "string" } ],
-        "divisibleBy": 3
+        "type": [ "integer", "object", { "type": "string" } ],
+        "divisibleBy": 3,
+        "properties": {
+            "a": {
+                "required": false
+            },
+            "b": {
+                "required": true
+            }
+        }
     },
     "good": [
         9,
-        "hello"
+        "hello",
+        {
+            "b": "here"
+        }
     ],
     "bad": [
         9.0,
-        false
+        false,
+        {
+            "a": "here"
+        }
     ]
 }

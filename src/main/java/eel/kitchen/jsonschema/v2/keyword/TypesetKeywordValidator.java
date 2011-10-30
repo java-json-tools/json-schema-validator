@@ -67,7 +67,7 @@ abstract class TypesetKeywordValidator
                 if (ANY.equals(s))
                     typeSet.addAll(EnumSet.allOf(NodeType.class));
                 else
-                typeSet.add(NodeType.valueOf(s.toUpperCase()));
+                    typeSet.add(NodeType.valueOf(s.toUpperCase()));
             }
         }
 
