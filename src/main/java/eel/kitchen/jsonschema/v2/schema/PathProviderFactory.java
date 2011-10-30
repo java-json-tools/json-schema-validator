@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.instance.Instance;
-import org.codehaus.jackson.JsonNode;
 
 public final class PathProviderFactory
 {
