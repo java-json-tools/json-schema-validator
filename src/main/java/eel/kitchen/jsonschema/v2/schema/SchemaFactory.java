@@ -34,8 +34,6 @@ public final class SchemaFactory
 {
     private static final SchemaChecker checker = SchemaChecker.getInstance();
 
-    private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
-
     private static final EnumSet<ValidationMode> SET_MODES
         = EnumSet.of(VALIDATE_ALL, VALIDATE_ANY);
 
@@ -49,22 +47,11 @@ public final class SchemaFactory
         this.rootSchema = rootSchema;
     }
 
-    public static JsonNodeFactory getNodeFactory()
-    {
-        return nodeFactory;
-    }
-
     public Schema buildSchema(final EnumSet<ValidationMode> mode,
         final Set<JsonNode> set)
     {
         if (!isValid(mode))
             return failure(Arrays.asList("illegal schema build flags"));
-
-        final ValidationMode setMode = toSetMode(mode),
-            booleanMode = toBooleanMode(mode);
-
-        if (set.size() == 1)
-            return buildSingleSchema(booleanMode, set.iterator().next());
 
         final Set<Schema> schemaSet = new LinkedHashSet<Schema>();
 
