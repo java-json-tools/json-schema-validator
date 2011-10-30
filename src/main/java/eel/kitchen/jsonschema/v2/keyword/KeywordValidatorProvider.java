@@ -55,6 +55,10 @@ public final class KeywordValidatorProvider
             NodeType.INTEGER, NodeType.NUMBER);
         registerValidator("enum", EnumKeywordValidator.class,
             NodeType.values());
+        registerValidator("extends", ExtendsKeywordValidator.class,
+            NodeType.values());
+        registerValidator("format", FormatKeywordValidator.class,
+            NodeType.values());
         registerValidator("minimum", MinimumKeywordValidator.class,
             NodeType.INTEGER, NodeType.NUMBER);
         registerValidator("minItems", MinItemsKeywordValidator.class,
