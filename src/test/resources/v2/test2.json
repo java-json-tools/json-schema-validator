@@ -1,0 +1,35 @@
+{
+    "schema": {
+        "type": "object",
+        "dependencies": {
+            "a": {
+                "properties": {
+                    "b": {
+                        "required": true
+                    }
+                }
+            },
+            "c": "d",
+            "e": [ "f", "g" ]
+        }
+    },
+    "good": [
+        {
+            "a": "here",
+            "b": "here too",
+            "c": true,
+            "d": false,
+            "e": 1,
+            "f": 2,
+            "g": 3
+        }
+    ],
+    "bad": [
+        {
+            "a": "here",
+            "c": "too",
+            "e": "as well",
+            "f": "yes, but not g"
+        }
+    ]
+}
