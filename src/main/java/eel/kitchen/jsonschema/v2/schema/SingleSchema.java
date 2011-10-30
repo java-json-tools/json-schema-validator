@@ -83,7 +83,7 @@ public final class SingleSchema
 
         for (final Instance child: instance) {
             schema = getSchema(child.getPathElement());
-            schema.validate(state, instance);
+            schema.validate(state, child);
         }
     }
 
