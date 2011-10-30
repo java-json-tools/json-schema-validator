@@ -98,6 +98,11 @@ public final class SchemaFactory
     public Schema buildSingleSchema(final ValidationMode mode,
         final JsonNode node)
     {
+        final List<String> list = checker.check(this, node);
+
+        if (!list.isEmpty())
+            return failure(list);
+
         Schema ret = new SingleSchema(this, node);
 
         if (mode == VALIDATE_MATCHFAIL)
