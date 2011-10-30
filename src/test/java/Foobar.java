@@ -52,7 +52,9 @@ public final class Foobar
 
         final SchemaFactory factory = new SchemaFactory(schemaNode);
 
-        final ValidationState state = new ValidationState(factory);
+        ValidationState state;
+
+        state = new ValidationState(factory);
 
         JsonNode target = value.get("good");
 
@@ -68,7 +70,7 @@ public final class Foobar
         for (final String message: state.getMessages())
             System.out.println(message);
 
-        state.reset();
+        state = new ValidationState(factory);
 
         target = value.get("bad");
 
