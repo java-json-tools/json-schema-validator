@@ -113,9 +113,6 @@ public final class DependenciesKeywordValidator
                     + "dependencies");
         }
 
-        if (state.isFailure())
-            return;
-
         if (schemaDependencies.isEmpty())
             return;
 
