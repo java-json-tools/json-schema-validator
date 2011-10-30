@@ -71,14 +71,25 @@ public final class SchemaFactory
         for (final JsonNode node: set)
             schemaSet.add(buildSingleSchema(VALIDATE_NORMAL, node));
 
+        return buildSchemaFromSet(mode, schemaSet);
+    }
+
+    public Schema buildSchemaFromSet(final EnumSet<ValidationMode> mode,
+        final Set<Schema> set)
+    {
+        if (!isValid(mode))
+            return failure(Arrays.asList("illegal schema build flags"));
+
+        final ValidationMode setMode = toSetMode(mode),
+            booleanMode = toBooleanMode(mode);
         Schema ret;
 
         switch (setMode) {
             case VALIDATE_ALL:
-                ret = new MatchAllSchema(schemaSet);
+                ret = new MatchAllSchema(set);
                 break;
             case VALIDATE_ANY:
-                ret = new MatchAnySchema(schemaSet);
+                ret = new MatchAnySchema(set);
                 break;
             default:
                 throw new RuntimeException("How did I even get there???");
