@@ -23,10 +23,10 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.Set;
 
-public final class MatchAnySchema
+final class MatchAnySchema
     extends AbstractMultiSchema
 {
-    public MatchAnySchema(final Set<Schema> schemas)
+    MatchAnySchema(final Set<Schema> schemas)
     {
         super(schemas);
     }

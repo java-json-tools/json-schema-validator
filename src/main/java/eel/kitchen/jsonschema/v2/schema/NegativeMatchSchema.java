@@ -19,12 +19,12 @@ package eel.kitchen.jsonschema.v2.schema;
 
 import eel.kitchen.jsonschema.v2.instance.Instance;
 
-public final class NegativeMatchSchema
+final class NegativeMatchSchema
     implements Schema
 {
     private final Schema schema;
 
-    public NegativeMatchSchema(final Schema schema)
+    NegativeMatchSchema(final Schema schema)
     {
         this.schema = schema;
     }

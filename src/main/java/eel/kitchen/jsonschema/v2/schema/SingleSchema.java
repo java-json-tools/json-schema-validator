@@ -25,7 +25,7 @@ import org.codehaus.jackson.JsonNode;
 
 import java.util.Set;
 
-public final class SingleSchema
+final class SingleSchema
     implements Schema
 {
     private static final KeywordValidatorProvider validatorProvider
@@ -36,7 +36,7 @@ public final class SingleSchema
 
     private PathProvider pathProvider = ScalarPathProvider.getInstance();
 
-    public SingleSchema(final SchemaFactory factory, final JsonNode schemaNode)
+    SingleSchema(final SchemaFactory factory, final JsonNode schemaNode)
     {
         this.factory = factory;
         this.schemaNode = schemaNode;
