@@ -82,7 +82,14 @@ public final class SchemaFactory
 
         final ValidationMode setMode = toSetMode(mode),
             booleanMode = toBooleanMode(mode);
+
         Schema ret;
+
+        if (set.size() == 1) {
+            ret = set.iterator().next();
+            return booleanMode == VALIDATE_NORMAL ? ret
+                : new NegativeMatchSchema(ret);
+        }
 
         switch (setMode) {
             case VALIDATE_ALL:
