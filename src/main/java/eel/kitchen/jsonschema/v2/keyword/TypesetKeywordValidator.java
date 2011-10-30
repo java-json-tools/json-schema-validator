@@ -17,8 +17,6 @@
 
 package eel.kitchen.jsonschema.v2.keyword;
 
-import eel.kitchen.jsonschema.v2.schema.Schema;
-import eel.kitchen.jsonschema.v2.schema.SchemaFactory;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -27,7 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 abstract class TypesetKeywordValidator
-    extends AbstractKeywordValidator
+    extends ExtensibleKeywordValidator
 {
     private static final String ANY = "any";
 
@@ -35,16 +33,12 @@ abstract class TypesetKeywordValidator
     protected final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
     protected final Set<JsonNode> nextSchemas = new LinkedHashSet<JsonNode>();
 
-    protected Schema nextSchema = null;
-
     protected TypesetKeywordValidator(final String field, final JsonNode schema)
     {
         super(schema);
         typeNode = schema.get(field);
         setUp();
     }
-
-    protected abstract void buildNext(final SchemaFactory factory);
 
     private void setUp()
     {
