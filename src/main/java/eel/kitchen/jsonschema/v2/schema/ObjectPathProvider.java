@@ -25,7 +25,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class ObjectPathProvider
+final class ObjectPathProvider
     implements PathProvider
 {
     private static final JsonNode EMPTY_SCHEMA
@@ -39,7 +39,7 @@ public final class ObjectPathProvider
 
     private final JsonNode additionalProperties;
 
-    public ObjectPathProvider(final JsonNode schema)
+    ObjectPathProvider(final JsonNode schema)
     {
         JsonNode node = schema.path("properties");
 

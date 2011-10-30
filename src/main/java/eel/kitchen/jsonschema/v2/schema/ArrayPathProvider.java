@@ -23,7 +23,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import java.util.LinkedList;
 import java.util.List;
 
-public final class ArrayPathProvider
+final class ArrayPathProvider
     implements PathProvider
 {
     private static final JsonNode EMPTY_SCHEMA
@@ -33,7 +33,7 @@ public final class ArrayPathProvider
 
     private final JsonNode additionalItems;
 
-    public ArrayPathProvider(final JsonNode schema)
+    ArrayPathProvider(final JsonNode schema)
     {
         JsonNode node = schema.path("items");
 

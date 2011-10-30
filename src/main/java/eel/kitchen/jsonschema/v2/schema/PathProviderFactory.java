@@ -17,9 +17,20 @@
 
 package eel.kitchen.jsonschema.v2.schema;
 
+import eel.kitchen.jsonschema.v2.instance.Instance;
 import org.codehaus.jackson.JsonNode;
 
-public interface PathProvider
+public final class PathProviderFactory
 {
-    JsonNode getSchema(final String path);
+    public static PathProvider getPathProvider(final Instance instance)
+    {
+        switch (instance.getType()) {
+            case ARRAY:
+                return new ArrayPathProvider(instance.getRawInstance());
+            case OBJECT:
+                return new ObjectPathProvider(instance.getRawInstance());
+            default:
+                return ScalarPathProvider.getInstance();
+        }
+    }
 }

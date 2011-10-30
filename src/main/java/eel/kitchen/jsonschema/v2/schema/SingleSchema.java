@@ -75,9 +75,7 @@ public final class SingleSchema
         if (!node.isContainerNode())
             return;
 
-        pathProvider = instanceType == NodeType.ARRAY
-            ? new ArrayPathProvider(node)
-            : new ObjectPathProvider(node);
+        pathProvider = PathProviderFactory.getPathProvider(instance);
 
         Schema schema;
 
