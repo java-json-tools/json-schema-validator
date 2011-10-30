@@ -45,6 +45,8 @@ public final class KeywordValidatorProvider
     static {
         registerValidator("additionalProperties",
             AdditionalPropertiesKeywordValidator.class, NodeType.OBJECT);
+        registerValidator("dependencies", DependenciesKeywordValidator.class,
+            NodeType.OBJECT);
         registerValidator("disallow", DisallowKeywordValidator.class,
             NodeType.values());
         registerValidator("divisibleBy", DivisibleByKeywordValidator.class,
@@ -55,6 +57,8 @@ public final class KeywordValidatorProvider
             NodeType.INTEGER, NodeType.NUMBER);
         registerValidator("maximum", MaximumKeywordValidator.class,
             NodeType.INTEGER, NodeType.NUMBER);
+        registerValidator("pattern", PatternKeywordValidator.class,
+            NodeType.STRING);
         registerValidator("patternProperties",
             PatternPropertiesKeywordValidator.class, NodeType.OBJECT);
         registerValidator("properties", PropertiesKeywordValidator.class,
