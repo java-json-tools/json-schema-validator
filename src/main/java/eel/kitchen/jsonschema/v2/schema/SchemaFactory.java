@@ -40,7 +40,7 @@ public final class SchemaFactory
         = EnumSet.of(VALIDATE_ALL, VALIDATE_ANY);
 
     private static final EnumSet<ValidationMode> BOOLEAN_MODES
-        = EnumSet.of(VALIDATE_NEGATE, VALIDATE_NORMAL);
+        = EnumSet.of(VALIDATE_MATCHFAIL, VALIDATE_NORMAL);
 
     private final JsonNode rootSchema;
 
@@ -84,7 +84,7 @@ public final class SchemaFactory
                 throw new RuntimeException("How did I even get there???");
         }
 
-        if (booleanMode == VALIDATE_NEGATE)
+        if (booleanMode == VALIDATE_MATCHFAIL)
             ret = new NegativeMatchSchema(ret);
 
         return ret;
@@ -95,7 +95,7 @@ public final class SchemaFactory
     {
         Schema ret = new SingleSchema(this, node);
 
-        if (mode == VALIDATE_NEGATE)
+        if (mode == VALIDATE_MATCHFAIL)
             ret = new NegativeMatchSchema(ret);
 
         return ret;
@@ -120,7 +120,7 @@ public final class SchemaFactory
     private static ValidationMode toBooleanMode(
         final EnumSet<ValidationMode> mode)
     {
-        return mode.contains(VALIDATE_NEGATE) ? VALIDATE_NEGATE
+        return mode.contains(VALIDATE_MATCHFAIL) ? VALIDATE_MATCHFAIL
             :  VALIDATE_NORMAL;
     }
 

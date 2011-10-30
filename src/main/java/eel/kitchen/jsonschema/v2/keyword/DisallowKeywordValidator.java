@@ -57,7 +57,7 @@ public final class DisallowKeywordValidator
     protected void buildNext(final SchemaFactory factory)
     {
         final EnumSet<ValidationMode> mode
-            = EnumSet.of(VALIDATE_NEGATE, VALIDATE_ANY);
+            = EnumSet.of(VALIDATE_MATCHFAIL, VALIDATE_ANY);
         nextSchema = factory.buildSchema(mode, nextSchemas);
     }
 }
