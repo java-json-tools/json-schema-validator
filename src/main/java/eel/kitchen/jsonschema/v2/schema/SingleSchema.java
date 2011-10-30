@@ -72,7 +72,8 @@ final class SingleSchema
         if (state.isFailure())
             return;
 
-        pathProvider = PathProviderFactory.getPathProvider(instance);
+        pathProvider = PathProviderFactory.getPathProvider(schemaNode,
+            instance.getType());
 
         Schema schema;
 

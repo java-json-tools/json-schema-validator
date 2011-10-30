@@ -17,17 +17,19 @@
 
 package eel.kitchen.jsonschema.v2.schema;
 
-import eel.kitchen.jsonschema.v2.instance.Instance;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
 
 public final class PathProviderFactory
 {
-    public static PathProvider getPathProvider(final Instance instance)
+    public static PathProvider getPathProvider(final JsonNode schemaNode,
+        final NodeType type)
     {
-        switch (instance.getType()) {
+        switch (type) {
             case ARRAY:
-                return new ArrayPathProvider(instance.getRawInstance());
+                return new ArrayPathProvider(schemaNode);
             case OBJECT:
-                return new ObjectPathProvider(instance.getRawInstance());
+                return new ObjectPathProvider(schemaNode);
             default:
                 return ScalarPathProvider.getInstance();
         }
