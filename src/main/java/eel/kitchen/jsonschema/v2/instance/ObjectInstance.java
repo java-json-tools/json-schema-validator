@@ -23,9 +23,7 @@ import org.codehaus.jackson.JsonNode;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 final class ObjectInstance
     extends ContainerInstance

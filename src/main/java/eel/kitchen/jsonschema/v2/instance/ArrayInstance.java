@@ -21,9 +21,7 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.Set;
 
 final class ArrayInstance
     extends ContainerInstance

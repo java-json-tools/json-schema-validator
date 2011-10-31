@@ -1,0 +1,49 @@
+{
+    "schema": {
+        "type": "array",
+        "items": {
+            "type": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "a": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "b": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "properties": {
+                        "c": {
+                            "type": "string",
+                            "required": true
+                        },
+                        "d": {
+                            "type": "string",
+                            "required": true
+                        }
+                    }
+                }
+            ]
+        }
+    },
+    "good": [
+        [
+            { "a": "", "b": "" },
+            { "c": "", "d": "" },
+            { "a": "", "b": "", "c": "" }
+        ]
+    ],
+    "bad": [
+        [
+            { "a": "" },
+            false,
+            { "d": "" }
+        ]
+    ]
+}
