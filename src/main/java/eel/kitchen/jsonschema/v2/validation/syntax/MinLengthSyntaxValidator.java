@@ -15,31 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.base;
+package eel.kitchen.jsonschema.v2.validation.syntax;
 
-import eel.kitchen.jsonschema.v2.validation.ValidationReport;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
 
-import java.util.Collection;
-
-public final class MatchAllValidator
-    extends EnumerableValidator
+public final class MinLengthSyntaxValidator
+    extends SyntaxValidator
 {
-
-    public MatchAllValidator(final Collection<Validator> validators)
+    public MinLengthSyntaxValidator(final JsonNode schemaNode)
     {
-        queue.addAll(validators);
+        super(schemaNode, "minLength", NodeType.INTEGER);
     }
 
     @Override
-    public ValidationReport validate()
+    protected void checkFurther()
     {
-        while (hasMoreElements()) {
-            report.mergeWith(nextElement().validate());
-            if (!report.isSuccess())
-                break;
+        if (!node.isInt()) {
+            report.addMessage("minLength is too large");
+            return;
         }
 
-        queue.clear();
-        return report;
+        if (node.getIntValue() < 0)
+            report.addMessage("minLength is negative");
     }
 }

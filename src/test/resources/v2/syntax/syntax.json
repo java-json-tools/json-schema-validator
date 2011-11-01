@@ -18,7 +18,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field additionalItems: is string, expected one of [boolean, object]"
+                "field additionalItems has wrong type string, expected one of [boolean, object]"
             ]
         }
     ],
@@ -41,7 +41,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field additionalProperties: is array, expected one of [boolean, object]"
+                "field additionalProperties has wrong type array, expected one of [boolean, object]"
             ]
         }
     ],
@@ -63,7 +63,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field dependencies: is boolean, expected object"
+                "field dependencies has wrong type boolean, expected one of [object]"
             ]
         },
         {
@@ -93,7 +93,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field description: is number, expected string"
+                "field description has wrong type number, expected one of [string]"
             ]
         }
     ],
@@ -122,7 +122,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field disallow: is boolean, expected one of [array, string]"
+                "field disallow has wrong type boolean, expected one of [array, string]"
             ]
         },
         {
@@ -166,7 +166,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field divisibleBy: is string, expected one of [integer, number]"
+                "field divisibleBy has wrong type string, expected one of [integer, number]"
             ]
         }
     ],
@@ -189,7 +189,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field $ref: is boolean, expected string"
+                "illegal type for field $ref: is boolean, expected one of [string]"
             ]
         },
         {
@@ -221,7 +221,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field $schema: is boolean, expected string"
+                "illegal type for field $schema: is boolean, expected one of [string]"
             ]
         },
         {
@@ -247,7 +247,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field enum: is integer, expected array"
+                "field enum has wrong type integer, expected one of [array]"
             ]
         }
     ],
@@ -266,7 +266,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field exclusiveMaximum: is string, expected boolean"
+                "field exclusiveMaximum has wrong type string, expected one of [boolean]"
             ]
         },
         {
@@ -294,7 +294,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field exclusiveMinimum: is string, expected boolean"
+                "field exclusiveMinimum has wrong type string, expected one of [boolean]"
             ]
         },
         {
@@ -328,7 +328,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field extends: is integer, expected one of [array, object]"
+                "field extends has wrong type integer, expected one of [array, object]"
             ]
         },
         {
@@ -356,7 +356,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field format: is object, expected string"
+                "field format has wrong type object, expected string"
             ]
         }
     ],
@@ -379,7 +379,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field id: is boolean, expected string"
+                "field id has wrong type boolean, expected string"
             ]
         },
         {
@@ -411,7 +411,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field items: is null, expected one of [array, object]"
+                "field items has wrong type null, expected one of [array, object]"
             ]
         },
         {
@@ -444,7 +444,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field maximum: is string, expected one of [integer, number]"
+                "field maximum has wrong type string, expected one of [integer, number]"
             ]
         }
     ],
@@ -479,7 +479,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field maxItems: is number, expected integer"
+                "field maxItems has wrong type number, expected integer"
             ]
         }
     ],
@@ -514,7 +514,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field maxLength: is number, expected integer"
+                "field maxLength has wrong type number, expected integer"
             ]
         }
     ],
@@ -537,7 +537,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field minimum: is string, expected one of [integer, number]"
+                "field minimum has wrong type string, expected one of [integer, number]"
             ]
         }
     ],
@@ -572,7 +572,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field minItems: is number, expected integer"
+                "field minItems has wrong type number, expected integer"
             ]
         }
     ],
@@ -607,7 +607,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field minLength: is number, expected integer"
+                "field minLength has wrong type number, expected integer"
             ]
         }
     ],
@@ -640,7 +640,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field patternProperties: is integer, expected object"
+                "field patternProperties has wrong type integer, expected object"
             ]
         }
     ],
@@ -666,7 +666,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field pattern: is array, expected string"
+                "field pattern has wrong type array, expected string"
             ]
         }
     ],
@@ -688,7 +688,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field properties: is null, expected object"
+                "field properties has wrong type null, expected object"
             ]
         },
         {
@@ -720,7 +720,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field title: is number, expected string"
+                "field title has wrong type number, expected string"
             ]
         }
     ],
@@ -749,7 +749,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field type: is boolean, expected one of [array, string]"
+                "field type has wrong type boolean, expected one of [array, string]"
             ]
         },
         {
@@ -784,7 +784,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field uniqueItems: is string, expected boolean"
+                "field uniqueItems has wrong type string, expected boolean"
             ]
         }
     ]

@@ -15,31 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.base;
+package eel.kitchen.jsonschema.v2.validation.syntax;
 
-import eel.kitchen.jsonschema.v2.validation.ValidationReport;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
 
-import java.util.Collection;
-
-public final class MatchAllValidator
-    extends EnumerableValidator
+public final class DivisibleBySyntaxValidator
+    extends TypeOnlySyntaxValidator
 {
-
-    public MatchAllValidator(final Collection<Validator> validators)
+    public DivisibleBySyntaxValidator(final JsonNode schemaNode)
     {
-        queue.addAll(validators);
-    }
-
-    @Override
-    public ValidationReport validate()
-    {
-        while (hasMoreElements()) {
-            report.mergeWith(nextElement().validate());
-            if (!report.isSuccess())
-                break;
-        }
-
-        queue.clear();
-        return report;
+        super(schemaNode, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

@@ -15,31 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.base;
+package eel.kitchen.jsonschema.v2.validation.syntax;
 
-import eel.kitchen.jsonschema.v2.validation.ValidationReport;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
 
-import java.util.Collection;
-
-public final class MatchAllValidator
-    extends EnumerableValidator
+public final class ExclusiveMinimumSyntaxValidator
+    extends SyntaxValidator
 {
-
-    public MatchAllValidator(final Collection<Validator> validators)
+    public ExclusiveMinimumSyntaxValidator(final JsonNode schemaNode)
     {
-        queue.addAll(validators);
+        super(schemaNode, "exclusiveMinimum", NodeType.BOOLEAN);
     }
 
     @Override
-    public ValidationReport validate()
+    protected void checkFurther()
     {
-        while (hasMoreElements()) {
-            report.mergeWith(nextElement().validate());
-            if (!report.isSuccess())
-                break;
-        }
-
-        queue.clear();
-        return report;
+        if (!schemaNode.has("minimum"))
+            report.addMessage("exclusiveMinimum without minimum");
     }
 }

@@ -15,31 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.base;
+package eel.kitchen.jsonschema.v2.validation.syntax;
 
-import eel.kitchen.jsonschema.v2.validation.ValidationReport;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
 
-import java.util.Collection;
-
-public final class MatchAllValidator
-    extends EnumerableValidator
+public abstract class TypeOnlySyntaxValidator
+    extends SyntaxValidator
 {
-
-    public MatchAllValidator(final Collection<Validator> validators)
+    protected TypeOnlySyntaxValidator(final JsonNode schemaNode,
+        final String keyword, final NodeType... types)
     {
-        queue.addAll(validators);
+        super(schemaNode, keyword, types);
     }
 
     @Override
-    public ValidationReport validate()
+    protected final void checkFurther()
     {
-        while (hasMoreElements()) {
-            report.mergeWith(nextElement().validate());
-            if (!report.isSuccess())
-                break;
-        }
-
-        queue.clear();
-        return report;
     }
 }
