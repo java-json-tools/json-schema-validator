@@ -24,7 +24,10 @@ import java.util.List;
 public final class AlwaysFalseValidator
     extends NonEnumerableValidator
 {
-    private final ValidationReport report = new ValidationReport();
+    public AlwaysFalseValidator(final ValidationReport other)
+    {
+        report.mergeWith(other);
+    }
 
     public AlwaysFalseValidator(final String message)
     {
