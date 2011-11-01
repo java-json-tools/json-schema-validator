@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.base;
+package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidatorFactory;
+import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
@@ -25,12 +26,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public final class RequiredPropertiesValidator
+public final class PropertiesValidator
     extends SimpleValidator
 {
     private final Set<String> required = new HashSet<String>();
 
-    public RequiredPropertiesValidator(final ValidatorFactory ignored,
+    public PropertiesValidator(final ValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
         super(ignored, schema, instance);

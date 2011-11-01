@@ -20,7 +20,7 @@ package eel.kitchen.jsonschema;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
-import eel.kitchen.jsonschema.base.RequiredPropertiesValidator;
+import eel.kitchen.jsonschema.keyword.PropertiesValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.container.ArrayValidator;
 import eel.kitchen.jsonschema.container.ObjectValidator;
