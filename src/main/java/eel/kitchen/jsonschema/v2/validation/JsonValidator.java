@@ -19,9 +19,6 @@ package eel.kitchen.jsonschema.v2.validation;
 
 import eel.kitchen.jsonschema.v2.validation.base.Validator;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
-import org.codehaus.jackson.node.ObjectNode;
 
 public final class JsonValidator
 {
@@ -36,35 +33,5 @@ public final class JsonValidator
     {
         final Validator validator = factory.getValidator(instance);
         return validator.validate();
-    }
-
-    public static void main(final String... args)
-    {
-        final JsonNodeFactory factory = JsonNodeFactory.instance;
-
-        final ObjectNode schema = factory.objectNode();
-
-        final ObjectNode subSchema = factory.objectNode();
-
-        subSchema.put("minLength", 3);
-
-        schema.put("items", subSchema);
-
-        schema.put("minItems", 3);
-
-        final ArrayNode instance = factory.arrayNode();
-
-        instance.add("hello");
-        instance.add("world");
-        instance.add("ki");
-
-        final JsonValidator v = new JsonValidator(schema);
-
-        final ValidationReport report = v.validate(instance);
-
-        System.out.println("success: " + report.isSuccess());
-
-        for (final String message: report.getMessages())
-            System.out.println(message);
     }
 }
