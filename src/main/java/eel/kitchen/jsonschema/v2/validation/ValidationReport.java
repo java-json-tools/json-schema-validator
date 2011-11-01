@@ -17,8 +17,6 @@
 
 package eel.kitchen.jsonschema.v2.validation;
 
-import eel.kitchen.jsonschema.v2.keyword.ValidationStatus;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
