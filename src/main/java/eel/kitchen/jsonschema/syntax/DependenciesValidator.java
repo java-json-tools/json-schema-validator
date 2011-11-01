@@ -32,7 +32,7 @@ public final class DependenciesValidator
     protected void checkFurther()
     {
         NodeType type;
-        for (final JsonNode element: schemaNode.get(keyword)) {
+        for (final JsonNode element: node) {
             type = NodeType.getNodeType(element);
             switch (type) {
                 case STRING: case OBJECT:
