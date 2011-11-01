@@ -274,6 +274,7 @@ public final class SyntaxValidatorFactoryTest
             assertTrue(report.isSuccess(), "schema " + schema + " considered "
                 + "invalid");
             assertTrue(report.getMessages().isEmpty());
+            return;
         }
 
         final List<String> expected = new LinkedList<String>();

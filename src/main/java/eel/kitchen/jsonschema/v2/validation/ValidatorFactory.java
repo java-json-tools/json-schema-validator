@@ -26,8 +26,7 @@ import eel.kitchen.jsonschema.v2.validation.base.Validator;
 import eel.kitchen.jsonschema.v2.validation.container.ArrayValidator;
 import eel.kitchen.jsonschema.v2.validation.container.ObjectValidator;
 import eel.kitchen.jsonschema.v2.validation.keyword.AdditionalItemsValidator;
-import eel.kitchen.jsonschema.v2.validation.keyword
-    .AdditionalPropertiesValidator;
+import eel.kitchen.jsonschema.v2.validation.keyword.AdditionalPropertiesValidator;
 import eel.kitchen.jsonschema.v2.validation.keyword.DependenciesValidator;
 import eel.kitchen.jsonschema.v2.validation.keyword.DisallowValidator;
 import eel.kitchen.jsonschema.v2.validation.keyword.DivisibleByValidator;

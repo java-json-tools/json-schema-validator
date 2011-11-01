@@ -76,7 +76,7 @@
             "valid": false,
             "messages": [
                 "dependencies: illegal value of type integer",
-                "Non string dependency in dependency array"
+                "a dependency array should only contain property names"
             ]
         }
     ],
@@ -189,7 +189,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field $ref: is boolean, expected one of [string]"
+                "field $ref has wrong type boolean, expected one of [string]"
             ]
         },
         {
@@ -198,7 +198,7 @@
             },
             "valid": false,
             "messages": [
-                "$ref: invalid URI +23:"
+                "$ref is an invalid URI"
             ]
         }
     ],
@@ -221,7 +221,7 @@
             },
             "valid": false,
             "messages": [
-                "illegal type for field $schema: is boolean, expected one of [string]"
+                "field $schema has wrong type boolean, expected one of [string]"
             ]
         },
         {
@@ -230,7 +230,7 @@
             },
             "valid": false,
             "messages": [
-                "$schema: invalid URI +23:"
+                "$schema is an invalid URI"
             ]
         }
     ],
@@ -356,7 +356,7 @@
             },
             "valid": false,
             "messages": [
-                "field format has wrong type object, expected string"
+                "field format has wrong type object, expected one of [string]"
             ]
         }
     ],
@@ -379,7 +379,7 @@
             },
             "valid": false,
             "messages": [
-                "field id has wrong type boolean, expected string"
+                "field id has wrong type boolean, expected one of [string]"
             ]
         },
         {
@@ -388,7 +388,7 @@
             },
             "valid": false,
             "messages": [
-                "id: invalid URI +23:"
+                "id is an invalid URI"
             ]
         }
     ],
@@ -479,7 +479,7 @@
             },
             "valid": false,
             "messages": [
-                "field maxItems has wrong type number, expected integer"
+                "field maxItems has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -514,7 +514,7 @@
             },
             "valid": false,
             "messages": [
-                "field maxLength has wrong type number, expected integer"
+                "field maxLength has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -572,7 +572,7 @@
             },
             "valid": false,
             "messages": [
-                "field minItems has wrong type number, expected integer"
+                "field minItems has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -607,7 +607,7 @@
             },
             "valid": false,
             "messages": [
-                "field minLength has wrong type number, expected integer"
+                "field minLength has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -640,7 +640,7 @@
             },
             "valid": false,
             "messages": [
-                "field patternProperties has wrong type integer, expected object"
+                "field patternProperties has wrong type integer, expected one of [object]"
             ]
         }
     ],
@@ -657,7 +657,7 @@
             },
             "valid": false,
             "messages": [
-                "pattern: invalid regex f*+"
+                "invalid regex in pattern"
             ]
         },
         {
@@ -666,7 +666,7 @@
             },
             "valid": false,
             "messages": [
-                "field pattern has wrong type array, expected string"
+                "field pattern has wrong type array, expected one of [string]"
             ]
         }
     ],
@@ -688,7 +688,7 @@
             },
             "valid": false,
             "messages": [
-                "field properties has wrong type null, expected object"
+                "field properties has wrong type null, expected one of [object]"
             ]
         },
         {
@@ -703,7 +703,7 @@
             "valid": false,
             "messages": [
                 "non schema value in properties",
-                "required attribute of schema in properties is not a boolean"
+                "required attribute is not a boolean"
             ]
         }
     ],
@@ -720,7 +720,7 @@
             },
             "valid": false,
             "messages": [
-                "field title has wrong type number, expected string"
+                "field title has wrong type number, expected one of [string]"
             ]
         }
     ],
@@ -784,7 +784,7 @@
             },
             "valid": false,
             "messages": [
-                "field uniqueItems has wrong type string, expected boolean"
+                "field uniqueItems has wrong type string, expected one of [boolean]"
             ]
         }
     ]

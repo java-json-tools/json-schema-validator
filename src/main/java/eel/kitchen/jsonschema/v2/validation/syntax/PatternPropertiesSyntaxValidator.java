@@ -40,15 +40,10 @@ public final class PatternPropertiesSyntaxValidator
 
         while (iterator.hasNext()) {
             field = iterator.next();
-            if (!RhinoHelper.regexIsValid(field)) {
-                report.addMessage("field name of patternProperties is an "
-                    + "invalid regex");
-                return;
-            }
-            if (!node.get(field).isObject()) {
+            if (!RhinoHelper.regexIsValid(field))
+                report.addMessage("patternProperties: invalid regex " + field);
+            if (!node.get(field).isObject())
                 report.addMessage("non schema value in patternProperties");
-                return;
-            }
         }
     }
 }

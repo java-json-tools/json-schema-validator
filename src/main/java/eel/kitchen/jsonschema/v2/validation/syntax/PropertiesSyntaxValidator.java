@@ -36,15 +36,13 @@ public final class PropertiesSyntaxValidator
         for (final JsonNode element: node) {
             if (!element.isObject()) {
                 report.addMessage("non schema value in properties");
-                return;
+                continue;
             }
             requiredNode = element.path("required");
             if (requiredNode.isMissingNode())
                 continue;
-            if (!requiredNode.isBoolean()) {
+            if (!requiredNode.isBoolean())
                 report.addMessage("required attribute is not a boolean");
-                return;
-            }
         }
     }
 }

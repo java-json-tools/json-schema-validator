@@ -20,11 +20,26 @@ package eel.kitchen.jsonschema.v2.validation.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+import java.math.BigDecimal;
+
 public final class DivisibleBySyntaxValidator
-    extends TypeOnlySyntaxValidator
+    extends SyntaxValidator
 {
     public DivisibleBySyntaxValidator(final JsonNode schemaNode)
     {
         super(schemaNode, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
+    }
+
+    @Override
+    protected void checkFurther()
+    {
+        final BigDecimal divisor = node.getDecimalValue();
+
+        if (BigDecimal.ZERO.compareTo(divisor) != 0)
+            return;
+
+        report.addMessage("divisibleBy is 0");
+        //TODO: implement
+
     }
 }

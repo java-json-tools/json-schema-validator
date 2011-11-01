@@ -31,13 +31,11 @@ public final class ExtendsSyntaxValidator
     @Override
     protected void checkFurther()
     {
-        if (schemaNode.isObject())
+        if (node.isObject())
             return;
 
-        for (final JsonNode element: schemaNode)
-            if (!element.isObject()) {
+        for (final JsonNode element: node)
+            if (!element.isObject())
                 report.addMessage("non schema element in extends array");
-                return;
-            }
     }
 }
