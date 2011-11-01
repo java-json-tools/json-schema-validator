@@ -22,6 +22,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * <p>Utilities to provide simple generics equivalents to some of Apache's
@@ -42,6 +46,20 @@ public final class CollectionUtils
     public static <K, V> Map<K, V> toMap(final Iterator<Map.Entry<K, V>> iterator)
     {
         final Map<K, V> ret = new HashMap<K , V>();
+        Map.Entry<K, V> entry;
+
+        while (iterator.hasNext()) {
+            entry = iterator.next();
+            ret.put(entry.getKey(), entry.getValue());
+        }
+
+        return ret;
+    }
+
+    public static <K, V> SortedMap<K, V> toSortedMap(
+        final Iterator<Map.Entry<K, V>> iterator)
+    {
+        final SortedMap<K, V> ret = new TreeMap<K, V>();
         Map.Entry<K, V> entry;
 
         while (iterator.hasNext()) {
@@ -93,5 +111,15 @@ public final class CollectionUtils
     public static <T> Set<T> toSet(final Iterator<T> iterator)
     {
         return toSet(iterator, true);
+    }
+
+    public static <T> SortedSet<T> toSortedSet(final Iterator<T> iterator)
+    {
+        final SortedSet<T> ret = new TreeSet<T>();
+
+        while (iterator.hasNext())
+            ret.add(iterator.next());
+
+        return ret;
     }
 }
