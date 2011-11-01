@@ -24,6 +24,7 @@ import java.util.Collection;
 public final class MatchAllValidator
     extends EnumerableValidator
 {
+    private final ValidationReport report = new ValidationReport();
 
     public MatchAllValidator(final Collection<Validator> validators)
     {

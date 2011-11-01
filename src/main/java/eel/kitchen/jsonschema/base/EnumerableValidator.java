@@ -17,8 +17,6 @@
 
 package eel.kitchen.jsonschema.base;
 
-import eel.kitchen.jsonschema.ValidationReport;
-
 import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -27,7 +25,6 @@ public abstract class EnumerableValidator
     implements Validator
 {
     protected final Queue<Validator> queue = new ArrayDeque<Validator>();
-    protected final ValidationReport report = new ValidationReport();
 
     @Override
     public final boolean hasMoreElements()
