@@ -17,15 +17,11 @@
 
 package eel.kitchen.jsonschema.base;
 
-import eel.kitchen.jsonschema.ValidationReport;
-
 import java.util.NoSuchElementException;
 
 public abstract class NonEnumerableValidator
     implements Validator
 {
-    protected final ValidationReport report = new ValidationReport();
-
     @Override
     public final boolean hasMoreElements()
     {

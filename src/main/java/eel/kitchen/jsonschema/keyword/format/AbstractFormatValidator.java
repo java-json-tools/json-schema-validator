@@ -17,12 +17,15 @@
 
 package eel.kitchen.jsonschema.keyword.format;
 
+import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.NonEnumerableValidator;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class AbstractFormatValidator
     extends NonEnumerableValidator
 {
+    protected final ValidationReport report = new ValidationReport();
+
     protected final JsonNode node;
 
     protected AbstractFormatValidator(final JsonNode node)

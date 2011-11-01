@@ -28,6 +28,8 @@ import java.util.EnumSet;
 public abstract class SyntaxValidator
     extends NonEnumerableValidator
 {
+    protected final ValidationReport report = new ValidationReport();
+
     protected final JsonNode schemaNode, node;
     protected final String keyword;
     protected final EnumSet<NodeType> validTypes;

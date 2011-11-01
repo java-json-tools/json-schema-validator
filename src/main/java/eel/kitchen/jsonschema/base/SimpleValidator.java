@@ -27,6 +27,8 @@ public abstract class SimpleValidator
     protected final JsonNode schema;
     protected final JsonNode instance;
 
+    protected final ValidationReport report = new ValidationReport();
+
     protected SimpleValidator(final KeywordValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
