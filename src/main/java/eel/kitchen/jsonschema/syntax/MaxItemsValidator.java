@@ -20,11 +20,23 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class UniqueItemsSyntaxValidator
-    extends TypeOnlySyntaxValidator
+public final class MaxItemsValidator
+    extends SyntaxValidator
 {
-    public UniqueItemsSyntaxValidator(final JsonNode schemaNode)
+    public MaxItemsValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "uniqueItems", NodeType.BOOLEAN);
+        super(schemaNode, "maxItems", NodeType.INTEGER);
+    }
+
+    @Override
+    protected void checkFurther()
+    {
+        if (!node.isInt()) {
+            report.addMessage("maxItems is too large");
+            return;
+        }
+
+        if (node.getIntValue() < 0)
+            report.addMessage("maxItems is negative");
     }
 }

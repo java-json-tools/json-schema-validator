@@ -42,34 +42,34 @@ public final class SyntaxValidatorFactory
 
     public SyntaxValidatorFactory()
     {
-        validators.put("additionalItems", AdditionalItemsSyntaxValidator.class);
+        validators.put("additionalItems", AdditionalItemsValidator.class);
         validators.put("additionalProperties",
-            AdditionalPropertiesSyntaxValidator.class);
-        validators.put("dependencies", DependenciesSyntaxValidator.class);
-        validators.put("description", DescriptionSyntaxValidator.class);
-        validators.put("disallow", DisallowSyntaxValidator.class);
-        validators.put("divisibleBy", DivisibleBySyntaxValidator.class);
-        validators.put("$ref", DollarRefSyntaxValidator.class);
-        validators.put("$schema", DollarSchemaSyntaxValidator.class);
-        validators.put("enum", EnumSyntaxValidator.class);
-        validators.put("exclusiveMaximum", ExclusiveMaximumSyntaxValidator.class);
-        validators.put("exclusiveMinimum", ExclusiveMinimumSyntaxValidator.class);
-        validators.put("extends", ExtendsSyntaxValidator.class);
-        validators.put("format", FormatSyntaxValidator.class);
-        validators.put("id", IdSyntaxValidator.class);
-        validators.put("items", ItemsSyntaxValidator.class);
-        validators.put("maximum", MaximumSyntaxValidator.class);
-        validators.put("maxItems", MaxItemsSyntaxValidator.class);
-        validators.put("maxLength", MaxLengthSyntaxValidator.class);
-        validators.put("minimum", MinimumSyntaxValidator.class);
-        validators.put("minItems", MinItemsSyntaxValidator.class);
-        validators.put("minLength", MinLengthSyntaxValidator.class);
-        validators.put("pattern", PatternSyntaxValidator.class);
-        validators.put("patternProperties", PatternPropertiesSyntaxValidator.class);
-        validators.put("properties", PropertiesSyntaxValidator.class);
-        validators.put("title", TitleSyntaxValidator.class);
-        validators.put("type", TypeSyntaxValidator.class);
-        validators.put("uniqueItems", UniqueItemsSyntaxValidator.class);
+            AdditionalPropertiesValidator.class);
+        validators.put("dependencies", DependenciesValidator.class);
+        validators.put("description", DescriptionValidator.class);
+        validators.put("disallow", DisallowValidator.class);
+        validators.put("divisibleBy", DivisibleByValidator.class);
+        validators.put("$ref", DollarRefValidator.class);
+        validators.put("$schema", DollarSchemaValidator.class);
+        validators.put("enum", EnumValidator.class);
+        validators.put("exclusiveMaximum", ExclusiveMaximumValidator.class);
+        validators.put("exclusiveMinimum", ExclusiveMinimumValidator.class);
+        validators.put("extends", ExtendsValidator.class);
+        validators.put("format", FormatValidator.class);
+        validators.put("id", IdValidator.class);
+        validators.put("items", ItemsValidator.class);
+        validators.put("maximum", MaximumValidator.class);
+        validators.put("maxItems", MaxItemsValidator.class);
+        validators.put("maxLength", MaxLengthValidator.class);
+        validators.put("minimum", MinimumValidator.class);
+        validators.put("minItems", MinItemsValidator.class);
+        validators.put("minLength", MinLengthValidator.class);
+        validators.put("pattern", PatternValidator.class);
+        validators.put("patternProperties", PatternPropertiesValidator.class);
+        validators.put("properties", PropertiesValidator.class);
+        validators.put("title", TitleValidator.class);
+        validators.put("type", TypeValidator.class);
+        validators.put("uniqueItems", UniqueItemsValidator.class);
     }
 
     public Validator getValidator(final JsonNode schema)
@@ -99,7 +99,8 @@ public final class SyntaxValidatorFactory
         if (fieldSet.isEmpty())
             return new AlwaysTrueValidator();
 
-        final Collection<Validator> collection = getValidators(fieldSet, schema);
+        final Collection<Validator> collection
+            = getValidators(fieldSet, schema);
 
         if (collection.size() == 1)
             return collection.iterator().next();

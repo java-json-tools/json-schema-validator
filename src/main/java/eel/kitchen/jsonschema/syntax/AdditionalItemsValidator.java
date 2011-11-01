@@ -20,18 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class ExclusiveMinimumSyntaxValidator
-    extends SyntaxValidator
+public final class AdditionalItemsValidator
+    extends TypeOnlySyntaxValidator
 {
-    public ExclusiveMinimumSyntaxValidator(final JsonNode schemaNode)
+    public AdditionalItemsValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "exclusiveMinimum", NodeType.BOOLEAN);
-    }
-
-    @Override
-    protected void checkFurther()
-    {
-        if (!schemaNode.has("minimum"))
-            report.addMessage("exclusiveMinimum without minimum");
+        super(schemaNode, "additionalItems", NodeType.OBJECT, NodeType.BOOLEAN);
     }
 }

@@ -19,11 +19,11 @@ package eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
 
-public final class IdSyntaxValidator
-    extends URISyntaxValidator
+public final class DisallowValidator
+    extends TypeNodeSyntaxValidator
 {
-    public IdSyntaxValidator(final JsonNode schemaNode)
+    public DisallowValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "id");
+        super(schemaNode, "disallow");
     }
 }

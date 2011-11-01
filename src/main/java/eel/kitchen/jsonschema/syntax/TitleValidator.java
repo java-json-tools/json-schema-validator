@@ -20,11 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class DescriptionSyntaxValidator
+public final class TitleValidator
     extends TypeOnlySyntaxValidator
 {
-    public DescriptionSyntaxValidator(final JsonNode schemaNode)
+    public TitleValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "description", NodeType.STRING);
+        super(schemaNode, "title", NodeType.STRING);
     }
 }

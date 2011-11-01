@@ -18,25 +18,32 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.util.NodeType;
+import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
-public final class MinItemsSyntaxValidator
+import java.util.Iterator;
+
+public final class PatternPropertiesValidator
     extends SyntaxValidator
 {
-    public MinItemsSyntaxValidator(final JsonNode schemaNode)
+    public PatternPropertiesValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "minItems", NodeType.INTEGER);
+        super(schemaNode, "patternProperties", NodeType.OBJECT);
     }
 
     @Override
     protected void checkFurther()
     {
-        if (!node.isInt()) {
-            report.addMessage("minItems is too large");
-            return;
-        }
+        final Iterator<String> iterator = node.getFieldNames();
 
-        if (node.getIntValue() < 0)
-            report.addMessage("minItems is negative");
+        String field;
+
+        while (iterator.hasNext()) {
+            field = iterator.next();
+            if (!RhinoHelper.regexIsValid(field))
+                report.addMessage("patternProperties: invalid regex " + field);
+            if (!node.get(field).isObject())
+                report.addMessage("non schema value in patternProperties");
+        }
     }
 }

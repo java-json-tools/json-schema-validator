@@ -20,21 +20,29 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class ItemsSyntaxValidator
+public final class PropertiesValidator
     extends SyntaxValidator
 {
-    public ItemsSyntaxValidator(final JsonNode schemaNode)
+    public PropertiesValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "items", NodeType.OBJECT, NodeType.ARRAY);
+        super(schemaNode, "properties", NodeType.OBJECT);
     }
+
     @Override
     protected void checkFurther()
     {
-        if (node.isObject())
-            return;
+        JsonNode requiredNode;
 
-        for (final JsonNode element: node)
-            if (!element.isObject())
-                report.addMessage("non schema element in items array");
+        for (final JsonNode element: node) {
+            if (!element.isObject()) {
+                report.addMessage("non schema value in properties");
+                continue;
+            }
+            requiredNode = element.path("required");
+            if (requiredNode.isMissingNode())
+                continue;
+            if (!requiredNode.isBoolean())
+                report.addMessage("required attribute is not a boolean");
+        }
     }
 }

@@ -20,11 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class FormatSyntaxValidator
+public final class MinimumValidator
     extends TypeOnlySyntaxValidator
 {
-    public FormatSyntaxValidator(final JsonNode schemaNode)
+    public MinimumValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "format", NodeType.STRING);
+        super(schemaNode, "minimum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

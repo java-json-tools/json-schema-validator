@@ -20,18 +20,23 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class ExclusiveMaximumSyntaxValidator
+public final class MinLengthValidator
     extends SyntaxValidator
 {
-    public ExclusiveMaximumSyntaxValidator(final JsonNode schemaNode)
+    public MinLengthValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "exclusiveMaximum", NodeType.BOOLEAN);
+        super(schemaNode, "minLength", NodeType.INTEGER);
     }
 
     @Override
     protected void checkFurther()
     {
-        if (!schemaNode.has("maximum"))
-            report.addMessage("exclusiveMaximum without maximum");
+        if (!node.isInt()) {
+            report.addMessage("minLength is too large");
+            return;
+        }
+
+        if (node.getIntValue() < 0)
+            report.addMessage("minLength is negative");
     }
 }

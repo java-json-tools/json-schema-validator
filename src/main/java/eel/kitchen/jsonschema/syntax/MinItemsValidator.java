@@ -20,12 +20,23 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class AdditionalPropertiesSyntaxValidator
-    extends TypeOnlySyntaxValidator
+public final class MinItemsValidator
+    extends SyntaxValidator
 {
-    public AdditionalPropertiesSyntaxValidator(final JsonNode schemaNode)
+    public MinItemsValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "additionalProperties", NodeType.OBJECT,
-            NodeType.BOOLEAN);
+        super(schemaNode, "minItems", NodeType.INTEGER);
+    }
+
+    @Override
+    protected void checkFurther()
+    {
+        if (!node.isInt()) {
+            report.addMessage("minItems is too large");
+            return;
+        }
+
+        if (node.getIntValue() < 0)
+            report.addMessage("minItems is negative");
     }
 }

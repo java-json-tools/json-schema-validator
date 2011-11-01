@@ -20,29 +20,18 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class PropertiesSyntaxValidator
+public final class ExclusiveMinimumValidator
     extends SyntaxValidator
 {
-    public PropertiesSyntaxValidator(final JsonNode schemaNode)
+    public ExclusiveMinimumValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "properties", NodeType.OBJECT);
+        super(schemaNode, "exclusiveMinimum", NodeType.BOOLEAN);
     }
 
     @Override
     protected void checkFurther()
     {
-        JsonNode requiredNode;
-
-        for (final JsonNode element: node) {
-            if (!element.isObject()) {
-                report.addMessage("non schema value in properties");
-                continue;
-            }
-            requiredNode = element.path("required");
-            if (requiredNode.isMissingNode())
-                continue;
-            if (!requiredNode.isBoolean())
-                report.addMessage("required attribute is not a boolean");
-        }
+        if (!schemaNode.has("minimum"))
+            report.addMessage("exclusiveMinimum without minimum");
     }
 }

@@ -20,23 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class MinLengthSyntaxValidator
-    extends SyntaxValidator
+public final class DescriptionValidator
+    extends TypeOnlySyntaxValidator
 {
-    public MinLengthSyntaxValidator(final JsonNode schemaNode)
+    public DescriptionValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "minLength", NodeType.INTEGER);
-    }
-
-    @Override
-    protected void checkFurther()
-    {
-        if (!node.isInt()) {
-            report.addMessage("minLength is too large");
-            return;
-        }
-
-        if (node.getIntValue() < 0)
-            report.addMessage("minLength is negative");
+        super(schemaNode, "description", NodeType.STRING);
     }
 }

@@ -20,11 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class MaximumSyntaxValidator
+public final class EnumValidator
     extends TypeOnlySyntaxValidator
 {
-    public MaximumSyntaxValidator(final JsonNode schemaNode)
+    public EnumValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "maximum", NodeType.INTEGER, NodeType.NUMBER);
+        super(schemaNode, "enum", NodeType.ARRAY);
     }
 }

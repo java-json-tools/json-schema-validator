@@ -20,11 +20,24 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class MinimumSyntaxValidator
-    extends TypeOnlySyntaxValidator
+import java.math.BigDecimal;
+
+public final class DivisibleByValidator
+    extends SyntaxValidator
 {
-    public MinimumSyntaxValidator(final JsonNode schemaNode)
+    public DivisibleByValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "minimum", NodeType.INTEGER, NodeType.NUMBER);
+        super(schemaNode, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
+    }
+
+    @Override
+    protected void checkFurther()
+    {
+        final BigDecimal divisor = node.getDecimalValue();
+
+        if (BigDecimal.ZERO.compareTo(divisor) != 0)
+            return;
+
+        report.addMessage("divisibleBy is 0");
     }
 }

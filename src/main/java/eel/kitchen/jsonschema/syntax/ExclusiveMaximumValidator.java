@@ -17,13 +17,21 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class DisallowSyntaxValidator
-    extends TypeNodeSyntaxValidator
+public final class ExclusiveMaximumValidator
+    extends SyntaxValidator
 {
-    public DisallowSyntaxValidator(final JsonNode schemaNode)
+    public ExclusiveMaximumValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "disallow");
+        super(schemaNode, "exclusiveMaximum", NodeType.BOOLEAN);
+    }
+
+    @Override
+    protected void checkFurther()
+    {
+        if (!schemaNode.has("maximum"))
+            report.addMessage("exclusiveMaximum without maximum");
     }
 }

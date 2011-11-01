@@ -20,23 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class MaxLengthSyntaxValidator
-    extends SyntaxValidator
+public final class FormatValidator
+    extends TypeOnlySyntaxValidator
 {
-    public MaxLengthSyntaxValidator(final JsonNode schemaNode)
+    public FormatValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "maxLength", NodeType.INTEGER);
-    }
-
-    @Override
-    protected void checkFurther()
-    {
-        if (!node.isInt()) {
-            report.addMessage("maxLength is too large");
-            return;
-        }
-
-        if (node.getIntValue() < 0)
-            report.addMessage("maxLength is negative");
+        super(schemaNode, "format", NodeType.STRING);
     }
 }

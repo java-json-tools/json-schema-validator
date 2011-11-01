@@ -19,11 +19,11 @@ package eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
 
-public final class DollarSchemaSyntaxValidator
-    extends URISyntaxValidator
+public final class TypeValidator
+    extends TypeNodeSyntaxValidator
 {
-    public DollarSchemaSyntaxValidator(final JsonNode schemaNode)
+    public TypeValidator(final JsonNode schemaNode)
     {
-        super(schemaNode, "$schema");
+        super(schemaNode, "type");
     }
 }

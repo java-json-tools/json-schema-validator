@@ -20,10 +20,10 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class DependenciesSyntaxValidator
+public final class DependenciesValidator
     extends SyntaxValidator
 {
-    public DependenciesSyntaxValidator(final JsonNode schemaNode)
+    public DependenciesValidator(final JsonNode schemaNode)
     {
         super(schemaNode, "dependencies", NodeType.OBJECT);
     }
