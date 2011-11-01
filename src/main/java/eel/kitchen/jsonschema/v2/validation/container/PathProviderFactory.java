@@ -15,28 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.path;
+package eel.kitchen.jsonschema.v2.validation.container;
 
+import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class ScalarPathProvider
-    implements PathProvider
+final class PathProviderFactory
 {
-    private static final PathProvider instance = new ScalarPathProvider();
-
-    private ScalarPathProvider()
+    public static PathProvider getPathProvider(final JsonNode schemaNode,
+        final NodeType type)
     {
-    }
-
-    static PathProvider getInstance()
-    {
-        return instance;
-    }
-
-    @Override
-    public JsonNode getSchema(final String path)
-    {
-        throw new RuntimeException("Tried to get a subschema for a non "
-            + "container type instance validation");
+        return type == NodeType.ARRAY
+            ? new ArrayPathProvider(schemaNode)
+            : new ObjectPathProvider(schemaNode);
     }
 }

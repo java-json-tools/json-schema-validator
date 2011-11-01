@@ -15,23 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.path;
+package eel.kitchen.jsonschema.v2.validation.container;
 
-import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class PathProviderFactory
+interface PathProvider
 {
-    public static PathProvider getPathProvider(final JsonNode schemaNode,
-        final NodeType type)
-    {
-        switch (type) {
-            case ARRAY:
-                return new ArrayPathProvider(schemaNode);
-            case OBJECT:
-                return new ObjectPathProvider(schemaNode);
-            default:
-                return ScalarPathProvider.getInstance();
-        }
-    }
+    JsonNode getSchema(final String path);
 }

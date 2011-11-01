@@ -17,8 +17,6 @@
 
 package eel.kitchen.jsonschema.v2.validation.container;
 
-import eel.kitchen.jsonschema.v2.path.PathProvider;
-import eel.kitchen.jsonschema.v2.path.PathProviderFactory;
 import eel.kitchen.jsonschema.v2.validation.ValidatorFactory;
 import eel.kitchen.jsonschema.v2.validation.base.Validator;
 import eel.kitchen.util.CollectionUtils;
