@@ -23,7 +23,6 @@ import eel.kitchen.jsonschema.base.MatchAllValidator;
 import eel.kitchen.jsonschema.base.MaxItemsValidator;
 import eel.kitchen.jsonschema.base.RequiredPropertiesValidator;
 import eel.kitchen.jsonschema.base.Validator;
-import eel.kitchen.jsonschema.syntax.SyntaxValidatorFactory;
 import eel.kitchen.jsonschema.container.ArrayValidator;
 import eel.kitchen.jsonschema.container.ObjectValidator;
 import eel.kitchen.jsonschema.keyword.AdditionalItemsValidator;
@@ -68,8 +67,6 @@ public final class ValidatorFactory
     private final Map<String, Class<? extends Validator>> validators
         = new HashMap<String, Class<? extends Validator>>();
 
-    private final SyntaxValidatorFactory factory = new SyntaxValidatorFactory();
-
     public ValidatorFactory()
     {
         registerValidator("additionalItems", AdditionalItemsValidator.class,
@@ -113,27 +110,19 @@ public final class ValidatorFactory
     public Validator getValidator(final JsonNode schemaNode,
         final JsonNode instance)
     {
-        final Validator syntaxCheck = factory.getValidator(schemaNode);
-        final ValidationReport report = syntaxCheck.validate();
-
-        if (!report.isSuccess())
-            return new AlwaysFalseValidator(report.getMessages());
-
         final Collection<Validator> collection = getValidators(schemaNode,
             instance);
 
-        final Validator validator = new MatchAllValidator(collection);
+        final Validator validator = collection.size() == 1
+            ? collection.iterator().next()
+            : new MatchAllValidator(collection);
 
-        switch (NodeType.getNodeType(instance)) {
-            case ARRAY:
-                return new ArrayValidator(validator, this, schemaNode,
-                    instance);
-            case OBJECT:
-                return new ObjectValidator(validator, this, schemaNode,
-                    instance);
-            default:
-                return validator;
-        }
+        if (!instance.isContainerNode())
+            return validator;
+
+        return instance.isArray()
+            ? new ArrayValidator(validator, this, schemaNode, instance)
+            : new ObjectValidator(validator, this, schemaNode, instance);
     }
 
 
