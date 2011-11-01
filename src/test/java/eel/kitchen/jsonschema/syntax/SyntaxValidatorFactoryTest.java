@@ -32,6 +32,8 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
+//TODO: test reflection issues
+
 public final class SyntaxValidatorFactoryTest
 {
     private static final SyntaxValidatorFactory factory

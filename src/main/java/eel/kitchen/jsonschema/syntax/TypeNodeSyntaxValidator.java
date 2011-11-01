@@ -34,7 +34,6 @@ public abstract class TypeNodeSyntaxValidator
     @Override
     protected final void checkFurther()
     {
-        //TODO: implement
         if (!node.isArray()) {
             validateOne(node);
             return;
@@ -49,7 +48,6 @@ public abstract class TypeNodeSyntaxValidator
 
     private void validateOne(final JsonNode element)
     {
-        //TODO: implement
         final NodeType type = NodeType.getNodeType(element);
 
         switch (type) {

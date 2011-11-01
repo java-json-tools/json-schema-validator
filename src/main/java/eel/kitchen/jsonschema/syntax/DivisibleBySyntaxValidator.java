@@ -39,7 +39,5 @@ public final class DivisibleBySyntaxValidator
             return;
 
         report.addMessage("divisibleBy is 0");
-        //TODO: implement
-
     }
 }
