@@ -17,22 +17,24 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
-import org.codehaus.jackson.JsonNode;
 
 public final class PatternValidator
     extends SyntaxValidator
 {
-    public PatternValidator(final JsonNode schemaNode)
+    public PatternValidator(final ValidationContext context)
     {
-        super(schemaNode, "pattern", NodeType.STRING);
+        super(context, "pattern", NodeType.STRING);
     }
 
     @Override
     protected void checkFurther()
     {
-        if (!RhinoHelper.regexIsValid(node.getTextValue()))
-            report.addMessage("invalid regex in pattern");
+        final String pattern = node.getTextValue();
+
+        if (!RhinoHelper.regexIsValid(pattern))
+            report.addMessage("invalid regex " + pattern);
     }
 }

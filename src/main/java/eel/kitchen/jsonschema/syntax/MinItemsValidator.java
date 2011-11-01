@@ -17,26 +17,13 @@
 
 package eel.kitchen.jsonschema.syntax;
 
-import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.context.ValidationContext;
 
 public final class MinItemsValidator
-    extends SyntaxValidator
+    extends PositiveIntegerSyntaxValidator
 {
-    public MinItemsValidator(final JsonNode schemaNode)
+    public MinItemsValidator(final ValidationContext context)
     {
-        super(schemaNode, "minItems", NodeType.INTEGER);
-    }
-
-    @Override
-    protected void checkFurther()
-    {
-        if (!node.isInt()) {
-            report.addMessage("minItems is too large");
-            return;
-        }
-
-        if (node.getIntValue() < 0)
-            report.addMessage("minItems is negative");
+        super(context, "minItems");
     }
 }

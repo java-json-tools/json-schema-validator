@@ -18,7 +18,7 @@
             },
             "valid": false,
             "messages": [
-                "field additionalItems has wrong type string, expected one of [boolean, object]"
+                "# [schema:additionalItems]: field has wrong type string, expected one of [boolean, object]"
             ]
         }
     ],
@@ -41,7 +41,7 @@
             },
             "valid": false,
             "messages": [
-                "field additionalProperties has wrong type array, expected one of [boolean, object]"
+                "# [schema:additionalProperties]: field has wrong type array, expected one of [boolean, object]"
             ]
         }
     ],
@@ -63,7 +63,7 @@
             },
             "valid": false,
             "messages": [
-                "field dependencies has wrong type boolean, expected one of [object]"
+                "# [schema:dependencies]: field has wrong type boolean, expected one of [object]"
             ]
         },
         {
@@ -75,8 +75,8 @@
             },
             "valid": false,
             "messages": [
-                "dependencies: illegal value of type integer",
-                "a dependency array should only contain property names"
+                "# [schema:dependencies]: illegal value of type integer",
+                "# [schema:dependencies]: a dependency array should only contain property names"
             ]
         }
     ],
@@ -93,7 +93,7 @@
             },
             "valid": false,
             "messages": [
-                "field description has wrong type number, expected one of [string]"
+                "# [schema:description]: field has wrong type number, expected one of [string]"
             ]
         }
     ],
@@ -122,7 +122,7 @@
             },
             "valid": false,
             "messages": [
-                "field disallow has wrong type boolean, expected one of [array, string]"
+                "# [schema:disallow]: field has wrong type boolean, expected one of [array, string]"
             ]
         },
         {
@@ -131,7 +131,7 @@
             },
             "valid": false,
             "messages": [
-                "disallow: unknown type hammer"
+                "# [schema:disallow]: unknown type hammer"
             ]
         },
         {
@@ -140,7 +140,7 @@
             },
             "valid": false,
             "messages": [
-                "invalid element of type array in disallow array"
+                "# [schema:disallow]: array element is neither a simple type nor a schema"
             ]
         }
     ],
@@ -157,7 +157,7 @@
             },
             "valid": false,
             "messages": [
-                "divisibleBy is 0"
+                "# [schema:divisibleBy]: divisor is 0"
             ]
         },
         {
@@ -166,7 +166,7 @@
             },
             "valid": false,
             "messages": [
-                "field divisibleBy has wrong type string, expected one of [integer, number]"
+                "# [schema:divisibleBy]: field has wrong type string, expected one of [integer, number]"
             ]
         }
     ],
@@ -189,7 +189,7 @@
             },
             "valid": false,
             "messages": [
-                "field $ref has wrong type boolean, expected one of [string]"
+                "# [schema:$ref]: field has wrong type boolean, expected one of [string]"
             ]
         },
         {
@@ -198,7 +198,7 @@
             },
             "valid": false,
             "messages": [
-                "$ref is an invalid URI"
+                "# [schema:$ref]: not a valid URI"
             ]
         }
     ],
@@ -221,7 +221,7 @@
             },
             "valid": false,
             "messages": [
-                "field $schema has wrong type boolean, expected one of [string]"
+                "# [schema:$schema]: field has wrong type boolean, expected one of [string]"
             ]
         },
         {
@@ -230,7 +230,7 @@
             },
             "valid": false,
             "messages": [
-                "$schema is an invalid URI"
+                "# [schema:$schema]: not a valid URI"
             ]
         }
     ],
@@ -247,7 +247,7 @@
             },
             "valid": false,
             "messages": [
-                "field enum has wrong type integer, expected one of [array]"
+                "# [schema:enum]: field has wrong type integer, expected one of [array]"
             ]
         }
     ],
@@ -266,7 +266,7 @@
             },
             "valid": false,
             "messages": [
-                "field exclusiveMaximum has wrong type string, expected one of [boolean]"
+                "# [schema:exclusiveMaximum]: field has wrong type string, expected one of [boolean]"
             ]
         },
         {
@@ -275,7 +275,7 @@
             },
             "valid": false,
             "messages": [
-                "exclusiveMaximum without maximum"
+                "# [schema:exclusiveMaximum]: exclusiveMaximum without maximum"
             ]
         }
     ],
@@ -294,7 +294,7 @@
             },
             "valid": false,
             "messages": [
-                "field exclusiveMinimum has wrong type string, expected one of [boolean]"
+                "# [schema:exclusiveMinimum]: field has wrong type string, expected one of [boolean]"
             ]
         },
         {
@@ -303,7 +303,7 @@
             },
             "valid": false,
             "messages": [
-                "exclusiveMinimum without minimum"
+                "# [schema:exclusiveMinimum]: exclusiveMinimum without minimum"
             ]
         }
     ],
@@ -328,7 +328,7 @@
             },
             "valid": false,
             "messages": [
-                "field extends has wrong type integer, expected one of [array, object]"
+                "# [schema:extends]: field has wrong type integer, expected one of [array, object]"
             ]
         },
         {
@@ -337,9 +337,9 @@
             },
             "valid": false,
             "messages": [
-                "non schema element in extends array",
-                "non schema element in extends array",
-                "non schema element in extends array"
+                "# [schema:extends]: array element is not a schema",
+                "# [schema:extends]: array element is not a schema",
+                "# [schema:extends]: array element is not a schema"
             ]
         }
     ],
@@ -356,7 +356,7 @@
             },
             "valid": false,
             "messages": [
-                "field format has wrong type object, expected one of [string]"
+                "# [schema:format]: field has wrong type object, expected one of [string]"
             ]
         }
     ],
@@ -379,7 +379,7 @@
             },
             "valid": false,
             "messages": [
-                "field id has wrong type boolean, expected one of [string]"
+                "# [schema:id]: field has wrong type boolean, expected one of [string]"
             ]
         },
         {
@@ -388,7 +388,7 @@
             },
             "valid": false,
             "messages": [
-                "id is an invalid URI"
+                "# [schema:id]: not a valid URI"
             ]
         }
     ],
@@ -411,7 +411,7 @@
             },
             "valid": false,
             "messages": [
-                "field items has wrong type null, expected one of [array, object]"
+                "# [schema:items]: field has wrong type null, expected one of [array, object]"
             ]
         },
         {
@@ -420,8 +420,8 @@
             },
             "valid": false,
             "messages": [
-                "non schema element in items array",
-                "non schema element in items array"
+                "# [schema:items]: non schema element in array",
+                "# [schema:items]: non schema element in array"
             ]
         }
     ],
@@ -444,7 +444,7 @@
             },
             "valid": false,
             "messages": [
-                "field maximum has wrong type string, expected one of [integer, number]"
+                "# [schema:maximum]: field has wrong type string, expected one of [integer, number]"
             ]
         }
     ],
@@ -461,7 +461,7 @@
             },
             "valid": false,
             "messages": [
-                "maxItems is too large"
+                "# [schema:maxItems]: value is too large"
             ]
         },
         {
@@ -470,7 +470,7 @@
             },
             "valid": false,
             "messages": [
-                "maxItems is negative"
+                "# [schema:maxItems]: value is negative"
             ]
         },
         {
@@ -479,7 +479,7 @@
             },
             "valid": false,
             "messages": [
-                "field maxItems has wrong type number, expected one of [integer]"
+                "# [schema:maxItems]: field has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -496,7 +496,7 @@
             },
             "valid": false,
             "messages": [
-                "maxLength is too large"
+                "# [schema:maxLength]: value is too large"
             ]
         },
         {
@@ -505,7 +505,7 @@
             },
             "valid": false,
             "messages": [
-                "maxLength is negative"
+                "# [schema:maxLength]: value is negative"
             ]
         },
         {
@@ -514,7 +514,7 @@
             },
             "valid": false,
             "messages": [
-                "field maxLength has wrong type number, expected one of [integer]"
+                "# [schema:maxLength]: field has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -537,7 +537,7 @@
             },
             "valid": false,
             "messages": [
-                "field minimum has wrong type string, expected one of [integer, number]"
+                "# [schema:minimum]: field has wrong type string, expected one of [integer, number]"
             ]
         }
     ],
@@ -554,7 +554,7 @@
             },
             "valid": false,
             "messages": [
-                "minItems is too large"
+                "# [schema:minItems]: value is too large"
             ]
         },
         {
@@ -563,7 +563,7 @@
             },
             "valid": false,
             "messages": [
-                "minItems is negative"
+                "# [schema:minItems]: value is negative"
             ]
         },
         {
@@ -572,7 +572,7 @@
             },
             "valid": false,
             "messages": [
-                "field minItems has wrong type number, expected one of [integer]"
+                "# [schema:minItems]: field has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -589,7 +589,7 @@
             },
             "valid": false,
             "messages": [
-                "minLength is too large"
+                "# [schema:minLength]: value is too large"
             ]
         },
         {
@@ -598,7 +598,7 @@
             },
             "valid": false,
             "messages": [
-                "minLength is negative"
+                "# [schema:minLength]: value is negative"
             ]
         },
         {
@@ -607,7 +607,7 @@
             },
             "valid": false,
             "messages": [
-                "field minLength has wrong type number, expected one of [integer]"
+                "# [schema:minLength]: field has wrong type number, expected one of [integer]"
             ]
         }
     ],
@@ -630,8 +630,8 @@
             },
             "valid": false,
             "messages": [
-                "patternProperties: invalid regex a++",
-                "non schema value in patternProperties"
+                "# [schema:patternProperties]: invalid regex a++",
+                "# [schema:patternProperties]: value is not a schema"
             ]
         },
         {
@@ -640,7 +640,7 @@
             },
             "valid": false,
             "messages": [
-                "field patternProperties has wrong type integer, expected one of [object]"
+                "# [schema:patternProperties]: field has wrong type integer, expected one of [object]"
             ]
         }
     ],
@@ -657,7 +657,7 @@
             },
             "valid": false,
             "messages": [
-                "invalid regex in pattern"
+                "# [schema:pattern]: invalid regex f*+"
             ]
         },
         {
@@ -666,7 +666,7 @@
             },
             "valid": false,
             "messages": [
-                "field pattern has wrong type array, expected one of [string]"
+                "# [schema:pattern]: field has wrong type array, expected one of [string]"
             ]
         }
     ],
@@ -688,7 +688,7 @@
             },
             "valid": false,
             "messages": [
-                "field properties has wrong type null, expected one of [object]"
+                "# [schema:properties]: field has wrong type null, expected one of [object]"
             ]
         },
         {
@@ -702,8 +702,8 @@
             },
             "valid": false,
             "messages": [
-                "non schema value in properties",
-                "required attribute is not a boolean"
+                "# [schema:properties]: value is not a schema",
+                "# [schema:properties]: required attribute is not a boolean"
             ]
         }
     ],
@@ -720,7 +720,7 @@
             },
             "valid": false,
             "messages": [
-                "field title has wrong type number, expected one of [string]"
+                "# [schema:title]: field has wrong type number, expected one of [string]"
             ]
         }
     ],
@@ -749,7 +749,7 @@
             },
             "valid": false,
             "messages": [
-                "field type has wrong type boolean, expected one of [array, string]"
+                "# [schema:type]: field has wrong type boolean, expected one of [array, string]"
             ]
         },
         {
@@ -758,7 +758,7 @@
             },
             "valid": false,
             "messages": [
-                "type: unknown type hammer"
+                "# [schema:type]: unknown type hammer"
             ]
         },
         {
@@ -767,7 +767,7 @@
             },
             "valid": false,
             "messages": [
-                "invalid element of type array in type array"
+                "# [schema:type]: array element is neither a simple type nor a schema"
             ]
         }
     ],
@@ -784,7 +784,7 @@
             },
             "valid": false,
             "messages": [
-                "field uniqueItems has wrong type string, expected one of [boolean]"
+                "# [schema:uniqueItems]: field has wrong type string, expected one of [boolean]"
             ]
         }
     ]

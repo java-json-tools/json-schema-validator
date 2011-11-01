@@ -19,8 +19,6 @@ package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
 
-import java.util.List;
-
 public final class AlwaysFalseValidator
     extends NonEnumerableValidator
 {
@@ -34,11 +32,6 @@ public final class AlwaysFalseValidator
     public AlwaysFalseValidator(final String message)
     {
         report.addMessage(message);
-    }
-
-    public AlwaysFalseValidator(final List<String> messages)
-    {
-        report.addMessages(messages);
     }
 
     @Override

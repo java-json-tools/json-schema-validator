@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.NonEnumerableValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -28,17 +29,21 @@ import java.util.EnumSet;
 public abstract class SyntaxValidator
     extends NonEnumerableValidator
 {
-    protected final ValidationReport report = new ValidationReport();
+    protected final ValidationReport report;
 
+    protected final ValidationContext context;
     protected final JsonNode schemaNode, node;
     protected final String keyword;
     protected final EnumSet<NodeType> validTypes;
 
-    protected SyntaxValidator(final JsonNode schemaNode, final String keyword,
-        final NodeType... types)
+    protected SyntaxValidator(final ValidationContext context,
+        final String keyword, final NodeType... types)
     {
-        this.schemaNode = schemaNode;
+        this.context = context;
         this.keyword = keyword;
+
+        report = context.createReport(String.format(" [schema:%s]", keyword));
+        schemaNode = context.getSchemaNode();
         node = schemaNode.get(keyword);
         validTypes = EnumSet.copyOf(Arrays.asList(types));
     }
@@ -51,7 +56,7 @@ public abstract class SyntaxValidator
         final NodeType nodeType = NodeType.getNodeType(node);
 
         if (!validTypes.contains(nodeType))
-            report.addMessage("field " + keyword + " has wrong type " + nodeType
+            report.addMessage("field has wrong type " + nodeType
                 + ", expected one of " + validTypes);
         else
             checkFurther();

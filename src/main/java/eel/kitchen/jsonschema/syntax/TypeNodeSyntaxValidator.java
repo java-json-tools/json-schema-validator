@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -25,10 +26,10 @@ public abstract class TypeNodeSyntaxValidator
 {
     private static final String ANY = "any";
 
-    protected TypeNodeSyntaxValidator(final JsonNode schemaNode,
+    protected TypeNodeSyntaxValidator(final ValidationContext context,
         final String field)
     {
-        super(schemaNode, field, NodeType.STRING, NodeType.ARRAY);
+        super(context, field, NodeType.STRING, NodeType.ARRAY);
     }
 
     @Override
@@ -59,13 +60,12 @@ public abstract class TypeNodeSyntaxValidator
                     if (!ANY.equals(s))
                         NodeType.valueOf(s.toUpperCase());
                 } catch (IllegalArgumentException ignored) {
-                    report.addMessage(keyword + ": unknown type " + s);
+                    report.addMessage("unknown type " + s);
                 }
                 return;
             default:
-                report.addMessage(
-                    "invalid element of type " + type + " in " + keyword
-                        + " array");
+                report.addMessage("array element is neither a simple type nor"
+                    + " a schema");
         }
     }
 }

@@ -17,15 +17,16 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 public final class DependenciesValidator
     extends SyntaxValidator
 {
-    public DependenciesValidator(final JsonNode schemaNode)
+    public DependenciesValidator(final ValidationContext context)
     {
-        super(schemaNode, "dependencies", NodeType.OBJECT);
+        super(context, "dependencies", NodeType.OBJECT);
     }
 
     @Override
@@ -44,8 +45,7 @@ public final class DependenciesValidator
                                 + "only contain property names");
                     break;
                 default:
-                    report.addMessage("dependencies: illegal value of type "
-                        + type);
+                    report.addMessage("illegal value of type " + type);
             }
         }
 

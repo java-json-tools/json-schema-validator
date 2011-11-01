@@ -17,26 +17,13 @@
 
 package eel.kitchen.jsonschema.syntax;
 
-import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.context.ValidationContext;
 
 public final class MaxItemsValidator
-    extends SyntaxValidator
+    extends PositiveIntegerSyntaxValidator
 {
-    public MaxItemsValidator(final JsonNode schemaNode)
+    public MaxItemsValidator(final ValidationContext context)
     {
-        super(schemaNode, "maxItems", NodeType.INTEGER);
-    }
-
-    @Override
-    protected void checkFurther()
-    {
-        if (!node.isInt()) {
-            report.addMessage("maxItems is too large");
-            return;
-        }
-
-        if (node.getIntValue() < 0)
-            report.addMessage("maxItems is negative");
+        super(context, "maxItems");
     }
 }

@@ -17,18 +17,18 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
-import org.codehaus.jackson.JsonNode;
 
 import java.util.Iterator;
 
 public final class PatternPropertiesValidator
     extends SyntaxValidator
 {
-    public PatternPropertiesValidator(final JsonNode schemaNode)
+    public PatternPropertiesValidator(final ValidationContext context)
     {
-        super(schemaNode, "patternProperties", NodeType.OBJECT);
+        super(context, "patternProperties", NodeType.OBJECT);
     }
 
     @Override
@@ -41,9 +41,9 @@ public final class PatternPropertiesValidator
         while (iterator.hasNext()) {
             field = iterator.next();
             if (!RhinoHelper.regexIsValid(field))
-                report.addMessage("patternProperties: invalid regex " + field);
+                report.addMessage("invalid regex " + field);
             if (!node.get(field).isObject())
-                report.addMessage("non schema value in patternProperties");
+                report.addMessage("value is not a schema");
         }
     }
 }

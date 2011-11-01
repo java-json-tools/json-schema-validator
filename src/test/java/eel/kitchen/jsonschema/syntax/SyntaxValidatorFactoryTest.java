@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.Validator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
@@ -36,12 +37,13 @@ import static org.testng.Assert.*;
 
 public final class SyntaxValidatorFactoryTest
 {
-    private static final SyntaxValidatorFactory factory
-        = new SyntaxValidatorFactory();
-
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+    private static final JsonNode dummy = nodeFactory.nullNode();
 
     private JsonNode allTests;
+    private ValidationContext context;
+    private Validator v;
+    private ValidationReport report;
 
     @BeforeClass
     public void setUp()
@@ -53,14 +55,15 @@ public final class SyntaxValidatorFactoryTest
     @Test
     public void testNullSchema()
     {
-        final Validator v = factory.getValidator(null);
-        final ValidationReport report = v.validate();
+        context = new ValidationContext(null);
+        v = context.getValidator(dummy);
+        report = v.validate();
 
         assertFalse(report.isSuccess());
 
         final List<String> messages = report.getMessages();
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "schema is null");
+        assertEquals(messages.get(0), "# [schema]: schema is null");
     }
 
     @Test
@@ -68,8 +71,9 @@ public final class SyntaxValidatorFactoryTest
     {
         final JsonNode schema = nodeFactory.objectNode();
 
-        final Validator v = factory.getValidator(schema);
-        final ValidationReport report = new ValidationReport();
+        context = new ValidationContext(schema);
+        v = context.getValidator(schema);
+        report = new ValidationReport();
 
         assertTrue(report.isSuccess());
 
@@ -81,14 +85,16 @@ public final class SyntaxValidatorFactoryTest
     {
         final JsonNode schema = nodeFactory.textNode("hello");
 
-        final Validator v = factory.getValidator(schema);
-        final ValidationReport report = v.validate();
+        context = new ValidationContext(schema);
+        v = context.getValidator(schema);
+        report = v.validate();
 
         assertFalse(report.isSuccess());
 
         final List<String> messages = report.getMessages();
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "not a valid schema (not an object)");
+        assertEquals(messages.get(0), "# [schema]: not a valid schema (not an"
+            + " object)");
     }
 
     @Test
@@ -97,14 +103,15 @@ public final class SyntaxValidatorFactoryTest
         final ObjectNode schema = nodeFactory.objectNode();
         schema.put("toto", 2);
 
-        final Validator v = factory.getValidator(schema);
-        final ValidationReport report = v.validate();
+        context = new ValidationContext(schema);
+        v = context.getValidator(schema);
+        report = v.validate();
 
         assertFalse(report.isSuccess());
         final List<String> messages = report.getMessages();
 
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "unknown keyword toto");
+        assertEquals(messages.get(0), "# [schema]: unknown keyword toto");
     }
 
     @Test
@@ -277,13 +284,14 @@ public final class SyntaxValidatorFactoryTest
             testEntry(element);
     }
 
-    private static void testEntry(final JsonNode element)
+    private void testEntry(final JsonNode element)
     {
         final JsonNode schema = element.get("schema");
         final boolean valid = element.get("valid").getBooleanValue();
 
-        final Validator v = factory.getValidator(schema);
-        final ValidationReport report = v.validate();
+        context = new ValidationContext(schema);
+        v = context.getValidator(schema);
+        report = v.validate();
 
         if (valid) {
             assertTrue(report.isSuccess(), "schema " + schema + " considered "

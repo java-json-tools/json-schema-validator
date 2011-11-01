@@ -17,10 +17,12 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
 import eel.kitchen.jsonschema.base.Validator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
@@ -30,8 +32,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -72,59 +72,64 @@ public final class SyntaxValidatorFactory
         validators.put("uniqueItems", UniqueItemsValidator.class);
     }
 
-    public Validator getValidator(final JsonNode schema)
+    public Validator getValidator(final ValidationContext context)
     {
-        if (schema == null)
-            return new AlwaysFalseValidator("schema is null");
+        final JsonNode schema = context.getSchemaNode();
+        final ValidationReport report = context.createReport(" [schema]");
 
-        if (!schema.isObject())
-            return new AlwaysFalseValidator("not a valid schema (not an "
-                + "object)");
+        if (schema == null) {
+            report.addMessage("schema is null");
+            return new AlwaysFalseValidator(report);
+        }
 
-        final Set<String> fieldSet
+        if (!schema.isObject()) {
+            report.addMessage("not a valid schema (not an object)");
+            return new AlwaysFalseValidator(report);
+        }
+
+        final Set<String> fields
             = CollectionUtils.toSet(schema.getFieldNames());
 
         final Set<String> keywords = new HashSet<String>(validators.keySet());
 
-        if (!keywords.containsAll(fieldSet)) {
-            fieldSet.removeAll(keywords);
-            final List<String> messages = new LinkedList<String>();
-            for (final String field: fieldSet)
-                messages.add("unknown keyword " + field);
-            return new AlwaysFalseValidator(messages);
+        if (!keywords.containsAll(fields)) {
+            fields.removeAll(keywords);
+            for (final String field: fields)
+                report.addMessage("unknown keyword " + field);
+            return new AlwaysFalseValidator(report);
         }
 
-        fieldSet.retainAll(keywords);
+        fields.retainAll(keywords);
 
-        if (fieldSet.isEmpty())
+        if (fields.isEmpty())
             return new AlwaysTrueValidator();
 
-        final Collection<Validator> collection
-            = getValidators(fieldSet, schema);
+        final Collection<Validator> collection = getValidators(context, fields);
 
-        if (collection.size() == 1)
-            return collection.iterator().next();
-
-        return new MatchAllValidator(collection);
+        return collection.size() == 1 ? collection.iterator().next()
+            : new MatchAllValidator(collection);
     }
 
-    private Collection<Validator> getValidators(final Set<String> fieldSet,
-        final JsonNode schema)
+    private Collection<Validator> getValidators(final ValidationContext context,
+        final Set<String> fields)
     {
         final Set<Validator> ret = new HashSet<Validator>();
 
         Class<? extends Validator> c;
         Validator v;
 
-        for (final String field: fieldSet) {
+        for (final String field: fields) {
             c = validators.get(field);
             try {
-                v = buildValidator(c, schema);
+                v = buildValidator(c, context);
                 ret.add(v);
             } catch (Exception e) {
-                v = new AlwaysFalseValidator("cannot instantiate syntax "
-                    + "validator for " + field + ": " + e.getClass().getName()
-                    + ": " + e.getMessage());
+                final ValidationReport report
+                    = context.createReport(" [schema]");
+                report.addMessage(String.format("cannot instantiate syntax "
+                    + "validator for %s: %s: %s", field,
+                    e.getClass().getName(), e.getMessage()));
+                v = new AlwaysFalseValidator(report);
                 return Arrays.asList(v);
             }
         }
@@ -133,13 +138,13 @@ public final class SyntaxValidatorFactory
     }
 
     private static Validator buildValidator(final Class<? extends Validator> c,
-        final JsonNode schema)
+        final ValidationContext context)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
     {
         final Constructor<? extends Validator> constructor
-            = c.getConstructor(JsonNode.class);
+            = c.getConstructor(ValidationContext.class);
 
-        return constructor.newInstance(schema);
+        return constructor.newInstance(context);
     }
 }

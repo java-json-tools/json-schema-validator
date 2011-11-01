@@ -17,15 +17,16 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 public final class ExtendsValidator
     extends SyntaxValidator
 {
-    public ExtendsValidator(final JsonNode schemaNode)
+    public ExtendsValidator(final ValidationContext context)
     {
-        super(schemaNode, "extends", NodeType.OBJECT, NodeType.ARRAY);
+        super(context, "extends", NodeType.OBJECT, NodeType.ARRAY);
     }
 
     @Override
@@ -36,6 +37,6 @@ public final class ExtendsValidator
 
         for (final JsonNode element: node)
             if (!element.isObject())
-                report.addMessage("non schema element in extends array");
+                report.addMessage("array element is not a schema");
     }
 }

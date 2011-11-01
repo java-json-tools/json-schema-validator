@@ -23,9 +23,19 @@ import java.util.List;
 
 public final class ValidationReport
 {
-    private final List<String> messages
-        = new LinkedList<String>();
+    private final String path;
+    private final List<String> messages = new LinkedList<String>();
     private ValidationStatus status = ValidationStatus.SUCCESS;
+
+    public ValidationReport()
+    {
+        path = "";
+    }
+
+    public ValidationReport(final String path)
+    {
+        this.path = path;
+    }
 
     public boolean isSuccess()
     {
@@ -40,13 +50,7 @@ public final class ValidationReport
     public void addMessage(final String message)
     {
         status = ValidationStatus.FAILURE;
-        messages.add(message);
-    }
-
-    public void addMessages(final List<String> other)
-    {
-        status = ValidationStatus.FAILURE;
-        messages.addAll(other);
+        messages.add(path + ": " + message);
     }
 
     public void mergeWith(final ValidationReport other)

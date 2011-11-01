@@ -17,15 +17,15 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 public final class ExclusiveMinimumValidator
     extends SyntaxValidator
 {
-    public ExclusiveMinimumValidator(final JsonNode schemaNode)
+    public ExclusiveMinimumValidator(final ValidationContext context)
     {
-        super(schemaNode, "exclusiveMinimum", NodeType.BOOLEAN);
+        super(context, "exclusiveMinimum", NodeType.BOOLEAN);
     }
 
     @Override

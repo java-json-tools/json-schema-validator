@@ -17,14 +17,14 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 public final class MinimumValidator
     extends TypeOnlySyntaxValidator
 {
-    public MinimumValidator(final JsonNode schemaNode)
+    public MinimumValidator(final ValidationContext context)
     {
-        super(schemaNode, "minimum", NodeType.INTEGER, NodeType.NUMBER);
+        super(context, "minimum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

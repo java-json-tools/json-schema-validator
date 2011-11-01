@@ -17,8 +17,8 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,10 +26,10 @@ import java.net.URISyntaxException;
 public abstract class URISyntaxValidator
     extends SyntaxValidator
 {
-    protected URISyntaxValidator(final JsonNode schemaNode,
+    protected URISyntaxValidator(final ValidationContext context,
         final String keyword)
     {
-        super(schemaNode, keyword, NodeType.STRING);
+        super(context, keyword, NodeType.STRING);
     }
 
     @Override
@@ -38,7 +38,7 @@ public abstract class URISyntaxValidator
         try {
             new URI(node.getTextValue());
         } catch (URISyntaxException ignored) {
-            report.addMessage(keyword + " is an invalid URI");
+            report.addMessage("not a valid URI");
         }
     }
 }

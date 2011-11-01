@@ -17,15 +17,16 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 public final class PropertiesValidator
     extends SyntaxValidator
 {
-    public PropertiesValidator(final JsonNode schemaNode)
+    public PropertiesValidator(final ValidationContext context)
     {
-        super(schemaNode, "properties", NodeType.OBJECT);
+        super(context, "properties", NodeType.OBJECT);
     }
 
     @Override
@@ -35,7 +36,7 @@ public final class PropertiesValidator
 
         for (final JsonNode element: node) {
             if (!element.isObject()) {
-                report.addMessage("non schema value in properties");
+                report.addMessage("value is not a schema");
                 continue;
             }
             requiredNode = element.path("required");

@@ -17,17 +17,17 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
 public final class DivisibleByValidator
     extends SyntaxValidator
 {
-    public DivisibleByValidator(final JsonNode schemaNode)
+    public DivisibleByValidator(final ValidationContext context)
     {
-        super(schemaNode, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
+        super(context, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
     }
 
     @Override
@@ -38,6 +38,6 @@ public final class DivisibleByValidator
         if (BigDecimal.ZERO.compareTo(divisor) != 0)
             return;
 
-        report.addMessage("divisibleBy is 0");
+        report.addMessage("divisor is 0");
     }
 }

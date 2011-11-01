@@ -17,13 +17,13 @@
 
 package eel.kitchen.jsonschema.syntax;
 
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.context.ValidationContext;
 
 public final class IdValidator
     extends URISyntaxValidator
 {
-    public IdValidator(final JsonNode schemaNode)
+    public IdValidator(final ValidationContext context)
     {
-        super(schemaNode, "id");
+        super(context, "id");
     }
 }

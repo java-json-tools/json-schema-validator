@@ -17,13 +17,13 @@
 
 package eel.kitchen.jsonschema.syntax;
 
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.context.ValidationContext;
 
 public final class DisallowValidator
     extends TypeNodeSyntaxValidator
 {
-    public DisallowValidator(final JsonNode schemaNode)
+    public DisallowValidator(final ValidationContext context)
     {
-        super(schemaNode, "disallow");
+        super(context, "disallow");
     }
 }

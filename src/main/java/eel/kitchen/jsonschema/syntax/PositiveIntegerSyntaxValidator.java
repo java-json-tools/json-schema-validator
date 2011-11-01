@@ -20,17 +20,24 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
-public abstract class TypeOnlySyntaxValidator
+public abstract class PositiveIntegerSyntaxValidator
     extends SyntaxValidator
 {
-    protected TypeOnlySyntaxValidator(final ValidationContext context,
-        final String keyword, final NodeType... types)
+    protected PositiveIntegerSyntaxValidator(final ValidationContext context,
+        final String keyword)
     {
-        super(context, keyword, types);
+        super(context, keyword, NodeType.INTEGER);
     }
 
     @Override
     protected final void checkFurther()
     {
+        if (!node.isInt()) {
+            report.addMessage("value is too large");
+            return;
+        }
+
+        if (node.getIntValue() < 0)
+            report.addMessage("value is negative");
     }
 }

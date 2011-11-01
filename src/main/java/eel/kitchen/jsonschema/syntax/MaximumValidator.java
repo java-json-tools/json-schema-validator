@@ -17,14 +17,14 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 public final class MaximumValidator
     extends TypeOnlySyntaxValidator
 {
-    public MaximumValidator(final JsonNode schemaNode)
+    public MaximumValidator(final ValidationContext context)
     {
-        super(schemaNode, "maximum", NodeType.INTEGER, NodeType.NUMBER);
+        super(context, "maximum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

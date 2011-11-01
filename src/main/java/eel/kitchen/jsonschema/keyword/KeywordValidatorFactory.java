@@ -23,6 +23,7 @@ import eel.kitchen.jsonschema.base.MatchAllValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.container.ArrayValidator;
 import eel.kitchen.jsonschema.container.ObjectValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -156,5 +157,12 @@ public final class KeywordValidatorFactory
                 JsonNode.class);
 
         return constructor.newInstance(this, schemaNode, instance);
+    }
+
+    public Validator getValidator(final ValidationContext validationContext,
+        final JsonNode schemaNode)
+    {
+        //TODO: implement
+        return new AlwaysTrueValidator();
     }
 }

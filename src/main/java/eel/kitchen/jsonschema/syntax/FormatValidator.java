@@ -17,14 +17,14 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 public final class FormatValidator
     extends TypeOnlySyntaxValidator
 {
-    public FormatValidator(final JsonNode schemaNode)
+    public FormatValidator(final ValidationContext context)
     {
-        super(schemaNode, "format", NodeType.STRING);
+        super(context, "format", NodeType.STRING);
     }
 }

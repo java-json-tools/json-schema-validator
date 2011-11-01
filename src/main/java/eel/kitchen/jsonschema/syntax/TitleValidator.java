@@ -17,14 +17,14 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 public final class TitleValidator
     extends TypeOnlySyntaxValidator
 {
-    public TitleValidator(final JsonNode schemaNode)
+    public TitleValidator(final ValidationContext context)
     {
-        super(schemaNode, "title", NodeType.STRING);
+        super(context, "title", NodeType.STRING);
     }
 }

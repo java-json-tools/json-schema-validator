@@ -17,14 +17,14 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 public final class UniqueItemsValidator
     extends TypeOnlySyntaxValidator
 {
-    public UniqueItemsValidator(final JsonNode schemaNode)
+    public UniqueItemsValidator(final ValidationContext context)
     {
-        super(schemaNode, "uniqueItems", NodeType.BOOLEAN);
+        super(context, "uniqueItems", NodeType.BOOLEAN);
     }
 }

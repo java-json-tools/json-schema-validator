@@ -17,14 +17,14 @@
 
 package eel.kitchen.jsonschema.syntax;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
 
 public final class EnumValidator
     extends TypeOnlySyntaxValidator
 {
-    public EnumValidator(final JsonNode schemaNode)
+    public EnumValidator(final ValidationContext context)
     {
-        super(schemaNode, "enum", NodeType.ARRAY);
+        super(context, "enum", NodeType.ARRAY);
     }
 }

@@ -17,13 +17,13 @@
 
 package eel.kitchen.jsonschema.syntax;
 
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.context.ValidationContext;
 
 public final class DollarRefValidator
     extends URISyntaxValidator
 {
-    public DollarRefValidator(final JsonNode schemaNode)
+    public DollarRefValidator(final ValidationContext context)
     {
-        super(schemaNode, "$ref");
+        super(context, "$ref");
     }
 }
