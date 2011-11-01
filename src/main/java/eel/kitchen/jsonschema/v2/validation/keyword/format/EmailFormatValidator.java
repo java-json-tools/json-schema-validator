@@ -15,15 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
 import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
-public final class PhoneNumberValidator
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
+public final class EmailFormatValidator
     extends AbstractFormatValidator
 {
-    public PhoneNumberValidator(final JsonNode node)
+    public EmailFormatValidator(final JsonNode node)
     {
         super(node);
     }
@@ -31,16 +34,11 @@ public final class PhoneNumberValidator
     @Override
     public ValidationReport validate()
     {
-        final String input = node.getTextValue();
-
-        final String transformed = input.replaceFirst("^\\((\\d+)\\)", "\\1")
-            .replaceFirst("^\\+", "")
-            .replaceAll("-(?=\\d)", "")
-            .replaceAll(" (?=\\d)", "")
-            .replaceAll("\\d", "");
-
-        if (!transformed.isEmpty())
-            report.addMessage("string is not a recognized phone number");
+        try {
+            new InternetAddress(node.getTextValue());
+        } catch (AddressException ignored) {
+            report.addMessage("string is not a valid email address");
+        }
 
         return report;
     }

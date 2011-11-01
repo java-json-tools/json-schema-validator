@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
 import eel.kitchen.jsonschema.v2.validation.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.v2.validation.base.AlwaysTrueValidator;

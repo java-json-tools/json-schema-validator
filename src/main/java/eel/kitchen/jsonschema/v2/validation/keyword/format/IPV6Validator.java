@@ -15,15 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
+import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
-public final class DateFormatValidator
-    extends AbstractDateFormatValidator
+import java.net.Inet6Address;
+import java.net.UnknownHostException;
+
+public final class IPV6Validator
+    extends AbstractFormatValidator
 {
-    public DateFormatValidator(final JsonNode node)
+    public IPV6Validator(final JsonNode node)
     {
-        super(node, "yyyy-MM-dd", "date");
+        super(node);
+    }
+
+    @Override
+    public ValidationReport validate()
+    {
+        try {
+            final String ipaddr = node.getTextValue();
+            if (ipaddr.indexOf(':') == -1)
+                throw new UnknownHostException();
+            Inet6Address.getByName(ipaddr);
+        } catch (UnknownHostException ignored) {
+            report.addMessage("string is not a valid IPv6 address");
+        }
+
+        return report;
     }
 }

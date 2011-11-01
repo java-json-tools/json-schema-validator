@@ -15,31 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
-import eel.kitchen.jsonschema.v2.validation.ValidationReport;
+import eel.kitchen.jsonschema.v2.validation.base.NonEnumerableValidator;
 import org.codehaus.jackson.JsonNode;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-public final class URIValidator
-    extends AbstractFormatValidator
+public abstract class AbstractFormatValidator
+    extends NonEnumerableValidator
 {
-    public URIValidator(final JsonNode node)
-    {
-        super(node);
-    }
+    protected final JsonNode node;
 
-    @Override
-    public ValidationReport validate()
+    protected AbstractFormatValidator(final JsonNode node)
     {
-        try {
-            new URI(node.getTextValue());
-        } catch (URISyntaxException ignored) {
-            report.addMessage("string is not a valid URI");
-        }
-
-        return report;
+        this.node = node;
     }
 }

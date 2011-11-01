@@ -15,22 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
 import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class IPV4Validator
+public final class CSSStyleValidator
     extends AbstractFormatValidator
 {
-    private static final Pattern pattern
-        = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
+    /**
+     * <p>Pattern to recognize one style element. It is assumed that a style
+     * element has the shape "something: whatever".</p>
+     *
+     * <p>This is used with {@link Matcher#matches()}, so the regex needs not
+     * be anchored.</p>
+     */
 
-    public IPV4Validator(final JsonNode node)
+    private static final Pattern styleElement
+        = Pattern.compile("\\s*[^:]+\\s*:\\s*[^;]+", Pattern.CASE_INSENSITIVE);
+
+    public CSSStyleValidator(final JsonNode node)
     {
         super(node);
     }
@@ -38,15 +45,17 @@ public final class IPV4Validator
     @Override
     public ValidationReport validate()
     {
-        try {
-            final String ipaddr = node.getTextValue();
-            if (!pattern.matcher(ipaddr).matches())
-                throw new UnknownHostException();
-            Inet4Address.getByName(ipaddr);
-        } catch (UnknownHostException ignored) {
-            report.addMessage("string is not a valid IPv4 address");
-        }
+        final String[] rules = node.getTextValue().split("\\s*;\\s*");
+        Matcher matcher;
 
+        for (final String rule : rules) {
+            matcher = styleElement.matcher(rule);
+            if (!matcher.matches()) {
+                report.addMessage("string is not a valid CSS 2.1 style");
+                break;
+            }
+        }
         return report;
     }
+
 }

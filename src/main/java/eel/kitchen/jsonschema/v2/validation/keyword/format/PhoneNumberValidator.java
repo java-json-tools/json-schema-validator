@@ -15,15 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
+import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
-public final class DateTimeFormatValidator
-    extends AbstractDateFormatValidator
+public final class PhoneNumberValidator
+    extends AbstractFormatValidator
 {
-    public DateTimeFormatValidator(final JsonNode node)
+    public PhoneNumberValidator(final JsonNode node)
     {
-        super(node, "yyyy-MM-dd'T'HH:mm:ssz", "ISO 8601 date-time");
+        super(node);
+    }
+
+    @Override
+    public ValidationReport validate()
+    {
+        final String input = node.getTextValue();
+
+        final String transformed = input.replaceFirst("^\\((\\d+)\\)", "\\1")
+            .replaceFirst("^\\+", "")
+            .replaceAll("-(?=\\d)", "")
+            .replaceAll(" (?=\\d)", "")
+            .replaceAll("\\d", "");
+
+        if (!transformed.isEmpty())
+            report.addMessage("string is not a recognized phone number");
+
+        return report;
     }
 }

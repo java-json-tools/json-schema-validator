@@ -20,7 +20,7 @@ package eel.kitchen.jsonschema.v2.validation.keyword;
 import eel.kitchen.jsonschema.v2.validation.ValidatorFactory;
 import eel.kitchen.jsonschema.v2.validation.base.SimpleValidator;
 import eel.kitchen.jsonschema.v2.validation.base.Validator;
-import eel.kitchen.jsonschema.v2.validation.format.FormatFactory;
+import eel.kitchen.jsonschema.v2.validation.keyword.format.FormatFactory;
 import org.codehaus.jackson.JsonNode;
 
 public final class FormatValidator

@@ -15,29 +15,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
 import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-public final class EmailFormatValidator
+public abstract class AbstractDateFormatValidator
     extends AbstractFormatValidator
 {
-    public EmailFormatValidator(final JsonNode node)
+    private final SimpleDateFormat format;
+    private final String errmsg;
+
+    protected AbstractDateFormatValidator(final JsonNode node,
+        final String fmt, final String desc)
     {
         super(node);
+        format = new SimpleDateFormat(fmt);
+        errmsg = String.format("value is not a valid %s", desc);
     }
 
     @Override
-    public ValidationReport validate()
+    public final ValidationReport validate()
     {
         try {
-            new InternetAddress(node.getTextValue());
-        } catch (AddressException ignored) {
-            report.addMessage("string is not a valid email address");
+            format.parse(node.getTextValue());
+        } catch (ParseException ignored) {
+            report.addMessage(errmsg);
         }
 
         return report;

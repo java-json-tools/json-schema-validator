@@ -15,20 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
 import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
-import java.math.BigInteger;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+import java.util.regex.Pattern;
 
-public final class UnixEpochValidator
+public final class IPV4Validator
     extends AbstractFormatValidator
 {
-    private static final int EPOCH_SHIFT = 31;
-    private static final BigInteger ONE_THOUSAND = new BigInteger("1000");
+    private static final Pattern pattern
+        = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
 
-    public UnixEpochValidator(final JsonNode node)
+    public IPV4Validator(final JsonNode node)
     {
         super(node);
     }
@@ -36,16 +38,14 @@ public final class UnixEpochValidator
     @Override
     public ValidationReport validate()
     {
-        final BigInteger epoch = node.getDecimalValue().toBigInteger()
-            .divide(ONE_THOUSAND);
-
-        if (BigInteger.ZERO.compareTo(epoch) > 0) {
-            report.addMessage("epoch cannot be negative");
-            return report;
+        try {
+            final String ipaddr = node.getTextValue();
+            if (!pattern.matcher(ipaddr).matches())
+                throw new UnknownHostException();
+            Inet4Address.getByName(ipaddr);
+        } catch (UnknownHostException ignored) {
+            report.addMessage("string is not a valid IPv4 address");
         }
-
-        if (!BigInteger.ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
-            report.addMessage("epoch time would overflow");
 
         return report;
     }

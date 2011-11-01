@@ -15,18 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation.format;
+package eel.kitchen.jsonschema.v2.validation.keyword.format;
 
 import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
-import java.net.Inet6Address;
-import java.net.UnknownHostException;
+import java.math.BigInteger;
 
-public final class IPV6Validator
+public final class UnixEpochValidator
     extends AbstractFormatValidator
 {
-    public IPV6Validator(final JsonNode node)
+    private static final int EPOCH_SHIFT = 31;
+    private static final BigInteger ONE_THOUSAND = new BigInteger("1000");
+
+    public UnixEpochValidator(final JsonNode node)
     {
         super(node);
     }
@@ -34,14 +36,16 @@ public final class IPV6Validator
     @Override
     public ValidationReport validate()
     {
-        try {
-            final String ipaddr = node.getTextValue();
-            if (ipaddr.indexOf(':') == -1)
-                throw new UnknownHostException();
-            Inet6Address.getByName(ipaddr);
-        } catch (UnknownHostException ignored) {
-            report.addMessage("string is not a valid IPv6 address");
+        final BigInteger epoch = node.getDecimalValue().toBigInteger()
+            .divide(ONE_THOUSAND);
+
+        if (BigInteger.ZERO.compareTo(epoch) > 0) {
+            report.addMessage("epoch cannot be negative");
+            return report;
         }
+
+        if (!BigInteger.ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
+            report.addMessage("epoch time would overflow");
 
         return report;
     }
