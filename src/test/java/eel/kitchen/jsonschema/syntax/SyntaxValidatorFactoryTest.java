@@ -47,7 +47,7 @@ public final class SyntaxValidatorFactoryTest
     public void setUp()
         throws IOException
     {
-        allTests = JasonHelper.load("/v2/syntax/syntax.json");
+        allTests = JasonHelper.load("/syntax/syntax.json");
     }
 
     @Test
