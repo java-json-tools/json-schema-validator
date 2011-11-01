@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
@@ -25,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
 public final class UniqueItemsValidator
     extends SimpleValidator
 {
-    public UniqueItemsValidator(final ValidatorFactory ignored,
+    public UniqueItemsValidator(final KeywordValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
         super(ignored, schema, instance);

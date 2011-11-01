@@ -15,32 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema;
+package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
-import eel.kitchen.jsonschema.keyword.PropertiesValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.container.ArrayValidator;
 import eel.kitchen.jsonschema.container.ObjectValidator;
-import eel.kitchen.jsonschema.keyword.AdditionalItemsValidator;
-import eel.kitchen.jsonschema.keyword.AdditionalPropertiesValidator;
-import eel.kitchen.jsonschema.keyword.DependenciesValidator;
-import eel.kitchen.jsonschema.keyword.DisallowValidator;
-import eel.kitchen.jsonschema.keyword.DivisibleByValidator;
-import eel.kitchen.jsonschema.keyword.EnumValidator;
-import eel.kitchen.jsonschema.keyword.ExtendsValidator;
-import eel.kitchen.jsonschema.keyword.FormatValidator;
-import eel.kitchen.jsonschema.keyword.MaxItemsValidator;
-import eel.kitchen.jsonschema.keyword.MaxLengthValidator;
-import eel.kitchen.jsonschema.keyword.MaximumValidator;
-import eel.kitchen.jsonschema.keyword.MinItemsValidator;
-import eel.kitchen.jsonschema.keyword.MinLengthValidator;
-import eel.kitchen.jsonschema.keyword.MinimumValidator;
-import eel.kitchen.jsonschema.keyword.PatternValidator;
-import eel.kitchen.jsonschema.keyword.TypeValidator;
-import eel.kitchen.jsonschema.keyword.UniqueItemsValidator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -59,7 +41,7 @@ import java.util.Set;
 
 import static eel.kitchen.util.NodeType.*;
 
-public final class ValidatorFactory
+public final class KeywordValidatorFactory
 {
     private final Map<String, EnumSet<NodeType>> fieldMap
         = new HashMap<String, EnumSet<NodeType>>();
@@ -67,7 +49,7 @@ public final class ValidatorFactory
     private final Map<String, Class<? extends Validator>> validators
         = new HashMap<String, Class<? extends Validator>>();
 
-    public ValidatorFactory()
+    public KeywordValidatorFactory()
     {
         registerValidator("additionalItems", AdditionalItemsValidator.class,
             ARRAY);
@@ -92,7 +74,7 @@ public final class ValidatorFactory
         registerValidator("pattern", PatternValidator.class, STRING);
         registerValidator("patternProperties", AlwaysTrueValidator.class,
             NodeType.values());
-        registerValidator("properties", RequiredPropertiesValidator.class,
+        registerValidator("properties", PropertiesValidator.class,
             OBJECT);
         registerValidator("type", TypeValidator.class, NodeType.values());
         registerValidator("uniqueItems", UniqueItemsValidator.class, ARRAY);
@@ -170,7 +152,7 @@ public final class ValidatorFactory
         IllegalAccessException, InstantiationException
     {
         final Constructor<? extends Validator> constructor
-            = c.getConstructor(ValidatorFactory.class, JsonNode.class,
+            = c.getConstructor(KeywordValidatorFactory.class, JsonNode.class,
                 JsonNode.class);
 
         return constructor.newInstance(this, schemaNode, instance);

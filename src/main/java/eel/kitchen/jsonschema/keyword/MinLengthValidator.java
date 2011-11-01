@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import org.codehaus.jackson.JsonNode;
 
@@ -26,7 +25,7 @@ public final class MinLengthValidator
 {
     private final int minLength;
 
-    public MinLengthValidator(final ValidatorFactory ignored,
+    public MinLengthValidator(final KeywordValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
         super(ignored, schema, instance);

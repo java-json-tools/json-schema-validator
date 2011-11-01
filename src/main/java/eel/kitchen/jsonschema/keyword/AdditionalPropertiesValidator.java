@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.RhinoHelper;
@@ -35,7 +34,7 @@ public final class AdditionalPropertiesValidator
 
     private final Set<String> patterns = new HashSet<String>();
 
-    public AdditionalPropertiesValidator(final ValidatorFactory ignored,
+    public AdditionalPropertiesValidator(final KeywordValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
         super(ignored, schema, instance);

@@ -18,14 +18,13 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 public final class TypeValidator
     extends TypeKeywordValidator
 {
-    public TypeValidator(final ValidatorFactory factory,
+    public TypeValidator(final KeywordValidatorFactory factory,
         final JsonNode schema, final JsonNode instance)
     {
         super(factory, schema, instance, "type");

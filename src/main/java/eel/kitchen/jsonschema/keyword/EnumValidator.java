@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
@@ -30,7 +29,7 @@ public final class EnumValidator
 {
     private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
 
-    public EnumValidator(final ValidatorFactory ignored, final JsonNode schema,
+    public EnumValidator(final KeywordValidatorFactory ignored, final JsonNode schema,
         final JsonNode instance)
     {
         super(ignored, schema, instance);

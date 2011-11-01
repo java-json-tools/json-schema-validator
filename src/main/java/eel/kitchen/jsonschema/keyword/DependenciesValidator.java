@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
@@ -42,7 +41,7 @@ public final class DependenciesValidator
     private final Map<String, Collection<String>> simpleDependencies
         = new HashMap<String, Collection<String>>();
 
-    public DependenciesValidator(final ValidatorFactory factory,
+    public DependenciesValidator(final KeywordValidatorFactory factory,
         final JsonNode schema, final JsonNode instance)
     {
         super(factory, schema, instance);

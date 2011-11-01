@@ -18,17 +18,18 @@
 package eel.kitchen.jsonschema;
 
 import eel.kitchen.jsonschema.base.Validator;
+import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import org.codehaus.jackson.JsonNode;
 
 public final class JsonValidator
 {
-    private final ValidatorFactory factory;
+    private final KeywordValidatorFactory factory;
     private final JsonNode schema;
 
     public JsonValidator(final JsonNode schema)
     {
         this.schema = schema;
-        factory = new ValidatorFactory();
+        factory = new KeywordValidatorFactory();
     }
 
     public ValidationReport validate(final JsonNode instance)

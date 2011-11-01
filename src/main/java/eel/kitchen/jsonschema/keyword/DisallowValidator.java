@@ -18,14 +18,13 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 public final class DisallowValidator
     extends TypeKeywordValidator
 {
-    public DisallowValidator(final ValidatorFactory factory,
+    public DisallowValidator(final KeywordValidatorFactory factory,
         final JsonNode schema, final JsonNode instance)
     {
         super(factory, schema, instance, "disallow");

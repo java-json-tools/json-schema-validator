@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import org.codehaus.jackson.JsonNode;
 
@@ -28,7 +27,7 @@ public final class DivisibleByValidator
 {
     private final BigDecimal divisor;
 
-    public DivisibleByValidator(final ValidatorFactory ignored,
+    public DivisibleByValidator(final KeywordValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
         super(ignored, schema, instance);

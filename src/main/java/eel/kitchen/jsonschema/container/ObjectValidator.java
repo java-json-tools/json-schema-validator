@@ -17,7 +17,7 @@
 
 package eel.kitchen.jsonschema.container;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
+import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
@@ -29,7 +29,7 @@ public final class ObjectValidator
     extends ContainerValidator
 {
     public ObjectValidator(final Validator validator,
-        final ValidatorFactory factory, final JsonNode schema,
+        final KeywordValidatorFactory factory, final JsonNode schema,
         final JsonNode instance)
     {
         super(validator, factory, schema, instance);

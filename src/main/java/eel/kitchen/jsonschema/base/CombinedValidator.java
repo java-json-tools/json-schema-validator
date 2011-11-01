@@ -17,17 +17,17 @@
 
 package eel.kitchen.jsonschema.base;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
+import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class CombinedValidator
     extends EnumerableValidator
 {
-    protected final ValidatorFactory factory;
+    protected final KeywordValidatorFactory factory;
     protected final JsonNode schema;
     protected final JsonNode instance;
 
-    protected CombinedValidator(final ValidatorFactory factory,
+    protected CombinedValidator(final KeywordValidatorFactory factory,
         final JsonNode schema, final JsonNode instance)
     {
         this.factory = factory;

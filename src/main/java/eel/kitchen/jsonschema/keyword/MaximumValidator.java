@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import org.codehaus.jackson.JsonNode;
 
@@ -29,7 +28,7 @@ public final class MaximumValidator
     private final BigDecimal maximum;
     private final boolean exclusiveMaximum;
 
-    public MaximumValidator(final ValidatorFactory ignored,
+    public MaximumValidator(final KeywordValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
         super(ignored, schema, instance);

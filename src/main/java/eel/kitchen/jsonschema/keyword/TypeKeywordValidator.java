@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidatorFactory;
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -37,7 +36,7 @@ public abstract class TypeKeywordValidator
     protected final Queue<JsonNode> schemas = new ArrayDeque<JsonNode>();
 
 
-    protected TypeKeywordValidator(final ValidatorFactory factory,
+    protected TypeKeywordValidator(final KeywordValidatorFactory factory,
         final JsonNode schema, final JsonNode instance, final String field)
     {
         super(factory, schema, instance);

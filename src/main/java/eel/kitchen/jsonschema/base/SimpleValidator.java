@@ -18,7 +18,7 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.ValidatorFactory;
+import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class SimpleValidator
@@ -27,7 +27,7 @@ public abstract class SimpleValidator
     protected final JsonNode schema;
     protected final JsonNode instance;
 
-    protected SimpleValidator(final ValidatorFactory ignored,
+    protected SimpleValidator(final KeywordValidatorFactory ignored,
         final JsonNode schema, final JsonNode instance)
     {
         this.schema = schema;
