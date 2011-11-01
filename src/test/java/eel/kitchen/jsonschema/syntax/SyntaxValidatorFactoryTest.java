@@ -305,7 +305,7 @@ public final class SyntaxValidatorFactoryTest
         for (final JsonNode message: element.get("messages"))
             expected.add(message.getTextValue());
 
-        assertEqualsNoOrder(report.getMessages().toArray(), expected.toArray(),
+        assertEquals(report.getMessages().toArray(), expected.toArray(),
             "message list differs from expectations while validating " + schema);
     }
 }

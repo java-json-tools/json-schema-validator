@@ -18,8 +18,12 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
+
+import java.util.Map;
+import java.util.SortedMap;
 
 public final class PropertiesValidator
     extends SyntaxValidator
@@ -32,18 +36,30 @@ public final class PropertiesValidator
     @Override
     protected void checkFurther()
     {
-        JsonNode requiredNode;
+        final SortedMap<String, JsonNode> fields
+            = CollectionUtils.toSortedMap(node.getFields());
 
-        for (final JsonNode element: node) {
+        String field;
+        JsonNode element;
+        NodeType type;
+
+        for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
+            field = entry.getKey();
+            element = entry.getValue();
             if (!element.isObject()) {
-                report.addMessage("value is not a schema");
+                report.addMessage(String.format("field \"%s\": value has "
+                    + "wrong type %s (expected a schema)", field,
+                    NodeType.getNodeType(element)));
                 continue;
             }
-            requiredNode = element.path("required");
-            if (requiredNode.isMissingNode())
+            if (!element.has("required"))
                 continue;
-            if (!requiredNode.isBoolean())
-                report.addMessage("required attribute is not a boolean");
+            type = NodeType.getNodeType(element.get("required"));
+            if (type == NodeType.BOOLEAN)
+                continue;
+            report.addMessage(String.format("field \"%s\": attribute "
+                + "\"required\" of enclosed schema has wrong type %s "
+                + "(expected a boolean)", field, type));
         }
     }
 }

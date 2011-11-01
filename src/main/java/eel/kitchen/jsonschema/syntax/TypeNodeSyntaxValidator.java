@@ -40,14 +40,12 @@ public abstract class TypeNodeSyntaxValidator
             return;
         }
 
-        for (final JsonNode element : node) {
-            validateOne(element);
-            if (!report.isSuccess())
-                return;
-        }
+        int i = 0;
+        for (final JsonNode element : node)
+            validateOne(String.format("array element %d: ", i++), element);
     }
 
-    private void validateOne(final JsonNode element)
+    private void validateOne(final String prefix, final JsonNode element)
     {
         final NodeType type = NodeType.getNodeType(element);
 
@@ -60,12 +58,19 @@ public abstract class TypeNodeSyntaxValidator
                     if (!ANY.equals(s))
                         NodeType.valueOf(s.toUpperCase());
                 } catch (IllegalArgumentException ignored) {
-                    report.addMessage("unknown type " + s);
+                    report.addMessage(String.format("%sunknown simple type %s",
+                        prefix, s));
                 }
                 return;
             default:
-                report.addMessage("array element is neither a simple type nor"
-                    + " a schema");
+                report.addMessage(String.format("%selement has wrong "
+                    + "type %s (expected a simple type or a schema)",
+                    prefix, type));
         }
+    }
+
+    private void validateOne(final JsonNode element)
+    {
+        validateOne("", element);
     }
 }

@@ -18,10 +18,13 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
+import org.codehaus.jackson.JsonNode;
 
-import java.util.Iterator;
+import java.util.Map;
+import java.util.SortedMap;
 
 public final class PatternPropertiesValidator
     extends SyntaxValidator
@@ -34,16 +37,24 @@ public final class PatternPropertiesValidator
     @Override
     protected void checkFurther()
     {
-        final Iterator<String> iterator = node.getFieldNames();
+        final SortedMap<String, JsonNode> fields
+            = CollectionUtils.toSortedMap(node.getFields());
 
         String field;
+        JsonNode element;
+        NodeType type;
 
-        while (iterator.hasNext()) {
-            field = iterator.next();
+        for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
+            field = entry.getKey();
             if (!RhinoHelper.regexIsValid(field))
-                report.addMessage("invalid regex " + field);
-            if (!node.get(field).isObject())
-                report.addMessage("value is not a schema");
+                report.addMessage(String.format(
+                    "field \"%s\": regex is invalid", field));
+            element = entry.getValue();
+            type = NodeType.getNodeType(element);
+            if (type == NodeType.OBJECT)
+                continue;
+            report.addMessage(String.format("field \"%s\": value has wrong "
+                + "type %s (expected a schema)", field, type));
         }
     }
 }

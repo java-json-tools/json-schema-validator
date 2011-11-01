@@ -18,8 +18,12 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
+
+import java.util.Map;
+import java.util.SortedMap;
 
 public final class DependenciesValidator
     extends SyntaxValidator
@@ -32,22 +36,45 @@ public final class DependenciesValidator
     @Override
     protected void checkFurther()
     {
+
+        final SortedMap<String, JsonNode> fields
+            = CollectionUtils.toSortedMap(node.getFields());
+
+        String field;
+        JsonNode element;
         NodeType type;
-        for (final JsonNode element: node) {
+
+        for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
+            field = entry.getKey();
+            element = entry.getValue();
             type = NodeType.getNodeType(element);
             switch (type) {
                 case STRING: case OBJECT:
                     break;
                 case ARRAY:
-                    for (final JsonNode subNode: element)
-                        if (!subNode.isTextual())
-                            report.addMessage("a dependency array should "
-                                + "only contain property names");
+                    checkDependencyArray(field, element);
                     break;
                 default:
-                    report.addMessage("illegal value of type " + type);
+                    report.addMessage(String.format("field \"%s\": illegal "
+                        + "value of type %s", field, type));
             }
         }
+    }
 
+    private void checkDependencyArray(final String field, final JsonNode node)
+    {
+        NodeType type;
+        String message;
+        int i = -1;
+
+        for (final JsonNode element: node) {
+            i++;
+            type = NodeType.getNodeType(element);
+            if (type == NodeType.STRING)
+                continue;
+            message = String.format("field \"%s\": array element %d has wrong "
+                + "type %s, expected a property name", field, i, type);
+            report.addMessage(message);
+        }
     }
 }

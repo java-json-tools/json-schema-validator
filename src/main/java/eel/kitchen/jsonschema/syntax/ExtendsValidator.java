@@ -35,8 +35,15 @@ public final class ExtendsValidator
         if (node.isObject())
             return;
 
-        for (final JsonNode element: node)
-            if (!element.isObject())
-                report.addMessage("array element is not a schema");
+        int i = -1;
+        NodeType type;
+        for (final JsonNode element: node) {
+            i++;
+            type = NodeType.getNodeType(element);
+            if (type == NodeType.OBJECT)
+                continue;
+            report.addMessage(String.format("array element %d has wrong "
+                + "type %s (expected a schema)", i, type));
+        }
     }
 }

@@ -75,8 +75,8 @@
             },
             "valid": false,
             "messages": [
-                "# [schema:dependencies]: illegal value of type integer",
-                "# [schema:dependencies]: a dependency array should only contain property names"
+                "# [schema:dependencies]: field \"a\": illegal value of type integer",
+                "# [schema:dependencies]: field \"b\": array element 0 has wrong type object, expected a property name"
             ]
         }
     ],
@@ -131,16 +131,17 @@
             },
             "valid": false,
             "messages": [
-                "# [schema:disallow]: unknown type hammer"
+                "# [schema:disallow]: unknown simple type hammer"
             ]
         },
         {
             "schema": {
-                "disallow": [ "boolean", {}, []]
+                "disallow": [ null, "boolean", {}, []]
             },
             "valid": false,
             "messages": [
-                "# [schema:disallow]: array element is neither a simple type nor a schema"
+                "# [schema:disallow]: array element 0: element has wrong type null (expected a simple type or a schema)",
+                "# [schema:disallow]: array element 3: element has wrong type array (expected a simple type or a schema)"
             ]
         }
     ],
@@ -333,13 +334,13 @@
         },
         {
             "schema": {
-                "extends": [ 1, true, "boo" ]
+                "extends": [ 1, true, {}, "boo" ]
             },
             "valid": false,
             "messages": [
-                "# [schema:extends]: array element is not a schema",
-                "# [schema:extends]: array element is not a schema",
-                "# [schema:extends]: array element is not a schema"
+                "# [schema:extends]: array element 0 has wrong type integer (expected a schema)",
+                "# [schema:extends]: array element 1 has wrong type boolean (expected a schema)",
+                "# [schema:extends]: array element 3 has wrong type string (expected a schema)"
             ]
         }
     ],
@@ -420,8 +421,8 @@
             },
             "valid": false,
             "messages": [
-                "# [schema:items]: non schema element in array",
-                "# [schema:items]: non schema element in array"
+                "# [schema:items]: array element 1 has wrong type integer (expected a schema)",
+                "# [schema:items]: array element 2 has wrong type boolean (expected a schema)"
             ]
         }
     ],
@@ -630,8 +631,8 @@
             },
             "valid": false,
             "messages": [
-                "# [schema:patternProperties]: invalid regex a++",
-                "# [schema:patternProperties]: value is not a schema"
+                "# [schema:patternProperties]: field \"^[a-zA-Z\\d]+$\": value has wrong type boolean (expected a schema)",
+                "# [schema:patternProperties]: field \"a++\": regex is invalid"
             ]
         },
         {
@@ -702,8 +703,8 @@
             },
             "valid": false,
             "messages": [
-                "# [schema:properties]: value is not a schema",
-                "# [schema:properties]: required attribute is not a boolean"
+                "# [schema:properties]: field \"p1\": value has wrong type integer (expected a schema)",
+                "# [schema:properties]: field \"p2\": attribute \"required\" of enclosed schema has wrong type string (expected a boolean)"
             ]
         }
     ],
@@ -758,16 +759,17 @@
             },
             "valid": false,
             "messages": [
-                "# [schema:type]: unknown type hammer"
+                "# [schema:type]: unknown simple type hammer"
             ]
         },
         {
             "schema": {
-                "type": [ "boolean", {}, []]
+                "type": [ 42, "boolean", "pwet", {} ]
             },
             "valid": false,
             "messages": [
-                "# [schema:type]: array element is neither a simple type nor a schema"
+                "# [schema:type]: array element 0: element has wrong type integer (expected a simple type or a schema)",
+                "# [schema:type]: array element 2: unknown simple type pwet"
             ]
         }
     ],
