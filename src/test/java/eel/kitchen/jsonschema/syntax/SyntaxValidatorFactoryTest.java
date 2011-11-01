@@ -62,6 +62,19 @@ public final class SyntaxValidatorFactoryTest
     }
 
     @Test
+    public void testEmptySchema()
+    {
+        final JsonNode schema = nodeFactory.objectNode();
+
+        final Validator v = factory.getValidator(schema);
+        final ValidationReport report = new ValidationReport();
+
+        assertTrue(report.isSuccess());
+
+        assertTrue(report.getMessages().isEmpty());
+    }
+
+    @Test
     public void testNonObjectSchema()
     {
         final JsonNode schema = nodeFactory.textNode("hello");
