@@ -41,6 +41,7 @@ import eel.kitchen.jsonschema.v2.validation.keyword.MinimumValidator;
 import eel.kitchen.jsonschema.v2.validation.keyword.PatternValidator;
 import eel.kitchen.jsonschema.v2.validation.keyword.TypeValidator;
 import eel.kitchen.jsonschema.v2.validation.keyword.UniqueItemsValidator;
+import eel.kitchen.jsonschema.v2.validation.syntax.SyntaxValidatorFactory;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -66,6 +67,8 @@ public final class ValidatorFactory
 
     private final Map<String, Class<? extends Validator>> validators
         = new HashMap<String, Class<? extends Validator>>();
+
+    private final SyntaxValidatorFactory factory = new SyntaxValidatorFactory();
 
     private final JsonNode schema;
 
@@ -119,6 +122,12 @@ public final class ValidatorFactory
     public Validator getValidator(final JsonNode schemaNode,
         final JsonNode instance)
     {
+        final Validator syntaxCheck = factory.getValidator(schemaNode);
+        final ValidationReport report = syntaxCheck.validate();
+
+        if (!report.isSuccess())
+            return new AlwaysFalseValidator(report.getMessages());
+
         final Collection<Validator> collection = getValidators(schemaNode,
             instance);
 
