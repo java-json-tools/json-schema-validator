@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.v2.validation;
 
 import eel.kitchen.jsonschema.v2.validation.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.v2.validation.base.AlwaysTrueValidator;
+import eel.kitchen.jsonschema.v2.validation.base.MatchAllValidator;
 import eel.kitchen.jsonschema.v2.validation.base.MaxItemsValidator;
 import eel.kitchen.jsonschema.v2.validation.base.RequiredPropertiesValidator;
 import eel.kitchen.jsonschema.v2.validation.base.Validator;
@@ -146,11 +147,6 @@ public final class ValidatorFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            /*
-             * Hmm, the only difference with AlwaysFalseValidator is that
-             * AlwaysTrueValidator has some kind of a default constructor...
-             * It seems that the diamond is needed in this case!
-             */
             return Arrays.<Validator>asList(new AlwaysTrueValidator());
 
         final Set<String> keyset = new HashSet<String>();

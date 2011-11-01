@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.validation;
+package eel.kitchen.jsonschema.v2.validation.base;
 
+import eel.kitchen.jsonschema.v2.validation.ValidationReport;
 import eel.kitchen.jsonschema.v2.validation.base.EnumerableValidator;
 import eel.kitchen.jsonschema.v2.validation.base.Validator;
 
