@@ -15,31 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.syntax;
+package eel.kitchen.jsonschema.v2.path;
 
-import eel.kitchen.jsonschema.v2.schema.ValidationState;
-import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-public final class ExclusiveMinimumSyntaxValidator
-    extends SingleTypeSyntaxValidator
+public final class ScalarPathProvider
+    implements PathProvider
 {
-    public ExclusiveMinimumSyntaxValidator()
+    private static final PathProvider instance = new ScalarPathProvider();
+
+    private ScalarPathProvider()
     {
-        super("exclusiveMinimum", NodeType.BOOLEAN);
+    }
+
+    static PathProvider getInstance()
+    {
+        return instance;
     }
 
     @Override
-    public void validate(final ValidationState state, final JsonNode schema)
+    public JsonNode getSchema(final String path)
     {
-        super.validate(state, schema);
-
-        if (state.isFailure())
-            return;
-
-        if (schema.has("minimum"))
-            return;
-
-        state.addMessage("exclusiveMinimum without minimum");
+        throw new RuntimeException("Tried to get a subschema for a non "
+            + "container type instance validation");
     }
 }

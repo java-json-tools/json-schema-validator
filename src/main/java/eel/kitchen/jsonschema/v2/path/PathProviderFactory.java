@@ -15,35 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.syntax;
+package eel.kitchen.jsonschema.v2.path;
 
-import eel.kitchen.jsonschema.v2.schema.ValidationState;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.math.BigDecimal;
-
-public final class DivisibleBySyntaxValidator
-    extends MultipleTypeSyntaxValidator
+public final class PathProviderFactory
 {
-    public DivisibleBySyntaxValidator()
+    public static PathProvider getPathProvider(final JsonNode schemaNode,
+        final NodeType type)
     {
-        super("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
-    }
-
-    @Override
-    public void validate(final ValidationState state, final JsonNode schema)
-    {
-        super.validate(state, schema);
-
-        if (state.isFailure())
-            return;
-
-        final BigDecimal divisor  = schema.get("divisibleBy").getDecimalValue();
-
-        if (BigDecimal.ZERO.compareTo(divisor) != 0)
-            return;
-
-        state.addMessage("divisibleBy is 0");
+        switch (type) {
+            case ARRAY:
+                return new ArrayPathProvider(schemaNode);
+            case OBJECT:
+                return new ObjectPathProvider(schemaNode);
+            default:
+                return ScalarPathProvider.getInstance();
+        }
     }
 }

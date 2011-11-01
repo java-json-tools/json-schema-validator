@@ -15,19 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.instance;
+package eel.kitchen.jsonschema.v2.path;
 
 import org.codehaus.jackson.JsonNode;
 
-public final class InstanceFactory
+public interface PathProvider
 {
-    public static Instance buildInstance(final String pathElement,
-        final JsonNode node)
-    {
-        if (!node.isContainerNode())
-            return new AtomicInstance(pathElement, node);
-
-        return node.isObject() ? new ObjectInstance(pathElement, node)
-            : new ArrayInstance(pathElement, node);
-    }
+    JsonNode getSchema(final String path);
 }

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.v2.schema;
+package eel.kitchen.jsonschema.v2.path;
 
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.RhinoHelper;

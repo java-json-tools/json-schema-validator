@@ -17,8 +17,8 @@
 
 package eel.kitchen.jsonschema.v2.validation.container;
 
-import eel.kitchen.jsonschema.v2.schema.PathProvider;
-import eel.kitchen.jsonschema.v2.schema.PathProviderFactory;
+import eel.kitchen.jsonschema.v2.path.PathProvider;
+import eel.kitchen.jsonschema.v2.path.PathProviderFactory;
 import eel.kitchen.jsonschema.v2.validation.ValidatorFactory;
 import eel.kitchen.jsonschema.v2.validation.base.Validator;
 import eel.kitchen.util.CollectionUtils;
@@ -40,8 +40,8 @@ public final class ObjectValidator
     @Override
     protected void buildQueue()
     {
-        final PathProvider provider = PathProviderFactory.getPathProvider
-            (schema, NodeType.OBJECT);
+        final PathProvider provider = PathProviderFactory.getPathProvider(
+            schema, NodeType.OBJECT);
 
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(instance.getFields());
