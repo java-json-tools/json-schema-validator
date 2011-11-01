@@ -26,8 +26,6 @@ import org.codehaus.jackson.JsonNode;
 public abstract class ContainerValidator
     extends CombinedValidator
 {
-    protected final ValidationReport report = new ValidationReport();
-
     protected final Validator validator;
 
     protected ContainerValidator(final Validator validator,
