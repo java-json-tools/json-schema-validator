@@ -23,15 +23,17 @@ import org.codehaus.jackson.JsonNode;
 public final class JsonValidator
 {
     private final ValidatorFactory factory;
+    private final JsonNode schema;
 
     public JsonValidator(final JsonNode schema)
     {
-        factory = new ValidatorFactory(schema);
+        this.schema = schema;
+        factory = new ValidatorFactory();
     }
 
     public ValidationReport validate(final JsonNode instance)
     {
-        final Validator validator = factory.getValidator(instance);
+        final Validator validator = factory.getValidator(schema, instance);
         return validator.validate();
     }
 }

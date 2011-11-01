@@ -70,12 +70,8 @@ public final class ValidatorFactory
 
     private final SyntaxValidatorFactory factory = new SyntaxValidatorFactory();
 
-    private final JsonNode schema;
-
-    public ValidatorFactory(final JsonNode schema)
+    public ValidatorFactory()
     {
-        this.schema = schema;
-
         registerValidator("additionalItems", AdditionalItemsValidator.class,
             ARRAY);
         registerValidator("additionalProperties",
@@ -112,11 +108,6 @@ public final class ValidatorFactory
 
         fieldMap.put(field, typeset);
         validators.put(field, v);
-    }
-
-    public Validator getValidator(final JsonNode instance)
-    {
-        return getValidator(schema, instance);
     }
 
     public Validator getValidator(final JsonNode schemaNode,
