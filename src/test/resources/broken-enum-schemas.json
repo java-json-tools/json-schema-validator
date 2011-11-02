@@ -1,6 +1,0 @@
-{
-    "illegal-enum": {
-        "type": "boolean",
-        "enum": true
-    }
-}
