@@ -31,10 +31,10 @@ final class ObjectPathProvider
     private static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
-    private static final Map<String, JsonNode> properties
+    private final Map<String, JsonNode> properties
         = new HashMap<String, JsonNode>();
 
-    private static final Map<String, JsonNode> patternProperties
+    private final Map<String, JsonNode> patternProperties
         = new HashMap<String, JsonNode>();
 
     private final JsonNode additionalProperties;
