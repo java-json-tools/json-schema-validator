@@ -40,12 +40,16 @@ public final class ArrayValidator
         final KeywordValidatorFactory factory = context.getKeywordFactory();
 
         int i = 0;
-        JsonNode schemaNode;
+        String subPath;
+        JsonNode subSchema;
+        ValidationContext ctx;
         Validator v;
 
         for (final JsonNode element: instance) {
-            schemaNode = provider.getSchema(Integer.toString(i++));
-            v = factory.getValidator(context, element);
+            subPath = Integer.toString(i++);
+            subSchema = provider.getSchema(subPath);
+            ctx = context.createContext(subPath, subSchema);
+            v = factory.getValidator(ctx, element);
             queue.add(v);
         }
     }

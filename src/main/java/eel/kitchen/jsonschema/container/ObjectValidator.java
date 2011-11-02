@@ -25,6 +25,7 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Map;
+import java.util.SortedMap;
 
 public final class ObjectValidator
     extends ContainerValidator
@@ -43,17 +44,19 @@ public final class ObjectValidator
 
         final KeywordValidatorFactory factory = context.getKeywordFactory();
 
-        final Map<String, JsonNode> map
-            = CollectionUtils.toMap(instance.getFields());
+        final SortedMap<String, JsonNode> map
+            = CollectionUtils.toSortedMap(instance.getFields());
 
         String fieldName;
         JsonNode schemaNode;
+        ValidationContext ctx;
         Validator v;
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             fieldName = entry.getKey();
             schemaNode = provider.getSchema(fieldName);
-            v = factory.getValidator(context, entry.getValue());
+            ctx = context.createContext(fieldName, schemaNode);
+            v = factory.getValidator(ctx, entry.getValue());
             queue.add(v);
         }
 
