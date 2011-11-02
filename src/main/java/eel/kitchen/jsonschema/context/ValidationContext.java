@@ -66,8 +66,12 @@ public final class ValidationContext
     public ValidationContext createContext(final String subPath,
         final JsonNode subSchema)
     {
+        final String newPath = subPath == null || subPath.isEmpty()
+            ? path
+            : String.format("%s/%s", path, subPath);
+
         final ValidationContext other = new ValidationContext();
-        other.path = String.format("%s%s", path, subPath);
+        other.path = newPath;
         other.schemaNode = subSchema;
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
@@ -79,6 +83,7 @@ public final class ValidationContext
     {
         return createContext("", subSchema);
     }
+
     public Validator getValidator(final JsonNode instance)
     {
         final ValidationReport report = new ValidationReport(path);
