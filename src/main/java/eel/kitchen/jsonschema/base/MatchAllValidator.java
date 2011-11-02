@@ -18,16 +18,19 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.Collection;
 
 public final class MatchAllValidator
     extends EnumerableValidator
 {
-    private final ValidationReport report = new ValidationReport();
+    private final ValidationReport report;
 
-    public MatchAllValidator(final Collection<Validator> validators)
+    public MatchAllValidator(final ValidationContext context,
+        final Collection<Validator> validators)
     {
+        report = context.createReport();
         queue.addAll(validators);
     }
 

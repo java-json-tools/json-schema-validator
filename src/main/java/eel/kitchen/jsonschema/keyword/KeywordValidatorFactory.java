@@ -105,7 +105,7 @@ public final class KeywordValidatorFactory
                 validator = collection.iterator().next();
                 break;
             default:
-                validator = new MatchAllValidator(collection);
+                validator = new MatchAllValidator(context, collection);
         }
 
         if (!instance.isContainerNode())

@@ -107,7 +107,7 @@ public final class SyntaxValidatorFactory
         final Collection<Validator> collection = getValidators(context, fields);
 
         return collection.size() == 1 ? collection.iterator().next()
-            : new MatchAllValidator(collection);
+            : new MatchAllValidator(context, collection);
     }
 
     private Collection<Validator> getValidators(final ValidationContext context,
