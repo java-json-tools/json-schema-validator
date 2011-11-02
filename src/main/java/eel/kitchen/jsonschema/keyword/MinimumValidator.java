@@ -44,7 +44,7 @@ public final class MinimumValidator
         final int cmp = minimum.compareTo(instance.getDecimalValue());
 
         if (cmp > 0) {
-            report.addMessage("number is greater than the required minimum");
+            report.addMessage("number is lower than the required minimum");
             return;
         }
 
