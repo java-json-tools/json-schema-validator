@@ -47,14 +47,8 @@ public abstract class TypeKeywordValidator
 
     private void setUp()
     {
-        String s;
-
         if (typeNode.isTextual()) {
-            s = typeNode.getTextValue();
-            if (ANY.equals(s))
-                typeSet.addAll(EnumSet.allOf(NodeType.class));
-            else
-                typeSet.add(NodeType.valueOf(s.toUpperCase()));
+            addType(typeNode.getTextValue());
             return;
         }
 
@@ -63,12 +57,18 @@ public abstract class TypeKeywordValidator
                 schemas.add(element);
                 continue;
             }
-            s = element.getTextValue();
-            if (ANY.equals(s))
-                typeSet.addAll(EnumSet.allOf(NodeType.class));
-            else
-                typeSet.add(NodeType.valueOf(s.toUpperCase()));
+            addType(element.getTextValue());
         }
+    }
+
+    private void addType(final String s)
+    {
+        if (ANY.equals(s)) {
+            typeSet.addAll(EnumSet.allOf(NodeType.class));
+            return;
+        }
+
+        typeSet.add(NodeType.valueOf(s.toUpperCase()));
 
         if (typeSet.contains(NodeType.NUMBER))
             typeSet.add(NodeType.INTEGER);
