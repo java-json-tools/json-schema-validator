@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.container;
 
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.util.CollectionUtils;
@@ -29,10 +30,9 @@ public final class ObjectValidator
     extends ContainerValidator
 {
     public ObjectValidator(final Validator validator,
-        final KeywordValidatorFactory factory, final JsonNode schema,
-        final JsonNode instance)
+        final ValidationContext context, final JsonNode instance)
     {
-        super(validator, factory, schema, instance);
+        super(validator, context, instance);
     }
 
     @Override
@@ -40,6 +40,8 @@ public final class ObjectValidator
     {
         final PathProvider provider = PathProviderFactory.getPathProvider(
             schema, NodeType.OBJECT);
+
+        final KeywordValidatorFactory factory = context.getKeywordFactory();
 
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(instance.getFields());
@@ -51,7 +53,7 @@ public final class ObjectValidator
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             fieldName = entry.getKey();
             schemaNode = provider.getSchema(fieldName);
-            v = factory.getValidator(schemaNode, entry.getValue());
+            v = factory.getValidator(context, entry.getValue());
             queue.add(v);
         }
 

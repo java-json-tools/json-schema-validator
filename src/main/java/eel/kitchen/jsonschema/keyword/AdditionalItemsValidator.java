@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.SimpleValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public final class AdditionalItemsValidator
@@ -27,10 +28,10 @@ public final class AdditionalItemsValidator
 
     private final int itemsCount;
 
-    public AdditionalItemsValidator(final KeywordValidatorFactory ignored,
-        final JsonNode schema, final JsonNode instance)
+    public AdditionalItemsValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(ignored, schema, instance);
+        super(context, instance);
 
         shortcut = schema.get("additionalItems").asBoolean(true);
 

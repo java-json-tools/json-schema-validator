@@ -290,7 +290,7 @@ public final class SyntaxValidatorFactoryTest
         final boolean valid = element.get("valid").getBooleanValue();
 
         context = new ValidationContext(schema);
-        v = context.getValidator(schema);
+        v = context.getValidator(dummy);
         report = v.validate();
 
         if (valid) {

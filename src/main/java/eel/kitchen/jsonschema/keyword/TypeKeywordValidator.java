@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.CombinedValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -36,10 +37,10 @@ public abstract class TypeKeywordValidator
     protected final Queue<JsonNode> schemas = new ArrayDeque<JsonNode>();
 
 
-    protected TypeKeywordValidator(final KeywordValidatorFactory factory,
-        final JsonNode schema, final JsonNode instance, final String field)
+    protected TypeKeywordValidator(final ValidationContext context,
+        final JsonNode instance, final String field)
     {
-        super(factory, schema, instance);
+        super(context, instance);
         typeNode = schema.get(field);
         setUp();
     }
@@ -75,7 +76,13 @@ public abstract class TypeKeywordValidator
 
     protected final void buildQueue()
     {
-        while (!schemas.isEmpty())
-            queue.add(factory.getValidator(schemas.remove(), instance));
+        final KeywordValidatorFactory factory = context.getKeywordFactory();
+
+        ValidationContext other;
+
+        while (!schemas.isEmpty()) {
+            other = context.createContext(schemas.remove());
+            queue.add(factory.getValidator(other, instance));
+        }
     }
 }

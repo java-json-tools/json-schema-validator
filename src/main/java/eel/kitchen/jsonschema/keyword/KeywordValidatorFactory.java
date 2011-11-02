@@ -74,7 +74,7 @@ public final class KeywordValidatorFactory
         registerValidator("minLength", MinLengthValidator.class, STRING);
         registerValidator("pattern", PatternValidator.class, STRING);
         registerValidator("patternProperties", AlwaysTrueValidator.class,
-            NodeType.values());
+            OBJECT);
         registerValidator("properties", PropertiesValidator.class,
             OBJECT);
         registerValidator("type", TypeValidator.class, NodeType.values());
@@ -90,30 +90,41 @@ public final class KeywordValidatorFactory
         validators.put(field, v);
     }
 
-    public Validator getValidator(final JsonNode schemaNode,
+    public Validator getValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        final Collection<Validator> collection = getValidators(schemaNode,
-            instance);
+        final Collection<Validator> collection
+            = getValidators(context, instance);
 
-        final Validator validator = collection.size() == 1
-            ? collection.iterator().next()
-            : new MatchAllValidator(collection);
+
+        final Validator validator;
+        switch (collection.size()) {
+            case 0:
+                return new AlwaysTrueValidator();
+            case 1:
+                validator = collection.iterator().next();
+                break;
+            default:
+                validator = new MatchAllValidator(collection);
+        }
 
         if (!instance.isContainerNode())
             return validator;
 
         return instance.isArray()
-            ? new ArrayValidator(validator, this, schemaNode, instance)
-            : new ObjectValidator(validator, this, schemaNode, instance);
+            ? new ArrayValidator(validator, context, instance)
+            : new ObjectValidator(validator, context, instance);
     }
 
 
-    private Collection<Validator> getValidators(final JsonNode schemaNode,
+    private Collection<Validator> getValidators(final ValidationContext context,
         final JsonNode instance)
     {
         final NodeType type = NodeType.getNodeType(instance);
         final Set<Validator> ret = new LinkedHashSet<Validator>();
+
+        final JsonNode schemaNode = context.getSchemaNode();
+
         final Set<String> keywords
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
@@ -134,7 +145,7 @@ public final class KeywordValidatorFactory
                 continue;
             c = validators.get(key);
             try {
-                validator = buildValidator(c, schemaNode, instance);
+                validator = buildValidator(c, context, instance);
                 ret.add(validator);
             } catch (Exception e) {
                 final String message = "Cannot instantiate validator "
@@ -148,21 +159,13 @@ public final class KeywordValidatorFactory
     }
 
     private Validator buildValidator(final Class<? extends Validator> c,
-        final JsonNode schemaNode, final JsonNode instance)
+        final ValidationContext context, final JsonNode instance)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
     {
         final Constructor<? extends Validator> constructor
-            = c.getConstructor(KeywordValidatorFactory.class, JsonNode.class,
-                JsonNode.class);
+            = c.getConstructor(ValidationContext.class, JsonNode.class);
 
-        return constructor.newInstance(this, schemaNode, instance);
-    }
-
-    public Validator getValidator(final ValidationContext validationContext,
-        final JsonNode schemaNode)
-    {
-        //TODO: implement
-        return new AlwaysTrueValidator();
+        return constructor.newInstance(context, instance);
     }
 }

@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.SimpleValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
@@ -28,10 +29,10 @@ public final class MaximumValidator
     private final BigDecimal maximum;
     private final boolean exclusiveMaximum;
 
-    public MaximumValidator(final KeywordValidatorFactory ignored,
-        final JsonNode schema, final JsonNode instance)
+    public MaximumValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(ignored, schema, instance);
+        super(context, instance);
         maximum = schema.get("maximum").getDecimalValue();
         exclusiveMaximum = schema.path("exclusiveMaximum").asBoolean(false);
 

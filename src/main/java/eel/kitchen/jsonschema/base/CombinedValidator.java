@@ -18,22 +18,23 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class CombinedValidator
     extends EnumerableValidator
 {
-    protected final ValidationReport report = new ValidationReport();
-    protected final KeywordValidatorFactory factory;
+    protected final ValidationContext context;
+    protected final ValidationReport report;
     protected final JsonNode schema;
     protected final JsonNode instance;
 
-    protected CombinedValidator(final KeywordValidatorFactory factory,
-        final JsonNode schema, final JsonNode instance)
+    protected CombinedValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        this.factory = factory;
-        this.schema = schema;
+        this.context = context;
+        report = context.createReport();
+        schema = context.getSchemaNode();
         this.instance = instance;
     }
 }

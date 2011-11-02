@@ -30,21 +30,6 @@ public final class ValidationContext
     private String path;
     private JsonNode schemaNode;
 
-    public KeywordValidatorFactory getKeywordFactory()
-    {
-        return keywordFactory;
-    }
-
-    public JsonNode getSchemaNode()
-    {
-        return schemaNode;
-    }
-
-    public FormatFactory getFormatFactory()
-    {
-        return formatFactory;
-    }
-
     private KeywordValidatorFactory keywordFactory;
     private SyntaxValidatorFactory syntaxFactory;
     private FormatFactory formatFactory;
@@ -63,11 +48,26 @@ public final class ValidationContext
         formatFactory = new FormatFactory();
     }
 
+    public KeywordValidatorFactory getKeywordFactory()
+    {
+        return keywordFactory;
+    }
+
+    public JsonNode getSchemaNode()
+    {
+        return schemaNode;
+    }
+
+    public FormatFactory getFormatFactory()
+    {
+        return formatFactory;
+    }
+
     public ValidationContext createContext(final String subPath,
         final JsonNode subSchema)
     {
         final ValidationContext other = new ValidationContext();
-        other.path = String.format("%s/%s", path, subPath);
+        other.path = String.format("%s%s", path, subPath);
         other.schemaNode = subSchema;
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
@@ -75,6 +75,10 @@ public final class ValidationContext
         return other;
     }
 
+    public ValidationContext createContext(final JsonNode subSchema)
+    {
+        return createContext("", subSchema);
+    }
     public Validator getValidator(final JsonNode instance)
     {
         final ValidationReport report = new ValidationReport(path);

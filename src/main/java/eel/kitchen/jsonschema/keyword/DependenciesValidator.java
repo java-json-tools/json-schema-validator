@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.CombinedValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -41,10 +42,10 @@ public final class DependenciesValidator
     private final Map<String, Collection<String>> simpleDependencies
         = new HashMap<String, Collection<String>>();
 
-    public DependenciesValidator(final KeywordValidatorFactory factory,
-        final JsonNode schema, final JsonNode instance)
+    public DependenciesValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(factory, schema, instance);
+        super(context, instance);
 
         dependencies = schema.get("dependencies");
         instanceFields.addAll(CollectionUtils.toSet(instance.getFieldNames()));
@@ -56,6 +57,8 @@ public final class DependenciesValidator
     {
         final Set<String> deps
             = CollectionUtils.toSet(dependencies.getFieldNames());
+
+        final KeywordValidatorFactory factory = context.getKeywordFactory();
 
         deps.retainAll(instanceFields);
 
@@ -74,7 +77,7 @@ public final class DependenciesValidator
                     simpleDependencies.put(dep, set);
                     break;
                 case OBJECT:
-                    queue.add(factory.getValidator(node, instance));
+                    queue.add(factory.getValidator(context, instance));
                     break;
                 default:
                     throw new RuntimeException("How did I even get there???");

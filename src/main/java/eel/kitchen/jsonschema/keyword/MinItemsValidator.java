@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.SimpleValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public final class MinItemsValidator
@@ -25,10 +26,10 @@ public final class MinItemsValidator
 {
     private final int minItems;
 
-    public MinItemsValidator(final KeywordValidatorFactory ignored,
-        final JsonNode schema, final JsonNode instance)
+    public MinItemsValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(ignored, schema, instance);
+        super(context, instance);
         minItems = schema.get("minItems").getIntValue();
     }
 

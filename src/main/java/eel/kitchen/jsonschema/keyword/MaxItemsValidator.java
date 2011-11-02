@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.SimpleValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public final class MaxItemsValidator
@@ -25,10 +26,10 @@ public final class MaxItemsValidator
 {
     private final int maxItems;
 
-    public MaxItemsValidator(final KeywordValidatorFactory ignored,
-        final JsonNode schema, final JsonNode instance)
+    public MaxItemsValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(ignored, schema, instance);
+        super(context, instance);
         maxItems = schema.get("maxItems").getIntValue();
     }
 

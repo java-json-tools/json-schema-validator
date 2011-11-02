@@ -19,33 +19,44 @@ package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.CombinedValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 
 public final class ExtendsValidator
     extends CombinedValidator
 {
-    public ExtendsValidator(final KeywordValidatorFactory factory,
-        final JsonNode schema, final JsonNode instance)
+    public ExtendsValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(factory, schema, instance);
+        super(context, instance);
         buildQueue();
     }
 
     private void buildQueue()
     {
-        final ObjectNode baseNode = (ObjectNode) schema;
+        final KeywordValidatorFactory factory = context.getKeywordFactory();
+        final ObjectNode baseNode = JsonNodeFactory.instance.objectNode();
+
+        baseNode.putAll((ObjectNode) schema);
+
         final JsonNode extendsNode = baseNode.remove("extends");
 
-        queue.add(factory.getValidator(baseNode, instance));
+        ValidationContext other = context.createContext(baseNode);
+
+        queue.add(factory.getValidator(other, instance));
 
         if (extendsNode.isObject()) {
-            queue.add(factory.getValidator(extendsNode, instance));
+            other = context.createContext(extendsNode);
+            queue.add(factory.getValidator(other, instance));
             return;
         }
 
-        for (final JsonNode node: extendsNode)
-            queue.add(factory.getValidator(node, instance));
+        for (final JsonNode node: extendsNode) {
+            other = context.createContext(node);
+            queue.add(factory.getValidator(other, instance));
+        }
     }
 
     @Override

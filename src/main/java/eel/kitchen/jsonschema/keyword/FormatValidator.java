@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.jsonschema.base.Validator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.keyword.format.FormatFactory;
 import org.codehaus.jackson.JsonNode;
 
@@ -27,10 +28,10 @@ public final class FormatValidator
 {
     private final FormatFactory formatFactory = new FormatFactory();
 
-    public FormatValidator(final KeywordValidatorFactory ignored,
-        final JsonNode schema, final JsonNode instance)
+    public FormatValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(ignored, schema, instance);
+        super(context, instance);
     }
 
     @Override
