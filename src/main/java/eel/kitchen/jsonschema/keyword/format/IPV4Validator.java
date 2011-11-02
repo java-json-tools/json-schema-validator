@@ -30,9 +30,9 @@ public final class IPV4Validator
     private static final Pattern pattern
         = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
 
-    public IPV4Validator(final JsonNode node)
+    public IPV4Validator(final ValidationReport report, final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

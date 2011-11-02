@@ -37,9 +37,9 @@ public final class CSSStyleValidator
     private static final Pattern styleElement
         = Pattern.compile("\\s*[^:]+\\s*:\\s*[^;]+", Pattern.CASE_INSENSITIVE);
 
-    public CSSStyleValidator(final JsonNode node)
+    public CSSStyleValidator(final ValidationReport report, final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

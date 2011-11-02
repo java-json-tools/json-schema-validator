@@ -29,10 +29,10 @@ public abstract class AbstractDateFormatValidator
     private final SimpleDateFormat format;
     private final String errmsg;
 
-    protected AbstractDateFormatValidator(final JsonNode node,
-        final String fmt, final String desc)
+    protected AbstractDateFormatValidator(final ValidationReport report,
+        final JsonNode node, final String fmt, final String desc)
     {
-        super(node);
+        super(report, node);
         format = new SimpleDateFormat(fmt);
         errmsg = String.format("value is not a valid %s", desc);
     }

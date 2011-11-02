@@ -28,9 +28,10 @@ public final class UnixEpochValidator
     private static final int EPOCH_SHIFT = 31;
     private static final BigInteger ONE_THOUSAND = new BigInteger("1000");
 
-    public UnixEpochValidator(final JsonNode node)
+    public UnixEpochValidator(final ValidationReport report,
+        final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

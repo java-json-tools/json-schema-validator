@@ -17,9 +17,11 @@
 
 package eel.kitchen.jsonschema.keyword.format;
 
+import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.Validator;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -33,14 +35,18 @@ import static eel.kitchen.util.NodeType.*;
 
 public final class FormatFactory
 {
+    private final ValidationContext context;
+
     private final Map<String, EnumSet<NodeType>> typeMap
         = new HashMap<String, EnumSet<NodeType>>();
 
     private final Map<String, Class<? extends Validator>> validators
         = new HashMap<String, Class<? extends Validator>>();
 
-    public FormatFactory()
+    public FormatFactory(final ValidationContext context)
     {
+        this.context = context;
+
         registerFormat("date-time", DateTimeFormatValidator.class, STRING);
         registerFormat("date", DateFormatValidator.class, STRING);
         registerFormat("time", TimeFormatValidator.class, STRING);
@@ -76,8 +82,9 @@ public final class FormatFactory
         final Constructor<? extends Validator> constructor;
 
         try {
-            constructor = c.getConstructor(JsonNode.class);
-            return constructor.newInstance(node);
+            constructor = c.getConstructor(ValidationReport.class,
+                JsonNode.class);
+            return constructor.newInstance(context.createReport(), node);
         } catch (Exception e) {
             return new AlwaysFalseValidator("cannot instantiate format "
                 + "validator for " + name + ": " + e.getClass().getName()

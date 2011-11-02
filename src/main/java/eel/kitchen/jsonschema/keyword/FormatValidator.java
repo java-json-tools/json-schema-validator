@@ -26,12 +26,13 @@ import org.codehaus.jackson.JsonNode;
 public final class FormatValidator
     extends SimpleValidator
 {
-    private final FormatFactory formatFactory = new FormatFactory();
+    private final FormatFactory formatFactory;
 
     public FormatValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
+        formatFactory = new FormatFactory(context);
     }
 
     @Override

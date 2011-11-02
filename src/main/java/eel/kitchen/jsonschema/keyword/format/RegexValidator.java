@@ -24,9 +24,9 @@ import org.codehaus.jackson.JsonNode;
 public final class RegexValidator
     extends AbstractFormatValidator
 {
-    public RegexValidator(final JsonNode node)
+    public RegexValidator(final ValidationReport report, final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

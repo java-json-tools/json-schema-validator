@@ -24,12 +24,14 @@ import org.codehaus.jackson.JsonNode;
 public abstract class AbstractFormatValidator
     extends NonEnumerableValidator
 {
-    protected final ValidationReport report = new ValidationReport();
+    protected final ValidationReport report;
 
     protected final JsonNode node;
 
-    protected AbstractFormatValidator(final JsonNode node)
+    protected AbstractFormatValidator(final ValidationReport report,
+        final JsonNode node)
     {
+        this.report = report;
         this.node = node;
     }
 }

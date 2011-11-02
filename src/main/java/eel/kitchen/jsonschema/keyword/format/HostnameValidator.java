@@ -46,9 +46,9 @@ public final class HostnameValidator
 
     private static final int HOSTNAME_PART_MAXLEN = 255;
 
-    public HostnameValidator(final JsonNode node)
+    public HostnameValidator(final ValidationReport report, final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

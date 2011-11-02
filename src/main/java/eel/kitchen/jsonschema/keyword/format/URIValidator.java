@@ -26,9 +26,9 @@ import java.net.URISyntaxException;
 public final class URIValidator
     extends AbstractFormatValidator
 {
-    public URIValidator(final JsonNode node)
+    public URIValidator(final ValidationReport report, final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

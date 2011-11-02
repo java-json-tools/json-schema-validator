@@ -17,13 +17,15 @@
 
 package eel.kitchen.jsonschema.keyword.format;
 
+import eel.kitchen.jsonschema.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
 public final class DateTimeFormatValidator
     extends AbstractDateFormatValidator
 {
-    public DateTimeFormatValidator(final JsonNode node)
+    public DateTimeFormatValidator(final ValidationReport report,
+        final JsonNode node)
     {
-        super(node, "yyyy-MM-dd'T'HH:mm:ssz", "ISO 8601 date-time");
+        super(report, node, "yyyy-MM-dd'T'HH:mm:ssz", "ISO 8601 date-time");
     }
 }

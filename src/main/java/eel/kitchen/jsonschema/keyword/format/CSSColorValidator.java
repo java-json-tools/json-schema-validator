@@ -46,9 +46,9 @@ public final class CSSColorValidator
         hash = Pattern.compile("#[\\da-f]{1,6}", Pattern.CASE_INSENSITIVE),
         rgb = Pattern.compile("rgb\\(([^)]+)\\)");
 
-    public CSSColorValidator(final JsonNode node)
+    public CSSColorValidator(final ValidationReport report, final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

@@ -26,9 +26,9 @@ import java.net.UnknownHostException;
 public final class IPV6Validator
     extends AbstractFormatValidator
 {
-    public IPV6Validator(final JsonNode node)
+    public IPV6Validator(final ValidationReport report, final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override

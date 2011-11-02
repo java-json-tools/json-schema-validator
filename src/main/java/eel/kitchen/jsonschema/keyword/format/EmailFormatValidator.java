@@ -26,9 +26,10 @@ import javax.mail.internet.InternetAddress;
 public final class EmailFormatValidator
     extends AbstractFormatValidator
 {
-    public EmailFormatValidator(final JsonNode node)
+    public EmailFormatValidator(final ValidationReport report,
+        final JsonNode node)
     {
-        super(node);
+        super(report, node);
     }
 
     @Override
