@@ -37,6 +37,6 @@ public final class PatternValidator
         final String regex = schema.get("pattern").getTextValue();
 
         if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
-            report.addMessage("string does not match specified pattern");
+            report.addMessage("string does not match specified regex");
     }
 }
