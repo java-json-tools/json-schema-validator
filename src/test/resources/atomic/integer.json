@@ -28,7 +28,10 @@
             "maximum": 42
         },
         "good": 42,
-        "bad": 43
+        "bad": 43,
+        "messages": [
+            "#: number is greater than the required maximum"
+        ]
     },
     "exclusiveMaximum": {
         "schema": {
@@ -37,7 +40,10 @@
             "exclusiveMaximum": true
         },
         "good": -7,
-        "bad": 2103
+        "bad": 2103,
+        "messages": [
+            "#: number is not strictly lower than the required maximum"
+        ]
     },
     "divisibleBy": {
         "schema": {
@@ -45,6 +51,9 @@
             "divisibleBy": 25
         },
         "good": 250000,
-        "bad": 22
+        "bad": 22,
+        "messages": [
+            "#: number is not a multiple of divisibleBy"
+        ]
     }
 }

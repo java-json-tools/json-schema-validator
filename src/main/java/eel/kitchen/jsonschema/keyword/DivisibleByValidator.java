@@ -43,7 +43,7 @@ public final class DivisibleByValidator
         if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
             return;
 
-        report.addMessage("instance is not a multiple of divisibleBy");
+        report.addMessage("number is not a multiple of divisibleBy");
 
     }
 }

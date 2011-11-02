@@ -43,6 +43,23 @@ public final class IntegerTest
         testOne("exclusiveMinimum");
     }
 
+    @Test
+    public void testMaximum()
+    {
+        testOne("maximum");
+    }
+
+    @Test
+    public void testExclusiveMaximum()
+    {
+        testOne("exclusiveMaximum");
+    }
+
+    @Test
+    public void testDivisibleBy()
+    {
+        testOne("divisibleBy");
+    }
     private void testOne(final String testName)
     {
         node = testNode.get(testName);
