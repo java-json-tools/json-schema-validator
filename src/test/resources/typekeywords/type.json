@@ -1,0 +1,70 @@
+{
+    "one": {
+        "schema": {
+            "type": "string"
+        },
+        "good": "finance and marketing are the two biggest failures of the western world",
+        "bad": null,
+        "messages": [
+            "#: instance is of type null, which is none of the allowed primitive types ([string])"
+        ]
+    },
+    "simple": {
+        "schema": {
+            "type": [ "integer", "boolean" ]
+        },
+        "good": true,
+        "bad": "finance",
+        "messages": [
+            "#: instance is of type string, which is none of the allowed primitive types ([boolean, integer])"
+        ]
+    },
+    "union": {
+        "schema": {
+            "type": [
+                "number",
+                "boolean",
+                {
+                    "type": "string",
+                    "format": "regex"
+                }
+            ]
+        },
+        "good": 42329809283907240998102938019247192840,
+        "bad": "a++",
+        "messages": [
+            "#: instance is of type string, which is none of the allowed primitive types ([boolean, integer, number])",
+            "#: found enclosed schemas, trying with them",
+            "#: trying schema #1...",
+            "#: string is not a valid regular expression",
+            "#: schema #1: no match",
+            "#: enclosed schemas did not match"
+        ]
+    },
+    "uniononly": {
+        "schema": {
+            "type": [
+                {
+                    "type": "string",
+                    "format": "email"
+                },
+                {
+                    "type": "number",
+                    "divisibleBy": 3
+                }
+            ]
+        },
+        "good": "ilpapa@vaticano.it",
+        "bad": 17,
+        "messages": [
+            "#: found enclosed schemas, trying with them",
+            "#: trying schema #1...",
+            "#: instance is of type integer, which is none of the allowed primitive types ([string])",
+            "#: schema #1: no match",
+            "#: trying schema #2...",
+            "#: number is not a multiple of divisibleBy",
+            "#: schema #2: no match",
+            "#: enclosed schemas did not match"
+        ]
+    }
+}
