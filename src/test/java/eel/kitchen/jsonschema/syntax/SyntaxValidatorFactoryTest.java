@@ -39,6 +39,8 @@ public final class SyntaxValidatorFactoryTest
 {
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
     private static final JsonNode dummy = nodeFactory.nullNode();
+    private static final SyntaxValidatorFactory factory
+        = new SyntaxValidatorFactory();
 
     private JsonNode allTests;
     private ValidationContext context;
@@ -290,7 +292,7 @@ public final class SyntaxValidatorFactoryTest
         final boolean valid = element.get("valid").getBooleanValue();
 
         context = new ValidationContext(schema);
-        v = context.getValidator(dummy);
+        v = factory.getValidator(context);
         report = v.validate();
 
         if (valid) {
