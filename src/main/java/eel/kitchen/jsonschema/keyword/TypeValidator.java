@@ -41,31 +41,16 @@ public final class TypeValidator
             return report;
         }
 
-        buildQueue();
-
-        if (!hasMoreElements()) {
-            report.addMessage("instance is not of any allowed primitive type");
-            return report;
-        }
+        report.addMessage("instance does not match any primitive type "
+            + "allowed by the schema");
 
         buildQueue();
 
-        boolean matchFound = false;
-
-        final ValidationReport other = new ValidationReport();
-
-        while (!matchFound && hasMoreElements()) {
-            other.mergeWith(nextElement().validate());
-            matchFound = other.isSuccess();
-        }
-
-        if (!matchFound) {
-            report.addMessage("instance is not of any allowed primitive type, "
-                + "and no further schema matched it either");
-            report.addMessage("Report for other schemas:");
-            report.addMessage("---- BEGIN REPORT ----");
-            report.mergeWith(other);
-            report.addMessage("----  END REPORT  ----");
+        while (hasMoreElements()) {
+            final ValidationReport tmp = nextElement().validate();
+            if (tmp.isSuccess())
+                return tmp;
+            report.mergeWith(tmp);
         }
 
         return report;
