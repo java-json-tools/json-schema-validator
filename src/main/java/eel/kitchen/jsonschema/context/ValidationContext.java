@@ -18,10 +18,9 @@
 package eel.kitchen.jsonschema.context;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.Validator;
-import eel.kitchen.jsonschema.keyword.format.FormatFactory;
+import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import eel.kitchen.jsonschema.syntax.SyntaxValidatorFactory;
 import org.codehaus.jackson.JsonNode;
 
@@ -32,7 +31,6 @@ public final class ValidationContext
 
     private KeywordValidatorFactory keywordFactory;
     private SyntaxValidatorFactory syntaxFactory;
-    private FormatFactory formatFactory;
 
     private ValidationContext()
     {
@@ -45,7 +43,6 @@ public final class ValidationContext
 
         keywordFactory = new KeywordValidatorFactory();
         syntaxFactory = new SyntaxValidatorFactory();
-        formatFactory = new FormatFactory();
     }
 
     public KeywordValidatorFactory getKeywordFactory()
@@ -56,11 +53,6 @@ public final class ValidationContext
     public JsonNode getSchemaNode()
     {
         return schemaNode;
-    }
-
-    public FormatFactory getFormatFactory()
-    {
-        return formatFactory;
     }
 
     public ValidationContext createContext(final String subPath,
@@ -75,7 +67,6 @@ public final class ValidationContext
         other.schemaNode = subSchema;
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
-        other.formatFactory = formatFactory;
         return other;
     }
 
