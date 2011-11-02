@@ -59,15 +59,15 @@ public abstract class TypeKeywordValidator
         }
 
         for (final JsonNode element: typeNode) {
-            if (!element.isTextual())
+            if (!element.isTextual()) {
                 schemas.add(element);
-            else {
-                s = element.getTextValue();
-                if (ANY.equals(s))
-                    typeSet.addAll(EnumSet.allOf(NodeType.class));
-                else
-                    typeSet.add(NodeType.valueOf(s.toUpperCase()));
+                continue;
             }
+            s = element.getTextValue();
+            if (ANY.equals(s))
+                typeSet.addAll(EnumSet.allOf(NodeType.class));
+            else
+                typeSet.add(NodeType.valueOf(s.toUpperCase()));
         }
 
         if (typeSet.contains(NodeType.NUMBER))
