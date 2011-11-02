@@ -17,13 +17,6 @@ public final class IntegerTest
 {
     private JsonNode testNode;
 
-    private JsonValidator validator;
-    private ValidationReport report;
-    private JsonNode node, schema, good, bad;
-    private final List<String>
-        messages = new LinkedList<String>(),
-        expected = new LinkedList<String>();
-
     @BeforeClass
     public void setUp()
         throws IOException
@@ -62,20 +55,19 @@ public final class IntegerTest
     }
     private void testOne(final String testName)
     {
-        node = testNode.get(testName);
-        schema = node.get("schema");
-        good = node.get("good");
-        bad = node.get("bad");
+        final JsonNode node = testNode.get(testName);
+        final JsonNode schema = node.get("schema");
+        final JsonNode good = node.get("good");
+        final JsonNode bad = node.get("bad");
 
-        validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(schema);
 
-        report = validator.validate(good);
+        ValidationReport report = validator.validate(good);
 
         assertTrue(report.isSuccess());
         assertTrue(report.getMessages().isEmpty());
 
-        messages.clear();
-        expected.clear();
+        final List<String> expected = new LinkedList<String>();
 
         for (final JsonNode element: node.get("messages"))
             expected.add(element.getTextValue());
@@ -84,8 +76,6 @@ public final class IntegerTest
 
         assertFalse(report.isSuccess());
 
-        messages.addAll(report.getMessages());
-
-        assertEquals(messages, expected);
+        assertEquals(report.getMessages(), expected);
     }
 }
