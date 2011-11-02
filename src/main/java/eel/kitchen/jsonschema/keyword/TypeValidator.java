@@ -36,24 +36,34 @@ public final class TypeValidator
     {
         final NodeType type = NodeType.getNodeType(instance);
 
-        if (typeSet.contains(type)) {
-            schemas.clear();
-            return report;
+        if (!typeSet.isEmpty()) {
+            if (typeSet.contains(type)) {
+                schemas.clear();
+                return report;
+            }
+            report.addMessage(String.format("instance is of type %s, "
+                + "which is none of the allowed primitive types (%s)", type,
+                typeSet));
         }
-
-        report.addMessage("instance does not match any primitive type "
-            + "allowed by the schema");
 
         buildQueue();
 
-        while (hasMoreElements()) {
+        if (!hasMoreElements())
+            return report;
+
+        report.addMessage("found enclosed schemas, trying with them");
+
+        for (int i = 1; hasMoreElements(); i++) {
+            report.addMessage("trying schema #" + i + "...");
             final ValidationReport tmp = nextElement().validate();
             if (tmp.isSuccess())
                 return tmp;
             report.mergeWith(tmp);
+            report.addMessage("schema #" + i + ": no match");
         }
+
+        report.addMessage("enclosed schemas did not match");
 
         return report;
     }
-
 }
