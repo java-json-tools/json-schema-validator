@@ -22,6 +22,8 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+import java.util.EnumSet;
+
 public final class DisallowValidator
     extends TypeKeywordValidator
 {
@@ -36,10 +38,21 @@ public final class DisallowValidator
     {
         final NodeType type = NodeType.getNodeType(instance);
 
-        if (typeSet.contains(type)) {
+        boolean failure = false;
+
+        if (typeSet.containsAll(EnumSet.allOf(NodeType.class))) {
+            failure = true;
+            report.addMessage("disallow keyword forbids all primitive types, "
+                + "validation will always fail!");
+        } else if (typeSet.contains(type)) {
+            failure = true;
+            report.addMessage(String.format("instance is of type %s, "
+                + "which falls into the list of explicitly disallowed types "
+                + "(%s)", type, typeSet));
+        }
+
+        if (failure) {
             schemas.clear();
-            report.addMessage("instance is of type " + type + " which is "
-                + "explicitly disallowed");
             return report;
         }
 
@@ -53,7 +66,8 @@ public final class DisallowValidator
         queue.clear();
 
         if (matchFound)
-            report.addMessage("instance is valid against a disallowed schema");
+            report.addMessage("instance validates against an explicitly "
+                + "disallowed schema");
 
         return report;
     }
