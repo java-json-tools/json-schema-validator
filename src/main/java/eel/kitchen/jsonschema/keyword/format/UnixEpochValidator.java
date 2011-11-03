@@ -37,13 +37,14 @@ public final class UnixEpochValidator
     @Override
     public ValidationReport validate()
     {
-        final BigInteger epoch = node.getDecimalValue().toBigInteger()
-            .divide(ONE_THOUSAND);
+        BigInteger epoch = node.getDecimalValue().toBigInteger();
 
         if (BigInteger.ZERO.compareTo(epoch) > 0) {
             report.addMessage("epoch cannot be negative");
             return report;
         }
+
+        epoch = epoch.divide(ONE_THOUSAND);
 
         if (!BigInteger.ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
             report.addMessage("epoch time would overflow");
