@@ -36,22 +36,32 @@ public final class TypeValidator
     {
         final NodeType type = NodeType.getNodeType(instance);
 
-        if (!typeSet.isEmpty()) {
-            if (typeSet.contains(type)) {
-                schemas.clear();
-                return report;
-            }
-            report.addMessage(String.format("instance is of type %s, "
-                + "which is none of the allowed primitive types (%s)", type,
-                typeSet));
+        String message = "cannot match anything! Empty simple type set "
+                + "_and_ I don't have any enclosed schema either";
+
+        if (schemas.isEmpty() && typeSet.isEmpty()) {
+            report.addMessage(message);
+            return report;
         }
+
+        if (typeSet.contains(type)) {
+            schemas.clear();
+            return report;
+        }
+
+        message = typeSet.isEmpty() ? "no primitive types to match against"
+            : String.format("instance is of type %s, which is none of "
+                + "the allowed primitive types (%s)", type, typeSet);
+
+
+        report.addMessage(message);
 
         buildQueue();
 
         if (!hasMoreElements())
             return report;
 
-        report.addMessage("found enclosed schemas, trying with them");
+        report.addMessage("trying with enclosed schemas instead");
 
         for (int i = 1; hasMoreElements(); i++) {
             report.addMessage("trying schema #" + i + "...");

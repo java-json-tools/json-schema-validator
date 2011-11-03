@@ -34,7 +34,7 @@
         "bad": "a++",
         "messages": [
             "#: instance is of type string, which is none of the allowed primitive types ([boolean, integer, number])",
-            "#: found enclosed schemas, trying with them",
+            "#: trying with enclosed schemas instead",
             "#: trying schema #1...",
             "#: string is not a valid regular expression",
             "#: schema #1: no match",
@@ -57,7 +57,8 @@
         "good": "ilpapa@vaticano.it",
         "bad": 17,
         "messages": [
-            "#: found enclosed schemas, trying with them",
+            "#: no primitive types to match against",
+            "#: trying with enclosed schemas instead",
             "#: trying schema #1...",
             "#: instance is of type integer, which is none of the allowed primitive types ([string])",
             "#: schema #1: no match",
