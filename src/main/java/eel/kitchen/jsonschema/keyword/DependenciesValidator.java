@@ -96,11 +96,9 @@ public final class DependenciesValidator
             set.clear();
             set.addAll(simpleDependencies.get(field));
             set.removeAll(instanceFields);
-            if (!set.isEmpty()) {
+            if (!set.isEmpty())
                 report.addMessage("property " + field + " is missing "
                     + "dependencies " + set);
-                break;
-            }
         }
 
         while (report.isSuccess() && hasMoreElements())
