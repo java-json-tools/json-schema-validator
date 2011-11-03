@@ -66,8 +66,11 @@ public final class FormatFactory
     {
         final NodeType type = NodeType.getNodeType(node);
 
-        if (!typeMap.containsKey(name))
-            return new AlwaysFalseValidator("no validator for format " + name);
+        if (!typeMap.containsKey(name)) {
+            final ValidationReport report = context.createReport();
+            report.addMessage("no validator for format " + name);
+            return new AlwaysFalseValidator(report);
+        }
 
         if (!typeMap.get(name).contains(type))
             return new AlwaysTrueValidator();
