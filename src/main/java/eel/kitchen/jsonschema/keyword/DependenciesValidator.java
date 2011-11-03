@@ -64,7 +64,7 @@ public final class DependenciesValidator
 
         JsonNode node;
         for (final String dep: deps) {
-            node = instance.get(dep);
+            node = dependencies.get(dep);
             switch (NodeType.getNodeType(node)) {
                 case STRING:
                     simpleDependencies.put(dep,
