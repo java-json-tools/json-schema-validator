@@ -21,6 +21,7 @@ import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
@@ -32,11 +33,14 @@ public abstract class ContainerValidator
 
     protected final Validator validator;
 
+    protected final KeywordValidatorFactory factory;
+
     protected ContainerValidator(final Validator validator,
         final ValidationContext context, final JsonNode instance)
     {
         super(context, instance);
         this.validator = validator;
+        factory = context.getKeywordFactory();
     }
 
     protected abstract void buildPathProvider();

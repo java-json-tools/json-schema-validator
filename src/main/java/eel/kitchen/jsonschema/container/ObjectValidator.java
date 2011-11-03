@@ -83,8 +83,6 @@ public final class ObjectValidator
     @Override
     protected void buildQueue()
     {
-        final KeywordValidatorFactory factory = context.getKeywordFactory();
-
         final SortedMap<String, JsonNode> map
             = CollectionUtils.toSortedMap(instance.getFields());
 

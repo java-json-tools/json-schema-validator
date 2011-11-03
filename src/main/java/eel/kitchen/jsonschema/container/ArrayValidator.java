@@ -73,8 +73,6 @@ public final class ArrayValidator
     @Override
     protected void buildQueue()
     {
-        final KeywordValidatorFactory factory = context.getKeywordFactory();
-
         int i = 0;
         String subPath;
         JsonNode subSchema;
