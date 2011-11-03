@@ -17,12 +17,9 @@
 
 package eel.kitchen.jsonschema.container;
 
-import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import eel.kitchen.jsonschema.base.Validator;
-import eel.kitchen.util.NodeType;
+import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -63,27 +60,28 @@ public final class ArrayValidator
     }
 
     @Override
-    protected JsonNode getSchema(final String path)
+    protected Validator getValidator(final String path, final JsonNode child)
     {
         final int index = Integer.parseInt(path);
 
-        return index < items.size() ? items.get(index) : additionalItems;
+        final JsonNode node = index < items.size() ? items.get(index)
+            : additionalItems;
+
+        final ValidationContext ctx = context.createContext(path, node);
+
+        return ctx.getValidator(child);
     }
 
     @Override
     protected void buildQueue()
     {
         int i = 0;
-        String subPath;
-        JsonNode subSchema;
-        ValidationContext ctx;
+        String path;
         Validator v;
 
-        for (final JsonNode element: instance) {
-            subPath = Integer.toString(i++);
-            subSchema = getSchema(subPath);
-            ctx = context.createContext(subPath, subSchema);
-            v = factory.getValidator(ctx, element);
+        for (final JsonNode child: instance) {
+            path = Integer.toString(i++);
+            v = getValidator(path, child);
             queue.add(v);
         }
     }

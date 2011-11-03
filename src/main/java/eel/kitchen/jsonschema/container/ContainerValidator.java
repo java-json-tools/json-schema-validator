@@ -45,7 +45,8 @@ public abstract class ContainerValidator
 
     protected abstract void buildPathProvider();
 
-    protected abstract JsonNode getSchema(final String path);
+    protected abstract Validator getValidator(final String path,
+        final JsonNode child);
 
     protected abstract void buildQueue();
 
