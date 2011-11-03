@@ -22,10 +22,14 @@ import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 
 public abstract class ContainerValidator
     extends CombinedValidator
 {
+    protected static final JsonNode EMPTY_SCHEMA
+        = JsonNodeFactory.instance.objectNode();
+
     protected final Validator validator;
 
     protected ContainerValidator(final Validator validator,
@@ -34,6 +38,10 @@ public abstract class ContainerValidator
         super(context, instance);
         this.validator = validator;
     }
+
+    protected abstract void buildPathProvider();
+
+    protected abstract JsonNode getSchema(final String path);
 
     protected abstract void buildQueue();
 
@@ -45,6 +53,7 @@ public abstract class ContainerValidator
         if (!report.isSuccess())
             return report;
 
+        buildPathProvider();
         buildQueue();
 
         while (hasMoreElements() && report.isSuccess())

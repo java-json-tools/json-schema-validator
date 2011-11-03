@@ -22,10 +22,18 @@ import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public final class ArrayValidator
     extends ContainerValidator
 {
+    private List<JsonNode> items;
+
+    private JsonNode additionalItems;
+
     public ArrayValidator(final Validator validator,
         final ValidationContext context, final JsonNode instance)
     {
@@ -33,10 +41,38 @@ public final class ArrayValidator
     }
 
     @Override
+    protected void buildPathProvider()
+    {
+        items = new LinkedList<JsonNode>();
+
+        JsonNode node = schema.path("items");
+
+        if (node.isObject()) {
+            additionalItems = node;
+            return;
+        }
+
+        if (node.isArray()) {
+            for (final JsonNode item: node)
+                items.add(item);
+        }
+
+        node = schema.path("additionalItems");
+
+        additionalItems = node.isObject() ? node : EMPTY_SCHEMA;
+    }
+
+    @Override
+    protected JsonNode getSchema(final String path)
+    {
+        final int index = Integer.parseInt(path);
+
+        return index < items.size() ? items.get(index) : additionalItems;
+    }
+
+    @Override
     protected void buildQueue()
     {
-        final PathProvider provider = PathProviderFactory.getPathProvider(
-            schema, NodeType.ARRAY);
         final KeywordValidatorFactory factory = context.getKeywordFactory();
 
         int i = 0;
@@ -47,7 +83,7 @@ public final class ArrayValidator
 
         for (final JsonNode element: instance) {
             subPath = Integer.toString(i++);
-            subSchema = provider.getSchema(subPath);
+            subSchema = getSchema(subPath);
             ctx = context.createContext(subPath, subSchema);
             v = factory.getValidator(ctx, element);
             queue.add(v);

@@ -22,14 +22,23 @@ import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
+import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 
 public final class ObjectValidator
     extends ContainerValidator
 {
+    private Map<String, JsonNode> properties;
+
+    private Map<String, JsonNode> patternProperties;
+
+    private JsonNode additionalProperties;
+
     public ObjectValidator(final Validator validator,
         final ValidationContext context, final JsonNode instance)
     {
@@ -37,11 +46,43 @@ public final class ObjectValidator
     }
 
     @Override
+    protected void buildPathProvider()
+    {
+        JsonNode node;
+
+        properties = new HashMap<String, JsonNode>();
+        node = schema.path("properties");
+
+        if (node.isObject())
+            properties.putAll(CollectionUtils.toMap(node.getFields()));
+
+        patternProperties = new HashMap<String, JsonNode>();
+        node = schema.path("patternProperties");
+
+        if (node.isObject())
+            patternProperties.putAll(CollectionUtils.toMap(node.getFields()));
+
+        node = schema.path("additionalProperties");
+
+        additionalProperties = node.isObject() ? node : EMPTY_SCHEMA;
+    }
+
+    @Override
+    protected JsonNode getSchema(final String path)
+    {
+        if (properties.containsKey(path))
+            return properties.get(path);
+
+        for (final String pattern: patternProperties.keySet())
+            if (RhinoHelper.regMatch(pattern, path))
+                return patternProperties.get(pattern);
+
+        return additionalProperties;
+    }
+
+    @Override
     protected void buildQueue()
     {
-        final PathProvider provider = PathProviderFactory.getPathProvider(
-            schema, NodeType.OBJECT);
-
         final KeywordValidatorFactory factory = context.getKeywordFactory();
 
         final SortedMap<String, JsonNode> map
@@ -54,7 +95,7 @@ public final class ObjectValidator
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             fieldName = entry.getKey();
-            schemaNode = provider.getSchema(fieldName);
+            schemaNode = getSchema(fieldName);
             ctx = context.createContext(fieldName, schemaNode);
             v = factory.getValidator(ctx, entry.getValue());
             queue.add(v);
