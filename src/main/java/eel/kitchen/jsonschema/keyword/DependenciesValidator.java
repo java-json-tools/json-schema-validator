@@ -77,7 +77,8 @@ public final class DependenciesValidator
                     simpleDependencies.put(dep, set);
                     break;
                 case OBJECT:
-                    queue.add(factory.getValidator(context, instance));
+                    final ValidationContext ctx = context.createContext(node);
+                    queue.add(factory.getValidator(ctx, instance));
                     break;
                 default:
                     throw new RuntimeException("How did I even get there???");
