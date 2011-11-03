@@ -61,7 +61,7 @@ public abstract class ContainerValidator
         buildPathProvider();
         buildQueue();
 
-        while (hasMoreElements() && report.isSuccess())
+        while (hasMoreElements())
             report.mergeWith(nextElement().validate());
 
         queue.clear();
