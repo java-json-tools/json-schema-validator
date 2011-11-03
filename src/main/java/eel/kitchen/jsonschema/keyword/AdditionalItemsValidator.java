@@ -47,6 +47,6 @@ public final class AdditionalItemsValidator
             return;
 
         if (instance.size() > itemsCount)
-            report.addMessage("additional items are forbidden in the array");
+            report.addMessage("array only allows " + itemsCount + " item(s)");
     }
 }

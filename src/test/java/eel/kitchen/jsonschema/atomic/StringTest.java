@@ -58,6 +58,7 @@ public final class StringTest
     {
         testOne("pattern");
     }
+
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);
