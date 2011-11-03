@@ -21,10 +21,13 @@ import eel.kitchen.jsonschema.JsonValidator;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +35,8 @@ import static org.testng.Assert.*;
 
 public final class TypeTest
 {
+    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+
     private JsonNode testNode;
 
     @BeforeClass
@@ -39,6 +44,124 @@ public final class TypeTest
         throws IOException
     {
         testNode = JasonHelper.load("/typekeywords/type.json");
+    }
+
+    @Test
+    public void testNoTypeKeywordMatchesAll()
+    {
+        final JsonValidator validator = new JsonValidator(factory.objectNode());
+
+        ValidationReport report;
+
+        report = validator.validate(factory.arrayNode());
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.booleanNode(true));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.numberNode(0));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.numberNode(0.0));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.nullNode());
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.textNode(""));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.objectNode());
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testTypeAnyMatchesAll()
+    {
+        final ObjectNode schema = factory.objectNode();
+        schema.put("type", "any");
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        ValidationReport report;
+
+        report = validator.validate(factory.arrayNode());
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.booleanNode(true));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.numberNode(0));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.numberNode(0.0));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.nullNode());
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.textNode(""));
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+
+        report = validator.validate(factory.objectNode());
+        assertTrue(report.isSuccess());
+        assertTrue(report.getMessages().isEmpty());
+    }
+
+    @Test
+    public void testEmptyTypeArrayMatchesNothing()
+    {
+        final List<String> list = Arrays.asList("#: cannot match anything! "
+            + "Empty simple type set _and_ I don't have any enclosed schema "
+            + "either");
+
+        final ObjectNode schema = factory.objectNode();
+        schema.put("type", factory.arrayNode());
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        ValidationReport report;
+
+        report = validator.validate(factory.arrayNode());
+        assertFalse(report.isSuccess());
+        assertEquals(report.getMessages(), list);
+
+        report = validator.validate(factory.booleanNode(true));
+        assertFalse(report.isSuccess());
+        assertEquals(report.getMessages(), list);
+
+        report = validator.validate(factory.numberNode(0));
+        assertFalse(report.isSuccess());
+        assertEquals(report.getMessages(), list);
+
+        report = validator.validate(factory.numberNode(0.0));
+        assertFalse(report.isSuccess());
+        assertEquals(report.getMessages(), list);
+
+        report = validator.validate(factory.nullNode());
+        assertFalse(report.isSuccess());
+        assertEquals(report.getMessages(), list);
+
+        report = validator.validate(factory.textNode(""));
+        assertFalse(report.isSuccess());
+        assertEquals(report.getMessages(), list);
+
+        report = validator.validate(factory.objectNode());
+        assertFalse(report.isSuccess());
+        assertEquals(report.getMessages(), list);
     }
 
     @Test
@@ -87,7 +210,6 @@ public final class TypeTest
         report = validator.validate(bad);
 
         assertFalse(report.isSuccess());
-
         assertEquals(report.getMessages(), expected);
     }
 }
