@@ -1,0 +1,95 @@
+{
+    "additionalProperties": {
+        "schema": {
+            "properties": {
+                "p1": {
+                    "type": "string",
+                    "format": "ip-address"
+                }
+            },
+            "additionalProperties": false
+        },
+        "good": {
+            "p1": "127.0.0.1"
+        },
+        "bad": {
+            "p1": "slashdot.org",
+            "p2": null
+        },
+        "messages": [
+            "#: additional properties are not permitted"
+        ]
+    },
+    "additionalPropertiesSchema": {
+        "schema": {
+            "properties": {
+                "p1": {
+                    "type": "number",
+                    "format": "utc-millisec"
+                },
+                "p2": {
+                    "type": "string",
+                    "pattern": "^a"
+                }
+            },
+            "additionalProperties": {
+                "type": "string",
+                "format": "ipv6"
+            }
+        },
+        "good": {
+            "p1": 90128390,
+            "p2": "a new world order",
+            "p3": "::1"
+        },
+        "bad": {
+            "p1": -10,
+            "p4": "ipv6.google.com"
+        },
+        "messages": [
+            "#/p1: epoch cannot be negative",
+            "#/p4: string is not a valid IPv6 address"
+        ]
+    },
+    "dependencies": {
+        "schema": {
+            "type": [ "object", "number" ],
+            "properties": {
+                "p1": {
+                    "type": "string",
+                    "format": "time"
+                },
+                "p2": {
+                    "type": "string",
+                    "format": "host-name"
+                }
+            },
+            "dependencies": {
+                "laurel": "hardy",
+                "p1": [ "p2", "p3" ]
+            }
+        },
+        "good": {
+            "p1": "20:13:10",
+            "p2": "perdu.com",
+            "p3": {},
+            "laurel": "stanley",
+            "hardy": "kubrick"
+        },
+        "bad": {
+            "p1": "whatever",
+            "p2": "you want",
+            "laurel": "this will fail",
+            "at": "structure validation"
+        },
+        "messages": [
+            "#: property laurel is missing dependencies [hardy]",
+            "#: property p1 is missing dependencies [p3]"
+        ]
+    },
+    "dependenciesSchema": {
+        "schema": {
+            "propert
+        }
+    }
+}
