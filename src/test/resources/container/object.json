@@ -89,7 +89,31 @@
     },
     "dependenciesSchema": {
         "schema": {
-            "propert
-        }
+            "type": "object",
+            "properties": {
+                "p1": {
+                    "format": "color"
+                },
+                "p2": {}
+            },
+            "dependencies": {
+                "p1": "p2",
+                "p2": {
+                    "additionalProperties": false
+                }
+            }
+        },
+        "good": {
+            "p1": "rgb(0,0,0)",
+            "p2": [ 3, 4, 5 ]
+        },
+        "bad": {
+            "p1": "whatever",
+            "p2": "this will also fail at the structure level",
+            "p3": "should not be there"
+        },
+        "messages": [
+            "#: additional properties are not permitted"
+        ]
     }
 }

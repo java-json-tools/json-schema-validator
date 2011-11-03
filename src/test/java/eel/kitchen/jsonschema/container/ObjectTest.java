@@ -59,6 +59,12 @@ public final class ObjectTest
         testOne("dependencies");
     }
 
+    @Test
+    public void testDependenciesSchema()
+    {
+        testOne("dependenciesSchema");
+    }
+
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);
