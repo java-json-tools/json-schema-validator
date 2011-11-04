@@ -66,7 +66,7 @@ public final class KeywordValidatorFactory
         registerValidator("enum", EnumValidator.class, NodeType.values());
         registerValidator("extends", ExtendsValidator.class, NodeType.values());
         registerValidator("format", FormatValidator.class, NodeType.values());
-        registerValidator("items", ItemsValidator.class, ARRAY);
+        registerValidator("items", AlwaysTrueValidator.class, ARRAY);
         registerValidator("maximum", MaximumValidator.class, INTEGER, NUMBER);
         registerValidator("maxItems", MaxItemsValidator.class, ARRAY);
         registerValidator("maxLength", MaxLengthValidator.class, STRING);
@@ -74,7 +74,7 @@ public final class KeywordValidatorFactory
         registerValidator("minItems", MinItemsValidator.class, ARRAY);
         registerValidator("minLength", MinLengthValidator.class, STRING);
         registerValidator("pattern", PatternValidator.class, STRING);
-        registerValidator("patternProperties", PatternPropertiesValidator.class,
+        registerValidator("patternProperties", AlwaysTrueValidator.class,
             OBJECT);
         registerValidator("properties", PropertiesValidator.class,
             OBJECT);
