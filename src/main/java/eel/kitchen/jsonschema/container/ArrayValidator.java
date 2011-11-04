@@ -27,7 +27,7 @@ import java.util.List;
 public final class ArrayValidator
     extends ContainerValidator
 {
-    private List<JsonNode> items;
+    private final List<JsonNode> items = new LinkedList<JsonNode>();
 
     private JsonNode additionalItems;
 
@@ -40,8 +40,6 @@ public final class ArrayValidator
     @Override
     protected void buildPathProvider()
     {
-        items = new LinkedList<JsonNode>();
-
         JsonNode node = schema.path("items");
 
         if (node.isObject()) {

@@ -24,18 +24,20 @@ import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.TreeMap;
 
 public final class ObjectValidator
     extends ContainerValidator
 {
-    private Map<String, JsonNode> properties;
+    private final SortedMap<String, JsonNode> properties
+        = new TreeMap<String, JsonNode>();
 
-    private Map<String, JsonNode> patternProperties;
+    private final SortedMap<String, JsonNode> patternProperties
+        = new TreeMap<String, JsonNode>();
 
     private JsonNode additionalProperties;
 
@@ -50,13 +52,11 @@ public final class ObjectValidator
     {
         JsonNode node;
 
-        properties = new HashMap<String, JsonNode>();
         node = schema.path("properties");
 
         if (node.isObject())
             properties.putAll(CollectionUtils.toMap(node.getFields()));
 
-        patternProperties = new HashMap<String, JsonNode>();
         node = schema.path("patternProperties");
 
         if (node.isObject())
