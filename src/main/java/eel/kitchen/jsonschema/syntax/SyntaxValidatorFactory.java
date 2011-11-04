@@ -67,6 +67,7 @@ public final class SyntaxValidatorFactory
         validators.put("pattern", PatternValidator.class);
         validators.put("patternProperties", PatternPropertiesValidator.class);
         validators.put("properties", PropertiesValidator.class);
+        validators.put("required", RequiredValidator.class);
         validators.put("title", TitleValidator.class);
         validators.put("type", TypeValidator.class);
         validators.put("uniqueItems", UniqueItemsValidator.class);
