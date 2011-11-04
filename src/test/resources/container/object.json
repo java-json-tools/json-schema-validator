@@ -99,7 +99,12 @@
             "dependencies": {
                 "p1": "p2",
                 "p2": {
-                    "additionalProperties": false
+                    "properties": {
+                        "p3" : {
+                            "type": "string",
+                            "format": "email"
+                        }
+                    }
                 }
             }
         },
@@ -108,12 +113,12 @@
             "p2": [ 3, 4, 5 ]
         },
         "bad": {
-            "p1": "whatever",
-            "p2": "this will also fail at the structure level",
-            "p3": "should not be there"
+            "p1": null,
+            "p2": "hey, joe",
+            "p3": "not a valid mail"
         },
         "messages": [
-            "#: additional properties are not permitted"
+            "#/p3: string is not a valid email address"
         ]
     }
 }
