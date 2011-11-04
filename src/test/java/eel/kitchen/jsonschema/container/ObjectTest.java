@@ -71,6 +71,12 @@ public final class ObjectTest
         testOne("required");
     }
 
+    @Test
+    public void testPatternProperties()
+    {
+        testOne("patternProperties");
+    }
+
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);

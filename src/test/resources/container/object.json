@@ -143,5 +143,51 @@
         "messages": [
             "#: required property p1 is missing"
         ]
+    },
+    "patternProperties": {
+        "schema": {
+            "properties": {
+                "p1": {
+                    "type": "integer"
+                }
+            },
+            "patternProperties": {
+                "p": {
+                    "minimum": 12
+                },
+                "1$": {
+                    "divisibleBy": 7
+                }
+            },
+            "additionalProperties": {
+                "type": "string",
+                "format": "color"
+            }
+        },
+        "good": {
+            "p1": 14,
+            "e1": 0.0,
+            "x": "blue",
+            "p": "whatever",
+            "routmachere": "#ae3121"
+        },
+        "bad": {
+            "p1": 19,
+            "zz1": 44,
+            "p": 8,
+            "a": "#z",
+            "b": "rgb(32)",
+            "c": "rgb(0,0,256)",
+            "d": "gah"
+        },
+        "messages": [
+            "#/a: string is not a valid CSS 2.1 color",
+            "#/b: string is not a valid CSS 2.1 color",
+            "#/c: string is not a valid CSS 2.1 color",
+            "#/d: string is not a valid CSS 2.1 color",
+            "#/p: number is lower than the required minimum",
+            "#/p1: number is not a multiple of divisibleBy",
+            "#/zz1: number is not a multiple of divisibleBy"
+        ]
     }
 }
