@@ -20,13 +20,19 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class ExtendsValidator
     extends CombinedValidator
 {
+    private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+
     public ExtendsValidator(final ValidationContext context,
         final JsonNode instance)
     {
@@ -37,7 +43,7 @@ public final class ExtendsValidator
     private void buildQueue()
     {
         final KeywordValidatorFactory factory = context.getKeywordFactory();
-        final ObjectNode baseNode = JsonNodeFactory.instance.objectNode();
+        final ObjectNode baseNode = nodeFactory.objectNode();
 
         baseNode.putAll((ObjectNode) schema);
 
@@ -47,16 +53,33 @@ public final class ExtendsValidator
 
         queue.add(factory.getValidator(other, instance));
 
+        JsonNode mergedNode;
+
         if (extendsNode.isObject()) {
-            other = context.createContext(extendsNode);
+            mergedNode = merge(baseNode, extendsNode);
+            other = context.createContext(mergedNode);
             queue.add(factory.getValidator(other, instance));
             return;
         }
 
         for (final JsonNode node: extendsNode) {
-            other = context.createContext(node);
+            mergedNode = merge(baseNode, node);
+            other = context.createContext(mergedNode);
             queue.add(factory.getValidator(other, instance));
         }
+    }
+
+    private static JsonNode merge(final JsonNode baseNode,
+        final JsonNode otherNode)
+    {
+        final Map<String, JsonNode>
+            base = CollectionUtils.toMap(baseNode.getFields()),
+            other = CollectionUtils.toMap(otherNode.getFields());
+
+        final Map<String, JsonNode> ret = new HashMap<String, JsonNode>(base);
+        ret.putAll(other);
+
+        return nodeFactory.objectNode().putAll(ret);
     }
 
     @Override
