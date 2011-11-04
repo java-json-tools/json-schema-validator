@@ -26,8 +26,9 @@ import org.codehaus.jackson.JsonNode;
 
 public final class ValidationContext
 {
-    private String path;
+    private JsonNode rootSchema;
     private JsonNode schemaNode;
+    private String path;
 
     private KeywordValidatorFactory keywordFactory;
     private SyntaxValidatorFactory syntaxFactory;
@@ -39,7 +40,7 @@ public final class ValidationContext
     public ValidationContext(final JsonNode schemaNode)
     {
         path = "#";
-        this.schemaNode = schemaNode;
+        rootSchema = this.schemaNode = schemaNode;
 
         keywordFactory = new KeywordValidatorFactory();
         syntaxFactory = new SyntaxValidatorFactory();
@@ -64,6 +65,7 @@ public final class ValidationContext
 
         final ValidationContext other = new ValidationContext();
         other.path = newPath;
+        other.rootSchema = rootSchema;
         other.schemaNode = subSchema;
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
