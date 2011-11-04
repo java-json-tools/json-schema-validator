@@ -35,8 +35,6 @@ import static eel.kitchen.util.NodeType.*;
 
 public final class FormatFactory
 {
-    private final ValidationContext context;
-
     private final Map<String, EnumSet<NodeType>> typeMap
         = new HashMap<String, EnumSet<NodeType>>();
 
@@ -47,7 +45,6 @@ public final class FormatFactory
 
     public FormatFactory(final ValidationContext context)
     {
-        this.context = context;
         report = context.createReport();
 
         registerFormat("date-time", DateTimeFormatValidator.class, STRING);
@@ -85,8 +82,6 @@ public final class FormatFactory
         final Class<? extends Validator> c = validators.get(name);
 
         final Constructor<? extends Validator> constructor;
-
-        final ValidationReport report = context.createReport();
 
         try {
             constructor = c.getConstructor(ValidationReport.class,
