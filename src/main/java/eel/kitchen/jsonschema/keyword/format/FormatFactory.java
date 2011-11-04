@@ -84,14 +84,18 @@ public final class FormatFactory
 
         final Constructor<? extends Validator> constructor;
 
+        final ValidationReport report = context.createReport();
+
         try {
             constructor = c.getConstructor(ValidationReport.class,
                 JsonNode.class);
-            return constructor.newInstance(context.createReport(), node);
+            return constructor.newInstance(report, node);
         } catch (Exception e) {
-            return new AlwaysFalseValidator("cannot instantiate format "
-                + "validator for " + name + ": " + e.getClass().getName()
-                + ": " + e.getMessage());
+            final String msg = String.format("cannot instantiate format "
+                + "validator for %s: %s: %s", name, e.getClass().getName(),
+                e.getMessage());
+            report.addMessage(msg);
+            return new AlwaysFalseValidator(report);
         }
     }
 

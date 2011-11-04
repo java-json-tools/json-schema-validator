@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.keyword;
 
+import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
@@ -150,7 +151,9 @@ public final class KeywordValidatorFactory
             } catch (Exception e) {
                 final String message = "Cannot instantiate validator "
                     + "for keyword " + key + ": " + e.getClass().getName();
-                validator = new AlwaysFalseValidator(message);
+                final ValidationReport report = context.createReport();
+                report.addMessage(message);
+                validator = new AlwaysFalseValidator(report);
                 return Arrays.asList(validator);
             }
         }

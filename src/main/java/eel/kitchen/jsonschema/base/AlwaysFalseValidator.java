@@ -22,16 +22,11 @@ import eel.kitchen.jsonschema.ValidationReport;
 public final class AlwaysFalseValidator
     extends NonEnumerableValidator
 {
-    private final ValidationReport report = new ValidationReport();
+    private final ValidationReport report;
 
-    public AlwaysFalseValidator(final ValidationReport other)
+    public AlwaysFalseValidator(final ValidationReport report)
     {
-        report.mergeWith(other);
-    }
-
-    public AlwaysFalseValidator(final String message)
-    {
-        report.addMessage(message);
+        this.report = report;
     }
 
     @Override
