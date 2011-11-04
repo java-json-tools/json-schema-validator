@@ -65,7 +65,7 @@ public final class RhinoHelper
         try {
             engine.eval(String.format(REGEX_FORMAT, escape(regex)));
             return true;
-        } catch (ScriptException e) {
+        } catch (ScriptException ignored) {
             return false;
         }
     }
