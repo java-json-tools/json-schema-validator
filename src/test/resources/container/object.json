@@ -120,5 +120,28 @@
         "messages": [
             "#/p3: string is not a valid email address"
         ]
+    },
+    "required": {
+        "schema": {
+            "properties": {
+                "p1": {
+                    "required": true,
+                    "format": "date"
+                },
+                "p2": {
+                    "format": "phone"
+                }
+            }
+        },
+        "good": {
+            "p1": "2010-11-15",
+            "p2": "+3927166273"
+        },
+        "bad": {
+            "p2": null
+        },
+        "messages": [
+            "#: required property p1 is missing"
+        ]
     }
 }

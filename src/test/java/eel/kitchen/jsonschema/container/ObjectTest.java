@@ -65,6 +65,12 @@ public final class ObjectTest
         testOne("dependenciesSchema");
     }
 
+    @Test
+    public void testRequired()
+    {
+        testOne("required");
+    }
+
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);

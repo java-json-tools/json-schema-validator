@@ -57,6 +57,6 @@ public final class PropertiesValidator
         set.removeAll(fieldNames);
 
         for (final String missing: set)
-            report.addMessage("property " + missing + " is missing");
+            report.addMessage("required property " + missing + " is missing");
     }
 }
