@@ -7,10 +7,16 @@
                     "format": "ip-address"
                 }
             },
+            "patternProperties": {
+                "1$": {
+                     "pattern": "^1"
+                }
+            },
             "additionalProperties": false
         },
         "good": {
-            "p1": "127.0.0.1"
+            "p1": "127.0.0.1",
+            "421": null
         },
         "bad": {
             "p1": "slashdot.org",
@@ -121,6 +127,33 @@
             "#/p3: string is not a valid email address"
         ]
     },
+    "properties": {
+        "schema": {
+            "disallow": [ "boolean", "integer" ],
+            "properties": {
+                "p1": {
+                    "enum": [ "Sting", "Led Zeppelin" ]
+                },
+                "p2": {
+                    "format": "ipv6"
+                }
+            },
+            "additionalProperties": false
+        },
+        "good": {
+            "p1": "Sting",
+            "p2": "1021::37:4:4:3"
+        },
+        "bad": {
+            "p1": {
+                "some": "thing"
+            },
+            "p2": 37
+        },
+        "messages": [
+            "#/p1: instance does not match any member of the enumeration"
+        ]
+    },
     "required": {
         "schema": {
             "properties": {
@@ -166,6 +199,7 @@
         },
         "good": {
             "p1": 14,
+            "p51": 28,
             "e1": 0.0,
             "x": "blue",
             "p": "whatever",

@@ -44,6 +44,7 @@ public final class EnumValidator
         if (enumValues.contains(instance))
             return;
 
-        report.addMessage("instance does not match any enumerated element");
+        report.addMessage("instance does not match any member of the "
+            + "enumeration");
     }
 }
