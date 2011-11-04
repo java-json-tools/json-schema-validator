@@ -96,7 +96,7 @@ public final class ObjectValidator
 
         for (final JsonNode node: schemas) {
             tmp = ctx.createContext(node);
-            queue.add(tmp.getValidator(child));
+            validators.add(tmp.getValidator(child));
         }
 
         return new MatchAllValidator(ctx, validators);

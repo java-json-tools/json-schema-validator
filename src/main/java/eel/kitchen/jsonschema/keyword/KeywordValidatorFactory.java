@@ -73,7 +73,7 @@ public final class KeywordValidatorFactory
         registerValidator("minItems", MinItemsValidator.class, ARRAY);
         registerValidator("minLength", MinLengthValidator.class, STRING);
         registerValidator("pattern", PatternValidator.class, STRING);
-        registerValidator("patternProperties", AlwaysTrueValidator.class,
+        registerValidator("patternProperties", PatternPropertiesValidator.class,
             OBJECT);
         registerValidator("properties", PropertiesValidator.class,
             OBJECT);
