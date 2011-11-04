@@ -1,0 +1,51 @@
+{
+    "style": {
+        "instance": "nope",
+        "messages": [
+            "#: string is not a valid CSS 2.1 style"
+        ]
+
+    },
+    "ip-address": {
+        "instance": "slashdot.org",
+        "messages": [
+            "#: string is not a valid IPv4 address"
+        ]
+    },
+    "phone": {
+        "instance": "+31+",
+        "messages": [
+            "#: string is not a recognized phone number"
+        ]
+    },
+    "utc-millisec": {
+        "instance": 98129038098019283918209381092831092830192,
+        "messages": [
+            "#: epoch time would overflow"
+        ]
+    },
+    "uri": {
+        "instance": "+23:",
+        "messages": [
+            "#: string is not a valid URI"
+        ]
+    },
+    "date": {
+        "instance": "20100303",
+        "messages": [
+            "#: string is not a valid date"
+        ]
+    },
+    "date-time": {
+        "instance": "20100303",
+        "messages": [
+            "#: string is not a valid ISO 8601 date"
+        ]
+    },
+    "time": {
+        "instance": "20100303",
+        "messages": [
+            "#: string is not a valid time"
+        ]
+    }
+}

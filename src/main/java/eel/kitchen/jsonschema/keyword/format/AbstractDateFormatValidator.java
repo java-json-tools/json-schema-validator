@@ -34,7 +34,7 @@ public abstract class AbstractDateFormatValidator
     {
         super(report, node);
         format = new SimpleDateFormat(fmt);
-        errmsg = String.format("value is not a valid %s", desc);
+        errmsg = String.format("string is not a valid %s", desc);
     }
 
     @Override
