@@ -23,9 +23,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * <p>Utilities to provide simple generics equivalents to some of Apache's
@@ -71,51 +69,16 @@ public final class CollectionUtils
     }
 
     /**
-     * <p>Return a type-safe set, with optional checking for duplicate values
+     * <p>Return a "type-safe" set
      * </p>
      *
      * @param iterator the iterator to build the set out of
-     * @param allowDuplicates if false, forbid duplicates
      * @param <T> elements type
-     * @return a type-safe {@link HashSet}
-     * @throws IllegalArgumentException if allowDuplicates is false and the
-     * iterator contains duplicate elements
-     */
-    public static <T> Set<T> toSet(final Iterator<T> iterator,
-        final boolean allowDuplicates)
-    {
-        final Set<T> ret = new HashSet<T>();
-        T element;
-
-        while (iterator.hasNext()) {
-            element = iterator.next();
-            if (ret.contains(element) && !allowDuplicates)
-                throw new IllegalArgumentException("Duplicate elements are not "
-                    + "allowed");
-            ret.add(element);
-        }
-
-        return ret;
-    }
-
-    /**
-     * <p>Return a type-safe set out of an iterator, (sw)allowing duplicates.
-     * This is equivalent to calling (and does call) <code>toSet(it,
-     * true)</code>.
-     * </p>
-     *
-     * @param iterator The iterator to build the set out of
-     * @param <T> elements types
      * @return a type-safe {@link HashSet}
      */
     public static <T> Set<T> toSet(final Iterator<T> iterator)
     {
-        return toSet(iterator, true);
-    }
-
-    public static <T> SortedSet<T> toSortedSet(final Iterator<T> iterator)
-    {
-        final SortedSet<T> ret = new TreeSet<T>();
+        final Set<T> ret = new HashSet<T>();
 
         while (iterator.hasNext())
             ret.add(iterator.next());

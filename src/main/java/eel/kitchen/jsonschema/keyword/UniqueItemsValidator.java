@@ -19,8 +19,10 @@ package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public final class UniqueItemsValidator
     extends SimpleValidator
@@ -34,11 +36,13 @@ public final class UniqueItemsValidator
     @Override
     protected void validateInstance()
     {
-        try {
-            CollectionUtils.toSet(instance.getElements(), false);
-        } catch (IllegalArgumentException ignored) {
-            report.addMessage("items in the array are not unique");
-        }
+        final Set<JsonNode> set = new HashSet<JsonNode>();
+
+        for (final JsonNode node: instance)
+            if (!set.add(node)) {
+                report.addMessage("items in the array are not unique");
+                return;
+            }
     }
 
 }
