@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.RhinoHelper;
@@ -27,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class AdditionalPropertiesValidator
-    extends SimpleValidator
+    extends KeywordValidator
 {
     private final boolean shortcut;
 

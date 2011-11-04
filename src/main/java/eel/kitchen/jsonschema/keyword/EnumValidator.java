@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
@@ -26,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class EnumValidator
-    extends SimpleValidator
+    extends KeywordValidator
 {
     private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
 

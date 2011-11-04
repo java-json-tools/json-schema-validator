@@ -17,13 +17,12 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 public final class PatternValidator
-    extends SimpleValidator
+    extends KeywordValidator
 {
     public PatternValidator(final ValidationContext context,
         final JsonNode instance)

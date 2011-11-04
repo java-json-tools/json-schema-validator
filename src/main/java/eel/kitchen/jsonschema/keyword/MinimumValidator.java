@@ -17,14 +17,13 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.base.SimpleValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
 public final class MinimumValidator
-    extends SimpleValidator
+    extends KeywordValidator
 {
     private final BigDecimal minimum;
     private final boolean exclusiveMinimum;
