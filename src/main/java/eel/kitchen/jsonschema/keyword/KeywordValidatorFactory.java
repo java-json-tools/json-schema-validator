@@ -158,7 +158,7 @@ public final class KeywordValidatorFactory
         return Collections.unmodifiableSet(ret);
     }
 
-    private Validator buildValidator(final Class<? extends Validator> c,
+    private static Validator buildValidator(final Class<? extends Validator> c,
         final ValidationContext context, final JsonNode instance)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
