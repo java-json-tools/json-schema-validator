@@ -18,14 +18,31 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.context.ValidationContext;
+import org.codehaus.jackson.JsonNode;
 
 public final class AlwaysTrueValidator
     extends NonEnumerableValidator
 {
-    private static final ValidationReport report = new ValidationReport();
+    private final ValidationReport report;
 
-    public AlwaysTrueValidator(final Object... ignored)
+    // syntax
+    public AlwaysTrueValidator(final ValidationContext context)
     {
+        report = context.createReport();
+    }
+
+    // keyword
+    public AlwaysTrueValidator(final ValidationContext context,
+        final JsonNode instance)
+    {
+        report = context.createReport();
+    }
+
+    public AlwaysTrueValidator(final ValidationReport report,
+        final JsonNode instance)
+    {
+        this.report = report;
     }
 
     @Override

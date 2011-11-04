@@ -43,9 +43,12 @@ public final class FormatFactory
     private final Map<String, Class<? extends Validator>> validators
         = new HashMap<String, Class<? extends Validator>>();
 
+    private final ValidationReport report;
+
     public FormatFactory(final ValidationContext context)
     {
         this.context = context;
+        report = context.createReport();
 
         registerFormat("date-time", DateTimeFormatValidator.class, STRING);
         registerFormat("date", DateFormatValidator.class, STRING);
@@ -67,13 +70,12 @@ public final class FormatFactory
         final NodeType type = NodeType.getNodeType(node);
 
         if (!typeMap.containsKey(name)) {
-            final ValidationReport report = context.createReport();
             report.addMessage("no validator for format " + name);
             return new AlwaysFalseValidator(report);
         }
 
         if (!typeMap.get(name).contains(type))
-            return new AlwaysTrueValidator();
+            return new AlwaysTrueValidator(report, node);
 
         return doGetValidator(name, node);
     }

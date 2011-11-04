@@ -101,7 +101,7 @@ public final class KeywordValidatorFactory
         final Validator validator;
         switch (collection.size()) {
             case 0:
-                return new AlwaysTrueValidator();
+                return new AlwaysTrueValidator(context, instance);
             case 1:
                 validator = collection.iterator().next();
                 break;
@@ -130,7 +130,7 @@ public final class KeywordValidatorFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.<Validator>asList(new AlwaysTrueValidator());
+            return Arrays.<Validator>asList(new AlwaysTrueValidator(context, instance));
 
         final Set<String> keyset = new HashSet<String>();
 

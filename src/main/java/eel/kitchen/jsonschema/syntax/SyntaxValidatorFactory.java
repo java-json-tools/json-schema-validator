@@ -103,7 +103,7 @@ public final class SyntaxValidatorFactory
         fields.retainAll(keywords);
 
         if (fields.isEmpty())
-            return new AlwaysTrueValidator();
+            return new AlwaysTrueValidator(context);
 
         final Collection<Validator> collection = getValidators(context, fields);
 
