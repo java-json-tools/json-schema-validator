@@ -18,11 +18,11 @@
 package eel.kitchen.jsonschema.keyword.format;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.NonEnumerableValidator;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class AbstractFormatValidator
-    extends NonEnumerableValidator
+    extends AbstractValidator
 {
     protected final ValidationReport report;
 

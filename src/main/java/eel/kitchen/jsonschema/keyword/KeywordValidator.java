@@ -18,12 +18,12 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.NonEnumerableValidator;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class KeywordValidator
-    extends NonEnumerableValidator
+    extends AbstractValidator
 {
     protected final JsonNode schema;
     protected final JsonNode instance;

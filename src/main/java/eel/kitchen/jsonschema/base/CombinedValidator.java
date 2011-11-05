@@ -22,7 +22,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class CombinedValidator
-    extends EnumerableValidator
+    extends AbstractValidator
 {
     protected final ValidationContext context;
     protected final ValidationReport report;

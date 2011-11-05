@@ -23,7 +23,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import java.util.Collection;
 
 public final class MatchAllValidator
-    extends EnumerableValidator
+    extends AbstractValidator
 {
     private final ValidationReport report;
 

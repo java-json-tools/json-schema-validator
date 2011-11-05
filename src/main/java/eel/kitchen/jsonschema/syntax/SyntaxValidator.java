@@ -18,7 +18,7 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.NonEnumerableValidator;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 public abstract class SyntaxValidator
-    extends NonEnumerableValidator
+    extends AbstractValidator
 {
     protected final ValidationReport report;
 

@@ -24,12 +24,12 @@ import java.util.Queue;
 public abstract class AbstractValidator
     implements Validator
 {
-    private final Queue<Validator> queue = new ArrayDeque<Validator>();
+    protected final Queue<Validator> queue = new ArrayDeque<Validator>();
 
     @Override
     public boolean hasMoreElements()
     {
-        return queue.isEmpty();
+        return !queue.isEmpty();
     }
 
     @Override
