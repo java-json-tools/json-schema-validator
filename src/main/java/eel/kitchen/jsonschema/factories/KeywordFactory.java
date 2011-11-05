@@ -41,6 +41,7 @@ import eel.kitchen.jsonschema.keyword.MinLengthValidator;
 import eel.kitchen.jsonschema.keyword.MinimumValidator;
 import eel.kitchen.jsonschema.keyword.PatternValidator;
 import eel.kitchen.jsonschema.keyword.PropertiesValidator;
+import eel.kitchen.jsonschema.keyword.RefValidator;
 import eel.kitchen.jsonschema.keyword.TypeValidator;
 import eel.kitchen.jsonschema.keyword.UniqueItemsValidator;
 import eel.kitchen.util.CollectionUtils;
@@ -98,6 +99,7 @@ public final class KeywordFactory
             OBJECT);
         registerValidator("type", TypeValidator.class, NodeType.values());
         registerValidator("uniqueItems", UniqueItemsValidator.class, ARRAY);
+        registerValidator("$ref", RefValidator.class, NodeType.values());
     }
 
     private void registerValidator(final String field,
