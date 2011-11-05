@@ -52,21 +52,21 @@ public final class ExtendsValidator
 
         ValidationContext other = context.createContext(baseNode);
 
-        queue.add(factory.getValidator(other, instance));
+        queue.add(other.getValidator(instance));
 
         JsonNode mergedNode;
 
         if (extendsNode.isObject()) {
             mergedNode = merge(baseNode, extendsNode);
             other = context.createContext(mergedNode);
-            queue.add(factory.getValidator(other, instance));
+            queue.add(other.getValidator(instance));
             return;
         }
 
         for (final JsonNode node: extendsNode) {
             mergedNode = merge(baseNode, node);
             other = context.createContext(mergedNode);
-            queue.add(factory.getValidator(other, instance));
+            queue.add(other.getValidator(instance));
         }
     }
 
