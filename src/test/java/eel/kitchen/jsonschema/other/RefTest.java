@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.other;
 import eel.kitchen.jsonschema.JsonValidator;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.util.JsonLoader;
+import eel.kitchen.util.RefResolver;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
@@ -71,6 +72,20 @@ public final class RefTest
 
         assertEquals(report.getMessages().get(0), "#: ref # points to "
             + "myself!");
+    }
+
+    @Test
+    public void testRefResolver()
+        throws IOException
+    {
+        final RefResolver resolver = new RefResolver(draftv3);
+
+        assertEquals(resolver.resolve("#"), draftv3);
+
+        assertTrue(resolver.resolve("#/foo").isMissingNode());
+
+        assertEquals(resolver.resolve("#/properties/type/default"),
+            JsonNodeFactory.instance.textNode("any"));
     }
 
 }
