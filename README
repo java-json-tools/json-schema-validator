@@ -24,40 +24,49 @@ public final void SampleValidation()
     public static void main(final String... args)
     {
         //
-	// See the Jackson API to grab a schema. JasonHelper has a
-	// classpath-only retrieval mechanism, if you want to have a schema from
-	// another source, consider ObjectMapper from the Jackson API.
+        // See the Jackson API to grab a schema. JasonHelper has a
+        // classpath-only retrieval mechanism, if you want to have a schema from
+        // another source, consider ObjectMapper from the Jackson API.
         //
-	// Here, "schema" is the JSON document representing the schema, and
-	// "instance" is the JSON document to validate.
+        // Here, "schema" is the JSON document representing the schema, and
+        // "instance" is the JSON document to validate.
     
-	final JsonNode schema = ..., instance = ....;
+        final JsonNode schema = ..., instance = ....;
     
-	final JsonValidator validator = new JsonValidator(schema);
-    
-        //
-	// A ValidationReport object contains the state of validation. Right now
-	// it ALWAYS collects validation failure messages, as deep as it can. In
-	// the future, a version will exist which will NOT collect messages but
-	// which will answer correctly to the true/false method below:
-        //
-    
-	final ValidationReport report = validator.validate(instance);
-    
-	if (validator.isSuccess()) {
-	    // OMG ponnies! We have a success!
-	    return; // of course, do what you want, you may want to exit on
-	    failure
-		    // instead
-	}
+        final JsonValidator validator = new JsonValidator(schema);
     
         //
-	// On failure, with the default (as of now) ValidationReport object, you
-	// can collect error messages. This sample prints them out.
+        // A ValidationReport object contains the state of validation. Right now
+        // it ALWAYS collects validation failure messages, as deep as it can. In
+        // the future, a version will exist which will NOT collect messages but
+        // which will answer correctly to the true/false method below:
         //
     
-	final List<String> errs = report.getMessages();
+        final ValidationReport report = validator.validate(instance);
     
-	for (final String err: errs) System.out.println(err); }
-]
+        if (validator.isSuccess())
+            //
+            // OMG ponnies! We have a success!
+            //
+            //
+            // This sample exits with 0 (as any well-behaved standalone
+            // executable is supposed todo on success), but of course this is
+            // just an example
+            //
+            System.exit(0);
+    
+        //
+        // On failure, with the default (as of now) ValidationReport object, you
+        // can collect error messages. This sample prints them out.
+        //
+    
+        final List<String> errs = report.getMessages();
+    
+        for (final String err: errs)
+            System.err.println(err);
+
+        // Everything BUT 0 here -- behave
+        System.exit(1);
+    }
+}
 ----
