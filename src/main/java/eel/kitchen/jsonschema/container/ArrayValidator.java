@@ -40,6 +40,8 @@ public final class ArrayValidator
     @Override
     protected void buildPathProvider()
     {
+        final JsonNode schema = context.getSchemaNode();
+
         JsonNode node = schema.path("items");
 
         if (node.isObject()) {

@@ -44,7 +44,7 @@ public final class ExtendsValidator
     {
         final ObjectNode baseNode = nodeFactory.objectNode();
 
-        baseNode.putAll((ObjectNode) schema);
+        baseNode.putAll((ObjectNode) context.getSchemaNode());
 
         final JsonNode extendsNode = baseNode.remove("extends");
 

@@ -48,7 +48,7 @@ public final class DependenciesValidator
     {
         super(context, instance);
 
-        dependencies = schema.get("dependencies");
+        dependencies = context.getSchemaNode().get("dependencies");
         instanceFields.addAll(CollectionUtils.toSet(instance.getFieldNames()));
 
         setUp();

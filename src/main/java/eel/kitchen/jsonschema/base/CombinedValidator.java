@@ -26,7 +26,6 @@ public abstract class CombinedValidator
 {
     protected final ValidationContext context;
     protected final ValidationReport report;
-    protected final JsonNode schema;
     protected final JsonNode instance;
 
     protected CombinedValidator(final ValidationContext context,
@@ -34,7 +33,6 @@ public abstract class CombinedValidator
     {
         this.context = context;
         report = context.createReport();
-        schema = context.getSchemaNode();
         this.instance = instance;
     }
 }

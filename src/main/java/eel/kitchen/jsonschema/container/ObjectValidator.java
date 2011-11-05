@@ -50,6 +50,8 @@ public final class ObjectValidator
     @Override
     protected void buildPathProvider()
     {
+        final JsonNode schema = context.getSchemaNode();
+
         JsonNode node;
 
         node = schema.path("properties");

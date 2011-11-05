@@ -42,7 +42,7 @@ public abstract class TypeKeywordValidator
         final JsonNode instance, final String field)
     {
         super(context, instance);
-        typeNode = schema.get(field);
+        typeNode = context.getSchemaNode().get(field);
         setUp();
     }
 
