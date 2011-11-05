@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.syntax;
+package eel.kitchen.jsonschema.factories;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
@@ -23,6 +23,34 @@ import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.syntax.AdditionalItemsValidator;
+import eel.kitchen.jsonschema.syntax.AdditionalPropertiesValidator;
+import eel.kitchen.jsonschema.syntax.DependenciesValidator;
+import eel.kitchen.jsonschema.syntax.DescriptionValidator;
+import eel.kitchen.jsonschema.syntax.DisallowValidator;
+import eel.kitchen.jsonschema.syntax.DivisibleByValidator;
+import eel.kitchen.jsonschema.syntax.DollarRefValidator;
+import eel.kitchen.jsonschema.syntax.DollarSchemaValidator;
+import eel.kitchen.jsonschema.syntax.EnumValidator;
+import eel.kitchen.jsonschema.syntax.ExclusiveMaximumValidator;
+import eel.kitchen.jsonschema.syntax.ExclusiveMinimumValidator;
+import eel.kitchen.jsonschema.syntax.ExtendsValidator;
+import eel.kitchen.jsonschema.syntax.FormatValidator;
+import eel.kitchen.jsonschema.syntax.IdValidator;
+import eel.kitchen.jsonschema.syntax.ItemsValidator;
+import eel.kitchen.jsonschema.syntax.MaxItemsValidator;
+import eel.kitchen.jsonschema.syntax.MaxLengthValidator;
+import eel.kitchen.jsonschema.syntax.MaximumValidator;
+import eel.kitchen.jsonschema.syntax.MinItemsValidator;
+import eel.kitchen.jsonschema.syntax.MinLengthValidator;
+import eel.kitchen.jsonschema.syntax.MinimumValidator;
+import eel.kitchen.jsonschema.syntax.PatternPropertiesValidator;
+import eel.kitchen.jsonschema.syntax.PatternValidator;
+import eel.kitchen.jsonschema.syntax.PropertiesValidator;
+import eel.kitchen.jsonschema.syntax.RequiredValidator;
+import eel.kitchen.jsonschema.syntax.TitleValidator;
+import eel.kitchen.jsonschema.syntax.TypeValidator;
+import eel.kitchen.jsonschema.syntax.UniqueItemsValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
@@ -35,12 +63,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public final class SyntaxValidatorFactory
+public final class SyntaxFactory
 {
     private final Map<String, Class<? extends Validator>> validators
         = new HashMap<String, Class<? extends Validator>>();
 
-    public SyntaxValidatorFactory()
+    public SyntaxFactory()
     {
         validators.put("additionalItems", AdditionalItemsValidator.class);
         validators.put("additionalProperties",

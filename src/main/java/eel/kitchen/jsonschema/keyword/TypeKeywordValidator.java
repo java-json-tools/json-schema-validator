@@ -19,6 +19,7 @@ package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.factories.KeywordFactory;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
@@ -76,7 +77,7 @@ public abstract class TypeKeywordValidator
 
     protected final void buildQueue()
     {
-        final KeywordValidatorFactory factory = context.getKeywordFactory();
+        final KeywordFactory factory = context.getKeywordFactory();
 
         ValidationContext other;
 

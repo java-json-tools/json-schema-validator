@@ -19,7 +19,7 @@ package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.keyword.format.FormatFactory;
+import eel.kitchen.jsonschema.factories.FormatFactory;
 import org.codehaus.jackson.JsonNode;
 
 public final class FormatValidator

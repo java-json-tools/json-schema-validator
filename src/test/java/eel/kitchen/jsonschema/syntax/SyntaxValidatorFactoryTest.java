@@ -20,6 +20,7 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.factories.SyntaxFactory;
 import eel.kitchen.util.JasonHelper;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
@@ -39,8 +40,8 @@ public final class SyntaxValidatorFactoryTest
 {
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
     private static final JsonNode dummy = nodeFactory.nullNode();
-    private static final SyntaxValidatorFactory factory
-        = new SyntaxValidatorFactory();
+    private static final SyntaxFactory syntaxFactory
+        = new SyntaxFactory();
 
     private JsonNode allTests;
     private ValidationContext context;
@@ -292,7 +293,7 @@ public final class SyntaxValidatorFactoryTest
         final boolean valid = element.get("valid").getBooleanValue();
 
         context = new ValidationContext(schema);
-        v = factory.getValidator(context);
+        v = syntaxFactory.getValidator(context);
         report = v.validate();
 
         if (valid) {

@@ -20,6 +20,7 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.factories.KeywordFactory;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
@@ -42,7 +43,7 @@ public final class ExtendsValidator
 
     private void buildQueue()
     {
-        final KeywordValidatorFactory factory = context.getKeywordFactory();
+        final KeywordFactory factory = context.getKeywordFactory();
         final ObjectNode baseNode = nodeFactory.objectNode();
 
         baseNode.putAll((ObjectNode) schema);

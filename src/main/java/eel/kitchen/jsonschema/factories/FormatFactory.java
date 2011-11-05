@@ -15,13 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.keyword.format;
+package eel.kitchen.jsonschema.factories;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.keyword.format.AbstractFormatValidator;
+import eel.kitchen.jsonschema.keyword.format.CSSColorValidator;
+import eel.kitchen.jsonschema.keyword.format.CSSStyleValidator;
+import eel.kitchen.jsonschema.keyword.format.DateFormatValidator;
+import eel.kitchen.jsonschema.keyword.format.DateTimeFormatValidator;
+import eel.kitchen.jsonschema.keyword.format.EmailFormatValidator;
+import eel.kitchen.jsonschema.keyword.format.HostnameValidator;
+import eel.kitchen.jsonschema.keyword.format.IPV4Validator;
+import eel.kitchen.jsonschema.keyword.format.IPV6Validator;
+import eel.kitchen.jsonschema.keyword.format.PhoneNumberValidator;
+import eel.kitchen.jsonschema.keyword.format.RegexValidator;
+import eel.kitchen.jsonschema.keyword.format.TimeFormatValidator;
+import eel.kitchen.jsonschema.keyword.format.URIValidator;
+import eel.kitchen.jsonschema.keyword.format.UnixEpochValidator;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 

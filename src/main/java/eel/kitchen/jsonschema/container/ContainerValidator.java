@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.keyword.KeywordValidatorFactory;
+import eel.kitchen.jsonschema.factories.KeywordFactory;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
@@ -33,7 +33,7 @@ public abstract class ContainerValidator
 
     protected final Validator validator;
 
-    protected final KeywordValidatorFactory factory;
+    protected final KeywordFactory factory;
 
     protected ContainerValidator(final Validator validator,
         final ValidationContext context, final JsonNode instance)
