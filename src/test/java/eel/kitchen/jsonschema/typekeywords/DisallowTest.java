@@ -19,7 +19,7 @@ package eel.kitchen.jsonschema.typekeywords;
 
 import eel.kitchen.jsonschema.JsonValidator;
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.util.JasonHelper;
+import eel.kitchen.util.JsonLoader;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
@@ -43,7 +43,7 @@ public final class DisallowTest
     public void setUp()
         throws IOException
     {
-        testNode = JasonHelper.load("/typekeywords/disallow.json");
+        testNode = JsonLoader.fromResource("/typekeywords/disallow.json");
     }
 
     @Test

@@ -19,7 +19,7 @@ package eel.kitchen.jsonschema.other;
 
 import eel.kitchen.jsonschema.JsonValidator;
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.util.JasonHelper;
+import eel.kitchen.util.JsonLoader;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
@@ -41,7 +41,7 @@ public final class FormatTest
     public void setUp()
         throws IOException
     {
-        testNode = JasonHelper.load("/other/format.json");
+        testNode = JsonLoader.fromResource("/other/format.json");
     }
 
     @Test

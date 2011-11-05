@@ -19,7 +19,7 @@ package eel.kitchen.jsonschema.atomic;
 
 import eel.kitchen.jsonschema.JsonValidator;
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.util.JasonHelper;
+import eel.kitchen.util.JsonLoader;
 import org.codehaus.jackson.JsonNode;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -38,7 +38,7 @@ public final class StringTest
     public void setUp()
         throws IOException
     {
-        testNode = JasonHelper.load("/atomic/string.json");
+        testNode = JsonLoader.fromResource("/atomic/string.json");
     }
 
     @Test

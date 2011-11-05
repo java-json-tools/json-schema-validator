@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.factories.SyntaxFactory;
-import eel.kitchen.util.JasonHelper;
+import eel.kitchen.util.JsonLoader;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
@@ -52,7 +52,7 @@ public final class SyntaxValidatorFactoryTest
     public void setUp()
         throws IOException
     {
-        allTests = JasonHelper.load("/syntax/syntax.json");
+        allTests = JsonLoader.fromResource("/syntax/syntax.json");
     }
 
     @Test
