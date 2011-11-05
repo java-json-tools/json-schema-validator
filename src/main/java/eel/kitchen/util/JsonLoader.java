@@ -47,6 +47,9 @@ public final class JsonLoader
 
         final InputStream in = myself.getResourceAsStream(realResource);
 
+        if (in == null)
+            throw new IOException("resource " + resource + " not found");
+
         try {
             ret = mapper.readTree(in);
         } finally {
