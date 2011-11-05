@@ -73,6 +73,7 @@ public final class SyntaxFactory
         validators.put("additionalItems", AdditionalItemsValidator.class);
         validators.put("additionalProperties",
             AdditionalPropertiesValidator.class);
+        validators.put("default", AlwaysTrueValidator.class);
         validators.put("dependencies", DependenciesValidator.class);
         validators.put("description", DescriptionValidator.class);
         validators.put("disallow", DisallowValidator.class);
