@@ -30,7 +30,7 @@ public abstract class ContainerValidator
     protected static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
-    protected final Validator validator;
+    private final Validator validator;
 
     protected ContainerValidator(final Validator validator,
         final ValidationContext context, final JsonNode instance)
