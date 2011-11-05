@@ -31,7 +31,7 @@ public final class ExclusiveMinimumValidator
     @Override
     protected void checkFurther()
     {
-        if (!schemaNode.has("minimum"))
+        if (!context.getSchemaNode().has("minimum"))
             report.addMessage("exclusiveMinimum without minimum");
     }
 }

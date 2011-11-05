@@ -31,7 +31,7 @@ public final class ExclusiveMaximumValidator
     @Override
     protected void checkFurther()
     {
-        if (!schemaNode.has("maximum"))
+        if (!context.getSchemaNode().has("maximum"))
             report.addMessage("exclusiveMaximum without maximum");
     }
 }

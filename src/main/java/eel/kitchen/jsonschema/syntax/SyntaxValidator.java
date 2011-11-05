@@ -32,7 +32,7 @@ public abstract class SyntaxValidator
     protected final ValidationReport report;
 
     protected final ValidationContext context;
-    protected final JsonNode schemaNode, node;
+    protected final JsonNode node;
     protected final String keyword;
     protected final EnumSet<NodeType> validTypes;
 
@@ -43,8 +43,7 @@ public abstract class SyntaxValidator
         this.keyword = keyword;
 
         report = context.createReport(String.format(" [schema:%s]", keyword));
-        schemaNode = context.getSchemaNode();
-        node = schemaNode.get(keyword);
+        node = context.getSchemaNode().get(keyword);
         validTypes = EnumSet.copyOf(Arrays.asList(types));
     }
 
