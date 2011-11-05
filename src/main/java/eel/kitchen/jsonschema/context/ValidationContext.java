@@ -22,7 +22,10 @@ import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.factories.KeywordFactory;
 import eel.kitchen.jsonschema.factories.SyntaxFactory;
+import eel.kitchen.util.RefResolver;
 import org.codehaus.jackson.JsonNode;
+
+import java.io.IOException;
 
 public final class ValidationContext
 {
@@ -32,6 +35,7 @@ public final class ValidationContext
 
     private KeywordFactory keywordFactory;
     private SyntaxFactory syntaxFactory;
+    private RefResolver refResolver;
 
     private ValidationContext()
     {
@@ -44,6 +48,7 @@ public final class ValidationContext
 
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
+        refResolver = new RefResolver(schemaNode);
     }
 
     public KeywordFactory getKeywordFactory()
@@ -69,6 +74,7 @@ public final class ValidationContext
         other.schemaNode = subSchema;
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
+        other.refResolver = refResolver;
         return other;
     }
 
@@ -99,5 +105,11 @@ public final class ValidationContext
     public ValidationReport createReport(final String prefix)
     {
         return new ValidationReport(path + prefix);
+    }
+
+    public JsonNode resolve(final String path)
+        throws IOException
+    {
+        return refResolver.resolve(path);
     }
 }
