@@ -17,37 +17,27 @@
 
 package eel.kitchen.jsonschema.base;
 
-import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.context.ValidationContext;
-import org.codehaus.jackson.JsonNode;
+import java.util.ArrayDeque;
+import java.util.NoSuchElementException;
+import java.util.Queue;
 
-public final class AlwaysTrueValidator
-    extends AbstractValidator
+public abstract class AbstractValidator
+    implements Validator
 {
-    private final ValidationReport report;
+    private final Queue<Validator> queue = new ArrayDeque<Validator>();
 
-    // syntax
-    public AlwaysTrueValidator(final ValidationContext context)
+    @Override
+    public boolean hasMoreElements()
     {
-        report = context.createReport();
-    }
-
-    // keyword
-    public AlwaysTrueValidator(final ValidationContext context,
-        final JsonNode instance)
-    {
-        report = context.createReport();
-    }
-
-    public AlwaysTrueValidator(final ValidationReport report,
-        final JsonNode instance)
-    {
-        this.report = report;
+        return queue.isEmpty();
     }
 
     @Override
-    public ValidationReport validate()
+    public Validator nextElement()
     {
-        return report;
+        if (!hasMoreElements())
+            throw new NoSuchElementException();
+
+        return queue.remove();
     }
 }

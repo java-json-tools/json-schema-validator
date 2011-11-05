@@ -20,7 +20,7 @@ package eel.kitchen.jsonschema.base;
 import eel.kitchen.jsonschema.ValidationReport;
 
 public final class AlwaysFalseValidator
-    extends NonEnumerableValidator
+    extends AbstractValidator
 {
     private final ValidationReport report;
 
