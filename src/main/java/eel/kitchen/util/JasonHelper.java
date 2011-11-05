@@ -23,6 +23,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import java.io.IOException;
 import java.io.InputStream;
 
+@Deprecated
 public final class JasonHelper
 {
     private static final ObjectMapper mapper = new ObjectMapper();
