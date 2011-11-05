@@ -1,3 +1,59 @@
-Just to see if it renders at all... If you happen to read this, await a better
-version very soon.
 
+This is an implementation of the JSON Schema specification (see:
+http://www.json-schema.org/). Most implementations today are JavaScript but this
+one is pure Java, with as little dependencies as possible.
+
+The draft helping as a reference is, for the moment, draft version 3. This
+implementation supports, as of now, ALL of the schema EXCEPT $ref (which may, or
+may not be, a stopgap to the usage of this project).
+
+Version 0.1 is days away. It WILL be published on Maven. It WILL have complete
+Javadoc. It WILL have local-only "$ref" support (ie: { "$ref":
+"#/some/json/path/here" }. But before this happens, $ref needs to be
+implemented.
+
+Sample usage:
+
+----
+public void sampleValidation()
+{
+    //
+    // See the Jackson API to grab a schema. JasonHelper has a classpath-only
+    // retrieval mechanism, if you want to have a schema from another source,
+    // consider ObjectMapper from the Jackson API.
+    //
+    // Here, "schema" is the JSON document representing the schema, and
+    // "instance" is the JSON document to validate.
+
+    final JsonNode
+        schema = ...,
+        instance = ....;
+
+    final JsonValidator validator = new JsonValidator(schema);
+
+    //
+    // A ValidationReport object contains the state of validation. Right now it
+    // ALWAYS collects validation failure messages, as deep as it can. In the
+    // future, a version will exist which will NOT collect messages but which
+    // will answer correctly to the true/false method below:
+    //
+
+    final ValidationReport report = validator.validate(instance);
+
+    if (validator.isSuccess()) {
+        // OMG ponnies! We have a success!
+        return; // of course, do what you want, you may want to exit on failure
+                // instead
+    }
+
+    //
+    // On failure, with the default (as of now) ValidationReport object, you can
+    // collect error messages. This sample prints them out.
+    //
+
+    final List<String> errs = report.getMessages();
+
+    for (final String err: errs)
+        System.out.println(err);
+}
+----
