@@ -33,14 +33,12 @@ public abstract class SyntaxValidator
 
     protected final ValidationContext context;
     protected final JsonNode node;
-    protected final String keyword;
     protected final EnumSet<NodeType> validTypes;
 
     protected SyntaxValidator(final ValidationContext context,
         final String keyword, final NodeType... types)
     {
         this.context = context;
-        this.keyword = keyword;
 
         report = context.createReport(String.format(" [schema:%s]", keyword));
         node = context.getSchemaNode().get(keyword);
