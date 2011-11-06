@@ -54,6 +54,7 @@ public final class RefTest
         assertTrue(report.isSuccess());
     }
 
+    //TODO: test with a depth more than 1. I know it works, but still
     @Test
     public void testLoopingRefIsAnError()
     {
@@ -70,8 +71,8 @@ public final class RefTest
 
         assertEquals(report.getMessages().size(), 1);
 
-        assertEquals(report.getMessages().get(0), "#: ref # points to "
-            + "myself!");
+        assertEquals(report.getMessages().get(0), "#: cannot resolve ref #: "
+            + "java.io.IOException: {\"$ref\":\"#\"} loops on itself");
     }
 
     @Test

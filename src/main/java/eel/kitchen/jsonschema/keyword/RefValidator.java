@@ -69,11 +69,6 @@ public final class RefValidator
             return report;
         }
 
-        if (next.equals(schemaNode)) {
-            report.addMessage(String.format("ref %s points to myself!", ref));
-            return report;
-        }
-
         final Validator v = context.createContext(next).getValidator(instance);
 
         return v.validate();

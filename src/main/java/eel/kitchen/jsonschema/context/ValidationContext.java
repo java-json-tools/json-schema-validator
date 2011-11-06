@@ -30,6 +30,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.MissingNode;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * <p>Class passed to all {@link Validator} implementations. This class is
@@ -75,6 +77,7 @@ public final class ValidationContext
      */
     private RefResolver refResolver;
 
+    private Set<JsonNode> refLookups;
     /**
      * The default constructor, which is private by design
      */
@@ -96,6 +99,7 @@ public final class ValidationContext
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
         refResolver = new RefResolver(schemaNode);
+        refLookups = new HashSet<JsonNode>();
     }
 
     /**
@@ -129,6 +133,9 @@ public final class ValidationContext
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
         other.refResolver = refResolver;
+        other.refLookups = new HashSet<JsonNode>();
+        if (newPath.equals(path))
+            other.refLookups.addAll(refLookups);
         return other;
     }
 
@@ -202,15 +209,12 @@ public final class ValidationContext
     public JsonNode resolve(final String path)
         throws IOException
     {
-        /*
-         * TODO: looping detection algorithm -- rely on #path and #schemaNode
-         *
-         * It would work since if the same schema node is applied twice on
-         * the same path, we certainly have a loop. It would mean creating a
-         * collection of some sort to store resolved schemas so far,
-         * and clearing the contents of this collection iif we call
-         * #createContext with a different path
-         */
-        return refResolver.resolve(path);
+        final JsonNode node = refResolver.resolve(path);
+
+        if (refLookups.contains(node))
+            throw new IOException(node + " loops on itself");
+
+        refLookups.add(node);
+        return node;
     }
 }
