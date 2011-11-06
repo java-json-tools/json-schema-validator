@@ -23,6 +23,13 @@ import org.codehaus.jackson.JsonNode;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+/**
+ * Validator for the "email" format specification.
+ *
+ * <p>Note: email addresses with no domain part ARE valid emails,
+ * and are recognized as such. The draft does not say anywhere that the email
+ * should have a domain part!</p>
+ */
 public final class EmailFormatValidator
     extends AbstractFormatValidator
 {

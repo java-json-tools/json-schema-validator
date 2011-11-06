@@ -22,6 +22,16 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigInteger;
 
+/**
+ * Validator for the "utc-millisec" format specification
+ *
+ * <p>As an extra step, this validator also ensures that the number in the
+ * instance is not negative, and does not overflow: Java's {@link
+ * System#currentTimeMillis()} may return a long, but internally the return
+ * code is a signed 32-bit integer, therefore must not be greater than 2^31 -
+ * 1.
+ * </p>
+ */
 public final class UnixEpochValidator
     extends AbstractFormatValidator
 {

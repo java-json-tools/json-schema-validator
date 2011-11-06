@@ -23,12 +23,33 @@ import org.codehaus.jackson.JsonNode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+/**
+ * Specialized format validator for date/time checking
+ *
+ * <p>We use {@link SimpleDateFormat#parse(String)} for that, since it can
+ * handle all defined formats.</p>
+ */
 public abstract class AbstractDateFormatValidator
     extends AbstractFormatValidator
 {
+    /**
+     * The {@link SimpleDateFormat} to use
+     */
     private final SimpleDateFormat format;
+
+    /**
+     * The error message in case of validation failure
+     */
     private final String errmsg;
 
+    /**
+     * Constructor
+     *
+     * @param report The {@link ValidationReport} to use
+     * @param node The node to validate
+     * @param fmt The date format
+     * @param desc the description of the date format
+     */
     protected AbstractDateFormatValidator(final ValidationReport report,
         final JsonNode node, final String fmt, final String desc)
     {
@@ -37,6 +58,11 @@ public abstract class AbstractDateFormatValidator
         errmsg = String.format("string is not a valid %s", desc);
     }
 
+    /**
+     * Validate the instance, using {@link SimpleDateFormat#parse(String)}
+     *
+     * @return the validation report
+     */
     @Override
     public final ValidationReport validate()
     {

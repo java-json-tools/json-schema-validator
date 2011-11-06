@@ -23,6 +23,9 @@ import org.codehaus.jackson.JsonNode;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Validator for the "uri" format specification
+ */
 public final class URIValidator
     extends AbstractFormatValidator
 {

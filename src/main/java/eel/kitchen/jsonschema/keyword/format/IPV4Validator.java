@@ -24,10 +24,20 @@ import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.regex.Pattern;
 
+/**
+ * Validator for the "ip-address" format specification, ie an IPv4 address
+ *
+ * <p>This uses {@link Inet4Address#getByName(String)} to validate,
+ * but this means we must ensure the shape of the address is good first: when
+ * given a hostname, it will try to resolve it and we don't want that.</p>
+ */
 public final class IPV4Validator
     extends AbstractFormatValidator
 {
-    private static final Pattern pattern
+    /**
+     * Pattern to recognize a numerical IPv4 address
+     */
+    private static final Pattern IPV4_ADDR
         = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
 
     public IPV4Validator(final ValidationReport report, final JsonNode node)
@@ -40,7 +50,7 @@ public final class IPV4Validator
     {
         try {
             final String ipaddr = node.getTextValue();
-            if (!pattern.matcher(ipaddr).matches())
+            if (!IPV4_ADDR.matcher(ipaddr).matches())
                 throw new UnknownHostException();
             Inet4Address.getByName(ipaddr);
         } catch (UnknownHostException ignored) {

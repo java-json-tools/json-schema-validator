@@ -25,7 +25,11 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-// TODO: use Pattern for split()
+/**
+ * Attempt at validating a CSS 2.1 color ("color" format specification in the
+ * draft). It is far from being perfect... Ideally, it should use something
+ * like jStyleParser.
+ */
 public final class CSSColorValidator
     extends AbstractFormatValidator
 {
@@ -38,14 +42,20 @@ public final class CSSColorValidator
          "white");
 
     /**
-     * <p>Patterns to recognize hash-defined colors (#xxx...) and rgb-defined
-     * colors (rgb(x,y,z)).</p>
-     *
-     * <p>As we use .matches(), we don't need to anchor regexes.</p>
+     * Pattern to recognize a "hash-defined" color
      */
     private static final Pattern
-        hash = Pattern.compile("#[\\da-f]{1,6}", Pattern.CASE_INSENSITIVE),
-        rgb = Pattern.compile("rgb\\(([^)]+)\\)");
+        hash = Pattern.compile("#[\\da-f]{1,6}", Pattern.CASE_INSENSITIVE);
+
+    /**
+     * Pattern to recognize an "rgb-defined" color
+     */
+    private static final Pattern rgb = Pattern.compile("rgb\\(([^)]+)\\)");
+
+    /**
+     * Pattern to split color elements in an "rgb-defined" color
+     */
+    private static final Pattern SPLIT_PATTERN = Pattern.compile("\\s*,\\s*");
 
     public CSSColorValidator(final ValidationReport report, final JsonNode node)
     {
@@ -80,7 +90,7 @@ public final class CSSColorValidator
             return;
         }
 
-        final String[] colors = matcher.group(1).split("\\s*,\\s*");
+        final String[] colors = SPLIT_PATTERN.split(matcher.group(1));
 
         if (colors.length != 3) {
             report.addMessage("string is not a valid CSS 2.1 color");

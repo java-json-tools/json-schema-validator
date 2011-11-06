@@ -23,7 +23,13 @@ import org.codehaus.jackson.JsonNode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//TODO: use pattern for split()
+/**
+ * Validator for the "host-name" format specification
+ *
+ * <p>Note: non FQDN hostnames are valid, and are considered as such! The
+ * draft doesn't specify anywhere that the hostname should be fully
+ * qualified.</p>
+ */
 public final class HostnameValidator
     extends AbstractFormatValidator
 {
@@ -37,15 +43,18 @@ public final class HostnameValidator
      * </ul>
      * <p>This regex is used with .matches(), so we don't need to anchor it.</p>
      */
-
     private static final Pattern HOSTNAME_PART_REGEX
         = Pattern.compile("[a-z0-9]+(-[a-z0-9]+)*");
 
     /**
      * Maximum length of a hostname part
      */
-
     private static final int HOSTNAME_PART_MAXLEN = 255;
+
+    /**
+     * Pattern to split hostname parts
+     */
+    private static final Pattern SPLIT_PATTERN = Pattern.compile("\\.");
 
     public HostnameValidator(final ValidationReport report, final JsonNode node)
     {
@@ -56,7 +65,7 @@ public final class HostnameValidator
     public ValidationReport validate()
     {
         final String value = node.getTextValue();
-        final String[] parts = value.split("\\.");
+        final String[] parts = SPLIT_PATTERN.split(value);
         Matcher matcher;
         boolean ret = true;
 

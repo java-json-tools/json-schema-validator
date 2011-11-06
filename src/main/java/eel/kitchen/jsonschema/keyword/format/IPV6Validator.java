@@ -23,6 +23,14 @@ import org.codehaus.jackson.JsonNode;
 import java.net.Inet6Address;
 import java.net.UnknownHostException;
 
+/**
+ * Validator for the "ipv6" format specification
+ *
+ * <p>This uses {@link Inet6Address#getByName(String)} to validate,
+ * which means we must ensure this is a "numerical" IPv6 address before
+ * proceeding. Easy enough: {@code :} is not valid in host names,
+ * but it required for IPv6 addresses...</p>
+ */
 public final class IPV6Validator
     extends AbstractFormatValidator
 {

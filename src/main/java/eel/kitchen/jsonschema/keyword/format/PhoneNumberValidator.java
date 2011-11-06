@@ -20,6 +20,13 @@ package eel.kitchen.jsonschema.keyword.format;
 import eel.kitchen.jsonschema.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Attempt to validate the "phone" format specification
+ *
+ * <p>The draft says the phone may match E.123. The spec is quite large,
+ * Wikipedia has a good summary of the spec. But validation could be vastly
+ * improved.</p>
+ */
 //TODO: use Pattern
 public final class PhoneNumberValidator
     extends AbstractFormatValidator

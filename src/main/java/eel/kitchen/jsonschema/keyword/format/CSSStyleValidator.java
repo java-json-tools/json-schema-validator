@@ -23,7 +23,10 @@ import org.codehaus.jackson.JsonNode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//TODO: use pattern for split()
+/**
+ * Attempt to recognize a CSS 2.1 style ("style" format specification in the
+ * draft). Ideally, it should use something like jStyleParser.
+ */
 public final class CSSStyleValidator
     extends AbstractFormatValidator
 {
@@ -34,9 +37,13 @@ public final class CSSStyleValidator
      * <p>This is used with {@link Matcher#matches()}, so the regex needs not
      * be anchored.</p>
      */
-
     private static final Pattern styleElement
         = Pattern.compile("\\s*[^:]+\\s*:\\s*[^;]+", Pattern.CASE_INSENSITIVE);
+
+    /**
+     * Pattern used to split style elements
+     */
+    private static final Pattern SPLIT_PATTERN = Pattern.compile("\\s*;\\s*");
 
     public CSSStyleValidator(final ValidationReport report, final JsonNode node)
     {
@@ -46,7 +53,7 @@ public final class CSSStyleValidator
     @Override
     public ValidationReport validate()
     {
-        final String[] rules = node.getTextValue().split("\\s*;\\s*");
+        final String[] rules = SPLIT_PATTERN.split(node.getTextValue());
         Matcher matcher;
 
         for (final String rule : rules) {

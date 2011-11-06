@@ -21,6 +21,14 @@ import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Validator for the "regex" format specification
+ *
+ * <p>Again, here, we do <b>not</b> use {@link java.util.regex} because it
+ * does not fit the bill.</p>
+ *
+ * @see {@link RhinoHelper}
+ */
 public final class RegexValidator
     extends AbstractFormatValidator
 {

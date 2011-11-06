@@ -21,11 +21,21 @@ import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AbstractValidator;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Base implementation of validations for the {@code format} keyword (draft
+ * section 5.23)
+ */
 public abstract class AbstractFormatValidator
     extends AbstractValidator
 {
+    /**
+     * The validation report to use
+     */
     protected final ValidationReport report;
 
+    /**
+     * The node to validate
+     */
     protected final JsonNode node;
 
     protected AbstractFormatValidator(final ValidationReport report,

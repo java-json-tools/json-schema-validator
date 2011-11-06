@@ -20,6 +20,9 @@ package eel.kitchen.jsonschema.keyword.format;
 import eel.kitchen.jsonschema.ValidationReport;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Validator for the "time" format specification
+ */
 public final class TimeFormatValidator
     extends AbstractDateFormatValidator
 {
