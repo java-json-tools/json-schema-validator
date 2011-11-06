@@ -30,6 +30,7 @@ import static eel.kitchen.jsonschema.ValidationStatus.*;
  * An object containing the validation status of an instance against a schema.
  * This is what is returned by {@link JsonValidator#validate(JsonNode)}.
  */
+//TODO: separate failure message queue from error message queue
 public final class ValidationReport
 {
     private final String path;

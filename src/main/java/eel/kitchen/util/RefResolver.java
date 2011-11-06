@@ -107,6 +107,7 @@ public final class RefResolver
             fragment = s.substring(fragmentIndex + 1, s.length());
         }
 
+        //TODO: this throws IllegalArgumentException which is not captured
         uri = URI.create(addr);
 
         JsonNode ret = schema;
