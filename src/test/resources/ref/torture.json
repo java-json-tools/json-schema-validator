@@ -1,0 +1,9 @@
+{
+    "missingref": {
+        "type": [
+            {
+                "$ref": "#/nope"
+            }
+        ]
+    }
+}

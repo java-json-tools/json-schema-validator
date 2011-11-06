@@ -35,6 +35,7 @@ public final class RefTest
 {
     private static final String SPEC = "http://json-schema.org/draft-03/schema";
     private JsonNode draftv3;
+    private JsonNode torture;
 
 
     @BeforeClass
@@ -42,6 +43,7 @@ public final class RefTest
         throws IOException
     {
         draftv3 = JsonLoader.fromURL(new URL(SPEC));
+        torture = JsonLoader.fromResource("/ref/torture.json");
     }
 
     @Test
@@ -87,5 +89,21 @@ public final class RefTest
 
         assertEquals(resolver.resolve("#/properties/type/default"),
             JsonNodeFactory.instance.textNode("any"));
+    }
+
+    @Test
+    public void testMissingPathIsFatal()
+    {
+        final JsonNode schema = torture.get("missingref");
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        final ValidationReport report = validator.validate(JsonNodeFactory
+            .instance.nullNode());
+
+        assertTrue(report.isError());
+
+        assertEquals(report.getMessages().get(0), "#: FATAL: ref #/nope is "
+            + "unknown!");
     }
 }

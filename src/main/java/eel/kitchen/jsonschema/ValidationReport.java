@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import static eel.kitchen.jsonschema.ValidationStatus.*;
+
 /**
  * An object containing the validation status of an instance against a schema.
  * This is what is returned by {@link JsonValidator#validate(JsonNode)}.
@@ -32,7 +34,7 @@ public final class ValidationReport
 {
     private final String path;
     private final List<String> messages = new LinkedList<String>();
-    private ValidationStatus status = ValidationStatus.SUCCESS;
+    private ValidationStatus status = SUCCESS;
 
     /**
      * Default constructor. In practice, it is never used,
@@ -62,7 +64,7 @@ public final class ValidationReport
      */
     public boolean isSuccess()
     {
-        return status == ValidationStatus.SUCCESS;
+        return status == SUCCESS;
     }
 
     /**
@@ -72,7 +74,7 @@ public final class ValidationReport
      */
     public boolean isError()
     {
-        return status == ValidationStatus.ERROR;
+        return status == ERROR;
     }
 
     /**
@@ -92,7 +94,9 @@ public final class ValidationReport
      */
     public void addMessage(final String message)
     {
-        status = ValidationStatus.FAILURE;
+        if (status == ERROR)
+            return;
+        status = FAILURE;
         messages.add(path + ": " + message);
     }
 
@@ -105,7 +109,7 @@ public final class ValidationReport
      */
     public void error(final String message)
     {
-        status = ValidationStatus.ERROR;
+        status = ERROR;
         messages.clear();
         messages.add(path + ": FATAL: " + message);
     }
@@ -120,9 +124,16 @@ public final class ValidationReport
      */
     public void mergeWith(final ValidationReport other)
     {
-        if (other.status == ValidationStatus.SUCCESS)
-            return;
-        messages.addAll(other.messages);
-        status = other.status;
+        switch (other.status) {
+            case SUCCESS:
+                return;
+            case ERROR:
+                messages.clear();
+                // Fall through
+            case FAILURE:
+                messages.addAll(other.messages);
+                if (status != ERROR)
+                    status = other.status;
+        }
     }
 }
