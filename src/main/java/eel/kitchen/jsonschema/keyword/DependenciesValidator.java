@@ -30,6 +30,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Keyword validation for the {@code dependencies} keyword (draft section 5
@@ -39,17 +41,12 @@ import java.util.Set;
 public final class DependenciesValidator
     extends CombinedValidator
 {
-    /**
-     * The {@code dependencies} node
-     */
-    // TODO: this is unnecessary, just use the context for that
-    private final JsonNode dependencies;
 
     /**
      * The list of fields in the instance to validate
      */
-    private final Set<String> instanceFields
-        = new HashSet<String>();
+    private final SortedSet<String> instanceFields
+        = new TreeSet<String>();
 
     /**
      * The list of simple (ie, non schema) dependencies in the schema
@@ -62,7 +59,6 @@ public final class DependenciesValidator
     {
         super(context, instance);
 
-        dependencies = context.getSchemaNode().get("dependencies");
         instanceFields.addAll(CollectionUtils.toSet(instance.getFieldNames()));
 
         setUp();
@@ -74,14 +70,16 @@ public final class DependenciesValidator
      */
     private void setUp()
     {
+        final JsonNode dependenciesNode
+            = context.getSchemaNode().get("dependencies");
         final Set<String> deps
-            = CollectionUtils.toSet(dependencies.getFieldNames());
+            = CollectionUtils.toSet(dependenciesNode.getFieldNames());
 
         deps.retainAll(instanceFields);
 
         JsonNode node;
         for (final String dep: deps) {
-            node = dependencies.get(dep);
+            node = dependenciesNode.get(dep);
             switch (NodeType.getNodeType(node)) {
                 case STRING:
                     simpleDependencies.put(dep,
@@ -112,7 +110,7 @@ public final class DependenciesValidator
     @Override
     public ValidationReport validate()
     {
-        final Set<String> set = new HashSet<String>();
+        final SortedSet<String> set = new TreeSet<String>();
 
         for (final String field: instanceFields) {
             if (!simpleDependencies.containsKey(field))
