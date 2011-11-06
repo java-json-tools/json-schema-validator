@@ -18,6 +18,7 @@
 package eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.MissingNode;
 
 /**
  * Enumeration for the different types of JSON instances which can be
@@ -26,12 +27,33 @@ import org.codehaus.jackson.JsonNode;
 
 public enum NodeType
 {
+    /**
+     * Array nodes
+     */
     ARRAY("array"),
+    /**
+     * Boolean nodes
+     */
     BOOLEAN("boolean"),
+    /**
+     * Integer nodes
+     */
     INTEGER("integer"),
+    /**
+     * Number nodes (ie, decimal numbers)
+     */
     NUMBER("number"),
+    /**
+     * Null nodes
+     */
     NULL("null"),
+    /**
+     * Object nodes
+     */
     OBJECT("object"),
+    /**
+     * String nodes
+     */
     STRING("string");
 
     /**
@@ -52,7 +74,7 @@ public enum NodeType
 
     /**
      * Given a {@link JsonNode} as an argument, return its type. The argument
-     * MUST NOT BE NULL.
+     * MUST NOT BE NULL, and MUST NOT be a {@link MissingNode}
      *
      * @param node the node to determine the type of
      * @return the type for this node

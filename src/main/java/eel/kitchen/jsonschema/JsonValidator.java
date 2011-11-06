@@ -19,17 +19,37 @@ package eel.kitchen.jsonschema;
 
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.JsonLoader;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * The main interface to use for JSON Schema validation
+ *
+ * @see {@link JsonLoader}
+ * @see {@link ValidationContext}
+ */
 public final class JsonValidator
 {
+    /**
+     * The context, initialized by the constructor
+     */
     private final ValidationContext context;
 
+    /**
+     * The constructor
+     *
+     * @param schema the root schema to use for validation
+     */
     public JsonValidator(final JsonNode schema)
     {
         context = new ValidationContext(schema);
     }
 
+    /**
+     * Validate an instance against the schema
+     * @param instance the instance to validate
+     * @return the validation report
+     */
     public ValidationReport validate(final JsonNode instance)
     {
         final Validator validator = context.getValidator(instance);

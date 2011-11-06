@@ -27,11 +27,13 @@ import java.util.regex.Pattern;
  * {@link java.util.regex} because the latter doesn't comply with ECMA 262:</p>
  *
  * <ul>
- *     <li>ECMA 262 doesn't have PATTERN_DOTALL;</li>
+ *     <li>ECMA 262 doesn't have {@link Pattern#DOTALL};</li>
  *     <li>ECMA 262 doesn't have "possessive" quantifiers ({@code ++},
  *     {@code ?+}, etc);</li>
- *     <li>the word delimiter in ECMA 262 is {@code \b},
- *     it does not understand {@code \&lt;} or {@code \&gt;}.</li>
+ *     <li>there is only one word delimiter in ECMA 262, which is {@code \b};
+ *     {@code \&lt;} (for beginning of word) and {@code \&gt;} (for end
+ *     of word) are not understood.
+ *     </li>
  * </ul>
  *
  * <p>And many, many other things. See
@@ -64,7 +66,7 @@ public final class RhinoHelper
         = new ScriptEngineManager().getEngineByName("JavaScript");
 
     /**
-     * Validate that a regex is in good shape.
+     * Validate that a regex is correct
      *
      * @param regex the regex to validate
      * @return true if the regex is valid
@@ -87,7 +89,8 @@ public final class RhinoHelper
      * not true.
      * </p>
      *
-     * <p>Also note that the regex MUST have been validated at this point.</p>
+     * <p>Also note that the regex MUST have been validated at this point
+     * (using {@link #regexIsValid(String)}).</p>
      *
      * @param regex the regex to use
      * @param input the input to match against (and again, see description)
