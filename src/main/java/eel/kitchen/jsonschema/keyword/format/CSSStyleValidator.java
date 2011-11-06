@@ -23,6 +23,7 @@ import org.codehaus.jackson.JsonNode;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+//TODO: use pattern for split()
 public final class CSSStyleValidator
     extends AbstractFormatValidator
 {

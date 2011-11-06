@@ -47,7 +47,7 @@ public final class ValidationReport
      * Constructor of a validator which will prepend all messages added to it
      * (using #addMessage) with a path and a colon.
      *
-     * @param path
+     * @param path the path which will appear before all messages
      */
     public ValidationReport(final String path)
     {

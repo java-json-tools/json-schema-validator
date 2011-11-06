@@ -58,7 +58,7 @@ public final class RhinoHelper
     private static final Pattern SLASH_LOOKAHEAD = Pattern.compile("(?=/)");
 
     /**
-     * Instance of Rhino's {@link javax.script.ScriptEngine} to use.
+     * Instance of Rhino's {@link ScriptEngine} to use.
      */
     private static final ScriptEngine engine
         = new ScriptEngineManager().getEngineByName("JavaScript");

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// TODO: use Pattern for split()
 public final class CSSColorValidator
     extends AbstractFormatValidator
 {
