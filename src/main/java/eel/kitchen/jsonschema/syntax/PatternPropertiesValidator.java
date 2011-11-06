@@ -34,6 +34,11 @@ public final class PatternPropertiesValidator
         super(context, "patternProperties", NodeType.OBJECT);
     }
 
+    /**
+     * Check that all keys are valid regexes, and that all values are objects
+     *
+     * @see {@link RhinoHelper#regexIsValid(String)}
+     */
     @Override
     protected void checkFurther()
     {

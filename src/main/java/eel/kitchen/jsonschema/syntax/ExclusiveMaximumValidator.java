@@ -28,6 +28,9 @@ public final class ExclusiveMaximumValidator
         super(context, "exclusiveMaximum", NodeType.BOOLEAN);
     }
 
+    /**
+     * Check that {@code exclusiveMaximum} is paired with {@code maximum}
+     */
     @Override
     protected void checkFurther()
     {

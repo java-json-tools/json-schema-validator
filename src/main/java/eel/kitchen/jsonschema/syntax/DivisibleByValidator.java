@@ -30,6 +30,9 @@ public final class DivisibleByValidator
         super(context, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
     }
 
+    /**
+     * Check that the divisor is not 0
+     */
     @Override
     protected void checkFurther()
     {

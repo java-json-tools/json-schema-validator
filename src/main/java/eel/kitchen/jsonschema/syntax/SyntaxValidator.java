@@ -19,6 +19,11 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.base.Validator;
 
+/**
+ * Marker interface over {@link Validator} for validators specialized in
+ * syntax checking
+ */
+//TODO: get rid of it, make it abstract or something
 public interface SyntaxValidator
     extends Validator
 {

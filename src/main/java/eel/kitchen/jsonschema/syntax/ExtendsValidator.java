@@ -21,6 +21,13 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Syntax validator for the {@code extends} keyword
+ *
+ * <p>Here again, simple type checking is not enough: if the value of {@code
+ * extends} is an array, we must check that all elements of the array are
+ * objects.</p>
+ */
 public final class ExtendsValidator
     extends AbstractSyntaxValidator
 {

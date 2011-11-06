@@ -28,6 +28,9 @@ public final class ExclusiveMinimumValidator
         super(context, "exclusiveMinimum", NodeType.BOOLEAN);
     }
 
+    /**
+     * Check that {@code exclusiveMinimum} is paired with {@code minimum}
+     */
     @Override
     protected void checkFurther()
     {

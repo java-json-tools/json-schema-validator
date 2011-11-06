@@ -25,6 +25,18 @@ import org.codehaus.jackson.JsonNode;
 import java.util.Map;
 import java.util.SortedMap;
 
+/**
+ * <p>Syntax validator for the {@code dependencies} keyword</p>
+ *
+ * <p>This is one of the keywords where type checking alone is not enough,
+ * we must also ensure that the different children are correct. They can
+ * either be:</p>
+ * <ul>
+ *     <li>one simple dependency,</li>
+ *     <li>an array of simple dependencies, or</li>
+ *     <li>a schema (ie, an object).</li>
+ * </ul>
+ */
 public final class DependenciesValidator
     extends AbstractSyntaxValidator
 {
@@ -33,6 +45,11 @@ public final class DependenciesValidator
         super(context, "dependencies", NodeType.OBJECT);
     }
 
+    /**
+     * Walks the different elements of the dependencies object and checks
+     * their correctness (see description). Calls {@link
+     * #checkDependencyArray(String, JsonNode)} for arrays.
+     */
     @Override
     protected void checkFurther()
     {
@@ -49,10 +66,10 @@ public final class DependenciesValidator
             element = entry.getValue();
             type = NodeType.getNodeType(element);
             switch (type) {
-                case STRING: case OBJECT:
-                    break;
                 case ARRAY:
                     checkDependencyArray(field, element);
+                    // Fall through
+                case STRING: case OBJECT:
                     break;
                 default:
                     report.addMessage(String.format("field \"%s\": illegal "
@@ -61,6 +78,13 @@ public final class DependenciesValidator
         }
     }
 
+    /**
+     * Checks the syntax of a dependency array, ie that it only contains
+     * simple dependencies
+     *
+     * @param field the field name
+     * @param node the array node for this field
+     */
     private void checkDependencyArray(final String field, final JsonNode node)
     {
         NodeType type;

@@ -28,6 +28,11 @@ public final class ItemsValidator
     {
         super(context, "items", NodeType.OBJECT, NodeType.ARRAY);
     }
+
+    /**
+     * Check that, if {@code items} is an array, then all elements of the
+     * array are objects
+     */
     @Override
     protected void checkFurther()
     {

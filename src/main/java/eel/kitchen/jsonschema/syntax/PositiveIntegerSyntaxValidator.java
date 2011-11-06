@@ -20,6 +20,16 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
+/**
+ * Specialized syntax validator for integer values. This is needed for two
+ * reasons:
+ * <ul>
+ *     <li>all keywords implementing this abstract class have positive
+ *     integer values only;</li>
+ *     <li>all Java methods used for these validators return an integer,
+ *     which maximum, {@link Integer#MAX_VALUE}, is 2^31 - 1.</li>
+ * </ul>
+ */
 public abstract class PositiveIntegerSyntaxValidator
     extends AbstractSyntaxValidator
 {

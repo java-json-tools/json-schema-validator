@@ -23,6 +23,11 @@ import eel.kitchen.util.NodeType;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Specialized syntax validator used to validate URIs
+ *
+ * @see {@link URI}
+ */
 public abstract class URISyntaxValidator
     extends AbstractSyntaxValidator
 {

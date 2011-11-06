@@ -33,6 +33,14 @@ public final class PropertiesValidator
         super(context, "properties", NodeType.OBJECT);
     }
 
+    /**
+     * Check two things:
+     * <ul>
+     *     <li>that all values are potential schemas, ie objects;</li>
+     *     <li>that, if a {@code required} attribute is found,
+     *     it is a boolean.</li>
+     * </ul>
+     */
     @Override
     protected void checkFurther()
     {

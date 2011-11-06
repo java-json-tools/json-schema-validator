@@ -29,6 +29,11 @@ public final class PatternValidator
         super(context, "pattern", NodeType.STRING);
     }
 
+    /**
+     * Check that the value is a valid regex
+     *
+     * @see {@link RhinoHelper#regexIsValid(String)}
+     */
     @Override
     protected void checkFurther()
     {

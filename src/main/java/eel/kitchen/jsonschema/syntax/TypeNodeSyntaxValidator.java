@@ -21,6 +21,14 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Syntax validator specialized in validating "type" keywords ({@code type}
+ * and {@code disallow})
+ *
+ * <p>It is here that the check for valid type names is performed (by
+ * {@link #validateOne(String, JsonNode)}, which means the keyword validators
+ * for both of these won't have to worry about this.</p>
+ */
 public abstract class TypeNodeSyntaxValidator
     extends AbstractSyntaxValidator
 {
@@ -32,6 +40,16 @@ public abstract class TypeNodeSyntaxValidator
         super(context, field, NodeType.STRING, NodeType.ARRAY);
     }
 
+    /**
+     * <p>Check that:</p>
+     * <ul>
+     *     <li>if the keyword is a simple type, it is a known type;</li>
+     *     <li>if it is an array, then its elements must be either known
+     *     simple types or schemas.</li>
+     * </ul>
+     *
+     * @see {@link #validateOne(String, JsonNode)}
+     */
     @Override
     protected final void checkFurther()
     {
@@ -45,6 +63,14 @@ public abstract class TypeNodeSyntaxValidator
             validateOne(String.format("array element %d: ", i++), element);
     }
 
+    /**
+     * Validate an element of a type array (also used for single element
+     * validation)
+     *
+     * @param prefix the prefix to append to the report message in case of
+     * error
+     * @param element the element of the array to check
+     */
     private void validateOne(final String prefix, final JsonNode element)
     {
         final NodeType type = NodeType.getNodeType(element);
@@ -69,6 +95,11 @@ public abstract class TypeNodeSyntaxValidator
         }
     }
 
+    /**
+     * Shortcut to {@link #validateOne(String, JsonNode)} with an empty prefix
+     *
+     * @param element the element to check
+     */
     private void validateOne(final JsonNode element)
     {
         validateOne("", element);

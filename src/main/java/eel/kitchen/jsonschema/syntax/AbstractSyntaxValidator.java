@@ -26,16 +26,40 @@ import org.codehaus.jackson.JsonNode;
 import java.util.Arrays;
 import java.util.EnumSet;
 
+/**
+ * Base implementation of a {@link SyntaxValidator}.
+ */
 public abstract class AbstractSyntaxValidator
     extends AbstractValidator
     implements SyntaxValidator
 {
+    /**
+     * The report to use
+     */
     protected final ValidationReport report;
 
+    /**
+     * The validation context
+     */
     protected final ValidationContext context;
+
+    /**
+     * The node to check
+     */
     protected final JsonNode node;
+
+    /**
+     * The list of valid types for {@link #node}
+     */
     protected final EnumSet<NodeType> validTypes;
 
+    /**
+     * Constructor
+     *
+     * @param context the validation context
+     * @param keyword the keyword to check
+     * @param types the list of valid types for this keyword
+     */
     protected AbstractSyntaxValidator(final ValidationContext context,
         final String keyword, final NodeType... types)
     {
@@ -46,8 +70,17 @@ public abstract class AbstractSyntaxValidator
         validTypes = EnumSet.copyOf(Arrays.asList(types));
     }
 
+    /**
+     * Abstract method for validators which need to check more than the type
+     * of the node to validate
+     */
     protected abstract void checkFurther();
 
+    /**
+     * Type checks the node, then invokes {@link #checkFurther()}
+     *
+     * @return a validation report
+     */
     @Override
     public final ValidationReport validate()
     {
