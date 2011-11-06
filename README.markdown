@@ -20,7 +20,7 @@ few weeks).
 
 ## Sample usage:
 
-<pre><code>
+```java
 public final class SampleValidation()
 {
     public static void main(final String... args)
@@ -63,5 +63,5 @@ public final class SampleValidation()
         System.exit(1);
     }
 }
-</code></pre>
+```
 
