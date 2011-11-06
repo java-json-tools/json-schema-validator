@@ -51,11 +51,6 @@ public final class ValidationContext
         refResolver = new RefResolver(schemaNode);
     }
 
-    public KeywordFactory getKeywordFactory()
-    {
-        return keywordFactory;
-    }
-
     public JsonNode getSchemaNode()
     {
         return schemaNode;
