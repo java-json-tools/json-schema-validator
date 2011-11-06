@@ -77,7 +77,12 @@ public final class ValidationContext
      */
     private RefResolver refResolver;
 
+    /**
+     * The ref result lookups for this {@link #path},
+     * used for ref looping detection (see {@link #resolve(String)}
+     */
     private Set<JsonNode> refLookups;
+
     /**
      * The default constructor, which is private by design
      */
@@ -200,11 +205,14 @@ public final class ValidationContext
      * Resolve a {@code $ref} relatively to #rootSchema. Used by {@link
      * RefValidator}.
      *
+     * <p>Detects loops by checking whether the result of the lookup is
+     * present in {@link #refLookups}: if it is, we have a loop</p>
+     *
      * @param path the path within the root schema
      * @return the {@link JsonNode}, which is a {@link MissingNode} if the
      * path does not exist
      * @throws IOException the ref points to an URL, and the JSON schema at
-     * this URL could not be downloaded
+     * this URL could not be downloaded; or a loop in ref lookup is detected
      */
     public JsonNode resolve(final String path)
         throws IOException
