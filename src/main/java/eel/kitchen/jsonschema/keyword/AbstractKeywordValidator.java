@@ -22,15 +22,36 @@ import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Base abstract class for a keyword validator,
+ * used by "one shot" validators, ie validators which complete in one step
+ * and don't need to spawn further validators.
+ */
 public abstract class AbstractKeywordValidator
     extends AbstractValidator
     implements KeywordValidator
 {
+    /**
+     * The schema node used to validate
+     */
     protected final JsonNode schema;
+
+    /**
+     * The instance to validate
+     */
     protected final JsonNode instance;
 
+    /**
+     * The report to use
+     */
     protected final ValidationReport report;
 
+    /**
+     * Constructor
+     *
+     * @param context the context to use
+     * @param instance the instance to validate
+     */
     protected AbstractKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
@@ -39,8 +60,16 @@ public abstract class AbstractKeywordValidator
         this.instance = instance;
     }
 
+    /**
+     * Validate the instance
+     */
     protected abstract void validateInstance();
 
+    /**
+     * Calls {@link #validateInstance()}, then returns the report
+     *
+     * @return a {@link ValidationReport}
+     */
     @Override
     public final ValidationReport validate()
     {

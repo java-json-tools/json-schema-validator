@@ -20,9 +20,15 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Keyword validation for the {@code maxItems} keyword (draft section 5.14)
+ */
 public final class MaxItemsValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * Value of {@code maxItems}
+     */
     private final int maxItems;
 
     public MaxItemsValidator(final ValidationContext context,

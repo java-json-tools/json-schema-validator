@@ -22,9 +22,16 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
+/**
+ * Keyword validator for the {@code divisibleBy} keyword (draft section 5.24)
+ */
+// TODO: specialize validation for "smaller" types (long, double)
 public final class DivisibleByValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * The divisor
+     */
     private final BigDecimal divisor;
 
     public DivisibleByValidator(final ValidationContext context,

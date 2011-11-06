@@ -20,9 +20,15 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Keyword validator for the {@code minItems} keyword (draft section 5.13)
+ */
 public final class MinItemsValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * Value for {@code minItems}
+     */
     private final int minItems;
 
     public MinItemsValidator(final ValidationContext context,

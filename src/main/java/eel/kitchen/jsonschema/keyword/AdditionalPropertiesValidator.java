@@ -25,13 +25,26 @@ import org.codehaus.jackson.JsonNode;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Validator for the {@code additionalProperties} keyword (draft section 5.4)
+ */
 public final class AdditionalPropertiesValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * Set to true if {@code additionalProperties} is either a schema or
+     * {@code true}
+     */
     private final boolean shortcut;
 
+    /**
+     * List of property names registered in the schema
+     */
     private final Set<String> properties = new HashSet<String>();
 
+    /**
+     * List of patterns in {@code patternProperties}
+     */
     private final Set<String> patterns = new HashSet<String>();
 
     public AdditionalPropertiesValidator(final ValidationContext context,
@@ -57,6 +70,17 @@ public final class AdditionalPropertiesValidator
         }
     }
 
+    /**
+     * <p>Validate the {@code additionalProperties} keyword:</p>
+     * <ul>
+     *     <li>if it is a schema, or {@code true}, the validation succeeds;
+     *     </li>
+     *     <li>else, try and see if the instance field is either registered
+     *     in {@link #properties} or matches at least one regex in {@link
+     *     #patterns}. If none of this is true, the validation fails.
+     *     </li>
+     * </ul>
+     */
     @Override
     protected void validateInstance()
     {
@@ -79,6 +103,13 @@ public final class AdditionalPropertiesValidator
         }
     }
 
+    /**
+     * Attempt to match an instance field name against {@link #patterns}
+     *
+     * @param field the field to match
+     * @return true on a match
+     * @see {@link RhinoHelper#regMatch(String, String)}
+     */
     private boolean patternsMatch(final String field)
     {
         for (final String regex: patterns)

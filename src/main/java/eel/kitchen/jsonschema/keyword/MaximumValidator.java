@@ -22,10 +22,22 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
+/**
+ * Keyword validator for both the {@code maximum} and {@code
+ * exclusiveMaximum} keywords (draft sections 5.10 and 5.12)
+ */
+//TODO: specialize validation for "smaller" types (long, double)
 public final class MaximumValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * Value of {@code maximum}
+     */
     private final BigDecimal maximum;
+
+    /**
+     * Is the maximum exclusive?
+     */
     private final boolean exclusiveMaximum;
 
     public MaximumValidator(final ValidationContext context,

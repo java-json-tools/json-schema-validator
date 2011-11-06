@@ -22,6 +22,11 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Keyword validator for the {@code type} keyword (section 5.1)
+ *
+ * @see {@link TypeKeywordValidator}
+ */
 public final class TypeValidator
     extends TypeKeywordValidator
 {
@@ -31,6 +36,16 @@ public final class TypeValidator
         super(context, instance, "type");
     }
 
+    /**
+     * <p>Validate the instance:</p>
+     * <ul>
+     *     <li>if the type of the instance is one of the registered primitive
+     *     types, validation succeeds;</li>
+     *     <li>otherwise, try and match enclosed schemas if any: if only one
+     *     matches, we have a success.</li>
+     * </ul>
+     * @return the validation report
+     */
     @Override
     public ValidationReport validate()
     {

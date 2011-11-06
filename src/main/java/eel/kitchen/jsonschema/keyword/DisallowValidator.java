@@ -24,6 +24,11 @@ import org.codehaus.jackson.JsonNode;
 
 import java.util.EnumSet;
 
+/**
+ * Validator for the {@code disallow} keyword (draft section 5.25)
+ *
+ * @see {@link TypeKeywordValidator}
+ */
 public final class DisallowValidator
     extends TypeKeywordValidator
 {
@@ -33,6 +38,18 @@ public final class DisallowValidator
         super(context, instance, "disallow");
     }
 
+    /**
+     * <p>Validate the instance:</p>
+     * <ul>
+     *     <li>if the instance type is one registered in {@link #typeSet},
+     *     this is a failure;
+     *     </li>
+     *     <li>otherwise, if any, attempt to match against schema
+     *     dependencies: if one match is found, validation is a failure.</li>
+     * </ul>
+     *
+     * @return the validation report
+     */
     @Override
     public ValidationReport validate()
     {

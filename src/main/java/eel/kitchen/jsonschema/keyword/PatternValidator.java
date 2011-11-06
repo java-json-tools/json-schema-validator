@@ -21,6 +21,19 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * <p>Keyword validator for the {@code pattern} keyword (draft version 5.16).
+ * </p>
+ *
+ * <p>Note that the draft explicitly says that the regex should obey ECMA
+ * 262, which means {@link java.util.regex} is unusable. We therefore use
+ * rhino, which does have an ECMA 262 regex engine.</p>
+ *
+ * <p>And also note that "matching" is meant in the <b>real</b> sense of the
+ * term. Don't be fooled by Java's {@code .matches()} method names!
+ * </p>
+ * @see {@link RhinoHelper}
+ */
 public final class PatternValidator
     extends AbstractKeywordValidator
 {

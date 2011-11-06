@@ -31,14 +31,29 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Keyword validation for the {@code dependencies} keyword (draft section 5
+ * .8). It supports both simple dependencies (ie, other property names) or
+ * schema dependencies.
+ */
 public final class DependenciesValidator
     extends CombinedValidator
 {
+    /**
+     * The {@code dependencies} node
+     */
+    // TODO: this is unnecessary, just use the context for that
     private final JsonNode dependencies;
 
+    /**
+     * The list of fields in the instance to validate
+     */
     private final Set<String> instanceFields
         = new HashSet<String>();
 
+    /**
+     * The list of simple (ie, non schema) dependencies in the schema
+     */
     private final Map<String, Collection<String>> simpleDependencies
         = new HashMap<String, Collection<String>>();
 
@@ -53,6 +68,10 @@ public final class DependenciesValidator
         setUp();
     }
 
+    /**
+     * Called from the constructor. Fills the {@link #simpleDependencies}
+     * map, and/or {@link #queue} in the event of schema dependencies
+     */
     private void setUp()
     {
         final Set<String> deps
@@ -84,6 +103,12 @@ public final class DependenciesValidator
         }
     }
 
+    /**
+     * Validate the instance: check for simple dependencies first,
+     * and if any, for schema dependencies
+     *
+     * @return the validation report
+     */
     @Override
     public ValidationReport validate()
     {

@@ -20,11 +20,21 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * Keyword validator for {@code additionalItems} (draft section 5.6)
+ */
 public final class AdditionalItemsValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * Should we get out early? True if {@code additionalItems} is not a
+     * boolean, or is a boolean set to true.
+     */
     private final boolean shortcut;
 
+    /**
+     * Number of items in {@code items} (0 if it is not an array)
+     */
     private final int itemsCount;
 
     public AdditionalItemsValidator(final ValidationContext context,
@@ -39,6 +49,17 @@ public final class AdditionalItemsValidator
         itemsCount = itemsNode.isArray() ? itemsNode.size() : 0;
     }
 
+    /**
+     * <p>Validate {@code additionalItems}:</p>
+     * <ul>
+     *     <li>if it is not a boolean, or it is set to {@code true},
+     *     then the validation succeeds;</li>
+     *     <li>otherwise, compare the number of schemas registered in the
+     *     {@code items} keyword with the number of elements in the
+     *     instance: if the latter is greater than the former,
+     *     this is a validation failure.</li>
+     * </ul>
+     */
     @Override
     protected void validateInstance()
     {

@@ -23,6 +23,14 @@ import org.codehaus.jackson.JsonNode;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * <p>Keyword validator for the {@code uniqueItems} keyword (draft section
+ * 5.15)</p>
+ *
+ * <p>Here again, Jackson's {@link JsonNode#equals(Object)} is a life (and
+ * time) saver.
+ * </p>
+ */
 public final class UniqueItemsValidator
     extends AbstractKeywordValidator
 {
@@ -40,8 +48,10 @@ public final class UniqueItemsValidator
         for (final JsonNode node: instance)
             if (!set.add(node)) {
                 report.addMessage("items in the array are not unique");
-                return;
+                break;
             }
+
+        set.clear();
     }
 
 }

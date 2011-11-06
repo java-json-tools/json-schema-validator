@@ -19,7 +19,12 @@ package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.base.Validator;
 
+/**
+ * "Marker" interface to {@link Validator} for keyword validation.
+ *
+ */
 public interface KeywordValidator
     extends Validator
 {
+    // TODO: get rid of this, make it an abstract class or something
 }

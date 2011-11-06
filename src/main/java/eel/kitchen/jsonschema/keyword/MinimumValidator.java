@@ -22,10 +22,23 @@ import org.codehaus.jackson.JsonNode;
 
 import java.math.BigDecimal;
 
+/**
+ * Keyword validator for the {@code minimum} and {@code exclusiveMinimum}
+ * keywords (draft sections 5.9 and 5.11)
+ */
+//TODO specialize validation for "smaller" types (long, double)
 public final class MinimumValidator
     extends AbstractKeywordValidator
 {
+
+    /**
+     * Value of {@code minimum}
+     */
     private final BigDecimal minimum;
+
+    /**
+     * Is the minimum exclusive?
+     */
     private final boolean exclusiveMinimum;
 
     public MinimumValidator(final ValidationContext context,

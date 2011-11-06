@@ -28,9 +28,19 @@ import org.codehaus.jackson.node.ObjectNode;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * <p>Keyword validator for the {@code extends} keyword (draft section
+ * 5.26).</p>
+ *
+ * <p>While the draft makes it optional, this validator also supports
+ * "multiple extends", that is, extension of several schemas at once.</p>
+ */
 public final class ExtendsValidator
     extends CombinedValidator
 {
+    /**
+     * A {@link JsonNodeFactory}, needed for {@link #merge(JsonNode, JsonNode)}
+     */
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
     public ExtendsValidator(final ValidationContext context,
@@ -40,6 +50,17 @@ public final class ExtendsValidator
         buildQueue();
     }
 
+    /**
+     * <p>Method called from constructor, which builds the necessary schemas in
+     * {@link #queue}:</p>
+     * <ul>
+     *     <li>it first adds a validator for current schema node minus its
+     *     {@code extends} keyword;</li>
+     *     <li>it then merges this altered schema node with all extended
+     *     schemas and adds the corresponding validator to the queue</li>
+     * </ul>
+     * @see {@link #merge(JsonNode, JsonNode)}
+     */
     private void buildQueue()
     {
         final ObjectNode baseNode = nodeFactory.objectNode();
@@ -68,6 +89,16 @@ public final class ExtendsValidator
         }
     }
 
+    /**
+     * Crude schema merge implementation: given a base node and another node,
+     * first builds a copy of the base node and forcefeeds all fields of the
+     * other node in this copy (overwriting any existing fields in the base
+     * node)
+     *
+     * @param baseNode the base node
+     * @param otherNode the other node
+     * @return the copy
+     */
     private static JsonNode merge(final JsonNode baseNode,
         final JsonNode otherNode)
     {
@@ -81,6 +112,12 @@ public final class ExtendsValidator
         return nodeFactory.objectNode().putAll(ret);
     }
 
+    /**
+     * Validates the instance by first checking the base node,
+     * then any extended node.
+     *
+     * @return the validation report
+     */
     @Override
     public ValidationReport validate()
     {

@@ -25,6 +25,20 @@ import org.codehaus.jackson.JsonNode;
 
 import java.io.IOException;
 
+/**
+ * <p>Keyword validator for {@code $ref} (draft version 5.28)</p>
+ *
+ * <p>It only works "partially", in the sense that only URL refs and JSON
+ * path refs are supported (or a combination of both,
+ * as in {@code http://host.name/link/to/schema#/path/within/schema}). It is
+ * unclear to the author how other types of URIs may be used,
+ * and thus far he has seen no other examples.
+ * </p>
+ *
+ * <p>It works as the spec says: it resolves the ref (using {@link
+ * ValidationContext#resolve(String)}</p> and spawns a Validator for the
+ * returned schema -- IF it is valid.</p>
+ */
 public final class RefValidator
     extends CombinedValidator
 {
@@ -47,6 +61,11 @@ public final class RefValidator
         } catch (IOException e) {
             report.addMessage(String.format("cannot resolve ref %s: %s: %s",
                 ref, e.getClass().getName(), e.getMessage()));
+            return report;
+        }
+
+        if (next.isMissingNode()) {
+            report.addMessage("ref " + ref + " is unknown!");
             return report;
         }
 

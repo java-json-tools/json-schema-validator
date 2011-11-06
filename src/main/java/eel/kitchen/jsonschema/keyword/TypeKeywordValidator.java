@@ -26,17 +26,45 @@ import java.util.ArrayDeque;
 import java.util.EnumSet;
 import java.util.Queue;
 
+/**
+ * A {@link KeywordValidator} specialized in validating the {@code type} and
+ * {@code disallow} keywords.
+ *
+ * @see {@link TypeValidator}
+ * @see {@link DisallowValidator}
+ */
 public abstract class TypeKeywordValidator
     extends CombinedValidator
 {
+    /**
+     * String matching "any" type
+     */
     private static final String ANY = "any";
 
+    /**
+     * The schema node
+     */
     private final JsonNode typeNode;
 
+    /**
+     * The list of simple types declared by the keyword
+     */
     protected final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
+
+    /**
+     * The list of schemas found in the keyword
+     */
     protected final Queue<JsonNode> schemas = new ArrayDeque<JsonNode>();
 
 
+    /**
+     * Constructor. Initializes {@link #typeNode}, and then calls {@link
+     * #setUp()} to fill in {@link #typeSet} and {@link #schemas}.
+     *
+     * @param context the context to use
+     * @param instance the instance to validate
+     * @param field the name of the keyword ({@code type} or {@code disallow}
+     */
     protected TypeKeywordValidator(final ValidationContext context,
         final JsonNode instance, final String field)
     {
@@ -45,6 +73,16 @@ public abstract class TypeKeywordValidator
         setUp();
     }
 
+    /**
+     * <p>Fills in the {@link #typeSet} and {@link #schemas} instance
+     * variables:</p>
+     * <ul>
+     *     <li>if the type node is a simple text node, registers the matching
+     *     type(s) in {@link #typeSet} (using {@link #addType(String)};</li>
+     *     <li>if it is an array, register either the simple type or the
+     *     schema.</li>
+     * </ul>
+     */
     private void setUp()
     {
         if (typeNode.isTextual()) {
@@ -61,6 +99,15 @@ public abstract class TypeKeywordValidator
         }
     }
 
+    /**
+     * Add a simple type to the {@link #typeSet} enum set. If the argument is
+     * {@code "any"}, registers all types. If the argument is {@code
+     * "number"}, also registers {@code "integer"} since the latter is a
+     * subset of the former.
+     *
+     * @param s the simple type as a string
+     * @see {@link NodeType}
+     */
     private void addType(final String s)
     {
         if (ANY.equals(s)) {
@@ -74,6 +121,10 @@ public abstract class TypeKeywordValidator
             typeSet.add(NodeType.INTEGER);
     }
 
+    /**
+     * Builds the schema queue in {@link #queue} if {@link #schemas} is not
+     * empty.
+     */
     protected final void buildQueue()
     {
         ValidationContext other;

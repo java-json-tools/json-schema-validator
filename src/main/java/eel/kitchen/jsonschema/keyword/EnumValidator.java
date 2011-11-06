@@ -24,9 +24,17 @@ import org.codehaus.jackson.JsonNode;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Keyword validator for the {@code enum} keyword (draft section 5.19).
+ * Jackson is of great help here, since {@link JsonNode#equals(Object)} works
+ * perfectly <i>and</i> recursively for container nodes.
+ */
 public final class EnumValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * The elements found in the {@code enum} array
+     */
     private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
 
     public EnumValidator(final ValidationContext context,

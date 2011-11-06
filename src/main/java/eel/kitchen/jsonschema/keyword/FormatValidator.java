@@ -22,9 +22,21 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.factories.FormatFactory;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * <p>Keyword validator for the {@code format} keyword (draft section
+ * 5.23).</p>
+ *
+ * <p>This is the only validator which uses a builtin factory (a {@link
+ * FormatFactory}) for its own purposes, as it needs to pick a validator
+ * matching the format specification.</p>
+ */
+//TODO: inline validators?
 public final class FormatValidator
     extends AbstractKeywordValidator
 {
+    /**
+     * The format factory
+     */
     private final FormatFactory formatFactory;
 
     public FormatValidator(final ValidationContext context,
@@ -34,6 +46,14 @@ public final class FormatValidator
         formatFactory = new FormatFactory(context);
     }
 
+    /**
+     * Validate against a format specification. If the specification is
+     * unknown, the validation is a failure (FIXME: not what the draft says).
+     * If the type of the instance cannot be validated by the matching
+     * validator, the validation is a success.
+     *
+     * @see {@link FormatFactory#getFormatValidator(String, JsonNode)}
+     */
     @Override
     protected void validateInstance()
     {
