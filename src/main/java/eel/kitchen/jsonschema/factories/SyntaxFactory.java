@@ -71,36 +71,36 @@ public final class SyntaxFactory
 
     public SyntaxFactory()
     {
-        validators.put("additionalItems", AdditionalItemsValidator.class);
-        validators.put("additionalProperties",
+        registerValidator("additionalItems", AdditionalItemsValidator.class);
+        registerValidator("additionalProperties",
             AdditionalPropertiesValidator.class);
-        validators.put("default", AlwaysTrueValidator.class);
-        validators.put("dependencies", DependenciesValidator.class);
-        validators.put("description", DescriptionValidator.class);
-        validators.put("disallow", DisallowValidator.class);
-        validators.put("divisibleBy", DivisibleByValidator.class);
-        validators.put("$ref", DollarRefValidator.class);
-        validators.put("$schema", DollarSchemaValidator.class);
-        validators.put("enum", EnumValidator.class);
-        validators.put("exclusiveMaximum", ExclusiveMaximumValidator.class);
-        validators.put("exclusiveMinimum", ExclusiveMinimumValidator.class);
-        validators.put("extends", ExtendsValidator.class);
-        validators.put("format", FormatValidator.class);
-        validators.put("id", IdValidator.class);
-        validators.put("items", ItemsValidator.class);
-        validators.put("maximum", MaximumValidator.class);
-        validators.put("maxItems", MaxItemsValidator.class);
-        validators.put("maxLength", MaxLengthValidator.class);
-        validators.put("minimum", MinimumValidator.class);
-        validators.put("minItems", MinItemsValidator.class);
-        validators.put("minLength", MinLengthValidator.class);
-        validators.put("pattern", PatternValidator.class);
-        validators.put("patternProperties", PatternPropertiesValidator.class);
-        validators.put("properties", PropertiesValidator.class);
-        validators.put("required", RequiredValidator.class);
-        validators.put("title", TitleValidator.class);
-        validators.put("type", TypeValidator.class);
-        validators.put("uniqueItems", UniqueItemsValidator.class);
+        registerValidator("default", AlwaysTrueValidator.class);
+        registerValidator("dependencies", DependenciesValidator.class);
+        registerValidator("description", DescriptionValidator.class);
+        registerValidator("disallow", DisallowValidator.class);
+        registerValidator("divisibleBy", DivisibleByValidator.class);
+        registerValidator("$ref", DollarRefValidator.class);
+        registerValidator("$schema", DollarSchemaValidator.class);
+        registerValidator("enum", EnumValidator.class);
+        registerValidator("exclusiveMaximum", ExclusiveMaximumValidator.class);
+        registerValidator("exclusiveMinimum", ExclusiveMinimumValidator.class);
+        registerValidator("extends", ExtendsValidator.class);
+        registerValidator("format", FormatValidator.class);
+        registerValidator("id", IdValidator.class);
+        registerValidator("items", ItemsValidator.class);
+        registerValidator("maximum", MaximumValidator.class);
+        registerValidator("maxItems", MaxItemsValidator.class);
+        registerValidator("maxLength", MaxLengthValidator.class);
+        registerValidator("minimum", MinimumValidator.class);
+        registerValidator("minItems", MinItemsValidator.class);
+        registerValidator("minLength", MinLengthValidator.class);
+        registerValidator("pattern", PatternValidator.class);
+        registerValidator("patternProperties", PatternPropertiesValidator.class);
+        registerValidator("properties", PropertiesValidator.class);
+        registerValidator("required", RequiredValidator.class);
+        registerValidator("title", TitleValidator.class);
+        registerValidator("type", TypeValidator.class);
+        registerValidator("uniqueItems", UniqueItemsValidator.class);
     }
 
     public Validator getValidator(final ValidationContext context)
@@ -140,6 +140,12 @@ public final class SyntaxFactory
 
         return collection.size() == 1 ? collection.iterator().next()
             : new MatchAllValidator(context, collection);
+    }
+
+    private void registerValidator(final String keyword,
+        final Class<? extends SyntaxValidator> c)
+    {
+        validators.put(keyword, c);
     }
 
     private Collection<SyntaxValidator> getValidators(
