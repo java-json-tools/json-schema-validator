@@ -202,6 +202,15 @@ public final class ValidationContext
     public JsonNode resolve(final String path)
         throws IOException
     {
+        /*
+         * TODO: looping detection algorithm -- rely on #path and #schemaNode
+         *
+         * It would work since if the same schema node is applied twice on
+         * the same path, we certainly have a loop. It would mean creating a
+         * collection of some sort to store resolved schemas so far,
+         * and clearing the contents of this collection iif we call
+         * #createContext with a different path
+         */
         return refResolver.resolve(path);
     }
 }
