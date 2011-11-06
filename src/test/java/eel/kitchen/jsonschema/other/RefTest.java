@@ -71,8 +71,8 @@ public final class RefTest
 
         assertEquals(report.getMessages().size(), 1);
 
-        assertEquals(report.getMessages().get(0), "#: cannot resolve ref #: "
-            + "java.io.IOException: {\"$ref\":\"#\"} loops on itself");
+        assertEquals(report.getMessages().get(0), "#: FATAL: cannot resolve "
+            + "ref #: java.io.IOException: {\"$ref\":\"#\"} loops on itself");
     }
 
     @Test

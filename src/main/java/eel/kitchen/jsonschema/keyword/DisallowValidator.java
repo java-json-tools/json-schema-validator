@@ -77,8 +77,14 @@ public final class DisallowValidator
 
         boolean matchFound = false;
 
-        while (!matchFound && hasMoreElements())
-            matchFound = nextElement().validate().isSuccess();
+        while (!matchFound && hasMoreElements()) {
+            final ValidationReport innerReport = nextElement().validate();
+            if (innerReport.isError()) {
+                report.mergeWith(innerReport);
+                return report;
+            }
+            matchFound = innerReport.isSuccess();
+        }
 
         queue.clear();
 

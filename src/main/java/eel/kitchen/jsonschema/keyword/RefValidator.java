@@ -62,13 +62,13 @@ public final class RefValidator
         try {
             next = context.resolve(ref);
         } catch (IOException e) {
-            report.addMessage(String.format("cannot resolve ref %s: %s: %s",
+            report.error(String.format("cannot resolve ref %s: %s: %s",
                 ref, e.getClass().getName(), e.getMessage()));
             return report;
         }
 
         if (next.isMissingNode()) {
-            report.addMessage("ref " + ref + " is unknown!");
+            report.error("ref " + ref + " is unknown!");
             return report;
         }
 

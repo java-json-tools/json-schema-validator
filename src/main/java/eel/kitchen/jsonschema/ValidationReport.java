@@ -66,6 +66,16 @@ public final class ValidationReport
     }
 
     /**
+     * Tells whether the validation led up to a fatal error.
+     *
+     * @return true if so
+     */
+    public boolean isError()
+    {
+        return status == ValidationStatus.ERROR;
+    }
+
+    /**
      * Returns the list of validation errors collected by this report.
      *
      * @return an unmodifiable list of messages
@@ -87,9 +97,24 @@ public final class ValidationReport
     }
 
     /**
+     * Report a fatal error message. In this case, all previous messages are
+     * cleared and the message remains the only one in the list. Sets the
+     * status of this report to {@link ValidationStatus#ERROR}.
+     *
+     * @param message the error message
+     */
+    public void error(final String message)
+    {
+        status = ValidationStatus.ERROR;
+        messages.clear();
+        messages.add(path + ": FATAL: " + message);
+    }
+
+    /**
      * Merge the current report with another report. In effect,
      * it adds all messages of the other report to the list of the current
-     * report.
+     * report, and sets this report's {@link #status} to the other report's
+     * status.
      *
      * @param other The other report
      */
@@ -98,6 +123,6 @@ public final class ValidationReport
         if (other.status == ValidationStatus.SUCCESS)
             return;
         messages.addAll(other.messages);
-        status = ValidationStatus.FAILURE;
+        status = other.status;
     }
 }
