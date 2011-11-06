@@ -9,14 +9,8 @@ be found <a href="http://json-schema.org/draft-03/schema">here</a> (version 4
 is around the corner, for some defintion of "corner" -- understand, days, or a
 few weeks).
 
-<p>This implementation supports all of section 5 except the following:
-
-<ul>
-<li>5.27: <tt>id</tt> is not supported yet;</li>
-<li>5.28: <tt>$ref</tt> only understands URLs (not all URIs) or JSON paths (ie,
-<tt>#/x/y</tt>), or a combination of both;</li>
-<li>5.29: <tt>$schema</tt> is not supported yet.</li>
-</ul>
+<p>The status of this implementation can be seen <a
+href="https://github.com/fge/json-schema-validator/wiki/Status">here</a>.
 
 ## Sample usage:
 

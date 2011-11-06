@@ -88,5 +88,4 @@ public final class RefTest
         assertEquals(resolver.resolve("#/properties/type/default"),
             JsonNodeFactory.instance.textNode("any"));
     }
-
 }
