@@ -47,16 +47,35 @@ import java.util.Map;
 
 import static eel.kitchen.util.NodeType.*;
 
+/**
+ * A factory spawning validators for the {@code format} keyword.
+ */
 public final class FormatFactory
 {
+    /**
+     * Map pairing a format specification with the list of instance types
+     * they support
+     */
     private final Map<String, EnumSet<NodeType>> typeMap
         = new HashMap<String, EnumSet<NodeType>>();
 
+    /**
+     * Map pairing a format specification with the corresponding validator
+     */
     private final Map<String, Class<? extends Validator>> validators
         = new HashMap<String, Class<? extends Validator>>();
 
+    /**
+     * Report fed to the matching validator (see {@link
+     * #getFormatValidator(String, JsonNode)})
+     */
     private final ValidationReport report;
 
+    /**
+     * Constructor
+     *
+     * @param context the {@link ValidationContext} for this factory
+     */
     public FormatFactory(final ValidationContext context)
     {
         report = context.createReport();
@@ -76,6 +95,17 @@ public final class FormatFactory
         registerFormat("host-name", HostnameValidator.class, STRING);
     }
 
+    /**
+     * Get the {@link Validator} for the given format specification and
+     * instance. If the format specification is unknown,
+     * an {@link AlwaysFalseValidator} is returned; if the format
+     * specification is not applicable to the instance type,
+     * an {@link AlwaysTrueValidator} is returned.
+     *
+     * @param name the format specification
+     * @param node the instance to validate
+     * @return the matching validator
+     */
     public Validator getFormatValidator(final String name, final JsonNode node)
     {
         final NodeType type = NodeType.getNodeType(node);
@@ -91,6 +121,15 @@ public final class FormatFactory
         return doGetValidator(name, node);
     }
 
+    /**
+     * Internal function to spawn a new Validator. Used if a format
+     * specification was found and can validate the type of the instance.
+     *
+     * @param name the format specification
+     * @param node the instance to validate
+     * @return the matching validator (an {@link AlwaysFalseValidator} if the
+     * instance could not be successfully built
+     */
     private Validator doGetValidator(final String name, final JsonNode node)
     {
         final Class<? extends Validator> c = validators.get(name);
@@ -111,6 +150,13 @@ public final class FormatFactory
     }
 
 
+    /**
+     * Register a format validator
+     *
+     * @param name the format name specification
+     * @param c the validator as a {@link Class} object
+     * @param types the types this format specification can validate
+     */
     private void registerFormat(final String name,
         final Class<? extends AbstractFormatValidator> c,
         final NodeType... types)

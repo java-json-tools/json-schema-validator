@@ -63,14 +63,28 @@ import java.util.Set;
 
 import static eel.kitchen.util.NodeType.*;
 
+/**
+ * Factory for keyword validators, ie the core of validation.
+ */
 public final class KeywordFactory
 {
+    /**
+     * Map pairing a schema keyword and the instance types it applies to
+     */
     private final Map<String, EnumSet<NodeType>> fieldMap
         = new HashMap<String, EnumSet<NodeType>>();
 
+    /**
+     * Map pairing a schema keyword and the matching {@link KeywordValidator}
+     * as a {@link Class}
+     */
     private final Map<String, Class<? extends KeywordValidator>> validators
         = new HashMap<String, Class<? extends KeywordValidator>>();
 
+    /**
+     * Constructor; registers validators using
+     * {@link #registerValidator(String, Class, NodeType...)}.
+     */
     public KeywordFactory()
     {
         registerValidator("additionalItems", AdditionalItemsValidator.class,
@@ -103,6 +117,13 @@ public final class KeywordFactory
         registerValidator("$ref", RefValidator.class, NodeType.values());
     }
 
+    /**
+     * Register one validator for a given keyword
+     *
+     * @param field the keyword
+     * @param v the {@link KeywordValidator} as a {@link Class} object
+     * @param types the instance types this validator can handle
+     */
     private void registerValidator(final String field,
         final Class<? extends KeywordValidator> v, final NodeType... types)
     {
@@ -112,6 +133,15 @@ public final class KeywordFactory
         validators.put(field, v);
     }
 
+    /**
+     * Get a validator (a {@link KeywordValidator} really) for the given
+     * context and instance to validate. Only called from {@link
+     * ValidationContext#getValidator(JsonNode)}.
+     *
+     * @param context the current validation context
+     * @param instance the instance to validate
+     * @return the validator
+     */
     public Validator getValidator(final ValidationContext context,
         final JsonNode instance)
     {
@@ -139,6 +169,21 @@ public final class KeywordFactory
     }
 
 
+    /**
+     * Get a collection of validators for the context and instance,
+     * by grabbing the schema node using
+     * {@link ValidationContext#getSchemaNode()} and grabbing validators from
+     * the {@link #fieldMap} and {@link #validators} maps. Will return an
+     * {@link AlwaysTrueValidator} if no validators are found (ie,
+     * none of the keywords of the schema node can validate the instance
+     * type), and an {@link AlwaysFalseValidator} if one validator fails to
+     * instantiate (see
+     * {@link #buildValidator(Class, ValidationContext, JsonNode)}).
+     *
+     * @param context the validation context
+     * @param instance the instance
+     * @return the list of validators as a {@link Collection}
+     */
     private Collection<KeywordValidator> getValidators(
         final ValidationContext context, final JsonNode instance)
     {
@@ -183,6 +228,18 @@ public final class KeywordFactory
         return Collections.unmodifiableSet(ret);
     }
 
+    /**
+     * Build a validator given a class, context and instance.
+     *
+     * @param c the class object
+     * @param context the context
+     * @param instance the instance
+     * @return the validator
+     * @throws NoSuchMethodException constructor was not found
+     * @throws InvocationTargetException see {@link InvocationTargetException}
+     * @throws IllegalAccessException see {@link IllegalAccessException}
+     * @throws InstantiationException see {@link InstantiationException}
+     */
     private static KeywordValidator buildValidator(
         final Class<? extends KeywordValidator> c,
         final ValidationContext context, final JsonNode instance)

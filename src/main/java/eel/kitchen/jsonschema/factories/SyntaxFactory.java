@@ -64,11 +64,30 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * <p>Factory providing syntax checking validators for a schema.</p>
+ *
+ * <p>While the schema can validate itself, there is a chicken and egg
+ * problem and we need to do this operation. The only user for this factory
+ * is {@link ValidationContext#getValidator(JsonNode)}.
+ * </p>
+ *
+ * <p>Note that unknown keywords to this factory trigger a validation
+ * <b>failure</b>. Therefore, it is important that all keywords be
+ * registered.</p>
+ */
 public final class SyntaxFactory
 {
+    /**
+     * Map pairing a schema keyword with its corresponding syntax validator
+     */
     private final Map<String, Class<? extends SyntaxValidator>> validators
         = new HashMap<String, Class<? extends SyntaxValidator>>();
 
+    /**
+     * Constructor, registering all validators with {@link
+     * #registerValidator(String, Class)}
+     */
     public SyntaxFactory()
     {
         registerValidator("additionalItems", AdditionalItemsValidator.class);
@@ -103,6 +122,19 @@ public final class SyntaxFactory
         registerValidator("uniqueItems", UniqueItemsValidator.class);
     }
 
+    /**
+     * <p>Get the syntax validator for a given context,
+     * calling {@link ValidationContext#getSchemaNode()} to grab the schema
+     * node to validate. As the summary mentions, an unknown keyword to this
+     * factory will trigger a failure by returning an {@link
+     * AlwaysFalseValidator}.</p>
+     * <p>This is also the place where ill-formed schemas are captured (ie,
+     * a null input or a node which is not an object to begin with).
+     * </p>
+     *
+     * @param context the validation context
+     * @return the matching validator
+     */
     public Validator getValidator(final ValidationContext context)
     {
         final JsonNode schema = context.getSchemaNode();
@@ -142,12 +174,25 @@ public final class SyntaxFactory
             : new MatchAllValidator(context, collection);
     }
 
+    /**
+     * Register a validator for a given keyword
+     *
+     * @param keyword the keyword
+     * @param c the {@link SyntaxValidator} as a {@link Class} object
+     */
     private void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> c)
     {
         validators.put(keyword, c);
     }
 
+    /**
+     * Return a list of validators for a schema node
+     *
+     * @param context the context
+     * @param fields the list of keywords
+     * @return the list of validators
+     */
     private Collection<SyntaxValidator> getValidators(
         final ValidationContext context, final Set<String> fields)
     {
@@ -175,6 +220,17 @@ public final class SyntaxFactory
         return ret;
     }
 
+    /**
+     * Instantiate a {@link SyntaxValidator}
+     *
+     * @param c the class
+     * @param context the context
+     * @return the instantiated validator
+     * @throws NoSuchMethodException constructor not found
+     * @throws InvocationTargetException see {@link InvocationTargetException}
+     * @throws IllegalAccessException see {@link IllegalAccessException}
+     * @throws InstantiationException see {@link InstantiationException}
+     */
     private static SyntaxValidator buildValidator(
         final Class<? extends SyntaxValidator> c,
         final ValidationContext context)
