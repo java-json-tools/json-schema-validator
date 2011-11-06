@@ -22,14 +22,36 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * A {@link Validator} implementation which spawns other validators. It is
+ * used by {@link KeywordValidator} implementations which cannot operate in
+ * one pass, but need to build further validators.
+ */
 public abstract class CombinedValidator
     extends AbstractValidator
     implements KeywordValidator
 {
+    /**
+     * The context to use
+     */
     protected final ValidationContext context;
+
+    /**
+     * The report to use, initialized by the constructor
+     */
     protected final ValidationReport report;
+
+    /**
+     * The instance to validate
+     */
     protected final JsonNode instance;
 
+    /**
+     * The constructor, which initiates #report
+     *
+     * @param context the context to use
+     * @param instance the instance to validate
+     */
     protected CombinedValidator(final ValidationContext context,
         final JsonNode instance)
     {

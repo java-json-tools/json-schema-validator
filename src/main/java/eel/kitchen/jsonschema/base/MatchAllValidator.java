@@ -23,12 +23,25 @@ import eel.kitchen.jsonschema.keyword.KeywordValidator;
 
 import java.util.Collection;
 
+/**
+ * A {@link Validator} taking a {@link Collection} of validators,
+ * which must <b>all</b> match for the validation to be successful.
+ */
 public final class MatchAllValidator
     extends AbstractValidator
     implements KeywordValidator
 {
+    /**
+     * The report to use
+     */
     private final ValidationReport report;
 
+    /**
+     * The only constructor
+     *
+     * @param context the {@link ValidationContext} to use
+     * @param validators the list of validators
+     */
     public MatchAllValidator(final ValidationContext context,
         final Collection<? extends Validator> validators)
     {
@@ -36,6 +49,11 @@ public final class MatchAllValidator
         queue.addAll(validators);
     }
 
+    /**
+     * Validate this instance. It stops at the first failing validation.
+     *
+     * @return a {@link ValidationReport}
+     */
     @Override
     public ValidationReport validate()
     {

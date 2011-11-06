@@ -18,11 +18,26 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.keyword.KeywordValidator;
+import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 import java.util.Enumeration;
 
+/**
+ * The core interface for all validators, which extends {@link Enumeration}
+ * of itself.
+ *
+ * @see {@link SyntaxValidator}
+ * @see {@link KeywordValidator}
+ */
 public interface Validator
     extends Enumeration<Validator>
 {
+    /**
+     * Validate the instance, either a schema ({@link SyntaxValidator} or an
+     * instance ({@link KeywordValidator}).
+     *
+     * @return a {@link ValidationReport} of the validation
+     */
     ValidationReport validate();
 }

@@ -21,12 +21,25 @@ import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
+/**
+ * A {@link Validator} which always reports a failure.
+ */
 public final class AlwaysFalseValidator
     extends AbstractValidator
     implements SyntaxValidator, KeywordValidator
 {
+    /**
+     * The report
+     */
     private final ValidationReport report;
 
+    /**
+     * Constructor, which only takes a {@link ValidationReport} as an
+     * argument. It is up to the caller to ensure that this report actually
+     * reports a failure!
+     *
+     * @param report the report to use
+     */
     public AlwaysFalseValidator(final ValidationReport report)
     {
         this.report = report;

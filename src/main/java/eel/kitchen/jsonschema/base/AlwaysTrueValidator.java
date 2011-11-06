@@ -23,25 +23,48 @@ import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.codehaus.jackson.JsonNode;
 
+/**
+ * A {@link Validator} which is always true. As it is potentially registered
+ * as both a {@link KeywordValidator}, a {@link SyntaxValidator} or a format
+ * validator, it has constructors matching all three.
+ */
 public final class AlwaysTrueValidator
     extends AbstractValidator
     implements SyntaxValidator, KeywordValidator
 {
+    /**
+     * The report
+     */
     private final ValidationReport report;
 
-    // syntax
+    /**
+     * The constructor matching a {@link SyntaxValidator}
+     *
+     * @param context the context to use
+     */
     public AlwaysTrueValidator(final ValidationContext context)
     {
         report = context.createReport();
     }
 
-    // keyword
+    /**
+     * The constructor matching a {@link KeywordValidator}
+     *
+     * @param context the context to use
+     * @param instance the instance (ignored)
+     */
     public AlwaysTrueValidator(final ValidationContext context,
         final JsonNode instance)
     {
         report = context.createReport();
     }
 
+    /**
+     * The constructor matching a format validator
+     *
+     * @param report the report to use
+     * @param instance the instance (ignored)
+     */
     public AlwaysTrueValidator(final ValidationReport report,
         final JsonNode instance)
     {

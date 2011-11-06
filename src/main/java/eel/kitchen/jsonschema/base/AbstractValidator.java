@@ -21,17 +21,34 @@ import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
+/**
+ * The base implementation from which all validators are derived
+ */
 public abstract class AbstractValidator
     implements Validator
 {
+    /**
+     * The list of validators spawned by this validator, as a {@link Queue}
+     */
     protected final Queue<Validator> queue = new ArrayDeque<Validator>();
 
+    /**
+     * Checks whether #queue has elements left
+     *
+     * @return true if there are elements left
+     */
     @Override
     public boolean hasMoreElements()
     {
         return !queue.isEmpty();
     }
 
+    /**
+     * Returns the next validator from the queue
+     *
+     * @return a {@link Validator}
+     * @throws NoSuchElementException if the queue is empty
+     */
     @Override
     public Validator nextElement()
     {
