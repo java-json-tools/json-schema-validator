@@ -19,10 +19,12 @@ package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.codehaus.jackson.JsonNode;
 
 public final class AlwaysTrueValidator
     extends AbstractValidator
+    implements SyntaxValidator
 {
     private final ValidationReport report;
 

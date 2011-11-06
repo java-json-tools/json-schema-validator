@@ -20,17 +20,18 @@ package eel.kitchen.util;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.util.regex.Pattern;
 
 /**
- * <p>ECMA 262 validation helper. Rhino is used in lieu of java.util.regex
- * because the latter doesn't comply with ECMA 262:</p>
+ * <p>ECMA 262 validation helper. Rhino is used instead of
+ * {@link java.util.regex} because the latter doesn't comply with ECMA 262:</p>
  *
  * <ul>
  *     <li>ECMA 262 doesn't have PATTERN_DOTALL;</li>
- *     <li>ECMA 262 doesn't have "possessive" quantifiers (<code>++</code>,
- *     <code>?+</code>, etc);</li>
- *     <li>the word delimiter in ECMA 262 is <code>\b</code>,
- *     it does not understand <code>\&lt;</code> or <code>\&gt;</code>.</li>
+ *     <li>ECMA 262 doesn't have "possessive" quantifiers ({@code ++},
+ *     {@code ?+}, etc);</li>
+ *     <li>the word delimiter in ECMA 262 is {@code \b},
+ *     it does not understand {@code \&lt;} or {@code \&gt;}.</li>
  * </ul>
  *
  * <p>And many, many other things. See
@@ -41,15 +42,23 @@ import javax.script.ScriptException;
 public final class RhinoHelper
 {
     /**
-     * The two scriptlets which will be used for regex format validation,
-     * and matching validation respectively.
+     * The scriptlet template used to validate a regex
      */
-    private static final String
-        REGEX_FORMAT = "/%s/",
-        REGEX_VALIDATE = "/%s/.test(\"%s\")";
+    private static final String REGEX_FORMAT = "/%s/";
 
     /**
-     * Instance of Rhino's {@link ScriptEngine} to use.
+     * The scriptlet template used to match an input against a regex
+     */
+    private static final String REGEX_VALIDATE = "/%s/.test(\"%s\")";
+
+    /**
+     * The {@link Pattern} used to recognize a /, using a positive lookahead
+     * construct
+     */
+    private static final Pattern SLASH_LOOKAHEAD = Pattern.compile("(?=/)");
+
+    /**
+     * Instance of Rhino's {@link javax.script.ScriptEngine} to use.
      */
     private static final ScriptEngine engine
         = new ScriptEngineManager().getEngineByName("JavaScript");
@@ -71,12 +80,12 @@ public final class RhinoHelper
     }
 
     /**
-     * <p>Matches an input against a given regex. Note that Java in general
-     * makes a HUGE mistake about the meaning of the word "matching": a regex
-     * matches <i>anywhere in the input</i>. <b>NOTHING has ever said that
-     * "matching" an input should match the WHOLE INPUT. String's (and
-     * Matcher's) .matches() methods are MISNOMERS.</b> This method does the
-     * real thing. If you want your regex to be anchored, make it so!</p>
+     * <p>Matches an input against a given regex, in the <b>real</b> sense
+     * of matching, that is, the regex can match anywhere in the input.
+     * Java's {@link java.util.regex} makes the unfortunate mistake to make
+     * people believe that matching is done on the whole input... Which is
+     * not true.
+     * </p>
      *
      * <p>Also note that the regex MUST have been validated at this point.</p>
      *
@@ -98,14 +107,14 @@ public final class RhinoHelper
 
     /**
      * Utility function to escape slashes in a given regex string. Given that we
-     * feed the regex to Rhino as <code>/re/</code>,
-     * we need to prepend a backslash to all slashes found in <code>re</code>.
+     * feed the regex to Rhino as {@code /re/}, where {@code re} is the regex,
+     * we need to prepend a backslash to all slashes found in {@code re}.
      *
      * @param regex the regex as a String
      * @return the regex, with all slashes escaped
      */
     private static String escape(final String regex)
     {
-        return regex.replaceAll("(?=/)", "\\\\");
+        return SLASH_LOOKAHEAD.matcher(regex).replaceAll("\\\\");
     }
 }

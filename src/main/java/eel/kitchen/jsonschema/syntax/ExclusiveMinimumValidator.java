@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
 public final class ExclusiveMinimumValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     public ExclusiveMinimumValidator(final ValidationContext context)
     {

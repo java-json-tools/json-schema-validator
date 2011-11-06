@@ -17,47 +17,9 @@
 
 package eel.kitchen.jsonschema.syntax;
 
-import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.AbstractValidator;
-import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.NodeType;
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.base.Validator;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-
-public abstract class SyntaxValidator
-    extends AbstractValidator
+public interface SyntaxValidator
+    extends Validator
 {
-    protected final ValidationReport report;
-
-    protected final ValidationContext context;
-    protected final JsonNode node;
-    protected final EnumSet<NodeType> validTypes;
-
-    protected SyntaxValidator(final ValidationContext context,
-        final String keyword, final NodeType... types)
-    {
-        this.context = context;
-
-        report = context.createReport(String.format(" [schema:%s]", keyword));
-        node = context.getSchemaNode().get(keyword);
-        validTypes = EnumSet.copyOf(Arrays.asList(types));
-    }
-
-    protected abstract void checkFurther();
-
-    @Override
-    public final ValidationReport validate()
-    {
-        final NodeType nodeType = NodeType.getNodeType(node);
-
-        if (!validTypes.contains(nodeType))
-            report.addMessage("field has wrong type " + nodeType
-                + ", expected one of " + validTypes);
-        else
-            checkFurther();
-
-        return report;
-    }
 }

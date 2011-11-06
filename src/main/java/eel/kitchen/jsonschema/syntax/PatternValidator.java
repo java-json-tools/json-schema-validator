@@ -22,7 +22,7 @@ import eel.kitchen.util.NodeType;
 import eel.kitchen.util.RhinoHelper;
 
 public final class PatternValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     public PatternValidator(final ValidationContext context)
     {

@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
 public abstract class PositiveIntegerSyntaxValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     protected PositiveIntegerSyntaxValidator(final ValidationContext context,
         final String keyword)

@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
 public abstract class TypeOnlySyntaxValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     protected TypeOnlySyntaxValidator(final ValidationContext context,
         final String keyword, final NodeType... types)

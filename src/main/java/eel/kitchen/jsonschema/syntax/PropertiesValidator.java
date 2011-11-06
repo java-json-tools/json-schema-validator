@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 public final class PropertiesValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     public PropertiesValidator(final ValidationContext context)
     {

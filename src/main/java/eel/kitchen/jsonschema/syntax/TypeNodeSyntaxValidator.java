@@ -22,7 +22,7 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class TypeNodeSyntaxValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     private static final String ANY = "any";
 

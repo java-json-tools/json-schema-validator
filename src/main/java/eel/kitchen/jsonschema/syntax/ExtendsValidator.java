@@ -22,7 +22,7 @@ import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
 public final class ExtendsValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     public ExtendsValidator(final ValidationContext context)
     {

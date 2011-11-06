@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 public final class DependenciesValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     public DependenciesValidator(final ValidationContext context)
     {

@@ -23,7 +23,7 @@ import eel.kitchen.util.NodeType;
 import java.math.BigDecimal;
 
 public final class DivisibleByValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     public DivisibleByValidator(final ValidationContext context)
     {

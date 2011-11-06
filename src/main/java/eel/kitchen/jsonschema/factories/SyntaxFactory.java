@@ -48,6 +48,7 @@ import eel.kitchen.jsonschema.syntax.PatternPropertiesValidator;
 import eel.kitchen.jsonschema.syntax.PatternValidator;
 import eel.kitchen.jsonschema.syntax.PropertiesValidator;
 import eel.kitchen.jsonschema.syntax.RequiredValidator;
+import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import eel.kitchen.jsonschema.syntax.TitleValidator;
 import eel.kitchen.jsonschema.syntax.TypeValidator;
 import eel.kitchen.jsonschema.syntax.UniqueItemsValidator;
@@ -65,8 +66,8 @@ import java.util.Set;
 
 public final class SyntaxFactory
 {
-    private final Map<String, Class<? extends Validator>> validators
-        = new HashMap<String, Class<? extends Validator>>();
+    private final Map<String, Class<? extends SyntaxValidator>> validators
+        = new HashMap<String, Class<? extends SyntaxValidator>>();
 
     public SyntaxFactory()
     {

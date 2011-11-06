@@ -24,7 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public abstract class URISyntaxValidator
-    extends SyntaxValidator
+    extends AbstractSyntaxValidator
 {
     protected URISyntaxValidator(final ValidationContext context,
         final String keyword)
