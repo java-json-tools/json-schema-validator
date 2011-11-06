@@ -22,6 +22,16 @@ package eel.kitchen.jsonschema;
  */
 public enum ValidationStatus
 {
+    /**
+     * The validation was successful
+     */
     SUCCESS,
-    FAILURE
+    /**
+     * The validation failed
+     */
+    FAILURE,
+    /**
+     * A fatal error occurred
+     */
+    ERROR
 }
