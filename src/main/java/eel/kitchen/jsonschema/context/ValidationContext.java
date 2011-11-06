@@ -40,7 +40,8 @@ import java.util.Set;
  *     <li>checking the schema correctness (using {@link SyntaxValidator}
  *     instances);</li>
  *     <li>create validator instances;</li>
- *     <li>resolve {@code $ref} (see {@link RefValidator});</li>
+ *     <li>resolve {@code $ref} (see {@link RefValidator}) <b>and</b> detect
+ *     ref looping;</li>
  *     <li>provide {@link ValidationReport} instances;</li>
  *     <li>provide other instances of itself.</li>
  * </ul>
