@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class UniqueItemsValidator
-    extends KeywordValidator
+    extends AbstractKeywordValidator
 {
     public UniqueItemsValidator(final ValidationContext context,
         final JsonNode instance)

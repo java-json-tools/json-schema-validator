@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public final class AdditionalItemsValidator
-    extends KeywordValidator
+    extends AbstractKeywordValidator
 {
     private final boolean shortcut;
 

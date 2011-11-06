@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class EnumValidator
-    extends KeywordValidator
+    extends AbstractKeywordValidator
 {
     private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
 

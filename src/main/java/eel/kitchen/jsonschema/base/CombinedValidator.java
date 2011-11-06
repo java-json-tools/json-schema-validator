@@ -19,10 +19,12 @@ package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.codehaus.jackson.JsonNode;
 
 public abstract class CombinedValidator
     extends AbstractValidator
+    implements KeywordValidator
 {
     protected final ValidationContext context;
     protected final ValidationReport report;

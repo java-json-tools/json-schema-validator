@@ -17,33 +17,9 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.AbstractValidator;
-import eel.kitchen.jsonschema.context.ValidationContext;
-import org.codehaus.jackson.JsonNode;
+import eel.kitchen.jsonschema.base.Validator;
 
-public abstract class KeywordValidator
-    extends AbstractValidator
+public interface KeywordValidator
+    extends Validator
 {
-    protected final JsonNode schema;
-    protected final JsonNode instance;
-
-    protected final ValidationReport report;
-
-    protected KeywordValidator(final ValidationContext context,
-        final JsonNode instance)
-    {
-        schema = context.getSchemaNode();
-        report = context.createReport();
-        this.instance = instance;
-    }
-
-    protected abstract void validateInstance();
-
-    @Override
-    public final ValidationReport validate()
-    {
-        validateInstance();
-        return report;
-    }
 }

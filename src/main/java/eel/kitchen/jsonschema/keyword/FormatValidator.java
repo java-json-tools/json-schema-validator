@@ -23,7 +23,7 @@ import eel.kitchen.jsonschema.factories.FormatFactory;
 import org.codehaus.jackson.JsonNode;
 
 public final class FormatValidator
-    extends KeywordValidator
+    extends AbstractKeywordValidator
 {
     private final FormatFactory formatFactory;
 

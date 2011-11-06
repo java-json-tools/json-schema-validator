@@ -22,7 +22,7 @@ import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 public final class PatternValidator
-    extends KeywordValidator
+    extends AbstractKeywordValidator
 {
     public PatternValidator(final ValidationContext context,
         final JsonNode instance)

@@ -17,25 +17,34 @@
 
 package eel.kitchen.jsonschema.keyword;
 
+import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
-public final class MinLengthValidator
-    extends AbstractKeywordValidator
+public abstract class AbstractKeywordValidator
+    extends AbstractValidator
+    implements KeywordValidator
 {
-    private final int minLength;
+    protected final JsonNode schema;
+    protected final JsonNode instance;
 
-    public MinLengthValidator(final ValidationContext context,
+    protected final ValidationReport report;
+
+    protected AbstractKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
-        minLength = schema.get("minLength").getIntValue();
+        schema = context.getSchemaNode();
+        report = context.createReport();
+        this.instance = instance;
     }
 
+    protected abstract void validateInstance();
+
     @Override
-    public void validateInstance()
+    public final ValidationReport validate()
     {
-        if (instance.getTextValue().length() < minLength)
-            report.addMessage("string is shorter than minLength");
+        validateInstance();
+        return report;
     }
 }

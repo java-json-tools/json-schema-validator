@@ -19,16 +19,18 @@ package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.keyword.KeywordValidator;
 
 import java.util.Collection;
 
 public final class MatchAllValidator
     extends AbstractValidator
+    implements KeywordValidator
 {
     private final ValidationReport report;
 
     public MatchAllValidator(final ValidationContext context,
-        final Collection<Validator> validators)
+        final Collection<? extends Validator> validators)
     {
         report = context.createReport();
         queue.addAll(validators);

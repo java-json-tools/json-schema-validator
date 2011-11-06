@@ -18,9 +18,12 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.keyword.KeywordValidator;
+import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 public final class AlwaysFalseValidator
     extends AbstractValidator
+    implements SyntaxValidator, KeywordValidator
 {
     private final ValidationReport report;
 

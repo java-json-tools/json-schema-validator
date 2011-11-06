@@ -33,6 +33,7 @@ import eel.kitchen.jsonschema.keyword.DivisibleByValidator;
 import eel.kitchen.jsonschema.keyword.EnumValidator;
 import eel.kitchen.jsonschema.keyword.ExtendsValidator;
 import eel.kitchen.jsonschema.keyword.FormatValidator;
+import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.keyword.MaxItemsValidator;
 import eel.kitchen.jsonschema.keyword.MaxLengthValidator;
 import eel.kitchen.jsonschema.keyword.MaximumValidator;
@@ -67,8 +68,8 @@ public final class KeywordFactory
     private final Map<String, EnumSet<NodeType>> fieldMap
         = new HashMap<String, EnumSet<NodeType>>();
 
-    private final Map<String, Class<? extends Validator>> validators
-        = new HashMap<String, Class<? extends Validator>>();
+    private final Map<String, Class<? extends KeywordValidator>> validators
+        = new HashMap<String, Class<? extends KeywordValidator>>();
 
     public KeywordFactory()
     {
@@ -103,7 +104,7 @@ public final class KeywordFactory
     }
 
     private void registerValidator(final String field,
-        final Class<? extends Validator> v, final NodeType... types)
+        final Class<? extends KeywordValidator> v, final NodeType... types)
     {
         final EnumSet<NodeType> typeset = EnumSet.copyOf(Arrays.asList(types));
 
@@ -114,11 +115,11 @@ public final class KeywordFactory
     public Validator getValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        final Collection<Validator> collection
+        final Collection<KeywordValidator> collection
             = getValidators(context, instance);
 
 
-        final Validator validator;
+        final KeywordValidator validator;
         switch (collection.size()) {
             case 0:
                 return new AlwaysTrueValidator(context, instance);
@@ -138,11 +139,11 @@ public final class KeywordFactory
     }
 
 
-    private Collection<Validator> getValidators(final ValidationContext context,
-        final JsonNode instance)
+    private Collection<KeywordValidator> getValidators(
+        final ValidationContext context, final JsonNode instance)
     {
         final NodeType type = NodeType.getNodeType(instance);
-        final Set<Validator> ret = new LinkedHashSet<Validator>();
+        final Set<KeywordValidator> ret = new LinkedHashSet<KeywordValidator>();
 
         final JsonNode schemaNode = context.getSchemaNode();
 
@@ -150,16 +151,17 @@ public final class KeywordFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.<Validator>asList(new AlwaysTrueValidator(context, instance));
+            return Arrays.<KeywordValidator>asList(new AlwaysTrueValidator(
+                context, instance));
 
         final Set<String> keyset = new HashSet<String>();
 
-        Class<? extends Validator> c;
+        Class<? extends KeywordValidator> c;
 
         keyset.addAll(validators.keySet());
         keyset.retainAll(keywords);
 
-        Validator validator;
+        KeywordValidator validator;
 
         for (final String key: keyset) {
             if (!fieldMap.get(key).contains(type))
@@ -181,12 +183,13 @@ public final class KeywordFactory
         return Collections.unmodifiableSet(ret);
     }
 
-    private static Validator buildValidator(final Class<? extends Validator> c,
+    private static KeywordValidator buildValidator(
+        final Class<? extends KeywordValidator> c,
         final ValidationContext context, final JsonNode instance)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
     {
-        final Constructor<? extends Validator> constructor
+        final Constructor<? extends KeywordValidator> constructor
             = c.getConstructor(ValidationContext.class, JsonNode.class);
 
         return constructor.newInstance(context, instance);

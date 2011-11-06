@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class PropertiesValidator
-    extends KeywordValidator
+    extends AbstractKeywordValidator
 {
     private final Set<String> required = new HashSet<String>();
 

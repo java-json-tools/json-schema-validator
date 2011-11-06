@@ -135,19 +135,20 @@ public final class SyntaxFactory
         if (fields.isEmpty())
             return new AlwaysTrueValidator(context);
 
-        final Collection<Validator> collection = getValidators(context, fields);
+        final Collection<SyntaxValidator> collection
+            = getValidators(context, fields);
 
         return collection.size() == 1 ? collection.iterator().next()
             : new MatchAllValidator(context, collection);
     }
 
-    private Collection<Validator> getValidators(final ValidationContext context,
-        final Set<String> fields)
+    private Collection<SyntaxValidator> getValidators(
+        final ValidationContext context, final Set<String> fields)
     {
-        final Set<Validator> ret = new HashSet<Validator>();
+        final Set<SyntaxValidator> ret = new HashSet<SyntaxValidator>();
 
-        Class<? extends Validator> c;
-        Validator v;
+        Class<? extends SyntaxValidator> c;
+        SyntaxValidator v;
 
         for (final String field: fields) {
             c = validators.get(field);
@@ -168,12 +169,13 @@ public final class SyntaxFactory
         return ret;
     }
 
-    private static Validator buildValidator(final Class<? extends Validator> c,
+    private static SyntaxValidator buildValidator(
+        final Class<? extends SyntaxValidator> c,
         final ValidationContext context)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
     {
-        final Constructor<? extends Validator> constructor
+        final Constructor<? extends SyntaxValidator> constructor
             = c.getConstructor(ValidationContext.class);
 
         return constructor.newInstance(context);

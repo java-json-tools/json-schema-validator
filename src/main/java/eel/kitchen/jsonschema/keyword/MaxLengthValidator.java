@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 public final class MaxLengthValidator
-    extends KeywordValidator
+    extends AbstractKeywordValidator
 {
     private final int maxLength;
 
