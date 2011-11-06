@@ -103,7 +103,28 @@ public final class RefTest
 
         assertTrue(report.isError());
 
+        assertEquals(1, report.getMessages().size());
+
         assertEquals(report.getMessages().get(0), "#: FATAL: ref #/nope is "
             + "unknown!");
+    }
+
+    @Test
+    public void testDisallowLoopRefIsFatal()
+    {
+        final JsonNode schema = torture.get("disallow");
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        final ValidationReport report = validator.validate(JsonNodeFactory
+            .instance.nullNode());
+
+        assertTrue(report.isError());
+
+        assertEquals(1, report.getMessages().size());
+
+        assertEquals("#: FATAL: cannot resolve ref #: java.io.IOException: "
+            + "{\"disallow\":[{\"$ref\":\"#\"}]} loops on itself",
+            report.getMessages().get(0));
     }
 }

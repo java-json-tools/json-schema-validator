@@ -5,5 +5,10 @@
                 "$ref": "#/nope"
             }
         ]
+    },
+    "disallow": {
+        "disallow": [
+            { "$ref": "#" }
+        ]
     }
 }
