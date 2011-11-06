@@ -18,29 +18,79 @@
 package eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.MissingNode;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+/**
+ * <p>A class dedicated to handle $ref (section 5.28). The support is,
+ * as of now, limited to:</p>
+ * <ul>
+ *     <li>direct inline references (using JSON paths, like, for instance,
+ *     {@code #/path/within/document};
+ *     </li>
+ *     <li>URLs.</li>
+ * </ul>
+ * <p>It is up to the caller to handle exceptions (well, only one,
+ * really: {@code IOException}) returned by this class if it fails to resolve
+ * the reference. Note that failing to lookup a path inside a document which
+ * has been acquired successfully will not raise an exception,
+ * but return a {@link MissingNode}.
+ * </p>
+ */
 public final class RefResolver
 {
+    /**
+     * Pattern to recognize a JSON path separator
+     */
     private static final Pattern PATHSEP = Pattern.compile("/");
+
+    /**
+     * Pattern to recognize a / at the beginning of a JSON path
+     */
     private static final Pattern BEGINPATH = Pattern.compile("^/");
 
-    private final ObjectMapper mapper = new ObjectMapper();
+    /**
+     * Schema used by that RefResolver for "inline refs" (ie,
+     * {@code #/path/within/document}
+     */
     private final JsonNode schema;
 
+    /**
+     * Cache of "external refs" (acquired via HTTP only for now). Note that
+     * keys are strings, not {@link URL}s: calling {@link URL#equals(Object)}
+     * on URLs can raise DNS lookups and we don't want that!
+     */
     private final Map<String, JsonNode> refs = new HashMap<String, JsonNode>();
 
+    /**
+     * The only constructor.
+     *
+     * @param schema the schema to which inline refs apply
+     */
     public RefResolver(final JsonNode schema)
     {
         this.schema = schema;
     }
 
+    /**
+     * Resolve a path given by a {@code $ref}. This method starts by
+     * separating the URL part from the fragment part (resp. what is before
+     * the {@code #} and what is after it), then tries and fetches the
+     * document if the URL part is not empty, before calling {@link
+     * #resolvePath(JsonNode, String)} on the acquired document.
+     *
+     * @param s The string representing the path
+     * @return The corresponding {@link JsonNode},
+     * which is a {@link MissingNode} if the path matches nothing
+     * @throws IOException the document pointed to by the URL part could not
+     * be downloaded, or it is invalid
+     */
     public JsonNode resolve(final String s)
         throws IOException
     {
@@ -73,6 +123,14 @@ public final class RefResolver
         return resolvePath(ret, fragment);
     }
 
+    /**
+     * Resolve a JSON path within a document
+     *
+     * @param schema the document to which the JSON path applies
+     * @param path the path
+     * @return the {@link JsonNode} corresponding to that path (a {@link
+     * MissingNode} if the path matches nothing
+     */
     private static JsonNode resolvePath(final JsonNode schema,
         final String path)
     {

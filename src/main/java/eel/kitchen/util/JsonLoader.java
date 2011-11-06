@@ -27,14 +27,34 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.net.URL;
 
+/**
+ * Utility class to load JSON documents (schemas or instance) from various
+ * sources as {@link JsonNode}s.
+ */
 public final class JsonLoader
 {
+    /**
+     * The mapper which does everything behind the scenes...
+     */
     private static final ObjectMapper mapper = new ObjectMapper();
 
     private static final int SLASH = (int) '/';
 
+    /**
+     * A shortcut: myself as a {@link Class} object.
+     */
     private static final Class<JsonLoader> myself = JsonLoader.class;
 
+    /**
+     * Read a {@link JsonNode} from a resource path. Explicitly throws an
+     * {@link IOException} if the resource is null, instead of letting a
+     * {@link NullPointerException} slip through...
+     *
+     * @param resource The path to the resource
+     * @return the JSON document at the resource
+     * @throws IOException if the resource does not exist or there was a
+     * problem loading it, or if the JSON document is invalid
+     */
     public static JsonNode fromResource(final String resource)
         throws IOException
     {
@@ -59,12 +79,26 @@ public final class JsonLoader
         return ret;
     }
 
+    /**
+     * Read a {@link JsonNode} from an URL.
+     *
+     * @param url The URL to fetch the JSON document from
+     * @return The document at that URL
+     * @throws IOException in case of network problems etc.
+     */
     public static JsonNode fromURL(final URL url)
         throws IOException
     {
         return mapper.readTree(url);
     }
 
+    /**
+     * Read a {@link JsonNode} from a file on the local filesystem.
+     *
+     * @param path the path (relative or absolute) to the file
+     * @return the document in the file
+     * @throws IOException if this is not a file, if it cannot be read, etc.
+     */
     public static JsonNode fromPath(final String path)
         throws IOException
     {
@@ -81,6 +115,14 @@ public final class JsonLoader
         return ret;
     }
 
+    /**
+     * Same as #fromPath, but this time the user supplies the {@link File}
+     * object instead
+     *
+     * @param file the File object
+     * @return The document
+     * @throws IOException in many cases!
+     */
     public static JsonNode fromFile(final File file)
         throws IOException
     {
@@ -96,6 +138,13 @@ public final class JsonLoader
         return ret;
     }
 
+    /**
+     * Read a {@link JsonNode} from a user supplied {@link Reader}
+     *
+     * @param reader The reader
+     * @return the document
+     * @throws IOException if the reader has problems
+     */
     public static JsonNode fromReader(final Reader reader)
         throws IOException
     {

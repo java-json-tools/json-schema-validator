@@ -17,6 +17,9 @@
 
 package eel.kitchen.jsonschema;
 
+/**
+ * Simple enumeration to report a validation status.
+ */
 public enum ValidationStatus
 {
     SUCCESS,
