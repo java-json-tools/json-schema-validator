@@ -19,16 +19,29 @@ package eel.kitchen.jsonschema.container;
 
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.keyword.AdditionalItemsValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The {@link ContainerValidator} for array instances
+ *
+ * @see {@link ContainerValidator}
+ */
 public final class ArrayValidator
     extends ContainerValidator
 {
+    /**
+     * The elements in {@code items}, if any
+     */
     private final List<JsonNode> items = new LinkedList<JsonNode>();
 
+    /**
+     * What is in {@code additionalItems}, or {@code items} if the latter
+     * contains a schema
+     */
     private JsonNode additionalItems;
 
     public ArrayValidator(final Validator validator,
@@ -37,6 +50,21 @@ public final class ArrayValidator
         super(validator, context, instance);
     }
 
+    /**
+     * <p>Builds the {@link #items} list and {@link #additionalItems} schema,
+     * with the following algorithm:</p>
+     * <ul>
+     *     <li>if {@code items} is a schema, leave the items array empty and
+     *     affect the value of the node to {@link #additionalItems};
+     *     </li>
+     *     <li>if it is an array, fill the {@link #items} list with the array
+     *     elements; then fill {@link #additionalItems}.</li>
+     * </ul>
+     * <p>Note that at this stage, as the structure has been validated,
+     * it means that {@link AdditionalItemsValidator} will have done its job
+     * and make validation fail if additional items were not permitted.
+     * </p>
+     */
     @Override
     protected void buildPathProvider()
     {
@@ -59,6 +87,19 @@ public final class ArrayValidator
         additionalItems = node.isObject() ? node : EMPTY_SCHEMA;
     }
 
+    /**
+     * <p>Provide a validator for a subnode. The path is always an integer
+     * here. The algorithm is as follows:</p>
+     * <ul>
+     *     <li>if {@link #items} contains the path, the matching node is used
+     *     to build the validator;</li>
+     *     <li>otherwise, it is built from {@link #additionalItems}.</li>
+     * </ul>
+     *
+     * @param path the path of the child node
+     * @param child the child node
+     * @return the matching {@link Validator}
+     */
     @Override
     protected Validator getValidator(final String path, final JsonNode child)
     {
@@ -72,6 +113,11 @@ public final class ArrayValidator
         return ctx.getValidator(child);
     }
 
+    /**
+     * Build the children node validator queue, by walking the elements of
+     * the instance node (which is an array, remember) and calling
+     * {@link #getValidator(String, JsonNode)} for each successive child node.
+     */
     @Override
     protected void buildQueue()
     {

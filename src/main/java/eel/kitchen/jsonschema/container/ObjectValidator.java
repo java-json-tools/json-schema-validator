@@ -25,20 +25,33 @@ import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+/**
+ * A specialized {@link ContainerValidator} for object nodes.
+ */
 public final class ObjectValidator
     extends ContainerValidator
 {
+    /**
+     * The contents of the {@code properties} keyword, as a {@link SortedMap}
+     */
     private final SortedMap<String, JsonNode> properties
         = new TreeMap<String, JsonNode>();
 
+    /**
+     * The contents of the {@code patternProperties} keyword
+     */
     private final SortedMap<String, JsonNode> patternProperties
         = new TreeMap<String, JsonNode>();
 
+    /**
+     * The content of {@code additionalProperties}
+     */
     private JsonNode additionalProperties;
 
     public ObjectValidator(final Validator validator,
@@ -47,6 +60,11 @@ public final class ObjectValidator
         super(validator, context, instance);
     }
 
+    /**
+     * <p>Fills in {@link #properties}, {@link #patternProperties} and {@link
+     * #additionalProperties} for use by {@link
+     * #getValidator(String, JsonNode)}.</p>
+     */
     @Override
     protected void buildPathProvider()
     {
@@ -69,6 +87,26 @@ public final class ObjectValidator
         additionalProperties = node.isObject() ? node : EMPTY_SCHEMA;
     }
 
+    /**
+     * <p>Spawns a validator for a child node. Unlike arrays,
+     * this is not a straight one-to-one relation:</p>
+     * <ul>
+     *     <li>if a property matches exactly (ie, there is a matching key in
+     *     {@link #properties}, then the child must be validated against the
+     *     corresponding schema,
+     *     </li>
+     *     <li>but it must also be validated against <i>all</i> schemas in
+     *     {@link #patternProperties} for which the regex matches the child
+     *     property name;
+     *     </li>
+     *     <li>only if none of the above is true, it must be matched against
+     *     the content of {@link #additionalProperties}.
+     *     </li>
+     * </ul>
+     * @param path the path of the child node
+     * @param child the child node
+     * @return the validator for this child node
+     */
     @Override
     protected Validator getValidator(final String path, final JsonNode child)
     {
@@ -104,6 +142,11 @@ public final class ObjectValidator
         return new MatchAllValidator(ctx, validators);
     }
 
+    /**
+     * Builds the children validator queue, by grabbing all properties of the
+     * instance in alphabetical order (using
+     * {@link CollectionUtils#toSortedMap(Iterator)}.
+     */
     @Override
     protected void buildQueue()
     {

@@ -18,20 +18,48 @@
 package eel.kitchen.jsonschema.container;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
+/**
+ * <p>>A specialized {@link Validator} implementation for validating container
+ * nodes (ie, array or object JSON instances).</p>
+ *
+ * <p>The particularity of these validators is that not only do they need to
+ * validate the structure of the instance itself, they must also,
+ * if the structure is valid, spawn validators for all the subnodes of the
+ * object instance.
+ * </p>
+ *
+ * @see {@link ArrayValidator}
+ * @see {@link ObjectValidator}
+ */
 public abstract class ContainerValidator
     extends CombinedValidator
 {
+    /**
+     * An empty schema, always true
+     */
     protected static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
+    /**
+     * The {@link Validator} which validates the structure of the instance
+     * itself
+     */
     private final Validator validator;
 
+    /**
+     * Constructor
+     *
+     * @param validator the structure validator, see {@link #validator}
+     * @param context the {@link ValidationContext} to use
+     * @param instance the instance to validate
+     */
     protected ContainerValidator(final Validator validator,
         final ValidationContext context, final JsonNode instance)
     {
@@ -39,13 +67,40 @@ public abstract class ContainerValidator
         this.validator = validator;
     }
 
+    /**
+     * Method used to build the necessary structures to provide validators
+     * for subnodes. Used before calling {@link #getValidator(String,
+     * JsonNode)}.
+     */
     protected abstract void buildPathProvider();
 
+    /**
+     * Provide a {@link Validator} for a subnode, according to its path
+     *
+     * @param path the path of the child node
+     * @param child the child node
+     * @return the matching validator
+     */
     protected abstract Validator getValidator(final String path,
         final JsonNode child);
 
+    /**
+     * Build the validation queue, in the event that structure validation
+     * succeeds
+i    *
+     * @see {@link AbstractValidator#queue}
+     */
     protected abstract void buildQueue();
 
+    /**
+     * Validate the instance. First, validates the structure of the instance
+     * itself, using {@link #validator}, then, if successful,
+     * builds the necessary element to provide children validators (using
+     * {@link #buildPathProvider()} and then {@link #buildQueue()}, and
+     * validates them all.
+     *
+     * @return the validation report
+     */
     @Override
     public final ValidationReport validate()
     {
