@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.keyword.BaseKeywordValidator;
 import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.codehaus.jackson.JsonNode;
 
@@ -28,7 +27,7 @@ import org.codehaus.jackson.JsonNode;
  * one pass, but need to build further validators.
  */
 public abstract class CombinedValidator
-    extends BaseKeywordValidator
+    extends KeywordValidator
 {
     protected CombinedValidator(final ValidationContext context,
         final JsonNode instance)

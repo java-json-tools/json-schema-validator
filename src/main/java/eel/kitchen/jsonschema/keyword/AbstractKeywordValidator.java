@@ -27,7 +27,7 @@ import org.codehaus.jackson.JsonNode;
  * and don't need to spawn further validators.
  */
 public abstract class AbstractKeywordValidator
-    extends BaseKeywordValidator
+    extends KeywordValidator
 {
     /**
      * The schema node used to validate

@@ -19,7 +19,6 @@ package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.keyword.KeywordValidator;
 
 import java.util.Collection;
 
@@ -29,7 +28,6 @@ import java.util.Collection;
  */
 public final class MatchAllValidator
     extends AbstractValidator
-    implements KeywordValidator
 {
     /**
      * The report to use
