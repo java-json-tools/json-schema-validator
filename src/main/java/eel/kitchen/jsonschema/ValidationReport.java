@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema;
 
-import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collections;
@@ -38,8 +37,7 @@ public final class ValidationReport
     private ValidationStatus status = SUCCESS;
 
     /**
-     * Default constructor. In practice, it is never used,
-     * except by {@link AlwaysTrueValidator}.
+     * Default constructor. Only sets {@link #path} to an empty string.
      */
     public ValidationReport()
     {

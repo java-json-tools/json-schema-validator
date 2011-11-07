@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.codehaus.jackson.JsonNode;
@@ -36,28 +35,6 @@ public final class AlwaysTrueValidator
      * The report
      */
     private final ValidationReport report;
-
-    /**
-     * The constructor matching a {@link SyntaxValidator}
-     *
-     * @param context the context to use
-     */
-    public AlwaysTrueValidator(final ValidationContext context)
-    {
-        report = context.createReport();
-    }
-
-    /**
-     * The constructor matching a {@link KeywordValidator}
-     *
-     * @param context the context to use
-     * @param instance the instance (ignored)
-     */
-    public AlwaysTrueValidator(final ValidationContext context,
-        final JsonNode instance)
-    {
-        report = context.createReport();
-    }
 
     /**
      * The constructor matching a format validator

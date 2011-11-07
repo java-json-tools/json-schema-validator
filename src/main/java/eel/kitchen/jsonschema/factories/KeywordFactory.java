@@ -19,7 +19,6 @@ package eel.kitchen.jsonschema.factories;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
-import eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.container.ArrayValidator;
@@ -175,7 +174,7 @@ public final class KeywordFactory
      * by grabbing the schema node using
      * {@link ValidationContext#getSchemaNode()} and grabbing validators from
      * the {@link #fieldMap} and {@link #validators} maps. Will return an
-     * {@link AlwaysTrueValidator} if no validators are found (ie,
+     * {@link AlwaysTrueKeywordValidator} if no validators are found (ie,
      * none of the keywords of the schema node can validate the instance
      * type), and an {@link AlwaysFalseValidator} if one validator fails to
      * instantiate (see
