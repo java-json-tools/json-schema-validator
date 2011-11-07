@@ -29,7 +29,7 @@ import java.net.URISyntaxException;
  * @see {@link URI}
  */
 public abstract class URISyntaxValidator
-    extends AbstractSyntaxValidator
+    extends SyntaxValidator
 {
     protected URISyntaxValidator(final ValidationContext context,
         final String keyword)

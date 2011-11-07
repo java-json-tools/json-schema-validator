@@ -17,14 +17,80 @@
 
 package eel.kitchen.jsonschema.syntax;
 
-import eel.kitchen.jsonschema.base.Validator;
+import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.base.AbstractValidator;
+import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
+
+import java.util.Arrays;
+import java.util.EnumSet;
 
 /**
- * Marker interface over {@link Validator} for validators specialized in
- * syntax checking
+ * Base implementation of a {@link SyntaxValidator}.
  */
-//TODO: get rid of it, make it abstract or something
-public interface SyntaxValidator
-    extends Validator
+public abstract class SyntaxValidator
+    extends AbstractValidator
 {
+    /**
+     * The report to use
+     */
+    protected final ValidationReport report;
+
+    /**
+     * The validation context
+     */
+    protected final ValidationContext context;
+
+    /**
+     * The node to check
+     */
+    protected final JsonNode node;
+
+    /**
+     * The list of valid types for {@link #node}
+     */
+    protected final EnumSet<NodeType> validTypes;
+
+    /**
+     * Constructor
+     *
+     * @param context the validation context
+     * @param keyword the keyword to check
+     * @param types the list of valid types for this keyword
+     */
+    protected SyntaxValidator(final ValidationContext context,
+        final String keyword, final NodeType... types)
+    {
+        this.context = context;
+
+        report = context.createReport(String.format(" [schema:%s]", keyword));
+        node = context.getSchemaNode().get(keyword);
+        validTypes = EnumSet.copyOf(Arrays.asList(types));
+    }
+
+    /**
+     * Abstract method for validators which need to check more than the type
+     * of the node to validate
+     */
+    protected abstract void checkFurther();
+
+    /**
+     * Type checks the node, then invokes {@link #checkFurther()}
+     *
+     * @return a validation report
+     */
+    @Override
+    public final ValidationReport validate()
+    {
+        final NodeType nodeType = NodeType.getNodeType(node);
+
+        if (!validTypes.contains(nodeType))
+            report.addMessage("field has wrong type " + nodeType
+                + ", expected one of " + validTypes);
+        else
+            checkFurther();
+
+        return report;
+    }
 }

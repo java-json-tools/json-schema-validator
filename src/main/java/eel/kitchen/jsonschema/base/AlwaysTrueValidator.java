@@ -30,7 +30,7 @@ import org.codehaus.jackson.JsonNode;
  */
 public final class AlwaysTrueValidator
     extends AbstractValidator
-    implements SyntaxValidator, KeywordValidator
+    implements KeywordValidator
 {
     /**
      * The report

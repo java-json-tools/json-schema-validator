@@ -31,7 +31,7 @@ import eel.kitchen.util.NodeType;
  * </ul>
  */
 public abstract class PositiveIntegerSyntaxValidator
-    extends AbstractSyntaxValidator
+    extends SyntaxValidator
 {
     protected PositiveIntegerSyntaxValidator(final ValidationContext context,
         final String keyword)

@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
 public final class ExclusiveMaximumValidator
-    extends AbstractSyntaxValidator
+    extends SyntaxValidator
 {
     public ExclusiveMaximumValidator(final ValidationContext context)
     {

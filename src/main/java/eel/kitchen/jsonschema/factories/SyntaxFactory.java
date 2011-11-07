@@ -25,6 +25,7 @@ import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.syntax.AdditionalItemsValidator;
 import eel.kitchen.jsonschema.syntax.AdditionalPropertiesValidator;
+import eel.kitchen.jsonschema.syntax.AlwaysTrueSyntaxValidator;
 import eel.kitchen.jsonschema.syntax.DependenciesValidator;
 import eel.kitchen.jsonschema.syntax.DescriptionValidator;
 import eel.kitchen.jsonschema.syntax.DisallowValidator;
@@ -93,7 +94,7 @@ public final class SyntaxFactory
         registerValidator("additionalItems", AdditionalItemsValidator.class);
         registerValidator("additionalProperties",
             AdditionalPropertiesValidator.class);
-        registerValidator("default", AlwaysTrueValidator.class);
+        registerValidator("default", AlwaysTrueSyntaxValidator.class);
         registerValidator("dependencies", DependenciesValidator.class);
         registerValidator("description", DescriptionValidator.class);
         registerValidator("disallow", DisallowValidator.class);

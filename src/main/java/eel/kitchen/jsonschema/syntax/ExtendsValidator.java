@@ -29,7 +29,7 @@ import org.codehaus.jackson.JsonNode;
  * objects.</p>
  */
 public final class ExtendsValidator
-    extends AbstractSyntaxValidator
+    extends SyntaxValidator
 {
     public ExtendsValidator(final ValidationContext context)
     {

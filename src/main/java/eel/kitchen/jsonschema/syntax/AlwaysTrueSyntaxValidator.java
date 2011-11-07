@@ -21,28 +21,24 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
 /**
- * Abstract class for {@link SyntaxValidator} instances,
- * for which the only necessary validation is checking the type of its
- * argument. Most syntax validators inherit this.
+ * A {@link SyntaxValidator} which always returns true
  */
-public abstract class TypeOnlySyntaxValidator
+
+public final class AlwaysTrueSyntaxValidator
     extends SyntaxValidator
 {
     /**
      * Constructor
      *
      * @param context the validation context
-     * @param keyword the keyword to check
-     * @param types the valid list of types for this keyword
      */
-    protected TypeOnlySyntaxValidator(final ValidationContext context,
-        final String keyword, final NodeType... types)
+    public AlwaysTrueSyntaxValidator(final ValidationContext context)
     {
-        super(context, keyword, types);
+        super(context, "default", NodeType.values());
     }
 
     @Override
-    protected final void checkFurther()
+    protected void checkFurther()
     {
     }
 }

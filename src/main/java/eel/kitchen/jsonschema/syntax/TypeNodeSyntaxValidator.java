@@ -30,7 +30,7 @@ import org.codehaus.jackson.JsonNode;
  * for both of these won't have to worry about this.</p>
  */
 public abstract class TypeNodeSyntaxValidator
-    extends AbstractSyntaxValidator
+    extends SyntaxValidator
 {
     private static final String ANY = "any";
 

@@ -38,7 +38,7 @@ import java.util.SortedMap;
  * </ul>
  */
 public final class DependenciesValidator
-    extends AbstractSyntaxValidator
+    extends SyntaxValidator
 {
     public DependenciesValidator(final ValidationContext context)
     {
