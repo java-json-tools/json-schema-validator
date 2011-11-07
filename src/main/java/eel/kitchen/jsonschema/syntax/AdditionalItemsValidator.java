@@ -21,7 +21,7 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
 public final class AdditionalItemsValidator
-    extends TypeOnlySyntaxValidator
+    extends SimpleSyntaxValidator
 {
     public AdditionalItemsValidator(final ValidationContext context)
     {

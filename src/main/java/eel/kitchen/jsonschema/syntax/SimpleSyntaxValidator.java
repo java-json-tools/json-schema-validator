@@ -25,7 +25,7 @@ import eel.kitchen.util.NodeType;
  * for which the only necessary validation is checking the type of its
  * argument. Most syntax validators inherit this.
  */
-public abstract class TypeOnlySyntaxValidator
+public abstract class SimpleSyntaxValidator
     extends SyntaxValidator
 {
     /**
@@ -35,7 +35,7 @@ public abstract class TypeOnlySyntaxValidator
      * @param keyword the keyword to check
      * @param types the valid list of types for this keyword
      */
-    protected TypeOnlySyntaxValidator(final ValidationContext context,
+    protected SimpleSyntaxValidator(final ValidationContext context,
         final String keyword, final NodeType... types)
     {
         super(context, keyword, types);
