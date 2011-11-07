@@ -17,7 +17,6 @@
 
 package eel.kitchen.jsonschema.keyword;
 
-import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -34,7 +33,7 @@ import java.util.Queue;
  * @see {@link DisallowValidator}
  */
 public abstract class TypeKeywordValidator
-    extends CombinedValidator
+    extends KeywordValidator
 {
     /**
      * String matching "any" type

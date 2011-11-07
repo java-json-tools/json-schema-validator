@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
@@ -43,7 +42,7 @@ import java.io.IOException;
  * {@link ValidationContext#resolve(String)} to do this for it.</p>
  */
 public final class RefValidator
-    extends CombinedValidator
+    extends KeywordValidator
 {
     public RefValidator(final ValidationContext context,
         final JsonNode instance)

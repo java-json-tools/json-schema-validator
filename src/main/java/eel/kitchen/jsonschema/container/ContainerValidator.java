@@ -19,9 +19,9 @@ package eel.kitchen.jsonschema.container;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AbstractValidator;
-import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 
@@ -39,7 +39,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
  * @see {@link ObjectValidator}
  */
 public abstract class ContainerValidator
-    extends CombinedValidator
+    extends KeywordValidator
 {
     /**
      * An empty schema, always true

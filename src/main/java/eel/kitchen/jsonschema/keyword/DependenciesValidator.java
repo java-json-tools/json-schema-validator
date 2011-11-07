@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
@@ -39,7 +38,7 @@ import java.util.TreeSet;
  * schema dependencies.
  */
 public final class DependenciesValidator
-    extends CombinedValidator
+    extends KeywordValidator
 {
 
     /**

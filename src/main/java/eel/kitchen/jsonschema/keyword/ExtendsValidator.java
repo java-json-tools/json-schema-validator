@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.CombinedValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
@@ -36,7 +35,7 @@ import java.util.Map;
  * "multiple extends", that is, extension of several schemas at once.</p>
  */
 public final class ExtendsValidator
-    extends CombinedValidator
+    extends KeywordValidator
 {
     /**
      * A {@link JsonNodeFactory}, needed for {@link #merge(JsonNode, JsonNode)}
