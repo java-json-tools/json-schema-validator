@@ -146,11 +146,11 @@ public final class KeywordFactory
     public Validator getValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        final Collection<KeywordValidator> collection
+        final Collection<Validator> collection
             = getValidators(context, instance);
 
 
-        final KeywordValidator validator;
+        final Validator validator;
         switch (collection.size()) {
             case 0:
                 return new AlwaysTrueKeywordValidator(context, instance);
@@ -185,11 +185,11 @@ public final class KeywordFactory
      * @param instance the instance
      * @return the list of validators as a {@link Collection}
      */
-    private Collection<KeywordValidator> getValidators(
+    private Collection<Validator> getValidators(
         final ValidationContext context, final JsonNode instance)
     {
         final NodeType type = NodeType.getNodeType(instance);
-        final Set<KeywordValidator> ret = new LinkedHashSet<KeywordValidator>();
+        final Set<Validator> ret = new LinkedHashSet<Validator>();
 
         final JsonNode schemaNode = context.getSchemaNode();
 
@@ -197,17 +197,17 @@ public final class KeywordFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.<KeywordValidator>asList(
+            return Arrays.<Validator>asList(
                 new AlwaysTrueKeywordValidator(context, instance));
 
         final Set<String> keyset = new HashSet<String>();
 
-        Class<? extends KeywordValidator> c;
+        Class<? extends Validator> c;
 
         keyset.addAll(validators.keySet());
         keyset.retainAll(keywords);
 
-        KeywordValidator validator;
+        Validator validator;
 
         for (final String key: keyset) {
             if (!fieldMap.get(key).contains(type))
@@ -241,13 +241,12 @@ public final class KeywordFactory
      * @throws IllegalAccessException see {@link IllegalAccessException}
      * @throws InstantiationException see {@link InstantiationException}
      */
-    private static KeywordValidator buildValidator(
-        final Class<? extends KeywordValidator> c,
+    private static Validator buildValidator(final Class<? extends Validator> c,
         final ValidationContext context, final JsonNode instance)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
     {
-        final Constructor<? extends KeywordValidator> constructor
+        final Constructor<? extends Validator> constructor
             = c.getConstructor(ValidationContext.class, JsonNode.class);
 
         return constructor.newInstance(context, instance);

@@ -43,7 +43,7 @@ public final class MatchAllValidator
      * @param validators the list of validators
      */
     public MatchAllValidator(final ValidationContext context,
-        final Collection<? extends Validator> validators)
+        final Collection<Validator> validators)
     {
         report = context.createReport();
         queue.addAll(validators);
