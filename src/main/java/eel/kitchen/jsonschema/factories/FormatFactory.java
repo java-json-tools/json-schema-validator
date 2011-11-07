@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.factories;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
@@ -43,7 +44,6 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import static eel.kitchen.util.NodeType.*;
 
@@ -52,35 +52,6 @@ import static eel.kitchen.util.NodeType.*;
  */
 public final class FormatFactory
 {
-    /**
-     * An empty {@link ValidationReport}
-     */
-    private static final ValidationReport EMPTY = new ValidationReport();
-
-    /**
-     * A validator which is always true
-     */
-    private static final Validator TRUE = new Validator()
-    {
-        @Override
-        public ValidationReport validate()
-        {
-            return EMPTY;
-        }
-
-        @Override
-        public boolean hasMoreElements()
-        {
-            return false;
-        }
-
-        @Override
-        public Validator nextElement()
-        {
-            throw new NoSuchElementException();
-        }
-    };
-
     /**
      * Map pairing a format specification with the list of instance types
      * they support
@@ -129,7 +100,7 @@ public final class FormatFactory
      * instance. If the format specification is unknown,
      * an {@link AlwaysFalseValidator} is returned; if the format
      * specification is not applicable to the instance type,
-     * {@link #TRUE} is returned.
+     * {@link AbstractValidator#TRUE} is returned.
      *
      * @param name the format specification
      * @param node the instance to validate
@@ -145,7 +116,7 @@ public final class FormatFactory
         }
 
         if (!typeMap.get(name).contains(type))
-            return TRUE;
+            return AbstractValidator.TRUE;
 
         return doGetValidator(name, node);
     }

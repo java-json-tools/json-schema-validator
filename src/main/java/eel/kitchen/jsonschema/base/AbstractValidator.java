@@ -17,6 +17,8 @@
 
 package eel.kitchen.jsonschema.base;
 
+import eel.kitchen.jsonschema.ValidationReport;
+
 import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -27,6 +29,34 @@ import java.util.Queue;
 public abstract class AbstractValidator
     implements Validator
 {
+    /**
+     * An empty {@link ValidationReport}
+     */
+    private static final ValidationReport EMPTY = new ValidationReport();
+
+    /**
+     * A validator which is always true
+     */
+    public static final Validator TRUE = new Validator()
+    {
+        @Override
+        public ValidationReport validate()
+        {
+            return EMPTY;
+        }
+
+        @Override
+        public boolean hasMoreElements()
+        {
+            return false;
+        }
+
+        @Override
+        public Validator nextElement()
+        {
+            throw new NoSuchElementException();
+        }
+    };
     /**
      * The list of validators spawned by this validator, as a {@link Queue}
      */

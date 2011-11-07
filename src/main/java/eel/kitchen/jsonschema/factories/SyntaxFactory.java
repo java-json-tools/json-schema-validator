@@ -18,6 +18,7 @@
 package eel.kitchen.jsonschema.factories;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
 import eel.kitchen.jsonschema.base.Validator;
@@ -66,7 +67,7 @@ public final class SyntaxFactory
             AdditionalItemsSyntaxValidator.class);
         registerValidator("additionalProperties",
             AdditionalPropertiesSyntaxValidator.class);
-        registerValidator("default", AlwaysTrueSyntaxValidator.class);
+        registerValidator("default", DefaultSyntaxValidator.class);
         registerValidator("dependencies", DependenciesSyntaxValidator.class);
         registerValidator("description", DescriptionSyntaxValidator.class);
         registerValidator("disallow", DisallowSyntaxValidator.class);
@@ -141,7 +142,7 @@ public final class SyntaxFactory
         fields.retainAll(keywords);
 
         if (fields.isEmpty())
-            return new AlwaysTrueSyntaxValidator(context);
+            return AbstractValidator.TRUE;
 
         final Collection<Validator> collection
             = getValidators(context, fields);
