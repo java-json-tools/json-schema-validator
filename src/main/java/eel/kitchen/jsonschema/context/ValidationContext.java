@@ -215,6 +215,19 @@ public final class ValidationContext
      * @throws IOException the ref points to an URL, and the JSON schema at
      * this URL could not be downloaded; or a loop in ref lookup is detected
      */
+    /*
+     * TODO: resolve the $ref problem with downloaded schemas
+     *
+     * Plan:
+     *
+     * - the method below returns not a JsonNode but a ValidationContext;
+     * - a new private method (.newContext()?) initiates a ValidationContext,
+     *   but with a _different_ root schema;
+     * - this way, all refs from this context on will refer to the new root
+     *   schema.
+     *
+     * This means we need to detect that a ref is local first...
+     */
     public JsonNode resolve(final String path)
         throws IOException
     {
