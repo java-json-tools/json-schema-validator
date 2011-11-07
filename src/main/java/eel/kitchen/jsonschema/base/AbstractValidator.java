@@ -57,6 +57,7 @@ public abstract class AbstractValidator
             throw new NoSuchElementException();
         }
     };
+
     /**
      * The list of validators spawned by this validator, as a {@link Queue}
      */
