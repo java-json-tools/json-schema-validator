@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
@@ -56,23 +55,16 @@ public final class RefKeywordValidator
         final JsonNode schemaNode = context.getSchemaNode();
         final String ref = schemaNode.get("$ref").getTextValue();
 
-        final JsonNode next;
+        final ValidationContext ctx;
 
         try {
-            next = context.resolve(ref);
+            ctx = context.resolveRef(ref);
         } catch (IOException e) {
             report.error(String.format("cannot resolve ref %s: %s: %s",
                 ref, e.getClass().getName(), e.getMessage()));
             return report;
         }
 
-        if (next.isMissingNode()) {
-            report.error("ref " + ref + " is unknown!");
-            return report;
-        }
-
-        final Validator v = context.createContext(next).getValidator(instance);
-
-        return v.validate();
+        return ctx.getValidator(instance).validate();
     }
 }

@@ -19,7 +19,6 @@ package eel.kitchen.jsonschema.other;
 import eel.kitchen.jsonschema.JsonValidator;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.util.JsonLoader;
-import eel.kitchen.util.RefResolver;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
@@ -78,20 +77,6 @@ public final class RefTest
     }
 
     @Test
-    public void testRefResolver()
-        throws IOException
-    {
-        final RefResolver resolver = new RefResolver(draftv3);
-
-        assertEquals(resolver.resolve("#"), draftv3);
-
-        assertTrue(resolver.resolve("#/foo").isMissingNode());
-
-        assertEquals(resolver.resolve("#/properties/type/default"),
-            JsonNodeFactory.instance.textNode("any"));
-    }
-
-    @Test
     public void testMissingPathIsFatal()
     {
         final JsonNode schema = torture.get("missingref");
@@ -105,8 +90,8 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals(report.getMessages().get(0), "#: FATAL: ref #/nope is "
-            + "unknown!");
+        assertEquals(report.getMessages().get(0),  "#: FATAL: cannot resolve "
+            + "ref #/nope: java.io.IOException: ref #/nope is unknown!");
     }
 
     @Test
