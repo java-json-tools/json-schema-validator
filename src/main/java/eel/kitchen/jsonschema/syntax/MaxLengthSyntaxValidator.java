@@ -18,13 +18,12 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.NodeType;
 
-public final class FormatValidator
-    extends SimpleSyntaxValidator
+public final class MaxLengthSyntaxValidator
+    extends PositiveIntegerSyntaxValidator
 {
-    public FormatValidator(final ValidationContext context)
+    public MaxLengthSyntaxValidator(final ValidationContext context)
     {
-        super(context, "format", NodeType.STRING);
+        super(context, "maxLength");
     }
 }

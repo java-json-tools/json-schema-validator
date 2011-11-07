@@ -18,13 +18,12 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.NodeType;
 
-public final class TitleValidator
-    extends SimpleSyntaxValidator
+public final class TypeSyntaxValidator
+    extends TypeNodeSyntaxValidator
 {
-    public TitleValidator(final ValidationContext context)
+    public TypeSyntaxValidator(final ValidationContext context)
     {
-        super(context, "title", NodeType.STRING);
+        super(context, "type");
     }
 }

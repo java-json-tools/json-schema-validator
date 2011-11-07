@@ -18,13 +18,12 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.NodeType;
 
-public final class UniqueItemsValidator
-    extends SimpleSyntaxValidator
+public final class DollarSchemaSyntaxValidator
+    extends URISyntaxValidator
 {
-    public UniqueItemsValidator(final ValidationContext context)
+    public DollarSchemaSyntaxValidator(final ValidationContext context)
     {
-        super(context, "uniqueItems", NodeType.BOOLEAN);
+        super(context, "$schema");
     }
 }

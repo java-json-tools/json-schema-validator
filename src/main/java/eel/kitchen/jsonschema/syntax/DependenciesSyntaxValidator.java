@@ -37,10 +37,10 @@ import java.util.SortedMap;
  *     <li>a schema (ie, an object).</li>
  * </ul>
  */
-public final class DependenciesValidator
+public final class DependenciesSyntaxValidator
     extends SyntaxValidator
 {
-    public DependenciesValidator(final ValidationContext context)
+    public DependenciesSyntaxValidator(final ValidationContext context)
     {
         super(context, "dependencies", NodeType.OBJECT);
     }

@@ -18,14 +18,12 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.NodeType;
 
-public final class AdditionalPropertiesValidator
-    extends SimpleSyntaxValidator
+public final class DollarRefSyntaxValidator
+    extends URISyntaxValidator
 {
-    public AdditionalPropertiesValidator(final ValidationContext context)
+    public DollarRefSyntaxValidator(final ValidationContext context)
     {
-        super(context, "additionalProperties", NodeType.OBJECT,
-            NodeType.BOOLEAN);
+        super(context, "$ref");
     }
 }

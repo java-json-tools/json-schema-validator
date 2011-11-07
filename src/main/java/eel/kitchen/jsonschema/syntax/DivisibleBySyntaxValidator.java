@@ -20,11 +20,27 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
-public final class MinimumValidator
-    extends SimpleSyntaxValidator
+import java.math.BigDecimal;
+
+public final class DivisibleBySyntaxValidator
+    extends SyntaxValidator
 {
-    public MinimumValidator(final ValidationContext context)
+    public DivisibleBySyntaxValidator(final ValidationContext context)
     {
-        super(context, "minimum", NodeType.INTEGER, NodeType.NUMBER);
+        super(context, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
+    }
+
+    /**
+     * Check that the divisor is not 0
+     */
+    @Override
+    protected void checkFurther()
+    {
+        final BigDecimal divisor = node.getDecimalValue();
+
+        if (BigDecimal.ZERO.compareTo(divisor) != 0)
+            return;
+
+        report.addMessage("divisor is 0");
     }
 }

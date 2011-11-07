@@ -18,12 +18,13 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.NodeType;
 
-public final class IdValidator
-    extends URISyntaxValidator
+public final class AdditionalItemsSyntaxValidator
+    extends SimpleSyntaxValidator
 {
-    public IdValidator(final ValidationContext context)
+    public AdditionalItemsSyntaxValidator(final ValidationContext context)
     {
-        super(context, "id");
+        super(context, "additionalItems", NodeType.OBJECT, NodeType.BOOLEAN);
     }
 }

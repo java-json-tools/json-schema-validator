@@ -18,12 +18,23 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.NodeType;
 
-public final class MaxLengthValidator
-    extends PositiveIntegerSyntaxValidator
+public final class ExclusiveMinimumSyntaxValidator
+    extends SyntaxValidator
 {
-    public MaxLengthValidator(final ValidationContext context)
+    public ExclusiveMinimumSyntaxValidator(final ValidationContext context)
     {
-        super(context, "maxLength");
+        super(context, "exclusiveMinimum", NodeType.BOOLEAN);
+    }
+
+    /**
+     * Check that {@code exclusiveMinimum} is paired with {@code minimum}
+     */
+    @Override
+    protected void checkFurther()
+    {
+        if (!context.getSchemaNode().has("minimum"))
+            report.addMessage("exclusiveMinimum without minimum");
     }
 }

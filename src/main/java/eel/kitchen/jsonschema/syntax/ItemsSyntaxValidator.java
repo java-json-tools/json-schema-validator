@@ -19,12 +19,36 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
+import org.codehaus.jackson.JsonNode;
 
-public final class AdditionalItemsValidator
-    extends SimpleSyntaxValidator
+public final class ItemsSyntaxValidator
+    extends SyntaxValidator
 {
-    public AdditionalItemsValidator(final ValidationContext context)
+    public ItemsSyntaxValidator(final ValidationContext context)
     {
-        super(context, "additionalItems", NodeType.OBJECT, NodeType.BOOLEAN);
+        super(context, "items", NodeType.OBJECT, NodeType.ARRAY);
+    }
+
+    /**
+     * Check that, if {@code items} is an array, then all elements of the
+     * array are objects
+     */
+    @Override
+    protected void checkFurther()
+    {
+        if (node.isObject())
+            return;
+
+        int i = -1;
+        NodeType type;
+
+        for (final JsonNode element: node) {
+            i++;
+            type = NodeType.getNodeType(element);
+            if (type == NodeType.OBJECT)
+                continue;
+            report.addMessage(String.format("array element %d has wrong"
+                + " type %s (expected a schema)", i, type));
+        }
     }
 }

@@ -33,7 +33,7 @@ import java.util.Set;
  *
  * <p>Well, this validator only really validates {@code required}: the syntax
  * of the keyword was already checked by {@link eel.kitchen.jsonschema.syntax
-  * .PropertiesValidator}, so there is no point in checking it again here,
+  * .PropertiesSyntaxValidator}, so there is no point in checking it again here,
  * and it is up to {@link ObjectValidator} to spawn children validators.</p>
  *
  * @see {@link ObjectValidator}

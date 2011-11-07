@@ -19,11 +19,11 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
 
-public final class DisallowValidator
-    extends TypeNodeSyntaxValidator
+public final class MinItemsSyntaxValidator
+    extends PositiveIntegerSyntaxValidator
 {
-    public DisallowValidator(final ValidationContext context)
+    public MinItemsSyntaxValidator(final ValidationContext context)
     {
-        super(context, "disallow");
+        super(context, "minItems");
     }
 }

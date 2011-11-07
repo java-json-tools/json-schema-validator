@@ -19,27 +19,12 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
-import eel.kitchen.util.RhinoHelper;
 
-public final class PatternValidator
-    extends SyntaxValidator
+public final class MaximumSyntaxValidator
+    extends SimpleSyntaxValidator
 {
-    public PatternValidator(final ValidationContext context)
+    public MaximumSyntaxValidator(final ValidationContext context)
     {
-        super(context, "pattern", NodeType.STRING);
-    }
-
-    /**
-     * Check that the value is a valid regex
-     *
-     * @see {@link RhinoHelper#regexIsValid(String)}
-     */
-    @Override
-    protected void checkFurther()
-    {
-        final String pattern = node.getTextValue();
-
-        if (!RhinoHelper.regexIsValid(pattern))
-            report.addMessage("invalid regex " + pattern);
+        super(context, "maximum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

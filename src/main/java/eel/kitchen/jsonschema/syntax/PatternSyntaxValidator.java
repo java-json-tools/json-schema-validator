@@ -19,28 +19,27 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
+import eel.kitchen.util.RhinoHelper;
 
-import java.math.BigDecimal;
-
-public final class DivisibleByValidator
+public final class PatternSyntaxValidator
     extends SyntaxValidator
 {
-    public DivisibleByValidator(final ValidationContext context)
+    public PatternSyntaxValidator(final ValidationContext context)
     {
-        super(context, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
+        super(context, "pattern", NodeType.STRING);
     }
 
     /**
-     * Check that the divisor is not 0
+     * Check that the value is a valid regex
+     *
+     * @see {@link RhinoHelper#regexIsValid(String)}
      */
     @Override
     protected void checkFurther()
     {
-        final BigDecimal divisor = node.getDecimalValue();
+        final String pattern = node.getTextValue();
 
-        if (BigDecimal.ZERO.compareTo(divisor) != 0)
-            return;
-
-        report.addMessage("divisor is 0");
+        if (!RhinoHelper.regexIsValid(pattern))
+            report.addMessage("invalid regex " + pattern);
     }
 }

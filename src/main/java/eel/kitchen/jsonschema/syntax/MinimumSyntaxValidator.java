@@ -18,12 +18,13 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.NodeType;
 
-public final class DollarRefValidator
-    extends URISyntaxValidator
+public final class MinimumSyntaxValidator
+    extends SimpleSyntaxValidator
 {
-    public DollarRefValidator(final ValidationContext context)
+    public MinimumSyntaxValidator(final ValidationContext context)
     {
-        super(context, "$ref");
+        super(context, "minimum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

@@ -20,11 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
-public final class MaximumValidator
+public final class TitleSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public MaximumValidator(final ValidationContext context)
+    public TitleSyntaxValidator(final ValidationContext context)
     {
-        super(context, "maximum", NodeType.INTEGER, NodeType.NUMBER);
+        super(context, "title", NodeType.STRING);
     }
 }

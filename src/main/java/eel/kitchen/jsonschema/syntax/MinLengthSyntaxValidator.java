@@ -18,13 +18,12 @@
 package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.NodeType;
 
-public final class EnumValidator
-    extends SimpleSyntaxValidator
+public final class MinLengthSyntaxValidator
+    extends PositiveIntegerSyntaxValidator
 {
-    public EnumValidator(final ValidationContext context)
+    public MinLengthSyntaxValidator(final ValidationContext context)
     {
-        super(context, "enum", NodeType.ARRAY);
+        super(context, "minLength");
     }
 }

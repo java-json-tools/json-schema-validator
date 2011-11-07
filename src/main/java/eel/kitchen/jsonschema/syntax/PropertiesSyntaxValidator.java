@@ -20,24 +20,26 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
-import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Map;
 import java.util.SortedMap;
 
-public final class PatternPropertiesValidator
+public final class PropertiesSyntaxValidator
     extends SyntaxValidator
 {
-    public PatternPropertiesValidator(final ValidationContext context)
+    public PropertiesSyntaxValidator(final ValidationContext context)
     {
-        super(context, "patternProperties", NodeType.OBJECT);
+        super(context, "properties", NodeType.OBJECT);
     }
 
     /**
-     * Check that all keys are valid regexes, and that all values are objects
-     *
-     * @see {@link RhinoHelper#regexIsValid(String)}
+     * Check two things:
+     * <ul>
+     *     <li>that all values are potential schemas, ie objects;</li>
+     *     <li>that, if a {@code required} attribute is found,
+     *     it is a boolean.</li>
+     * </ul>
      */
     @Override
     protected void checkFurther()
@@ -51,15 +53,21 @@ public final class PatternPropertiesValidator
 
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
             field = entry.getKey();
-            if (!RhinoHelper.regexIsValid(field))
-                report.addMessage(String.format(
-                    "field \"%s\": regex is invalid", field));
             element = entry.getValue();
-            type = NodeType.getNodeType(element);
-            if (type == NodeType.OBJECT)
+            if (!element.isObject()) {
+                report.addMessage(String.format("field \"%s\": value has "
+                    + "wrong type %s (expected a schema)", field,
+                    NodeType.getNodeType(element)));
                 continue;
-            report.addMessage(String.format("field \"%s\": value has wrong "
-                + "type %s (expected a schema)", field, type));
+            }
+            if (!element.has("required"))
+                continue;
+            type = NodeType.getNodeType(element.get("required"));
+            if (type == NodeType.BOOLEAN)
+                continue;
+            report.addMessage(String.format("field \"%s\": attribute "
+                + "\"required\" of enclosed schema has wrong type %s "
+                + "(expected a boolean)", field, type));
         }
     }
 }

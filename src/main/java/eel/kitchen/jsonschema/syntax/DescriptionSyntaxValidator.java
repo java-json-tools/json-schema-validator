@@ -20,21 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
-public final class ExclusiveMaximumValidator
-    extends SyntaxValidator
+public final class DescriptionSyntaxValidator
+    extends SimpleSyntaxValidator
 {
-    public ExclusiveMaximumValidator(final ValidationContext context)
+    public DescriptionSyntaxValidator(final ValidationContext context)
     {
-        super(context, "exclusiveMaximum", NodeType.BOOLEAN);
-    }
-
-    /**
-     * Check that {@code exclusiveMaximum} is paired with {@code maximum}
-     */
-    @Override
-    protected void checkFurther()
-    {
-        if (!context.getSchemaNode().has("maximum"))
-            report.addMessage("exclusiveMaximum without maximum");
+        super(context, "description", NodeType.STRING);
     }
 }

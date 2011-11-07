@@ -20,11 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
-public final class RequiredValidator
+public final class UniqueItemsSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public RequiredValidator(final ValidationContext context)
+    public UniqueItemsSyntaxValidator(final ValidationContext context)
     {
-        super(context, "required", NodeType.BOOLEAN);
+        super(context, "uniqueItems", NodeType.BOOLEAN);
     }
 }

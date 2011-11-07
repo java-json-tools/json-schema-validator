@@ -22,36 +22,8 @@ import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.MatchAllValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.syntax.AdditionalItemsValidator;
-import eel.kitchen.jsonschema.syntax.AdditionalPropertiesValidator;
-import eel.kitchen.jsonschema.syntax.AlwaysTrueSyntaxValidator;
-import eel.kitchen.jsonschema.syntax.DependenciesValidator;
-import eel.kitchen.jsonschema.syntax.DescriptionValidator;
-import eel.kitchen.jsonschema.syntax.DisallowValidator;
-import eel.kitchen.jsonschema.syntax.DivisibleByValidator;
-import eel.kitchen.jsonschema.syntax.DollarRefValidator;
-import eel.kitchen.jsonschema.syntax.DollarSchemaValidator;
-import eel.kitchen.jsonschema.syntax.EnumValidator;
-import eel.kitchen.jsonschema.syntax.ExclusiveMaximumValidator;
-import eel.kitchen.jsonschema.syntax.ExclusiveMinimumValidator;
-import eel.kitchen.jsonschema.syntax.ExtendsValidator;
-import eel.kitchen.jsonschema.syntax.FormatValidator;
-import eel.kitchen.jsonschema.syntax.IdValidator;
-import eel.kitchen.jsonschema.syntax.ItemsValidator;
-import eel.kitchen.jsonschema.syntax.MaxItemsValidator;
-import eel.kitchen.jsonschema.syntax.MaxLengthValidator;
-import eel.kitchen.jsonschema.syntax.MaximumValidator;
-import eel.kitchen.jsonschema.syntax.MinItemsValidator;
-import eel.kitchen.jsonschema.syntax.MinLengthValidator;
-import eel.kitchen.jsonschema.syntax.MinimumValidator;
-import eel.kitchen.jsonschema.syntax.PatternPropertiesValidator;
-import eel.kitchen.jsonschema.syntax.PatternValidator;
-import eel.kitchen.jsonschema.syntax.PropertiesValidator;
-import eel.kitchen.jsonschema.syntax.RequiredValidator;
-import eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import eel.kitchen.jsonschema.syntax.TitleValidator;
-import eel.kitchen.jsonschema.syntax.TypeValidator;
-import eel.kitchen.jsonschema.syntax.UniqueItemsValidator;
+import eel.kitchen.jsonschema.syntax.*;
+import eel.kitchen.jsonschema.syntax.PropertiesSyntaxValidator;
 import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
@@ -90,36 +62,40 @@ public final class SyntaxFactory
      */
     public SyntaxFactory()
     {
-        registerValidator("additionalItems", AdditionalItemsValidator.class);
+        registerValidator("additionalItems",
+            AdditionalItemsSyntaxValidator.class);
         registerValidator("additionalProperties",
-            AdditionalPropertiesValidator.class);
+            AdditionalPropertiesSyntaxValidator.class);
         registerValidator("default", AlwaysTrueSyntaxValidator.class);
-        registerValidator("dependencies", DependenciesValidator.class);
-        registerValidator("description", DescriptionValidator.class);
-        registerValidator("disallow", DisallowValidator.class);
-        registerValidator("divisibleBy", DivisibleByValidator.class);
-        registerValidator("$ref", DollarRefValidator.class);
-        registerValidator("$schema", DollarSchemaValidator.class);
-        registerValidator("enum", EnumValidator.class);
-        registerValidator("exclusiveMaximum", ExclusiveMaximumValidator.class);
-        registerValidator("exclusiveMinimum", ExclusiveMinimumValidator.class);
-        registerValidator("extends", ExtendsValidator.class);
-        registerValidator("format", FormatValidator.class);
-        registerValidator("id", IdValidator.class);
-        registerValidator("items", ItemsValidator.class);
-        registerValidator("maximum", MaximumValidator.class);
-        registerValidator("maxItems", MaxItemsValidator.class);
-        registerValidator("maxLength", MaxLengthValidator.class);
-        registerValidator("minimum", MinimumValidator.class);
-        registerValidator("minItems", MinItemsValidator.class);
-        registerValidator("minLength", MinLengthValidator.class);
-        registerValidator("pattern", PatternValidator.class);
-        registerValidator("patternProperties", PatternPropertiesValidator.class);
-        registerValidator("properties", PropertiesValidator.class);
-        registerValidator("required", RequiredValidator.class);
-        registerValidator("title", TitleValidator.class);
-        registerValidator("type", TypeValidator.class);
-        registerValidator("uniqueItems", UniqueItemsValidator.class);
+        registerValidator("dependencies", DependenciesSyntaxValidator.class);
+        registerValidator("description", DescriptionSyntaxValidator.class);
+        registerValidator("disallow", DisallowSyntaxValidator.class);
+        registerValidator("divisibleBy", DivisibleBySyntaxValidator.class);
+        registerValidator("$ref", DollarRefSyntaxValidator.class);
+        registerValidator("$schema", DollarSchemaSyntaxValidator.class);
+        registerValidator("enum", EnumSyntaxValidator.class);
+        registerValidator("exclusiveMaximum",
+            ExclusiveMaximumSyntaxValidator.class);
+        registerValidator("exclusiveMinimum",
+            ExclusiveMinimumSyntaxValidator.class);
+        registerValidator("extends", ExtendsSyntaxValidator.class);
+        registerValidator("format", FormatSyntaxValidator.class);
+        registerValidator("id", IdSyntaxValidator.class);
+        registerValidator("items", ItemsSyntaxValidator.class);
+        registerValidator("maximum", MaximumSyntaxValidator.class);
+        registerValidator("maxItems", MaxItemsSyntaxValidator.class);
+        registerValidator("maxLength", MaxLengthSyntaxValidator.class);
+        registerValidator("minimum", MinimumSyntaxValidator.class);
+        registerValidator("minItems", MinItemsSyntaxValidator.class);
+        registerValidator("minLength", MinLengthSyntaxValidator.class);
+        registerValidator("pattern", PatternSyntaxValidator.class);
+        registerValidator("patternProperties",
+            PatternPropertiesSyntaxValidator.class);
+        registerValidator("properties", PropertiesSyntaxValidator.class);
+        registerValidator("required", RequiredSyntaxValidator.class);
+        registerValidator("title", TitleSyntaxValidator.class);
+        registerValidator("type", TypeSyntaxValidator.class);
+        registerValidator("uniqueItems", UniqueItemsSyntaxValidator.class);
     }
 
     /**

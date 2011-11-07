@@ -20,21 +20,11 @@ package eel.kitchen.jsonschema.syntax;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 
-public final class ExclusiveMinimumValidator
-    extends SyntaxValidator
+public final class EnumSyntaxValidator
+    extends SimpleSyntaxValidator
 {
-    public ExclusiveMinimumValidator(final ValidationContext context)
+    public EnumSyntaxValidator(final ValidationContext context)
     {
-        super(context, "exclusiveMinimum", NodeType.BOOLEAN);
-    }
-
-    /**
-     * Check that {@code exclusiveMinimum} is paired with {@code minimum}
-     */
-    @Override
-    protected void checkFurther()
-    {
-        if (!context.getSchemaNode().has("minimum"))
-            report.addMessage("exclusiveMinimum without minimum");
+        super(context, "enum", NodeType.ARRAY);
     }
 }

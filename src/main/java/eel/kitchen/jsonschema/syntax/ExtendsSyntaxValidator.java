@@ -28,10 +28,10 @@ import org.codehaus.jackson.JsonNode;
  * extends} is an array, we must check that all elements of the array are
  * objects.</p>
  */
-public final class ExtendsValidator
+public final class ExtendsSyntaxValidator
     extends SyntaxValidator
 {
-    public ExtendsValidator(final ValidationContext context)
+    public ExtendsSyntaxValidator(final ValidationContext context)
     {
         super(context, "extends", NodeType.OBJECT, NodeType.ARRAY);
     }

@@ -19,11 +19,11 @@ package eel.kitchen.jsonschema.syntax;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
 
-public final class MaxItemsValidator
-    extends PositiveIntegerSyntaxValidator
+public final class IdSyntaxValidator
+    extends URISyntaxValidator
 {
-    public MaxItemsValidator(final ValidationContext context)
+    public IdSyntaxValidator(final ValidationContext context)
     {
-        super(context, "maxItems");
+        super(context, "id");
     }
 }
