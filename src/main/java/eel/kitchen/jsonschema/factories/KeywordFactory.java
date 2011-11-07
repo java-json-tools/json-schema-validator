@@ -27,6 +27,7 @@ import eel.kitchen.jsonschema.container.ObjectValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.jsonschema.keyword.AdditionalItemsValidator;
 import eel.kitchen.jsonschema.keyword.AdditionalPropertiesValidator;
+import eel.kitchen.jsonschema.keyword.AlwaysTrueKeywordValidator;
 import eel.kitchen.jsonschema.keyword.DependenciesValidator;
 import eel.kitchen.jsonschema.keyword.DisallowValidator;
 import eel.kitchen.jsonschema.keyword.DivisibleByValidator;
@@ -100,7 +101,7 @@ public final class KeywordFactory
         registerValidator("enum", EnumValidator.class, NodeType.values());
         registerValidator("extends", ExtendsValidator.class, NodeType.values());
         registerValidator("format", FormatValidator.class, NodeType.values());
-        registerValidator("items", AlwaysTrueValidator.class, ARRAY);
+        registerValidator("items", AlwaysTrueKeywordValidator.class, ARRAY);
         registerValidator("maximum", MaximumValidator.class, INTEGER, NUMBER);
         registerValidator("maxItems", MaxItemsValidator.class, ARRAY);
         registerValidator("maxLength", MaxLengthValidator.class, STRING);
@@ -108,7 +109,7 @@ public final class KeywordFactory
         registerValidator("minItems", MinItemsValidator.class, ARRAY);
         registerValidator("minLength", MinLengthValidator.class, STRING);
         registerValidator("pattern", PatternValidator.class, STRING);
-        registerValidator("patternProperties", AlwaysTrueValidator.class,
+        registerValidator("patternProperties", AlwaysTrueKeywordValidator.class,
             OBJECT);
         registerValidator("properties", PropertiesValidator.class,
             OBJECT);
@@ -152,7 +153,7 @@ public final class KeywordFactory
         final KeywordValidator validator;
         switch (collection.size()) {
             case 0:
-                return new AlwaysTrueValidator(context, instance);
+                return new AlwaysTrueKeywordValidator(context, instance);
             case 1:
                 validator = collection.iterator().next();
                 break;
@@ -196,8 +197,8 @@ public final class KeywordFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.<KeywordValidator>asList(new AlwaysTrueValidator(
-                context, instance));
+            return Arrays.<KeywordValidator>asList(
+                new AlwaysTrueKeywordValidator(context, instance));
 
         final Set<String> keyset = new HashSet<String>();
 
