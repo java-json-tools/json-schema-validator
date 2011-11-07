@@ -15,24 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package eel.kitchen.jsonschema.base;
+package eel.kitchen.jsonschema.keyword;
 
+import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.keyword.BaseKeywordValidator;
-import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.codehaus.jackson.JsonNode;
 
-/**
- * A {@link Validator} implementation which spawns other validators. It is
- * used by {@link KeywordValidator} implementations which cannot operate in
- * one pass, but need to build further validators.
- */
-public abstract class CombinedValidator
-    extends BaseKeywordValidator
+public abstract class BaseKeywordValidator
+    extends AbstractValidator
+    implements KeywordValidator
 {
-    protected CombinedValidator(final ValidationContext context,
+    protected final ValidationContext context;
+
+    protected final ValidationReport report;
+
+    protected final JsonNode instance;
+
+    protected BaseKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
+        this.context = context;
+        this.instance = instance;
+        report = context.createReport();
     }
 }

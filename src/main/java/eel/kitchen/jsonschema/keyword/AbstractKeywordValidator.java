@@ -18,7 +18,6 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
-import eel.kitchen.jsonschema.base.AbstractValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
@@ -28,23 +27,12 @@ import org.codehaus.jackson.JsonNode;
  * and don't need to spawn further validators.
  */
 public abstract class AbstractKeywordValidator
-    extends AbstractValidator
-    implements KeywordValidator
+    extends BaseKeywordValidator
 {
     /**
      * The schema node used to validate
      */
     protected final JsonNode schema;
-
-    /**
-     * The instance to validate
-     */
-    protected final JsonNode instance;
-
-    /**
-     * The report to use
-     */
-    protected final ValidationReport report;
 
     /**
      * Constructor
@@ -55,9 +43,8 @@ public abstract class AbstractKeywordValidator
     protected AbstractKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
+        super(context, instance);
         schema = context.getSchemaNode();
-        report = context.createReport();
-        this.instance = instance;
     }
 
     /**
