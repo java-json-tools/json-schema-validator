@@ -30,7 +30,7 @@ import java.util.Set;
  * perfectly <i>and</i> recursively for container nodes.
  */
 public final class EnumValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * The elements found in the {@code enum} array

@@ -26,7 +26,7 @@ import org.codehaus.jackson.JsonNode;
  * used by "one shot" validators, ie validators which complete in one step
  * and don't need to spawn further validators.
  */
-public abstract class AbstractKeywordValidator
+public abstract class SimpleKeywordValidator
     extends KeywordValidator
 {
     /**
@@ -40,7 +40,7 @@ public abstract class AbstractKeywordValidator
      * @param context the context to use
      * @param instance the instance to validate
      */
-    protected AbstractKeywordValidator(final ValidationContext context,
+    protected SimpleKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

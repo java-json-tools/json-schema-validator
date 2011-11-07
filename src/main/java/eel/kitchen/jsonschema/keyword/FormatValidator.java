@@ -32,7 +32,7 @@ import org.codehaus.jackson.JsonNode;
  */
 //TODO: inline validators?
 public final class FormatValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * The format factory

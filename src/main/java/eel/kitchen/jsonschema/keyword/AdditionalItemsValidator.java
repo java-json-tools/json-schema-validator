@@ -24,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
  * Keyword validator for {@code additionalItems} (draft section 5.6)
  */
 public final class AdditionalItemsValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * Should we get out early? True if {@code additionalItems} is not a

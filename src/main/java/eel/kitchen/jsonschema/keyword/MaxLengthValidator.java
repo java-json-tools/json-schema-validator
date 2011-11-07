@@ -24,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
  * Keyword validator for the {@code maxLength} keyword (draft section 5.18)
  */
 public final class MaxLengthValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * Value for {@code maxLength}

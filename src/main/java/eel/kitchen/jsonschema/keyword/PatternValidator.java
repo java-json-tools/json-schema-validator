@@ -35,7 +35,7 @@ import org.codehaus.jackson.JsonNode;
  * @see {@link RhinoHelper}
  */
 public final class PatternValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     public PatternValidator(final ValidationContext context,
         final JsonNode instance)

@@ -27,7 +27,7 @@ import java.math.BigDecimal;
  */
 // TODO: specialize validation for "smaller" types (long, double)
 public final class DivisibleByValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * The divisor

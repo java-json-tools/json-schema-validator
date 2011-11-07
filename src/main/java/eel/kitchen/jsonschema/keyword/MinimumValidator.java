@@ -28,7 +28,7 @@ import java.math.BigDecimal;
  */
 //TODO specialize validation for "smaller" types (long, double)
 public final class MinimumValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
 
     /**

@@ -40,7 +40,7 @@ import java.util.Set;
  * @see {@link SyntaxValidator}
  */
 public final class PropertiesValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * The set of required properties found in the schema node

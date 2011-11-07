@@ -24,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
  * Keyword validator for the {@code minItems} keyword (draft section 5.13)
  */
 public final class MinItemsValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * Value for {@code minItems}

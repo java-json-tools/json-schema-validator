@@ -24,7 +24,7 @@ import org.codehaus.jackson.JsonNode;
  * Keyword validation for the {@code maxItems} keyword (draft section 5.14)
  */
 public final class MaxItemsValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * Value of {@code maxItems}

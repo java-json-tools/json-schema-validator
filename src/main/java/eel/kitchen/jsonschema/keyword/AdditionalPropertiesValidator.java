@@ -29,7 +29,7 @@ import java.util.Set;
  * Validator for the {@code additionalProperties} keyword (draft section 5.4)
  */
 public final class AdditionalPropertiesValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     /**
      * Set to true if {@code additionalProperties} is either a schema or

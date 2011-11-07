@@ -32,7 +32,7 @@ import java.util.Set;
  * </p>
  */
 public final class UniqueItemsValidator
-    extends AbstractKeywordValidator
+    extends SimpleKeywordValidator
 {
     public UniqueItemsValidator(final ValidationContext context,
         final JsonNode instance)
