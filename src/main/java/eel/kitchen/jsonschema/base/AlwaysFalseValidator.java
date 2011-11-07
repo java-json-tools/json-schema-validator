@@ -19,14 +19,13 @@ package eel.kitchen.jsonschema.base;
 
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.keyword.KeywordValidator;
-import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 /**
  * A {@link Validator} which always reports a failure.
  */
 public final class AlwaysFalseValidator
     extends AbstractValidator
-    implements SyntaxValidator, KeywordValidator
+    implements KeywordValidator
 {
     /**
      * The report
