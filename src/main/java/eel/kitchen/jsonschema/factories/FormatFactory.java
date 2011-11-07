@@ -116,7 +116,7 @@ public final class FormatFactory
         }
 
         if (!typeMap.get(name).contains(type))
-            return new AlwaysTrueValidator(report, node);
+            return new AlwaysTrueValidator();
 
         return doGetValidator(name, node);
     }

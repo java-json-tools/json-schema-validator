@@ -20,7 +20,6 @@ package eel.kitchen.jsonschema.base;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.keyword.KeywordValidator;
 import eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.codehaus.jackson.JsonNode;
 
 /**
  * A {@link Validator} which is always true. As it is potentially registered
@@ -29,28 +28,10 @@ import org.codehaus.jackson.JsonNode;
  */
 public final class AlwaysTrueValidator
     extends AbstractValidator
-    implements KeywordValidator
 {
-    /**
-     * The report
-     */
-    private final ValidationReport report;
-
-    /**
-     * The constructor matching a format validator
-     *
-     * @param report the report to use
-     * @param instance the instance (ignored)
-     */
-    public AlwaysTrueValidator(final ValidationReport report,
-        final JsonNode instance)
-    {
-        this.report = report;
-    }
-
     @Override
     public ValidationReport validate()
     {
-        return report;
+        return new ValidationReport();
     }
 }
