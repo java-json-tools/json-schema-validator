@@ -18,49 +18,40 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
-import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
- * Keyword validator for both the {@code maximum} and {@code
- * exclusiveMaximum} keywords (draft sections 5.10 and 5.12)
+ * Keyword validator for the {@code enum} keyword (draft section 5.19).
+ * Jackson is of great help here, since {@link JsonNode#equals(Object)} works
+ * perfectly <i>and</i> recursively for container nodes.
  */
-//TODO: specialize validation for "smaller" types (long, double)
-public final class MaximumValidator
+public final class EnumKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
-     * Value of {@code maximum}
+     * The elements found in the {@code enum} array
      */
-    private final BigDecimal maximum;
+    private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
 
-    /**
-     * Is the maximum exclusive?
-     */
-    private final boolean exclusiveMaximum;
-
-    public MaximumValidator(final ValidationContext context,
+    public EnumKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        maximum = schema.get("maximum").getDecimalValue();
-        exclusiveMaximum = schema.path("exclusiveMaximum").asBoolean(false);
-
+        enumValues.addAll(CollectionUtils.toSet(schema.get("enum")
+            .getElements()));
     }
 
     @Override
     protected void validateInstance()
     {
-        final int cmp = maximum.compareTo(instance.getDecimalValue());
-
-        if (cmp < 0) {
-            report.addMessage("number is greater than the required maximum");
+        if (enumValues.contains(instance))
             return;
-        }
 
-        if (cmp == 0 && exclusiveMaximum)
-            report.addMessage("number is not strictly lower than "
-                + "the required maximum");
+        report.addMessage("instance does not match any member of the "
+            + "enumeration");
     }
 }

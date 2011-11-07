@@ -41,10 +41,10 @@ import java.io.IOException;
  * <p>Note that this validator does <b>not</b> detect loops: it relies on
  * {@link ValidationContext#resolve(String)} to do this for it.</p>
  */
-public final class RefValidator
+public final class RefKeywordValidator
     extends KeywordValidator
 {
-    public RefValidator(final ValidationContext context,
+    public RefKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

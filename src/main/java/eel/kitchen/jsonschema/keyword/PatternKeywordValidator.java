@@ -18,30 +18,37 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
+import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
 /**
- * Keyword validator for the {@code minLength} keyword (draft section 5.17)
+ * <p>Keyword validator for the {@code pattern} keyword (draft version 5.16).
+ * </p>
+ *
+ * <p>Note that the draft explicitly says that the regex should obey ECMA
+ * 262, which means {@link java.util.regex} is unusable. We therefore use
+ * rhino, which does have an ECMA 262 regex engine.</p>
+ *
+ * <p>And also note that "matching" is meant in the <b>real</b> sense of the
+ * term. Don't be fooled by Java's {@code .matches()} method names!
+ * </p>
+ * @see {@link RhinoHelper}
  */
-public final class MinLengthValidator
+public final class PatternKeywordValidator
     extends SimpleKeywordValidator
 {
-    /**
-     * Value for {@code minLength}
-     */
-    private final int minLength;
-
-    public MinLengthValidator(final ValidationContext context,
+    public PatternKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        minLength = schema.get("minLength").getIntValue();
     }
 
     @Override
-    public void validateInstance()
+    protected void validateInstance()
     {
-        if (instance.getTextValue().length() < minLength)
-            report.addMessage("string is shorter than minLength");
+        final String regex = schema.get("pattern").getTextValue();
+
+        if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
+            report.addMessage("string does not match specified regex");
     }
 }

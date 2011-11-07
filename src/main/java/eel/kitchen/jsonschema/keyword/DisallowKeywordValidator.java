@@ -27,12 +27,12 @@ import java.util.EnumSet;
 /**
  * Validator for the {@code disallow} keyword (draft section 5.25)
  *
- * @see {@link TypeKeywordValidator}
+ * @see {@link AbstractTypeKeywordValidator}
  */
-public final class DisallowValidator
-    extends TypeKeywordValidator
+public final class DisallowKeywordValidator
+    extends AbstractTypeKeywordValidator
 {
-    public DisallowValidator(final ValidationContext context,
+    public DisallowKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance, "disallow");

@@ -39,7 +39,7 @@ import java.util.Set;
  * @see {@link ObjectValidator}
  * @see {@link SyntaxValidator}
  */
-public final class PropertiesValidator
+public final class PropertiesKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
@@ -47,7 +47,7 @@ public final class PropertiesValidator
      */
     private final Set<String> required = new HashSet<String>();
 
-    public PropertiesValidator(final ValidationContext context,
+    public PropertiesKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

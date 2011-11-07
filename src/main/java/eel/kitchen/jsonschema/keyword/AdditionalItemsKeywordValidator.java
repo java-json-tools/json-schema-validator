@@ -23,7 +23,7 @@ import org.codehaus.jackson.JsonNode;
 /**
  * Keyword validator for {@code additionalItems} (draft section 5.6)
  */
-public final class AdditionalItemsValidator
+public final class AdditionalItemsKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
@@ -37,7 +37,7 @@ public final class AdditionalItemsValidator
      */
     private final int itemsCount;
 
-    public AdditionalItemsValidator(final ValidationContext context,
+    public AdditionalItemsKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

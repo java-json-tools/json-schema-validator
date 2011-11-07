@@ -34,7 +34,7 @@ import java.util.Map;
  * <p>While the draft makes it optional, this validator also supports
  * "multiple extends", that is, extension of several schemas at once.</p>
  */
-public final class ExtendsValidator
+public final class ExtendsKeywordValidator
     extends KeywordValidator
 {
     /**
@@ -42,7 +42,7 @@ public final class ExtendsValidator
      */
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
-    public ExtendsValidator(final ValidationContext context,
+    public ExtendsKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

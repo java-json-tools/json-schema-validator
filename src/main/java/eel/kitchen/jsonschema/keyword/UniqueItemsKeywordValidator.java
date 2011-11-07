@@ -20,28 +20,38 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
- * Keyword validator for the {@code maxLength} keyword (draft section 5.18)
+ * <p>Keyword validator for the {@code uniqueItems} keyword (draft section
+ * 5.15)</p>
+ *
+ * <p>Here again, Jackson's {@link JsonNode#equals(Object)} is a life (and
+ * time) saver.
+ * </p>
  */
-public final class MaxLengthValidator
+public final class UniqueItemsKeywordValidator
     extends SimpleKeywordValidator
 {
-    /**
-     * Value for {@code maxLength}
-     */
-    private final int maxLength;
-
-    public MaxLengthValidator(final ValidationContext context,
+    public UniqueItemsKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        maxLength = schema.get("maxLength").getIntValue();
     }
 
     @Override
-    public void validateInstance()
+    protected void validateInstance()
     {
-        if (instance.getTextValue().length() > maxLength)
-            report.addMessage("string is longer than maxLength");
+        final Set<JsonNode> set = new HashSet<JsonNode>();
+
+        for (final JsonNode node: instance)
+            if (!set.add(node)) {
+                report.addMessage("items in the array are not unique");
+                break;
+            }
+
+        set.clear();
     }
+
 }

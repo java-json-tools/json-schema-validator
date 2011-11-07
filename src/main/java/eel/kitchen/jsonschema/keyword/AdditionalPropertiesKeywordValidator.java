@@ -28,7 +28,7 @@ import java.util.Set;
 /**
  * Validator for the {@code additionalProperties} keyword (draft section 5.4)
  */
-public final class AdditionalPropertiesValidator
+public final class AdditionalPropertiesKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
@@ -47,7 +47,7 @@ public final class AdditionalPropertiesValidator
      */
     private final Set<String> patterns = new HashSet<String>();
 
-    public AdditionalPropertiesValidator(final ValidationContext context,
+    public AdditionalPropertiesKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

@@ -20,28 +20,48 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
+import java.math.BigDecimal;
+
 /**
- * Keyword validator for the {@code minItems} keyword (draft section 5.13)
+ * Keyword validator for the {@code minimum} and {@code exclusiveMinimum}
+ * keywords (draft sections 5.9 and 5.11)
  */
-public final class MinItemsValidator
+//TODO specialize validation for "smaller" types (long, double)
+public final class MinimumKeywordValidator
     extends SimpleKeywordValidator
 {
-    /**
-     * Value for {@code minItems}
-     */
-    private final int minItems;
 
-    public MinItemsValidator(final ValidationContext context,
+    /**
+     * Value of {@code minimum}
+     */
+    private final BigDecimal minimum;
+
+    /**
+     * Is the minimum exclusive?
+     */
+    private final boolean exclusiveMinimum;
+
+    public MinimumKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        minItems = schema.get("minItems").getIntValue();
+        minimum = schema.get("minimum").getDecimalValue();
+        exclusiveMinimum = schema.path("exclusiveMinimum").asBoolean(false);
+
     }
 
     @Override
     protected void validateInstance()
     {
-        if (instance.size() < minItems)
-            report.addMessage("array has less than minItems elements");
+        final int cmp = minimum.compareTo(instance.getDecimalValue());
+
+        if (cmp > 0) {
+            report.addMessage("number is lower than the required minimum");
+            return;
+        }
+
+        if (cmp == 0 && exclusiveMinimum)
+            report.addMessage("number is not strictly greater than "
+                + "the required minimum");
     }
 }

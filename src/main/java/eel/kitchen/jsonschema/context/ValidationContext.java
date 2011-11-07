@@ -23,7 +23,7 @@ import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.factories.KeywordFactory;
 import eel.kitchen.jsonschema.factories.SyntaxFactory;
-import eel.kitchen.jsonschema.keyword.RefValidator;
+import eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import eel.kitchen.util.RefResolver;
 import org.codehaus.jackson.JsonNode;
@@ -40,7 +40,7 @@ import java.util.Set;
  *     <li>checking the schema correctness (using {@link SyntaxValidator}
  *     instances);</li>
  *     <li>create validator instances;</li>
- *     <li>resolve {@code $ref} (see {@link RefValidator}) <b>and</b> detect
+ *     <li>resolve {@code $ref} (see {@link RefKeywordValidator}) <b>and</b> detect
  *     ref looping;</li>
  *     <li>provide {@link ValidationReport} instances;</li>
  *     <li>provide other instances of itself.</li>
@@ -204,7 +204,7 @@ public final class ValidationContext
 
     /**
      * Resolve a {@code $ref} relatively to #rootSchema. Used by {@link
-     * RefValidator}.
+     * RefKeywordValidator}.
      *
      * <p>Detects loops by checking whether the result of the lookup is
      * present in {@link #refLookups}: if it is, we have a loop</p>

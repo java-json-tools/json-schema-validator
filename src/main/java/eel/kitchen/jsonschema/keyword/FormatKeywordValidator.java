@@ -31,7 +31,7 @@ import org.codehaus.jackson.JsonNode;
  * matching the format specification.</p>
  */
 //TODO: inline validators?
-public final class FormatValidator
+public final class FormatKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
@@ -39,7 +39,7 @@ public final class FormatValidator
      */
     private final FormatFactory formatFactory;
 
-    public FormatValidator(final ValidationContext context,
+    public FormatKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

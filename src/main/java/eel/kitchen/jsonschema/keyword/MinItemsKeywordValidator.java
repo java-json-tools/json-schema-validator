@@ -21,27 +21,27 @@ import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 /**
- * Keyword validation for the {@code maxItems} keyword (draft section 5.14)
+ * Keyword validator for the {@code minItems} keyword (draft section 5.13)
  */
-public final class MaxItemsValidator
+public final class MinItemsKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
-     * Value of {@code maxItems}
+     * Value for {@code minItems}
      */
-    private final int maxItems;
+    private final int minItems;
 
-    public MaxItemsValidator(final ValidationContext context,
+    public MinItemsKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        maxItems = schema.get("maxItems").getIntValue();
+        minItems = schema.get("minItems").getIntValue();
     }
 
     @Override
     protected void validateInstance()
     {
-        if (instance.size() > maxItems)
-            report.addMessage("array has more than maxItems elements");
+        if (instance.size() < minItems)
+            report.addMessage("array has less than minItems elements");
     }
 }

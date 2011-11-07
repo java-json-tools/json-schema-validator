@@ -18,40 +18,30 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.CollectionUtils;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Keyword validator for the {@code enum} keyword (draft section 5.19).
- * Jackson is of great help here, since {@link JsonNode#equals(Object)} works
- * perfectly <i>and</i> recursively for container nodes.
+ * Keyword validator for the {@code maxLength} keyword (draft section 5.18)
  */
-public final class EnumValidator
+public final class MaxLengthKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
-     * The elements found in the {@code enum} array
+     * Value for {@code maxLength}
      */
-    private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
+    private final int maxLength;
 
-    public EnumValidator(final ValidationContext context,
+    public MaxLengthKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        enumValues.addAll(CollectionUtils.toSet(schema.get("enum")
-            .getElements()));
+        maxLength = schema.get("maxLength").getIntValue();
     }
 
     @Override
-    protected void validateInstance()
+    public void validateInstance()
     {
-        if (enumValues.contains(instance))
-            return;
-
-        report.addMessage("instance does not match any member of the "
-            + "enumeration");
+        if (instance.getTextValue().length() > maxLength)
+            report.addMessage("string is longer than maxLength");
     }
 }

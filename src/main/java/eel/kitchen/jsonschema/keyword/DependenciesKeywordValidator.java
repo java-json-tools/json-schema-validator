@@ -37,7 +37,7 @@ import java.util.TreeSet;
  * .8). It supports both simple dependencies (ie, other property names) or
  * schema dependencies.
  */
-public final class DependenciesValidator
+public final class DependenciesKeywordValidator
     extends KeywordValidator
 {
 
@@ -53,7 +53,7 @@ public final class DependenciesValidator
     private final Map<String, Collection<String>> simpleDependencies
         = new HashMap<String, Collection<String>>();
 
-    public DependenciesValidator(final ValidationContext context,
+    public DependenciesKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);

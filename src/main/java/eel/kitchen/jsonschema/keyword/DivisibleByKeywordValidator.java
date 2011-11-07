@@ -23,45 +23,33 @@ import org.codehaus.jackson.JsonNode;
 import java.math.BigDecimal;
 
 /**
- * Keyword validator for the {@code minimum} and {@code exclusiveMinimum}
- * keywords (draft sections 5.9 and 5.11)
+ * Keyword validator for the {@code divisibleBy} keyword (draft section 5.24)
  */
-//TODO specialize validation for "smaller" types (long, double)
-public final class MinimumValidator
+// TODO: specialize validation for "smaller" types (long, double)
+public final class DivisibleByKeywordValidator
     extends SimpleKeywordValidator
 {
-
     /**
-     * Value of {@code minimum}
+     * The divisor
      */
-    private final BigDecimal minimum;
+    private final BigDecimal divisor;
 
-    /**
-     * Is the minimum exclusive?
-     */
-    private final boolean exclusiveMinimum;
-
-    public MinimumValidator(final ValidationContext context,
+    public DivisibleByKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        minimum = schema.get("minimum").getDecimalValue();
-        exclusiveMinimum = schema.path("exclusiveMinimum").asBoolean(false);
-
+        divisor = schema.get("divisibleBy").getDecimalValue();
     }
 
     @Override
     protected void validateInstance()
     {
-        final int cmp = minimum.compareTo(instance.getDecimalValue());
+        final BigDecimal number = instance.getDecimalValue();
 
-        if (cmp > 0) {
-            report.addMessage("number is lower than the required minimum");
+        if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
             return;
-        }
 
-        if (cmp == 0 && exclusiveMinimum)
-            report.addMessage("number is not strictly greater than "
-                + "the required minimum");
+        report.addMessage("number is not a multiple of divisibleBy");
+
     }
 }

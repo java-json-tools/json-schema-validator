@@ -24,27 +24,27 @@ import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.container.ArrayValidator;
 import eel.kitchen.jsonschema.container.ObjectValidator;
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.jsonschema.keyword.AdditionalItemsValidator;
-import eel.kitchen.jsonschema.keyword.AdditionalPropertiesValidator;
+import eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
+import eel.kitchen.jsonschema.keyword.AdditionalPropertiesKeywordValidator;
 import eel.kitchen.jsonschema.keyword.AlwaysTrueKeywordValidator;
-import eel.kitchen.jsonschema.keyword.DependenciesValidator;
-import eel.kitchen.jsonschema.keyword.DisallowValidator;
-import eel.kitchen.jsonschema.keyword.DivisibleByValidator;
-import eel.kitchen.jsonschema.keyword.EnumValidator;
-import eel.kitchen.jsonschema.keyword.ExtendsValidator;
-import eel.kitchen.jsonschema.keyword.FormatValidator;
+import eel.kitchen.jsonschema.keyword.DependenciesKeywordValidator;
+import eel.kitchen.jsonschema.keyword.DisallowKeywordValidator;
+import eel.kitchen.jsonschema.keyword.DivisibleByKeywordValidator;
+import eel.kitchen.jsonschema.keyword.EnumKeywordValidator;
+import eel.kitchen.jsonschema.keyword.ExtendsKeywordValidator;
+import eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import eel.kitchen.jsonschema.keyword.KeywordValidator;
-import eel.kitchen.jsonschema.keyword.MaxItemsValidator;
-import eel.kitchen.jsonschema.keyword.MaxLengthValidator;
-import eel.kitchen.jsonschema.keyword.MaximumValidator;
-import eel.kitchen.jsonschema.keyword.MinItemsValidator;
-import eel.kitchen.jsonschema.keyword.MinLengthValidator;
-import eel.kitchen.jsonschema.keyword.MinimumValidator;
-import eel.kitchen.jsonschema.keyword.PatternValidator;
-import eel.kitchen.jsonschema.keyword.PropertiesValidator;
-import eel.kitchen.jsonschema.keyword.RefValidator;
-import eel.kitchen.jsonschema.keyword.TypeValidator;
-import eel.kitchen.jsonschema.keyword.UniqueItemsValidator;
+import eel.kitchen.jsonschema.keyword.MaxItemsKeywordValidator;
+import eel.kitchen.jsonschema.keyword.MaxLengthKeywordValidator;
+import eel.kitchen.jsonschema.keyword.MaximumKeywordValidator;
+import eel.kitchen.jsonschema.keyword.MinItemsKeywordValidator;
+import eel.kitchen.jsonschema.keyword.MinLengthKeywordValidator;
+import eel.kitchen.jsonschema.keyword.MinimumKeywordValidator;
+import eel.kitchen.jsonschema.keyword.PatternKeywordValidator;
+import eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
+import eel.kitchen.jsonschema.keyword.RefKeywordValidator;
+import eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
+import eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
 import eel.kitchen.util.CollectionUtils;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
@@ -87,34 +87,41 @@ public final class KeywordFactory
      */
     public KeywordFactory()
     {
-        registerValidator("additionalItems", AdditionalItemsValidator.class,
-            ARRAY);
+        registerValidator("additionalItems",
+            AdditionalItemsKeywordValidator.class, ARRAY);
         registerValidator("additionalProperties",
-            AdditionalPropertiesValidator.class, OBJECT);
-        registerValidator("dependencies", DependenciesValidator.class,
+            AdditionalPropertiesKeywordValidator.class, OBJECT);
+        registerValidator("dependencies", DependenciesKeywordValidator.class,
             NodeType.values());
-        registerValidator("disallow", DisallowValidator.class,
+        registerValidator("disallow", DisallowKeywordValidator.class,
             NodeType.values());
-        registerValidator("divisibleBy", DivisibleByValidator.class, INTEGER,
-            NUMBER);
-        registerValidator("enum", EnumValidator.class, NodeType.values());
-        registerValidator("extends", ExtendsValidator.class, NodeType.values());
-        registerValidator("format", FormatValidator.class, NodeType.values());
+        registerValidator("divisibleBy", DivisibleByKeywordValidator.class,
+            INTEGER, NUMBER);
+        registerValidator("enum", EnumKeywordValidator.class,
+            NodeType.values());
+        registerValidator("extends", ExtendsKeywordValidator.class,
+            NodeType.values());
+        registerValidator("format", FormatKeywordValidator.class,
+            NodeType.values());
         registerValidator("items", AlwaysTrueKeywordValidator.class, ARRAY);
-        registerValidator("maximum", MaximumValidator.class, INTEGER, NUMBER);
-        registerValidator("maxItems", MaxItemsValidator.class, ARRAY);
-        registerValidator("maxLength", MaxLengthValidator.class, STRING);
-        registerValidator("minimum", MinimumValidator.class, INTEGER, NUMBER);
-        registerValidator("minItems", MinItemsValidator.class, ARRAY);
-        registerValidator("minLength", MinLengthValidator.class, STRING);
-        registerValidator("pattern", PatternValidator.class, STRING);
+        registerValidator("maximum", MaximumKeywordValidator.class, INTEGER,
+            NUMBER);
+        registerValidator("maxItems", MaxItemsKeywordValidator.class, ARRAY);
+        registerValidator("maxLength", MaxLengthKeywordValidator.class, STRING);
+        registerValidator("minimum", MinimumKeywordValidator.class, INTEGER,
+            NUMBER);
+        registerValidator("minItems", MinItemsKeywordValidator.class, ARRAY);
+        registerValidator("minLength", MinLengthKeywordValidator.class, STRING);
+        registerValidator("pattern", PatternKeywordValidator.class, STRING);
         registerValidator("patternProperties", AlwaysTrueKeywordValidator.class,
             OBJECT);
-        registerValidator("properties", PropertiesValidator.class,
+        registerValidator("properties", PropertiesKeywordValidator.class,
             OBJECT);
-        registerValidator("type", TypeValidator.class, NodeType.values());
-        registerValidator("uniqueItems", UniqueItemsValidator.class, ARRAY);
-        registerValidator("$ref", RefValidator.class, NodeType.values());
+        registerValidator("type", TypeKeywordValidator.class,
+            NodeType.values());
+        registerValidator("uniqueItems", UniqueItemsKeywordValidator.class,
+            ARRAY);
+        registerValidator("$ref", RefKeywordValidator.class, NodeType.values());
     }
 
     /**
@@ -196,8 +203,8 @@ public final class KeywordFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.<Validator>asList(
-                new AlwaysTrueKeywordValidator(context, instance));
+            return Arrays.<Validator>asList(new AlwaysTrueKeywordValidator(
+                context, instance));
 
         final Set<String> keyset = new HashSet<String>();
 

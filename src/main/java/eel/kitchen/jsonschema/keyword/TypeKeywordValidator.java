@@ -17,120 +17,78 @@
 
 package eel.kitchen.jsonschema.keyword;
 
+import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import eel.kitchen.util.NodeType;
 import org.codehaus.jackson.JsonNode;
 
-import java.util.ArrayDeque;
-import java.util.EnumSet;
-import java.util.Queue;
-
 /**
- * A {@link KeywordValidator} specialized in validating the {@code type} and
- * {@code disallow} keywords.
+ * Keyword validator for the {@code type} keyword (section 5.1)
  *
- * @see {@link TypeValidator}
- * @see {@link DisallowValidator}
+ * @see {@link AbstractTypeKeywordValidator}
  */
-public abstract class TypeKeywordValidator
-    extends KeywordValidator
+public final class TypeKeywordValidator
+    extends AbstractTypeKeywordValidator
 {
-    /**
-     * String matching "any" type
-     */
-    private static final String ANY = "any";
-
-    /**
-     * The schema node
-     */
-    private final JsonNode typeNode;
-
-    /**
-     * The list of simple types declared by the keyword
-     */
-    protected final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
-
-    /**
-     * The list of schemas found in the keyword
-     */
-    protected final Queue<JsonNode> schemas = new ArrayDeque<JsonNode>();
-
-
-    /**
-     * Constructor. Initializes {@link #typeNode}, and then calls {@link
-     * #setUp()} to fill in {@link #typeSet} and {@link #schemas}.
-     *
-     * @param context the context to use
-     * @param instance the instance to validate
-     * @param field the name of the keyword ({@code type} or {@code disallow}
-     */
-    protected TypeKeywordValidator(final ValidationContext context,
-        final JsonNode instance, final String field)
+    public TypeKeywordValidator(final ValidationContext context,
+        final JsonNode instance)
     {
-        super(context, instance);
-        typeNode = context.getSchemaNode().get(field);
-        setUp();
+        super(context, instance, "type");
     }
 
     /**
-     * <p>Fills in the {@link #typeSet} and {@link #schemas} instance
-     * variables:</p>
+     * <p>Validate the instance:</p>
      * <ul>
-     *     <li>if the type node is a simple text node, registers the matching
-     *     type(s) in {@link #typeSet} (using {@link #addType(String)};</li>
-     *     <li>if it is an array, register either the simple type or the
-     *     schema.</li>
+     *     <li>if the type of the instance is one of the registered primitive
+     *     types, validation succeeds;</li>
+     *     <li>otherwise, try and match enclosed schemas if any: if only one
+     *     matches, we have a success.</li>
      * </ul>
+     * @return the validation report
      */
-    private void setUp()
+    @Override
+    public ValidationReport validate()
     {
-        if (typeNode.isTextual()) {
-            addType(typeNode.getTextValue());
-            return;
+        final NodeType type = NodeType.getNodeType(instance);
+
+        String message = "cannot match anything! Empty simple type set "
+                + "_and_ I don't have any enclosed schema either";
+
+        if (schemas.isEmpty() && typeSet.isEmpty()) {
+            report.addMessage(message);
+            return report;
         }
 
-        for (final JsonNode element: typeNode) {
-            if (!element.isTextual()) {
-                schemas.add(element);
-                continue;
-            }
-            addType(element.getTextValue());
-        }
-    }
-
-    /**
-     * Add a simple type to the {@link #typeSet} enum set. If the argument is
-     * {@code "any"}, registers all types. If the argument is {@code
-     * "number"}, also registers {@code "integer"} since the latter is a
-     * subset of the former.
-     *
-     * @param s the simple type as a string
-     * @see {@link NodeType}
-     */
-    private void addType(final String s)
-    {
-        if (ANY.equals(s)) {
-            typeSet.addAll(EnumSet.allOf(NodeType.class));
-            return;
+        if (typeSet.contains(type)) {
+            schemas.clear();
+            return report;
         }
 
-        typeSet.add(NodeType.valueOf(s.toUpperCase()));
+        message = typeSet.isEmpty() ? "no primitive types to match against"
+            : String.format("instance is of type %s, which is none of "
+                + "the allowed primitive types (%s)", type, typeSet);
 
-        if (typeSet.contains(NodeType.NUMBER))
-            typeSet.add(NodeType.INTEGER);
-    }
 
-    /**
-     * Builds the schema queue in {@link #queue} if {@link #schemas} is not
-     * empty.
-     */
-    protected final void buildQueue()
-    {
-        ValidationContext other;
+        report.addMessage(message);
 
-        while (!schemas.isEmpty()) {
-            other = context.createContext(schemas.remove());
-            queue.add(other.getValidator(instance));
+        buildQueue();
+
+        if (!hasMoreElements())
+            return report;
+
+        report.addMessage("trying with enclosed schemas instead");
+
+        for (int i = 1; hasMoreElements(); i++) {
+            report.addMessage("trying schema #" + i + "...");
+            final ValidationReport tmp = nextElement().validate();
+            if (tmp.isSuccess())
+                return tmp;
+            report.mergeWith(tmp);
+            report.addMessage("schema #" + i + ": no match");
         }
+
+        report.addMessage("enclosed schemas did not match");
+
+        return report;
     }
 }

@@ -20,36 +20,28 @@ package eel.kitchen.jsonschema.keyword;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
-import java.math.BigDecimal;
-
 /**
- * Keyword validator for the {@code divisibleBy} keyword (draft section 5.24)
+ * Keyword validator for the {@code minLength} keyword (draft section 5.17)
  */
-// TODO: specialize validation for "smaller" types (long, double)
-public final class DivisibleByValidator
+public final class MinLengthKeywordValidator
     extends SimpleKeywordValidator
 {
     /**
-     * The divisor
+     * Value for {@code minLength}
      */
-    private final BigDecimal divisor;
+    private final int minLength;
 
-    public DivisibleByValidator(final ValidationContext context,
+    public MinLengthKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        divisor = schema.get("divisibleBy").getDecimalValue();
+        minLength = schema.get("minLength").getIntValue();
     }
 
     @Override
-    protected void validateInstance()
+    public void validateInstance()
     {
-        final BigDecimal number = instance.getDecimalValue();
-
-        if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
-            return;
-
-        report.addMessage("number is not a multiple of divisibleBy");
-
+        if (instance.getTextValue().length() < minLength)
+            report.addMessage("string is shorter than minLength");
     }
 }

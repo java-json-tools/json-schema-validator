@@ -18,37 +18,49 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.context.ValidationContext;
-import eel.kitchen.util.RhinoHelper;
 import org.codehaus.jackson.JsonNode;
 
+import java.math.BigDecimal;
+
 /**
- * <p>Keyword validator for the {@code pattern} keyword (draft version 5.16).
- * </p>
- *
- * <p>Note that the draft explicitly says that the regex should obey ECMA
- * 262, which means {@link java.util.regex} is unusable. We therefore use
- * rhino, which does have an ECMA 262 regex engine.</p>
- *
- * <p>And also note that "matching" is meant in the <b>real</b> sense of the
- * term. Don't be fooled by Java's {@code .matches()} method names!
- * </p>
- * @see {@link RhinoHelper}
+ * Keyword validator for both the {@code maximum} and {@code
+ * exclusiveMaximum} keywords (draft sections 5.10 and 5.12)
  */
-public final class PatternValidator
+//TODO: specialize validation for "smaller" types (long, double)
+public final class MaximumKeywordValidator
     extends SimpleKeywordValidator
 {
-    public PatternValidator(final ValidationContext context,
+    /**
+     * Value of {@code maximum}
+     */
+    private final BigDecimal maximum;
+
+    /**
+     * Is the maximum exclusive?
+     */
+    private final boolean exclusiveMaximum;
+
+    public MaximumKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
+        maximum = schema.get("maximum").getDecimalValue();
+        exclusiveMaximum = schema.path("exclusiveMaximum").asBoolean(false);
+
     }
 
     @Override
     protected void validateInstance()
     {
-        final String regex = schema.get("pattern").getTextValue();
+        final int cmp = maximum.compareTo(instance.getDecimalValue());
 
-        if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
-            report.addMessage("string does not match specified regex");
+        if (cmp < 0) {
+            report.addMessage("number is greater than the required maximum");
+            return;
+        }
+
+        if (cmp == 0 && exclusiveMaximum)
+            report.addMessage("number is not strictly lower than "
+                + "the required maximum");
     }
 }
