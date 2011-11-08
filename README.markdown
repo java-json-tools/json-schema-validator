@@ -9,7 +9,9 @@ be found <a href="http://json-schema.org/draft-03/schema">here</a> (version 4
 is around the corner, for some defintion of "corner" -- understand, days, or a
 few weeks).
 
-<p>The status of this implementation can be seen <a
+<p>Version 0.1 is out: see <a
+href="https://github.com/fge/json-schema-validator/wiki/Version-0.1">here</a>
+for a list of features. For a detailed discussion of the implementation, see <a
 href="https://github.com/fge/json-schema-validator/wiki/Status">here</a>.
 
 ## Sample usage:
