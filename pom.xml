@@ -23,7 +23,18 @@
                 <groupId>com.mycila.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
                 <configuration>
+                    <strictCheck>true</strictCheck>
+                    <skipExistingHeaders>true</skipExistingHeaders>
                     <header>src/main/resources/header.txt</header>
+                    <excludes>
+                        <exclude>misc/**</exclude>
+                        <exclude>.idea/**</exclude>
+                        <exclude>*.iml</exclude>
+                        <exclude>src/*/resources/**</exclude>
+                        <exclude>.gitignore</exclude>
+                        <exclude>README*</exclude>
+                        <exclude>TODO</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
