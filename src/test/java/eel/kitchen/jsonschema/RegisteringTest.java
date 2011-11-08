@@ -85,7 +85,7 @@ public final class RegisteringTest
         }
 
         @Override
-        public void validateInstance()
+        protected void validateInstance()
         {
             final Set<String> fields
                 = CollectionUtils.toSet(instance.getFieldNames());
