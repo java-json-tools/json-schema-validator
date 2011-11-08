@@ -53,7 +53,11 @@ import java.util.regex.Pattern;
  */
 public final class ValidationContext
 {
+    /**
+     * Pattern to split JSON Path components
+     */
     private static final Pattern SPLIT_PATTERN = Pattern.compile("/");
+
     /**
      * The root schema of this validation context
      */
@@ -204,6 +208,18 @@ public final class ValidationContext
         return createReport("");
     }
 
+    /**
+     * <p>Given a JSON Schema reference, return a context for this reference.
+     * The context will be spawned with a different {@link #rootSchema} if
+     * the {@code ref} argument is an absolute URI.</p>
+     *
+     * <p>This method is only used by {@link RefKeywordValidator} currently
+     * .</p>
+     *
+     * @param ref the reference to resolve
+     * @return the matching context
+     * @throws IOException the ref is invalid or unsupported
+     */
     public ValidationContext resolveRef(final String ref)
         throws IOException
     {
@@ -248,6 +264,22 @@ public final class ValidationContext
         return ret;
     }
 
+    /**
+     * <p>Given a schema and a JSON Path, return the corresponding entry in
+     * the schema. Error out on either of the following:</p>
+     * <ul>
+     *     <li>the path does not exist, or</li>
+     *     <li>a loop is detected (by looking up in {@link #refLookups} if
+     *     the result has already been seen for this {@link
+     *     #rootSchema} and {@link #path}).
+     *     </li>
+     * </ul>
+     *
+     * @param schema the schema
+     * @param jsonPath the JSON path (<i>without</i> the initial {@code #}
+     * @return the entry
+     * @throws IOException
+     */
     private JsonNode resolvePath(final JsonNode schema, final String jsonPath)
         throws IOException
     {

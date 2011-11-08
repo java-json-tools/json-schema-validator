@@ -18,10 +18,12 @@
 package eel.kitchen.jsonschema.keyword;
 
 import eel.kitchen.jsonschema.ValidationReport;
+import eel.kitchen.jsonschema.base.Validator;
 import eel.kitchen.jsonschema.context.ValidationContext;
 import org.codehaus.jackson.JsonNode;
 
 import java.io.IOException;
+import java.net.URI;
 
 /**
  * <p>Keyword validator for {@code $ref} (draft version 5.28)</p>
@@ -49,6 +51,23 @@ public final class RefKeywordValidator
         super(context, instance);
     }
 
+    /**
+     * <p>Validate the instance. This calls {@link
+     * ValidationContext#resolveRef(String)} on the current {@link #context}
+     * to obtain a new context from which it obtains a new {@link Validator},
+     * and returns the result of this validator's {@link Validator#validate()}
+     * method. Unlike all other validators:</p>
+     * <ul>
+     *     <li>this is the only one which can return a {@link
+     *     ValidationContext} with a different root schema (if the ref
+     *     represents an absolute {@link URI});</li>
+     *     <li>this is the only validator implementation which can spawn
+     *     errors (ie, {@link ValidationReport#isError()} returns {@code true})
+     *     and not only failures.</li>
+     * </ul>
+     *
+     * @return the report from the spawned validator
+     */
     @Override
     public ValidationReport validate()
     {
