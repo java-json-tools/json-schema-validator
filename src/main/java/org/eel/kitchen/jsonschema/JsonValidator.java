@@ -21,7 +21,10 @@ package org.eel.kitchen.jsonschema;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.util.NodeType;
 
 /**
  * The main interface to use for JSON Schema validation
@@ -44,6 +47,19 @@ public final class JsonValidator
     public JsonValidator(final JsonNode schema)
     {
         context = new ValidationContext(schema);
+    }
+
+    // TODO: javadoc, and decide where to handle errors -- probably here
+    public void unregisterValidator(final String keyword)
+    {
+        context.unregisterValidator(keyword);
+    }
+
+    public void registerValidator(final String keyword,
+        final Class<? extends SyntaxValidator> sv,
+        final Class<? extends KeywordValidator> kv, final NodeType... types)
+    {
+        context.registerValidator(keyword, sv, kv, types);
     }
 
     /**

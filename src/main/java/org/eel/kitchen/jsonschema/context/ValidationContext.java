@@ -121,7 +121,7 @@ public final class ValidationContext
      *
      * @param keyword the victim
      */
-    public void unregisterValidators(final String keyword)
+    public void unregisterValidator(final String keyword)
     {
         syntaxFactory.unregisterValidator(keyword);
         keywordFactory.unregisterValidator(keyword);
