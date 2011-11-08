@@ -225,12 +225,17 @@ public final class ValidationContext
 
         final boolean absolute = baseURI.isAbsolute();
 
-        if (absolute)
+        if (absolute) {
+            if (!"http".equals(baseURI.getScheme()))
+                throw new IOException("sorry, only HTTP is supported as a "
+                    + "scheme currently");
             if (!locators.containsKey(baseURI)) {
                 schema = JsonLoader.fromURL(baseURI.toURL());
                 locators.put(baseURI, schema);
             } else
                 schema = locators.get(baseURI);
+        } else if (!"".equals(baseURI.getSchemeSpecificPart()))
+            throw new IOException("illegal non empty scheme specific part");
 
         final JsonNode node = resolvePath(schema, jsonPath);
 
