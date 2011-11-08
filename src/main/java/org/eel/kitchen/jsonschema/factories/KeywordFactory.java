@@ -142,6 +142,20 @@ public final class KeywordFactory
     }
 
     /**
+     * Unregister a validator for the given keyword
+     *
+     * @param keyword the victim
+     */
+    public void unregisterValidator(final String keyword)
+    {
+        if (keyword == null)
+            throw new IllegalArgumentException("keyword is null");
+
+        fieldMap.remove(keyword);
+        validators.remove(keyword);
+    }
+
+    /**
      * Get a validator (a {@link KeywordValidator} really) for the given
      * context and instance to validate. Only called from {@link
      * ValidationContext#getValidator(JsonNode)}.

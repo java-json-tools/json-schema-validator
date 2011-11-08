@@ -192,6 +192,19 @@ public final class SyntaxFactory
     }
 
     /**
+     * Unregister a validator for the given keyword.
+     *
+     * @param keyword the victim
+     */
+    public void unregisterValidator(final String keyword)
+    {
+        if (keyword == null)
+            throw new IllegalArgumentException("keyword is null");
+
+        validators.remove(keyword);
+    }
+
+    /**
      * Return a list of validators for a schema node
      *
      * @param context the context
