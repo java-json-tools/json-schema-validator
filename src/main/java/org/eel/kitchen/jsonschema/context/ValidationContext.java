@@ -1,21 +1,3 @@
-/**
- * Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the Lesser GNU General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-package org.eel.kitchen.jsonschema.context;
-
 /*
  * Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
  *
@@ -32,6 +14,8 @@ package org.eel.kitchen.jsonschema.context;
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package org.eel.kitchen.jsonschema.context;
+
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
@@ -40,8 +24,10 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.util.NodeType;
 
 import java.io.IOException;
 import java.net.URI;
@@ -129,7 +115,50 @@ public final class ValidationContext
     }
 
     /**
->>>>>>> bb838cc... Package rename :/
+     * Unregister all validators ({@link SyntaxValidator} and
+     * {@link KeywordValidator} for a given keyword. Note that the null case
+     * is handled in the factories themselves.
+     *
+     * @param keyword the victim
+     */
+    public void unregisterValidators(final String keyword)
+    {
+        syntaxFactory.unregisterValidator(keyword);
+        keywordFactory.unregisterValidator(keyword);
+    }
+
+    /**
+     * Register a validator for a new keyword, or replace the existing
+     * validators by new ones for ths keyword.
+     *
+     * @param keyword the new/modified keyword
+     * @param sv the {@link SyntaxValidator} implementation
+     * @param kv the {@link KeywordValidator} implementation
+     * @param types the list of JSON types the keyword validator is able to
+     * validate
+     * @throws IllegalArgumentException one validator is null,
+     * or the type list is empty
+     */
+    public void registerValidator(final String keyword,
+        final Class<? extends SyntaxValidator> sv,
+        final Class<? extends KeywordValidator> kv, final NodeType... types)
+    {
+        if (sv == null)
+            throw new IllegalArgumentException("syntax validator is null");
+        syntaxFactory.registerValidator(keyword, sv);
+
+        if (kv == null)
+            throw new IllegalArgumentException("keyword validator is null");
+
+        if (types.length == 0)
+            throw new IllegalArgumentException("validator wouldn't match any "
+                + "JSON instance (empty type set)");
+
+        keywordFactory.registerValidator(keyword, kv, types);
+    }
+
+    /**
+>>>>>>> ValidationContext: implement .registerValidator
      * Return the schema node of this context -- <b>not</b> the root schema!
      *
      * @return the matching {@link JsonNode}
