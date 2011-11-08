@@ -26,7 +26,7 @@ import java.net.URISyntaxException;
 /**
  * Specialized syntax validator used to validate URIs
  *
- * @see {@link URI}
+ * @see URI
  */
 public abstract class URISyntaxValidator
     extends SyntaxValidator

@@ -32,7 +32,7 @@ public final class PatternSyntaxValidator
     /**
      * Check that the value is a valid regex
      *
-     * @see {@link RhinoHelper#regexIsValid(String)}
+     * @see RhinoHelper#regexIsValid(String)
      */
     @Override
     protected void checkFurther()

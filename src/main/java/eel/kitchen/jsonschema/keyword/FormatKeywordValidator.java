@@ -52,7 +52,7 @@ public final class FormatKeywordValidator
      * If the type of the instance cannot be validated by the matching
      * validator, the validation is a success.
      *
-     * @see {@link FormatFactory#getFormatValidator(String, JsonNode)}
+     * @see FormatFactory#getFormatValidator(String, JsonNode)
      */
     @Override
     protected void validateInstance()

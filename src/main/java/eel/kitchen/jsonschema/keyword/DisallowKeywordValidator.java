@@ -27,7 +27,7 @@ import java.util.EnumSet;
 /**
  * Validator for the {@code disallow} keyword (draft section 5.25)
  *
- * @see {@link AbstractTypeKeywordValidator}
+ * @see AbstractTypeKeywordValidator
  */
 public final class DisallowKeywordValidator
     extends AbstractTypeKeywordValidator

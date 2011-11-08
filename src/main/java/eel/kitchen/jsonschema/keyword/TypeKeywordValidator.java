@@ -25,7 +25,7 @@ import org.codehaus.jackson.JsonNode;
 /**
  * Keyword validator for the {@code type} keyword (section 5.1)
  *
- * @see {@link AbstractTypeKeywordValidator}
+ * @see AbstractTypeKeywordValidator
  */
 public final class TypeKeywordValidator
     extends AbstractTypeKeywordValidator

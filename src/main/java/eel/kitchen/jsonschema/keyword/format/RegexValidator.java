@@ -27,7 +27,7 @@ import org.codehaus.jackson.JsonNode;
  * <p>Again, here, we do <b>not</b> use {@link java.util.regex} because it
  * does not fit the bill.</p>
  *
- * @see {@link RhinoHelper}
+ * @see RhinoHelper
  */
 public final class RegexValidator
     extends AbstractFormatValidator

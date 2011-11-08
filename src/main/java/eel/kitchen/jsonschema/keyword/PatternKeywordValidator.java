@@ -32,7 +32,7 @@ import org.codehaus.jackson.JsonNode;
  * <p>And also note that "matching" is meant in the <b>real</b> sense of the
  * term. Don't be fooled by Java's {@code .matches()} method names!
  * </p>
- * @see {@link RhinoHelper}
+ * @see RhinoHelper
  */
 public final class PatternKeywordValidator
     extends SimpleKeywordValidator

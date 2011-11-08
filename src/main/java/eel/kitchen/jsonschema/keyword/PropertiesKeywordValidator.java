@@ -36,8 +36,8 @@ import java.util.Set;
   * .PropertiesSyntaxValidator}, so there is no point in checking it again here,
  * and it is up to {@link ObjectValidator} to spawn children validators.</p>
  *
- * @see {@link ObjectValidator}
- * @see {@link SyntaxValidator}
+ * @see ObjectValidator
+ * @see SyntaxValidator
  */
 public final class PropertiesKeywordValidator
     extends SimpleKeywordValidator

@@ -48,7 +48,7 @@ public abstract class TypeNodeSyntaxValidator
      *     simple types or schemas.</li>
      * </ul>
      *
-     * @see {@link #validateOne(String, JsonNode)}
+     * @see #validateOne(String, JsonNode)
      */
     @Override
     protected final void checkFurther()

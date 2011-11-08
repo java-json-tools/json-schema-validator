@@ -27,8 +27,8 @@ import java.util.Enumeration;
  * The core interface for all validators, which extends {@link Enumeration}
  * of itself.
  *
- * @see {@link SyntaxValidator}
- * @see {@link KeywordValidator}
+ * @see SyntaxValidator
+ * @see KeywordValidator
  */
 public interface Validator
     extends Enumeration<Validator>

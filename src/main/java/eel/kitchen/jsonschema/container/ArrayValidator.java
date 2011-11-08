@@ -28,7 +28,7 @@ import java.util.List;
 /**
  * The {@link ContainerValidator} for array instances
  *
- * @see {@link ContainerValidator}
+ * @see ContainerValidator
  */
 public final class ArrayValidator
     extends ContainerValidator

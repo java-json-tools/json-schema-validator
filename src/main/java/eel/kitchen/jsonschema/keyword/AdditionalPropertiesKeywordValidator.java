@@ -108,7 +108,7 @@ public final class AdditionalPropertiesKeywordValidator
      *
      * @param field the field to match
      * @return true on a match
-     * @see {@link RhinoHelper#regMatch(String, String)}
+     * @see RhinoHelper#regMatch(String, String)
      */
     private boolean patternsMatch(final String field)
     {

@@ -29,8 +29,8 @@ import java.util.Queue;
  * A {@link KeywordValidator} specialized in validating the {@code type} and
  * {@code disallow} keywords.
  *
- * @see {@link TypeKeywordValidator}
- * @see {@link DisallowKeywordValidator}
+ * @see TypeKeywordValidator
+ * @see DisallowKeywordValidator
  */
 public abstract class AbstractTypeKeywordValidator
     extends KeywordValidator
@@ -105,7 +105,7 @@ public abstract class AbstractTypeKeywordValidator
      * subset of the former.
      *
      * @param s the simple type as a string
-     * @see {@link NodeType}
+     * @see NodeType
      */
     private void addType(final String s)
     {

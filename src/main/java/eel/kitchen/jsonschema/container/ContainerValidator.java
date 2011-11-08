@@ -35,8 +35,8 @@ import org.codehaus.jackson.node.JsonNodeFactory;
  * object instance.
  * </p>
  *
- * @see {@link ArrayValidator}
- * @see {@link ObjectValidator}
+ * @see ArrayValidator
+ * @see ObjectValidator
  */
 public abstract class ContainerValidator
     extends KeywordValidator
@@ -88,7 +88,7 @@ public abstract class ContainerValidator
      * Build the validation queue, in the event that structure validation
      * succeeds
 i    *
-     * @see {@link AbstractValidator#queue}
+     * @see AbstractValidator#queue
      */
     protected abstract void buildQueue();
 

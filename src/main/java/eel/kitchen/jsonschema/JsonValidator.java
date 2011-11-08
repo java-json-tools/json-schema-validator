@@ -25,8 +25,8 @@ import org.codehaus.jackson.JsonNode;
 /**
  * The main interface to use for JSON Schema validation
  *
- * @see {@link JsonLoader}
- * @see {@link ValidationContext}
+ * @see JsonLoader
+ * @see ValidationContext
  */
 public final class JsonValidator
 {

@@ -58,7 +58,7 @@ public final class ExtendsKeywordValidator
      *     <li>it then merges this altered schema node with all extended
      *     schemas and adds the corresponding validator to the queue</li>
      * </ul>
-     * @see {@link #merge(JsonNode, JsonNode)}
+     * @see #merge(JsonNode, JsonNode)
      */
     private void buildQueue()
     {

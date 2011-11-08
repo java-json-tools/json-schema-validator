@@ -37,7 +37,7 @@ public final class PatternPropertiesSyntaxValidator
     /**
      * Check that all keys are valid regexes, and that all values are objects
      *
-     * @see {@link RhinoHelper#regexIsValid(String)}
+     * @see RhinoHelper#regexIsValid(String)
      */
     @Override
     protected void checkFurther()
