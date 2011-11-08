@@ -235,7 +235,8 @@ public final class ValidationContext
             } else
                 schema = locators.get(baseURI);
         } else if (!"".equals(baseURI.getSchemeSpecificPart()))
-            throw new IOException("illegal non empty scheme specific part");
+            throw new IOException("non empty scheme specific part in "
+                + "non absolute URI");
 
         final JsonNode node = resolvePath(schema, jsonPath);
 

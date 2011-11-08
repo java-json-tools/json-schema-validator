@@ -10,5 +10,11 @@
         "disallow": [
             { "$ref": "#" }
         ]
+    },
+    "unsupportedScheme": {
+        "$ref": "ftp://some.site/some/schema"
+    },
+    "nonEmptySSP": {
+        "$ref": "a/b/c#/d/e"
     }
 }

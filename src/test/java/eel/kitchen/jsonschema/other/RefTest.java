@@ -113,4 +113,43 @@ public final class RefTest
             + "{\"disallow\":[{\"$ref\":\"#\"}]} loops on itself",
             report.getMessages().get(0));
     }
+
+    @Test
+    public void testUnsupportedSchemeIsFatal()
+    {
+        final JsonNode schema = torture.get("unsupportedScheme");
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        final ValidationReport report = validator.validate(JsonNodeFactory
+            .instance.nullNode());
+
+        assertTrue(report.isError());
+
+        assertEquals(1, report.getMessages().size());
+
+        assertEquals("#: FATAL: cannot resolve ref ftp://some.site/some/schema:"
+            + " java.io.IOException: sorry, only HTTP is supported as a scheme"
+            + " currently",
+            report.getMessages().get(0));
+    }
+
+    @Test
+    public void testNonEmptySSPIsFatal()
+    {
+        final JsonNode schema = torture.get("nonEmptySSP");
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        final ValidationReport report = validator.validate(JsonNodeFactory
+            .instance.nullNode());
+
+        assertTrue(report.isError());
+
+        assertEquals(1, report.getMessages().size());
+
+        assertEquals("#: FATAL: cannot resolve ref a/b/c#/d/e: java.io"
+            + ".IOException: non empty scheme specific part in non absolute"
+            + " URI", report.getMessages().get(0));
+    }
 }
