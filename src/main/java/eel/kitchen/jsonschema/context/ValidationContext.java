@@ -31,6 +31,7 @@ import org.codehaus.jackson.JsonNode;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -206,48 +207,38 @@ public final class ValidationContext
     public ValidationContext resolveRef(final String ref)
         throws IOException
     {
-        final URI fullURI, baseURI;
-        final String scheme, schemeSpecificPart, jsonPath;
+        final URI fullURI;
+        final URI baseURI;
+        final String jsonPath;
 
         try {
             fullURI = new URI(ref).normalize();
-            scheme = fullURI.getScheme();
-            schemeSpecificPart = fullURI.getSchemeSpecificPart();
             jsonPath = fullURI.getFragment();
-            baseURI = new URI(scheme, schemeSpecificPart, null);
+            baseURI = new URI(fullURI.getScheme(),
+                fullURI.getSchemeSpecificPart(), null);
         } catch (URISyntaxException e) {
             throw new IOException("How did I get there?? The URI should "
                 + "have been validated already!", e);
         }
 
-        JsonNode node;
+        JsonNode schema = rootSchema;
 
-        if (scheme == null) {
-            if (!(schemeSpecificPart == null || schemeSpecificPart.isEmpty()))
-                throw new IOException("Unsupported URI " + ref);
-            node = resolvePath(rootSchema, jsonPath);
-            if (node.isMissingNode())
-                throw new IOException("ref " + ref + " is unknown!");
-            return createContext(node);
-        }
+        final boolean absolute = baseURI.isAbsolute();
 
-        if (!"http".equals(scheme))
-            throw new IOException("Sorry, only http is supported currently");
+        if (absolute)
+            if (!locators.containsKey(baseURI)) {
+                schema = JsonLoader.fromURL(baseURI.toURL());
+                locators.put(baseURI, schema);
+            } else
+                schema = locators.get(baseURI);
 
-        JsonNode schema = locators.get(baseURI);
-
-        if (schema == null) {
-            schema = JsonLoader.fromURL(baseURI.toURL());
-            locators.put(baseURI, schema);
-        }
-
-        node = resolvePath(schema, jsonPath);
-        if (node.isMissingNode())
-            throw new IOException("ref " + ref + " is unknown!");
+        final JsonNode node = resolvePath(schema, jsonPath);
 
         final ValidationContext ret = createContext(node);
 
-        ret.rootSchema = schema;
+        if (absolute)
+            ret.rootSchema = schema;
+
         return ret;
     }
 
@@ -264,6 +255,10 @@ public final class ValidationContext
                 continue;
             ret = schema.path(pathElement);
         }
+
+        if (ret.isMissingNode())
+            throw new IOException("non existent path #" + jsonPath + " in "
+                + "schema");
 
         if (refLookups.contains(ret))
             throw new IOException(ret + " loops on itself");

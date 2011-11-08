@@ -91,7 +91,8 @@ public final class RefTest
         assertEquals(1, report.getMessages().size());
 
         assertEquals(report.getMessages().get(0),  "#: FATAL: cannot resolve "
-            + "ref #/nope: java.io.IOException: ref #/nope is unknown!");
+            + "ref #/nope: java.io.IOException: non existent path #/nope in "
+            + "schema");
     }
 
     @Test
