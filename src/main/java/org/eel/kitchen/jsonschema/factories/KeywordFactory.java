@@ -132,7 +132,7 @@ public final class KeywordFactory
      * @param v the {@link KeywordValidator} as a {@link Class} object
      * @param types the instance types this validator can handle
      */
-    private void registerValidator(final String field,
+    public void registerValidator(final String field,
         final Class<? extends KeywordValidator> v, final NodeType... types)
     {
         final EnumSet<NodeType> typeset = EnumSet.copyOf(Arrays.asList(types));

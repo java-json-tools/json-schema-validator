@@ -185,7 +185,7 @@ public final class SyntaxFactory
      * @param keyword the keyword
      * @param c the {@link SyntaxValidator} as a {@link Class} object
      */
-    private void registerValidator(final String keyword,
+    public void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> c)
     {
         validators.put(keyword, c);
