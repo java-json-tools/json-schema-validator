@@ -17,6 +17,7 @@
 
 package eel.kitchen.jsonschema.context;
 
+import eel.kitchen.jsonschema.JsonValidator;
 import eel.kitchen.jsonschema.ValidationReport;
 import eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import eel.kitchen.jsonschema.base.Validator;
@@ -93,7 +94,7 @@ public final class ValidationContext
     }
 
     /**
-     * The public constructor. Only used from {@link eel.kitchen.jsonschema.JsonValidator}. On
+     * The public constructor. Only used from {@link JsonValidator}. On
      * initial setup, the argument is the root schema, see #rootSchema.
      *
      * @param schemaNode the root schema used by this context
@@ -161,7 +162,7 @@ public final class ValidationContext
      * Create a {@link Validator} for a given JSON instance. This is what
      * MUST be called by validators when they need to spawn a new validator,
      * because this method handles syntax checking. If the syntax of the
-     * schema itself is wrong, returns an {@link eel.kitchen.jsonschema.base.AlwaysFalseValidator}.
+     * schema itself is wrong, returns an {@link AlwaysFalseValidator}.
      *
      * @param instance the JSON instance
      * @return the validator

@@ -34,11 +34,11 @@ import java.io.IOException;
  * </p>
  *
  * <p>It works as the spec says: it resolves the ref (using {@link
- * ValidationContext#resolve(String)}</p> and spawns a Validator for the
+ * ValidationContext#resolveRef(String)}</p> and spawns a Validator for the
  * returned schema -- IF it is valid.</p>
  *
  * <p>Note that this validator does <b>not</b> detect loops: it relies on
- * {@link ValidationContext#resolve(String)} to do this for it.</p>
+ * {@link ValidationContext#resolveRef(String)} to do this for it.</p>
  */
 public final class RefKeywordValidator
     extends KeywordValidator
