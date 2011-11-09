@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.io.IOException;
@@ -53,8 +54,8 @@ public final class RefKeywordValidator
     /**
      * <p>Validate the instance. This calls {@link
      * ValidationContext#resolveRef(String)} on the current {@link #context}
-     * to obtain a new context from which it obtains a new {@link org.eel.kitchen.jsonschema.base.Validator},
-     * and returns the result of this validator's {@link org.eel.kitchen.jsonschema.base.Validator#validate()}
+     * to obtain a new context from which it obtains a new {@link Validator},
+     * and returns the result of this validator's {@link Validator#validate()}
      * method. Unlike all other validators:</p>
      * <ul>
      *     <li>this is the only one which can return a {@link

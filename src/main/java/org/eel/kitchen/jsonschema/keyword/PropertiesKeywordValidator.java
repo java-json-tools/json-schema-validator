@@ -18,7 +18,10 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.HashSet;
@@ -30,12 +33,12 @@ import java.util.Set;
  * keywords (draft sections 5.2 and 5.7).</p>
  *
  * <p>Well, this validator only really validates {@code required}: the syntax
- * of the keyword was already checked by {@link eel.kitchen.jsonschema.syntax
-  * .PropertiesSyntaxValidator}, so there is no point in checking it again here,
- * and it is up to {@link org.eel.kitchen.jsonschema.container.ObjectValidator} to spawn children validators.</p>
+ * of the keyword was already checked by {@link PropertiesSyntaxValidator},
+ * so there is no point in checking it again here,
+ * and it is up to {@link ObjectValidator} to spawn children validators.</p>
  *
- * @see org.eel.kitchen.jsonschema.container.ObjectValidator
- * @see org.eel.kitchen.jsonschema.syntax.SyntaxValidator
+ * @see ObjectValidator
+ * @see SyntaxValidator
  */
 public final class PropertiesKeywordValidator
     extends SimpleKeywordValidator

@@ -74,7 +74,7 @@ public final class FormatFactory
     /**
      * Constructor
      *
-     * @param context the {@link org.eel.kitchen.jsonschema.context.ValidationContext} for this factory
+     * @param context the {@link ValidationContext} for this factory
      */
     public FormatFactory(final ValidationContext context)
     {
@@ -99,9 +99,9 @@ public final class FormatFactory
     /**
      * Get the {@link Validator} for the given format specification and
      * instance. If the format specification is unknown,
-     * an {@link org.eel.kitchen.jsonschema.base.AlwaysFalseValidator} is returned; if the format
+     * an {@link AlwaysFalseValidator} is returned; if the format
      * specification is not applicable to the instance type,
-     * {@link org.eel.kitchen.jsonschema.base.AbstractValidator#TRUE} is returned.
+     * {@link AbstractValidator#TRUE} is returned.
      *
      * @param name the format specification
      * @param node the instance to validate

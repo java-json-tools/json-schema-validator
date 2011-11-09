@@ -17,11 +17,13 @@ package org.eel.kitchen.jsonschema.context;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
+import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonLoader;
 
@@ -41,7 +43,7 @@ import java.util.regex.Pattern;
  *     <li>checking the schema correctness (using {@link SyntaxValidator}
  *     instances);</li>
  *     <li>create validator instances;</li>
- *     <li>resolve {@code $ref} (see {@link org.eel.kitchen.jsonschema.keyword.RefKeywordValidator}) <b>and</b>
+ *     <li>resolve {@code $ref} (see {@link RefKeywordValidator}) <b>and</b>
  *     detect ref looping;</li>
  *     <li>provide {@link ValidationReport} instances;</li>
  *     <li>provide other instances of itself.</li>
@@ -95,7 +97,7 @@ public final class ValidationContext
     }
 
     /**
-     * The public constructor. Only used from {@link org.eel.kitchen.jsonschema.JsonValidator}. On
+     * The public constructor. Only used from {@link JsonValidator}. On
      * initial setup, the argument is the root schema, see #rootSchema.
      *
      * @param schemaNode the root schema used by this context
@@ -164,7 +166,7 @@ public final class ValidationContext
      * Create a {@link Validator} for a given JSON instance. This is what
      * MUST be called by validators when they need to spawn a new validator,
      * because this method handles syntax checking. If the syntax of the
-     * schema itself is wrong, returns an {@link org.eel.kitchen.jsonschema.base.AlwaysFalseValidator}.
+     * schema itself is wrong, returns an {@link AlwaysFalseValidator}.
      *
      * @param instance the JSON instance
      * @return the validator
@@ -210,7 +212,7 @@ public final class ValidationContext
      * The context will be spawned with a different {@link #rootSchema} if
      * the {@code ref} argument is an absolute URI.</p>
      *
-     * <p>This method is only used by {@link org.eel.kitchen.jsonschema.keyword.RefKeywordValidator} currently
+     * <p>This method is only used by {@link RefKeywordValidator} currently
      * .</p>
      *
      * @param ref the reference to resolve
@@ -275,7 +277,7 @@ public final class ValidationContext
      * @param schema the schema
      * @param jsonPath the JSON path (<i>without</i> the initial {@code #}
      * @return the entry
-     * @throws IOException
+     * @throws IOException see description
      */
     private JsonNode resolvePath(final JsonNode schema, final String jsonPath)
         throws IOException

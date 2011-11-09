@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -60,7 +61,7 @@ public final class ArrayValidator
      *     elements; then fill {@link #additionalItems}.</li>
      * </ul>
      * <p>Note that at this stage, as the structure has been validated,
-     * it means that {@link org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator} will have done its
+     * it means that {@link AdditionalItemsKeywordValidator} will have done its
      * job and make validation fail if additional items were not permitted.
      * </p>
      */

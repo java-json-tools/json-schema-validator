@@ -55,7 +55,7 @@ public abstract class SimpleKeywordValidator
     /**
      * Calls {@link #validateInstance()}, then returns the report
      *
-     * @return a {@link org.eel.kitchen.jsonschema.ValidationReport}
+     * @return a {@link ValidationReport}
      */
     @Override
     public final ValidationReport validate()

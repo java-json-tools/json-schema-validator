@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
@@ -87,7 +88,7 @@ public abstract class ContainerValidator
      * Build the validation queue, in the event that structure validation
      * succeeds
 i    *
-     * @see org.eel.kitchen.jsonschema.base.AbstractValidator#queue
+     * @see AbstractValidator#queue
      */
     protected abstract void buildQueue();
 

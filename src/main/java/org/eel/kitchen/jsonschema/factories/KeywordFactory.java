@@ -75,7 +75,7 @@ public final class KeywordFactory
         = new HashMap<String, EnumSet<NodeType>>();
 
     /**
-     * Map pairing a schema keyword and the matching {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator}
+     * Map pairing a schema keyword and the matching {@link KeywordValidator}
      * as a {@link Class}
      */
     private final Map<String, Class<? extends KeywordValidator>> validators
