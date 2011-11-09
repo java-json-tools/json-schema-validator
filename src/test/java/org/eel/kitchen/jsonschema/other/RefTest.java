@@ -72,8 +72,8 @@ public final class RefTest
 
         assertEquals(report.getMessages().size(), 1);
 
-        assertEquals(report.getMessages().get(0), "#: FATAL: cannot resolve "
-            + "ref #: java.io.IOException: {\"$ref\":\"#\"} loops on itself");
+        assertEquals(report.getMessages().get(0),  "#: FATAL: schema "
+            + "{\"$ref\":\"#\"} loops on itself");
     }
 
     @Test
@@ -90,9 +90,8 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals(report.getMessages().get(0),  "#: FATAL: cannot resolve "
-            + "ref #/nope: java.io.IOException: non existent path #/nope in "
-            + "schema");
+        assertEquals(report.getMessages().get(0),  "#: FATAL: no match in "
+            + "schema for path #/nope");
     }
 
     @Test
@@ -109,7 +108,7 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals("#: FATAL: cannot resolve ref #: java.io.IOException: "
+        assertEquals("#: FATAL: schema "
             + "{\"disallow\":[{\"$ref\":\"#\"}]} loops on itself",
             report.getMessages().get(0));
     }
@@ -128,10 +127,8 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals("#: FATAL: cannot resolve ref ftp://some.site/some/schema:"
-            + " java.io.IOException: sorry, only HTTP is supported as a scheme"
-            + " currently",
-            report.getMessages().get(0));
+        assertEquals("#: FATAL: cannot use ref ftp://some.site/some/schema,"
+            + " only HTTP is supported currently", report.getMessages().get(0));
     }
 
     @Test
@@ -148,8 +145,8 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals("#: FATAL: cannot resolve ref a/b/c#/d/e: java.io"
-            + ".IOException: non empty scheme specific part in non absolute"
-            + " URI", report.getMessages().get(0));
+        assertEquals("#: FATAL: invalid URI a/b/c#/d/e: non absolute URI"
+            + " but non empty scheme specific part",
+            report.getMessages().get(0));
     }
 }

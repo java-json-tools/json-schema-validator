@@ -17,25 +17,24 @@
 package org.eel.kitchen.jsonschema.context;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.MissingNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
-import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.NodeType;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -53,6 +52,13 @@ import java.util.regex.Pattern;
  */
 public final class ValidationContext
 {
+    /**
+     * Pattern matching a JSON path (could probably be refined). Not anchored
+     * since it uses {@link Matcher#matches()}.
+     */
+    private static final Pattern JSONPATH_REGEX
+        = Pattern.compile("(?:/[^/]++)*+");
+
     /**
      * Pattern to split JSON Path components
      */
@@ -87,7 +93,7 @@ public final class ValidationContext
 
     /**
      * The ref result lookups for this {@link #path},
-     * used for ref looping detection (see {@link #resolveRef(String)}
+     * used for ref looping detection
      */
     private Set<JsonNode> refLookups;
 
@@ -102,12 +108,13 @@ public final class ValidationContext
      * The public constructor. Only used from {@link JsonValidator}. On
      * initial setup, the argument is the root schema, see #rootSchema.
      *
-     * @param schemaNode the root schema used by this context
+     * @param schema the root schema used by this context
      */
-    public ValidationContext(final JsonNode schemaNode)
+    public ValidationContext(final JsonNode schema)
     {
         path = "#";
-        rootSchema = this.schemaNode = schemaNode;
+        rootSchema = schema;
+        schemaNode = schema;
 
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
@@ -208,6 +215,42 @@ public final class ValidationContext
     }
 
     /**
+     * Spawn a new context with a different root schema located at a given URI
+     *
+     * <p>This is only called from a {@link RefKeywordValidator} instance
+     * when it has to grab a schema from a non local URI. It may also be
+     * that the context already had the schema in the cache.</p>
+     *
+     * @param uri the URI for this schema (without the JSON path)
+     * @param newRoot the matching schema
+     * @return a new context
+     *
+     * @see #fromCache(URI)
+     * @see RefKeywordValidator
+     */
+    public ValidationContext newContext(final URI uri, final JsonNode newRoot)
+    {
+        if (locators.containsKey(uri)) {
+            if (!newRoot.equals(locators.get(uri)))
+                throw new RuntimeException("This should not have happened: I "
+                    + "was provided with a different schema than what I had "
+                    + "in the cache");
+        } else
+            locators.put(uri, newRoot);
+
+        final ValidationContext ret = new ValidationContext();
+
+        ret.path = path;
+        ret.rootSchema = newRoot;
+        ret.schemaNode = newRoot;
+        ret.keywordFactory = keywordFactory;
+        ret.syntaxFactory = syntaxFactory;
+        ret.refLookups = new HashSet<JsonNode>(refLookups);
+        ret.locators.putAll(locators);
+        return ret;
+    }
+
+    /**
      * Create a {@link Validator} for a given JSON instance. This is what
      * MUST be called by validators when they need to spawn a new validator,
      * because this method handles syntax checking. If the syntax of the
@@ -228,6 +271,48 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
 
         return keywordFactory.getValidator(this, instance);
+    }
+
+    /**
+     * Get a validator for the subschema at a given path for a given instance
+     *
+     * <p>This validator will spawn an {@link AlwaysFalseValidator} if the
+     * path doesn't match anything, <b>or</b> if a ref loop is detected.</p>
+     *
+     * @param path the JSON path (<b>without</b> the initial {@code #})
+     * @param instance the instance to validate
+     * @return the matching validator
+     */
+    public Validator getValidator(final String path, final JsonNode instance)
+    {
+        final ValidationReport report = createReport();
+
+        if (path == null) {
+            report.error("path is null");
+            return new AlwaysFalseValidator(report);
+        }
+
+        if (!JSONPATH_REGEX.matcher(path).matches()) {
+            report.error("invalid JSON path " + path);
+            return new AlwaysFalseValidator(report);
+        }
+
+        final JsonNode schema = getSubSchema(path);
+
+        if (schema.isMissingNode()) {
+            report.error("no match in schema for path #" + path);
+            return new AlwaysFalseValidator(report);
+        }
+
+        if (refLookups.contains(schema)) {
+            report.error("schema " + schema + " loops on itself");
+            return new AlwaysFalseValidator(report);
+        }
+
+        refLookups.add(schema);
+        schemaNode = schema;
+
+        return getValidator(instance);
     }
 
     /**
@@ -252,100 +337,35 @@ public final class ValidationContext
         return createReport("");
     }
 
-    /**
-     * <p>Given a JSON Schema reference, return a context for this reference.
-     * The context will be spawned with a different {@link #rootSchema} if
-     * the {@code ref} argument is an absolute URI.</p>
-     *
-     * <p>This method is only used by {@link RefKeywordValidator} currently
-     * .</p>
-     *
-     * @param ref the reference to resolve
-     * @return the matching context
-     * @throws IOException the ref is invalid or unsupported
-     */
-    public ValidationContext resolveRef(final String ref)
-        throws IOException
-    {
-        final URI fullURI;
-        final URI baseURI;
-        final String jsonPath;
-
-        try {
-            fullURI = new URI(ref).normalize();
-            jsonPath = fullURI.getFragment();
-            baseURI = new URI(fullURI.getScheme(),
-                fullURI.getSchemeSpecificPart(), null);
-        } catch (URISyntaxException e) {
-            throw new IOException("How did I get there?? The URI should "
-                + "have been validated already!", e);
-        }
-
-        JsonNode schema = rootSchema;
-
-        final boolean absolute = baseURI.isAbsolute();
-
-        if (absolute) {
-            if (!"http".equals(baseURI.getScheme()))
-                throw new IOException("sorry, only HTTP is supported as a "
-                    + "scheme currently");
-            if (!locators.containsKey(baseURI)) {
-                schema = JsonLoader.fromURL(baseURI.toURL());
-                locators.put(baseURI, schema);
-            } else
-                schema = locators.get(baseURI);
-        } else if (!"".equals(baseURI.getSchemeSpecificPart()))
-            throw new IOException("non empty scheme specific part in "
-                + "non absolute URI");
-
-        final JsonNode node = resolvePath(schema, jsonPath);
-
-        final ValidationContext ret = createContext(node);
-
-        if (absolute)
-            ret.rootSchema = schema;
-
-        return ret;
-    }
 
     /**
-     * <p>Given a schema and a JSON Path, return the corresponding entry in
-     * the schema. Error out on either of the following:</p>
-     * <ul>
-     *     <li>the path does not exist, or</li>
-     *     <li>a loop is detected (by looking up in {@link #refLookups} if
-     *     the result has already been seen for this {@link
-     *     #rootSchema} and {@link #path}).
-     *     </li>
-     * </ul>
+     * Get a subschema from #rootSchema, given a JSON path as an argument
      *
-     * @param schema the schema
-     * @param jsonPath the JSON path (<i>without</i> the initial {@code #}
-     * @return the entry
-     * @throws IOException see description
+     * @param path the JSON Path (<b>without</b> the initial {@code #})
+     * @return the subschema, which is a {@link MissingNode} if the path is
+     * not found
      */
-    private JsonNode resolvePath(final JsonNode schema, final String jsonPath)
-        throws IOException
+    private JsonNode getSubSchema(final String path)
     {
-        if (jsonPath == null)
-            return schema;
+        JsonNode ret = rootSchema;
 
-        JsonNode ret = schema;
-
-        for (final String pathElement: SPLIT_PATTERN.split(jsonPath)) {
+        for (final String pathElement: SPLIT_PATTERN.split(path)) {
             if (pathElement.isEmpty())
                 continue;
             ret = ret.path(pathElement);
         }
 
-        if (ret.isMissingNode())
-            throw new IOException("non existent path #" + jsonPath + " in "
-                + "schema");
-
-        if (refLookups.contains(ret))
-            throw new IOException(ret + " loops on itself");
-
-        refLookups.add(ret);
         return ret;
+    }
+
+    /**
+     * Returns the schema corresponding to the given URI in #locators.
+     *
+     * @param uri the URI to lookup
+     * @return the matching entry, null if none is found
+     */
+    public JsonNode fromCache(final URI uri)
+    {
+        return locators.get(uri);
     }
 }

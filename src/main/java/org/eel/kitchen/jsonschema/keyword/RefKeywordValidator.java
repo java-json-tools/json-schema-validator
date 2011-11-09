@@ -19,28 +19,26 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.util.JsonLoader;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
- * <p>Keyword validator for {@code $ref} (draft version 5.28)</p>
+ * Keyword validator for {@code $ref} (draft version 5.28)
  *
- * <p>It only works "partially", in the sense that only URL refs and JSON
+ * <p>It only works "partially", in the sense that only HTTP URL refs and JSON
  * path refs are supported (or a combination of both,
  * as in {@code http://host.name/link/to/schema#/path/within/schema}). It is
  * unclear to the author how other types of URIs may be used,
  * and thus far he has seen no other examples.
  * </p>
  *
- * <p>It works as the spec says: it resolves the ref (using {@link
- * ValidationContext#resolveRef(String)}</p> and spawns a Validator for the
- * returned schema -- IF it is valid.</p>
- *
- * <p>Note that this validator does <b>not</b> detect loops: it relies on
- * {@link ValidationContext#resolveRef(String)} to do this for it.</p>
+ * <p>Note that ref loop detection is not done here, nor is malformed JSON
+ * paths. This is the role of {@link ValidationContext#getValidator(String,
+ * JsonNode)}.</p>
  */
 public final class RefKeywordValidator
     extends KeywordValidator
@@ -52,13 +50,13 @@ public final class RefKeywordValidator
     }
 
     /**
-     * <p>Validate the instance. This calls {@link
-     * ValidationContext#resolveRef(String)} on the current {@link #context}
-     * to obtain a new context from which it obtains a new {@link Validator},
-     * and returns the result of this validator's {@link Validator#validate()}
-     * method. Unlike all other validators:</p>
+     * Validate the instance
+     *
+     * <p>Unlike all other validators:</p>
      * <ul>
-     *     <li>this is the only one which can return a {@link
+     *     <li>this is the only one which will, if required,
+     *     go over the net to grab new schemas;</li>
+     *     <li>this is the only one which can spawn a {@link
      *     ValidationContext} with a different root schema (if the ref
      *     represents an absolute {@link URI});</li>
      *     <li>this is the only validator implementation which can spawn
@@ -74,16 +72,51 @@ public final class RefKeywordValidator
         final JsonNode schemaNode = context.getSchemaNode();
         final String ref = schemaNode.get("$ref").getTextValue();
 
-        final ValidationContext ctx;
+        final URI uri, baseURI;
 
         try {
-            ctx = context.resolveRef(ref);
-        } catch (IOException e) {
-            report.error(String.format("cannot resolve ref %s: %s: %s",
-                ref, e.getClass().getName(), e.getMessage()));
+            uri = new URI(ref);
+            baseURI = new URI(uri.getScheme(), uri.getSchemeSpecificPart(),
+                null);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("PROBLEM: invalid URI found ("
+                + ref + "), syntax validation should have caught that", e);
+        }
+
+        final boolean absoluteURI = uri.isAbsolute();
+
+        if (!absoluteURI) {
+            if (!uri.getSchemeSpecificPart().isEmpty()) {
+                report.error("invalid URI " + ref + ": non absolute URI "
+                    + "but non empty scheme specific part");
+                return report;
+            }
+        } else if (!"http".equals(uri.getScheme())) {
+            report.error("cannot use ref " + ref + ", only HTTP is "
+                + "supported currently");
             return report;
         }
 
-        return ctx.getValidator(instance).validate();
+        String path = uri.getFragment();
+
+        if (path == null)
+            path = "";
+
+        ValidationContext ctx = context;
+
+        if (absoluteURI) {
+            JsonNode newSchema;
+            try {
+                newSchema = context.fromCache(baseURI);
+                if (newSchema == null)
+                    newSchema = JsonLoader.fromURL(baseURI.toURL());
+            } catch (IOException e) {
+                report.error("cannot download schema: " + e.getMessage());
+                return report;
+            }
+            ctx = context.newContext(baseURI, newSchema);
+        }
+
+        return ctx.getValidator(path, instance).validate();
     }
 }
