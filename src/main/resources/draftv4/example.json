@@ -1,0 +1,16 @@
+{
+    "schema": {
+        "type": "object",
+        "properties": {
+            "p1": {
+                "type": "string"
+            }
+        },
+        "required": [ "p1", "p2" ]
+    },
+    "good": {
+        "p1": "hello",
+        "p2": "world"
+    },
+    "bad": {}
+}
