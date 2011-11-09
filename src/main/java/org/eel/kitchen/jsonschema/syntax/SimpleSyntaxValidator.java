@@ -21,9 +21,16 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 /**
- * Abstract class for {@link SyntaxValidator} instances,
- * for which the only necessary validation is checking the type of its
- * argument. Most syntax validators inherit this.
+ * Simple type-checking only validator
+ *
+ * <p>Most keywords have primitive types as their only possible types,
+ * and don't need to check the value. This is therefore the class of choice
+ * to inherit from in place of {@link SyntaxValidator}.
+ * </p>
+ *
+ * @see SyntaxValidator
+ * @see PositiveIntegerSyntaxValidator
+ * @see URISyntaxValidator
  */
 public abstract class SimpleSyntaxValidator
     extends SyntaxValidator

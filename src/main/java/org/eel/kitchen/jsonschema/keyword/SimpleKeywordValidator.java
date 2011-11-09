@@ -22,15 +22,18 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 /**
- * Base abstract class for a keyword validator,
- * used by "one shot" validators, ie validators which complete in one step
- * and don't need to spawn further validators.
+ * Abstract class to derive from for "one-shot" validators
+ *
+ * <p>One-shot validators are validators which only need to check their input
+ * once, and don't need to spawn other validators to fully determine whether
+ * their input is correct. Most keyword validators will use this.</p>
  */
 public abstract class SimpleKeywordValidator
     extends KeywordValidator
 {
     /**
-     * The schema node used to validate
+     * The schema node used to validate, grabbed from the {@link
+     * ValidationContext} used as a constructor argument
      */
     protected final JsonNode schema;
 

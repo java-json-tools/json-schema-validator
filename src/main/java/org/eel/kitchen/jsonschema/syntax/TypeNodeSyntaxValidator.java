@@ -41,6 +41,8 @@ public abstract class TypeNodeSyntaxValidator
     }
 
     /**
+     * Validate the contents of a type or disallow node
+     *
      * <p>Check that:</p>
      * <ul>
      *     <li>if the keyword is a simple type, it is a known type;</li>
@@ -76,6 +78,11 @@ public abstract class TypeNodeSyntaxValidator
         final NodeType type = NodeType.getNodeType(element);
 
         switch (type) {
+            /*
+             * Yes, this will work even for simple element validation: the
+             * fact that it must be a string or an array has been checked for
+             * already!
+             */
             case OBJECT:
                 return;
             case STRING:

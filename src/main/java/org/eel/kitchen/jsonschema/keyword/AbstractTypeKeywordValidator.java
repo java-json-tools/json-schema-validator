@@ -62,7 +62,7 @@ public abstract class AbstractTypeKeywordValidator
      *
      * @param context the context to use
      * @param instance the instance to validate
-     * @param field the name of the keyword ({@code type} or {@code disallow}
+     * @param field the name of the keyword ({@code type} or {@code disallow})
      */
     protected AbstractTypeKeywordValidator(final ValidationContext context,
         final JsonNode instance, final String field)

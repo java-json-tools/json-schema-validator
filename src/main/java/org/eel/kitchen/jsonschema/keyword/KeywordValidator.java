@@ -21,14 +21,36 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.factories.KeywordFactory;
 
+/**
+ * Base abstract class for keyword validators
+ *
+ * <p>Keyword validators are the core of the validation process. As it is
+ * guaranteed that the schema is correct when such a validator is called,
+ * implementations don't have to worry about the validity of their data. They
+ * just have to concentrate on validating their input.</p>
+ *
+ * @see KeywordFactory
+ */
 public abstract class KeywordValidator
     extends AbstractValidator
 {
+    /**
+     * The validation context for this validator. For keyword validators
+     * which require it, this is what will be used to spawned further
+     * contexts and/or validators.
+     */
     protected final ValidationContext context;
 
+    /**
+     * The validation report to use
+     */
     protected final ValidationReport report;
 
+    /**
+     * The instance to validate
+     */
     protected final JsonNode instance;
 
     protected KeywordValidator(final ValidationContext context,

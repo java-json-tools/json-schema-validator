@@ -21,13 +21,35 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.util.NodeType;
 
+import java.net.URI;
 import java.util.Arrays;
 import java.util.EnumSet;
 
 /**
- * Base implementation of a {@link SyntaxValidator}.
+ * Base abstract class for syntax validators.
+ *
+ * <p>All other syntax validators inherit from this one. It handles primary
+ * type checking of keywords, and leaves it to implementations to validate
+ * further if need be. The valid types for your keyword are registered at
+ * construction time.</p>
+ *
+ * <p>If you write a validator which sole purpose is validating that a
+ * keyword is of one or more primitive types, then consider using
+ * {@link SimpleSyntaxValidator}, of which there are even two specialized
+ * implementations:</p>
+ * <ul>
+ *     <li>{@link PositiveIntegerSyntaxValidator} will check that a field
+ *     is an integer, and that it fits within the limits of Java's {@link
+ *     Integer};</li>
+ *     <li>{@link URISyntaxValidator} will check that a field is a string,
+ *     and that the string is a valid {@link URI}.
+ *     </li>
+ * </ul>
+ *
+ * @see SyntaxFactory
  */
 public abstract class SyntaxValidator
     extends AbstractValidator

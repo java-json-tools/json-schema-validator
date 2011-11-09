@@ -64,7 +64,19 @@ import java.util.Set;
 import static org.eel.kitchen.util.NodeType.*;
 
 /**
- * Factory for keyword validators, ie the core of validation.
+ * Factory for keyword validators, ie the core of the validation process
+ *
+ * <p>Keyword validators all register to this factory, with the list of types
+ * they can validate. They can be pretty confident that their validation data
+ * is correct, since syntax validation will have ensured this. Therefore they
+ * only have to worry about validating instances.</p>
+ *
+ * <p>Most keyword validators are deterministic and can tell right on if
+ * their instance is valid. However, some validators cannot and need to spawn
+ * other validators. This is the case for keywords like {@code dependencies}
+ * for instance.</p>
+ *
+ * @see SyntaxFactory
  */
 public final class KeywordFactory
 {

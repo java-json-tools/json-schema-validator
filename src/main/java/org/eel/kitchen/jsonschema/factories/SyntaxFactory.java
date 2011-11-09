@@ -66,16 +66,18 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <p>Factory providing syntax checking validators for a schema.</p>
+ * Factory providing syntax checking validators for a schema
  *
- * <p>While the schema can validate itself, there is a chicken and egg
- * problem and we need to do this operation. The only user for this factory
- * is {@link ValidationContext#getValidator(JsonNode)}.
+ * <p>Syntax validators are used to validate the schema itself. In doing so,
+ * they ensure that keyword validators always have correct data to deal with.
  * </p>
+ *
+ * <p>Normally, you should never have to instantiate this factory yourself
+ * (in fact, the only current user for this is {@link ValidationContext}).</p>
  *
  * <p>Note that unknown keywords to this factory trigger a validation
  * <b>failure</b>. Therefore, it is important that all keywords be
- * registered.</p>
+ * registered. This is on purpose.</p>
  */
 public final class SyntaxFactory
 {

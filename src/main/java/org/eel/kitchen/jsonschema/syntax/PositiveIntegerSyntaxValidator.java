@@ -21,8 +21,9 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 /**
- * Specialized syntax validator for integer values. This is needed for two
- * reasons:
+ * Specialized syntax validator for integer values.
+ *
+ * <p>This specialized version is needed for two reasons:</p>
  * <ul>
  *     <li>all keywords implementing this abstract class have positive
  *     integer values only;</li>
