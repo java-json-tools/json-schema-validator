@@ -306,7 +306,7 @@ public final class ValidationContext
         for (final String pathElement: SPLIT_PATTERN.split(jsonPath)) {
             if (pathElement.isEmpty())
                 continue;
-            ret = schema.path(pathElement);
+            ret = ret.path(pathElement);
         }
 
         if (ret.isMissingNode())
