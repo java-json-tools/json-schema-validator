@@ -53,15 +53,19 @@ import java.util.regex.Pattern;
  */
 public final class ValidationContext
 {
+    private static final URI ROOT;
+
+    static {
+        try {
+            ROOT = new URI(null, null, "");
+        } catch (URISyntaxException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
     /**
      * Pattern to split JSON Path components
      */
     private static final Pattern SPLIT_PATTERN = Pattern.compile("/");
-
-    /**
-     * The root schema of this validation context
-     */
-    private JsonNode rootSchema;
 
     /**
      * The schema used by the current context
@@ -107,7 +111,8 @@ public final class ValidationContext
     public ValidationContext(final JsonNode schemaNode)
     {
         path = "#";
-        rootSchema = this.schemaNode = schemaNode;
+        setRootSchema(schemaNode);
+        this.schemaNode = schemaNode;
 
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
@@ -184,7 +189,6 @@ public final class ValidationContext
 
         final ValidationContext other = new ValidationContext();
         other.path = newPath;
-        other.rootSchema = rootSchema;
         other.schemaNode = subSchema;
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
@@ -254,7 +258,7 @@ public final class ValidationContext
 
     /**
      * <p>Given a JSON Schema reference, return a context for this reference.
-     * The context will be spawned with a different {@link #rootSchema} if
+     * The context will be spawned with a different root schema if
      * the {@code ref} argument is an absolute URI.</p>
      *
      * <p>This method is only used by {@link RefKeywordValidator} currently
@@ -281,7 +285,7 @@ public final class ValidationContext
                 + "have been validated already!", e);
         }
 
-        JsonNode schema = rootSchema;
+        JsonNode schema = locators.get(ROOT);
 
         final boolean absolute = baseURI.isAbsolute();
 
@@ -303,9 +307,14 @@ public final class ValidationContext
         final ValidationContext ret = createContext(node);
 
         if (absolute)
-            ret.rootSchema = schema;
+            ret.setRootSchema(schema);
 
         return ret;
+    }
+
+    private void setRootSchema(final JsonNode schema)
+    {
+        locators.put(ROOT, schema);
     }
 
     /**
@@ -313,14 +322,14 @@ public final class ValidationContext
      * the schema. Error out on either of the following:</p>
      * <ul>
      *     <li>the path does not exist, or</li>
-     *     <li>a loop is detected (by looking up in {@link #refLookups} if
-     *     the result has already been seen for this {@link
-     *     #rootSchema} and {@link #path}).
+     *     <li>a loop is detected, by looking up in {@link #refLookups} if
+     *     the result has already been seen for the current root schema and
+     *     {@link #path}.
      *     </li>
      * </ul>
      *
      * @param schema the schema
-     * @param jsonPath the JSON path (<i>without</i> the initial {@code #}
+     * @param jsonPath the JSON path (<i>without</i> the initial {@code #})
      * @return the entry
      * @throws IOException see description
      */
