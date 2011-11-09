@@ -28,6 +28,8 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -52,6 +54,9 @@ import java.util.regex.Pattern;
  */
 public final class ValidationContext
 {
+    private static final Logger logger
+        = LoggerFactory.getLogger(ValidationContext.class);
+
     /**
      * Pattern matching a JSON path (could probably be refined). Not anchored
      * since it uses {@link Matcher#matches()}.
@@ -119,6 +124,7 @@ public final class ValidationContext
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
         refLookups = new HashSet<JsonNode>();
+        refLookups.add(schema);
     }
 
     /**
@@ -297,6 +303,9 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
         }
 
+        logger.debug("trying to lookup path \"#" + path + "\" from node {} "
+            + "and root schema {}", schemaNode, rootSchema);
+
         final JsonNode schema = getSubSchema(path);
 
         if (schema.isMissingNode()) {
@@ -304,7 +313,10 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
         }
 
+        logger.debug("found {}", schema);
+
         if (refLookups.contains(schema)) {
+            logger.debug("ref loop detected!");
             report.error("schema " + schema + " loops on itself");
             return new AlwaysFalseValidator(report);
         }
