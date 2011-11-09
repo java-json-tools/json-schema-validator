@@ -72,4 +72,29 @@ public final class JsonValidator
         final Validator validator = context.getValidator(instance);
         return validator.validate();
     }
+
+    /**
+     * Validate an instance against a subschema of a given schema
+     *
+     * <p>If, for instance, you have a schema defined as:</p>
+     * <pre>
+     *     {
+     *         "schema1": { "some": "schema here" },
+     *         "schema2": { "another": "schema here" }
+     *     }
+     * </pre>
+     * <p>then you will be able to validate instances against {@code
+     * schema1} by invoking this method with {@code #/schema1} as the path</p>
+     *
+     * @param path the path to the actual schema
+     * @param instance the instance to validate
+     * @return a report of the validation
+     */
+    public ValidationReport validate(final String path, final JsonNode instance)
+    {
+        final String realPath = path.replaceFirst("#", "");
+
+        final Validator validator = context.getValidator(realPath, instance);
+        return validator.validate();
+    }
 }
