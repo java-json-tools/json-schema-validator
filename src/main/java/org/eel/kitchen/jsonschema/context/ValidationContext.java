@@ -304,7 +304,7 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
         }
 
-        logger.debug("trying to lookup path \"#{}\" from node {} ", path,
+        logger.trace("trying to lookup path \"#{}\" from node {} ", path,
             schemaNode);
 
         final JsonNode schema = getSubSchema(path);
