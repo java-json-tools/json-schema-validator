@@ -214,15 +214,13 @@ public final class SyntaxFactory
     public void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> c)
     {
-        if (c == null) {
-            if (ignoredKeywords.contains(keyword))
-                throw new IllegalArgumentException(ALREADY_REGISTERED);
-            ignoredKeywords.add(keyword);
-            return;
-        }
-        if (validators.containsKey(keyword))
+        if (ignoredKeywords.contains(keyword) || validators.containsKey(keyword))
             throw new IllegalArgumentException(ALREADY_REGISTERED);
-        validators.put(keyword, c);
+
+        if (c == null)
+            ignoredKeywords.add(keyword);
+        else
+            validators.put(keyword, c);
     }
 
     /**
