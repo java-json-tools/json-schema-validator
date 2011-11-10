@@ -24,7 +24,7 @@ import org.eel.kitchen.util.NodeType;
  * A {@link SyntaxValidator} which always returns true
  */
 
-public final class DefaultSyntaxValidator
+public final class AlwaysTrueSyntaxValidator
     extends SyntaxValidator
 {
     /**
@@ -32,7 +32,7 @@ public final class DefaultSyntaxValidator
      *
      * @param context the validation context
      */
-    public DefaultSyntaxValidator(final ValidationContext context)
+    public AlwaysTrueSyntaxValidator(final ValidationContext context)
     {
         super(context, "default", NodeType.values());
     }

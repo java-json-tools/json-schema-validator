@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.DefaultSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.AlwaysTrueSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxValidator;
@@ -97,7 +97,7 @@ public final class SyntaxFactory
             AdditionalItemsSyntaxValidator.class);
         registerValidator("additionalProperties",
             AdditionalPropertiesSyntaxValidator.class);
-        registerValidator("default", DefaultSyntaxValidator.class);
+        registerValidator("default", AlwaysTrueSyntaxValidator.class);
         registerValidator("dependencies", DependenciesSyntaxValidator.class);
         registerValidator("description", DescriptionSyntaxValidator.class);
         registerValidator("disallow", DisallowSyntaxValidator.class);
