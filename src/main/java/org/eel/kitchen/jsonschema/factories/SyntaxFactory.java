@@ -26,7 +26,6 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.AlwaysTrueSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxValidator;
@@ -88,6 +87,18 @@ public final class SyntaxFactory
         = new HashMap<String, Class<? extends SyntaxValidator>>();
 
     /**
+     * List of keywords we don't want to check at all
+     *
+     * <p>Currently, this only contains the {@code default} keyword by
+     * default, unless you call {@link #unregisterValidator(String)} and/or
+     * {@link #registerValidator(String, Class)}. This is a temporary workaround
+     * until this keyword is handled in some way... I just don't know how yet.
+     * It is really useful only for serialization.
+     * </p>
+     */
+    private final Set<String> unchecked = new HashSet<String>();
+
+    /**
      * Constructor, registering all validators with {@link
      * #registerValidator(String, Class)}
      */
@@ -97,7 +108,6 @@ public final class SyntaxFactory
             AdditionalItemsSyntaxValidator.class);
         registerValidator("additionalProperties",
             AdditionalPropertiesSyntaxValidator.class);
-        registerValidator("default", AlwaysTrueSyntaxValidator.class);
         registerValidator("dependencies", DependenciesSyntaxValidator.class);
         registerValidator("description", DescriptionSyntaxValidator.class);
         registerValidator("disallow", DisallowSyntaxValidator.class);
@@ -127,6 +137,8 @@ public final class SyntaxFactory
         registerValidator("title", TitleSyntaxValidator.class);
         registerValidator("type", TypeSyntaxValidator.class);
         registerValidator("uniqueItems", UniqueItemsSyntaxValidator.class);
+
+        unchecked.add("default");
     }
 
     /**
@@ -160,6 +172,8 @@ public final class SyntaxFactory
         final Set<String> fields
             = CollectionUtils.toSet(schema.getFieldNames());
 
+        fields.removeAll(unchecked);
+
         final Set<String> keywords = new HashSet<String>(validators.keySet());
 
         if (!keywords.containsAll(fields)) {
@@ -190,6 +204,18 @@ public final class SyntaxFactory
     public void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> c)
     {
+        //TODO: keyword null check, see below
+
+        if (c == null) {
+            unchecked.add(keyword);
+            return;
+        }
+
+        if (validators.containsKey(keyword))
+            throw new IllegalArgumentException("there is already a validator "
+                + "for keyword " + keyword + ", please unregister it first");
+
+        unchecked.remove(keyword);
         validators.put(keyword, c);
     }
 
@@ -200,10 +226,12 @@ public final class SyntaxFactory
      */
     public void unregisterValidator(final String keyword)
     {
+        //TODO: move this check further up
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
 
         validators.remove(keyword);
+        unchecked.add(keyword);
     }
 
     /**
