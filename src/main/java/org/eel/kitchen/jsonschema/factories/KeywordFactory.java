@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
@@ -46,6 +47,7 @@ import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -93,6 +95,8 @@ public final class KeywordFactory
     private final Map<String, Class<? extends KeywordValidator>> validators
         = new HashMap<String, Class<? extends KeywordValidator>>();
 
+    private final Set<String> ignoredKeywords = new HashSet<String>();
+
     /**
      * Constructor; registers validators using
      * {@link #registerValidator(String, Class, NodeType...)}.
@@ -115,7 +119,6 @@ public final class KeywordFactory
             NodeType.values());
         registerValidator("format", FormatKeywordValidator.class,
             NodeType.values());
-        registerValidator("items", AlwaysTrueKeywordValidator.class, ARRAY);
         registerValidator("maximum", MaximumKeywordValidator.class, INTEGER,
             NUMBER);
         registerValidator("maxItems", MaxItemsKeywordValidator.class, ARRAY);
@@ -127,42 +130,67 @@ public final class KeywordFactory
         registerValidator("minLength", MinLengthKeywordValidator.class,
             STRING);
         registerValidator("pattern", PatternKeywordValidator.class, STRING);
-        registerValidator("patternProperties", AlwaysTrueKeywordValidator.class,
-            OBJECT);
         registerValidator("properties", PropertiesKeywordValidator.class,
             OBJECT);
         registerValidator("type", TypeKeywordValidator.class, NodeType.values());
         registerValidator("uniqueItems", UniqueItemsKeywordValidator.class,
             ARRAY);
         registerValidator("$ref", RefKeywordValidator.class, NodeType.values());
+
+        ignoredKeywords.add("items");
+        ignoredKeywords.add("patternProperties");
     }
 
     /**
      * Register one validator for a given keyword
      *
-     * @param field the keyword
+     * <p>If the validator argument is {@code null}, this means no validation
+     * will be performed at all. If it is not null, however,
+     * be sure to pair it with a {@link SyntaxValidator},
+     * since it is the latter which will ensure that on invocation,
+     * the new validator will not fail due to incorrect input.
+     * </p>
+     *
+     * @param keyword the keyword
      * @param v the {@link KeywordValidator} as a {@link Class} object
      * @param types the instance types this validator can handle
+     * @throws IllegalArgumentException if the keyword is already registerd,
+     * or if the {@code types} array is empty
+     *
+     * @see SyntaxFactory#registerValidator(String, Class)
+     * @see JsonValidator#registerValidator(String, Class, Class, NodeType...)
      */
-    public void registerValidator(final String field,
+    public void registerValidator(final String keyword,
         final Class<? extends KeywordValidator> v, final NodeType... types)
     {
+        if (ignoredKeywords.contains(keyword) || validators.containsKey(keyword))
+            throw new IllegalArgumentException("keyword already registered to"
+                + " that KeywordFactory");
+
+        if (v == null) {
+            ignoredKeywords.add(keyword);
+            return;
+        }
+
+        if (types.length == 0)
+            throw new IllegalArgumentException("cannot register a new keyword"
+                + " with no JSON type to match against");
+
         final EnumSet<NodeType> typeset = EnumSet.copyOf(Arrays.asList(types));
 
-        fieldMap.put(field, typeset);
-        validators.put(field, v);
+        fieldMap.put(keyword, typeset);
+        validators.put(keyword, v);
     }
 
     /**
      * Unregister a validator for the given keyword
      *
+     * <p>This has basically</p>
      * @param keyword the victim
      */
     public void unregisterValidator(final String keyword)
     {
-        if (keyword == null)
-            throw new IllegalArgumentException("keyword is null");
-
+        ignoredKeywords.remove(keyword);
         fieldMap.remove(keyword);
         validators.remove(keyword);
     }
@@ -182,11 +210,11 @@ public final class KeywordFactory
         final Collection<Validator> collection
             = getValidators(context, instance);
 
-
         final Validator validator;
         switch (collection.size()) {
             case 0:
-                return new AlwaysTrueKeywordValidator(context, instance);
+                validator = new AlwaysTrueKeywordValidator(context, instance);
+                break;
             case 1:
                 validator = collection.iterator().next();
                 break;
@@ -234,7 +262,6 @@ public final class KeywordFactory
                 context, instance));
 
         final Set<String> keyset = new HashSet<String>();
-
         Class<? extends Validator> c;
 
         keyset.addAll(validators.keySet());

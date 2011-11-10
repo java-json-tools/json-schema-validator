@@ -23,7 +23,6 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.draftv4.newkeywords.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.draftv4.newkeywords.RequiredKeywordValidator;
 import org.eel.kitchen.jsonschema.draftv4.newkeywords.RequiredSyntaxValidator;
-import org.eel.kitchen.jsonschema.keyword.AlwaysTrueKeywordValidator;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.NodeType;
 import org.testng.annotations.BeforeClass;
@@ -90,7 +89,7 @@ public final class KeywordRegistrationTest
         ret.unregisterValidator("properties");
         ret.unregisterValidator("required");
         ret.registerValidator("properties", PropertiesSyntaxValidator.class,
-            AlwaysTrueKeywordValidator.class, NodeType.OBJECT);
+            null, NodeType.OBJECT);
         ret.registerValidator("required", RequiredSyntaxValidator.class,
             RequiredKeywordValidator.class, NodeType.OBJECT);
 

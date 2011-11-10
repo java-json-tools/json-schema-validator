@@ -152,22 +152,15 @@ public final class ValidationContext
      * @param kv the {@link KeywordValidator} implementation
      * @param types the list of JSON types the keyword validator is able to
      * validate
-     * @throws IllegalArgumentException one validator is null,
-     * or the type list is empty
+     *
+     * @see SyntaxFactory#registerValidator(String, Class)
+     * @see KeywordFactory#registerValidator(String, Class, NodeType...)
      */
     public void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> sv,
         final Class<? extends KeywordValidator> kv, final NodeType... types)
     {
         syntaxFactory.registerValidator(keyword, sv);
-
-        if (kv == null)
-            throw new IllegalArgumentException("keyword validator is null");
-
-        if (types.length == 0)
-            throw new IllegalArgumentException("validator wouldn't match any "
-                + "JSON instance (empty type set)");
-
         keywordFactory.registerValidator(keyword, kv, types);
     }
 
