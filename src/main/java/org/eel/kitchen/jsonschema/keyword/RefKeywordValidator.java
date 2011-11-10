@@ -99,6 +99,7 @@ public final class RefKeywordValidator
 
         String path = uri.getFragment();
 
+        //TODO: check whether addressing a schema without a # is actuall legal
         if (path == null)
             path = "";
 
