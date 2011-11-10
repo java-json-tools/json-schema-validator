@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -101,7 +100,7 @@ public final class ValidationContext
      * The ref result lookups for this {@link #path},
      * used for ref looping detection
      */
-    private Set<JsonNode> refLookups;
+    private final Set<JsonNode> refLookups = new LinkedHashSet<JsonNode>();
 
     /**
      * The default constructor, which is private by design
@@ -124,7 +123,6 @@ public final class ValidationContext
 
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
-        refLookups = new LinkedHashSet<JsonNode>();
         refLookups.add(schema);
     }
 
@@ -203,7 +201,6 @@ public final class ValidationContext
         other.schemaNode = subSchema;
         other.keywordFactory = keywordFactory;
         other.syntaxFactory = syntaxFactory;
-        other.refLookups = new HashSet<JsonNode>();
         if (newPath.equals(path))
             other.refLookups.addAll(refLookups);
         other.locators.putAll(locators);
@@ -253,7 +250,7 @@ public final class ValidationContext
         ret.schemaNode = newRoot;
         ret.keywordFactory = keywordFactory;
         ret.syntaxFactory = syntaxFactory;
-        ret.refLookups = new HashSet<JsonNode>(refLookups);
+        ret.refLookups.addAll(refLookups);
         ret.locators.putAll(locators);
         return ret;
     }
