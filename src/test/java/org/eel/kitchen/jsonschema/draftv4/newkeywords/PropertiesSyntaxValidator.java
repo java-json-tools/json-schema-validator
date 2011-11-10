@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.draftv4;
+package org.eel.kitchen.jsonschema.draftv4.newkeywords;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.context.ValidationContext;

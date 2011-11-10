@@ -1,4 +1,13 @@
 {
+    "badschema": {
+        "type": "object",
+        "properties": {
+            "p1" : {
+                "type": "string",
+                "required": true
+            }
+        }
+    },
     "schema": {
         "type": "object",
         "properties": {

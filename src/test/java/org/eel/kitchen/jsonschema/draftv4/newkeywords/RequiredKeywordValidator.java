@@ -1,4 +1,4 @@
-package org.eel.kitchen.jsonschema.draftv4;
+package org.eel.kitchen.jsonschema.draftv4.newkeywords;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
