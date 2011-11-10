@@ -49,16 +49,51 @@ public final class JsonValidator
         context = new ValidationContext(schema);
     }
 
-    // TODO: javadoc, and decide where to handle errors -- probably here
+    /**
+     * Unregister validators for a particular keyword
+     *
+     * <p>This will unregister both the {@link SyntaxValidator} and {@link
+     * KeywordValidator} for this keyword. Note that calling this method
+     * will effectively render the keyword <b>unrecognized</b>,
+     * which means schemas bearing this particular keyword will be considered
+     * <b>INVALID</b>. This is why this method should always be called
+     * before, and paired with,
+     * {@link #registerValidator(String, Class, Class, NodeType...)},
+     * unless you really mean to reduce the subset of recognized keywords.</p>
+     *
+     * @param keyword the keyword to unregister
+     * @throws IllegalArgumentException if keyword is null
+     */
     public void unregisterValidator(final String keyword)
     {
+        if (keyword == null)
+            throw new IllegalArgumentException("keyword is null");
+
         context.unregisterValidator(keyword);
     }
 
+    /**
+     * Register a new set of validators for a particular keyword
+     *
+     * <p>Note that if {@code null} is passed to validators,
+     * then validation will always succeed. Be particularly careful if you
+     * pass null as an argument to the syntax validator and not the keyword
+     * validator, as the primary role of a syntax validator is to ensure that
+     * the keyword validator have the data it expects in the schema!</p>
+     *
+     * @param keyword the keyword to register
+     * @param sv the {@link SyntaxValidator} to register for this keyword
+     * @param kv the {@link KeywordValidator} to register for this keyword
+     * @param types the list of primitive types the keyword validator applies to
+     * @throws IllegalArgumentException if keyword is null
+     */
     public void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> sv,
         final Class<? extends KeywordValidator> kv, final NodeType... types)
     {
+        if (keyword == null)
+            throw new IllegalArgumentException("keyword is null");
+
         context.registerValidator(keyword, sv, kv, types);
     }
 
