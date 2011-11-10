@@ -85,6 +85,7 @@ public final class RefKeywordValidator
 
         final boolean absoluteURI = uri.isAbsolute();
 
+        //TODO: make a wrapper over URI handling, and make it extensible
         if (!absoluteURI) {
             if (!uri.getSchemeSpecificPart().isEmpty()) {
                 report.error("invalid URI " + ref + ": non absolute URI "
