@@ -112,7 +112,9 @@ public final class RefKeywordValidator
                 if (newSchema == null)
                     newSchema = JsonLoader.fromURL(baseURI.toURL());
             } catch (IOException e) {
-                report.error("cannot download schema: " + e.getMessage());
+                report.error(String.format("cannot download schema at ref "
+                    + "%s: %s: %s", ref, e.getClass().getName(),
+                    e.getMessage()));
                 return report;
             }
             ctx = context.newContext(baseURI, newSchema);

@@ -26,7 +26,12 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.UUID;
 
 import static org.testng.Assert.*;
 
@@ -35,7 +40,7 @@ public final class RefTest
     private static final String SPEC = "http://json-schema.org/draft-03/schema";
     private JsonNode draftv3;
     private JsonNode torture;
-
+    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
     @BeforeClass
     public void setUp()
@@ -57,16 +62,16 @@ public final class RefTest
 
     //TODO: test with a depth more than 1. I know it works, but still
     @Test
-    public void testLoopingRefIsAnError()
+    public void testLoopingRef()
     {
-        final ObjectNode schemaNode = JsonNodeFactory.instance.objectNode();
+        final ObjectNode schemaNode = factory.objectNode();
 
         schemaNode.put("$ref", "#");
 
         final JsonValidator validator = new JsonValidator(schemaNode);
 
         final ValidationReport report
-            = validator.validate(JsonNodeFactory.instance.arrayNode());
+            = validator.validate(factory.arrayNode());
 
         assertFalse(report.isSuccess());
 
@@ -77,14 +82,13 @@ public final class RefTest
     }
 
     @Test
-    public void testMissingPathIsFatal()
+    public void testMissingPath()
     {
         final JsonNode schema = torture.get("missingref");
 
         final JsonValidator validator = new JsonValidator(schema);
 
-        final ValidationReport report = validator.validate(JsonNodeFactory
-            .instance.nullNode());
+        final ValidationReport report = validator.validate(factory.nullNode());
 
         assertTrue(report.isError());
 
@@ -95,14 +99,13 @@ public final class RefTest
     }
 
     @Test
-    public void testDisallowLoopRefIsFatal()
+    public void testDisallowLoopRef()
     {
         final JsonNode schema = torture.get("disallow");
 
         final JsonValidator validator = new JsonValidator(schema);
 
-        final ValidationReport report = validator.validate(JsonNodeFactory
-            .instance.nullNode());
+        final ValidationReport report = validator.validate(factory.nullNode());
 
         assertTrue(report.isError());
 
@@ -114,14 +117,13 @@ public final class RefTest
     }
 
     @Test
-    public void testUnsupportedSchemeIsFatal()
+    public void testUnsupportedScheme()
     {
         final JsonNode schema = torture.get("unsupportedScheme");
 
         final JsonValidator validator = new JsonValidator(schema);
 
-        final ValidationReport report = validator.validate(JsonNodeFactory
-            .instance.nullNode());
+        final ValidationReport report = validator.validate(factory.nullNode());
 
         assertTrue(report.isError());
 
@@ -132,14 +134,13 @@ public final class RefTest
     }
 
     @Test
-    public void testNonEmptySSPIsFatal()
+    public void testNonEmptySSP()
     {
         final JsonNode schema = torture.get("nonEmptySSP");
 
         final JsonValidator validator = new JsonValidator(schema);
 
-        final ValidationReport report = validator.validate(JsonNodeFactory
-            .instance.nullNode());
+        final ValidationReport report = validator.validate(factory.nullNode());
 
         assertTrue(report.isError());
 
@@ -148,5 +149,48 @@ public final class RefTest
         assertEquals("#: FATAL: invalid URI a/b/c#/d/e: non absolute URI"
             + " but non empty scheme specific part",
             report.getMessages().get(0));
+    }
+
+    @Test
+    public void testUnknownHost()
+        throws URISyntaxException, IOException
+    {
+        String hostname;
+
+        /*
+         * That is one good way of finding a non existent hostname... And
+         * while there is a distant possibility that between this point and
+         * the actual test, the hostname becomes valid,
+         * the chance is pretty slim...
+         *
+         * TODO: maybe use mockito for that? But at what level?
+         */
+        while (true) {
+            hostname = UUID.randomUUID().toString();
+            try {
+                InetAddress.getByName(hostname);
+            } catch (UnknownHostException ignored) {
+                break;
+            }
+        }
+
+        final URI uri = new URI("http", hostname, null, null);
+
+        final String ref = uri.toASCIIString();
+
+        final String errmsg = String.format("#: FATAL: cannot download schema"
+            + " at ref %s: java.net.UnknownHostException: %s", ref, hostname);
+
+        final ObjectNode schema = factory.objectNode();
+        schema.put("$ref", ref);
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        final ValidationReport report = validator.validate(factory.nullNode());
+
+        assertTrue(report.isError());
+
+        assertEquals(report.getMessages().size(), 1);
+        assertEquals(report.getMessages().get(0), errmsg);
     }
 }
