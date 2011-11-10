@@ -38,6 +38,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
  * @see ArrayValidator
  * @see ObjectValidator
  */
+//TODO: try and make this class not extend KeywordValidator, it's confusing
 public abstract class ContainerValidator
     extends KeywordValidator
 {
