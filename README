@@ -4,60 +4,11 @@ http://www.json-schema.org/). Most implementations today are written in
 JavaScript, but this one is pure Java. This allows pure server side JSON schema
 validation if this is what you are looking for.
 
-The draft helping as a reference is, at the moment, draft version 3 (version 4
-is around the corner, for some defintion of "corner" -- understand, days, or a
-few weeks).
+This README is very far from being complete, so the best you can do is go to the
+Github's project page at:
 
-This implementation supports all of section 5 except the following:
+https://github.com/fge/json-schema-validator
 
-- 5.27: id is not supported yet;
-- 5.28: $ref only understands URLs (not all URIs) or JSON paths (ie, "#/x/y"),
-  or a combination of both;
-- 5.29: $schema is not supported yet;
+In particular, have an eye on the Wiki, it is pretty much (with the generated
+Javadoc) the reference documentation as the implementation currently stands.
 
-Sample usage:
-
-----
-public final class SampleValidation()
-{
-    public static void main(final String... args)
-    {
-        //
-        // See JsonLoader for loading schemas. You can load from URLs, File
-        // objects, resources and more.
-        //
-        // Here, "schema" is the JSON document representing the schema, and
-        // "instance" is the JSON document to validate.
-    
-        final JsonNode schema = JsonLoader.fromURL("http://some.host/path/to/schema");
-        final JsonNode instance = JsonLoader.fromFile(...);
-    
-        final JsonValidator validator = new JsonValidator(schema);
-    
-        //
-        // A ValidationReport object contains the state of validation. Right now
-        // it ALWAYS collects validation failure messages, as deep as it can. In
-        // the future, a version will exist which will NOT collect messages but
-        // which will answer correctly to the .isSuccess() method below:
-        //
-    
-        final ValidationReport report = validator.validate(instance);
-    
-        if (validator.isSuccess())
-            System.exit(0);
-    
-        //
-        // On failure, with the default (as of now) ValidationReport object, you
-        // can collect error messages. This sample prints them out.
-        //
-    
-        final List<String> errs = report.getMessages();
-    
-        for (final String err: errs)
-            System.err.println(err);
-
-        // Everything BUT 0 here -- behave
-        System.exit(1);
-    }
-}
-----
