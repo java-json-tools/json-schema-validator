@@ -24,9 +24,9 @@ import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.AlwaysTrueSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxValidator;
@@ -81,11 +81,23 @@ import java.util.Set;
  */
 public final class SyntaxFactory
 {
+    private static final String ALREADY_REGISTERED = "keyword already "
+        + "registered for that SyntaxFactory";
+
     /**
      * Map pairing a schema keyword with its corresponding syntax validator
      */
     private final Map<String, Class<? extends SyntaxValidator>> validators
         = new HashMap<String, Class<? extends SyntaxValidator>>();
+
+    /**
+     * The set of ignored keywords for this factory
+     *
+     * <p>Note that an ignored keyword is <b>not</b> the same as an unknown
+     * keyword, it simply means that if the keyword is found in the schema,
+     * it is assumed to always be valid.</p>
+     */
+    private final Set<String> ignoredKeywords = new HashSet<String>();
 
     /**
      * Constructor, registering all validators with {@link
@@ -97,7 +109,6 @@ public final class SyntaxFactory
             AdditionalItemsSyntaxValidator.class);
         registerValidator("additionalProperties",
             AdditionalPropertiesSyntaxValidator.class);
-        registerValidator("default", AlwaysTrueSyntaxValidator.class);
         registerValidator("dependencies", DependenciesSyntaxValidator.class);
         registerValidator("description", DescriptionSyntaxValidator.class);
         registerValidator("disallow", DisallowSyntaxValidator.class);
@@ -127,6 +138,8 @@ public final class SyntaxFactory
         registerValidator("title", TitleSyntaxValidator.class);
         registerValidator("type", TypeSyntaxValidator.class);
         registerValidator("uniqueItems", UniqueItemsSyntaxValidator.class);
+
+        ignoredKeywords.add("default");
     }
 
     /**
@@ -160,6 +173,8 @@ public final class SyntaxFactory
         final Set<String> fields
             = CollectionUtils.toSet(schema.getFieldNames());
 
+        fields.removeAll(ignoredKeywords);
+
         final Set<String> keywords = new HashSet<String>(validators.keySet());
 
         if (!keywords.containsAll(fields)) {
@@ -184,26 +199,50 @@ public final class SyntaxFactory
     /**
      * Register a validator for a given keyword
      *
+     * <p>Note that if the class argument is {@code null},
+     * the keyword will be registered but validation will be happily ignored.
+     * If you choose to go this route, be sure that the matching
+     * {@link KeywordValidator} can handle the situation!</p>
+     *
      * @param keyword the keyword
      * @param c the {@link SyntaxValidator} as a {@link Class} object
+     * @throws IllegalArgumentException if a validator has already been
+     * registered for this keyword
+     *
+     * @see {@link #unregisterValidator(String)}
      */
     public void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> c)
     {
+        if (c == null) {
+            if (ignoredKeywords.contains(keyword))
+                throw new IllegalArgumentException(ALREADY_REGISTERED);
+            ignoredKeywords.add(keyword);
+            return;
+        }
+        if (validators.containsKey(keyword))
+            throw new IllegalArgumentException(ALREADY_REGISTERED);
         validators.put(keyword, c);
     }
 
     /**
-     * Unregister a validator for the given keyword.
+     * Unregister a validator for the given keyword
+     *
+     * <p>This method <b>must</b> be called before registering a new keyword.
+     * Unlike the latter however, it silently ignores unexisting keywords.</p>
      *
      * @param keyword the victim
+     *
+     * @see {@link #registerValidator(String, Class)}
      */
     public void unregisterValidator(final String keyword)
     {
-        if (keyword == null)
-            throw new IllegalArgumentException("keyword is null");
-
+        /*
+         * Unlike for registering, we choose to blindly ignore unregistering
+         * of non existing keywords.
+         */
         validators.remove(keyword);
+        ignoredKeywords.remove(keyword);
     }
 
     /**
