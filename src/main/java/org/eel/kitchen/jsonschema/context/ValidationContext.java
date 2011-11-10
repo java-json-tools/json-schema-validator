@@ -34,6 +34,7 @@ import org.slf4j.LoggerFactory;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -123,7 +124,7 @@ public final class ValidationContext
 
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
-        refLookups = new HashSet<JsonNode>();
+        refLookups = new LinkedHashSet<JsonNode>();
         refLookups.add(schema);
     }
 
@@ -304,8 +305,8 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
         }
 
-        logger.debug("trying to lookup path \"#" + path + "\" from node {} "
-            + "and root schema {}", schemaNode, rootSchema);
+        logger.debug("trying to lookup path \"#{}\" from node {} ", path,
+            schemaNode);
 
         final JsonNode schema = getSubSchema(path);
 
@@ -314,15 +315,13 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
         }
 
-        logger.debug("found {}", schema);
-
-        if (refLookups.contains(schema)) {
+        if (!refLookups.add(schema)) {
             logger.debug("ref loop detected!");
+            logger.debug("path to loop: {}", refLookups);
             report.error("schema " + schema + " loops on itself");
             return new AlwaysFalseValidator(report);
         }
 
-        refLookups.add(schema);
         schemaNode = schema;
 
         return getValidator(instance);
