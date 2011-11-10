@@ -60,7 +60,6 @@ public final class RefTest
         assertTrue(report.isSuccess());
     }
 
-    //TODO: test with a depth more than 1. I know it works, but still
     @Test
     public void testLoopingRef()
     {
@@ -192,5 +191,30 @@ public final class RefTest
 
         assertEquals(report.getMessages().size(), 1);
         assertEquals(report.getMessages().get(0), errmsg);
+    }
+
+    @Test
+    public void testCrossSchemaLoop()
+    {
+        final ObjectNode schema1 = factory.objectNode();
+        schema1.put("$ref", "#/schema2");
+
+        final ObjectNode schema2 = factory.objectNode();
+        schema2.put("$ref", "#/schema1");
+
+        final ObjectNode schema = factory.objectNode();
+        schema.put("schema1", schema1);
+        schema.put("schema2", schema2);
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        final ValidationReport report
+            = validator.validate("#/schema1", factory.nullNode());
+
+        assertTrue(report.isError());
+
+        assertEquals(report.getMessages().size(), 1);
+        assertEquals(report.getMessages().get(0), "#: FATAL: schema {\"$ref\":"
+            + "\"#/schema2\"} loops on itself");
     }
 }
