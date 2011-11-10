@@ -36,20 +36,6 @@ import org.eel.kitchen.jsonschema.factories.KeywordFactory;
 public abstract class KeywordValidator
     extends AbstractValidator
 {
-    public static final class TRUE
-        extends KeywordValidator
-    {
-        public TRUE(final ValidationContext context, final JsonNode instance)
-        {
-            super(context, instance);
-        }
-
-        @Override
-        public ValidationReport validate()
-        {
-            return report;
-        }
-    }
     /**
      * The validation context for this validator. For keyword validators
      * which require it, this is what will be used to spawned further
