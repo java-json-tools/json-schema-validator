@@ -72,7 +72,7 @@ public final class ValidationContext
     /**
      * The root schema of this validation context
      */
-    private JsonNode rootSchema;
+    private final JsonNode rootSchema;
 
     /**
      * The schema used by the current context
@@ -82,17 +82,17 @@ public final class ValidationContext
     /**
      * The JSON path within the instance for the current context
      */
-    private String path;
+    private final String path;
 
     /**
      * The keyword validator factory
      */
-    private KeywordFactory keywordFactory;
+    private final KeywordFactory keywordFactory;
 
     /**
      * The syntax validator factory
      */
-    private SyntaxFactory syntaxFactory;
+    private final SyntaxFactory syntaxFactory;
 
     private final Map<URI, JsonNode> locators = new HashMap<URI, JsonNode>();
 
@@ -102,11 +102,15 @@ public final class ValidationContext
      */
     private final Set<JsonNode> refLookups = new LinkedHashSet<JsonNode>();
 
-    /**
-     * The default constructor, which is private by design
-     */
-    private ValidationContext()
+    private ValidationContext(final JsonNode rootSchema,
+        final JsonNode schemaNode, final String path,
+        final KeywordFactory keywordFactory, final SyntaxFactory syntaxFactory)
     {
+        this.rootSchema = rootSchema;
+        this.schemaNode = schemaNode;
+        this.path = path;
+        this.keywordFactory = keywordFactory;
+        this.syntaxFactory = syntaxFactory;
     }
 
     /**
@@ -195,15 +199,14 @@ public final class ValidationContext
             ? path
             : String.format("%s/%s", path, subPath);
 
-        final ValidationContext other = new ValidationContext();
-        other.path = newPath;
-        other.rootSchema = rootSchema;
-        other.schemaNode = subSchema;
-        other.keywordFactory = keywordFactory;
-        other.syntaxFactory = syntaxFactory;
+        final ValidationContext other = new ValidationContext(rootSchema,
+            subSchema, newPath, keywordFactory, syntaxFactory);
+
         if (newPath.equals(path))
             other.refLookups.addAll(refLookups);
+
         other.locators.putAll(locators);
+
         return other;
     }
 
@@ -235,6 +238,7 @@ public final class ValidationContext
      */
     public ValidationContext newContext(final URI uri, final JsonNode newRoot)
     {
+        // FIXME: beeeh... There _has_ to be a better way to do that
         if (locators.containsKey(uri)) {
             if (!newRoot.equals(locators.get(uri)))
                 throw new RuntimeException("This should not have happened: I "
@@ -243,15 +247,13 @@ public final class ValidationContext
         } else
             locators.put(uri, newRoot);
 
-        final ValidationContext ret = new ValidationContext();
+        final ValidationContext ret = new ValidationContext(rootSchema,
+            schemaNode, path, keywordFactory, syntaxFactory);
 
-        ret.path = path;
-        ret.rootSchema = newRoot;
-        ret.schemaNode = newRoot;
-        ret.keywordFactory = keywordFactory;
-        ret.syntaxFactory = syntaxFactory;
         ret.refLookups.addAll(refLookups);
+
         ret.locators.putAll(locators);
+
         return ret;
     }
 
