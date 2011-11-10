@@ -82,7 +82,7 @@ import java.util.Set;
 public final class SyntaxFactory
 {
     private static final String ALREADY_REGISTERED = "keyword already "
-        + "registered for that SyntaxFactory";
+        + "registered to that SyntaxFactory";
 
     /**
      * Map pairing a schema keyword with its corresponding syntax validator

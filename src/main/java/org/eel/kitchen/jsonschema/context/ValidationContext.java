@@ -159,8 +159,6 @@ public final class ValidationContext
         final Class<? extends SyntaxValidator> sv,
         final Class<? extends KeywordValidator> kv, final NodeType... types)
     {
-        if (sv == null)
-            throw new IllegalArgumentException("syntax validator is null");
         syntaxFactory.registerValidator(keyword, sv);
 
         if (kv == null)
