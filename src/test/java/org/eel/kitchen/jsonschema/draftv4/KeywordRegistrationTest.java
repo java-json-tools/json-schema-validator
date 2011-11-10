@@ -79,7 +79,7 @@ public final class KeywordRegistrationTest
 
         assertEquals(report.getMessages().size(), 1);
 
-        assertEquals(report.getMessages().get(0), "#: missing dependencies"
+        assertEquals(report.getMessages().get(0), "#: missing properties"
             + " [p1, p2]");
     }
 
