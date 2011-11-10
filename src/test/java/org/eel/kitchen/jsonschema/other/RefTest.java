@@ -51,16 +51,6 @@ public final class RefTest
     }
 
     @Test
-    public void testSchemaValidatesItself()
-    {
-        final JsonValidator validator = new JsonValidator(draftv3);
-
-        final ValidationReport report = validator.validate(draftv3);
-
-        assertTrue(report.isSuccess());
-    }
-
-    @Test
     public void testLoopingRef()
     {
         final ObjectNode schemaNode = factory.objectNode();
