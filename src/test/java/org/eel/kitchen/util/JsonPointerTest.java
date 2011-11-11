@@ -129,6 +129,15 @@ public final class JsonPointerTest
     }
 
     @Test
+    public void testEmbeddedPercentInPathElement()
+    {
+        final JsonPointer p = new JsonPointer("#/a%%253a");
+
+        assertEquals(p.toDecodedString(), "#/a%%3a");
+        assertEquals(p.toString(), "#/a%25%253a");
+    }
+
+    @Test
     public void testGetPath()
         throws IOException
     {
