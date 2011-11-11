@@ -26,9 +26,10 @@ import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.jsonschema.uri.URIHandler;
+import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
-import org.eel.kitchen.util.URIHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.util;
+package org.eel.kitchen.jsonschema.uri;
 
 import org.codehaus.jackson.JsonNode;
 

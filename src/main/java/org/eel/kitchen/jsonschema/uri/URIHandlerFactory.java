@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.context;
+package org.eel.kitchen.jsonschema.uri;
 
-import org.eel.kitchen.util.HTTPURIHandler;
-import org.eel.kitchen.util.URIHandler;
+import org.eel.kitchen.jsonschema.uri.HTTPURIHandler;
+import org.eel.kitchen.jsonschema.uri.URIHandler;
 
 import java.net.URI;
 import java.util.HashMap;
