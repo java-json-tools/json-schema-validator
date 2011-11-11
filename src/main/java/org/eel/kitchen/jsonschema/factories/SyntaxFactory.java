@@ -206,7 +206,7 @@ public final class SyntaxFactory
      * @throws IllegalArgumentException if a validator has already been
      * registered for this keyword
      *
-     * @see {@link #unregisterValidator(String)}
+     * @see #unregisterValidator(String)
      */
     public void registerValidator(final String keyword,
         final Class<? extends SyntaxValidator> c)
@@ -228,7 +228,7 @@ public final class SyntaxFactory
      *
      * @param keyword the victim
      *
-     * @see {@link #registerValidator(String, Class)}
+     * @see #registerValidator(String, Class)
      */
     public void unregisterValidator(final String keyword)
     {
