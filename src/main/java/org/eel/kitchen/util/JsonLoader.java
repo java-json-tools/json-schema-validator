@@ -38,8 +38,6 @@ public final class JsonLoader
      */
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private static final int SLASH = (int) '/';
-
     /**
      * A shortcut: myself as a {@link Class} object.
      */
@@ -58,10 +56,7 @@ public final class JsonLoader
     public static JsonNode fromResource(final String resource)
         throws IOException
     {
-        String realResource = resource;
-
-        if ((int) realResource.charAt(0) != SLASH)
-            realResource = '/' + realResource;
+        final String realResource = resource.replaceFirst("^(?!/)", "/");
 
         final JsonNode ret;
 
