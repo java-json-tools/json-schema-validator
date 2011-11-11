@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.util;
 
+import org.codehaus.jackson.JsonNode;
+
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -162,6 +164,19 @@ public final class JsonPointer
 
         while (matcher.find())
             elements.add(decode(matcher.group(1)));
+    }
+
+    public JsonNode getPath(final JsonNode document)
+    {
+        JsonNode ret = document;
+
+        for (final String pathElement: elements) {
+            ret = ret.path(pathElement);
+            if (ret.isMissingNode())
+                break;
+        }
+
+        return ret;
     }
 
     /**

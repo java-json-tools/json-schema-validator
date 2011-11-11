@@ -17,7 +17,11 @@
 
 package org.eel.kitchen.util;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
 
 import static org.testng.Assert.*;
 
@@ -83,5 +87,21 @@ public final class JsonPointerTest
         assertEquals(p1, p2);
         assertEquals(p1.toString(), normalizedPath);
         assertEquals(p2.toDecodedString(), "#" + path);
+    }
+
+    @Test
+    public void testGetPath()
+        throws IOException
+    {
+        final String path = "#/a%2F//..";
+        final JsonNode node = JsonLoader.fromResource("/jsonpointer/pointer"
+            + ".json");
+        final JsonNode expected = JsonNodeFactory.instance.textNode("hello "
+            + "world");
+
+        final JsonPointer pointer = new JsonPointer(path);
+
+        assertEquals(pointer.getPath(node), expected);
+
     }
 }
