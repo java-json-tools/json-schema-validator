@@ -126,6 +126,11 @@ public final class JsonPointer
         encodingMap.put("+", "%2b");
         encodingMap.put(",", "%2c");
         encodingMap.put("/", SLASH);
+        encodingMap.put("\t", "%09");
+        encodingMap.put("\r", "%0d");
+        encodingMap.put("\n", "%0a");
+        encodingMap.put("\b", "%08");
+        encodingMap.put("\f", "%0c");
 
         for (final Map.Entry<String, String> entry: encodingMap.entrySet())
             decodingMap.put(entry.getValue(), entry.getKey());
