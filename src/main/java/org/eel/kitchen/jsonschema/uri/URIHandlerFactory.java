@@ -29,7 +29,7 @@ public final class URIHandlerFactory
     private final Map<String, URIHandler> schemeHandlers
         = new HashMap<String, URIHandler>();
 
-    URIHandlerFactory()
+    public URIHandlerFactory()
     {
         schemeHandlers.put("http", new HTTPURIHandler());
     }
