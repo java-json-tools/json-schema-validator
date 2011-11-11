@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.UUID;
 
@@ -37,8 +36,6 @@ import static org.testng.Assert.*;
 
 public final class RefTest
 {
-    private static final String SPEC = "http://json-schema.org/draft-03/schema";
-    private JsonNode draftv3;
     private JsonNode torture;
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
@@ -46,7 +43,6 @@ public final class RefTest
     public void setUp()
         throws IOException
     {
-        draftv3 = JsonLoader.fromURL(new URL(SPEC));
         torture = JsonLoader.fromResource("/ref/torture.json");
     }
 

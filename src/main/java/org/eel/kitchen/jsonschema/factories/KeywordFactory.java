@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.factories;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
@@ -28,7 +29,6 @@ import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.AdditionalPropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.AlwaysTrueKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.DependenciesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.DisallowKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.DivisibleByKeywordValidator;
@@ -213,7 +213,7 @@ public final class KeywordFactory
         final Validator validator;
         switch (collection.size()) {
             case 0:
-                validator = new AlwaysTrueKeywordValidator(context, instance);
+                validator = AbstractValidator.TRUE;
                 break;
             case 1:
                 validator = collection.iterator().next();
@@ -235,8 +235,8 @@ public final class KeywordFactory
      * Get a collection of validators for the context and instance,
      * by grabbing the schema node using
      * {@link ValidationContext#getSchemaNode()} and grabbing validators from
-     * the {@link #fieldMap} and {@link #validators} maps. Will return an
-     * {@link AlwaysTrueKeywordValidator} if no validators are found (ie,
+     * the {@link #fieldMap} and {@link #validators} maps. Will return
+     * {@link AbstractValidator#TRUE} if no validators are found (ie,
      * none of the keywords of the schema node can validate the instance
      * type), and an {@link AlwaysFalseValidator} if one validator fails to
      * instantiate (see
@@ -258,8 +258,7 @@ public final class KeywordFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.<Validator>asList(new AlwaysTrueKeywordValidator(
-                context, instance));
+            return Arrays.asList(AbstractValidator.TRUE);
 
         final Set<String> keyset = new HashSet<String>();
         Class<? extends Validator> c;

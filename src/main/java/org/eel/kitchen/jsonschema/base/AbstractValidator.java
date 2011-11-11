@@ -29,10 +29,6 @@ import java.util.Queue;
 public abstract class AbstractValidator
     implements Validator
 {
-    /**
-     * An empty {@link ValidationReport}
-     */
-    private static final ValidationReport EMPTY = new ValidationReport();
 
     /**
      * A validator which is always true
@@ -42,7 +38,7 @@ public abstract class AbstractValidator
         @Override
         public ValidationReport validate()
         {
-            return EMPTY;
+            return new ValidationReport();
         }
 
         @Override
