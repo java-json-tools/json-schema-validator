@@ -27,6 +27,7 @@ import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +83,7 @@ public final class ValidationContext
     /**
      * The JSON path within the instance for the current context
      */
-    private final String path;
+    private final JsonPointer path;
 
     /**
      * The keyword validator factory
@@ -103,7 +104,7 @@ public final class ValidationContext
     private final Set<JsonNode> refLookups = new LinkedHashSet<JsonNode>();
 
     private ValidationContext(final JsonNode rootSchema,
-        final JsonNode schemaNode, final String path,
+        final JsonNode schemaNode, final JsonPointer path,
         final KeywordFactory keywordFactory, final SyntaxFactory syntaxFactory)
     {
         this.rootSchema = rootSchema;
@@ -121,7 +122,7 @@ public final class ValidationContext
      */
     public ValidationContext(final JsonNode schema)
     {
-        path = "#";
+        path = new JsonPointer("");
         rootSchema = schema;
         schemaNode = schema;
 
@@ -176,18 +177,17 @@ public final class ValidationContext
     }
 
     /**
-     * Spawn a new context from this context.
+     * Spawn a new context from this context
      *
-     * @param subPath the relative path to use from the current #path
-     * @param subSchema the schema node to use for this context
+     * @param subPath the relative path to use from the current path ({@code
+     * null} if same path
+     * @param subSchema the schema node to use for the new context
      * @return the new context
      */
     public ValidationContext createContext(final String subPath,
         final JsonNode subSchema)
     {
-        final String newPath = subPath == null || subPath.isEmpty()
-            ? path
-            : String.format("%s/%s", path, subPath);
+        final JsonPointer newPath = path.append(subPath);
 
         final ValidationContext other = new ValidationContext(rootSchema,
             subSchema, newPath, keywordFactory, syntaxFactory);
@@ -209,7 +209,7 @@ public final class ValidationContext
      */
     public ValidationContext createContext(final JsonNode subSchema)
     {
-        return createContext("", subSchema);
+        return createContext(null, subSchema);
     }
 
     /**
@@ -258,7 +258,8 @@ public final class ValidationContext
      */
     public Validator getValidator(final JsonNode instance)
     {
-        final ValidationReport report = new ValidationReport(path);
+        final ValidationReport report
+            = new ValidationReport(path.toDecodedString());
 
         final Validator v = syntaxFactory.getValidator(this);
 
@@ -325,7 +326,7 @@ public final class ValidationContext
      */
     public ValidationReport createReport(final String prefix)
     {
-        return new ValidationReport(path + prefix);
+        return new ValidationReport(path.toDecodedString() + prefix);
     }
 
     /**

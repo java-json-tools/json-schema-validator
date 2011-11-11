@@ -181,6 +181,9 @@ public final class JsonPointer
      */
     public JsonPointer append(final String pathElement)
     {
+        if (pathElement == null)
+            return this;
+
         final JsonPointer ret = new JsonPointer();
         final String decoded = decode(pathElement);
         ret.elements.addAll(elements);
