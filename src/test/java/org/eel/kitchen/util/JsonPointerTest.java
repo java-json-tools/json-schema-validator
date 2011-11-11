@@ -48,6 +48,15 @@ public final class JsonPointerTest
     }
 
     @Test
+    public void testEndingSlash()
+    {
+        final JsonPointer p1 = new JsonPointer("");
+        final JsonPointer p2 = new JsonPointer("/");
+
+        assertNotEquals(p1, p2);
+    }
+
+    @Test
     public void testEncodedVsDecoded()
     {
         final String decoded = "/a'b&c, d";
