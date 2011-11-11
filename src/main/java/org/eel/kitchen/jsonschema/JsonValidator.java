@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
@@ -96,6 +97,22 @@ public final class JsonValidator
             throw new IllegalArgumentException("keyword is null");
 
         context.registerValidator(keyword, sv, kv, types);
+    }
+
+    public void registerURIHandler(final String scheme, final URIHandler handler)
+    {
+        if (scheme == null)
+            throw new IllegalArgumentException("scheme is null");
+
+        context.registerURIHandler(scheme, handler);
+    }
+
+    public void unregisterURIHandler(final String scheme)
+    {
+        if (scheme == null)
+            throw new IllegalArgumentException("scheme is null");
+
+        context.unregisterURIHandler(scheme);
     }
 
     /**

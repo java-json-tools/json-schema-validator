@@ -157,8 +157,17 @@ public final class ValidationContext
         keywordFactory.registerValidator(keyword, kv, types);
     }
 
+    public void registerURIHandler(final String scheme, final URIHandler handler)
+    {
+        uriHandlerFactory.registerHandler(scheme, handler);
+    }
+
+    public void unregisterURIHandler(final String scheme)
+    {
+        uriHandlerFactory.unregisterHandler(scheme);
+    }
+
     /**
->>>>>>> ValidationContext: implement .registerValidator
      * Return the schema node of this context -- <b>not</b> the root schema!
      *
      * @return the matching {@link JsonNode}

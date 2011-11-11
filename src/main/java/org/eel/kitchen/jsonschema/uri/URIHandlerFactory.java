@@ -17,10 +17,8 @@
 
 package org.eel.kitchen.jsonschema.uri;
 
-import org.eel.kitchen.jsonschema.uri.HTTPURIHandler;
-import org.eel.kitchen.jsonschema.uri.URIHandler;
-
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,6 +30,22 @@ public final class URIHandlerFactory
     public URIHandlerFactory()
     {
         schemeHandlers.put("http", new HTTPURIHandler());
+    }
+
+    public void registerHandler(final String scheme, final URIHandler handler)
+    {
+        try {
+            new URI(scheme, "", null);
+        } catch (URISyntaxException ignored) {
+            throw new IllegalArgumentException("illegal scheme name " + scheme);
+        }
+
+        schemeHandlers.put(scheme, handler);
+    }
+
+    public void unregisterHandler(final String scheme)
+    {
+        schemeHandlers.remove(scheme);
     }
 
     public URIHandler getHandler(final URI uri)
