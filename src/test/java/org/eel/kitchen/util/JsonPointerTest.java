@@ -102,6 +102,23 @@ public final class JsonPointerTest
         final JsonPointer pointer = new JsonPointer(path);
 
         assertEquals(pointer.getPath(node), expected);
+    }
 
+    @Test
+    public void testAppend()
+        throws IOException
+    {
+        final JsonNode node = JsonLoader.fromResource("/jsonpointer/pointer"
+            + ".json");
+        final JsonNode expected = JsonNodeFactory.instance.textNode("hello "
+            + "world");
+
+        final String basePath = "/a%2F/";
+        final String append = "..";
+
+        final JsonPointer base = new JsonPointer(basePath);
+        final JsonPointer p = base.append(append);
+
+        assertEquals(p.getPath(node), expected);
     }
 }

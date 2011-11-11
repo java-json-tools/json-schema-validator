@@ -136,6 +136,13 @@ public final class JsonPointer
     private final List<String> elements = new LinkedList<String>();
 
     /**
+     * Private empty constructor, used by {@link #append(String)}
+     */
+    private JsonPointer()
+    {
+    }
+
+    /**
      * Constructor
      *
      * <p>The argument can be a complete JSON Pointer (ie, with the initial
@@ -164,6 +171,21 @@ public final class JsonPointer
 
         while (matcher.find())
             elements.add(decode(matcher.group(1)));
+    }
+
+    /**
+     * Return a new JsonPointer with an added path element
+     *
+     * @param pathElement the path element to append to this pointer's path
+     * @return a JsonPointer with the new path
+     */
+    public JsonPointer append(final String pathElement)
+    {
+        final JsonPointer ret = new JsonPointer();
+        final String decoded = decode(pathElement);
+        ret.elements.addAll(elements);
+        ret.elements.add(decoded);
+        return ret;
     }
 
     public JsonNode getPath(final JsonNode document)
