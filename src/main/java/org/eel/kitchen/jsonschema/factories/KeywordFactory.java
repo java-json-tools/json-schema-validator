@@ -95,6 +95,9 @@ public final class KeywordFactory
     private final Map<String, Class<? extends KeywordValidator>> validators
         = new HashMap<String, Class<? extends KeywordValidator>>();
 
+    /**
+     * Set of ignored keywords (for which validation is always true)
+     */
     private final Set<String> ignoredKeywords = new HashSet<String>();
 
     /**
@@ -164,8 +167,7 @@ public final class KeywordFactory
         final Class<? extends KeywordValidator> v, final NodeType... types)
     {
         if (ignoredKeywords.contains(keyword) || validators.containsKey(keyword))
-            throw new IllegalArgumentException("keyword already registered to"
-                + " that KeywordFactory");
+            throw new IllegalArgumentException("keyword already registered");
 
         if (v == null) {
             ignoredKeywords.add(keyword);

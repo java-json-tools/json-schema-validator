@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.mechanics;
 
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.JsonValidator;
+import org.eel.kitchen.jsonschema.draftv4.newkeywords.RequiredKeywordValidator;
 import org.testng.annotations.Test;
 
 public final class RegistrationTest
@@ -38,13 +39,24 @@ public final class RegistrationTest
 
     @Test(
         expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^keyword already registered to "
-            + "that SyntaxFactory"
+        expectedExceptionsMessageRegExp = "^keyword already registered"
     )
     public void testExistingKeywordRegistrationFailure()
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
         validator.registerValidator("default", null, null);
+    }
+
+    @Test(
+        expectedExceptions = IllegalArgumentException.class,
+        expectedExceptionsMessageRegExp = "^cannot register a new keyword"
+                + " with no JSON type to match against"
+    )
+    public void testEmptyTypeSetFails()
+    {
+        final JsonValidator validator = new JsonValidator(factory.objectNode());
+
+        validator.registerValidator("foo", null, RequiredKeywordValidator.class);
     }
 }

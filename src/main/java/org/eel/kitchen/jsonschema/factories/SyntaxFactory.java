@@ -81,9 +81,6 @@ import java.util.Set;
  */
 public final class SyntaxFactory
 {
-    private static final String ALREADY_REGISTERED = "keyword already "
-        + "registered to that SyntaxFactory";
-
     /**
      * Map pairing a schema keyword with its corresponding syntax validator
      */
@@ -215,7 +212,7 @@ public final class SyntaxFactory
         final Class<? extends SyntaxValidator> c)
     {
         if (ignoredKeywords.contains(keyword) || validators.containsKey(keyword))
-            throw new IllegalArgumentException(ALREADY_REGISTERED);
+            throw new IllegalArgumentException("keyword already registered");
 
         if (c == null)
             ignoredKeywords.add(keyword);
