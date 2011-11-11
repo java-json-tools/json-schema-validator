@@ -1,0 +1,235 @@
+/*
+ * Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package org.eel.kitchen.util;
+
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ * Implementation of the JSON Pointer draft, version 2
+ *
+ * <p><a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-pointer-02">
+ * JSON Pointer</a> is a draft standard defining a way to address paths
+ * within JSON documents. Paths apply to container objects,
+ * ie arrays or nodes. For objects, path elements are property names. For
+ * arrays, they are the index in the array.</p>
+ *
+ * <p>The general syntax is {@code #/path/elements/here}. JSON Pointers are
+ * <b>always</b> absolute: it is perfectly legal, for instance,
+ * to have properties named {@code /}, {@code .} or {@code ..} in a JSON
+ * object. Having relative JSON Pointers therefore make no sense at all.</p>
+ *
+ * <p>This means {@code /} must always be encoded (to {@code %2f}) when
+ * displaying path elements. The draft also recommends that all special
+ * characters defined by <a href="http://tools.ietf.org/html/rfc3986">RFC
+ * 3986 (section 2.2)</a> be percent-encoded.</p>
+ *
+ * <p>As if things were not funny enough like that, it must also be remembered
+ * that even an empty string is a valid property name. This means that JSON
+ * Pointers {@code #/} and {@code #} do <b>not</b> mean the same: the first
+ * means the document under path {@code ""} while the second means the root
+ * of the document!
+ * </p>
+ *
+ * <p>The draft also recommends that all special characters defined by
+ * <a href="http://tools.ietf.org/html/rfc3986">RFC 3986 (section 2.2)</a> be
+ * percent-encoded. This class' {@link #toString()} returns the percent-encoded
+ * pointer , but also proposes a non percent-encoded form using
+ * {@link #toDecodedString()}. It accepts both non percent-encoded pointers
+ * and percent-encoded pointers as inputs, and you can also, if you wish to,
+ * omit the initial {@code #}.
+ * </p>
+ */
+
+//TODO: %!!
+public final class JsonPointer
+{
+    /**
+     * Percent-encoding of the {@code /} character
+     */
+    private static final String SLASH = "%2f";
+
+    /**
+     * Regex identifying a JSON Pointer
+     *
+     * <p>Note that we also accept paths without an initial {@code #} for
+     * convenience.</p>
+     */
+    private static final Pattern JSONPOINTER_REGEX
+        = Pattern.compile("#?(?:/[^/]*+)*+");
+
+    /**
+     * Regex used to break the pointer into its elements
+     */
+    private static final Pattern PATH_SPLIT = Pattern.compile("/([^/]*+)");
+
+    /**
+     * Map pairing non percent-encoded characters to their percent-encoded
+     * representation
+     *
+     * <p>We don't use {@link URLEncoder#encode(String, String)} since it will
+     * not encode certain characters we want to see encoded (such as {@code /}),
+     * and will turn the space into a {@code +}.</p>
+     */
+    private static final Map<String, String> encodingMap
+        = new HashMap<String, String>();
+
+    /**
+     * Map pairing percent-encoded representations with they decoded
+     * representations -- the reverse of {@link #encodingMap}
+     */
+    private static final Map<String, String> decodingMap
+        = new HashMap<String, String>();
+
+    static {
+//        encodingMap.put("%", "%25");
+        encodingMap.put(":", "%3a");
+        encodingMap.put(" ", "%20");
+        encodingMap.put("?", "%3f");
+        encodingMap.put("#", "%23");
+        encodingMap.put("[", "%5b");
+        encodingMap.put("]", "%5d");
+        encodingMap.put("@", "%40");
+        encodingMap.put("!", "%21");
+        encodingMap.put("$", "%24");
+        encodingMap.put("&", "%26");
+        encodingMap.put("'", "%27");
+        encodingMap.put("(", "%28");
+        encodingMap.put(")", "%29");
+        encodingMap.put("+", "%2b");
+        encodingMap.put(",", "%2c");
+        encodingMap.put("/", SLASH);
+
+        for (final Map.Entry<String, String> entry: encodingMap.entrySet())
+            decodingMap.put(entry.getValue(), entry.getKey());
+
+    }
+
+    /**
+     * Path elements of this JSON Pointer, as decoded elements
+     */
+    private final List<String> elements = new LinkedList<String>();
+
+    /**
+     * Constructor
+     *
+     * @param path the JSON Pointer
+     */
+    public JsonPointer(final String path)
+    {
+        if (path == null)
+            return;
+
+        if (!JSONPOINTER_REGEX.matcher(path).matches())
+            throw new IllegalArgumentException("illegal JSON Pointer " + path);
+
+        final Matcher matcher = PATH_SPLIT.matcher(path.replaceFirst("#", ""));
+
+        while (matcher.find())
+            elements.add(decode(matcher.group(1)));
+    }
+
+    /**
+     * Turn a percent-encoded path element into its decoded form
+     *
+     * @param encoded the encoded path
+     * @return the decoded path
+     */
+    private static String decode(final String encoded)
+    {
+        String ret = encoded;
+
+        for (final Map.Entry<String, String> entry: decodingMap.entrySet()) {
+            ret = ret.replace(entry.getKey(), entry.getValue());
+            ret = ret.replace(entry.getKey().toUpperCase(), entry.getValue());
+        }
+
+        return ret;
+    }
+
+    /**
+     * Turn a decoded path element into its percent-encoded form
+     *
+     * @param decoded the decoded path element
+     * @return the percent-encoded form
+     */
+    private static String encode(final String decoded)
+    {
+        String ret = decoded;
+
+        for (final Map.Entry<String, String> entry: encodingMap.entrySet())
+            ret = ret.replace(entry.getKey(), entry.getValue());
+
+        return ret;
+    }
+
+    /**
+     * Returns the percent-encoded form of this JSON Pointer
+     *
+     * @return the full percent-encoded path, including the initial {@code #}
+     */
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder("#");
+
+        for (final String element: elements)
+            sb.append("/").append(encode(element));
+
+        return sb.toString();
+    }
+
+    /**
+     * Return the decoded form of this JSON Pointer
+     *
+     * @return the full decoded path, including the initial {@code #}
+     */
+    public String toDecodedString()
+    {
+        final StringBuilder sb = new StringBuilder("#");
+
+        for (final String element: elements)
+            sb.append("/").append(element.replace("/", SLASH));
+
+        return sb.toString();
+    }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+
+        final JsonPointer that = (JsonPointer) o;
+
+        return elements.equals(that.elements);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return elements.hashCode();
+    }
+}
