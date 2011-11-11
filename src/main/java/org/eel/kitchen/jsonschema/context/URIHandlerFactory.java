@@ -17,55 +17,30 @@
 
 package org.eel.kitchen.jsonschema.context;
 
-import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.util.HTTPURIHandler;
 import org.eel.kitchen.util.URIHandler;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class URIHandlerFactory
-    implements URIHandler
 {
     private final Map<String, URIHandler> schemeHandlers
         = new HashMap<String, URIHandler>();
-
-    private JsonNode localSchema;
 
     URIHandlerFactory()
     {
         schemeHandlers.put("http", new HTTPURIHandler());
     }
 
-    //FIXME: risky
-    public void setLocalSchema(final JsonNode schema)
+    public URIHandler getHandler(final URI uri)
     {
-        localSchema = schema;
-    }
-
-    public URIHandler getHandler(final String ref)
-    {
-        final URI uri;
-
-        try {
-            uri = noFragmentsURI(ref);
-        } catch (URISyntaxException e) {
-            throw new IllegalArgumentException("PROBLEM: invalid URI found ("
-                + ref + "), syntax validation should have caught that", e);
-        }
-
-        if (!uri.isAbsolute()) {
-            if (!uri.getSchemeSpecificPart().isEmpty())
-                throw new IllegalArgumentException("invalid URI " + ref
-                    + ": URI is not absolute but it does not have a scheme "
-                    + "either");
-            return this;
-        }
-
         final String scheme = uri.getScheme();
+
+        if (scheme == null)
+            throw new IllegalArgumentException("only absolute URIs are "
+                + "supported");
 
         final URIHandler ret = schemeHandlers.get(scheme);
 
@@ -73,19 +48,5 @@ public final class URIHandlerFactory
             throw new IllegalArgumentException("unsupported scheme " + scheme);
 
         return ret;
-    }
-
-    private static URI noFragmentsURI(final String ref)
-        throws URISyntaxException
-    {
-        final URI uri = new URI(ref);
-        return new URI(uri.getScheme(), uri.getSchemeSpecificPart(), null);
-    }
-
-    @Override
-    public JsonNode getDocument(final URI uri)
-        throws IOException
-    {
-        return localSchema;
     }
 }
