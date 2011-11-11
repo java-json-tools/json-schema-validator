@@ -57,6 +57,6 @@ public final class RequiredKeywordValidator
         if (required.isEmpty())
             return;
 
-        report.addMessage("missing properties " + required);
+        report.addMessage("required properties " + required + " are missing");
     }
 }

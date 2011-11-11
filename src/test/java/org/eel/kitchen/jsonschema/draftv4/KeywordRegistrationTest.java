@@ -78,8 +78,8 @@ public final class KeywordRegistrationTest
 
         assertEquals(report.getMessages().size(), 1);
 
-        assertEquals(report.getMessages().get(0), "#: missing properties"
-            + " [p1, p2]");
+        assertEquals(report.getMessages().get(0), "#: required properties"
+            + " [p1, p2] are missing");
     }
 
     private JsonValidator prepareValidator(final String name)
