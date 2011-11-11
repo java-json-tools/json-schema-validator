@@ -114,8 +114,8 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals("#: FATAL: cannot use ref ftp://some.site/some/schema,"
-            + " only HTTP is supported currently", report.getMessages().get(0));
+        assertEquals("#: FATAL: cannot use ref ftp://some.site/some/schema:"
+            + " unsupported scheme ftp", report.getMessages().get(0));
     }
 
     @Test
@@ -131,8 +131,8 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals("#: FATAL: invalid URI a/b/c#/d/e: non absolute URI"
-            + " but non empty scheme specific part",
+        assertEquals("#: FATAL: cannot use ref a/b/c#/d/e: invalid URI: "
+            + "URI is not absolute and is not a JSON Pointer either",
             report.getMessages().get(0));
     }
 

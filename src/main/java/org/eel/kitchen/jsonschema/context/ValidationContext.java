@@ -28,9 +28,11 @@ import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.util.URIHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
@@ -65,6 +67,7 @@ public final class ValidationContext
      */
     private JsonNode schemaNode;
 
+    private final URIHandlerFactory uriHandlerFactory;
     /**
      * The JSON path within the instance for the current context
      */
@@ -90,13 +93,15 @@ public final class ValidationContext
 
     private ValidationContext(final JsonNode rootSchema,
         final JsonNode schemaNode, final JsonPointer path,
-        final KeywordFactory keywordFactory, final SyntaxFactory syntaxFactory)
+        final KeywordFactory keywordFactory, final SyntaxFactory  syntaxFactory,
+        final URIHandlerFactory uriHandlerFactory)
     {
         this.rootSchema = rootSchema;
         this.schemaNode = schemaNode;
         this.path = path;
         this.keywordFactory = keywordFactory;
         this.syntaxFactory = syntaxFactory;
+        this.uriHandlerFactory = uriHandlerFactory;
     }
 
     /**
@@ -113,6 +118,7 @@ public final class ValidationContext
 
         keywordFactory = new KeywordFactory();
         syntaxFactory = new SyntaxFactory();
+        uriHandlerFactory = new URIHandlerFactory();
         refLookups.add(schema);
     }
 
@@ -175,7 +181,8 @@ public final class ValidationContext
         final JsonPointer newPath = path.append(subPath);
 
         final ValidationContext other = new ValidationContext(rootSchema,
-            subSchema, newPath, keywordFactory, syntaxFactory);
+            subSchema, newPath, keywordFactory, syntaxFactory,
+            uriHandlerFactory);
 
         if (newPath.equals(path))
             other.refLookups.addAll(refLookups);
@@ -197,33 +204,26 @@ public final class ValidationContext
         return createContext(null, subSchema);
     }
 
-    /**
-     * Spawn a new context with a different root schema located at a given URI
-     *
-     * <p>This is only called from a {@link RefKeywordValidator} instance
-     * when it has to grab a schema from a non local URI. It may also be
-     * that the context already had the schema in the cache.</p>
-     *
-     * @param uri the URI for this schema (without the JSON path)
-     * @param newRoot the matching schema
-     * @return a new context
-     *
-     * @see #fromCache(URI)
-     * @see RefKeywordValidator
-     */
-    public ValidationContext newContext(final URI uri, final JsonNode newRoot)
+    public ValidationContext createContextFromURI(final URI uri)
+        throws IOException
     {
-        // FIXME: beeeh... There _has_ to be a better way to do that
-        if (locators.containsKey(uri)) {
-            if (!newRoot.equals(locators.get(uri)))
-                throw new RuntimeException("This should not have happened: I "
-                    + "was provided with a different schema than what I had "
-                    + "in the cache");
-        } else
-            locators.put(uri, newRoot);
+        if (!uri.isAbsolute()) {
+            if (!uri.getSchemeSpecificPart().isEmpty())
+                throw new IllegalArgumentException("invalid URI: "
+                    + "URI is not absolute and is not a JSON Pointer either");
+            return this;
+        }
 
-        final ValidationContext ret = new ValidationContext(rootSchema,
-            schemaNode, path, keywordFactory, syntaxFactory);
+        JsonNode newSchema = locators.get(uri);
+
+        if (newSchema == null) {
+            final URIHandler handler = uriHandlerFactory.getHandler(uri);
+            newSchema = handler.getDocument(uri);
+            locators.put(uri, newSchema);
+        }
+
+        final ValidationContext ret = new ValidationContext(newSchema,
+            newSchema, path, keywordFactory, syntaxFactory, uriHandlerFactory);
 
         ret.refLookups.addAll(refLookups);
 
@@ -315,16 +315,5 @@ public final class ValidationContext
     public ValidationReport createReport()
     {
         return createReport("");
-    }
-
-    /**
-     * Returns the schema corresponding to the given URI in #locators.
-     *
-     * @param uri the URI to lookup
-     * @return the matching entry, null if none is found
-     */
-    public JsonNode fromCache(final URI uri)
-    {
-        return locators.get(uri);
     }
 }

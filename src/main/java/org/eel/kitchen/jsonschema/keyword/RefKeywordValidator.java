@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
 
 import java.io.IOException;
@@ -74,50 +73,31 @@ public final class RefKeywordValidator
         final String ref = schemaNode.get("$ref").getTextValue();
 
         final URI uri, baseURI;
+        final JsonPointer pointer;
 
         try {
             uri = new URI(ref);
             baseURI = new URI(uri.getScheme(), uri.getSchemeSpecificPart(),
                 null);
+            pointer = new JsonPointer(uri.getRawFragment());
         } catch (URISyntaxException e) {
             throw new RuntimeException("PROBLEM: invalid URI found ("
                 + ref + "), syntax validation should have caught that", e);
         }
 
-        final boolean absoluteURI = uri.isAbsolute();
-
-        //TODO: make a wrapper over URI handling, and make it extensible
-        if (!absoluteURI) {
-            if (!uri.getSchemeSpecificPart().isEmpty()) {
-                report.error("invalid URI " + ref + ": non absolute URI "
-                    + "but non empty scheme specific part");
-                return report;
-            }
-        } else if (!"http".equals(uri.getScheme())) {
-            report.error("cannot use ref " + ref + ", only HTTP is "
-                + "supported currently");
+        final ValidationContext ctx;
+        try {
+            ctx = context.createContextFromURI(baseURI);
+        } catch (IOException e) {
+            report.error(String.format("cannot download schema at ref %s: %s: "
+                + "%s", ref, e.getClass().getName(), e.getMessage()));
+            return report;
+        } catch (IllegalArgumentException e) {
+            report.error(String.format("cannot use ref %s: %s", ref,
+                e.getMessage()));
             return report;
         }
 
-        final JsonPointer path = new JsonPointer(uri.getRawFragment());
-
-        ValidationContext ctx = context;
-
-        if (absoluteURI) {
-            JsonNode newSchema;
-            try {
-                newSchema = context.fromCache(baseURI);
-                if (newSchema == null)
-                    newSchema = JsonLoader.fromURL(baseURI.toURL());
-            } catch (IOException e) {
-                report.error(String.format("cannot download schema at ref "
-                    + "%s: %s: %s", ref, e.getClass().getName(),
-                    e.getMessage()));
-                return report;
-            }
-            ctx = context.newContext(baseURI, newSchema);
-        }
-
-        return ctx.getValidator(path, instance).validate();
+        return ctx.getValidator(pointer, instance).validate();
     }
 }
