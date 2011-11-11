@@ -17,7 +17,6 @@
 package org.eel.kitchen.jsonschema.context;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.MissingNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
@@ -37,8 +36,6 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * <p>Class passed to all {@link Validator} implementations. This class is
@@ -57,18 +54,6 @@ public final class ValidationContext
 {
     private static final Logger logger
         = LoggerFactory.getLogger(ValidationContext.class);
-
-    /**
-     * Pattern matching a JSON path (could probably be refined). Not anchored
-     * since it uses {@link Matcher#matches()}.
-     */
-    private static final Pattern JSONPATH_REGEX
-        = Pattern.compile("(?:/[^/]++)*+");
-
-    /**
-     * Pattern to split JSON Path components
-     */
-    private static final Pattern SPLIT_PATTERN = Pattern.compile("/");
 
     /**
      * The root schema of this validation context
@@ -272,36 +257,29 @@ public final class ValidationContext
     }
 
     /**
-     * Get a validator for the subschema at a given path for a given instance
+     * Get a validator for the subschema at a given path below {@link
+     * #rootSchema} for a given instance
      *
      * <p>This validator will spawn an {@link AlwaysFalseValidator} if the
      * path doesn't match anything, <b>or</b> if a ref loop is detected.</p>
      *
-     * @param path the JSON path (<b>without</b> the initial {@code #})
+     * @param pointer the JSON pointer to find within the schema
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public Validator getValidator(final String path, final JsonNode instance)
+    public Validator getValidator(final JsonPointer pointer,
+        final JsonNode instance)
     {
         final ValidationReport report = createReport();
 
-        if (path == null) {
-            report.error("path is null");
-            return new AlwaysFalseValidator(report);
-        }
+        logger.trace("trying to lookup path \"#{}\" from node {} ",
+            pointer.toDecodedString(), schemaNode);
 
-        if (!JSONPATH_REGEX.matcher(path).matches()) {
-            report.error("invalid JSON path " + path);
-            return new AlwaysFalseValidator(report);
-        }
-
-        logger.trace("trying to lookup path \"#{}\" from node {} ", path,
-            schemaNode);
-
-        final JsonNode schema = getSubSchema(path);
+        final JsonNode schema = pointer.getPath(rootSchema);
 
         if (schema.isMissingNode()) {
-            report.error("no match in schema for path #" + path);
+            report.error("no match in schema for path "
+                + pointer.toDecodedString());
             return new AlwaysFalseValidator(report);
         }
 
@@ -337,27 +315,6 @@ public final class ValidationContext
     public ValidationReport createReport()
     {
         return createReport("");
-    }
-
-
-    /**
-     * Get a subschema from #rootSchema, given a JSON path as an argument
-     *
-     * @param path the JSON Path (<b>without</b> the initial {@code #})
-     * @return the subschema, which is a {@link MissingNode} if the path is
-     * not found
-     */
-    private JsonNode getSubSchema(final String path)
-    {
-        JsonNode ret = rootSchema;
-
-        for (final String pathElement: SPLIT_PATTERN.split(path)) {
-            if (pathElement.isEmpty())
-                continue;
-            ret = ret.path(pathElement);
-        }
-
-        return ret;
     }
 
     /**

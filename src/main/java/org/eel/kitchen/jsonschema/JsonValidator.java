@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -127,9 +128,9 @@ public final class JsonValidator
      */
     public ValidationReport validate(final String path, final JsonNode instance)
     {
-        final String realPath = path.replaceFirst("#", "");
+        final JsonPointer pointer = new JsonPointer(path);
 
-        final Validator validator = context.getValidator(realPath, instance);
+        final Validator validator = context.getValidator(pointer, instance);
         return validator.validate();
     }
 }

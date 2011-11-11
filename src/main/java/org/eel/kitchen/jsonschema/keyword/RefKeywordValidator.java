@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.util.JsonPointer;
 
 import java.io.IOException;
 import java.net.URI;
@@ -37,7 +38,7 @@ import java.net.URISyntaxException;
  * </p>
  *
  * <p>Note that ref loop detection is not done here, nor is malformed JSON
- * paths. This is the role of {@link ValidationContext#getValidator(String,
+ * paths. This is the role of {@link ValidationContext#getValidator(JsonPointer,
  * JsonNode)}.</p>
  */
 public final class RefKeywordValidator
@@ -98,11 +99,7 @@ public final class RefKeywordValidator
             return report;
         }
 
-        String path = uri.getFragment();
-
-        //TODO: check whether addressing a schema without a # is actuall legal
-        if (path == null)
-            path = "";
+        final JsonPointer path = new JsonPointer(uri.getRawFragment());
 
         ValidationContext ctx = context;
 
