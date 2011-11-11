@@ -18,6 +18,7 @@
 package org.eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.MissingNode;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -191,6 +192,14 @@ public final class JsonPointer
         return ret;
     }
 
+    /**
+     * Given a {@link JsonNode} as an argument, return the node corresponding
+     * to that JsonPointer
+     *
+     * @param document the node to traverse
+     * @return the macthing document, a {@link MissingNode} if path does not
+     * exist
+     */
     public JsonNode getPath(final JsonNode document)
     {
         JsonNode ret = document;
@@ -274,7 +283,9 @@ public final class JsonPointer
     {
         if (this == o)
             return true;
-        if (o == null || getClass() != o.getClass())
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
             return false;
 
         final JsonPointer that = (JsonPointer) o;

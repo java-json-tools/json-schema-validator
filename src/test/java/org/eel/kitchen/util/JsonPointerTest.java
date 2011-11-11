@@ -22,6 +22,8 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
@@ -45,6 +47,34 @@ public final class JsonPointerTest
         assertEquals(p1, p2);
         assertEquals("#", p1.toString());
         assertEquals("#", p2.toString());
+    }
+
+    @Test
+    public void testEqualsHashCode()
+    {
+        final JsonPointer p1 = new JsonPointer(null);
+        final JsonPointer p2 = new JsonPointer("");
+        final JsonPointer p3 = new JsonPointer("#");
+
+        final Set<JsonPointer> set = new HashSet<JsonPointer>();
+        set.add(p1);
+
+        assertFalse(set.add(p2));
+
+        /*
+         * Note that Test-NG has assertNotEquals(). Unfortunately, it doesn't
+         * quite do the right thing: it enforces two parts of the .equals()
+         * contract which should be left to implementations! Mainly, that if
+         * objects are of different types then equals is false,
+         * and that o.equals(null) is always false...
+         *
+         * Therefore we have to use assertFalse() here.
+         */
+        assertFalse(p1.equals(""));
+        assertFalse(p2.equals(null));
+
+        assertTrue(p1.equals(p2) && p2.equals(p3));
+        assertTrue(p1.equals(p3));
     }
 
     @Test
