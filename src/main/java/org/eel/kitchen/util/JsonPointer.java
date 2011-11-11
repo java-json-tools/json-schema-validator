@@ -61,19 +61,24 @@ import java.util.regex.Pattern;
  * </p>
  */
 
-//TODO: %!!
 public final class JsonPointer
 {
     /**
-     * Percent-encoding of the {@code /} character
+     * Percent-encoded representation of the {@code /} character
      */
     private static final String SLASH = "%2f";
+
+    /**
+     * Percent-encoded representation of the {@code %} character
+     */
+    private static final String PERCENT = "%25";
 
     /**
      * Regex identifying a JSON Pointer
      *
      * <p>Note that we also accept paths without an initial {@code #} for
-     * convenience.</p>
+     * convenience. Note also that it is not anchored, since we use
+     * {@link Matcher#matches()} to match against inputs.</p>
      */
     private static final Pattern JSONPOINTER_REGEX
         = Pattern.compile("#?(?:/[^/]*+)*+");
@@ -102,7 +107,6 @@ public final class JsonPointer
         = new HashMap<String, String>();
 
     static {
-//        encodingMap.put("%", "%25");
         encodingMap.put(":", "%3a");
         encodingMap.put(" ", "%20");
         encodingMap.put("?", "%3f");
@@ -122,7 +126,6 @@ public final class JsonPointer
 
         for (final Map.Entry<String, String> entry: encodingMap.entrySet())
             decodingMap.put(entry.getValue(), entry.getKey());
-
     }
 
     /**
@@ -133,7 +136,19 @@ public final class JsonPointer
     /**
      * Constructor
      *
+     * <p>The argument can be a complete JSON Pointer (ie, with the initial
+     * {@code #}), a pointer without the initial {@code #},
+     * and its argument can be either percent-encoded or not,
+     * or even a mix of both.</p>
+     *
+     * <p>Note that it is up to the caller to ensure input is correct when
+     * a percent character happens to appear in the path! This class cannot
+     * guess your intents, so in that case, it is better to pass a fully
+     * percent-encoded form as an argument.
+     * </p>
+     *
      * @param path the JSON Pointer
+     * @throws IllegalArgumentException if the path is invalid
      */
     public JsonPointer(final String path)
     {
@@ -164,7 +179,7 @@ public final class JsonPointer
             ret = ret.replace(entry.getKey().toUpperCase(), entry.getValue());
         }
 
-        return ret;
+        return ret.replace(PERCENT, "%");
     }
 
     /**
@@ -175,7 +190,7 @@ public final class JsonPointer
      */
     private static String encode(final String decoded)
     {
-        String ret = decoded;
+        String ret = decoded.replace("%", PERCENT);
 
         for (final Map.Entry<String, String> entry: encodingMap.entrySet())
             ret = ret.replace(entry.getKey(), entry.getValue());

@@ -70,4 +70,18 @@ public final class JsonPointerTest
         final String path2 = "/a/bC";
         assertNotEquals(p, new JsonPointer(path2));
     }
+
+    @Test
+    public void testPercentInPathElement()
+    {
+        final String path = "/a%b";
+        final String normalizedPath="#/a%25b";
+
+        final JsonPointer p1 = new JsonPointer(path);
+        final JsonPointer p2 = new JsonPointer(normalizedPath);
+
+        assertEquals(p1, p2);
+        assertEquals(p1.toString(), normalizedPath);
+        assertEquals(p2.toDecodedString(), "#" + path);
+    }
 }
