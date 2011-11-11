@@ -182,7 +182,6 @@ public final class ValidationContext
      * @param subSchema the schema node to use for this context
      * @return the new context
      */
-    //TODO: factorize with the function below
     public ValidationContext createContext(final String subPath,
         final JsonNode subSchema)
     {
