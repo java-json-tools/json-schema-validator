@@ -59,4 +59,15 @@ public final class RegistrationTest
 
         validator.registerValidator("foo", null, RequiredKeywordValidator.class);
     }
+
+    @Test(
+        expectedExceptions = IllegalArgumentException.class,
+        expectedExceptionsMessageRegExp = "^keyword is null"
+    )
+    public void testUnregisteringNullKeywordFails()
+    {
+        final JsonValidator validator = new JsonValidator(factory.objectNode());
+
+        validator.unregisterValidator(null);
+    }
 }
