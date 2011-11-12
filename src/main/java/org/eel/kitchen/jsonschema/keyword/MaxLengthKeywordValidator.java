@@ -18,13 +18,14 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 /**
  * Keyword validator for the {@code maxLength} keyword (draft section 5.18)
  */
 public final class MaxLengthKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Value for {@code maxLength}
@@ -39,9 +40,11 @@ public final class MaxLengthKeywordValidator
     }
 
     @Override
-    public void validateInstance()
+    public ValidationReport validate()
     {
         if (instance.getTextValue().length() > maxLength)
             report.addMessage("string is longer than maxLength");
+
+        return report;
     }
 }

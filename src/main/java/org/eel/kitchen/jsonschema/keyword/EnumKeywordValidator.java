@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 
@@ -30,7 +31,7 @@ import java.util.Set;
  * perfectly <i>and</i> recursively for container nodes.
  */
 public final class EnumKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * The elements found in the {@code enum} array
@@ -46,12 +47,11 @@ public final class EnumKeywordValidator
     }
 
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
-        if (enumValues.contains(instance))
-            return;
+        if (!enumValues.contains(instance))
+            report.addMessage("instance does not match any member of the " + "enumeration");
 
-        report.addMessage("instance does not match any member of the "
-            + "enumeration");
+        return report;
     }
 }

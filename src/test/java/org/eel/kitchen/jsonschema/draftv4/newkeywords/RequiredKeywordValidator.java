@@ -18,8 +18,9 @@
 package org.eel.kitchen.jsonschema.draftv4.newkeywords;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.SimpleKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.Set;
@@ -27,7 +28,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public final class RequiredKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Constructor
@@ -42,7 +43,7 @@ public final class RequiredKeywordValidator
     }
 
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         final SortedSet<String> required = new TreeSet<String>();
 
@@ -54,9 +55,10 @@ public final class RequiredKeywordValidator
 
         required.removeAll(instanceFields);
 
-        if (required.isEmpty())
-            return;
+        if (!required.isEmpty())
+            report.addMessage("required properties " + required
+                + " are missing");
 
-        report.addMessage("required properties " + required + " are missing");
+        return report;
     }
 }

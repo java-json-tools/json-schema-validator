@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxValidator;
@@ -41,7 +42,7 @@ import java.util.Set;
  * @see SyntaxValidator
  */
 public final class PropertiesKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * The set of required properties found in the schema node
@@ -64,7 +65,7 @@ public final class PropertiesKeywordValidator
     }
 
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         final Set<String> set = new HashSet<String>(required);
 
@@ -75,5 +76,7 @@ public final class PropertiesKeywordValidator
 
         for (final String missing: set)
             report.addMessage("required property " + missing + " is missing");
+
+        return report;
     }
 }

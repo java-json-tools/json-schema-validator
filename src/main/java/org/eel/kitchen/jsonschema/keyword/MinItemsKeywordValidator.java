@@ -18,13 +18,14 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 /**
  * Keyword validator for the {@code minItems} keyword (draft section 5.13)
  */
 public final class MinItemsKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Value for {@code minItems}
@@ -39,9 +40,11 @@ public final class MinItemsKeywordValidator
     }
 
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         if (instance.size() < minItems)
             report.addMessage("array has less than minItems elements");
+
+        return report;
     }
 }

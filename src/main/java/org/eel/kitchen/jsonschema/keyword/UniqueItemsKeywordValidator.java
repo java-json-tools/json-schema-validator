@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.HashSet;
@@ -32,7 +33,7 @@ import java.util.Set;
  * </p>
  */
 public final class UniqueItemsKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     public UniqueItemsKeywordValidator(final ValidationContext context,
         final JsonNode instance)
@@ -41,7 +42,7 @@ public final class UniqueItemsKeywordValidator
     }
 
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         final Set<JsonNode> set = new HashSet<JsonNode>();
 
@@ -52,6 +53,7 @@ public final class UniqueItemsKeywordValidator
             }
 
         set.clear();
+        return report;
     }
 
 }

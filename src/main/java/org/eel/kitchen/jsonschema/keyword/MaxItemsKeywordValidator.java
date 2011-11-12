@@ -18,13 +18,14 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 /**
  * Keyword validation for the {@code maxItems} keyword (draft section 5.14)
  */
 public final class MaxItemsKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Value of {@code maxItems}
@@ -39,9 +40,11 @@ public final class MaxItemsKeywordValidator
     }
 
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         if (instance.size() > maxItems)
             report.addMessage("array has more than maxItems elements");
+
+        return report;
     }
 }

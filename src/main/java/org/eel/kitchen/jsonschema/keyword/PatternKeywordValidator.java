@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.RhinoHelper;
 
@@ -35,7 +36,7 @@ import org.eel.kitchen.util.RhinoHelper;
  * @see RhinoHelper
  */
 public final class PatternKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     public PatternKeywordValidator(final ValidationContext context,
         final JsonNode instance)
@@ -44,11 +45,13 @@ public final class PatternKeywordValidator
     }
 
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         final String regex = schema.get("pattern").getTextValue();
 
         if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
             report.addMessage("string does not match specified regex");
+
+        return report;
     }
 }

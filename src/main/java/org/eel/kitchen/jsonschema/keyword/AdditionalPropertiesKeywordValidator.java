@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.RhinoHelper;
@@ -29,7 +30,7 @@ import java.util.Set;
  * Validator for the {@code additionalProperties} keyword (draft section 5.4)
  */
 public final class AdditionalPropertiesKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Set to true if {@code additionalProperties} is either a schema or
@@ -82,10 +83,10 @@ public final class AdditionalPropertiesKeywordValidator
      * </ul>
      */
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         if (shortcut)
-            return;
+            return report;
 
         final Set<String> fields =
             CollectionUtils.toSet(instance.getFieldNames());
@@ -93,14 +94,15 @@ public final class AdditionalPropertiesKeywordValidator
         fields.removeAll(properties);
 
         if (fields.isEmpty())
-            return;
+            return report;
 
-        for (final String field: fields) {
-            if (patternsMatch(field))
-                continue;
-            report.addMessage("additional properties are not permitted");
-            return;
-        }
+        for (final String field: fields)
+            if (!patternsMatch(field)) {
+                report.addMessage("additional properties are not permitted");
+                break;
+            }
+
+        return report;
     }
 
     /**

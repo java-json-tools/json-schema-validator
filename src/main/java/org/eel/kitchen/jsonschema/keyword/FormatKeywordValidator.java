@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
@@ -31,7 +32,7 @@ import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
  * matching the format specification.</p>
  */
 public final class FormatKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
 
     public FormatKeywordValidator(final ValidationContext context,
@@ -50,7 +51,7 @@ public final class FormatKeywordValidator
      * JsonNode)
      */
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
         final String fmt = schema.get("format").getTextValue();
 
@@ -58,6 +59,8 @@ public final class FormatKeywordValidator
             = context.getFormatValidator(fmt, instance);
 
         report.mergeWith(validator.validate(context, instance));
+
+        return report;
     }
 
 }

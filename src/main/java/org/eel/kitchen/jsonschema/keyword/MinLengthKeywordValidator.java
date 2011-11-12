@@ -18,13 +18,14 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 /**
  * Keyword validator for the {@code minLength} keyword (draft section 5.17)
  */
 public final class MinLengthKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Value for {@code minLength}
@@ -39,9 +40,11 @@ public final class MinLengthKeywordValidator
     }
 
     @Override
-    public void validateInstance()
+    public ValidationReport validate()
     {
         if (instance.getTextValue().length() < minLength)
             report.addMessage("string is shorter than minLength");
+
+        return report;
     }
 }

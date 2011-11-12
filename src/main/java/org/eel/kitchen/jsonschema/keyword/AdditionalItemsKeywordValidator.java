@@ -18,13 +18,14 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 /**
  * Keyword validator for {@code additionalItems} (draft section 5.6)
  */
 public final class AdditionalItemsKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Should we get out early? True if {@code additionalItems} is not a
@@ -61,12 +62,11 @@ public final class AdditionalItemsKeywordValidator
      * </ul>
      */
     @Override
-    protected void validateInstance()
+    public ValidationReport validate()
     {
-        if (shortcut)
-            return;
-
-        if (instance.size() > itemsCount)
+        if (!shortcut && instance.size() > itemsCount)
             report.addMessage("array only allows " + itemsCount + " item(s)");
+
+        return report;
     }
 }
