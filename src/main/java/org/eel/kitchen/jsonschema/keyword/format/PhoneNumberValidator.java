@@ -17,20 +17,33 @@
 
 package org.eel.kitchen.jsonschema.keyword.format;
 
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.util.NodeType;
 
 /**
  * Attempt to validate the "phone" format specification
  *
- * <p>The draft says the phone may match E.123. The spec is quite large,
- * Wikipedia has a good summary of the spec. But validation could be vastly
- * improved.</p>
+ * <p>The draft says the phone MAY match E.123. Quite vague. Here we use
+ * Google's <a href="http://code.google.com/p/libphonenumber/">libphonenumber</a>
+ * as it is a library specialized in phone number recognition.</p>
+ *
+ * <p>It will only chek if this is a potential phone number,
+ * not whether it is actually valid for your country! If you really want
+ * that, you will probably want to write your own {@link KeywordValidator}.</p>
+ *
+ * @see JsonValidator#registerValidator(String, Class, Class, NodeType...)
  */
-//TODO: use Pattern
+//TODO: more tests?
 public final class PhoneNumberValidator
     extends AbstractFormatValidator
 {
+    private static final PhoneNumberUtil parser = PhoneNumberUtil.getInstance();
+
     public PhoneNumberValidator(final ValidationReport report,
         final JsonNode node)
     {
@@ -42,14 +55,25 @@ public final class PhoneNumberValidator
     {
         final String input = node.getTextValue();
 
-        final String transformed = input.replaceFirst("^\\((\\d+)\\)", "\\1")
-            .replaceFirst("^\\+", "")
-            .replaceAll("-(?=\\d)", "")
-            .replaceAll(" (?=\\d)", "")
-            .replaceAll("\\d", "");
-
-        if (!transformed.isEmpty())
+        /*
+         * The libphonenumber API doc says that no matter what region you put
+         * when validating national phone numbers, the number is not actually
+         * considered valid for a specific country without further
+         * verifications. International phone numbers MUST start with a
+         * "+" however, this is a constant.
+         *
+         * So, this is the only switching point: if it starts with a "+",
+         * check with the "no zone" specification, otherwise check with any
+         * country code.
+         */
+        try {
+            if (input.startsWith("+"))
+                parser.parse(input, "ZZ");
+            else
+                parser.parse(input, "FR");
+        } catch (NumberParseException ignored) {
             report.addMessage("string is not a recognized phone number");
+        }
 
         return report;
     }
