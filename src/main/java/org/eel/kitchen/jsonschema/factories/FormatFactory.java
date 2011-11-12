@@ -23,12 +23,14 @@ import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.format.AbstractFormatValidator;
+import org.eel.kitchen.jsonschema.keyword.format.AlwaysFalseFormatValidator;
+import org.eel.kitchen.jsonschema.keyword.format.AlwaysTrueFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.CSSColorValidator;
 import org.eel.kitchen.jsonschema.keyword.format.CSSStyleValidator;
 import org.eel.kitchen.jsonschema.keyword.format.DateFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.DateTimeFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.EmailFormatValidator;
+import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.HostnameValidator;
 import org.eel.kitchen.jsonschema.keyword.format.IPV4Validator;
 import org.eel.kitchen.jsonschema.keyword.format.IPV6Validator;
@@ -39,7 +41,6 @@ import org.eel.kitchen.jsonschema.keyword.format.URIValidator;
 import org.eel.kitchen.jsonschema.keyword.format.UnixEpochValidator;
 import org.eel.kitchen.util.NodeType;
 
-import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -62,8 +63,8 @@ public final class FormatFactory
     /**
      * Map pairing a format specification with the corresponding validator
      */
-    private final Map<String, Class<? extends Validator>> validators
-        = new HashMap<String, Class<? extends Validator>>();
+    private final Map<String, FormatValidator> validators
+        = new HashMap<String, FormatValidator>();
 
     /**
      * Report fed to the matching validator (see {@link
@@ -80,20 +81,20 @@ public final class FormatFactory
     {
         report = context.createReport();
 
-        registerFormat("date-time", DateTimeFormatValidator.class, STRING);
-        registerFormat("date", DateFormatValidator.class, STRING);
-        registerFormat("time", TimeFormatValidator.class, STRING);
-        registerFormat("utc-millisec", UnixEpochValidator.class, INTEGER,
+        registerFormat("date-time", new DateTimeFormatValidator(), STRING);
+        registerFormat("date", new DateFormatValidator(), STRING);
+        registerFormat("time", new TimeFormatValidator(), STRING);
+        registerFormat("utc-millisec", new UnixEpochValidator(), INTEGER,
             NUMBER);
-        registerFormat("regex", RegexValidator.class, STRING);
-        registerFormat("color", CSSColorValidator.class, STRING);
-        registerFormat("style", CSSStyleValidator.class, STRING);
-        registerFormat("phone", PhoneNumberValidator.class, STRING);
-        registerFormat("uri", URIValidator.class, STRING);
-        registerFormat("email", EmailFormatValidator.class, STRING);
-        registerFormat("ip-address", IPV4Validator.class, STRING);
-        registerFormat("ipv6", IPV6Validator.class, STRING);
-        registerFormat("host-name", HostnameValidator.class, STRING);
+        registerFormat("regex", new RegexValidator(), STRING);
+        registerFormat("color", new CSSColorValidator(), STRING);
+        registerFormat("style", new CSSStyleValidator(), STRING);
+        registerFormat("phone", new PhoneNumberValidator(), STRING);
+        registerFormat("uri", new URIValidator(), STRING);
+        registerFormat("email", new EmailFormatValidator(), STRING);
+        registerFormat("ip-address", new IPV4Validator(), STRING);
+        registerFormat("ipv6", new IPV6Validator(), STRING);
+        registerFormat("host-name", new HostnameValidator(), STRING);
     }
 
     /**
@@ -107,65 +108,36 @@ public final class FormatFactory
      * @param node the instance to validate
      * @return the matching validator
      */
-    public Validator getFormatValidator(final String name, final JsonNode node)
+    public FormatValidator getFormatValidator(final String name,
+        final JsonNode node)
     {
         final NodeType type = NodeType.getNodeType(node);
 
         if (!typeMap.containsKey(name)) {
             report.addMessage("no validator for format " + name);
-            return new AlwaysFalseValidator(report);
+            return new AlwaysFalseFormatValidator(report);
         }
 
         if (!typeMap.get(name).contains(type))
-            return AbstractValidator.TRUE;
+            return new AlwaysTrueFormatValidator();
 
-        return doGetValidator(name, node);
+        return validators.get(name);
     }
-
-    /**
-     * Internal function to spawn a new Validator. Used if a format
-     * specification was found and can validate the type of the instance.
-     *
-     * @param name the format specification
-     * @param node the instance to validate
-     * @return the matching validator (an {@link AlwaysFalseValidator} if the
-     * instance could not be successfully built
-     */
-    private Validator doGetValidator(final String name, final JsonNode node)
-    {
-        final Class<? extends Validator> c = validators.get(name);
-
-        final Constructor<? extends Validator> constructor;
-
-        try {
-            constructor = c.getConstructor(ValidationReport.class,
-                JsonNode.class);
-            return constructor.newInstance(report, node);
-        } catch (Exception e) {
-            final String msg = String.format("cannot instantiate format "
-                + "validator for %s: %s: %s", name, e.getClass().getName(),
-                e.getMessage());
-            report.addMessage(msg);
-            return new AlwaysFalseValidator(report);
-        }
-    }
-
 
     /**
      * Register a format validator
      *
      * @param name the format name specification
-     * @param c the validator as a {@link Class} object
+     * @param validator the validator to register
      * @param types the types this format specification can validate
      */
     private void registerFormat(final String name,
-        final Class<? extends AbstractFormatValidator> c,
-        final NodeType... types)
+        final FormatValidator validator, final NodeType... types)
     {
         final EnumSet<NodeType> typeSet
             = EnumSet.copyOf(Arrays.asList(types));
 
         typeMap.put(name, typeSet);
-        validators.put(name, c);
+        validators.put(name, validator);
     }
 }

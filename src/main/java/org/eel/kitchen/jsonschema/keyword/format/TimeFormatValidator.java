@@ -17,18 +17,14 @@
 
 package org.eel.kitchen.jsonschema.keyword.format;
 
-import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationReport;
-
 /**
  * Validator for the "time" format specification
  */
 public final class TimeFormatValidator
-    extends AbstractDateFormatValidator
+    extends GenericDateFormatValidator
 {
-    public TimeFormatValidator(final ValidationReport report,
-        final JsonNode node)
+    public TimeFormatValidator()
     {
-        super(report, node, "HH:mm:ss", "time");
+        super("HH:mm:ss", "time");
     }
 }

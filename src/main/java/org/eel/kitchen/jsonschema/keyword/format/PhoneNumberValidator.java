@@ -22,6 +22,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.util.NodeType;
 
@@ -40,20 +41,17 @@ import org.eel.kitchen.util.NodeType;
  */
 //TODO: more tests?
 public final class PhoneNumberValidator
-    extends AbstractFormatValidator
+    extends FormatValidator
 {
     private static final PhoneNumberUtil parser = PhoneNumberUtil.getInstance();
 
-    public PhoneNumberValidator(final ValidationReport report,
-        final JsonNode node)
-    {
-        super(report, node);
-    }
-
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        final String input = node.getTextValue();
+        final ValidationReport report = context.createReport();
+
+        final String input = instance.getTextValue();
 
         /*
          * The libphonenumber API doc says that no matter what region you put

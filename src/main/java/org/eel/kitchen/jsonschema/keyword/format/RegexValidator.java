@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.RhinoHelper;
 
 /**
@@ -30,17 +31,15 @@ import org.eel.kitchen.util.RhinoHelper;
  * @see RhinoHelper
  */
 public final class RegexValidator
-    extends AbstractFormatValidator
+    extends FormatValidator
 {
-    public RegexValidator(final ValidationReport report, final JsonNode node)
-    {
-        super(report, node);
-    }
-
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        if (!RhinoHelper.regexIsValid(node.getTextValue()))
+        final ValidationReport report = context.createReport();
+
+        if (!RhinoHelper.regexIsValid(instance.getTextValue()))
             report.addMessage("string is not a valid regular expression");
 
         return report;

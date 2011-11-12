@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,7 @@ import java.util.regex.Pattern;
  * like jStyleParser.
  */
 public final class CSSColorValidator
-    extends AbstractFormatValidator
+    extends FormatValidator
 {
     /**
      * The 17 color names defined by CSS 2.1
@@ -57,44 +58,36 @@ public final class CSSColorValidator
      */
     private static final Pattern SPLIT_PATTERN = Pattern.compile("\\s*,\\s*");
 
-    public CSSColorValidator(final ValidationReport report, final JsonNode node)
-    {
-        super(report, node);
-    }
-
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        doValidate();
-        return report;
-    }
+        final ValidationReport report = context.createReport();
 
-    private void doValidate()
-    {
-        final String value = node.getTextValue();
+        final String value = instance.getTextValue();
 
         if (colorNames.contains(value.toLowerCase()))
-            return;
+            return report;
 
         Matcher matcher;
 
         matcher = hash.matcher(value);
 
         if (matcher.matches())
-            return;
+            return report;
 
         matcher = rgb.matcher(value);
 
         if (!matcher.matches()) {
             report.addMessage("string is not a valid CSS 2.1 color");
-            return;
+            return report;
         }
 
         final String[] colors = SPLIT_PATTERN.split(matcher.group(1));
 
         if (colors.length != 3) {
             report.addMessage("string is not a valid CSS 2.1 color");
-            return;
+            return report;
         }
 
         int i;
@@ -110,8 +103,9 @@ public final class CSSColorValidator
                     throw new NumberFormatException();
             } catch (NumberFormatException ignored) {
                 report.addMessage("string is not a valid CSS 2.1 color");
-                return;
+                break;
             }
         }
+        return report;
     }
 }

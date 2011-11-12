@@ -17,18 +17,14 @@
 
 package org.eel.kitchen.jsonschema.keyword.format;
 
-import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationReport;
-
 /**
  * Validator for the "date" format specification
  */
 public final class DateFormatValidator
-    extends AbstractDateFormatValidator
+    extends GenericDateFormatValidator
 {
-    public DateFormatValidator(final ValidationReport report,
-        final JsonNode node)
+    public DateFormatValidator()
     {
-        super(report, node, "yyyy-MM-dd", "date");
+        super("yyyy-MM-dd", "date");
     }
 }

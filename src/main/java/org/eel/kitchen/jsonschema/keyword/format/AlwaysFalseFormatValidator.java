@@ -19,29 +19,22 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.AbstractValidator;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
-/**
- * Base implementation of validations for the {@code format} keyword (draft
- * section 5.23)
- */
-public abstract class AbstractFormatValidator
-    extends AbstractValidator
+public final class AlwaysFalseFormatValidator
+    extends FormatValidator
 {
-    /**
-     * The validation report to use
-     */
-    protected final ValidationReport report;
+    private final ValidationReport report;
 
-    /**
-     * The node to validate
-     */
-    protected final JsonNode node;
-
-    protected AbstractFormatValidator(final ValidationReport report,
-        final JsonNode node)
+    public AlwaysFalseFormatValidator(final ValidationReport report)
     {
         this.report = report;
-        this.node = node;
+    }
+
+    @Override
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
+    {
+        return report;
     }
 }

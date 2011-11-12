@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,7 +29,7 @@ import java.util.regex.Pattern;
  * draft). Ideally, it should use something like jStyleParser.
  */
 public final class CSSStyleValidator
-    extends AbstractFormatValidator
+    extends FormatValidator
 {
     /**
      * <p>Pattern to recognize one style element. It is assumed that a style
@@ -45,15 +46,13 @@ public final class CSSStyleValidator
      */
     private static final Pattern SPLIT_PATTERN = Pattern.compile("\\s*;\\s*");
 
-    public CSSStyleValidator(final ValidationReport report, final JsonNode node)
-    {
-        super(report, node);
-    }
-
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        final String[] rules = SPLIT_PATTERN.split(node.getTextValue());
+        final ValidationReport report = context.createReport();
+
+        final String[] rules = SPLIT_PATTERN.split(instance.getTextValue());
         Matcher matcher;
 
         for (final String rule : rules) {
@@ -65,5 +64,4 @@ public final class CSSStyleValidator
         }
         return report;
     }
-
 }

@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
@@ -32,7 +33,7 @@ import java.util.regex.Pattern;
  * given a hostname, it will try to resolve it and we don't want that.</p>
  */
 public final class IPV4Validator
-    extends AbstractFormatValidator
+    extends FormatValidator
 {
     /**
      * Pattern to recognize a numerical IPv4 address
@@ -40,16 +41,14 @@ public final class IPV4Validator
     private static final Pattern IPV4_ADDR
         = Pattern.compile("\\d+\\.\\d+\\.\\d+\\.\\d+");
 
-    public IPV4Validator(final ValidationReport report, final JsonNode node)
-    {
-        super(report, node);
-    }
-
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+
         try {
-            final String ipaddr = node.getTextValue();
+            final String ipaddr = instance.getTextValue();
             if (!IPV4_ADDR.matcher(ipaddr).matches())
                 throw new UnknownHostException();
             Inet4Address.getByName(ipaddr);

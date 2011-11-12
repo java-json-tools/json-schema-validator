@@ -21,31 +21,9 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-
-/**
- * Validator for the "email" format specification.
- *
- * <p>Note: email addresses with no domain part ARE valid emails,
- * and are recognized as such. The draft does not say anywhere that the email
- * should have a domain part!</p>
- */
-public final class EmailFormatValidator
-    extends FormatValidator
+public interface CacheableValidator
+    extends Iterable<CacheableValidator>
 {
-    @Override
-    public ValidationReport validate(final ValidationContext context,
-        final JsonNode instance)
-    {
-        final ValidationReport report = context.createReport();
-
-        try {
-            new InternetAddress(instance.getTextValue());
-        } catch (AddressException ignored) {
-            report.addMessage("string is not a valid email address");
-        }
-
-        return report;
-    }
+    ValidationReport validate(final ValidationContext context,
+        final JsonNode instance);
 }

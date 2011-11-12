@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,8 +30,8 @@ import java.text.SimpleDateFormat;
  * <p>We use {@link SimpleDateFormat#parse(String)} for that, since it can
  * handle all defined formats.</p>
  */
-public abstract class AbstractDateFormatValidator
-    extends AbstractFormatValidator
+public abstract class GenericDateFormatValidator
+    extends FormatValidator
 {
     /**
      * The {@link SimpleDateFormat} to use
@@ -50,24 +51,20 @@ public abstract class AbstractDateFormatValidator
      * @param fmt The date format
      * @param desc the description of the date format
      */
-    protected AbstractDateFormatValidator(final ValidationReport report,
-        final JsonNode node, final String fmt, final String desc)
+    protected GenericDateFormatValidator(final String fmt, final String desc)
     {
-        super(report, node);
         format = new SimpleDateFormat(fmt);
         errmsg = String.format("string is not a valid %s", desc);
     }
 
-    /**
-     * Validate the instance, using {@link SimpleDateFormat#parse(String)}
-     *
-     * @return the validation report
-     */
     @Override
-    public final ValidationReport validate()
+    public final ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+
         try {
-            format.parse(node.getTextValue());
+            format.parse(instance.getTextValue());
         } catch (ParseException ignored) {
             report.addMessage(errmsg);
         }

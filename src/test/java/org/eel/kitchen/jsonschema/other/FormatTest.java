@@ -121,6 +121,24 @@ public final class FormatTest
         assertEquals(msg, report.getMessages().get(0));
     }
 
+    @Test
+    public void testUnknownFormatFails()
+    {
+        final ObjectNode schema = factory.objectNode();
+        schema.put("format", "izjefoizjoeijf");
+
+        final JsonValidator validator = new JsonValidator(schema);
+
+        final ValidationReport report = validator.validate(factory.nullNode());
+
+        assertFalse(report.isSuccess());
+        assertFalse(report.isError());
+
+        assertEquals(report.getMessages().size(), 1);
+        assertEquals(report.getMessages().get(0), "#: no validator for "
+            + "format izjefoizjoeijf");
+    }
+
     private void testOne(final String fmt)
     {
         final JsonNode node = testNode.get(fmt);

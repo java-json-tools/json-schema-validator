@@ -17,31 +17,19 @@
 
 package org.eel.kitchen.jsonschema.keyword.format;
 
-import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
-
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.Iterator;
 
 /**
- * Validator for the "uri" format specification
+ * Base implementation of validations for the {@code format} keyword (draft
+ * section 5.23)
  */
-public final class URIValidator
-    extends FormatValidator
+public abstract class FormatValidator
+    implements CacheableValidator
 {
     @Override
-    public ValidationReport validate(final ValidationContext context,
-        final JsonNode instance)
+    public final Iterator<CacheableValidator> iterator()
     {
-        final ValidationReport report = context.createReport();
-
-        try {
-            new URI(instance.getTextValue());
-        } catch (URISyntaxException ignored) {
-            report.addMessage("string is not a valid URI");
-        }
-
-        return report;
+        return Collections.<CacheableValidator>emptyList().iterator();
     }
 }

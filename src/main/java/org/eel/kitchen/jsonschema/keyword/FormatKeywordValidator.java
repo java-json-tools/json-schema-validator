@@ -18,9 +18,10 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
+import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 
 /**
  * <p>Keyword validator for the {@code format} keyword (draft section
@@ -59,10 +60,10 @@ public final class FormatKeywordValidator
     {
         final String fmt = schema.get("format").getTextValue();
 
-        final Validator validator
+        final FormatValidator validator
             = formatFactory.getFormatValidator(fmt, instance);
 
-        report.mergeWith(validator.validate());
+        report.mergeWith(validator.validate(context, instance));
     }
 
 }

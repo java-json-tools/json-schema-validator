@@ -21,35 +21,13 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
-import java.net.Inet6Address;
-import java.net.UnknownHostException;
-
-/**
- * Validator for the "ipv6" format specification
- *
- * <p>This uses {@link Inet6Address#getByName(String)} to validate,
- * which means we must ensure this is a "numerical" IPv6 address before
- * proceeding. Easy enough: {@code :} is not valid in host names,
- * but it required for IPv6 addresses...</p>
- */
-public final class IPV6Validator
+public final class AlwaysTrueFormatValidator
     extends FormatValidator
 {
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        final ValidationReport report = context.createReport();
-
-        try {
-            final String ipaddr = instance.getTextValue();
-            if (ipaddr.indexOf(':') == -1)
-                throw new UnknownHostException();
-            Inet6Address.getByName(ipaddr);
-        } catch (UnknownHostException ignored) {
-            report.addMessage("string is not a valid IPv6 address");
-        }
-
-        return report;
+        return context.createReport();
     }
 }

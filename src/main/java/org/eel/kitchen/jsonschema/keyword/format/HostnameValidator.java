@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +32,7 @@ import java.util.regex.Pattern;
  * qualified.</p>
  */
 public final class HostnameValidator
-    extends AbstractFormatValidator
+    extends FormatValidator
 {
     /**
      * <p>Regex to validate a hostname part, and maximum hostname part length.
@@ -44,7 +45,7 @@ public final class HostnameValidator
      * <p>This regex is used with .matches(), so we don't need to anchor it.</p>
      */
     private static final Pattern HOSTNAME_PART_REGEX
-        = Pattern.compile("[a-z0-9]+(-[a-z0-9]+)*");
+        = Pattern.compile("[a-z0-9]++(-[a-z0-9]++)*+", Pattern.CASE_INSENSITIVE);
 
     /**
      * Maximum length of a hostname part
@@ -56,25 +57,23 @@ public final class HostnameValidator
      */
     private static final Pattern SPLIT_PATTERN = Pattern.compile("\\.");
 
-    public HostnameValidator(final ValidationReport report, final JsonNode node)
-    {
-        super(report, node);
-    }
-
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        final String value = node.getTextValue();
+        final ValidationReport report = context.createReport();
+
+        final String value = instance.getTextValue();
         final String[] parts = SPLIT_PATTERN.split(value);
         Matcher matcher;
         boolean ret = true;
 
         for (final String part : parts) {
-            matcher = HOSTNAME_PART_REGEX.matcher(part.toLowerCase());
             if (part.length() > HOSTNAME_PART_MAXLEN) {
                 ret = false;
                 break;
             }
+            matcher = HOSTNAME_PART_REGEX.matcher(part.toLowerCase());
             if (!matcher.matches()) {
                 ret = false;
                 break;

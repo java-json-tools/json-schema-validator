@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.math.BigInteger;
 
@@ -33,21 +34,26 @@ import java.math.BigInteger;
  * </p>
  */
 public final class UnixEpochValidator
-    extends AbstractFormatValidator
+    extends FormatValidator
 {
+    /**
+     * The amount by which the instance divided by 1000 will be shifted,
+     * to see if it is 0
+     */
     private static final int EPOCH_SHIFT = 31;
+
+    /**
+     * 1000 as a {@link BigInteger}
+     */
     private static final BigInteger ONE_THOUSAND = new BigInteger("1000");
 
-    public UnixEpochValidator(final ValidationReport report,
-        final JsonNode node)
-    {
-        super(report, node);
-    }
-
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        BigInteger epoch = node.getDecimalValue().toBigInteger();
+        final ValidationReport report = context.createReport();
+
+        BigInteger epoch = instance.getDecimalValue().toBigInteger();
 
         if (BigInteger.ZERO.compareTo(epoch) > 0) {
             report.addMessage("epoch cannot be negative");
