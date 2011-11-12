@@ -18,6 +18,7 @@
 package org.eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.File;
@@ -30,6 +31,19 @@ import java.net.URL;
 /**
  * Utility class to load JSON documents (schemas or instance) from various
  * sources as {@link JsonNode}s.
+ *
+ * <p>It should be noted here that the {@link ObjectMapper} used to read
+ * everything has the following features enabled:</p>
+ * <ul>
+ *     <li>{@link DeserializationConfig.Feature#USE_BIG_DECIMAL_FOR_FLOATS};</li>
+ *     <li>{@link DeserializationConfig.Feature#USE_BIG_INTEGER_FOR_INTS}.</li>
+ * </ul>
+ * <p>This is to be able to deal with arbitrary long numbers. Otherwise
+ * Jackson limits itself to double numbers, for performance reason but also
+ * because, to quote its documentation, "Javascript standard specifies that
+ * all number handling should be done using 64-bit IEEE 754 floating point
+ * values" (therefore the equivalent of the {@code double} primitive type).
+ * </p>
  */
 public final class JsonLoader
 {
@@ -37,6 +51,15 @@ public final class JsonLoader
      * The mapper which does everything behind the scenes...
      */
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    static {
+        /**
+         * NECESSARY! Otherwise Jackson will limit itself to what Javascript
+         * can operate!
+         */
+        mapper.enable(DeserializationConfig.Feature.USE_BIG_DECIMAL_FOR_FLOATS);
+        mapper.enable(DeserializationConfig.Feature.USE_BIG_INTEGER_FOR_INTS);
+    }
 
     /**
      * A shortcut: myself as a {@link Class} object.
