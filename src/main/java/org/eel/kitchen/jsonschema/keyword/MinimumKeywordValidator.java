@@ -26,15 +26,9 @@ import java.math.BigDecimal;
  * Keyword validator for the {@code minimum} and {@code exclusiveMinimum}
  * keywords (draft sections 5.9 and 5.11)
  */
-//TODO specialize validation for "smaller" types (long, double)
 public final class MinimumKeywordValidator
-    extends SimpleKeywordValidator
+    extends NumericInstanceKeywordValidator
 {
-
-    /**
-     * Value of {@code minimum}
-     */
-    private final BigDecimal minimum;
 
     /**
      * Is the minimum exclusive?
@@ -44,16 +38,31 @@ public final class MinimumKeywordValidator
     public MinimumKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
-        minimum = schema.get("minimum").getDecimalValue();
+        super(context, instance, "minimum");
         exclusiveMinimum = schema.path("exclusiveMinimum").asBoolean(false);
 
     }
 
     @Override
-    protected void validateInstance()
+    protected void validateLong(final long value, final long against)
     {
-        final int cmp = minimum.compareTo(instance.getDecimalValue());
+        final long cmp = value - against;
+
+        if (cmp > 0) {
+            report.addMessage("number is lower than the required minimum");
+            return;
+        }
+
+        if (cmp == 0 && exclusiveMinimum)
+            report.addMessage("number is not strictly greater than "
+                + "the required minimum");
+    }
+
+    @Override
+    protected void validateDecimal(final BigDecimal value,
+        final BigDecimal against)
+    {
+        final int cmp = value.compareTo(against);
 
         if (cmp > 0) {
             report.addMessage("number is lower than the required minimum");

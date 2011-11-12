@@ -45,14 +45,14 @@ public final class MaximumKeywordValidator
     @Override
     protected void validateLong(final long value, final long against)
     {
-        final long diff = value - against;
+        final long cmp = value - against;
 
-        if (diff < 0) {
+        if (cmp < 0) {
             report.addMessage("number is greater than the required maximum");
             return;
         }
 
-        if (diff == 0 && exclusiveMaximum)
+        if (cmp == 0 && exclusiveMaximum)
             report.addMessage("number is not strictly lower than "
                 + "the required maximum");
     }

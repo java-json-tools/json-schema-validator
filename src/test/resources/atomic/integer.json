@@ -10,6 +10,18 @@
             "#: number is lower than the required minimum"
         ]
     },
+    "minimumHuge": {
+        "schema": {
+            "type": "number",
+            "disallow": "integer",
+            "minimum": 99980192389018293318092310928301.231
+        },
+        "good": 99980192389018293318092310928301.2311,
+        "bad": 99980192389018293318092310928301.23,
+        "messages": [
+            "#: number is lower than the required minimum"
+        ]
+    },
     "exclusiveMinimum": {
         "schema": {
             "type": "integer",
@@ -22,17 +34,17 @@
             "#: number is not strictly greater than the required minimum"
         ]
     },
-    "exclusiveMaximumHuge": {
+    "exclusiveMinimumHuge": {
         "schema": {
             "type": "number",
             "disallow": "integer",
-            "maximum": 99980192389018293318092310928301.231,
-            "exclusiveMaximum": true
+            "minimum": 99980192389018293318092310928301.231,
+            "exclusiveMinimum": true
         },
-        "good": 99980192389018293318092310928301.23,
+        "good": 99980192389018293318092310928301.2311,
         "bad": 99980192389018293318092310928301.231,
         "messages": [
-            "#: number is not strictly lower than the required maximum"
+            "#: number is not strictly greater than the required minimum"
         ]
     },
     "maximum": {
@@ -66,6 +78,19 @@
         },
         "good": -7,
         "bad": 2103,
+        "messages": [
+            "#: number is not strictly lower than the required maximum"
+        ]
+    },
+    "exclusiveMaximumHuge": {
+        "schema": {
+            "type": "number",
+            "disallow": "integer",
+            "maximum": 99980192389018293318092310928301.231,
+            "exclusiveMaximum": true
+        },
+        "good": 99980192389018293318092310928301.23,
+        "bad": 99980192389018293318092310928301.231,
         "messages": [
             "#: number is not strictly lower than the required maximum"
         ]

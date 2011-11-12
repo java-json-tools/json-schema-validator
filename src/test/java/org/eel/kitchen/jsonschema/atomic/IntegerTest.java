@@ -48,9 +48,21 @@ public final class IntegerTest
     }
 
     @Test
+    public void testMinimumHuge()
+    {
+        testOne("minimumHuge");
+    }
+
+    @Test
     public void testExclusiveMinimum()
     {
         testOne("exclusiveMinimum");
+    }
+
+    @Test
+    public void testExclusiveMinimumHuge()
+    {
+        testOne("exclusiveMinimumHuge");
     }
 
     @Test
