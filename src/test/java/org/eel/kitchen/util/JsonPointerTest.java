@@ -18,7 +18,9 @@
 package org.eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
+import org.codehaus.jackson.node.ObjectNode;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -29,6 +31,8 @@ import static org.testng.Assert.*;
 
 public final class JsonPointerTest
 {
+    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+
     @Test(
         expectedExceptions = IllegalArgumentException.class,
         expectedExceptionsMessageRegExp = "^illegal JSON Pointer haha$"
@@ -144,8 +148,7 @@ public final class JsonPointerTest
         final String path = "#/a%2F//..";
         final JsonNode node = JsonLoader.fromResource("/jsonpointer/pointer"
             + ".json");
-        final JsonNode expected = JsonNodeFactory.instance.textNode("hello "
-            + "world");
+        final JsonNode expected = factory.textNode("hello world");
 
         final JsonPointer pointer = new JsonPointer(path);
 
@@ -158,8 +161,7 @@ public final class JsonPointerTest
     {
         final JsonNode node = JsonLoader.fromResource("/jsonpointer/pointer"
             + ".json");
-        final JsonNode expected = JsonNodeFactory.instance.textNode("hello "
-            + "world");
+        final JsonNode expected = factory.textNode("hello world");
 
         final String basePath = "/a%2F/";
         final String append = "..";
@@ -168,5 +170,26 @@ public final class JsonPointerTest
         final JsonPointer p = base.append(append);
 
         assertEquals(p.getPath(node), expected);
+    }
+
+    @Test
+    public void testArrayAddressing()
+    {
+        final ArrayNode array = factory.arrayNode();
+        array.add("hello");
+        array.add("world");
+
+        final ObjectNode node2 = factory.objectNode();
+        node2.put("goodbye", "Dennis");
+
+        array.add(node2);
+
+        assertEquals(new JsonPointer("#/0").getPath(array),
+            factory.textNode("hello"));
+        assertEquals(new JsonPointer("/2").getPath(array), node2);
+        assertTrue(new JsonPointer("#/-1").getPath(array).isMissingNode());
+        assertTrue(new JsonPointer("#/3").getPath(array).isMissingNode());
+        assertTrue(new JsonPointer("/1/").getPath(array).isMissingNode());
+        assertTrue(new JsonPointer("/a").getPath(array).isMissingNode());
     }
 }

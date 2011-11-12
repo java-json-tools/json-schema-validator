@@ -214,20 +214,16 @@ public final class JsonPointer
         JsonNode ret = document;
 
         for (final String pathElement: elements) {
-            switch (NodeType.getNodeType(ret)) {
-                case OBJECT:
-                    ret = ret.path(pathElement);
-                    break;
-                case ARRAY:
-                    try {
-                        ret = ret.path(Integer.parseInt(pathElement));
-                    } catch (NumberFormatException ignored) {
-                        return MISSING;
-                    }
-                    break;
-                default:
+            if (!ret.isContainerNode())
+                return MISSING;
+            if (ret.isObject())
+                ret = ret.path(pathElement);
+            else
+                try {
+                    ret = ret.path(Integer.parseInt(pathElement));
+                } catch (NumberFormatException ignored) {
                     return MISSING;
-            }
+                }
             if (ret.isMissingNode())
                 break;
         }
