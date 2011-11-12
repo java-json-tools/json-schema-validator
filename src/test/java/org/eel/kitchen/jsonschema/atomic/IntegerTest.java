@@ -95,6 +95,12 @@ public final class IntegerTest
         testOne("divisibleBy");
     }
 
+    @Test
+    public void testDivisibleByHuge()
+    {
+        testOne("divisibleByHuge");
+    }
+
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);

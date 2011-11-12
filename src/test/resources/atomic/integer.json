@@ -105,5 +105,16 @@
         "messages": [
             "#: number is not a multiple of divisibleBy"
         ]
+    },
+    "divisibleByHuge": {
+        "schema": {
+            "type": "number",
+            "divisibleBy": 5
+        },
+        "good": 921823098098466710982386059328347029841045,
+        "bad": 921823098098466710982386059328347029841045.1,
+        "messages": [
+            "#: number is not a multiple of divisibleBy"
+        ]
     }
 }

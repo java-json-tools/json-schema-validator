@@ -27,29 +27,29 @@ import java.math.BigDecimal;
  */
 // TODO: specialize validation for "smaller" types (long, double)
 public final class DivisibleByKeywordValidator
-    extends SimpleKeywordValidator
+    extends NumericInstanceKeywordValidator
 {
-    /**
-     * The divisor
-     */
-    private final BigDecimal divisor;
-
     public DivisibleByKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
-        divisor = schema.get("divisibleBy").getDecimalValue();
+        super(context, instance, "divisibleBy");
     }
 
     @Override
-    protected void validateInstance()
+    protected void validateLong(final long value, final long against)
     {
-        final BigDecimal number = instance.getDecimalValue();
+        if (against % value != 0)
+            report.addMessage("number is not a multiple of divisibleBy");
 
-        if (number.remainder(divisor).compareTo(BigDecimal.ZERO) == 0)
-            return;
+    }
 
-        report.addMessage("number is not a multiple of divisibleBy");
+    @Override
+    protected void validateDecimal(final BigDecimal value,
+        final BigDecimal against)
+    {
+        final BigDecimal remainder = against.remainder(value);
 
+        if (remainder.compareTo(BigDecimal.ZERO) != 0)
+            report.addMessage("number is not a multiple of divisibleBy");
     }
 }
