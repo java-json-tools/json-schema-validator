@@ -20,6 +20,8 @@ package org.eel.kitchen.jsonschema.syntax;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
+import java.math.BigDecimal;
+
 /**
  * Specialized syntax validator for integer values.
  *
@@ -43,7 +45,11 @@ public abstract class PositiveIntegerSyntaxValidator
     @Override
     protected final void checkFurther()
     {
-        if (!node.isInt()) {
+        final BigDecimal value = node.getDecimalValue();
+
+        try {
+            value.intValueExact();
+        } catch (ArithmeticException ignored) {
             report.addMessage("value is too large");
             return;
         }
