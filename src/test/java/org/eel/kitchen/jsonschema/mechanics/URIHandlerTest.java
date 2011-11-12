@@ -20,9 +20,16 @@ package org.eel.kitchen.jsonschema.mechanics;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.JsonValidator;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.uri.HTTPURIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
+import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.net.URI;
+
+import static org.testng.Assert.*;
 
 public final class URIHandlerTest
 {
@@ -74,5 +81,38 @@ public final class URIHandlerTest
     {
         validator.unregisterURIHandler("http");
         validator.registerURIHandler("http", handler);
+    }
+
+    @Test
+    public void aspirinTime()
+        throws IOException
+    {
+        final JsonNode testNode
+            = JsonLoader.fromResource("/ref/torture.json").get("aspirin");
+
+        final URIHandler handler = new URIHandler()
+        {
+            @Override
+            public JsonNode getDocument(final URI uri)
+                throws IOException
+            {
+                return testNode;
+            }
+        };
+
+        final JsonValidator validator
+            = new JsonValidator(testNode);
+
+        validator.registerURIHandler("mystuff", handler);
+
+        final ValidationReport report = validator.validate("#/link1",
+            JsonNodeFactory.instance.nullNode());
+
+        assertFalse(report.isSuccess());
+        assertTrue(report.isError());
+
+        assertEquals(report.getMessages().size(), 1);
+        assertEquals(report.getMessages().get(0), "#: FATAL: schema "
+            + "{\"$ref\":\"mystuff:a#/link2\"} loops on itself");
     }
 }

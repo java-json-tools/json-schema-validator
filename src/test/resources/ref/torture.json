@@ -16,5 +16,25 @@
     },
     "nonEmptySSP": {
         "$ref": "a/b/c#/d/e"
+    },
+    "aspirin": {
+        "link1": {
+            "$ref": "mystuff:a#/link2"
+        },
+        "link2": {
+            "$ref": "mystuff:a#/link3/2/%25/"
+        },
+        "link3": [
+            "boo",
+            "you were scared, eh?",
+            {
+                "%": {
+                    "war": "sucks",
+                    "": {
+                        "$ref": "mystuff:a#/link1"
+                    }
+                }
+            }
+        ]
     }
 }
