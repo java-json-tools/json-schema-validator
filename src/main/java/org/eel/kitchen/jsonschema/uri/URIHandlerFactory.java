@@ -35,14 +35,17 @@ public final class URIHandlerFactory
     public void registerHandler(final String scheme, final URIHandler handler)
     {
         try {
-            new URI(scheme, "", null);
+            new URI(scheme + ":hello");
         } catch (URISyntaxException ignored) {
-            throw new IllegalArgumentException("illegal scheme name " + scheme);
+            throw new IllegalArgumentException("invalid scheme " + scheme);
         }
 
         if (schemeHandlers.containsKey(scheme))
             throw new IllegalArgumentException("scheme " + scheme + " already"
                 + " registered");
+
+        if (handler == null)
+            throw new IllegalArgumentException("handler is null");
 
         schemeHandlers.put(scheme, handler);
     }
