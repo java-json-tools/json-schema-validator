@@ -22,7 +22,7 @@
             "$ref": "mystuff:a#/link2"
         },
         "link2": {
-            "$ref": "mystuff:a#/link3/2/%25/"
+            "$ref": "mystuff:b#/link3/2/%25/"
         },
         "link3": [
             "boo",
@@ -31,7 +31,7 @@
                 "%": {
                     "war": "sucks",
                     "": {
-                        "$ref": "mystuff:a#/link1"
+                        "$ref": "mystuff:c#/link1"
                     }
                 }
             }
