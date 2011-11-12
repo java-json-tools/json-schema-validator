@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 
 /**
@@ -44,7 +43,7 @@ public final class FormatKeywordValidator
         final JsonNode instance)
     {
         super(context, instance);
-        formatFactory = new FormatFactory(context);
+        formatFactory = new FormatFactory();
     }
 
     /**
@@ -53,7 +52,8 @@ public final class FormatKeywordValidator
      * If the type of the instance cannot be validated by the matching
      * validator, the validation is a success.
      *
-     * @see FormatFactory#getFormatValidator(String, JsonNode)
+     * @see FormatFactory#getFormatValidator(ValidationContext, String,
+     * JsonNode)
      */
     @Override
     protected void validateInstance()
@@ -61,7 +61,7 @@ public final class FormatKeywordValidator
         final String fmt = schema.get("format").getTextValue();
 
         final FormatValidator validator
-            = formatFactory.getFormatValidator(fmt, instance);
+            = formatFactory.getFormatValidator(context, fmt, instance);
 
         report.mergeWith(validator.validate(context, instance));
     }

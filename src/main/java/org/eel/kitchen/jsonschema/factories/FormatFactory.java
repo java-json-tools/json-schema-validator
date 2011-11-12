@@ -19,8 +19,6 @@ package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.AbstractValidator;
-import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.format.AlwaysFalseFormatValidator;
@@ -67,20 +65,11 @@ public final class FormatFactory
         = new HashMap<String, FormatValidator>();
 
     /**
-     * Report fed to the matching validator (see {@link
-     * #getFormatValidator(String, JsonNode)})
-     */
-    private final ValidationReport report;
-
-    /**
-     * Constructor
+     * Constructor, which initiates all format validators once per validation
      *
-     * @param context the {@link ValidationContext} for this factory
      */
-    public FormatFactory(final ValidationContext context)
+    public FormatFactory()
     {
-        report = context.createReport();
-
         registerFormat("date-time", new DateTimeFormatValidator(), STRING);
         registerFormat("date", new DateFormatValidator(), STRING);
         registerFormat("time", new TimeFormatValidator(), STRING);
@@ -100,18 +89,20 @@ public final class FormatFactory
     /**
      * Get the {@link Validator} for the given format specification and
      * instance. If the format specification is unknown,
-     * an {@link AlwaysFalseValidator} is returned; if the format
-     * specification is not applicable to the instance type,
-     * {@link AbstractValidator#TRUE} is returned.
+     * an {@link AlwaysFalseFormatValidator} is returned; if the format
+     * specification is not applicable to the instance type, an
+     * {@link AlwaysTrueFormatValidator} is returned.
      *
+     * @param context the context to use
      * @param name the format specification
      * @param node the instance to validate
      * @return the matching validator
      */
-    public FormatValidator getFormatValidator(final String name,
-        final JsonNode node)
+    public FormatValidator getFormatValidator(final ValidationContext context,
+        final String name, final JsonNode node)
     {
         final NodeType type = NodeType.getNodeType(node);
+        final ValidationReport report = context.createReport();
 
         if (!typeMap.containsKey(name)) {
             report.addMessage("no validator for format " + name);
