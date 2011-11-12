@@ -17,14 +17,13 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 public final class EnumSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public EnumSyntaxValidator(final ValidationContext context)
+    public EnumSyntaxValidator()
     {
-        super(context, "enum", NodeType.ARRAY);
+        super("enum", NodeType.ARRAY);
     }
 }

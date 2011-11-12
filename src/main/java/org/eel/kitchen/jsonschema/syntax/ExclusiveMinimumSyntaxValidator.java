@@ -17,24 +17,26 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 public final class ExclusiveMinimumSyntaxValidator
     extends SyntaxValidator
 {
-    public ExclusiveMinimumSyntaxValidator(final ValidationContext context)
+    public ExclusiveMinimumSyntaxValidator()
     {
-        super(context, "exclusiveMinimum", NodeType.BOOLEAN);
+        super("exclusiveMinimum", NodeType.BOOLEAN);
     }
 
     /**
      * Check that {@code exclusiveMinimum} is paired with {@code minimum}
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
-        if (!context.getSchemaNode().has("minimum"))
+        if (!schema.has("minimum"))
             report.addMessage("exclusiveMinimum without minimum");
     }
 }

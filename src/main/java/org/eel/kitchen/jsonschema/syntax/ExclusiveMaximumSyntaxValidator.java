@@ -17,24 +17,26 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 public final class ExclusiveMaximumSyntaxValidator
     extends SyntaxValidator
 {
-    public ExclusiveMaximumSyntaxValidator(final ValidationContext context)
+    public ExclusiveMaximumSyntaxValidator()
     {
-        super(context, "exclusiveMaximum", NodeType.BOOLEAN);
+        super("exclusiveMaximum", NodeType.BOOLEAN);
     }
 
     /**
      * Check that {@code exclusiveMaximum} is paired with {@code maximum}
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
-        if (!context.getSchemaNode().has("maximum"))
+        if (!schema.has("maximum"))
             report.addMessage("exclusiveMaximum without maximum");
     }
 }

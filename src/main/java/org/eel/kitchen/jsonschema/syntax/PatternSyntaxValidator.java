@@ -17,16 +17,17 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
 
 public final class PatternSyntaxValidator
     extends SyntaxValidator
 {
-    public PatternSyntaxValidator(final ValidationContext context)
+    public PatternSyntaxValidator()
     {
-        super(context, "pattern", NodeType.STRING);
+        super("pattern", NodeType.STRING);
     }
 
     /**
@@ -35,8 +36,10 @@ public final class PatternSyntaxValidator
      * @see RhinoHelper#regexIsValid(String)
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
         final String pattern = node.getTextValue();
 
         if (!RhinoHelper.regexIsValid(pattern))

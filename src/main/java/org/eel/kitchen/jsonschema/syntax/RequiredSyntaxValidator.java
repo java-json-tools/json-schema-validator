@@ -17,14 +17,13 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 public final class RequiredSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public RequiredSyntaxValidator(final ValidationContext context)
+    public RequiredSyntaxValidator()
     {
-        super(context, "required", NodeType.BOOLEAN);
+        super("required", NodeType.BOOLEAN);
     }
 }

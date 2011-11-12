@@ -17,7 +17,8 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 import java.net.URI;
@@ -31,15 +32,17 @@ import java.net.URISyntaxException;
 public abstract class URISyntaxValidator
     extends SyntaxValidator
 {
-    protected URISyntaxValidator(final ValidationContext context,
-        final String keyword)
+    protected URISyntaxValidator(final String keyword)
     {
-        super(context, keyword, NodeType.STRING);
+        super(keyword, NodeType.STRING);
     }
 
     @Override
-    protected final void checkFurther()
+    protected final void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
+
         try {
             new URI(node.getTextValue());
         } catch (URISyntaxException ignored) {

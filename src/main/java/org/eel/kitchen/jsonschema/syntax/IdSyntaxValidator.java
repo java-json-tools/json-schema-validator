@@ -17,13 +17,11 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
-
 public final class IdSyntaxValidator
     extends URISyntaxValidator
 {
-    public IdSyntaxValidator(final ValidationContext context)
+    public IdSyntaxValidator()
     {
-        super(context, "id");
+        super("id");
     }
 }

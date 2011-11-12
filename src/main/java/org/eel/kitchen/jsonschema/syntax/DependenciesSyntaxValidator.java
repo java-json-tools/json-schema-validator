@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -40,19 +40,21 @@ import java.util.SortedMap;
 public final class DependenciesSyntaxValidator
     extends SyntaxValidator
 {
-    public DependenciesSyntaxValidator(final ValidationContext context)
+    public DependenciesSyntaxValidator()
     {
-        super(context, "dependencies", NodeType.OBJECT);
+        super("dependencies", NodeType.OBJECT);
     }
 
     /**
      * Walks the different elements of the dependencies object and checks
      * their correctness (see description). Calls {@link
-     * #checkDependencyArray(String, JsonNode)} for arrays.
+     * #checkDependencyArray(ValidationReport, String, JsonNode)} for arrays.
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
 
         final SortedMap<String, JsonNode> fields
             = CollectionUtils.toSortedMap(node.getFields());
@@ -67,7 +69,7 @@ public final class DependenciesSyntaxValidator
             type = NodeType.getNodeType(element);
             switch (type) {
                 case ARRAY:
-                    checkDependencyArray(field, element);
+                    checkDependencyArray(report, field, element);
                     // Fall through
                 case STRING: case OBJECT:
                     break;
@@ -85,7 +87,8 @@ public final class DependenciesSyntaxValidator
      * @param field the field name
      * @param node the array node for this field
      */
-    private void checkDependencyArray(final String field, final JsonNode node)
+    private void checkDependencyArray(final ValidationReport report,
+        final String field, final JsonNode node)
     {
         NodeType type;
         String message;

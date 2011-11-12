@@ -17,14 +17,13 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 public final class FormatSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public FormatSyntaxValidator(final ValidationContext context)
+    public FormatSyntaxValidator()
     {
-        super(context, "format", NodeType.STRING);
+        super("format", NodeType.STRING);
     }
 }

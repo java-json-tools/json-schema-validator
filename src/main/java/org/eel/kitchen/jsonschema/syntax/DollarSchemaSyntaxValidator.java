@@ -17,13 +17,11 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
-
 public final class DollarSchemaSyntaxValidator
     extends URISyntaxValidator
 {
-    public DollarSchemaSyntaxValidator(final ValidationContext context)
+    public DollarSchemaSyntaxValidator()
     {
-        super(context, "$schema");
+        super("$schema");
     }
 }

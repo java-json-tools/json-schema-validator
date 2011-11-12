@@ -18,21 +18,24 @@
 package org.eel.kitchen.jsonschema.draftv4.newkeywords;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
 public final class RequiredSyntaxValidator
     extends SyntaxValidator
 {
-    public RequiredSyntaxValidator(final ValidationContext context)
+    public RequiredSyntaxValidator()
     {
-        super(context, "required", NodeType.ARRAY);
+        super("required", NodeType.ARRAY);
     }
 
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
+
         int i = -1;
 
         for (final JsonNode element: node) {

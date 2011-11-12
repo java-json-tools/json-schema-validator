@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
@@ -310,9 +311,9 @@ public final class ValidationContext
         final ValidationReport report
             = new ValidationReport(path.toDecodedString());
 
-        final Validator v = factory.getSyntaxValidator(this);
+        final CacheableValidator v = factory.getSyntaxValidator(this);
 
-        report.mergeWith(v.validate());
+        report.mergeWith(v.validate(this, instance));
 
         if (!report.isSuccess())
             return new AlwaysFalseValidator(report);

@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -26,18 +26,18 @@ import org.eel.kitchen.util.NodeType;
  * and {@code disallow})
  *
  * <p>It is here that the check for valid type names is performed (by
- * {@link #validateOne(String, JsonNode)}, which means the keyword validators
- * for both of these won't have to worry about this.</p>
+ * {@link #validateOne(ValidationReport, String, JsonNode)},
+ * which means the keyword validators for both of these won't have to worry
+ * about this.</p>
  */
 public abstract class TypeNodeSyntaxValidator
     extends SyntaxValidator
 {
     private static final String ANY = "any";
 
-    protected TypeNodeSyntaxValidator(final ValidationContext context,
-        final String field)
+    protected TypeNodeSyntaxValidator(final String keyword)
     {
-        super(context, field, NodeType.STRING, NodeType.ARRAY);
+        super(keyword, NodeType.STRING, NodeType.ARRAY);
     }
 
     /**
@@ -50,30 +50,35 @@ public abstract class TypeNodeSyntaxValidator
      *     simple types or schemas.</li>
      * </ul>
      *
-     * @see #validateOne(String, JsonNode)
+     * @see #validateOne(ValidationReport, String, JsonNode)
      */
     @Override
-    protected final void checkFurther()
+    protected final void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
+
         if (!node.isArray()) {
-            validateOne(node);
+            validateOne(report, node);
             return;
         }
 
         int i = 0;
-        for (final JsonNode element : node)
-            validateOne(String.format("array element %d: ", i++), element);
+
+        for (final JsonNode element : node) {
+            final String prefix = String.format("array element %d: ", i++);
+            validateOne(report, prefix, element);
+        }
     }
 
     /**
      * Validate an element of a type array (also used for single element
      * validation)
      *
-     * @param prefix the prefix to append to the report message in case of
-     * error
      * @param element the element of the array to check
      */
-    private void validateOne(final String prefix, final JsonNode element)
+    private void validateOne(final ValidationReport report,
+        final String prefix, final JsonNode element)
     {
         final NodeType type = NodeType.getNodeType(element);
 
@@ -103,12 +108,14 @@ public abstract class TypeNodeSyntaxValidator
     }
 
     /**
-     * Shortcut to {@link #validateOne(String, JsonNode)} with an empty prefix
+     * Shortcut to {@link #validateOne(ValidationReport, String,
+     * JsonNode)} with an empty prefix
      *
      * @param element the element to check
      */
-    private void validateOne(final JsonNode element)
+    private void validateOne(final ValidationReport report,
+        final JsonNode element)
     {
-        validateOne("", element);
+        validateOne(report, "", element);
     }
 }

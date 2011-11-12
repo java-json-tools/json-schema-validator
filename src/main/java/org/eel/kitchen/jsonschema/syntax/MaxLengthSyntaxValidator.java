@@ -17,13 +17,11 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
-
 public final class MaxLengthSyntaxValidator
     extends PositiveIntegerSyntaxValidator
 {
-    public MaxLengthSyntaxValidator(final ValidationContext context)
+    public MaxLengthSyntaxValidator()
     {
-        super(context, "maxLength");
+        super("maxLength");
     }
 }

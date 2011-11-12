@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -28,9 +28,9 @@ import java.util.SortedMap;
 public final class PropertiesSyntaxValidator
     extends SyntaxValidator
 {
-    public PropertiesSyntaxValidator(final ValidationContext context)
+    public PropertiesSyntaxValidator()
     {
-        super(context, "properties", NodeType.OBJECT);
+        super("properties", NodeType.OBJECT);
     }
 
     /**
@@ -42,8 +42,11 @@ public final class PropertiesSyntaxValidator
      * </ul>
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
+
         final SortedMap<String, JsonNode> fields
             = CollectionUtils.toSortedMap(node.getFields());
 

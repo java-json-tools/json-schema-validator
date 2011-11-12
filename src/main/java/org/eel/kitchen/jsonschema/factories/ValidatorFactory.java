@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -61,7 +62,7 @@ public final class ValidatorFactory
      * @param context the context containing the schema node
      * @return the matching validator
      */
-    public Validator getSyntaxValidator(final ValidationContext context)
+    public CacheableValidator getSyntaxValidator(final ValidationContext context)
     {
         return syntaxFactory.getValidator(context);
     }

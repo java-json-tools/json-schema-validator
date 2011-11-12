@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
@@ -29,9 +29,9 @@ import java.util.SortedMap;
 public final class PatternPropertiesSyntaxValidator
     extends SyntaxValidator
 {
-    public PatternPropertiesSyntaxValidator(final ValidationContext context)
+    public PatternPropertiesSyntaxValidator()
     {
-        super(context, "patternProperties", NodeType.OBJECT);
+        super("patternProperties", NodeType.OBJECT);
     }
 
     /**
@@ -40,8 +40,11 @@ public final class PatternPropertiesSyntaxValidator
      * @see RhinoHelper#regexIsValid(String)
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
+
         final SortedMap<String, JsonNode> fields
             = CollectionUtils.toSortedMap(node.getFields());
 

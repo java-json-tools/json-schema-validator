@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -31,14 +31,17 @@ import org.eel.kitchen.util.NodeType;
 public final class ExtendsSyntaxValidator
     extends SyntaxValidator
 {
-    public ExtendsSyntaxValidator(final ValidationContext context)
+    public ExtendsSyntaxValidator()
     {
-        super(context, "extends", NodeType.OBJECT, NodeType.ARRAY);
+        super("extends", NodeType.OBJECT, NodeType.ARRAY);
     }
 
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
+
         if (node.isObject())
             return;
 

@@ -17,14 +17,13 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 public final class MaximumSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public MaximumSyntaxValidator(final ValidationContext context)
+    public MaximumSyntaxValidator()
     {
-        super(context, "maximum", NodeType.INTEGER, NodeType.NUMBER);
+        super("maximum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

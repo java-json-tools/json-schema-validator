@@ -17,13 +17,11 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
-
 public final class MinItemsSyntaxValidator
     extends PositiveIntegerSyntaxValidator
 {
-    public MinItemsSyntaxValidator(final ValidationContext context)
+    public MinItemsSyntaxValidator()
     {
-        super(context, "minItems");
+        super("minItems");
     }
 }

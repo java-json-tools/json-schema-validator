@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -293,8 +294,8 @@ public final class SyntaxValidatorFactoryTest
         final boolean valid = element.get("valid").getBooleanValue();
 
         context = new ValidationContext(schema);
-        v = syntaxFactory.getValidator(context);
-        report = v.validate();
+        final CacheableValidator sv = syntaxFactory.getValidator(context);
+        report = sv.validate(context, schema);
 
         if (valid) {
             assertTrue(report.isSuccess(), "schema " + schema + " considered "

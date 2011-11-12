@@ -19,14 +19,16 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.NodeType;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.EnumSet;
+import java.util.Iterator;
 
 /**
  * Base abstract class for syntax validators.
@@ -52,22 +54,9 @@ import java.util.EnumSet;
  * @see SyntaxFactory
  */
 public abstract class SyntaxValidator
-    extends AbstractValidator
+    implements CacheableValidator
 {
-    /**
-     * The report to use
-     */
-    protected final ValidationReport report;
-
-    /**
-     * The validation context
-     */
-    protected final ValidationContext context;
-
-    /**
-     * The node to check
-     */
-    protected final JsonNode node;
+    protected final String keyword;
 
     /**
      * The list of valid types for {@link #node}
@@ -81,13 +70,9 @@ public abstract class SyntaxValidator
      * @param keyword the keyword to check
      * @param types the list of valid types for this keyword
      */
-    protected SyntaxValidator(final ValidationContext context,
-        final String keyword, final NodeType... types)
+    protected SyntaxValidator(final String keyword, final NodeType... types)
     {
-        this.context = context;
-
-        report = context.createReport(String.format(" [schema:%s]", keyword));
-        node = context.getSchemaNode().get(keyword);
+        this.keyword = keyword;
         validTypes = EnumSet.copyOf(Arrays.asList(types));
     }
 
@@ -95,7 +80,8 @@ public abstract class SyntaxValidator
      * Abstract method for validators which need to check more than the type
      * of the node to validate
      */
-    protected abstract void checkFurther();
+    protected abstract void checkFurther(final JsonNode schema,
+        final ValidationReport report);
 
     /**
      * Type checks the node, then invokes {@link #checkFurther()}
@@ -103,16 +89,28 @@ public abstract class SyntaxValidator
      * @return a validation report
      */
     @Override
-    public final ValidationReport validate()
+    public final ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        final NodeType nodeType = NodeType.getNodeType(node);
+        final JsonNode schema = context.getSchemaNode();
+
+        final String prefix = String.format(" [schema:%s]", keyword);
+        final ValidationReport report = context.createReport(prefix);
+
+        final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
 
         if (!validTypes.contains(nodeType))
             report.addMessage("field has wrong type " + nodeType
                 + ", expected one of " + validTypes);
         else
-            checkFurther();
+            checkFurther(schema, report);
 
         return report;
+    }
+
+    @Override
+    public final Iterator<CacheableValidator> iterator()
+    {
+        return Collections.<CacheableValidator>emptyList().iterator();
     }
 }

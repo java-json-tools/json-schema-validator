@@ -18,15 +18,15 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 public final class ItemsSyntaxValidator
     extends SyntaxValidator
 {
-    public ItemsSyntaxValidator(final ValidationContext context)
+    public ItemsSyntaxValidator()
     {
-        super(context, "items", NodeType.OBJECT, NodeType.ARRAY);
+        super("items", NodeType.OBJECT, NodeType.ARRAY);
     }
 
     /**
@@ -34,8 +34,11 @@ public final class ItemsSyntaxValidator
      * array are objects
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
+
         if (node.isObject())
             return;
 

@@ -17,7 +17,8 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 import java.math.BigDecimal;
@@ -36,15 +37,16 @@ import java.math.BigDecimal;
 public abstract class PositiveIntegerSyntaxValidator
     extends SyntaxValidator
 {
-    protected PositiveIntegerSyntaxValidator(final ValidationContext context,
-        final String keyword)
+    protected PositiveIntegerSyntaxValidator(final String keyword)
     {
-        super(context, keyword, NodeType.INTEGER);
+        super(keyword, NodeType.INTEGER);
     }
 
     @Override
-    protected final void checkFurther()
+    protected final void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
+        final JsonNode node = schema.get(keyword);
         final BigDecimal value = node.getDecimalValue();
 
         try {

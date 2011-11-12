@@ -17,15 +17,13 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 public final class AdditionalPropertiesSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public AdditionalPropertiesSyntaxValidator(final ValidationContext context)
+    public AdditionalPropertiesSyntaxValidator()
     {
-        super(context, "additionalProperties", NodeType.OBJECT,
-            NodeType.BOOLEAN);
+        super("additionalProperties", NodeType.OBJECT, NodeType.BOOLEAN);
     }
 }

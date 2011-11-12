@@ -17,7 +17,8 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 import java.math.BigDecimal;
@@ -25,18 +26,19 @@ import java.math.BigDecimal;
 public final class DivisibleBySyntaxValidator
     extends SyntaxValidator
 {
-    public DivisibleBySyntaxValidator(final ValidationContext context)
+    public DivisibleBySyntaxValidator()
     {
-        super(context, "divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
+        super("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
     }
 
     /**
      * Check that the divisor is not 0
      */
     @Override
-    protected void checkFurther()
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
-        final BigDecimal divisor = node.getDecimalValue();
+        final BigDecimal divisor = schema.get(keyword).getDecimalValue();
 
         if (BigDecimal.ZERO.compareTo(divisor) != 0)
             return;

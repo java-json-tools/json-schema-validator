@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
@@ -42,14 +44,14 @@ public abstract class SimpleSyntaxValidator
      * @param keyword the keyword to check
      * @param types the valid list of types for this keyword
      */
-    protected SimpleSyntaxValidator(final ValidationContext context,
-        final String keyword, final NodeType... types)
+    protected SimpleSyntaxValidator(final String keyword, final NodeType... types)
     {
-        super(context, keyword, types);
+        super(keyword, types);
     }
 
     @Override
-    protected final void checkFurther()
+    protected final void checkFurther(final JsonNode schema,
+        final ValidationReport report)
     {
     }
 }

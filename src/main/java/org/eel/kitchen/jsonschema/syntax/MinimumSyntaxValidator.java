@@ -17,14 +17,13 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 public final class MinimumSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public MinimumSyntaxValidator(final ValidationContext context)
+    public MinimumSyntaxValidator()
     {
-        super(context, "minimum", NodeType.INTEGER, NodeType.NUMBER);
+        super("minimum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

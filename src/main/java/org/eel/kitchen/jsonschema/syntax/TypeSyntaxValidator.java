@@ -17,13 +17,11 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.context.ValidationContext;
-
 public final class TypeSyntaxValidator
     extends TypeNodeSyntaxValidator
 {
-    public TypeSyntaxValidator(final ValidationContext context)
+    public TypeSyntaxValidator()
     {
-        super(context, "type");
+        super("type");
     }
 }
