@@ -35,7 +35,7 @@ public final class URIHandlerFactory
     public void registerHandler(final String scheme, final URIHandler handler)
     {
         try {
-            new URI(scheme + ":hello");
+            new URI(scheme, "x", null);
         } catch (URISyntaxException ignored) {
             throw new IllegalArgumentException("invalid scheme " + scheme);
         }
