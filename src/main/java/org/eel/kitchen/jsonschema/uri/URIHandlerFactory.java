@@ -40,6 +40,10 @@ public final class URIHandlerFactory
             throw new IllegalArgumentException("illegal scheme name " + scheme);
         }
 
+        if (schemeHandlers.containsKey(scheme))
+            throw new IllegalArgumentException("scheme " + scheme + " already"
+                + " registered");
+
         schemeHandlers.put(scheme, handler);
     }
 
