@@ -60,9 +60,21 @@ public final class IntegerTest
     }
 
     @Test
+    public void testMaximumHuge()
+    {
+        testOne("maximumHuge");
+    }
+
+    @Test
     public void testExclusiveMaximum()
     {
         testOne("exclusiveMaximum");
+    }
+
+    @Test
+    public void testExclusiveMaximumHuge()
+    {
+        testOne("exclusiveMaximumHuge");
     }
 
     @Test
@@ -70,6 +82,7 @@ public final class IntegerTest
     {
         testOne("divisibleBy");
     }
+
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);

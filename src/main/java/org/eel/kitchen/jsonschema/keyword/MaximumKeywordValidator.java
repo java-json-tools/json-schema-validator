@@ -26,14 +26,9 @@ import java.math.BigDecimal;
  * Keyword validator for both the {@code maximum} and {@code
  * exclusiveMaximum} keywords (draft sections 5.10 and 5.12)
  */
-//TODO: specialize validation for "smaller" types (long, double)
 public final class MaximumKeywordValidator
-    extends SimpleKeywordValidator
+    extends NumericInstanceKeywordValidator
 {
-    /**
-     * Value of {@code maximum}
-     */
-    private final BigDecimal maximum;
 
     /**
      * Is the maximum exclusive?
@@ -43,16 +38,30 @@ public final class MaximumKeywordValidator
     public MaximumKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
-        maximum = schema.get("maximum").getDecimalValue();
+        super(context, instance, "maximum");
         exclusiveMaximum = schema.path("exclusiveMaximum").asBoolean(false);
-
     }
 
     @Override
-    protected void validateInstance()
+    protected void validateLong(final long value, final long against)
     {
-        final int cmp = maximum.compareTo(instance.getDecimalValue());
+        final long diff = value - against;
+
+        if (diff < 0) {
+            report.addMessage("number is greater than the required maximum");
+            return;
+        }
+
+        if (diff == 0 && exclusiveMaximum)
+            report.addMessage("number is not strictly lower than "
+                + "the required maximum");
+    }
+
+    @Override
+    protected void validateDecimal(final BigDecimal value,
+        final BigDecimal against)
+    {
+        final int cmp = value.compareTo(against);
 
         if (cmp < 0) {
             report.addMessage("number is greater than the required maximum");
