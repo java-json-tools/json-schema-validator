@@ -77,10 +77,9 @@ public final class ArrayValidator
             return;
         }
 
-        if (node.isArray()) {
+        if (node.isArray())
             for (final JsonNode item: node)
                 items.add(item);
-        }
 
         node = schema.path("additionalItems");
 
@@ -119,7 +118,7 @@ public final class ArrayValidator
      * {@link #getValidator(String, JsonNode)} for each successive child node.
      */
     @Override
-    protected void buildQueue()
+    protected void validateChildren()
     {
         int i = 0;
         String path;
@@ -128,7 +127,7 @@ public final class ArrayValidator
         for (final JsonNode child: instance) {
             path = Integer.toString(i++);
             v = getValidator(path, child);
-            queue.add(v);
+            report.mergeWith(v.validate());
         }
     }
 }

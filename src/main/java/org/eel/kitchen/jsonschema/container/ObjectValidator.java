@@ -148,7 +148,7 @@ public final class ObjectValidator
      * {@link CollectionUtils#toSortedMap(Iterator)}.
      */
     @Override
-    protected void buildQueue()
+    protected void validateChildren()
     {
         final SortedMap<String, JsonNode> map
             = CollectionUtils.toSortedMap(instance.getFields());
@@ -161,7 +161,7 @@ public final class ObjectValidator
             path = entry.getKey();
             child = entry.getValue();
             v = getValidator(path, child);
-            queue.add(v);
+            report.mergeWith(v.validate());
         }
 
     }

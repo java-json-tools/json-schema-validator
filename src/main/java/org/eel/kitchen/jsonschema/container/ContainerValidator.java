@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
@@ -86,19 +85,16 @@ public abstract class ContainerValidator
         final JsonNode child);
 
     /**
-     * Build the validation queue, in the event that structure validation
+     * Validate all children nodes, in the event that structure validation
      * succeeds
-i    *
-     * @see AbstractValidator#queue
      */
-    protected abstract void buildQueue();
+    protected abstract void validateChildren();
 
     /**
      * Validate the instance. First, validates the structure of the instance
      * itself, using {@link #validator}, then, if successful,
      * builds the necessary element to provide children validators (using
-     * {@link #buildPathProvider()} and then {@link #buildQueue()}, and
-     * validates them all.
+     * {@link #buildPathProvider()} and then {@link #validateChildren()}.
      *
      * @return the validation report
      */
@@ -111,12 +107,8 @@ i    *
             return report;
 
         buildPathProvider();
-        buildQueue();
+        validateChildren();
 
-        while (hasMoreElements())
-            report.mergeWith(nextElement().validate());
-
-        queue.clear();
         return report;
     }
 }
