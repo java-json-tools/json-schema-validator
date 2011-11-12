@@ -30,7 +30,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.SortedMap;
 
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public final class SelfValidationTest
 {
