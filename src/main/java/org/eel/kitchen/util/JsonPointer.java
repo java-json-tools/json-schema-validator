@@ -18,6 +18,7 @@
 package org.eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.MissingNode;
 
 import java.net.URLEncoder;
@@ -66,6 +67,9 @@ import java.util.regex.Pattern;
 
 public final class JsonPointer
 {
+    private static final JsonNode MISSING
+        = JsonNodeFactory.instance.objectNode().path("foo");
+
     /**
      * Percent-encoded representation of the {@code /} character
      */
@@ -210,7 +214,20 @@ public final class JsonPointer
         JsonNode ret = document;
 
         for (final String pathElement: elements) {
-            ret = ret.path(pathElement);
+            switch (NodeType.getNodeType(ret)) {
+                case OBJECT:
+                    ret = ret.path(pathElement);
+                    break;
+                case ARRAY:
+                    try {
+                        ret = ret.path(Integer.parseInt(pathElement));
+                    } catch (NumberFormatException ignored) {
+                        return MISSING;
+                    }
+                    break;
+                default:
+                    return MISSING;
+            }
             if (ret.isMissingNode())
                 break;
         }
