@@ -21,8 +21,11 @@ import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.factories.FormatFactory;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
+import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
+import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -79,14 +82,13 @@ public final class ValidationContext
     private final JsonPointer path;
 
     /**
-     * The keyword validator factory
+     * The validator factory to use
+     *
+     * <p>It is in charge of returning all {@link SyntaxValidator} and
+     * {@link KeywordValidator} instances, as well as a {@link FormatFactory}
+     * for {@link FormatKeywordValidator}.</p>
      */
-    private final KeywordFactory keywordFactory;
-
-    /**
-     * The syntax validator factory
-     */
-    private final SyntaxFactory syntaxFactory;
+    private final ValidatorFactory factory;
 
     /**
      * Map of already seen URIs and the schema located at these URIs
@@ -108,20 +110,17 @@ public final class ValidationContext
      * @param rootSchema the root schema for this new context
      * @param schemaNode the subschema for this new context
      * @param path the pointer inside the validated instance
-     * @param keywordFactory the {@link KeywordFactory}
-     * @param syntaxFactory the {@link SyntaxFactory}
+     * @param factory the {@link ValidatorFactory} to use
      * @param uriHandlerFactory the {@link URIHandlerFactory}
      */
     private ValidationContext(final JsonNode rootSchema,
         final JsonNode schemaNode, final JsonPointer path,
-        final KeywordFactory keywordFactory, final SyntaxFactory  syntaxFactory,
-        final URIHandlerFactory uriHandlerFactory)
+        final ValidatorFactory factory, final URIHandlerFactory uriHandlerFactory)
     {
         this.rootSchema = rootSchema;
         this.schemaNode = schemaNode;
         this.path = path;
-        this.keywordFactory = keywordFactory;
-        this.syntaxFactory = syntaxFactory;
+        this.factory = factory;
         this.uriHandlerFactory = uriHandlerFactory;
     }
 
@@ -139,8 +138,7 @@ public final class ValidationContext
         rootSchema = schema;
         schemaNode = schema;
 
-        keywordFactory = new KeywordFactory();
-        syntaxFactory = new SyntaxFactory();
+        factory = new ValidatorFactory();
         uriHandlerFactory = new URIHandlerFactory();
         refLookups.add(schema);
     }
@@ -154,8 +152,7 @@ public final class ValidationContext
      */
     public void unregisterValidator(final String keyword)
     {
-        syntaxFactory.unregisterValidator(keyword);
-        keywordFactory.unregisterValidator(keyword);
+        factory.unregisterValidator(keyword);
     }
 
     /**
@@ -178,8 +175,7 @@ public final class ValidationContext
         final Class<? extends SyntaxValidator> sv,
         final Class<? extends KeywordValidator> kv, final NodeType... types)
     {
-        syntaxFactory.registerValidator(keyword, sv);
-        keywordFactory.registerValidator(keyword, kv, types);
+        factory.registerValidator(keyword, sv, kv, types);
     }
 
     /**
@@ -236,8 +232,7 @@ public final class ValidationContext
         final JsonPointer newPath = path.append(subPath);
 
         final ValidationContext other = new ValidationContext(rootSchema,
-            subSchema, newPath, keywordFactory, syntaxFactory,
-            uriHandlerFactory);
+            subSchema, newPath, factory, uriHandlerFactory);
 
         if (newPath.equals(path))
             other.refLookups.addAll(refLookups);
@@ -290,7 +285,7 @@ public final class ValidationContext
         }
 
         final ValidationContext ret = new ValidationContext(newSchema,
-            newSchema, path, keywordFactory, syntaxFactory, uriHandlerFactory);
+            newSchema, path, factory, uriHandlerFactory);
 
         ret.refLookups.addAll(refLookups);
 
@@ -314,14 +309,14 @@ public final class ValidationContext
         final ValidationReport report
             = new ValidationReport(path.toDecodedString());
 
-        final Validator v = syntaxFactory.getValidator(this);
+        final Validator v = factory.getSyntaxValidator(this);
 
         report.mergeWith(v.validate());
 
         if (!report.isSuccess())
             return new AlwaysFalseValidator(report);
 
-        return keywordFactory.getValidator(this, instance);
+        return factory.getInstanceValidator(this, instance);
     }
 
     /**
