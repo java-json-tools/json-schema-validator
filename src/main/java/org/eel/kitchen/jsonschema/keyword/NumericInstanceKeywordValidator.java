@@ -22,9 +22,22 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.math.BigDecimal;
 
+/**
+ * Keyword validator specialized in numeric instances keyword validation
+ *
+ * <p>This class uses Java's {@link long} primitive type if both the value
+ * of the keyword and the instance fit within this type,
+ * otherwise it uses {@link BigDecimal}, even for numbers which would fit
+ * within a float or a double. The reason is, for example,
+ * for a keyword like {@code divisibleBy}: a rounding error there can lead
+ * to wrong results.</p>
+ */
 public abstract class NumericInstanceKeywordValidator
     extends SimpleKeywordValidator
 {
+    /**
+     * Node containing the numeric value of the schema keyword
+     */
     protected final JsonNode schemaValue;
 
     /**
@@ -32,6 +45,7 @@ public abstract class NumericInstanceKeywordValidator
      *
      * @param context  the context to use
      * @param instance the instance to validate
+     * @param keyword the matching JSON schema keyword
      */
     protected NumericInstanceKeywordValidator(final ValidationContext context,
         final JsonNode instance, final String keyword)

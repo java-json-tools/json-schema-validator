@@ -67,6 +67,10 @@ import java.util.regex.Pattern;
 
 public final class JsonPointer
 {
+    /**
+     * A {@link MissingNode}, as a shortcut to return when a pointer is
+     * "dangling"
+     */
     private static final JsonNode MISSING
         = JsonNodeFactory.instance.objectNode().path("foo");
 

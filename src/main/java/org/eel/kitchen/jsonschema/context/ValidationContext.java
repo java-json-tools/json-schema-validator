@@ -68,7 +68,11 @@ public final class ValidationContext
      */
     private JsonNode schemaNode;
 
+    /**
+     * The {@link URIHandler} provider for this context
+     */
     private final URIHandlerFactory uriHandlerFactory;
+
     /**
      * The JSON path within the instance for the current context
      */
@@ -84,6 +88,12 @@ public final class ValidationContext
      */
     private final SyntaxFactory syntaxFactory;
 
+    /**
+     * Map of already seen URIs and the schema located at these URIs
+     *
+     * <p>Note that in the current state of the implementation,
+     * it is <b>enforced</b> that the URIs be absolute.</p>
+     */
     private final Map<URI, JsonNode> locators = new HashMap<URI, JsonNode>();
 
     /**
@@ -92,6 +102,16 @@ public final class ValidationContext
      */
     private final Set<JsonNode> refLookups = new LinkedHashSet<JsonNode>();
 
+    /**
+     * Private constructor to help spawning new contexts
+     *
+     * @param rootSchema the root schema for this new context
+     * @param schemaNode the subschema for this new context
+     * @param path the pointer inside the validated instance
+     * @param keywordFactory the {@link KeywordFactory}
+     * @param syntaxFactory the {@link SyntaxFactory}
+     * @param uriHandlerFactory the {@link URIHandlerFactory}
+     */
     private ValidationContext(final JsonNode rootSchema,
         final JsonNode schemaNode, final JsonPointer path,
         final KeywordFactory keywordFactory, final SyntaxFactory  syntaxFactory,
@@ -106,8 +126,10 @@ public final class ValidationContext
     }
 
     /**
-     * The public constructor. Only used from {@link JsonValidator}. On
-     * initial setup, the argument is the root schema, see #rootSchema.
+     * The public constructor. Only used from {@link JsonValidator}.
+     *
+     * <p>On initial setup, the argument is the root schema,
+     * see {@link #rootSchema}.
      *
      * @param schema the root schema used by this context
      */
@@ -125,7 +147,7 @@ public final class ValidationContext
 
     /**
      * Unregister all validators ({@link SyntaxValidator} and
-     * {@link KeywordValidator} for a given keyword. Note that the null case
+     * {@link KeywordValidator}) for a given keyword. Note that the null case
      * is handled in the factories themselves.
      *
      * @param keyword the victim
@@ -137,8 +159,11 @@ public final class ValidationContext
     }
 
     /**
-     * Register a validator for a new keyword, or replace the existing
-     * validators by new ones for ths keyword.
+     * Register a validator for a new keyword
+     *
+     * <p>Note that if you wish to replace validators for an existing
+     * keyword, then you <b>must</b> call
+     * {@link #unregisterValidator(String)} first.</p>
      *
      * @param keyword the new/modified keyword
      * @param sv the {@link SyntaxValidator} implementation
@@ -157,11 +182,30 @@ public final class ValidationContext
         keywordFactory.registerValidator(keyword, kv, types);
     }
 
+    /**
+     * Register a handler for a new URI scheme
+     *
+     * <p>Note that if you wish to replace the handler for an existing
+     * scheme, you <b>must</b> pair this call with {@link
+     * #unregisterURIHandler(String)}.</p>
+     *
+     * @param scheme the scheme
+     * @param handler the new URI handler
+     *
+     * @see URIHandlerFactory#registerHandler(String, URIHandler)
+     */
     public void registerURIHandler(final String scheme, final URIHandler handler)
     {
         uriHandlerFactory.registerHandler(scheme, handler);
     }
 
+    /**
+     * Unregister a URI handler for a given scheme
+     *
+     * @param scheme the victim
+     *
+     * @see URIHandlerFactory#unregisterHandler(String)
+     */
     public void unregisterURIHandler(final String scheme)
     {
         uriHandlerFactory.unregisterHandler(scheme);
@@ -180,8 +224,9 @@ public final class ValidationContext
     /**
      * Spawn a new context from this context
      *
-     * @param subPath the relative path to use from the current path ({@code
-     * null} if same path
+     * @param subPath the pointer element to append to {@link #path} (MUST be
+     * {@code null} if the context is spawned for the same path: remember
+     * that an empty string is a valid JSON Pointer element!)
      * @param subSchema the schema node to use for the new context
      * @return the new context
      */
@@ -214,6 +259,18 @@ public final class ValidationContext
         return createContext(null, subSchema);
     }
 
+    /**
+     * Spawn a new context from a schema located at a given URI
+     *
+     * <p>Please note that this context will use the same pointer within the
+     * instance than its caller. This is due to the fact that URI
+     * redirections via {@code $ref} never traverse instances.
+     * </p>
+     *
+     * @param uri the URI where the new scheme is located
+     * @return the new context
+     * @throws IOException the schema at the given URI could not be downloaded
+     */
     public ValidationContext createContextFromURI(final URI uri)
         throws IOException
     {
@@ -243,10 +300,11 @@ public final class ValidationContext
     }
 
     /**
-     * Create a {@link Validator} for a given JSON instance. This is what
-     * MUST be called by validators when they need to spawn a new validator,
-     * because this method handles syntax checking. If the syntax of the
-     * schema itself is wrong, returns an {@link AlwaysFalseValidator}.
+     * Create a {@link Validator} for a given JSON instance.
+     *
+     * <p>This is what MUST be called by validators when they need to spawn a
+     * new validator, because this method handles syntax checking. If the syntax
+     * of the schema itself is wrong, returns an {@link AlwaysFalseValidator}.
      *
      * @param instance the JSON instance
      * @return the validator
@@ -267,11 +325,11 @@ public final class ValidationContext
     }
 
     /**
-     * Get a validator for the subschema at a given path below {@link
+     * Get a validator for the subschema at a given pointer below {@link
      * #rootSchema} for a given instance
      *
      * <p>This validator will spawn an {@link AlwaysFalseValidator} if the
-     * path doesn't match anything, <b>or</b> if a ref loop is detected.</p>
+     * pointer doesn't match anything, <b>or</b> if a ref loop is detected.</p>
      *
      * @param pointer the JSON pointer to find within the schema
      * @param instance the instance to validate
@@ -306,8 +364,7 @@ public final class ValidationContext
     }
 
     /**
-     * Create a new report with, optionally, a prefix (this DOES NOT affect
-     * the path)
+     * Create a new report with, optionally, a prefix to prepend to all messages
      *
      * @param prefix the prefix to use
      * @return the newly created report

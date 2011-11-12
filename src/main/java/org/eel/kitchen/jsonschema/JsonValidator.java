@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
+import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
@@ -99,6 +100,15 @@ public final class JsonValidator
         context.registerValidator(keyword, sv, kv, types);
     }
 
+    /**
+     * Register a new {@link URIHandler} for a given scheme
+     *
+     * @param scheme the scheme
+     * @param handler the handler
+     * @throws IllegalArgumentException the provided scheme is null
+     *
+     * @see URIHandlerFactory#registerHandler(String, URIHandler)
+     */
     public void registerURIHandler(final String scheme, final URIHandler handler)
     {
         if (scheme == null)
@@ -107,6 +117,14 @@ public final class JsonValidator
         context.registerURIHandler(scheme, handler);
     }
 
+    /**
+     * Unregister the handler for a given scheme
+     *
+     * @param scheme the victim
+     * @throws IllegalArgumentException the provided scheme is null
+     *
+     * @see URIHandlerFactory#unregisterHandler(String)
+     */
     public void unregisterURIHandler(final String scheme)
     {
         if (scheme == null)

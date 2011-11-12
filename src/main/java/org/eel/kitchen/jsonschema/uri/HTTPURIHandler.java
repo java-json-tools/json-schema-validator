@@ -23,6 +23,9 @@ import org.eel.kitchen.util.JsonLoader;
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ * Basic handler for the http URI scheme
+ */
 public final class HTTPURIHandler
     implements URIHandler
 {

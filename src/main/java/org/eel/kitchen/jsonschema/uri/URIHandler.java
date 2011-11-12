@@ -22,8 +22,19 @@ import org.codehaus.jackson.JsonNode;
 import java.io.IOException;
 import java.net.URI;
 
+/**
+ * Interface which URI handlers must implement in order to provide support
+ * for arbitrary URI schemes
+ */
 public interface URIHandler
 {
+    /**
+     * Get the JSON document located at a given URI
+     *
+     * @param uri the URI
+     * @return the document at this URI
+     * @throws IOException the document could not be downloaded
+     */
     JsonNode getDocument(final URI uri)
         throws IOException;
 }

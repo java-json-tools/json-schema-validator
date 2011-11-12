@@ -22,16 +22,39 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Factory providing {@link URIHandler} instances
+ *
+ * <p>This looks at the scheme of the URI to determine what handler is
+ * returned. You can register handlers for any scheme of you choice,
+ * but if you do so, remember about interoperability!</p>
+ */
 public final class URIHandlerFactory
 {
+    /**
+     * Map pairing schemes by name to their handlers
+     */
     private final Map<String, URIHandler> schemeHandlers
         = new HashMap<String, URIHandler>();
 
+    /**
+     * Constructor. Right now the only thing it does it registering a {@link
+     * HTTPURIHandler}, certainly the mostly used one -- which is why it is
+     * already provided
+     */
     public URIHandlerFactory()
     {
         schemeHandlers.put("http", new HTTPURIHandler());
     }
 
+    /**
+     * Register a handler for a new scheme
+     *
+     * @param scheme the scheme
+     * @param handler the handler
+     * @throws IllegalArgumentException the scheme is invalid,
+     * a handler is already registered for that scheme, or the handler is null
+     */
     public void registerHandler(final String scheme, final URIHandler handler)
     {
         try {
@@ -50,11 +73,24 @@ public final class URIHandlerFactory
         schemeHandlers.put(scheme, handler);
     }
 
+    /**
+     * Unregister a handler for a given scheme
+     *
+     * @param scheme the victim
+     */
     public void unregisterHandler(final String scheme)
     {
         schemeHandlers.remove(scheme);
     }
 
+    /**
+     * Get a handler for the given URI
+     *
+     * @param uri the URI
+     * @return the handler
+     * @throws IllegalArgumentException the URI is not absolute,
+     * or the scheme of this URI is not registered
+     */
     public URIHandler getHandler(final URI uri)
     {
         final String scheme = uri.getScheme();
