@@ -95,13 +95,13 @@ public final class FormatFactory
      *
      * @param context the context to use
      * @param name the format specification
-     * @param node the instance to validate
+     * @param instance the instance to validate
      * @return the matching validator
      */
     public FormatValidator getFormatValidator(final ValidationContext context,
-        final String name, final JsonNode node)
+        final String name, final JsonNode instance)
     {
-        final NodeType type = NodeType.getNodeType(node);
+        final NodeType type = NodeType.getNodeType(instance);
         final ValidationReport report = context.createReport();
 
         if (!typeMap.containsKey(name)) {

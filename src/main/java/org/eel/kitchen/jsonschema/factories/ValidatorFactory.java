@@ -81,6 +81,21 @@ public final class ValidatorFactory
     }
 
     /**
+     * Get a validator for a given format specification,
+     * context and instance to validate
+     *
+     * @param context the context
+     * @param fmt the format specification
+     * @param instance the instance to validate
+     * @return the matching {@link FormatValidator}
+     */
+    public FormatValidator getFormatValidator(final ValidationContext context,
+        final String fmt, final JsonNode instance)
+    {
+        return formatFactory.getFormatValidator(context, fmt, instance);
+    }
+
+    /**
      * Register a validator for a new keyword
      *
      * <p>Note that if you wish to replace validators for an existing

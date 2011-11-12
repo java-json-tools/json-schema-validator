@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
@@ -317,6 +318,12 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
 
         return factory.getInstanceValidator(this, instance);
+    }
+
+    public FormatValidator getFormatValidator(final String fmt,
+        final JsonNode instance)
+    {
+        return factory.getFormatValidator(this, fmt, instance);
     }
 
     /**

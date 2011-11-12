@@ -30,20 +30,14 @@ import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
  * FormatFactory}) for its own purposes, as it needs to pick a validator
  * matching the format specification.</p>
  */
-//TODO: inline validators?
 public final class FormatKeywordValidator
     extends SimpleKeywordValidator
 {
-    /**
-     * The format factory
-     */
-    private final FormatFactory formatFactory;
 
     public FormatKeywordValidator(final ValidationContext context,
         final JsonNode instance)
     {
         super(context, instance);
-        formatFactory = new FormatFactory();
     }
 
     /**
@@ -61,7 +55,7 @@ public final class FormatKeywordValidator
         final String fmt = schema.get("format").getTextValue();
 
         final FormatValidator validator
-            = formatFactory.getFormatValidator(context, fmt, instance);
+            = context.getFormatValidator(fmt, instance);
 
         report.mergeWith(validator.validate(context, instance));
     }
