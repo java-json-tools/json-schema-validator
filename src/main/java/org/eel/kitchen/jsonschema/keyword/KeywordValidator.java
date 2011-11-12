@@ -44,6 +44,12 @@ public abstract class KeywordValidator
     protected final ValidationContext context;
 
     /**
+     * The schema node used to validate, grabbed from the {@link
+     * ValidationContext} used as a constructor argument
+     */
+    protected final JsonNode schema;
+
+    /**
      * The validation report to use
      */
     protected final ValidationReport report;
@@ -58,6 +64,7 @@ public abstract class KeywordValidator
     {
         this.context = context;
         this.instance = instance;
+        schema = context.getSchemaNode();
         report = context.createReport();
     }
 }

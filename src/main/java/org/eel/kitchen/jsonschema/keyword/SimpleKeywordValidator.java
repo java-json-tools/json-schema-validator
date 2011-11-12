@@ -32,12 +32,6 @@ public abstract class SimpleKeywordValidator
     extends KeywordValidator
 {
     /**
-     * The schema node used to validate, grabbed from the {@link
-     * ValidationContext} used as a constructor argument
-     */
-    protected final JsonNode schema;
-
-    /**
      * Constructor
      *
      * @param context the context to use
@@ -47,7 +41,6 @@ public abstract class SimpleKeywordValidator
         final JsonNode instance)
     {
         super(context, instance);
-        schema = context.getSchemaNode();
     }
 
     /**
