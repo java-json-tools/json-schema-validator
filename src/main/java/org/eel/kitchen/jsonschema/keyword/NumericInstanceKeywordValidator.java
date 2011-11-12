@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.math.BigDecimal;
@@ -33,12 +34,18 @@ import java.math.BigDecimal;
  * to wrong results.</p>
  */
 public abstract class NumericInstanceKeywordValidator
-    extends SimpleKeywordValidator
+    extends KeywordValidator
 {
     /**
      * Node containing the numeric value of the schema keyword
      */
     protected final JsonNode schemaValue;
+
+    /**
+     * The schema node used to validate, grabbed from the {@link
+     * ValidationContext} used as a constructor argument
+     */
+    protected final JsonNode schema;
 
     /**
      * Constructor
@@ -51,11 +58,12 @@ public abstract class NumericInstanceKeywordValidator
         final JsonNode instance, final String keyword)
     {
         super(context, instance);
-        schemaValue = context.getSchemaNode().get(keyword);
+        schema = context.getSchemaNode();
+        schemaValue = schema.get(keyword);
     }
 
     @Override
-    protected final void validateInstance()
+    public final ValidationReport validate()
     {
         final BigDecimal value = schemaValue.getDecimalValue();
         final BigDecimal against = instance.getDecimalValue();
@@ -65,6 +73,8 @@ public abstract class NumericInstanceKeywordValidator
         } catch (ArithmeticException ignored) {
             validateDecimal(value, against);
         }
+
+        return report;
     }
 
     protected abstract void validateLong(final long value, final long against);
