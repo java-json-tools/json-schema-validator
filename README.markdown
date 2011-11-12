@@ -10,7 +10,7 @@ validation using draft v3, and can be extended to support draft v4 easily.
 
 <p><b>Version 0.2 is out</b>: see [here]
 (https://github.com/fge/json-schema-validator/wiki/ChangeLog)
-for a list of features.r
+for a list of features.
 
 <p>For a detailed discussion of the implementation, see
 [here](https://github.com/fge/json-schema-validator/wiki/Status). For a list of
