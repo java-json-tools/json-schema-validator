@@ -20,9 +20,9 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 
 /**
  * <p>>A specialized {@link Validator} implementation for validating container
@@ -37,9 +37,8 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
  * @see ArrayValidator
  * @see ObjectValidator
  */
-//TODO: try and make this class not extend KeywordValidator, it's confusing
 public abstract class ContainerValidator
-    extends KeywordValidator
+    extends AbstractValidator
 {
     /**
      * An empty schema, always true
@@ -53,6 +52,12 @@ public abstract class ContainerValidator
      */
     private final Validator validator;
 
+    protected final ValidationContext context;
+
+    protected final JsonNode instance;
+
+    protected final ValidationReport report;
+
     /**
      * Constructor
      *
@@ -63,8 +68,10 @@ public abstract class ContainerValidator
     protected ContainerValidator(final Validator validator,
         final ValidationContext context, final JsonNode instance)
     {
-        super(context, instance);
         this.validator = validator;
+        this.context = context;
+        this.instance = instance;
+        report = context.createReport();
     }
 
     /**
