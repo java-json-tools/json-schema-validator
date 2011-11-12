@@ -13,8 +13,10 @@ validation using draft v3, and can be extended to support draft v4 easily.
 for a list of features.r
 
 <p>For a detailed discussion of the implementation, see
-[here](https://github.com/fge/json-schema-validator/wiki/Status).
+[here](https://github.com/fge/json-schema-validator/wiki/Status). For a list of
+planned features for next versions, see
+[here](https://github.com/fge/json-schema-validator/wiki/Roadmap).
 
 Please see the [wiki](https://github.com/fge/json-schema-validator/wiki/) for
- more details.
+more details.
 
