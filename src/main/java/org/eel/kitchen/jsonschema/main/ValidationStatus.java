@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema;
+package org.eel.kitchen.jsonschema.main;
 
 /**
  * Simple enumeration to report a validation status.

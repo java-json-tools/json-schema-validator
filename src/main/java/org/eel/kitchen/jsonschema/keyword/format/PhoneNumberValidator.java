@@ -20,9 +20,9 @@ package org.eel.kitchen.jsonschema.keyword.format;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.JsonValidator;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.util.NodeType;
 

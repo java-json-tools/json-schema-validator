@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 import java.util.Collection;
 

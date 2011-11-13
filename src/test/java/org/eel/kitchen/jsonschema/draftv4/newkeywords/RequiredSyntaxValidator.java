@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.draftv4.newkeywords;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 

@@ -14,11 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.eel.kitchen.jsonschema.context;
+package org.eel.kitchen.jsonschema.main;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.JsonValidator;
-import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;

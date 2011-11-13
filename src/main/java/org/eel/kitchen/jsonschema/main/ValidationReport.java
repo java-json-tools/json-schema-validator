@@ -15,15 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema;
+package org.eel.kitchen.jsonschema.main;
 
 import org.codehaus.jackson.JsonNode;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-
-import static org.eel.kitchen.jsonschema.ValidationStatus.*;
 
 /**
  * An object containing the validation status of an instance against a schema.
@@ -34,7 +32,7 @@ public final class ValidationReport
 {
     private final String path;
     private final List<String> messages = new LinkedList<String>();
-    private ValidationStatus status = SUCCESS;
+    private ValidationStatus status = ValidationStatus.SUCCESS;
 
     /**
      * Default constructor. Only sets {@link #path} to an empty string.
@@ -63,7 +61,7 @@ public final class ValidationReport
      */
     public boolean isSuccess()
     {
-        return status == SUCCESS;
+        return status == ValidationStatus.SUCCESS;
     }
 
     /**
@@ -73,7 +71,7 @@ public final class ValidationReport
      */
     public boolean isError()
     {
-        return status == ERROR;
+        return status == ValidationStatus.ERROR;
     }
 
     /**
@@ -93,9 +91,9 @@ public final class ValidationReport
      */
     public void addMessage(final String message)
     {
-        if (status == ERROR)
+        if (status == ValidationStatus.ERROR)
             return;
-        status = FAILURE;
+        status = ValidationStatus.FAILURE;
         messages.add(path + ": " + message);
     }
 
@@ -108,7 +106,7 @@ public final class ValidationReport
      */
     public void error(final String message)
     {
-        status = ERROR;
+        status = ValidationStatus.ERROR;
         messages.clear();
         messages.add(path + ": FATAL: " + message);
     }
@@ -131,7 +129,7 @@ public final class ValidationReport
                 // Fall through
             case FAILURE:
                 messages.addAll(other.messages);
-                if (status != ERROR)
+                if (status != ValidationStatus.ERROR)
                     status = other.status;
         }
     }

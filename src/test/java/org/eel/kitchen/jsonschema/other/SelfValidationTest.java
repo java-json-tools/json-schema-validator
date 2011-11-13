@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.other;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.JsonValidator;
-import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;

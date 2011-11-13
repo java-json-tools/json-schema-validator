@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.mechanics;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.JsonValidator;
-import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.uri.HTTPURIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.util.JsonLoader;

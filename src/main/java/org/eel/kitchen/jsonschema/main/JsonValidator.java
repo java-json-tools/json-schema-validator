@@ -15,12 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema;
+package org.eel.kitchen.jsonschema.main;
 
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;

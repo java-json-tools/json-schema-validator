@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 import java.util.Arrays;
 import java.util.List;
