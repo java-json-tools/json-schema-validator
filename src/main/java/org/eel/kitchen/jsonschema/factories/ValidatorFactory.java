@@ -53,6 +53,10 @@ public final class ValidatorFactory
      */
     private final FormatFactory formatFactory = new FormatFactory();
 
+    /**
+     * Our validator cache
+     */
+    private final ValidatorCache cache = new ValidatorCache();
 
     /**
      * Return a {@link SyntaxValidator} for the schema node located in a
@@ -77,10 +81,18 @@ public final class ValidatorFactory
     public Validator getInstanceValidator(
         final ValidationContext context, final JsonNode instance)
     {
+        final JsonNode schema = context.getSchemaNode();
+        final NodeType type = NodeType.getNodeType(instance);
+
+        Validator ret = cache.get(type, schema);
+
+        if (ret != null)
+            return ret;
+
+        final Validator validator;
         final Collection<Validator> collection
             = keywordFactory.getValidators(context, instance);
 
-        final Validator validator;
         switch (collection.size()) {
             case 0:
                 validator = new AlwaysTrueValidator();
@@ -92,12 +104,20 @@ public final class ValidatorFactory
                 validator = new MatchAllValidator(collection);
         }
 
-        if (!instance.isContainerNode())
-            return validator;
+        switch (type) {
+            case ARRAY:
+                ret = new ArrayValidator(schema, validator);
+                break;
+            case OBJECT:
+                ret = new ObjectValidator(schema, validator);
+                break;
+            default:
+                ret = validator;
+        }
 
-        return instance.isArray()
-            ? new ArrayValidator(validator)
-            : new ObjectValidator(validator);
+        cache.put(type, schema, ret);
+
+        return ret;
     }
 
     /**
@@ -135,6 +155,7 @@ public final class ValidatorFactory
         final Class<? extends SyntaxValidator> sv,
         final Class<? extends KeywordValidator> kv, final NodeType... types)
     {
+        cache.clear();
         syntaxFactory.registerValidator(keyword, sv);
         keywordFactory.registerValidator(keyword, kv, types);
     }
@@ -148,6 +169,7 @@ public final class ValidatorFactory
      */
     public void unregisterValidator(final String keyword)
     {
+        cache.clear();
         syntaxFactory.unregisterValidator(keyword);
         keywordFactory.unregisterValidator(keyword);
     }
