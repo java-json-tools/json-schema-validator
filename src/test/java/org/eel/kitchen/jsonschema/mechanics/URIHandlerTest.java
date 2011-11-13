@@ -51,7 +51,7 @@ public final class URIHandlerTest
 
     @Test(
         expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^scheme is null"
+        expectedExceptionsMessageRegExp = "^scheme is null$"
     )
     public void testNullSchemeFails()
     {
@@ -60,7 +60,7 @@ public final class URIHandlerTest
 
     @Test(
         expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^handler is null"
+        expectedExceptionsMessageRegExp = "^handler is null$"
     )
     public void testNullHandlerFails()
     {

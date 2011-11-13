@@ -97,7 +97,7 @@ public final class RegistrationTest
 
     @Test(
         expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^keyword already registered"
+        expectedExceptionsMessageRegExp = "^keyword already registered$"
     )
     public void testExistingKeywordRegistrationFailure()
     {
@@ -109,7 +109,7 @@ public final class RegistrationTest
     @Test(
         expectedExceptions = IllegalArgumentException.class,
         expectedExceptionsMessageRegExp = "^cannot register a new keyword"
-                + " with no JSON type to match against"
+                + " with no JSON type to match against$"
     )
     public void testEmptyTypeSetFails()
     {
@@ -120,7 +120,7 @@ public final class RegistrationTest
 
     @Test(
         expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^keyword is null"
+        expectedExceptionsMessageRegExp = "^keyword is null$"
     )
     public void testUnregisteringNullKeywordFails()
     {
