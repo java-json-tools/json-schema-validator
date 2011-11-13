@@ -17,6 +17,9 @@
 
 package org.eel.kitchen.jsonschema.uri;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -31,6 +34,9 @@ import java.util.Map;
  */
 public final class URIHandlerFactory
 {
+    private static final Logger logger
+        = LoggerFactory.getLogger(URIHandlerFactory.class);
+
     /**
      * Map pairing schemes by name to their handlers
      */
@@ -70,6 +76,7 @@ public final class URIHandlerFactory
         if (handler == null)
             throw new IllegalArgumentException("handler is null");
 
+        logger.debug("registering URI handler for scheme {}", scheme);
         schemeHandlers.put(scheme, handler);
     }
 
@@ -80,6 +87,7 @@ public final class URIHandlerFactory
      */
     public void unregisterHandler(final String scheme)
     {
+        logger.debug("unregistering handler for scheme {}", scheme);
         schemeHandlers.remove(scheme);
     }
 

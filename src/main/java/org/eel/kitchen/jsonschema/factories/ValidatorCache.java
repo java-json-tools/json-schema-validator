@@ -21,6 +21,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.util.LRUMap;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.util.NodeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -38,6 +40,8 @@ import java.util.Map;
  */
 public final class ValidatorCache
 {
+    private static final Logger logger
+        = LoggerFactory.getLogger(ValidatorCache.class);
     /**
      * Initial size of an individual cache (one for each node type)
      */
@@ -85,6 +89,7 @@ public final class ValidatorCache
     public void put(final NodeType type, final JsonNode schema,
         final Validator validator)
     {
+        logger.debug("Registering new validator for type {}", type);
         cache.get(type).put(schema, validator);
     }
 
@@ -96,6 +101,7 @@ public final class ValidatorCache
          * For instance, if we register a new validator only for objects,
          * we don't need to clear entries for other types...
          */
+        logger.debug("purging cache!");
         for (final NodeType type: NodeType.values())
             cache.get(type).clear();
     }
