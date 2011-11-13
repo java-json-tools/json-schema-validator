@@ -78,7 +78,7 @@ import static org.eel.kitchen.util.NodeType.*;
  *
  * @see SyntaxFactory
  */
-final class KeywordFactory
+public final class KeywordFactory
 {
     /**
      * Map pairing a schema keyword and the instance types it applies to

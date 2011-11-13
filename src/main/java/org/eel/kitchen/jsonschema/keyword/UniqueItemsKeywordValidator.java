@@ -45,7 +45,7 @@ public final class UniqueItemsKeywordValidator
         final JsonNode instance)
     {
         final ValidationReport report = context.createReport();
-        final boolean unique = context.getSchemaNode().get("uniqueItems")
+        final boolean unique = context.getSchemaNode().get(keyword)
             .getBooleanValue();
 
         if (!unique)
