@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -60,6 +61,11 @@ public final class ValidationContext
 {
     private static final Logger logger
         = LoggerFactory.getLogger(ValidationContext.class);
+
+    private static final int CACHE_INIT = 50;
+
+    private final Set<JsonNode> validatedSchemas
+        = new HashSet<JsonNode>(CACHE_INIT);
 
     /**
      * The root schema of this validation context
@@ -112,16 +118,20 @@ public final class ValidationContext
      * @param path the pointer inside the validated instance
      * @param factory the {@link ValidatorFactory} to use
      * @param uriHandlerFactory the {@link URIHandlerFactory}
+     * @param validatedSchemas the list of already validated schemas
      */
     private ValidationContext(final JsonNode rootSchema,
         final JsonNode schemaNode, final JsonPointer path,
-        final ValidatorFactory factory, final URIHandlerFactory uriHandlerFactory)
+        final ValidatorFactory factory,
+        final URIHandlerFactory uriHandlerFactory,
+        final Set<JsonNode> validatedSchemas)
     {
         this.rootSchema = rootSchema;
         this.schemaNode = schemaNode;
         this.path = path;
         this.factory = factory;
         this.uriHandlerFactory = uriHandlerFactory;
+        this.validatedSchemas.addAll(validatedSchemas);
     }
 
     /**
@@ -232,7 +242,7 @@ public final class ValidationContext
         final JsonPointer newPath = path.append(subPath);
 
         final ValidationContext other = new ValidationContext(rootSchema,
-            subSchema, newPath, factory, uriHandlerFactory);
+            subSchema, newPath, factory, uriHandlerFactory, validatedSchemas);
 
         if (newPath.equals(path))
             other.refLookups.addAll(refLookups);
@@ -285,7 +295,7 @@ public final class ValidationContext
         }
 
         final ValidationContext ret = new ValidationContext(newSchema,
-            newSchema, path, factory, uriHandlerFactory);
+            newSchema, path, factory, uriHandlerFactory, validatedSchemas);
 
         ret.refLookups.addAll(refLookups);
 
@@ -306,15 +316,17 @@ public final class ValidationContext
      */
     public Validator getValidator(final JsonNode instance)
     {
-        final ValidationReport report
-            = new ValidationReport(path.toDecodedString());
+        if (!validatedSchemas.contains(schemaNode)) {
+            final ValidationReport report
+                = new ValidationReport(path.toDecodedString());
 
-        final Validator v = factory.getSyntaxValidator(this);
+            final Validator v = factory.getSyntaxValidator(this);
 
-        report.mergeWith(v.validate(this, instance));
+            report.mergeWith(v.validate(this, instance));
 
-        if (!report.isSuccess())
-            return new AlwaysFalseValidator(report);
+            if (!report.isSuccess())
+                return new AlwaysFalseValidator(report);
+        }
 
         return factory.getInstanceValidator(this, instance);
     }
