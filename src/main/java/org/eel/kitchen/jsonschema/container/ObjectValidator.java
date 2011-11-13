@@ -53,16 +53,12 @@ public final class ObjectValidator
     /**
      * The content of {@code additionalProperties}
      */
-    private JsonNode additionalProperties;
+    private final JsonNode additionalProperties;
 
-    public ObjectValidator(final Validator validator)
+    public ObjectValidator(final JsonNode schema, final Validator validator)
     {
         super(validator);
-    }
 
-    @Override
-    protected void buildPathProvider(final JsonNode schema)
-    {
         JsonNode node;
 
         node = schema.path("properties");

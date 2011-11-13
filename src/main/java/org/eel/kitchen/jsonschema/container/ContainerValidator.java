@@ -63,8 +63,6 @@ abstract class ContainerValidator
         this.validator = validator;
     }
 
-    protected abstract void buildPathProvider(final JsonNode schema);
-
     protected abstract Collection<JsonNode> getSchemas(final String path);
 
     protected abstract ValidationReport validateChildren(
@@ -80,7 +78,6 @@ abstract class ContainerValidator
         if (!report.isSuccess())
             return report;
 
-        buildPathProvider(context.getSchemaNode());
         report.mergeWith(validateChildren(context, instance));
 
         return report;

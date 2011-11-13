@@ -21,7 +21,6 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,29 +46,9 @@ public final class ArrayValidator
      */
     private JsonNode additionalItems;
 
-    public ArrayValidator(final Validator validator)
+    public ArrayValidator(final JsonNode schema, final Validator validator)
     {
         super(validator);
-    }
-
-    /**
-     * <p>Builds the {@link #items} list and {@link #additionalItems} schema,
-     * with the following algorithm:</p>
-     * <ul>
-     *     <li>if {@code items} is a schema, leave the items array empty and
-     *     affect the value of the node to {@link #additionalItems};
-     *     </li>
-     *     <li>if it is an array, fill the {@link #items} list with the array
-     *     elements; then fill {@link #additionalItems}.</li>
-     * </ul>
-     * <p>Note that at this stage, as the structure has been validated,
-     * it means that {@link AdditionalItemsKeywordValidator} will have done its
-     * job and make validation fail if additional items were not permitted.
-     * </p>
-     */
-    @Override
-    protected void buildPathProvider(final JsonNode schema)
-    {
         JsonNode node = schema.path("items");
 
         if (node.isObject()) {
