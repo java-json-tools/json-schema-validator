@@ -79,14 +79,12 @@ public final class JsonLoader
     public static JsonNode fromResource(final String resource)
         throws IOException
     {
-        final String realResource = resource.replaceFirst("^(?!/)", "/");
-
-        final JsonNode ret;
-
-        final InputStream in = myself.getResourceAsStream(realResource);
+        final InputStream in = myself.getResourceAsStream(resource);
 
         if (in == null)
             throw new IOException("resource " + resource + " not found");
+
+        final JsonNode ret;
 
         try {
             ret = mapper.readTree(in);
