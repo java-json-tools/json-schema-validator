@@ -22,8 +22,6 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,18 +42,12 @@ public final class MatchAllValidator
     {
         final ValidationReport report = context.createReport();
 
-        for (final Validator v: this) {
+        for (final Validator v: validators) {
             report.mergeWith(v.validate(context, instance));
             if (!report.isSuccess())
                 break;
         }
 
         return report;
-    }
-
-    @Override
-    public Iterator<Validator> iterator()
-    {
-        return Collections.unmodifiableList(validators).iterator();
     }
 }

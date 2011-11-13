@@ -26,9 +26,7 @@ import org.eel.kitchen.util.NodeType;
 
 import java.net.URI;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumSet;
-import java.util.Iterator;
 
 /**
  * Base abstract class for syntax validators.
@@ -109,11 +107,5 @@ public abstract class SyntaxValidator
             checkFurther(schema, report);
 
         return report;
-    }
-
-    @Override
-    public final Iterator<Validator> iterator()
-    {
-        return Collections.<Validator>emptyList().iterator();
     }
 }

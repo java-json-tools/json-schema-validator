@@ -19,19 +19,12 @@ package org.eel.kitchen.jsonschema.keyword.format;
 
 import org.eel.kitchen.jsonschema.base.Validator;
 
-import java.util.Collections;
-import java.util.Iterator;
-
 /**
  * Base implementation of validations for the {@code format} keyword (draft
  * section 5.23)
  */
+//FIXME: empty, but will be necessary if we propose validator registration
 public abstract class FormatValidator
     implements Validator
 {
-    @Override
-    public final Iterator<Validator> iterator()
-    {
-        return Collections.<Validator>emptyList().iterator();
-    }
 }

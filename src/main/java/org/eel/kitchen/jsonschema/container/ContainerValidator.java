@@ -24,8 +24,6 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
 
 /**
  * <p>>A specialized {@link Validator} implementation for validating container
@@ -86,11 +84,5 @@ public abstract class ContainerValidator
         report.mergeWith(validateChildren(context, instance));
 
         return report;
-    }
-
-    @Override
-    public Iterator<Validator> iterator()
-    {
-        return Collections.<Validator>emptyList().iterator();
     }
 }

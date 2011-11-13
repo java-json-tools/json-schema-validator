@@ -21,9 +21,6 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
-import java.util.Collections;
-import java.util.Iterator;
-
 public final class AlwaysFalseValidator
     implements Validator
 {
@@ -39,11 +36,5 @@ public final class AlwaysFalseValidator
         final JsonNode instance)
     {
         return report;
-    }
-
-    @Override
-    public Iterator<Validator> iterator()
-    {
-        return Collections.<Validator>emptyList().iterator();
     }
 }

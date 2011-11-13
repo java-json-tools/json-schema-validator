@@ -22,7 +22,6 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 public interface Validator
-    extends Iterable<Validator>
 {
     ValidationReport validate(final ValidationContext context,
         final JsonNode instance);

@@ -20,9 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
 
-import java.util.Collections;
-import java.util.Iterator;
-
 /**
  * Base abstract class for keyword validators
  *
@@ -41,11 +38,5 @@ public abstract class KeywordValidator
     protected KeywordValidator(final String keyword)
     {
         this.keyword = keyword;
-    }
-
-    @Override
-    public final Iterator<Validator> iterator()
-    {
-        return Collections.<Validator>emptyList().iterator();
     }
 }
