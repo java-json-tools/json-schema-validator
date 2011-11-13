@@ -42,7 +42,8 @@ public final class MaximumKeywordValidator
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchemaNode();
-        final boolean exclusive = schema.path("exclusiveMaximum").asBoolean(false);
+        final boolean exclusive = schema.path("exclusiveMaximum")
+            .asBoolean(false);
 
         final long cmp = value - against;
 
@@ -61,7 +62,8 @@ public final class MaximumKeywordValidator
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchemaNode();
-        final boolean exclusive = schema.path("exclusiveMaximum").asBoolean(false);
+        final boolean exclusive = schema.path("exclusiveMaximum")
+            .asBoolean(false);
 
         final int cmp = value.compareTo(against);
 

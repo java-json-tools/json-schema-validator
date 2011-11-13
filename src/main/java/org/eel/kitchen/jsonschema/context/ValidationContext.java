@@ -28,9 +28,6 @@ import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.format.AlwaysFalseFormatValidator;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
-import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
@@ -307,22 +304,22 @@ public final class ValidationContext
      * @param instance the JSON instance
      * @return the validator
      */
-    public CacheableValidator getValidator(final JsonNode instance)
+    public Validator getValidator(final JsonNode instance)
     {
         final ValidationReport report
             = new ValidationReport(path.toDecodedString());
 
-        final CacheableValidator v = factory.getSyntaxValidator(this);
+        final Validator v = factory.getSyntaxValidator(this);
 
         report.mergeWith(v.validate(this, instance));
 
         if (!report.isSuccess())
-            return new AlwaysFalseFormatValidator(report);
+            return new AlwaysFalseValidator(report);
 
         return factory.getInstanceValidator(this, instance);
     }
 
-    public FormatValidator getFormatValidator(final String fmt,
+    public Validator getFormatValidator(final String fmt,
         final JsonNode instance)
     {
         return factory.getFormatValidator(this, fmt, instance);
@@ -339,7 +336,7 @@ public final class ValidationContext
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public CacheableValidator getValidator(final JsonPointer pointer,
+    public Validator getValidator(final JsonPointer pointer,
         final JsonNode instance)
     {
         final ValidationReport report = createReport();
@@ -352,14 +349,14 @@ public final class ValidationContext
         if (schema.isMissingNode()) {
             report.error("no match in schema for path "
                 + pointer.toDecodedString());
-            return new AlwaysFalseFormatValidator(report);
+            return new AlwaysFalseValidator(report);
         }
 
         if (!refLookups.add(schema)) {
             logger.debug("ref loop detected!");
             logger.debug("path to loop: {}", refLookups);
             report.error("schema " + schema + " loops on itself");
-            return new AlwaysFalseFormatValidator(report);
+            return new AlwaysFalseValidator(report);
         }
 
         schemaNode = schema;

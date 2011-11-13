@@ -17,51 +17,45 @@
 
 package org.eel.kitchen.jsonschema.base;
 
+import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
-/**
- * A {@link Validator} taking a {@link Collection} of validators,
- * which must <b>all</b> match for the validation to be successful.
- */
 public final class MatchAllValidator
-    extends AbstractValidator
+    implements Validator
 {
-    /**
-     * The report to use
-     */
-    private final ValidationReport report;
+    private final List<Validator> validators
+        = new LinkedList<Validator>();
 
-    /**
-     * The only constructor
-     *
-     * @param context the {@link ValidationContext} to use
-     * @param validators the list of validators
-     */
-    public MatchAllValidator(final ValidationContext context,
-        final Collection<Validator> validators)
+    public MatchAllValidator(final Collection<Validator> c)
     {
-        report = context.createReport();
-        queue.addAll(validators);
+        validators.addAll(c);
     }
 
-    /**
-     * Validate this instance. It stops at the first failing validation.
-     *
-     * @return a {@link ValidationReport}
-     */
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        while (hasMoreElements()) {
-            report.mergeWith(nextElement().validate());
+        final ValidationReport report = context.createReport();
+
+        for (final Validator v: this) {
+            report.mergeWith(v.validate(context, instance));
             if (!report.isSuccess())
                 break;
         }
 
-        queue.clear();
         return report;
+    }
+
+    @Override
+    public Iterator<Validator> iterator()
+    {
+        return Collections.unmodifiableList(validators).iterator();
     }
 }

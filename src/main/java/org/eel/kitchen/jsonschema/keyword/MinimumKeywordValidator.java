@@ -33,8 +33,6 @@ public final class MinimumKeywordValidator
     public MinimumKeywordValidator()
     {
         super("minimum");
-
-
     }
 
     @Override

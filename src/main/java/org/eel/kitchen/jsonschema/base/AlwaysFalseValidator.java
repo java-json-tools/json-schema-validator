@@ -17,34 +17,33 @@
 
 package org.eel.kitchen.jsonschema.base;
 
+import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
-/**
- * A {@link Validator} which always reports a failure.
- */
+import java.util.Collections;
+import java.util.Iterator;
+
 public final class AlwaysFalseValidator
-    extends AbstractValidator
+    implements Validator
 {
-    /**
-     * The report
-     */
     private final ValidationReport report;
 
-    /**
-     * Constructor, which only takes a {@link ValidationReport} as an
-     * argument. It is up to the caller to ensure that this report actually
-     * reports a failure!
-     *
-     * @param report the report to use
-     */
     public AlwaysFalseValidator(final ValidationReport report)
     {
         this.report = report;
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
         return report;
+    }
+
+    @Override
+    public Iterator<Validator> iterator()
+    {
+        return Collections.<Validator>emptyList().iterator();
     }
 }

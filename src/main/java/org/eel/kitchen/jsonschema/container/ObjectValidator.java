@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.RhinoHelper;
 
@@ -55,7 +55,7 @@ public final class ObjectValidator
      */
     private JsonNode additionalProperties;
 
-    public ObjectValidator(final CacheableValidator validator)
+    public ObjectValidator(final Validator validator)
     {
         super(validator);
     }
@@ -114,7 +114,7 @@ public final class ObjectValidator
         String path;
         JsonNode child;
         ValidationContext ctx;
-        CacheableValidator v;
+        Validator v;
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             path = entry.getKey();

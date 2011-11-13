@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;
-import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 
 /**
  * <p>Keyword validator for the {@code format} keyword (draft section
@@ -57,7 +57,7 @@ public final class FormatKeywordValidator
 
         final String fmt = schema.get("format").getTextValue();
 
-        final FormatValidator validator
+        final Validator validator
             = context.getFormatValidator(fmt, instance);
 
         return validator.validate(context, instance);

@@ -72,7 +72,7 @@ public abstract class AbstractTypeKeywordValidator
         return ctx.getValidator(instance).validate(ctx, instance);
     }
 
-    private void prepare(final JsonNode typeNode,
+    private static void prepare(final JsonNode typeNode,
         final EnumSet<NodeType> typeSet, final List<JsonNode> schemas)
     {
         if (typeNode.isTextual()) {

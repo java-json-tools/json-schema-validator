@@ -17,27 +17,13 @@
 
 package org.eel.kitchen.jsonschema.base;
 
+import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.jsonschema.context.ValidationContext;
 
-import java.util.Enumeration;
-
-/**
- * The core interface for all validators, which extends {@link Enumeration}
- * of itself.
- *
- * @see SyntaxValidator
- * @see KeywordValidator
- */
 public interface Validator
-    extends Enumeration<Validator>
+    extends Iterable<Validator>
 {
-    /**
-     * Validate the instance, either a schema ({@link SyntaxValidator} or an
-     * instance ({@link KeywordValidator}).
-     *
-     * @return a {@link ValidationReport} of the validation
-     */
-    ValidationReport validate();
+    ValidationReport validate(final ValidationContext context,
+        final JsonNode instance);
 }

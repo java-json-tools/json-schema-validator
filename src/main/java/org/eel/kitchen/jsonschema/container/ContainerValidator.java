@@ -22,7 +22,6 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -42,7 +41,7 @@ import java.util.Iterator;
  * @see ObjectValidator
  */
 public abstract class ContainerValidator
-    implements CacheableValidator
+    implements Validator
 {
     /**
      * An empty schema, always true
@@ -54,14 +53,14 @@ public abstract class ContainerValidator
      * The {@link Validator} which validates the structure of the instance
      * itself
      */
-    private final CacheableValidator validator;
+    private final Validator validator;
 
     /**
      * Constructor
      *
      * @param validator the structure validator, see {@link #validator}
      */
-    protected ContainerValidator(final CacheableValidator validator)
+    protected ContainerValidator(final Validator validator)
     {
         this.validator = validator;
     }
@@ -70,10 +69,6 @@ public abstract class ContainerValidator
 
     protected abstract Collection<JsonNode> getSchemas(final String path);
 
-    /**
-     * Validate all children nodes, in the event that structure validation
-     * succeeds
-     */
     protected abstract ValidationReport validateChildren(
         final ValidationContext context, final JsonNode instance);
 
@@ -94,8 +89,8 @@ public abstract class ContainerValidator
     }
 
     @Override
-    public Iterator<CacheableValidator> iterator()
+    public Iterator<Validator> iterator()
     {
-        return Collections.<CacheableValidator>emptyList().iterator();
+        return Collections.<Validator>emptyList().iterator();
     }
 }

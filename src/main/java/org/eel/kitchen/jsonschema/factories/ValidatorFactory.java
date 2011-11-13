@@ -18,9 +18,9 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -61,7 +61,7 @@ public final class ValidatorFactory
      * @param context the context containing the schema node
      * @return the matching validator
      */
-    public CacheableValidator getSyntaxValidator(final ValidationContext context)
+    public Validator getSyntaxValidator(final ValidationContext context)
     {
         return syntaxFactory.getValidator(context);
     }
@@ -74,7 +74,7 @@ public final class ValidatorFactory
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public CacheableValidator getInstanceValidator(
+    public Validator getInstanceValidator(
         final ValidationContext context, final JsonNode instance)
     {
         return keywordFactory.getValidator(context, instance);
@@ -89,7 +89,7 @@ public final class ValidatorFactory
      * @param instance the instance to validate
      * @return the matching {@link FormatValidator}
      */
-    public FormatValidator getFormatValidator(final ValidationContext context,
+    public Validator getFormatValidator(final ValidationContext context,
         final String fmt, final JsonNode instance)
     {
         return formatFactory.getFormatValidator(context, fmt, instance);

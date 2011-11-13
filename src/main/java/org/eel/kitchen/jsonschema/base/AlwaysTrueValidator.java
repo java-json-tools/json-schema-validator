@@ -15,26 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword.format;
+package org.eel.kitchen.jsonschema.base;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
-public final class AlwaysFalseFormatValidator
-    extends FormatValidator
+import java.util.Collections;
+import java.util.Iterator;
+
+public final class AlwaysTrueValidator
+    implements Validator
 {
-    private final ValidationReport report;
-
-    public AlwaysFalseFormatValidator(final ValidationReport report)
-    {
-        this.report = report;
-    }
-
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        return report;
+        return context.createReport();
+    }
+
+    @Override
+    public Iterator<Validator> iterator()
+    {
+        return Collections.<Validator>emptyList().iterator();
     }
 }

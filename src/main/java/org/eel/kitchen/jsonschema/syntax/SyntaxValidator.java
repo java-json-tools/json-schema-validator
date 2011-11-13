@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.NodeType;
 
 import java.net.URI;
@@ -54,19 +54,18 @@ import java.util.Iterator;
  * @see SyntaxFactory
  */
 public abstract class SyntaxValidator
-    implements CacheableValidator
+    implements Validator
 {
     protected final String keyword;
 
     /**
-     * The list of valid types for {@link #node}
+     * The list of valid types for the currently analized keyword
      */
     protected final EnumSet<NodeType> validTypes;
 
     /**
      * Constructor
      *
-     * @param context the validation context
      * @param keyword the keyword to check
      * @param types the list of valid types for this keyword
      */
@@ -79,12 +78,16 @@ public abstract class SyntaxValidator
     /**
      * Abstract method for validators which need to check more than the type
      * of the node to validate
+     *
+     * @param schema the schema to analyze
+     * @param report the report to use
      */
     protected abstract void checkFurther(final JsonNode schema,
         final ValidationReport report);
 
     /**
-     * Type checks the node, then invokes {@link #checkFurther()}
+     * Type checks the node, then invokes {@link #checkFurther(JsonNode,
+     * ValidationReport)}
      *
      * @return a validation report
      */
@@ -109,8 +112,8 @@ public abstract class SyntaxValidator
     }
 
     @Override
-    public final Iterator<CacheableValidator> iterator()
+    public final Iterator<Validator> iterator()
     {
-        return Collections.<CacheableValidator>emptyList().iterator();
+        return Collections.<Validator>emptyList().iterator();
     }
 }

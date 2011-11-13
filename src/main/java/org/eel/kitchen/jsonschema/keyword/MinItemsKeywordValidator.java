@@ -30,7 +30,6 @@ public final class MinItemsKeywordValidator
     public MinItemsKeywordValidator()
     {
         super("minItems");
-
     }
 
     @Override

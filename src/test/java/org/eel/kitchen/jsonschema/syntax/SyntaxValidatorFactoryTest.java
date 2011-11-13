@@ -21,9 +21,9 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -45,7 +45,7 @@ public final class SyntaxValidatorFactoryTest
 
     private JsonNode allTests;
     private ValidationContext context;
-    private CacheableValidator v;
+    private Validator v;
     private ValidationReport report;
 
     @BeforeClass
@@ -293,7 +293,7 @@ public final class SyntaxValidatorFactoryTest
         final boolean valid = element.get("valid").getBooleanValue();
 
         context = new ValidationContext(schema);
-        final CacheableValidator sv = syntaxFactory.getValidator(context);
+        final Validator sv = syntaxFactory.getValidator(context);
         report = sv.validate(context, schema);
 
         if (valid) {

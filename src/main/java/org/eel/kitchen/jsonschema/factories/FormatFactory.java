@@ -19,10 +19,10 @@ package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
+import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.format.AlwaysFalseFormatValidator;
-import org.eel.kitchen.jsonschema.keyword.format.AlwaysTrueFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.CSSColorValidator;
 import org.eel.kitchen.jsonschema.keyword.format.CSSStyleValidator;
 import org.eel.kitchen.jsonschema.keyword.format.DateFormatValidator;
@@ -89,16 +89,16 @@ public final class FormatFactory
     /**
      * Get the {@link Validator} for the given format specification and
      * instance. If the format specification is unknown,
-     * an {@link AlwaysFalseFormatValidator} is returned; if the format
+     * an {@link AlwaysFalseValidator} is returned; if the format
      * specification is not applicable to the instance type, an
-     * {@link AlwaysTrueFormatValidator} is returned.
+     * {@link AlwaysTrueValidator} is returned.
      *
      * @param context the context to use
      * @param name the format specification
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public FormatValidator getFormatValidator(final ValidationContext context,
+    public Validator getFormatValidator(final ValidationContext context,
         final String name, final JsonNode instance)
     {
         final NodeType type = NodeType.getNodeType(instance);
@@ -106,11 +106,11 @@ public final class FormatFactory
 
         if (!typeMap.containsKey(name)) {
             report.addMessage("no validator for format " + name);
-            return new AlwaysFalseFormatValidator(report);
+            return new AlwaysFalseValidator(report);
         }
 
         if (!typeMap.get(name).contains(type))
-            return new AlwaysTrueFormatValidator();
+            return new AlwaysTrueValidator();
 
         return validators.get(name);
     }

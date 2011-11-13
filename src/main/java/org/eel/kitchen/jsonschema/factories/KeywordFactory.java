@@ -19,6 +19,9 @@ package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
+import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
+import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.container.ArrayValidator;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
@@ -42,9 +45,6 @@ import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.format.AlwaysTrueFormatValidator;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
-import org.eel.kitchen.jsonschema.syntax.MatchAllCacheableValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
@@ -225,22 +225,22 @@ public final class KeywordFactory
      * @param instance the instance to validate
      * @return the validator
      */
-    public CacheableValidator getValidator(final ValidationContext context,
+    public Validator getValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        final Collection<CacheableValidator> collection
+        final Collection<Validator> collection
             = getValidators(context, instance);
 
-        final CacheableValidator validator;
+        final Validator validator;
         switch (collection.size()) {
             case 0:
-                validator = new AlwaysTrueFormatValidator();
+                validator = new AlwaysTrueValidator();
                 break;
             case 1:
                 validator = collection.iterator().next();
                 break;
             default:
-                validator = new MatchAllCacheableValidator(collection);
+                validator = new MatchAllValidator(collection);
         }
 
         if (!instance.isContainerNode())
@@ -252,12 +252,12 @@ public final class KeywordFactory
     }
 
 
-    private Collection<CacheableValidator> getValidators(
+    private Collection<Validator> getValidators(
         final ValidationContext context, final JsonNode instance)
     {
         final NodeType type = NodeType.getNodeType(instance);
-        final Set<CacheableValidator> ret
-            = new LinkedHashSet<CacheableValidator>();
+        final Set<Validator> ret
+            = new LinkedHashSet<Validator>();
 
         final JsonNode schemaNode = context.getSchemaNode();
 
@@ -265,8 +265,8 @@ public final class KeywordFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.<CacheableValidator>asList(
-                new AlwaysTrueFormatValidator());
+            return Arrays.<Validator>asList(
+                new AlwaysTrueValidator());
 
         final Set<String> keyset = new HashSet<String>();
 

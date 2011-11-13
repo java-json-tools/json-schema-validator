@@ -84,6 +84,7 @@ public final class DependenciesSyntaxValidator
      * Checks the syntax of a dependency array, ie that it only contains
      * simple dependencies
      *
+     * @param report the report to use
      * @param field the field name
      * @param node the array node for this field
      */

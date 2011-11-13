@@ -48,7 +48,8 @@ public final class PatternKeywordValidator
         final JsonNode instance)
     {
         final ValidationReport report = context.createReport();
-        final String regex = context.getSchemaNode().get(keyword).getTextValue();
+        final String regex = context.getSchemaNode().get(keyword)
+            .getTextValue();
 
         if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
             report.addMessage("string does not match specified regex");

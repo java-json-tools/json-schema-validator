@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,7 +47,7 @@ public final class ArrayValidator
      */
     private JsonNode additionalItems;
 
-    public ArrayValidator(final CacheableValidator validator)
+    public ArrayValidator(final Validator validator)
     {
         super(validator);
     }
@@ -107,7 +107,7 @@ public final class ArrayValidator
         String path;
         ValidationContext ctx;
         JsonNode schema;
-        CacheableValidator v;
+        Validator v;
 
         for (final JsonNode child: instance) {
             path = Integer.toString(i++);

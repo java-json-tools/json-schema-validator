@@ -17,13 +17,11 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Base abstract class for keyword validators
@@ -36,11 +34,8 @@ import java.util.List;
  * @see KeywordFactory
  */
 public abstract class KeywordValidator
-    implements CacheableValidator
+    implements Validator
 {
-    protected final List<CacheableValidator> validators
-        = new LinkedList<CacheableValidator>();
-
     protected final String keyword;
 
     protected KeywordValidator(final String keyword)
@@ -49,8 +44,8 @@ public abstract class KeywordValidator
     }
 
     @Override
-    public final Iterator<CacheableValidator> iterator()
+    public final Iterator<Validator> iterator()
     {
-        return Collections.unmodifiableList(validators).iterator();
+        return Collections.<Validator>emptyList().iterator();
     }
 }

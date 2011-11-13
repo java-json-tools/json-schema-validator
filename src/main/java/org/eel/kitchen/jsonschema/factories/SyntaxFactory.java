@@ -20,11 +20,11 @@ package org.eel.kitchen.jsonschema.factories;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
+import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
+import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.format.AlwaysFalseFormatValidator;
-import org.eel.kitchen.jsonschema.keyword.format.AlwaysTrueFormatValidator;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxValidator;
@@ -40,7 +40,6 @@ import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.FormatSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.IdSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.MatchAllCacheableValidator;
 import org.eel.kitchen.jsonschema.syntax.MaxItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.MaxLengthSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.MaximumSyntaxValidator;
@@ -148,19 +147,19 @@ public final class SyntaxFactory
      * @param context the validation context
      * @return the matching validator
      */
-    public CacheableValidator getValidator(final ValidationContext context)
+    public Validator getValidator(final ValidationContext context)
     {
         final JsonNode schema = context.getSchemaNode();
         final ValidationReport report = context.createReport(" [schema]");
 
         if (schema == null) {
             report.addMessage("schema is null");
-            return new AlwaysFalseFormatValidator(report);
+            return new AlwaysFalseValidator(report);
         }
 
         if (!schema.isObject()) {
             report.addMessage("not a valid schema (not an object)");
-            return new AlwaysFalseFormatValidator(report);
+            return new AlwaysFalseValidator(report);
         }
 
         final Set<String> fields
@@ -174,18 +173,18 @@ public final class SyntaxFactory
             fields.removeAll(keywords);
             for (final String field: fields)
                 report.addMessage("unknown keyword " + field);
-            return new AlwaysFalseFormatValidator(report);
+            return new AlwaysFalseValidator(report);
         }
 
         fields.retainAll(keywords);
 
         if (fields.isEmpty())
-            return new AlwaysTrueFormatValidator();
+            return new AlwaysTrueValidator();
 
-        final Collection<CacheableValidator> collection = getValidators(fields);
+        final Collection<Validator> collection = getValidators(fields);
 
         return collection.size() == 1 ? collection.iterator().next()
-            : new MatchAllCacheableValidator(collection);
+            : new MatchAllValidator(collection);
     }
 
     /**
@@ -268,10 +267,10 @@ public final class SyntaxFactory
      * @param fields the list of keywords
      * @return the list of validators
      */
-    private Collection<CacheableValidator> getValidators(
+    private Collection<Validator> getValidators(
         final Set<String> fields)
     {
-        final Set<CacheableValidator> ret = new HashSet<CacheableValidator>();
+        final Set<Validator> ret = new HashSet<Validator>();
 
         for (final String field: fields)
             ret.add(validators.get(field));

@@ -21,8 +21,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.HashMap;
@@ -62,7 +62,7 @@ public final class ExtendsKeywordValidator
 
         ValidationContext current = context.createContext(baseNode);
 
-        CacheableValidator v;
+        Validator v;
 
         v = current.getValidator(instance);
         report.mergeWith(v.validate(current, instance));
@@ -74,10 +74,7 @@ public final class ExtendsKeywordValidator
             current = context.createContext(mergedNode);
             v = current.getValidator(instance);
             report.mergeWith(v.validate(current, instance));
-            return report;
-        }
-
-        for (final JsonNode node: extendsNode) {
+        } else for (final JsonNode node: extendsNode) {
             mergedNode = merge(baseNode, node);
             current = context.createContext(mergedNode);
             v = current.getValidator(instance);

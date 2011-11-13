@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 /**
  * Keyword validator for the {@code divisibleBy} keyword (draft section 5.24)
  */
-// TODO: specialize validation for "smaller" types (long, double)
 public final class DivisibleByKeywordValidator
     extends NumericInstanceKeywordValidator
 {

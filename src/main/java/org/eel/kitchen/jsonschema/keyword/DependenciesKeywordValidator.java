@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.Iterator;
@@ -83,7 +83,7 @@ public final class DependenciesKeywordValidator
         }
 
         final ValidationContext ctx = context.createContext(depnode);
-        final CacheableValidator v = ctx.getValidator(instance);
+        final Validator v = ctx.getValidator(instance);
         return v.validate(ctx, instance);
     }
 
@@ -105,7 +105,7 @@ public final class DependenciesKeywordValidator
         if (expected.isEmpty())
             return;
 
-        depreport.addMessage("property " + depname + " is missing "
-            + "dependencies " + expected);
+        depreport.addMessage("property " + depname + " is missing dependencies "
+            + expected);
     }
 }

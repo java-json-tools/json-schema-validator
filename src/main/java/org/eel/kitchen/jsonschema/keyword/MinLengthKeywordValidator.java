@@ -37,7 +37,8 @@ public final class MinLengthKeywordValidator
         final JsonNode instance)
     {
         final ValidationReport report = context.createReport();
-        final int minLength = context.getSchemaNode().get(keyword).getIntValue();
+        final int minLength = context.getSchemaNode().get(keyword)
+            .getIntValue();
 
         if (instance.getTextValue().length() < minLength)
             report.addMessage("string is shorter than minLength");

@@ -75,6 +75,8 @@ public abstract class TypeNodeSyntaxValidator
      * Validate an element of a type array (also used for single element
      * validation)
      *
+     * @param report the report to use
+     * @param prefix the prefix to use for the report
      * @param element the element of the array to check
      */
     private static void validateOne(final ValidationReport report,
@@ -111,9 +113,10 @@ public abstract class TypeNodeSyntaxValidator
      * Shortcut to {@link #validateOne(ValidationReport, String,
      * JsonNode)} with an empty prefix
      *
+     * @param report the report to use
      * @param element the element to check
      */
-    private void validateOne(final ValidationReport report,
+    private static void validateOne(final ValidationReport report,
         final JsonNode element)
     {
         validateOne(report, "", element);

@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.jsonschema.keyword.format;
 
+import org.eel.kitchen.jsonschema.base.Validator;
+
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -25,11 +27,11 @@ import java.util.Iterator;
  * section 5.23)
  */
 public abstract class FormatValidator
-    implements CacheableValidator
+    implements Validator
 {
     @Override
-    public final Iterator<CacheableValidator> iterator()
+    public final Iterator<Validator> iterator()
     {
-        return Collections.<CacheableValidator>emptyList().iterator();
+        return Collections.<Validator>emptyList().iterator();
     }
 }

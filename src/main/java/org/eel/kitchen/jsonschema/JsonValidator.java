@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema;
 
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
@@ -140,7 +140,7 @@ public final class JsonValidator
      */
     public ValidationReport validate(final JsonNode instance)
     {
-        final CacheableValidator validator = context.getValidator(instance);
+        final Validator validator = context.getValidator(instance);
         return validator.validate(context, instance);
     }
 
@@ -165,7 +165,7 @@ public final class JsonValidator
     {
         final JsonPointer pointer = new JsonPointer(path);
 
-        final CacheableValidator validator
+        final Validator validator
             = context.getValidator(pointer, instance);
         return validator.validate(context, instance);
     }
