@@ -41,24 +41,18 @@ public final class ValidatorFactory
     /**
      * The {@link KeywordValidator} factory
      */
-    private final KeywordFactory keywordFactory;
+    private final KeywordFactory keywordFactory = new KeywordFactory();
 
     /**
      * The {@link SyntaxValidator} factory
      */
-    private final SyntaxFactory syntaxFactory;
+    private final SyntaxFactory syntaxFactory = new SyntaxFactory();
 
     /**
      * The {@link FormatValidator} factory
      */
-    private final FormatFactory formatFactory;
+    private final FormatFactory formatFactory = new FormatFactory();
 
-    public ValidatorFactory()
-    {
-        keywordFactory = new KeywordFactory();
-        syntaxFactory = new SyntaxFactory();
-        formatFactory = new FormatFactory();
-    }
 
     /**
      * Return a {@link SyntaxValidator} for the schema node located in a
