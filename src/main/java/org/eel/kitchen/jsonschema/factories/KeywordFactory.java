@@ -19,11 +19,6 @@ package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.AbstractValidator;
-import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
-import org.eel.kitchen.jsonschema.base.MatchAllValidator;
-import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.container.ArrayValidator;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
@@ -47,6 +42,9 @@ import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.AlwaysTrueFormatValidator;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
+import org.eel.kitchen.jsonschema.syntax.MatchAllCacheableValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
@@ -92,8 +90,8 @@ public final class KeywordFactory
      * Map pairing a schema keyword and the matching {@link KeywordValidator}
      * as a {@link Class}
      */
-    private final Map<String, Class<? extends KeywordValidator>> validators
-        = new HashMap<String, Class<? extends KeywordValidator>>();
+    private final Map<String, KeywordValidator> validators
+        = new HashMap<String, KeywordValidator>();
 
     /**
      * Set of ignored keywords (for which validation is always true)
@@ -106,39 +104,29 @@ public final class KeywordFactory
      */
     public KeywordFactory()
     {
-        registerValidator("additionalItems",
-            AdditionalItemsKeywordValidator.class, ARRAY);
-        registerValidator("additionalProperties",
-            AdditionalPropertiesKeywordValidator.class, OBJECT);
-        registerValidator("dependencies", DependenciesKeywordValidator.class,
-            NodeType.values());
-        registerValidator("disallow", DisallowKeywordValidator.class,
-            NodeType.values());
-        registerValidator("divisibleBy", DivisibleByKeywordValidator.class,
-            INTEGER, NUMBER);
-        registerValidator("enum", EnumKeywordValidator.class,
-            NodeType.values());
-        registerValidator("extends", ExtendsKeywordValidator.class,
-            NodeType.values());
-        registerValidator("format", FormatKeywordValidator.class,
-            NodeType.values());
-        registerValidator("maximum", MaximumKeywordValidator.class, INTEGER,
-            NUMBER);
-        registerValidator("maxItems", MaxItemsKeywordValidator.class, ARRAY);
-        registerValidator("maxLength", MaxLengthKeywordValidator.class,
-            STRING);
-        registerValidator("minimum", MinimumKeywordValidator.class, INTEGER,
-            NUMBER);
-        registerValidator("minItems", MinItemsKeywordValidator.class, ARRAY);
-        registerValidator("minLength", MinLengthKeywordValidator.class,
-            STRING);
-        registerValidator("pattern", PatternKeywordValidator.class, STRING);
-        registerValidator("properties", PropertiesKeywordValidator.class,
-            OBJECT);
-        registerValidator("type", TypeKeywordValidator.class, NodeType.values());
-        registerValidator("uniqueItems", UniqueItemsKeywordValidator.class,
+        register("additionalItems", new AdditionalItemsKeywordValidator(),
             ARRAY);
-        registerValidator("$ref", RefKeywordValidator.class, NodeType.values());
+        register("additionalProperties",
+            new AdditionalPropertiesKeywordValidator(), OBJECT);
+        register("dependencies", new DependenciesKeywordValidator(),
+            NodeType.values());
+        register("disallow", new DisallowKeywordValidator(), NodeType.values());
+        register("divisibleBy", new DivisibleByKeywordValidator(), INTEGER,
+            NUMBER);
+        register("enum", new EnumKeywordValidator(), NodeType.values());
+        register("extends", new ExtendsKeywordValidator(), NodeType.values());
+        register("format", new FormatKeywordValidator(), NodeType.values());
+        register("maximum", new MaximumKeywordValidator(), INTEGER, NUMBER);
+        register("maxItems", new MaxItemsKeywordValidator(), ARRAY);
+        register("maxLength", new MaxLengthKeywordValidator(), STRING);
+        register("minimum", new MinimumKeywordValidator(), INTEGER, NUMBER);
+        register("minItems", new MinItemsKeywordValidator(), ARRAY);
+        register("minLength", new MinLengthKeywordValidator(), STRING);
+        register("pattern", new PatternKeywordValidator(), STRING);
+        register("properties", new PropertiesKeywordValidator(), OBJECT);
+        register("type", new TypeKeywordValidator(), NodeType.values());
+        register("uniqueItems", new UniqueItemsKeywordValidator(), ARRAY);
+        register("$ref", new RefKeywordValidator(), NodeType.values());
 
         ignoredKeywords.add("items");
         ignoredKeywords.add("patternProperties");
@@ -155,7 +143,7 @@ public final class KeywordFactory
      * </p>
      *
      * @param keyword the keyword
-     * @param v the {@link KeywordValidator} as a {@link Class} object
+     * @param c the {@link KeywordValidator} as a {@link Class} object
      * @param types the instance types this validator can handle
      * @throws IllegalArgumentException if the keyword is already registerd,
      * or if the {@code types} array is empty
@@ -164,12 +152,12 @@ public final class KeywordFactory
      * @see JsonValidator#registerValidator(String, Class, Class, NodeType...)
      */
     public void registerValidator(final String keyword,
-        final Class<? extends KeywordValidator> v, final NodeType... types)
+        final Class<? extends KeywordValidator> c, final NodeType... types)
     {
         if (ignoredKeywords.contains(keyword) || validators.containsKey(keyword))
             throw new IllegalArgumentException("keyword already registered");
 
-        if (v == null) {
+        if (c == null) {
             ignoredKeywords.add(keyword);
             return;
         }
@@ -180,8 +168,39 @@ public final class KeywordFactory
 
         final EnumSet<NodeType> typeset = EnumSet.copyOf(Arrays.asList(types));
 
+        final KeywordValidator kv;
+
+        Exception exception;
+
+        try {
+            kv = buildValidator(c);
+            fieldMap.put(keyword, typeset);
+            validators.put(keyword, kv);
+            return;
+        } catch (NoSuchMethodException e) {
+            exception = e;
+        } catch (InvocationTargetException e) {
+            exception = e;
+        } catch (IllegalAccessException e) {
+            exception = e;
+        } catch (InstantiationException e) {
+            exception = e;
+        }
+
+        final String errmsg = String.format("cannot instantiate validator: "
+            + "%s: %s", exception.getClass().getName(), exception.getMessage());
+
+        throw new IllegalArgumentException(errmsg);
+    }
+
+    private void register(final String keyword, final KeywordValidator kv,
+        final NodeType... types)
+    {
+        final EnumSet<NodeType> typeset = EnumSet.copyOf(Arrays.asList(types));
+
         fieldMap.put(keyword, typeset);
-        validators.put(keyword, v);
+        validators.put(keyword, kv);
+
     }
 
     /**
@@ -206,53 +225,39 @@ public final class KeywordFactory
      * @param instance the instance to validate
      * @return the validator
      */
-    public Validator getValidator(final ValidationContext context,
+    public CacheableValidator getValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        final Collection<Validator> collection
+        final Collection<CacheableValidator> collection
             = getValidators(context, instance);
 
-        final Validator validator;
+        final CacheableValidator validator;
         switch (collection.size()) {
             case 0:
-                validator = AbstractValidator.TRUE;
+                validator = new AlwaysTrueFormatValidator();
                 break;
             case 1:
                 validator = collection.iterator().next();
                 break;
             default:
-                validator = new MatchAllValidator(context, collection);
+                validator = new MatchAllCacheableValidator(collection);
         }
 
         if (!instance.isContainerNode())
             return validator;
 
         return instance.isArray()
-            ? new ArrayValidator(validator, context, instance)
-            : new ObjectValidator(validator, context, instance);
+            ? new ArrayValidator(validator)
+            : new ObjectValidator(validator);
     }
 
 
-    /**
-     * Get a collection of validators for the context and instance,
-     * by grabbing the schema node using
-     * {@link ValidationContext#getSchemaNode()} and grabbing validators from
-     * the {@link #fieldMap} and {@link #validators} maps. Will return
-     * {@link AbstractValidator#TRUE} if no validators are found (ie,
-     * none of the keywords of the schema node can validate the instance
-     * type), and an {@link AlwaysFalseValidator} if one validator fails to
-     * instantiate (see
-     * {@link #buildValidator(Class, ValidationContext, JsonNode)}).
-     *
-     * @param context the validation context
-     * @param instance the instance
-     * @return the list of validators as a {@link Collection}
-     */
-    private Collection<Validator> getValidators(
+    private Collection<CacheableValidator> getValidators(
         final ValidationContext context, final JsonNode instance)
     {
         final NodeType type = NodeType.getNodeType(instance);
-        final Set<Validator> ret = new LinkedHashSet<Validator>();
+        final Set<CacheableValidator> ret
+            = new LinkedHashSet<CacheableValidator>();
 
         final JsonNode schemaNode = context.getSchemaNode();
 
@@ -260,56 +265,41 @@ public final class KeywordFactory
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
         if (keywords.isEmpty())
-            return Arrays.asList(AbstractValidator.TRUE);
+            return Arrays.<CacheableValidator>asList(
+                new AlwaysTrueFormatValidator());
 
         final Set<String> keyset = new HashSet<String>();
-        Class<? extends Validator> c;
 
         keyset.addAll(validators.keySet());
         keyset.retainAll(keywords);
 
-        Validator validator;
-
         for (final String key: keyset) {
             if (!fieldMap.get(key).contains(type))
                 continue;
-            c = validators.get(key);
-            try {
-                validator = buildValidator(c, context, instance);
-                ret.add(validator);
-            } catch (Exception e) {
-                final String message = "Cannot instantiate validator "
-                    + "for keyword " + key + ": " + e.getClass().getName();
-                final ValidationReport report = context.createReport();
-                report.addMessage(message);
-                validator = new AlwaysFalseValidator(report);
-                return Arrays.asList(validator);
-            }
+            ret.add(validators.get(key));
         }
 
         return Collections.unmodifiableSet(ret);
     }
 
     /**
-     * Build a validator given a class, context and instance.
+     * Build a validator given a class
      *
      * @param c the class object
-     * @param context the context
-     * @param instance the instance
      * @return the validator
      * @throws NoSuchMethodException constructor was not found
      * @throws InvocationTargetException see {@link InvocationTargetException}
      * @throws IllegalAccessException see {@link IllegalAccessException}
      * @throws InstantiationException see {@link InstantiationException}
      */
-    private static Validator buildValidator(final Class<? extends Validator> c,
-        final ValidationContext context, final JsonNode instance)
+    private static KeywordValidator buildValidator(
+        final Class<? extends KeywordValidator> c)
         throws NoSuchMethodException, InvocationTargetException,
         IllegalAccessException, InstantiationException
     {
-        final Constructor<? extends Validator> constructor
-            = c.getConstructor(ValidationContext.class, JsonNode.class);
+        final Constructor<? extends KeywordValidator> constructor
+            = c.getConstructor();
 
-        return constructor.newInstance(context, instance);
+        return constructor.newInstance();
     }
 }

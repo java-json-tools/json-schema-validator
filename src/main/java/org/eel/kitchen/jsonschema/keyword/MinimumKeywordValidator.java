@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.math.BigDecimal;
@@ -29,48 +30,50 @@ import java.math.BigDecimal;
 public final class MinimumKeywordValidator
     extends NumericInstanceKeywordValidator
 {
-
-    /**
-     * Is the minimum exclusive?
-     */
-    private final boolean exclusiveMinimum;
-
-    public MinimumKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public MinimumKeywordValidator()
     {
-        super(context, instance, "minimum");
-        exclusiveMinimum = schema.path("exclusiveMinimum").asBoolean(false);
+        super("minimum");
+
 
     }
 
     @Override
-    protected void validateLong(final long value, final long against)
+    protected ValidationReport validateLong(final ValidationContext context,
+        final long value, final long against)
     {
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
+        final boolean exclusiveMinimum = schema.path("exclusiveMinimum")
+            .asBoolean(false);
+
         final long cmp = value - against;
 
-        if (cmp > 0) {
+        if (cmp > 0)
             report.addMessage("number is lower than the required minimum");
-            return;
-        }
-
-        if (cmp == 0 && exclusiveMinimum)
+        else  if (cmp == 0 && exclusiveMinimum)
             report.addMessage("number is not strictly greater than "
                 + "the required minimum");
+
+        return report;
     }
 
     @Override
-    protected void validateDecimal(final BigDecimal value,
-        final BigDecimal against)
+    protected ValidationReport validateDecimal(final ValidationContext context,
+        final BigDecimal value, final BigDecimal against)
     {
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
+        final boolean exclusiveMinimum = schema.path("exclusiveMinimum")
+            .asBoolean(false);
+
         final int cmp = value.compareTo(against);
 
-        if (cmp > 0) {
+        if (cmp > 0)
             report.addMessage("number is lower than the required minimum");
-            return;
-        }
-
-        if (cmp == 0 && exclusiveMinimum)
+        else if (cmp == 0 && exclusiveMinimum)
             report.addMessage("number is not strictly greater than "
                 + "the required minimum");
+
+        return report;
     }
 }

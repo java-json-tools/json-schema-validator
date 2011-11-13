@@ -35,10 +35,9 @@ public final class FormatKeywordValidator
     extends KeywordValidator
 {
 
-    public FormatKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public FormatKeywordValidator()
     {
-        super(context, instance);
+        super("format");
     }
 
     /**
@@ -51,16 +50,17 @@ public final class FormatKeywordValidator
      * JsonNode)
      */
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final JsonNode schema = context.getSchemaNode();
+
         final String fmt = schema.get("format").getTextValue();
 
         final FormatValidator validator
             = context.getFormatValidator(fmt, instance);
 
-        report.mergeWith(validator.validate(context, instance));
-
-        return report;
+        return validator.validate(context, instance);
     }
 
 }

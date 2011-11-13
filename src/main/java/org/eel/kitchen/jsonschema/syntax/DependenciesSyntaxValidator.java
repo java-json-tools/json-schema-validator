@@ -87,7 +87,7 @@ public final class DependenciesSyntaxValidator
      * @param field the field name
      * @param node the array node for this field
      */
-    private void checkDependencyArray(final ValidationReport report,
+    private static void checkDependencyArray(final ValidationReport report,
         final String field, final JsonNode node)
     {
         NodeType type;

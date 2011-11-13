@@ -18,12 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
-import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.Queue;
+import java.util.List;
 
 /**
  * A {@link KeywordValidator} specialized in validating the {@code type} and
@@ -40,52 +41,42 @@ public abstract class AbstractTypeKeywordValidator
      */
     private static final String ANY = "any";
 
-    /**
-     * The schema node
-     */
-    private final JsonNode typeNode;
-
-    /**
-     * The list of simple types declared by the keyword
-     */
-    protected final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
-
-    /**
-     * The list of schemas found in the keyword
-     */
-    protected final Queue<JsonNode> schemas = new ArrayDeque<JsonNode>();
-
-
-    /**
-     * Constructor. Initializes {@link #typeNode}, and then calls {@link
-     * #setUp()} to fill in {@link #typeSet} and {@link #schemas}.
-     *
-     * @param context the context to use
-     * @param instance the instance to validate
-     * @param field the name of the keyword ({@code type} or {@code disallow})
-     */
-    protected AbstractTypeKeywordValidator(final ValidationContext context,
-        final JsonNode instance, final String field)
+    protected AbstractTypeKeywordValidator(final String keyword)
     {
-        super(context, instance);
-        typeNode = context.getSchemaNode().get(field);
-        setUp();
+        super(keyword);
     }
 
-    /**
-     * <p>Fills in the {@link #typeSet} and {@link #schemas} instance
-     * variables:</p>
-     * <ul>
-     *     <li>if the type node is a simple text node, registers the matching
-     *     type(s) in {@link #typeSet} (using {@link #addType(String)};</li>
-     *     <li>if it is an array, register either the simple type or the
-     *     schema.</li>
-     * </ul>
-     */
-    private void setUp()
+    protected abstract ValidationReport doValidate(
+        final ValidationContext context, final JsonNode instance,
+        final EnumSet<NodeType> typeSet, final List<JsonNode> schemas);
+
+    @Override
+    public final ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
+    {
+        final JsonNode schema = context.getSchemaNode();
+        final JsonNode typeNode = schema.get(keyword);
+        final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
+        final List<JsonNode> schemas = new ArrayList<JsonNode>();
+
+        prepare(typeNode, typeSet, schemas);
+        return doValidate(context, instance, typeSet, schemas);
+    }
+
+    protected static ValidationReport validateSchema(
+        final ValidationContext context, final JsonNode schema,
+        final JsonNode instance)
+    {
+        final ValidationContext ctx = context.createContext(schema);
+
+        return ctx.getValidator(instance).validate(ctx, instance);
+    }
+
+    private void prepare(final JsonNode typeNode,
+        final EnumSet<NodeType> typeSet, final List<JsonNode> schemas)
     {
         if (typeNode.isTextual()) {
-            addType(typeNode.getTextValue());
+            addType(typeNode.getTextValue(), typeSet);
             return;
         }
 
@@ -94,20 +85,12 @@ public abstract class AbstractTypeKeywordValidator
                 schemas.add(element);
                 continue;
             }
-            addType(element.getTextValue());
+            addType(element.getTextValue(), typeSet);
         }
     }
 
-    /**
-     * Add a simple type to the {@link #typeSet} enum set. If the argument is
-     * {@code "any"}, registers all types. If the argument is {@code
-     * "number"}, also registers {@code "integer"} since the latter is a
-     * subset of the former.
-     *
-     * @param s the simple type as a string
-     * @see NodeType
-     */
-    private void addType(final String s)
+    private static void addType(final String s, final EnumSet<NodeType>
+        typeSet)
     {
         if (ANY.equals(s)) {
             typeSet.addAll(EnumSet.allOf(NodeType.class));
@@ -118,19 +101,5 @@ public abstract class AbstractTypeKeywordValidator
 
         if (typeSet.contains(NodeType.NUMBER))
             typeSet.add(NodeType.INTEGER);
-    }
-
-    /**
-     * Builds the schema queue in {@link #queue} if {@link #schemas} is not
-     * empty.
-     */
-    protected final void buildQueue()
-    {
-        ValidationContext other;
-
-        while (!schemas.isEmpty()) {
-            other = context.createContext(schemas.remove());
-            queue.add(other.getValidator(instance));
-        }
     }
 }

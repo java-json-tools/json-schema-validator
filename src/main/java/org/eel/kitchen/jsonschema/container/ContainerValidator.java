@@ -20,9 +20,13 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.AbstractValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 
 /**
  * <p>>A specialized {@link Validator} implementation for validating container
@@ -38,7 +42,7 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
  * @see ObjectValidator
  */
 public abstract class ContainerValidator
-    extends AbstractValidator
+    implements CacheableValidator
 {
     /**
      * An empty schema, always true
@@ -50,72 +54,48 @@ public abstract class ContainerValidator
      * The {@link Validator} which validates the structure of the instance
      * itself
      */
-    private final Validator validator;
-
-    protected final ValidationContext context;
-
-    protected final JsonNode instance;
-
-    protected final ValidationReport report;
+    private final CacheableValidator validator;
 
     /**
      * Constructor
      *
      * @param validator the structure validator, see {@link #validator}
-     * @param context the {@link ValidationContext} to use
-     * @param instance the instance to validate
      */
-    protected ContainerValidator(final Validator validator,
-        final ValidationContext context, final JsonNode instance)
+    protected ContainerValidator(final CacheableValidator validator)
     {
         this.validator = validator;
-        this.context = context;
-        this.instance = instance;
-        report = context.createReport();
     }
 
-    /**
-     * Method used to build the necessary structures to provide validators
-     * for subnodes. Used before calling {@link #getValidator(String,
-     * JsonNode)}.
-     */
-    protected abstract void buildPathProvider();
+    protected abstract void buildPathProvider(final JsonNode schema);
 
-    /**
-     * Provide a {@link Validator} for a subnode, according to its path
-     *
-     * @param path the path of the child node
-     * @param child the child node
-     * @return the matching validator
-     */
-    protected abstract Validator getValidator(final String path,
-        final JsonNode child);
+    protected abstract Collection<JsonNode> getSchemas(final String path);
 
     /**
      * Validate all children nodes, in the event that structure validation
      * succeeds
      */
-    protected abstract void validateChildren();
+    protected abstract ValidationReport validateChildren(
+        final ValidationContext context, final JsonNode instance);
 
-    /**
-     * Validate the instance. First, validates the structure of the instance
-     * itself, using {@link #validator}, then, if successful,
-     * builds the necessary element to provide children validators (using
-     * {@link #buildPathProvider()} and then {@link #validateChildren()}.
-     *
-     * @return the validation report
-     */
     @Override
-    public final ValidationReport validate()
+    public final ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        report.mergeWith(validator.validate());
+        final ValidationReport report = context.createReport();
+        report.mergeWith(validator.validate(context, instance));
 
         if (!report.isSuccess())
             return report;
 
-        buildPathProvider();
-        validateChildren();
+        buildPathProvider(context.getSchemaNode());
+        report.mergeWith(validateChildren(context, instance));
 
         return report;
+    }
+
+    @Override
+    public Iterator<CacheableValidator> iterator()
+    {
+        return Collections.<CacheableValidator>emptyList().iterator();
     }
 }

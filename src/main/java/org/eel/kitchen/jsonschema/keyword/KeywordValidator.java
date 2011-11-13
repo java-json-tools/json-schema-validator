@@ -17,11 +17,13 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.AbstractValidator;
-import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Base abstract class for keyword validators
@@ -34,37 +36,21 @@ import org.eel.kitchen.jsonschema.factories.KeywordFactory;
  * @see KeywordFactory
  */
 public abstract class KeywordValidator
-    extends AbstractValidator
+    implements CacheableValidator
 {
-    /**
-     * The validation context for this validator. For keyword validators
-     * which require it, this is what will be used to spawned further
-     * contexts and/or validators.
-     */
-    protected final ValidationContext context;
+    protected final List<CacheableValidator> validators
+        = new LinkedList<CacheableValidator>();
 
-    /**
-     * The schema node used to validate, grabbed from the {@link
-     * ValidationContext} used as a constructor argument
-     */
-    protected final JsonNode schema;
+    protected final String keyword;
 
-    /**
-     * The validation report to use
-     */
-    protected final ValidationReport report;
-
-    /**
-     * The instance to validate
-     */
-    protected final JsonNode instance;
-
-    protected KeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    protected KeywordValidator(final String keyword)
     {
-        this.context = context;
-        this.instance = instance;
-        schema = context.getSchemaNode();
-        report = context.createReport();
+        this.keyword = keyword;
+    }
+
+    @Override
+    public final Iterator<CacheableValidator> iterator()
+    {
+        return Collections.unmodifiableList(validators).iterator();
     }
 }

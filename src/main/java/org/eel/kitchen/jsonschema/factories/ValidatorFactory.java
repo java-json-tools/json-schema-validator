@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
@@ -75,8 +74,8 @@ public final class ValidatorFactory
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public Validator getInstanceValidator(final ValidationContext context,
-        final JsonNode instance)
+    public CacheableValidator getInstanceValidator(
+        final ValidationContext context, final JsonNode instance)
     {
         return keywordFactory.getValidator(context, instance);
     }

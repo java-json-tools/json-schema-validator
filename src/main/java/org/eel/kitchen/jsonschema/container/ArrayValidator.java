@@ -18,10 +18,13 @@
 package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,10 +47,9 @@ public final class ArrayValidator
      */
     private JsonNode additionalItems;
 
-    public ArrayValidator(final Validator validator,
-        final ValidationContext context, final JsonNode instance)
+    public ArrayValidator(final CacheableValidator validator)
     {
-        super(validator, context, instance);
+        super(validator);
     }
 
     /**
@@ -66,10 +68,8 @@ public final class ArrayValidator
      * </p>
      */
     @Override
-    protected void buildPathProvider()
+    protected void buildPathProvider(final JsonNode schema)
     {
-        final JsonNode schema = context.getSchemaNode();
-
         JsonNode node = schema.path("items");
 
         if (node.isObject()) {
@@ -86,48 +86,37 @@ public final class ArrayValidator
         additionalItems = node.isObject() ? node : EMPTY_SCHEMA;
     }
 
-    /**
-     * <p>Provide a validator for a subnode. The path is always an integer
-     * here. The algorithm is as follows:</p>
-     * <ul>
-     *     <li>if {@link #items} contains the path, the matching node is used
-     *     to build the validator;</li>
-     *     <li>otherwise, it is built from {@link #additionalItems}.</li>
-     * </ul>
-     *
-     * @param path the path of the child node
-     * @param child the child node
-     * @return the matching {@link Validator}
-     */
     @Override
-    protected Validator getValidator(final String path, final JsonNode child)
+    protected Collection<JsonNode> getSchemas(final String path)
     {
         final int index = Integer.parseInt(path);
 
-        final JsonNode node = index < items.size() ? items.get(index)
+        final JsonNode schema =  index < items.size() ? items.get(index)
             : additionalItems;
 
-        final ValidationContext ctx = context.createContext(path, node);
-
-        return ctx.getValidator(child);
+        return Arrays.asList(schema);
     }
 
-    /**
-     * Build the children node validator queue, by walking the elements of
-     * the instance node (which is an array, remember) and calling
-     * {@link #getValidator(String, JsonNode)} for each successive child node.
-     */
     @Override
-    protected void validateChildren()
+    protected ValidationReport validateChildren(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+
         int i = 0;
         String path;
-        Validator v;
+        ValidationContext ctx;
+        JsonNode schema;
+        CacheableValidator v;
 
         for (final JsonNode child: instance) {
             path = Integer.toString(i++);
-            v = getValidator(path, child);
-            report.mergeWith(v.validate());
+            schema = getSchemas(path).iterator().next();
+            ctx = context.createContext(path, schema);
+            v = ctx.getValidator(instance);
+            report.mergeWith(v.validate(ctx, child));
         }
+
+        return report;
     }
 }

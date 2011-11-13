@@ -27,21 +27,19 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 public final class MinItemsKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * Value for {@code minItems}
-     */
-    private final int minItems;
-
-    public MinItemsKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public MinItemsKeywordValidator()
     {
-        super(context, instance);
-        minItems = schema.get("minItems").getIntValue();
+        super("minItems");
+
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+        final int minItems = context.getSchemaNode().get(keyword).getIntValue();
+
         if (instance.size() < minItems)
             report.addMessage("array has less than minItems elements");
 

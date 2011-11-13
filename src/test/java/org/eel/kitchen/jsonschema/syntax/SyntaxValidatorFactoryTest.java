@@ -21,7 +21,6 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
@@ -46,7 +45,7 @@ public final class SyntaxValidatorFactoryTest
 
     private JsonNode allTests;
     private ValidationContext context;
-    private Validator v;
+    private CacheableValidator v;
     private ValidationReport report;
 
     @BeforeClass
@@ -61,7 +60,7 @@ public final class SyntaxValidatorFactoryTest
     {
         context = new ValidationContext(null);
         v = context.getValidator(dummy);
-        report = v.validate();
+        report = v.validate(context, dummy);
 
         assertFalse(report.isSuccess());
 
@@ -91,7 +90,7 @@ public final class SyntaxValidatorFactoryTest
 
         context = new ValidationContext(schema);
         v = context.getValidator(schema);
-        report = v.validate();
+        report = v.validate(context, dummy);
 
         assertFalse(report.isSuccess());
 
@@ -109,7 +108,7 @@ public final class SyntaxValidatorFactoryTest
 
         context = new ValidationContext(schema);
         v = context.getValidator(schema);
-        report = v.validate();
+        report = v.validate(context, dummy);
 
         assertFalse(report.isSuccess());
         final List<String> messages = report.getMessages();

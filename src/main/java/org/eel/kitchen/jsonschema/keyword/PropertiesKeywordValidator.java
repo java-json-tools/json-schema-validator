@@ -25,9 +25,10 @@ import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * <p>Keyword validator for the {@code properties} and {@code required}
@@ -44,37 +45,33 @@ import java.util.Set;
 public final class PropertiesKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * The set of required properties found in the schema node
-     */
-    private final Set<String> required = new HashSet<String>();
+    public PropertiesKeywordValidator()
+    {
+        super("properties");
+    }
 
-    public PropertiesKeywordValidator(final ValidationContext context,
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
+        final ValidationReport report = context.createReport();
+        final JsonNode properties = context.getSchemaNode().get(keyword);
 
-        final JsonNode node = schema.get("properties");
+        final SortedSet<String> required = new TreeSet<String>();
 
         final Map<String, JsonNode> map
-            = CollectionUtils.toMap(node.getFields());
+            = CollectionUtils.toMap(properties.getFields());
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
             if (entry.getValue().path("required").asBoolean(false))
                 required.add(entry.getKey());
-    }
 
-    @Override
-    public ValidationReport validate()
-    {
-        final Set<String> set = new HashSet<String>(required);
+        final Iterator<String> fields = instance.getFieldNames();
 
-        final Set<String> fieldNames
-            = CollectionUtils.toSet(instance.getFieldNames());
+        while (fields.hasNext())
+            required.remove(fields.next());
 
-        set.removeAll(fieldNames);
-
-        for (final String missing: set)
+        for (final String missing: required)
             report.addMessage("required property " + missing + " is missing");
 
         return report;

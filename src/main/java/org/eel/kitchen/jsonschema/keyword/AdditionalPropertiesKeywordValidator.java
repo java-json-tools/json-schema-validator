@@ -32,31 +32,26 @@ import java.util.Set;
 public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * Set to true if {@code additionalProperties} is either a schema or
-     * {@code true}
-     */
-    private final boolean shortcut;
+    public AdditionalPropertiesKeywordValidator()
+    {
+        super("additionalProperties");
+    }
 
-    /**
-     * List of property names registered in the schema
-     */
-    private final Set<String> properties = new HashSet<String>();
-
-    /**
-     * List of patterns in {@code patternProperties}
-     */
-    private final Set<String> patterns = new HashSet<String>();
-
-    public AdditionalPropertiesKeywordValidator(final ValidationContext context,
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
 
-        shortcut = schema.get("additionalProperties").asBoolean(true);
+        final boolean shortcut = schema.get("additionalProperties")
+            .asBoolean(true);
 
         if (shortcut)
-            return;
+            return report;
+
+        final Set<String> properties = new HashSet<String>();
+        final Set<String> patterns = new HashSet<String>();
 
         JsonNode node;
 
@@ -69,24 +64,6 @@ public final class AdditionalPropertiesKeywordValidator
             node = schema.get("patternProperties");
             patterns.addAll(CollectionUtils.toSet(node.getFieldNames()));
         }
-    }
-
-    /**
-     * <p>Validate the {@code additionalProperties} keyword:</p>
-     * <ul>
-     *     <li>if it is a schema, or {@code true}, the validation succeeds;
-     *     </li>
-     *     <li>else, try and see if the instance field is either registered
-     *     in {@link #properties} or matches at least one regex in {@link
-     *     #patterns}. If none of this is true, the validation fails.
-     *     </li>
-     * </ul>
-     */
-    @Override
-    public ValidationReport validate()
-    {
-        if (shortcut)
-            return report;
 
         final Set<String> fields =
             CollectionUtils.toSet(instance.getFieldNames());
@@ -96,8 +73,13 @@ public final class AdditionalPropertiesKeywordValidator
         if (fields.isEmpty())
             return report;
 
+        if (patterns.isEmpty()) {
+            report.addMessage("additional properties are not permitted");
+            return report;
+        }
+
         for (final String field: fields)
-            if (!patternsMatch(field)) {
+            if (!patternsMatch(patterns, field)) {
                 report.addMessage("additional properties are not permitted");
                 break;
             }
@@ -105,14 +87,8 @@ public final class AdditionalPropertiesKeywordValidator
         return report;
     }
 
-    /**
-     * Attempt to match an instance field name against {@link #patterns}
-     *
-     * @param field the field to match
-     * @return true on a match
-     * @see RhinoHelper#regMatch(String, String)
-     */
-    private boolean patternsMatch(final String field)
+    private static boolean patternsMatch(final Set<String> patterns,
+        final String field)
     {
         for (final String regex: patterns)
             if (RhinoHelper.regMatch(regex, field))

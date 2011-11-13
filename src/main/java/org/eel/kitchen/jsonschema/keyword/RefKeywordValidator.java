@@ -43,10 +43,9 @@ import java.net.URISyntaxException;
 public final class RefKeywordValidator
     extends KeywordValidator
 {
-    public RefKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public RefKeywordValidator()
     {
-        super(context, instance);
+        super("$ref");
     }
 
     /**
@@ -67,10 +66,12 @@ public final class RefKeywordValidator
      * @return the report from the spawned validator
      */
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        final JsonNode schemaNode = context.getSchemaNode();
-        final String ref = schemaNode.get("$ref").getTextValue();
+        final ValidationReport report = context.createReport();
+
+        final String ref = context.getSchemaNode().get("$ref").getTextValue();
 
         final URI uri, baseURI;
         final JsonPointer pointer;
@@ -98,6 +99,6 @@ public final class RefKeywordValidator
             return report;
         }
 
-        return ctx.getValidator(pointer, instance).validate();
+        return ctx.getValidator(pointer, instance).validate(ctx, instance);
     }
 }

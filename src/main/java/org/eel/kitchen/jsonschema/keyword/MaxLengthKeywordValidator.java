@@ -27,21 +27,20 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 public final class MaxLengthKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * Value for {@code maxLength}
-     */
-    private final int maxLength;
 
-    public MaxLengthKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public MaxLengthKeywordValidator()
     {
-        super(context, instance);
-        maxLength = schema.get("maxLength").getIntValue();
+        super("maxLength");
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+        final int maxLength = context.getSchemaNode().get(keyword)
+            .getIntValue();
+
         if (instance.getTextValue().length() > maxLength)
             report.addMessage("string is longer than maxLength");
 

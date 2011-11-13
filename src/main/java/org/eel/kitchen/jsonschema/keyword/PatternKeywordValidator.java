@@ -38,16 +38,17 @@ import org.eel.kitchen.util.RhinoHelper;
 public final class PatternKeywordValidator
     extends KeywordValidator
 {
-    public PatternKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public PatternKeywordValidator()
     {
-        super(context, instance);
+        super("pattern");
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        final String regex = schema.get("pattern").getTextValue();
+        final ValidationReport report = context.createReport();
+        final String regex = context.getSchemaNode().get(keyword).getTextValue();
 
         if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
             report.addMessage("string does not match specified regex");

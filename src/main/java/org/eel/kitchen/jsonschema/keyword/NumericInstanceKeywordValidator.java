@@ -37,48 +37,38 @@ public abstract class NumericInstanceKeywordValidator
     extends KeywordValidator
 {
     /**
-     * Node containing the numeric value of the schema keyword
-     */
-    protected final JsonNode schemaValue;
-
-    /**
-     * The schema node used to validate, grabbed from the {@link
-     * ValidationContext} used as a constructor argument
-     */
-    protected final JsonNode schema;
-
-    /**
      * Constructor
      *
      * @param context  the context to use
      * @param instance the instance to validate
      * @param keyword the matching JSON schema keyword
      */
-    protected NumericInstanceKeywordValidator(final ValidationContext context,
-        final JsonNode instance, final String keyword)
+    protected NumericInstanceKeywordValidator(final String keyword)
     {
-        super(context, instance);
-        schema = context.getSchemaNode();
-        schemaValue = schema.get(keyword);
+        super(keyword);
     }
 
     @Override
-    public final ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        final BigDecimal value = schemaValue.getDecimalValue();
+        final JsonNode schema = context.getSchemaNode();
+
+        final BigDecimal value = schema.get(keyword).getDecimalValue();
         final BigDecimal against = instance.getDecimalValue();
 
         try {
-            validateLong(value.longValueExact(), against.longValueExact());
+            return validateLong(context, value.longValueExact(),
+                against.longValueExact());
         } catch (ArithmeticException ignored) {
-            validateDecimal(value, against);
+            return validateDecimal(context, value, against);
         }
-
-        return report;
     }
 
-    protected abstract void validateLong(final long value, final long against);
+    protected abstract ValidationReport validateLong(
+        final ValidationContext context, final long value, final long against);
 
-    protected abstract void validateDecimal(final BigDecimal value,
+    protected abstract ValidationReport validateDecimal(
+        final ValidationContext context, final BigDecimal value,
         final BigDecimal against);
 }

@@ -27,44 +27,34 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 public final class AdditionalItemsKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * Should we get out early? True if {@code additionalItems} is not a
-     * boolean, or is a boolean set to true.
-     */
-    private final boolean shortcut;
 
-    /**
-     * Number of items in {@code items} (0 if it is not an array)
-     */
-    private final int itemsCount;
+    public AdditionalItemsKeywordValidator()
+    {
+        super("additionalItems");
+    }
 
-    public AdditionalItemsKeywordValidator(final ValidationContext context,
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
 
-        shortcut = schema.get("additionalItems").asBoolean(true);
+        final boolean shortcut = schema.get("additionalItems").asBoolean(true);
+
+        if (shortcut)
+            return report;
 
         final JsonNode itemsNode = schema.path("items");
 
-        itemsCount = itemsNode.isArray() ? itemsNode.size() : 0;
-    }
+        /*
+         * Meh. If additionalItems is false and items is not an array,
+         * it is clearly a logical error... But this will be left to logical
+         * validators, when they are implemented.
+         */
+        final int itemsCount = itemsNode.isArray() ? itemsNode.size() : 0;
 
-    /**
-     * <p>Validate {@code additionalItems}:</p>
-     * <ul>
-     *     <li>if it is not a boolean, or it is set to {@code true},
-     *     then the validation succeeds;</li>
-     *     <li>otherwise, compare the number of schemas registered in the
-     *     {@code items} keyword with the number of elements in the
-     *     instance: if the latter is greater than the former,
-     *     this is a validation failure.</li>
-     * </ul>
-     */
-    @Override
-    public ValidationReport validate()
-    {
-        if (!shortcut && instance.size() > itemsCount)
+        if (instance.size() > itemsCount)
             report.addMessage("array only allows " + itemsCount + " item(s)");
 
         return report;

@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Validator for the {@code disallow} keyword (draft section 5.25)
@@ -32,27 +33,18 @@ import java.util.EnumSet;
 public final class DisallowKeywordValidator
     extends AbstractTypeKeywordValidator
 {
-    public DisallowKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public DisallowKeywordValidator()
     {
-        super(context, instance, "disallow");
+        super("disallow");
     }
 
-    /**
-     * <p>Validate the instance:</p>
-     * <ul>
-     *     <li>if the instance type is one registered in {@link #typeSet},
-     *     this is a failure;
-     *     </li>
-     *     <li>otherwise, if any, attempt to match against schema
-     *     dependencies: if one match is found, validation is a failure.</li>
-     * </ul>
-     *
-     * @return the validation report
-     */
     @Override
-    public ValidationReport validate()
+    protected ValidationReport doValidate(final ValidationContext context,
+        final JsonNode instance, final EnumSet<NodeType> typeSet,
+        final List<JsonNode> schemas)
     {
+        final ValidationReport report = context.createReport();
+
         final NodeType type = NodeType.getNodeType(instance);
 
         boolean failure = false;
@@ -68,29 +60,23 @@ public final class DisallowKeywordValidator
                 + "(%s)", type, typeSet));
         }
 
-        if (failure) {
-            schemas.clear();
+        if (failure)
             return report;
-        }
 
-        buildQueue();
+        ValidationReport schemaReport;
 
-        boolean matchFound = false;
-
-        while (!matchFound && hasMoreElements()) {
-            final ValidationReport innerReport = nextElement().validate();
-            if (innerReport.isError()) {
-                report.mergeWith(innerReport);
-                return report;
+        for (final JsonNode schema: schemas) {
+            schemaReport = validateSchema(context, schema, instance);
+            if (schemaReport.isSuccess()) {
+                report.addMessage("instance validates against an explicitly "
+                    + "disallowed schema");
+                break;
             }
-            matchFound = innerReport.isSuccess();
+            if (schemaReport.isError()) {
+                report.mergeWith(schemaReport);
+                break;
+            }
         }
-
-        queue.clear();
-
-        if (matchFound)
-            report.addMessage("instance validates against an explicitly "
-                + "disallowed schema");
 
         return report;
     }

@@ -35,15 +35,22 @@ import java.util.Set;
 public final class UniqueItemsKeywordValidator
     extends KeywordValidator
 {
-    public UniqueItemsKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public UniqueItemsKeywordValidator()
     {
-        super(context, instance);
+        super("uniqueItems");
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+        final boolean unique = context.getSchemaNode().get("uniqueItems")
+            .getBooleanValue();
+
+        if (!unique)
+            return report;
+
         final Set<JsonNode> set = new HashSet<JsonNode>();
 
         for (final JsonNode node: instance)
@@ -55,5 +62,4 @@ public final class UniqueItemsKeywordValidator
         set.clear();
         return report;
     }
-
 }

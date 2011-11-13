@@ -77,7 +77,7 @@ public abstract class TypeNodeSyntaxValidator
      *
      * @param element the element of the array to check
      */
-    private void validateOne(final ValidationReport report,
+    private static void validateOne(final ValidationReport report,
         final String prefix, final JsonNode element)
     {
         final NodeType type = NodeType.getNodeType(element);

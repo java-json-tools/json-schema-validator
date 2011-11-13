@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.AlwaysFalseFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -306,7 +307,7 @@ public final class ValidationContext
      * @param instance the JSON instance
      * @return the validator
      */
-    public Validator getValidator(final JsonNode instance)
+    public CacheableValidator getValidator(final JsonNode instance)
     {
         final ValidationReport report
             = new ValidationReport(path.toDecodedString());
@@ -316,7 +317,7 @@ public final class ValidationContext
         report.mergeWith(v.validate(this, instance));
 
         if (!report.isSuccess())
-            return new AlwaysFalseValidator(report);
+            return new AlwaysFalseFormatValidator(report);
 
         return factory.getInstanceValidator(this, instance);
     }
@@ -338,7 +339,7 @@ public final class ValidationContext
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public Validator getValidator(final JsonPointer pointer,
+    public CacheableValidator getValidator(final JsonPointer pointer,
         final JsonNode instance)
     {
         final ValidationReport report = createReport();
@@ -351,14 +352,14 @@ public final class ValidationContext
         if (schema.isMissingNode()) {
             report.error("no match in schema for path "
                 + pointer.toDecodedString());
-            return new AlwaysFalseValidator(report);
+            return new AlwaysFalseFormatValidator(report);
         }
 
         if (!refLookups.add(schema)) {
             logger.debug("ref loop detected!");
             logger.debug("path to loop: {}", refLookups);
             report.error("schema " + schema + " loops on itself");
-            return new AlwaysFalseValidator(report);
+            return new AlwaysFalseFormatValidator(report);
         }
 
         schemaNode = schema;

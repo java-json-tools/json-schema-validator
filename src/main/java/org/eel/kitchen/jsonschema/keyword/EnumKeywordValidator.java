@@ -20,10 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
-import org.eel.kitchen.util.CollectionUtils;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Keyword validator for the {@code enum} keyword (draft section 5.19).
@@ -33,24 +29,23 @@ import java.util.Set;
 public final class EnumKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * The elements found in the {@code enum} array
-     */
-    private final Set<JsonNode> enumValues = new HashSet<JsonNode>();
-
-    public EnumKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public EnumKeywordValidator()
     {
-        super(context, instance);
-        enumValues.addAll(CollectionUtils.toSet(schema.get("enum")
-            .getElements()));
+        super("enum");
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
-        if (!enumValues.contains(instance))
-            report.addMessage("instance does not match any member of the " + "enumeration");
+        final ValidationReport report = context.createReport();
+        final JsonNode enumNode = context.getSchemaNode().get(keyword);
+
+        for (final JsonNode element: enumNode)
+            if (element.equals(instance))
+                return report;
+
+        report.addMessage("instance does not match any member of the enumeration");
 
         return report;
     }

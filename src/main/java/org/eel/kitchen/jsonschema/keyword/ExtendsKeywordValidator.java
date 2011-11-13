@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.HashMap;
@@ -42,50 +43,48 @@ public final class ExtendsKeywordValidator
      */
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
-    public ExtendsKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public ExtendsKeywordValidator()
     {
-        super(context, instance);
-        buildQueue();
+        super("extends");
     }
 
-    /**
-     * <p>Method called from constructor, which builds the necessary schemas in
-     * {@link #queue}:</p>
-     * <ul>
-     *     <li>it first adds a validator for current schema node minus its
-     *     {@code extends} keyword;</li>
-     *     <li>it then merges this altered schema node with all extended
-     *     schemas and adds the corresponding validator to the queue</li>
-     * </ul>
-     * @see #merge(JsonNode, JsonNode)
-     */
-    private void buildQueue()
+    @Override
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+
         final ObjectNode baseNode = nodeFactory.objectNode();
 
         baseNode.putAll((ObjectNode) context.getSchemaNode());
 
         final JsonNode extendsNode = baseNode.remove("extends");
 
-        ValidationContext other = context.createContext(baseNode);
+        ValidationContext current = context.createContext(baseNode);
 
-        queue.add(other.getValidator(instance));
+        CacheableValidator v;
+
+        v = current.getValidator(instance);
+        report.mergeWith(v.validate(current, instance));
 
         JsonNode mergedNode;
 
         if (extendsNode.isObject()) {
             mergedNode = merge(baseNode, extendsNode);
-            other = context.createContext(mergedNode);
-            queue.add(other.getValidator(instance));
-            return;
+            current = context.createContext(mergedNode);
+            v = current.getValidator(instance);
+            report.mergeWith(v.validate(current, instance));
+            return report;
         }
 
         for (final JsonNode node: extendsNode) {
             mergedNode = merge(baseNode, node);
-            other = context.createContext(mergedNode);
-            queue.add(other.getValidator(instance));
+            current = context.createContext(mergedNode);
+            v = current.getValidator(instance);
+            report.mergeWith(v.validate(current, instance));
         }
+
+        return report;
     }
 
     /**
@@ -109,24 +108,5 @@ public final class ExtendsKeywordValidator
         ret.putAll(other);
 
         return nodeFactory.objectNode().putAll(ret);
-    }
-
-    /**
-     * Validates the instance by first checking the base node,
-     * then any extended node.
-     *
-     * @return the validation report
-     */
-    @Override
-    public ValidationReport validate()
-    {
-        while (hasMoreElements()) {
-            report.mergeWith(nextElement().validate());
-            if (!report.isSuccess())
-                break;
-        }
-
-        queue.clear();
-        return report;
     }
 }

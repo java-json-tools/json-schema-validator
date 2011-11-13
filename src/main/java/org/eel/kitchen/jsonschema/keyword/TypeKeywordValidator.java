@@ -22,6 +22,9 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
+import java.util.EnumSet;
+import java.util.List;
+
 /**
  * Keyword validator for the {@code type} keyword (section 5.1)
  *
@@ -30,39 +33,29 @@ import org.eel.kitchen.util.NodeType;
 public final class TypeKeywordValidator
     extends AbstractTypeKeywordValidator
 {
-    public TypeKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public TypeKeywordValidator()
     {
-        super(context, instance, "type");
+        super("type");
     }
 
-    /**
-     * <p>Validate the instance:</p>
-     * <ul>
-     *     <li>if the type of the instance is one of the registered primitive
-     *     types, validation succeeds;</li>
-     *     <li>otherwise, try and match enclosed schemas if any: if only one
-     *     matches, we have a success.</li>
-     * </ul>
-     * @return the validation report
-     */
     @Override
-    public ValidationReport validate()
+    protected ValidationReport doValidate(final ValidationContext context,
+        final JsonNode instance, final EnumSet<NodeType> typeSet,
+        final List<JsonNode> schemas)
     {
+        final ValidationReport report = context.createReport();
         final NodeType type = NodeType.getNodeType(instance);
 
         String message = "cannot match anything! Empty simple type set "
-                + "_and_ I don't have any enclosed schema either";
+            + "_and_ I don't have any enclosed schema either";
 
         if (schemas.isEmpty() && typeSet.isEmpty()) {
             report.addMessage(message);
             return report;
         }
 
-        if (typeSet.contains(type)) {
-            schemas.clear();
+        if (typeSet.contains(type))
             return report;
-        }
 
         message = typeSet.isEmpty() ? "no primitive types to match against"
             : String.format("instance is of type %s, which is none of "
@@ -71,20 +64,22 @@ public final class TypeKeywordValidator
 
         report.addMessage(message);
 
-        buildQueue();
-
-        if (!hasMoreElements())
+        if (schemas.isEmpty())
             return report;
 
         report.addMessage("trying with enclosed schemas instead");
 
-        for (int i = 1; hasMoreElements(); i++) {
+        int i = 1;
+        ValidationReport schemaReport;
+
+        for (final JsonNode schema: schemas) {
             report.addMessage("trying schema #" + i + "...");
-            final ValidationReport tmp = nextElement().validate();
-            if (tmp.isSuccess())
-                return tmp;
-            report.mergeWith(tmp);
+            schemaReport = validateSchema(context, schema, instance);
+            if (schemaReport.isSuccess())
+                return schemaReport;
+            report.mergeWith(schemaReport);
             report.addMessage("schema #" + i + ": no match");
+            i++;
         }
 
         report.addMessage("enclosed schemas did not match");

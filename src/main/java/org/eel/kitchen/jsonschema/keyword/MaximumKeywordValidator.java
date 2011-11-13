@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 
 import java.math.BigDecimal;
@@ -30,46 +31,46 @@ public final class MaximumKeywordValidator
     extends NumericInstanceKeywordValidator
 {
 
-    /**
-     * Is the maximum exclusive?
-     */
-    private final boolean exclusiveMaximum;
-
-    public MaximumKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public MaximumKeywordValidator()
     {
-        super(context, instance, "maximum");
-        exclusiveMaximum = schema.path("exclusiveMaximum").asBoolean(false);
+        super("maximum");
     }
 
     @Override
-    protected void validateLong(final long value, final long against)
+    protected ValidationReport validateLong(final ValidationContext context,
+        final long value, final long against)
     {
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
+        final boolean exclusive = schema.path("exclusiveMaximum").asBoolean(false);
+
         final long cmp = value - against;
 
-        if (cmp < 0) {
+        if (cmp < 0)
             report.addMessage("number is greater than the required maximum");
-            return;
-        }
-
-        if (cmp == 0 && exclusiveMaximum)
+        else if (cmp == 0 && exclusive)
             report.addMessage("number is not strictly lower than "
                 + "the required maximum");
+
+        return report;
     }
 
     @Override
-    protected void validateDecimal(final BigDecimal value,
-        final BigDecimal against)
+    protected ValidationReport validateDecimal(final ValidationContext context,
+        final BigDecimal value, final BigDecimal against)
     {
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
+        final boolean exclusive = schema.path("exclusiveMaximum").asBoolean(false);
+
         final int cmp = value.compareTo(against);
 
-        if (cmp < 0) {
+        if (cmp < 0)
             report.addMessage("number is greater than the required maximum");
-            return;
-        }
-
-        if (cmp == 0 && exclusiveMaximum)
+        else if (cmp == 0 && exclusive)
             report.addMessage("number is not strictly lower than "
                 + "the required maximum");
+
+        return report;
     }
 }

@@ -27,21 +27,18 @@ import org.eel.kitchen.jsonschema.context.ValidationContext;
 public final class MinLengthKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * Value for {@code minLength}
-     */
-    private final int minLength;
-
-    public MinLengthKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public MinLengthKeywordValidator()
     {
-        super(context, instance);
-        minLength = schema.get("minLength").getIntValue();
+        super("minLength");
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+        final int minLength = context.getSchemaNode().get(keyword).getIntValue();
+
         if (instance.getTextValue().length() < minLength)
             report.addMessage("string is shorter than minLength");
 

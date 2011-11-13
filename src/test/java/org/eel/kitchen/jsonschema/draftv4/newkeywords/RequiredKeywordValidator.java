@@ -30,21 +30,18 @@ import java.util.TreeSet;
 public final class RequiredKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * Constructor
-     *
-     * @param context  the context to use
-     * @param instance the instance to validate
-     */
-    public RequiredKeywordValidator(final ValidationContext context,
-        final JsonNode instance)
+    public RequiredKeywordValidator()
     {
-        super(context, instance);
+        super("required");
     }
 
     @Override
-    public ValidationReport validate()
+    public ValidationReport validate(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
+
         final SortedSet<String> required = new TreeSet<String>();
 
         for (final JsonNode element: schema.get("required"))

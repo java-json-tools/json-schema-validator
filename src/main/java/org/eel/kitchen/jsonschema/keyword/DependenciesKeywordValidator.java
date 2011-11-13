@@ -20,15 +20,12 @@ package org.eel.kitchen.jsonschema.keyword;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.CollectionUtils;
-import org.eel.kitchen.util.NodeType;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -40,92 +37,75 @@ import java.util.TreeSet;
 public final class DependenciesKeywordValidator
     extends KeywordValidator
 {
+    public DependenciesKeywordValidator()
+    {
+        super("dependencies");
+    }
 
-    /**
-     * The list of fields in the instance to validate
-     */
-    private final SortedSet<String> instanceFields
-        = new TreeSet<String>();
-
-    /**
-     * The list of simple (ie, non schema) dependencies in the schema
-     */
-    private final Map<String, Collection<String>> simpleDependencies
-        = new HashMap<String, Collection<String>>();
-
-    public DependenciesKeywordValidator(final ValidationContext context,
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        super(context, instance);
+        final ValidationReport report = context.createReport();
+        final JsonNode schema = context.getSchemaNode();
 
-        instanceFields.addAll(CollectionUtils.toSet(instance.getFieldNames()));
+        final SortedSet<String> fields = new TreeSet<String>();
+        fields.addAll(CollectionUtils.toSet(instance.getFieldNames()));
 
-        setUp();
-    }
+        final JsonNode node = schema.get(keyword);
+        final SortedMap<String, JsonNode> dependencies
+            = CollectionUtils.toSortedMap(node.getFields());
 
-    /**
-     * Called from the constructor. Fills the {@link #simpleDependencies}
-     * map, and/or {@link #queue} in the event of schema dependencies
-     */
-    private void setUp()
-    {
-        final JsonNode dependenciesNode
-            = context.getSchemaNode().get("dependencies");
-        final Set<String> deps
-            = CollectionUtils.toSet(dependenciesNode.getFieldNames());
+        dependencies.keySet().retainAll(fields);
 
-        deps.retainAll(instanceFields);
+        if (dependencies.isEmpty())
+            return report;
 
-        JsonNode node;
-        for (final String dep: deps) {
-            node = dependenciesNode.get(dep);
-            switch (NodeType.getNodeType(node)) {
-                case STRING:
-                    simpleDependencies.put(dep,
-                        Arrays.asList(node.getTextValue()));
-                    break;
-                case ARRAY:
-                    final Set<String> set = new HashSet<String>();
-                    for (final JsonNode element: node)
-                        set.add(element.getTextValue());
-                    simpleDependencies.put(dep, set);
-                    break;
-                case OBJECT:
-                    final ValidationContext ctx = context.createContext(node);
-                    queue.add(ctx.getValidator(instance));
-                    break;
-                default:
-                    throw new RuntimeException("How did I even get there???");
-            }
-        }
-    }
-
-    /**
-     * Validate the instance: check for simple dependencies first,
-     * and if any, for schema dependencies
-     *
-     * @return the validation report
-     */
-    @Override
-    public ValidationReport validate()
-    {
-        final SortedSet<String> set = new TreeSet<String>();
-
-        for (final String field: instanceFields) {
-            if (!simpleDependencies.containsKey(field))
-                continue;
-            set.clear();
-            set.addAll(simpleDependencies.get(field));
-            set.removeAll(instanceFields);
-            if (!set.isEmpty())
-                report.addMessage("property " + field + " is missing "
-                    + "dependencies " + set);
+        for (final Map.Entry<String, JsonNode> entry: dependencies.entrySet()) {
+            report.mergeWith(doOneDependency(context, instance, entry));
         }
 
-        while (report.isSuccess() && hasMoreElements())
-            report.mergeWith(nextElement().validate());
-
-        queue.clear();
         return report;
+    }
+
+    private static ValidationReport doOneDependency(
+        final ValidationContext context, final JsonNode instance,
+        final Map.Entry<String, JsonNode> entry)
+    {
+        final JsonNode depnode = entry.getValue();
+
+        if (!depnode.isObject()) {
+            final ValidationReport depreport = context.createReport();
+            final String depname = entry.getKey();
+            doSimpleDependency(depname, depnode, instance.getFieldNames(),
+                depreport);
+            return depreport;
+        }
+
+        final ValidationContext ctx = context.createContext(depnode);
+        final CacheableValidator v = ctx.getValidator(instance);
+        return v.validate(ctx, instance);
+    }
+
+    private static void doSimpleDependency(final String depname,
+        final JsonNode depnode, final Iterator<String> fieldNames,
+        final ValidationReport depreport)
+    {
+        final SortedSet<String> expected = new TreeSet<String>();
+
+        if (depnode.isTextual())
+            expected.add(depnode.getTextValue());
+        else
+            for (final JsonNode element: depnode)
+                expected.add(element.getTextValue());
+
+        while (fieldNames.hasNext())
+            expected.remove(fieldNames.next());
+
+        if (expected.isEmpty())
+            return;
+
+        depreport.addMessage("property " + depname + " is missing "
+            + "dependencies " + expected);
     }
 }

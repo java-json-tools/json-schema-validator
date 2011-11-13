@@ -18,12 +18,13 @@
 package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.base.MatchAllValidator;
-import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.keyword.format.CacheableValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.RhinoHelper;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -54,22 +55,14 @@ public final class ObjectValidator
      */
     private JsonNode additionalProperties;
 
-    public ObjectValidator(final Validator validator,
-        final ValidationContext context, final JsonNode instance)
+    public ObjectValidator(final CacheableValidator validator)
     {
-        super(validator, context, instance);
+        super(validator);
     }
 
-    /**
-     * <p>Fills in {@link #properties}, {@link #patternProperties} and {@link
-     * #additionalProperties} for use by {@link
-     * #getValidator(String, JsonNode)}.</p>
-     */
     @Override
-    protected void buildPathProvider()
+    protected void buildPathProvider(final JsonNode schema)
     {
-        final JsonNode schema = context.getSchemaNode();
-
         JsonNode node;
 
         node = schema.path("properties");
@@ -87,28 +80,8 @@ public final class ObjectValidator
         additionalProperties = node.isObject() ? node : EMPTY_SCHEMA;
     }
 
-    /**
-     * <p>Spawns a validator for a child node. Unlike arrays,
-     * this is not a straight one-to-one relation:</p>
-     * <ul>
-     *     <li>if a property matches exactly (ie, there is a matching key in
-     *     {@link #properties}, then the child must be validated against the
-     *     corresponding schema,
-     *     </li>
-     *     <li>but it must also be validated against <i>all</i> schemas in
-     *     {@link #patternProperties} for which the regex matches the child
-     *     property name;
-     *     </li>
-     *     <li>only if none of the above is true, it must be matched against
-     *     the content of {@link #additionalProperties}.
-     *     </li>
-     * </ul>
-     * @param path the path of the child node
-     * @param child the child node
-     * @return the validator for this child node
-     */
     @Override
-    protected Validator getValidator(final String path, final JsonNode child)
+    protected Collection<JsonNode> getSchemas(final String path)
     {
         final Set<JsonNode> schemas = new HashSet<JsonNode>();
 
@@ -119,27 +92,10 @@ public final class ObjectValidator
             if (RhinoHelper.regMatch(pattern, path))
                 schemas.add(patternProperties.get(pattern));
 
-        final ValidationContext ctx;
+        if (schemas.isEmpty())
+            schemas.add(additionalProperties);
 
-        if (schemas.size() <= 1) {
-            final JsonNode subSchema = schemas.isEmpty() ? additionalProperties
-                : schemas.iterator().next();
-            ctx = context.createContext(path, subSchema);
-            return ctx.getValidator(child);
-        }
-
-        final Set<Validator> validators = new HashSet<Validator>();
-
-        ctx = context.createContext(path, EMPTY_SCHEMA);
-
-        ValidationContext tmp;
-
-        for (final JsonNode node: schemas) {
-            tmp = ctx.createContext(node);
-            validators.add(tmp.getValidator(child));
-        }
-
-        return new MatchAllValidator(ctx, validators);
+        return schemas;
     }
 
     /**
@@ -148,21 +104,28 @@ public final class ObjectValidator
      * {@link CollectionUtils#toSortedMap(Iterator)}.
      */
     @Override
-    protected void validateChildren()
+    protected ValidationReport validateChildren(final ValidationContext context,
+        final JsonNode instance)
     {
+        final ValidationReport report = context.createReport();
         final SortedMap<String, JsonNode> map
             = CollectionUtils.toSortedMap(instance.getFields());
 
         String path;
         JsonNode child;
-        Validator v;
+        ValidationContext ctx;
+        CacheableValidator v;
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             path = entry.getKey();
             child = entry.getValue();
-            v = getValidator(path, child);
-            report.mergeWith(v.validate());
+            for (final JsonNode schema: getSchemas(path)) {
+                ctx = context.createContext(path, schema);
+                v = ctx.getValidator(child);
+                report.mergeWith(v.validate(ctx, child));
+            }
         }
 
+        return report;
     }
 }
