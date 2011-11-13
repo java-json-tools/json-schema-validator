@@ -155,9 +155,9 @@ public final class ValidatorFactory
         final Class<? extends SyntaxValidator> sv,
         final Class<? extends KeywordValidator> kv, final NodeType... types)
     {
-        cache.clear();
         syntaxFactory.registerValidator(keyword, sv);
         keywordFactory.registerValidator(keyword, kv, types);
+        cache.clear();
     }
 
     /**
@@ -169,8 +169,8 @@ public final class ValidatorFactory
      */
     public void unregisterValidator(final String keyword)
     {
-        cache.clear();
         syntaxFactory.unregisterValidator(keyword);
         keywordFactory.unregisterValidator(keyword);
+        cache.clear();
     }
 }

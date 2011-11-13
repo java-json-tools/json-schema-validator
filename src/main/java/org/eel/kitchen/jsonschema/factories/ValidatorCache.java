@@ -36,8 +36,8 @@ public final class ValidatorCache
     public ValidatorCache()
     {
         for (final NodeType type: NodeType.values())
-            cache.put(type,
-                new LRUMap<JsonNode, Validator>(CACHE_INIT, CACHE_MAX));
+            cache.put(type, new LRUMap<JsonNode, Validator>(CACHE_INIT,
+                CACHE_MAX));
     }
 
     public Validator get(final NodeType type, final JsonNode schema)
