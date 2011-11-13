@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.KeywordFactory;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 /**
  * Base abstract class for keyword validators
@@ -28,11 +29,15 @@ import org.eel.kitchen.jsonschema.factories.KeywordFactory;
  * implementations don't have to worry about the validity of their data. They
  * just have to concentrate on validating their input.</p>
  *
+ * @see SyntaxValidator
  * @see KeywordFactory
  */
 public abstract class KeywordValidator
     implements Validator
 {
+    /**
+     * The keyword
+     */
     protected final String keyword;
 
     protected KeywordValidator(final String keyword)

@@ -42,6 +42,23 @@ public final class DependenciesKeywordValidator
         super("dependencies");
     }
 
+    /**
+     * Validate the {@code dependencies} keyword
+     *
+     * <p>The list of properties in {@code dependencies} is collected and
+     * intersected with the list of properties in the instance. For each
+     * remaining property:</p>
+     * <ul>
+     *     <li>if the dependency is one or more property name(s),
+     *     then all these properties must be present in the instance;</li>
+     *     <li>if it is a schema, then the current instance must be validated
+     *     against this schema as well as the current one.</li>
+     * </ul>
+     *
+     * @param context the validation context
+     * @param instance the instance to validte
+     * @return the report
+     */
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
@@ -68,6 +85,17 @@ public final class DependenciesKeywordValidator
         return report;
     }
 
+    /**
+     * Compute one dependency
+     *
+     * <p>This handles schema dependencies; property dependencies is handled to
+     * {@link #doSimpleDependency(Map.Entry, Iterator, ValidationReport)}
+     *
+     * @param context the context
+     * @param instance the instance
+     * @param entry the dependency entry
+     * @return the report
+     */
     private static ValidationReport doOneDependency(
         final ValidationContext context, final JsonNode instance,
         final Map.Entry<String, JsonNode> entry)
@@ -76,9 +104,7 @@ public final class DependenciesKeywordValidator
 
         if (!depnode.isObject()) {
             final ValidationReport depreport = context.createReport();
-            final String depname = entry.getKey();
-            doSimpleDependency(depname, depnode, instance.getFieldNames(),
-                depreport);
+            doSimpleDependency(entry, instance.getFieldNames(), depreport);
             return depreport;
         }
 
@@ -87,10 +113,20 @@ public final class DependenciesKeywordValidator
         return v.validate(ctx, instance);
     }
 
-    private static void doSimpleDependency(final String depname,
-        final JsonNode depnode, final Iterator<String> fieldNames,
-        final ValidationReport depreport)
+    /**
+     * Handle a property dependency
+     *
+     * @param entry the dependency entry
+     * @param fieldNames the property names in the instance
+     * @param depreport the report to fill
+     */
+    private static void doSimpleDependency(
+        final Map.Entry<String, JsonNode> entry,
+        final Iterator<String> fieldNames, final ValidationReport depreport)
     {
+        final String depname = entry.getKey();
+        final JsonNode depnode = entry.getValue();
+
         final SortedSet<String> expected = new TreeSet<String>();
 
         if (depnode.isTextual())

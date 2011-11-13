@@ -50,6 +50,17 @@ public final class PropertiesKeywordValidator
         super("properties");
     }
 
+    /**
+     * Validate the {@code properties} keyword
+     *
+     * <p>For this, peek into the schemas for each registered property and see
+     * if any has a {@code required} attribute which is true. The validation
+     * will fail if the instance doesn't have a property by the name</p>
+     *
+     * @param context the validation context
+     * @param instance the instance to validate
+     * @return the report
+     */
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)

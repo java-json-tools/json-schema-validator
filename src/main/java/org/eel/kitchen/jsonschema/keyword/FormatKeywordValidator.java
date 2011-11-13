@@ -41,10 +41,11 @@ public final class FormatKeywordValidator
     }
 
     /**
-     * Validate against a format specification. If the specification is
-     * unknown, the validation is a failure (FIXME: not what the draft says).
-     * If the type of the instance cannot be validated by the matching
-     * validator, the validation is a success.
+     * Validate against a format specification
+     *
+     * <p>If the format specification is unknown, the validation is a failure
+     * (FIXME: not what the draft says). If the type of the instance cannot
+     * be validated by the matching validator, the validation is a success.
      *
      * @see FormatFactory#getFormatValidator(ValidationContext, String,
      * JsonNode)

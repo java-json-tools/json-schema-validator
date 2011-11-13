@@ -46,10 +46,31 @@ abstract class AbstractTypeKeywordValidator
         super(keyword);
     }
 
+    /**
+     * The core validation function
+     *
+     * @param context the validation context
+     * @param instance the instance to validate
+     * @param typeSet the primitive types
+     * @param schemas the schemas found, if any
+     * @return the validation report
+     */
     protected abstract ValidationReport doValidate(
         final ValidationContext context, final JsonNode instance,
         final EnumSet<NodeType> typeSet, final List<JsonNode> schemas);
 
+    /**
+     * The main validation function
+     *
+     * <p>It calls {@link #prepare(JsonNode, EnumSet, List)} to build the
+     * necessary elements, then
+     * {@link #doValidate(ValidationContext, JsonNode, EnumSet, List)},
+     * which actually does the validation.
+     *
+     * @param context the validation context
+     * @param instance the instance to validate
+     * @return the validation report
+     */
     @Override
     public final ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
@@ -63,6 +84,14 @@ abstract class AbstractTypeKeywordValidator
         return doValidate(context, instance, typeSet, schemas);
     }
 
+    /**
+     * Validate against a schema
+     *
+     * @param context the validation context
+     * @param schema the found schema
+     * @param instance the instance
+     * @return the report
+     */
     protected static ValidationReport validateSchema(
         final ValidationContext context, final JsonNode schema,
         final JsonNode instance)
@@ -72,6 +101,14 @@ abstract class AbstractTypeKeywordValidator
         return ctx.getValidator(instance).validate(ctx, instance);
     }
 
+    /**
+     * Prepare the validator by extracting the simple types and schemas from
+     * the keyword node
+     *
+     * @param typeNode the keyword node
+     * @param typeSet  the typeset to fill
+     * @param schemas the list of schemas to fill
+     */
     private static void prepare(final JsonNode typeNode,
         final EnumSet<NodeType> typeSet, final List<JsonNode> schemas)
     {
@@ -89,6 +126,18 @@ abstract class AbstractTypeKeywordValidator
         }
     }
 
+    /**
+     * Add a primitive type to a type set
+     *
+     * <p>This is in a separate function because we need to take two special
+     * cases into account: the first is {@link #ANY}; the second is the
+     * number type: it also englobes integer, which mean we must add it as
+     * well.
+     * </p>
+     *
+     * @param s the primitive type as a string
+     * @param typeSet the type set to add to
+     */
     private static void addType(final String s, final EnumSet<NodeType>
         typeSet)
     {

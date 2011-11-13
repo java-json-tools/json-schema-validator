@@ -86,6 +86,8 @@ public final class URIHandlerFactory
     /**
      * Get a handler for the given URI
      *
+     * <p>The URI <b>must</b> be absolute here.</p>
+     *
      * @param uri the URI
      * @return the handler
      * @throws IllegalArgumentException the URI is not absolute,

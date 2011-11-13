@@ -236,6 +236,12 @@ public final class SyntaxFactory
 
     }
 
+    /**
+     * Private registration method
+     *
+     * @param keyword the keyword
+     * @param sv the validator, already instantiated
+     */
     private void register(final String keyword, final SyntaxValidator sv)
     {
         validators.put(keyword, sv);

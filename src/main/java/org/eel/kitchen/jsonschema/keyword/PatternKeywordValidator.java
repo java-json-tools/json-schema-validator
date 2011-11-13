@@ -31,8 +31,9 @@ import org.eel.kitchen.util.RhinoHelper;
  * rhino, which does have an ECMA 262 regex engine.</p>
  *
  * <p>And also note that "matching" is meant in the <b>real</b> sense of the
- * term. Don't be fooled by Java's {@code .matches()} method names!
+ * term. Don't be fooled by Java's {@link String#matches(String)}!
  * </p>
+ *
  * @see RhinoHelper
  */
 public final class PatternKeywordValidator

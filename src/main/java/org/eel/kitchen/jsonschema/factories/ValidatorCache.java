@@ -25,11 +25,34 @@ import org.eel.kitchen.util.NodeType;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * Crude validator LRU cache -- but it works quite well
+ *
+ * <p>This cache relies on both the schema and the type of the validated node
+ * to cache a validator (it is perfectly possible that the validator is
+ * different from one type to another, since the keywords in the schema may
+ * apply to different instance types).
+ * </p>
+ *
+ * <p>This cache uses Jackson's {@link LRUMap} at its core.</p>
+ */
 public final class ValidatorCache
 {
+    /**
+     * Initial size of an individual cache (one for each node type)
+     */
     private static final int CACHE_INIT = 10;
+
+    /**
+     * Maximum size of an individual cache
+     */
     private static final int CACHE_MAX = 50;
 
+    /**
+     * The {@link EnumMap} containing all caches. Keys are {@link NodeType}
+     * values, values are {@link LRUMap} instances pairing a schema as a key
+     * and the matching validator as a value -- no matter how complex.
+     */
     private final Map<NodeType, Map<JsonNode, Validator>> cache
         = new EnumMap<NodeType, Map<JsonNode, Validator>>(NodeType.class);
 
@@ -40,11 +63,25 @@ public final class ValidatorCache
                 CACHE_MAX));
     }
 
+    /**
+     * Get an entry from the cache. If none exists, returns {@code null}.
+     *
+     * @param type the type of the instance to validate
+     * @param schema the schema to validate the instance against
+     * @return the matching validator, if any
+     */
     public Validator get(final NodeType type, final JsonNode schema)
     {
         return cache.get(type).get(schema);
     }
 
+    /**
+     * Add an entry to the cache
+     *
+     * @param type the type of the validated instance
+     * @param schema the schema used to validate the instance
+     * @param validator the validator
+     */
     public void put(final NodeType type, final JsonNode schema,
         final Validator validator)
     {
@@ -53,6 +90,12 @@ public final class ValidatorCache
 
     public void clear()
     {
+        /*
+         * TODO: optimize?
+         *
+         * For instance, if we register a new validator only for objects,
+         * we don't need to clear entries for other types...
+         */
         for (final NodeType type: NodeType.values())
             cache.get(type).clear();
     }

@@ -18,8 +18,10 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
+import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.util.JsonPointer;
 
 import java.io.IOException;
@@ -29,16 +31,19 @@ import java.net.URISyntaxException;
 /**
  * Keyword validator for {@code $ref} (draft version 5.28)
  *
- * <p>It only works "partially", in the sense that only HTTP URL refs and JSON
- * path refs are supported (or a combination of both,
- * as in {@code http://host.name/link/to/schema#/path/within/schema}). It is
- * unclear to the author how other types of URIs may be used,
- * and thus far he has seen no other examples.
+ * <p>Please note that while you can register any URI scheme you want (see
+ * {@link JsonValidator#registerURIHandler(String, URIHandler)}),
+ * relative URIs which are <b>not</b> JSON Pointers are not supported by
+ * choice: we cannot tell where to base the lookup from (for JSON Pointers,
+ * it's easy enough: it's the current schema).
  * </p>
  *
  * <p>Note that ref loop detection is not done here, nor is malformed JSON
- * paths. This is the role of {@link ValidationContext#getValidator(JsonPointer,
- * JsonNode)}.</p>
+ * Pointers. This is the role of {@link
+ * ValidationContext#getValidator(JsonPointer, JsonNode)}.</p>
+ *
+ * @see URIHandler
+ * @see JsonPointer
  */
 public final class RefKeywordValidator
     extends KeywordValidator

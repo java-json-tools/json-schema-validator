@@ -85,10 +85,12 @@ public final class ExtendsKeywordValidator
     }
 
     /**
-     * Crude schema merge implementation: given a base node and another node,
+     * Crude schema merge implementation
+     *
+     * <p>Given a base node and another node,
      * first builds a copy of the base node and forcefeeds all fields of the
-     * other node in this copy (overwriting any existing fields in the base
-     * node)
+     * other node in this copy (overwriting any node defined in the other
+     * node which existed in the base node).</p>
      *
      * @param baseNode the base node
      * @param otherNode the other node

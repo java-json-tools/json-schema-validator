@@ -37,6 +37,26 @@ public final class AdditionalPropertiesKeywordValidator
         super("additionalProperties");
     }
 
+    /**
+     * Validate {@code additionalProperties}
+     *
+     * <p>The rules for {@code additionalProperties} are as follows:</p>
+     * <ul>
+     *     <li>if it is anything else than {@code false},
+     *     the validation succeeds;</li>
+     *     <li>otherwise, the validation fails if at least one property of
+     *     the instance:
+     *     </li>
+     *     <ul>
+     *         <li>is not found in {@code properties}, or</li>
+     *         <li>does not match any regex in {@code patternProperties}.</li>
+     *     </ul>
+     * </ul>
+     *
+     * @param context the validation context
+     * @param instance the instance to validate
+     * @return the report
+     */
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)

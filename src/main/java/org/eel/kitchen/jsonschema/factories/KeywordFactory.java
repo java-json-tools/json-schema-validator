@@ -148,6 +148,10 @@ public final class KeywordFactory
     public void registerValidator(final String keyword,
         final Class<? extends KeywordValidator> c, final NodeType... types)
     {
+        /*
+         * Both tests below are for security only... They should not happen
+         * until the "no schema validation" feature is implemented.
+         */
         if (ignoredKeywords.contains(keyword))
             throw new IllegalArgumentException("keyword already registered");
 
@@ -188,6 +192,16 @@ public final class KeywordFactory
         throw new IllegalArgumentException(errmsg);
     }
 
+    /**
+     * Private validator registration method
+     *
+     * <p>The only difference with {@link #registerValidator(String, Class,
+     * NodeType...)} is that here the validator is instantiated.</p>
+     *
+     * @param keyword the keyword to register
+     * @param kv the validator
+     * @param types the type set validable by this validator
+     */
     private void register(final String keyword, final KeywordValidator kv,
         final NodeType... types)
     {
@@ -198,7 +212,6 @@ public final class KeywordFactory
     /**
      * Unregister a validator for the given keyword
      *
-     * <p>This has basically</p>
      * @param keyword the victim
      */
     public void unregisterValidator(final String keyword)
@@ -208,6 +221,13 @@ public final class KeywordFactory
             validators.get(type).remove(keyword);
     }
 
+    /**
+     * Get a validator set for a given context and instance
+     *
+     * @param context the context
+     * @param instance the instance to be validated
+     * @return the matching set of validators
+     */
     public Collection<Validator> getValidators(
         final ValidationContext context, final JsonNode instance)
     {

@@ -33,6 +33,20 @@ public final class AdditionalItemsKeywordValidator
         super("additionalItems");
     }
 
+    /**
+     * Validate {@code additionalItems}
+     *
+     * <p>The rules are simple: if {@code additionalItems} is anything else
+     * than {@code false}, then the validation succeeds. Otherwise,
+     * it must be checked that the {@code items} keyword, if it is an array,
+     * has a number of elements less than or equal to the number of elements
+     * in the instance.
+     * </p>
+     *
+     * @param context the validation context
+     * @param instance the instance to validate
+     * @return the report
+     */
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
