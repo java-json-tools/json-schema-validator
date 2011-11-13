@@ -26,7 +26,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -34,7 +33,6 @@ import static org.testng.Assert.*;
 
 public final class SelfValidationTest
 {
-    private static final String SPEC = "http://json-schema.org/draft-03/schema";
     private JsonNode draftv3;
     private JsonNode googleAPI;
     private JsonValidator validator;
@@ -43,7 +41,7 @@ public final class SelfValidationTest
     public void setUp()
         throws IOException
     {
-        draftv3 = JsonLoader.fromURL(new URL(SPEC));
+        draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
         validator = new JsonValidator(draftv3);
     }
@@ -74,5 +72,4 @@ public final class SelfValidationTest
                 + name);
         }
     }
-
 }
