@@ -18,12 +18,18 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
+import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.container.ArrayValidator;
+import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
+
+import java.util.Collection;
 
 /**
  * Factory centralizing all validator factories, and in charge or returning
@@ -77,7 +83,27 @@ public final class ValidatorFactory
     public Validator getInstanceValidator(
         final ValidationContext context, final JsonNode instance)
     {
-        return keywordFactory.getValidator(context, instance);
+        final Collection<Validator> collection
+            = keywordFactory.getValidators(context, instance);
+
+        final Validator validator;
+        switch (collection.size()) {
+            case 0:
+                validator = new AlwaysTrueValidator();
+                break;
+            case 1:
+                validator = collection.iterator().next();
+                break;
+            default:
+                validator = new MatchAllValidator(collection);
+        }
+
+        if (!instance.isContainerNode())
+            return validator;
+
+        return instance.isArray()
+            ? new ArrayValidator(validator)
+            : new ObjectValidator(validator);
     }
 
     /**

@@ -21,9 +21,6 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.JsonValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.base.MatchAllValidator;
-import org.eel.kitchen.jsonschema.container.ArrayValidator;
-import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.context.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.AdditionalPropertiesKeywordValidator;
@@ -216,43 +213,7 @@ public final class KeywordFactory
         validators.remove(keyword);
     }
 
-    /**
-     * Get a validator (a {@link KeywordValidator} really) for the given
-     * context and instance to validate. Only called from {@link
-     * ValidationContext#getValidator(JsonNode)}.
-     *
-     * @param context the current validation context
-     * @param instance the instance to validate
-     * @return the validator
-     */
-    public Validator getValidator(final ValidationContext context,
-        final JsonNode instance)
-    {
-        final Collection<Validator> collection
-            = getValidators(context, instance);
-
-        final Validator validator;
-        switch (collection.size()) {
-            case 0:
-                validator = new AlwaysTrueValidator();
-                break;
-            case 1:
-                validator = collection.iterator().next();
-                break;
-            default:
-                validator = new MatchAllValidator(collection);
-        }
-
-        if (!instance.isContainerNode())
-            return validator;
-
-        return instance.isArray()
-            ? new ArrayValidator(validator)
-            : new ObjectValidator(validator);
-    }
-
-
-    private Collection<Validator> getValidators(
+    public Collection<Validator> getValidators(
         final ValidationContext context, final JsonNode instance)
     {
         final NodeType type = NodeType.getNodeType(instance);
