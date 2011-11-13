@@ -163,16 +163,13 @@ public final class KeywordFactory
             throw new IllegalArgumentException("cannot register a new keyword"
                 + " with no JSON type to match against");
 
-        final EnumSet<NodeType> typeset = EnumSet.copyOf(Arrays.asList(types));
-
         final KeywordValidator kv;
 
         Exception exception;
 
         try {
             kv = buildValidator(c);
-            fieldMap.put(keyword, typeset);
-            validators.put(keyword, kv);
+            register(keyword, kv, types);
             return;
         } catch (NoSuchMethodException e) {
             exception = e;
