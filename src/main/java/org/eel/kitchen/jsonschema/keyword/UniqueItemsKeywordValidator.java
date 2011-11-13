@@ -43,6 +43,9 @@ public final class UniqueItemsKeywordValidator
     @Override
     protected void validateInstance()
     {
+        if (!schema.get("uniqueItems").getBooleanValue())
+            return;
+
         final Set<JsonNode> set = new HashSet<JsonNode>();
 
         for (final JsonNode node: instance)
