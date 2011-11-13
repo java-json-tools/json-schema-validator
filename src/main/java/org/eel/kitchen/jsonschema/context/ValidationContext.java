@@ -162,6 +162,7 @@ public final class ValidationContext
      */
     public void unregisterValidator(final String keyword)
     {
+        validatedSchemas.clear();
         factory.unregisterValidator(keyword);
     }
 
@@ -185,6 +186,7 @@ public final class ValidationContext
         final Class<? extends SyntaxValidator> sv,
         final Class<? extends KeywordValidator> kv, final NodeType... types)
     {
+        validatedSchemas.clear();
         factory.registerValidator(keyword, sv, kv, types);
     }
 
