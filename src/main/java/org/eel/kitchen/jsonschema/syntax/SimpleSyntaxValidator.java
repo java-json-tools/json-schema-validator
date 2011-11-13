@@ -39,7 +39,6 @@ public abstract class SimpleSyntaxValidator
     /**
      * Constructor
      *
-     * @param context the validation context
      * @param keyword the keyword to check
      * @param types the valid list of types for this keyword
      */

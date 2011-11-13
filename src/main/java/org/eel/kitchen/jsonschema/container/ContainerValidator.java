@@ -38,7 +38,7 @@ import java.util.Collection;
  * @see ArrayValidator
  * @see ObjectValidator
  */
-public abstract class ContainerValidator
+abstract class ContainerValidator
     implements Validator
 {
     /**
@@ -58,7 +58,7 @@ public abstract class ContainerValidator
      *
      * @param validator the structure validator, see {@link #validator}
      */
-    protected ContainerValidator(final Validator validator)
+    ContainerValidator(final Validator validator)
     {
         this.validator = validator;
     }

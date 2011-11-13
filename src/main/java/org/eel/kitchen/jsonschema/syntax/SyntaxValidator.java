@@ -59,7 +59,7 @@ public abstract class SyntaxValidator
     /**
      * The list of valid types for the currently analized keyword
      */
-    protected final EnumSet<NodeType> validTypes;
+    private final EnumSet<NodeType> validTypes;
 
     /**
      * Constructor

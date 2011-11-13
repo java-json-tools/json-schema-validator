@@ -30,12 +30,12 @@ import org.eel.kitchen.util.NodeType;
  * which means the keyword validators for both of these won't have to worry
  * about this.</p>
  */
-public abstract class TypeNodeSyntaxValidator
+abstract class TypeNodeSyntaxValidator
     extends SyntaxValidator
 {
     private static final String ANY = "any";
 
-    protected TypeNodeSyntaxValidator(final String keyword)
+    TypeNodeSyntaxValidator(final String keyword)
     {
         super(keyword, NodeType.STRING, NodeType.ARRAY);
     }

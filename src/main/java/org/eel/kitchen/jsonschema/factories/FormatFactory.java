@@ -49,7 +49,7 @@ import static org.eel.kitchen.util.NodeType.*;
 /**
  * A factory spawning validators for the {@code format} keyword.
  */
-public final class FormatFactory
+final class FormatFactory
 {
     /**
      * Map pairing a format specification with the list of instance types
@@ -68,7 +68,7 @@ public final class FormatFactory
      * Constructor, which initiates all format validators once per validation
      *
      */
-    public FormatFactory()
+    FormatFactory()
     {
         registerFormat("date-time", new DateTimeFormatValidator(), STRING);
         registerFormat("date", new DateFormatValidator(), STRING);

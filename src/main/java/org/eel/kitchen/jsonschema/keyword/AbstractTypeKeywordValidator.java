@@ -33,7 +33,7 @@ import java.util.List;
  * @see TypeKeywordValidator
  * @see DisallowKeywordValidator
  */
-public abstract class AbstractTypeKeywordValidator
+abstract class AbstractTypeKeywordValidator
     extends KeywordValidator
 {
     /**
@@ -41,7 +41,7 @@ public abstract class AbstractTypeKeywordValidator
      */
     private static final String ANY = "any";
 
-    protected AbstractTypeKeywordValidator(final String keyword)
+    AbstractTypeKeywordValidator(final String keyword)
     {
         super(keyword);
     }

@@ -46,8 +46,6 @@ public abstract class GenericDateFormatValidator
     /**
      * Constructor
      *
-     * @param report The {@link ValidationReport} to use
-     * @param node The node to validate
      * @param fmt The date format
      * @param desc the description of the date format
      */

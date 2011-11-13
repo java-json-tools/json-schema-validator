@@ -39,8 +39,6 @@ public abstract class NumericInstanceKeywordValidator
     /**
      * Constructor
      *
-     * @param context  the context to use
-     * @param instance the instance to validate
      * @param keyword the matching JSON schema keyword
      */
     protected NumericInstanceKeywordValidator(final String keyword)
