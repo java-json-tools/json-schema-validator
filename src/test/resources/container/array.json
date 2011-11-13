@@ -3,7 +3,8 @@
         "schema": {
             "items": {
                 "type": [ "number", "null" ]
-            }
+            },
+            "uniqueItems": false
         },
         "good": [ 3.14, 232, 30924, null, null ],
         "bad": [ 4, 19, "pwet", 92831, [] ],
