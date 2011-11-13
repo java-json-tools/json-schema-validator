@@ -66,6 +66,9 @@ public final class PropertiesKeywordValidator
             if (entry.getValue().path("required").asBoolean(false))
                 required.add(entry.getKey());
 
+        if (required.isEmpty())
+            return report;
+
         final Iterator<String> fields = instance.getFieldNames();
 
         while (fields.hasNext())
