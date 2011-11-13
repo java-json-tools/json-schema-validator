@@ -51,10 +51,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.EnumSet;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -78,29 +77,27 @@ import static org.eel.kitchen.util.NodeType.*;
 public final class KeywordFactory
 {
     /**
-     * Map pairing a schema keyword and the instance types it applies to
-     */
-    private final Map<String, EnumSet<NodeType>> fieldMap
-        = new HashMap<String, EnumSet<NodeType>>();
-
-    /**
-     * Map pairing a schema keyword and the matching {@link KeywordValidator}
-     * as a {@link Class}
-     */
-    private final Map<String, KeywordValidator> validators
-        = new HashMap<String, KeywordValidator>();
-
-    /**
      * Set of ignored keywords (for which validation is always true)
      */
     private final Set<String> ignoredKeywords = new HashSet<String>();
 
     /**
+     * Map of all validators. The key is the node type,
+     * the value is itself a map pairing keywords with their matching
+     * validators.
+     */
+    private final Map<NodeType, Map<String, KeywordValidator>> validators
+        = new EnumMap<NodeType, Map<String, KeywordValidator>>(NodeType.class);
+
+    /**
      * Constructor; registers validators using
-     * {@link #registerValidator(String, Class, NodeType...)}.
+     * {@link #register(String, KeywordValidator, NodeType...)}
      */
     public KeywordFactory()
     {
+        for (final NodeType type: NodeType.values())
+            validators.put(type, new HashMap<String, KeywordValidator>());
+
         register("additionalItems", new AdditionalItemsKeywordValidator(),
             ARRAY);
         register("additionalProperties",
@@ -136,7 +133,7 @@ public final class KeywordFactory
      * will be performed at all. If it is not null, however,
      * be sure to pair it with a {@link SyntaxValidator},
      * since it is the latter which will ensure that on invocation,
-     * the new validator will not fail due to incorrect input.
+     * the new validator will not fail (or crash) due to incorrect input.
      * </p>
      *
      * @param keyword the keyword
@@ -151,8 +148,12 @@ public final class KeywordFactory
     public void registerValidator(final String keyword,
         final Class<? extends KeywordValidator> c, final NodeType... types)
     {
-        if (ignoredKeywords.contains(keyword) || validators.containsKey(keyword))
+        if (ignoredKeywords.contains(keyword))
             throw new IllegalArgumentException("keyword already registered");
+
+        for (final NodeType type: types)
+            if (validators.get(type).keySet().contains(keyword))
+                throw new IllegalArgumentException("keyword already registered");
 
         if (c == null) {
             ignoredKeywords.add(keyword);
@@ -190,11 +191,8 @@ public final class KeywordFactory
     private void register(final String keyword, final KeywordValidator kv,
         final NodeType... types)
     {
-        final EnumSet<NodeType> typeset = EnumSet.copyOf(Arrays.asList(types));
-
-        fieldMap.put(keyword, typeset);
-        validators.put(keyword, kv);
-
+        for (final NodeType type: types)
+            validators.get(type).put(keyword, kv);
     }
 
     /**
@@ -206,38 +204,27 @@ public final class KeywordFactory
     public void unregisterValidator(final String keyword)
     {
         ignoredKeywords.remove(keyword);
-        fieldMap.remove(keyword);
-        validators.remove(keyword);
+        for (final NodeType type: NodeType.values())
+            validators.get(type).remove(keyword);
     }
 
     public Collection<Validator> getValidators(
         final ValidationContext context, final JsonNode instance)
     {
-        final NodeType type = NodeType.getNodeType(instance);
-        final Set<Validator> ret
-            = new LinkedHashSet<Validator>();
-
         final JsonNode schemaNode = context.getSchemaNode();
-
         final Set<String> keywords
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
-        if (keywords.isEmpty())
-            return Arrays.<Validator>asList(
-                new AlwaysTrueValidator());
+        final NodeType type = NodeType.getNodeType(instance);
+        final Map<String, Validator> map
+            = new HashMap<String, Validator>(validators.get(type));
 
-        final Set<String> keyset = new HashSet<String>();
+        map.keySet().retainAll(keywords);
 
-        keyset.addAll(validators.keySet());
-        keyset.retainAll(keywords);
+        if (map.isEmpty())
+            return Arrays.<Validator>asList(new AlwaysTrueValidator());
 
-        for (final String key: keyset) {
-            if (!fieldMap.get(key).contains(type))
-                continue;
-            ret.add(validators.get(key));
-        }
-
-        return Collections.unmodifiableSet(ret);
+        return Collections.unmodifiableCollection(map.values());
     }
 
     /**
