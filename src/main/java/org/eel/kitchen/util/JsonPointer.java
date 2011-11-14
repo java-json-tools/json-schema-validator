@@ -188,7 +188,12 @@ public final class JsonPointer
     }
 
     /**
-     * Return a new JsonPointer with an added path element
+     * Return a new JsonPointer with an added <b>raw</b> path element
+     *
+     * <p>"Raw" means here that the path element should not be encoded in any
+     * way: it is expected to be a "pure" elements,
+     * where {@code /} and {@code %} are represented as such,
+     * not in their encoded form.</p>
      *
      * @param pathElement the path element to append to this pointer's path
      * @return a JsonPointer with the new path
@@ -199,9 +204,8 @@ public final class JsonPointer
             return this;
 
         final JsonPointer ret = new JsonPointer();
-        final String decoded = decode(pathElement);
         ret.elements.addAll(elements);
-        ret.elements.add(decoded);
+        ret.elements.add(pathElement);
         return ret;
     }
 
