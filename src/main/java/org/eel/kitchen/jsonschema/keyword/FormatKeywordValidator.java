@@ -56,7 +56,7 @@ public final class FormatKeywordValidator
     {
         final JsonNode schema = context.getSchemaNode();
 
-        final String fmt = schema.get("format").getTextValue();
+        final String fmt = schema.get(keyword).getTextValue();
 
         final Validator validator
             = context.getFormatValidator(fmt, instance);

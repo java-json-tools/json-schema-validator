@@ -78,9 +78,8 @@ public final class DependenciesKeywordValidator
         if (dependencies.isEmpty())
             return report;
 
-        for (final Map.Entry<String, JsonNode> entry: dependencies.entrySet()) {
+        for (final Map.Entry<String, JsonNode> entry: dependencies.entrySet())
             report.mergeWith(doOneDependency(context, instance, entry));
-        }
 
         return report;
     }

@@ -64,8 +64,7 @@ public final class AdditionalPropertiesKeywordValidator
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchemaNode();
 
-        final boolean shortcut = schema.get("additionalProperties")
-            .asBoolean(true);
+        final boolean shortcut = schema.get(keyword).asBoolean(true);
 
         if (shortcut)
             return report;

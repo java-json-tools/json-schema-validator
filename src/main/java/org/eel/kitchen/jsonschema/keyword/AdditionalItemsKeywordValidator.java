@@ -54,7 +54,7 @@ public final class AdditionalItemsKeywordValidator
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchemaNode();
 
-        final boolean shortcut = schema.get("additionalItems").asBoolean(true);
+        final boolean shortcut = schema.get(keyword).asBoolean(true);
 
         if (shortcut)
             return report;

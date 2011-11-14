@@ -59,7 +59,6 @@ public final class UniqueItemsKeywordValidator
                 break;
             }
 
-        set.clear();
         return report;
     }
 }

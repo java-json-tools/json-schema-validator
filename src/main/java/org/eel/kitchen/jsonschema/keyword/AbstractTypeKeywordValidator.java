@@ -146,9 +146,10 @@ abstract class AbstractTypeKeywordValidator
             return;
         }
 
-        typeSet.add(NodeType.valueOf(s.toUpperCase()));
+        final NodeType type = NodeType.valueOf(s.toUpperCase());
+        typeSet.add(type);
 
-        if (typeSet.contains(NodeType.NUMBER))
+        if (type == NodeType.NUMBER)
             typeSet.add(NodeType.INTEGER);
     }
 }

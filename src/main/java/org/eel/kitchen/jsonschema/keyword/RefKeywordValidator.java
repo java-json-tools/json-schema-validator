@@ -76,7 +76,7 @@ public final class RefKeywordValidator
     {
         final ValidationReport report = context.createReport();
 
-        final String ref = context.getSchemaNode().get("$ref").getTextValue();
+        final String ref = context.getSchemaNode().get(keyword).getTextValue();
 
         final URI uri, baseURI;
         final JsonPointer pointer;

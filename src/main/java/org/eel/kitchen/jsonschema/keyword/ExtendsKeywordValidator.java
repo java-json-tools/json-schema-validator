@@ -39,7 +39,7 @@ public final class ExtendsKeywordValidator
     extends KeywordValidator
 {
     /**
-     * A {@link JsonNodeFactory}, needed for {@link #merge(JsonNode, JsonNode)}
+     * A {@link JsonNodeFactory}, needed for {@link #merge(Map, JsonNode)}
      */
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
@@ -53,12 +53,15 @@ public final class ExtendsKeywordValidator
         final JsonNode instance)
     {
         final ValidationReport report = context.createReport();
+        final JsonNode schemaNode = context.getSchemaNode();
 
         final ObjectNode baseNode = nodeFactory.objectNode();
-
-        baseNode.putAll((ObjectNode) context.getSchemaNode());
+        baseNode.putAll((ObjectNode) schemaNode);
 
         final JsonNode extendsNode = baseNode.remove("extends");
+
+        final Map<String, JsonNode> map
+            = CollectionUtils.toMap(baseNode.getFields());
 
         ValidationContext current = context.createContext(baseNode);
 
@@ -70,12 +73,12 @@ public final class ExtendsKeywordValidator
         JsonNode mergedNode;
 
         if (extendsNode.isObject()) {
-            mergedNode = merge(baseNode, extendsNode);
+            mergedNode = merge(map, extendsNode);
             current = context.createContext(mergedNode);
             v = current.getValidator(instance);
             report.mergeWith(v.validate(current, instance));
         } else for (final JsonNode node: extendsNode) {
-            mergedNode = merge(baseNode, node);
+            mergedNode = merge(map, node);
             current = context.createContext(mergedNode);
             v = current.getValidator(instance);
             report.mergeWith(v.validate(current, instance));
@@ -92,18 +95,18 @@ public final class ExtendsKeywordValidator
      * other node in this copy (overwriting any node defined in the other
      * node which existed in the base node).</p>
      *
-     * @param baseNode the base node
+     * @param map the field/node map of the schema node,
+     * minus the {@code extends} field
      * @param otherNode the other node
      * @return the copy
      */
-    private static JsonNode merge(final JsonNode baseNode,
+    private static JsonNode merge(final Map<String, JsonNode> map,
         final JsonNode otherNode)
     {
         final Map<String, JsonNode>
-            base = CollectionUtils.toMap(baseNode.getFields()),
+            ret = new HashMap<String, JsonNode>(map),
             other = CollectionUtils.toMap(otherNode.getFields());
 
-        final Map<String, JsonNode> ret = new HashMap<String, JsonNode>(base);
         ret.putAll(other);
 
         return nodeFactory.objectNode().putAll(ret);
