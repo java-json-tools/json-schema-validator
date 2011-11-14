@@ -18,7 +18,11 @@
 package org.eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.node.MissingNode;
+
+import java.util.Arrays;
+import java.util.EnumSet;
 
 /**
  * Enumeration for the different types of JSON instances which can be
@@ -30,40 +34,46 @@ public enum NodeType
     /**
      * Array nodes
      */
-    ARRAY("array"),
+    ARRAY("array", JsonToken.START_ARRAY),
     /**
      * Boolean nodes
      */
-    BOOLEAN("boolean"),
+    BOOLEAN("boolean", JsonToken.VALUE_TRUE, JsonToken.VALUE_FALSE),
     /**
      * Integer nodes
      */
-    INTEGER("integer"),
+    INTEGER("integer", JsonToken.VALUE_NUMBER_INT),
     /**
      * Number nodes (ie, decimal numbers)
      */
-    NUMBER("number"),
+    NUMBER("number", JsonToken.VALUE_NUMBER_FLOAT),
     /**
      * Null nodes
      */
-    NULL("null"),
+    NULL("null", JsonToken.VALUE_NULL),
     /**
      * Object nodes
      */
-    OBJECT("object"),
+    OBJECT("object", JsonToken.START_OBJECT),
     /**
      * String nodes
      */
-    STRING("string");
+    STRING("string", JsonToken.VALUE_STRING);
 
     /**
      * The name for this type, as encountered in a JSON schema
      */
     private final String name;
 
-    NodeType(final String name)
+    /**
+     * Expected {@link JsonToken} values for this type
+     */
+    private final EnumSet<JsonToken> tokens;
+
+    NodeType(final String name, final JsonToken... tokenlist)
     {
         this.name = name;
+        tokens = EnumSet.copyOf(Arrays.asList(tokenlist));
     }
 
     @Override
@@ -81,17 +91,12 @@ public enum NodeType
      */
     public static NodeType getNodeType(final JsonNode node)
     {
-        if (node.isArray())
-            return ARRAY;
-        if (node.isBoolean())
-            return BOOLEAN;
-        if (node.isNumber())
-            return node.isIntegralNumber() ? INTEGER : NUMBER;
-        if (node.isNull())
-            return NULL;
-        if (node.isObject())
-            return OBJECT;
+        final JsonToken token = node.asToken();
 
-        return STRING;
+        for (final NodeType type: values())
+            if (type.tokens.contains(token))
+                return type;
+
+        throw new IllegalArgumentException("unhandled token type " + token);
     }
 }
