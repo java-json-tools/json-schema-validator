@@ -149,11 +149,17 @@ public final class JsonPointer
      */
     private final List<String> elements = new LinkedList<String>();
 
+    private final String rawPath;
+
     /**
-     * Private empty constructor, used by {@link #append(String)}
+     * Private constructor, used by {@link #append(String)}
+     *
+     * @param elements the list of path elements (in order
      */
-    private JsonPointer()
+    private JsonPointer(final List<String> elements)
     {
+        this.elements.addAll(elements);
+        rawPath = buildRaw(this.elements);
     }
 
     /**
@@ -175,16 +181,17 @@ public final class JsonPointer
      */
     public JsonPointer(final String path)
     {
-        if (path == null)
-            return;
+        final String s = path == null ? "" : path;
 
-        if (!JSONPOINTER_REGEX.matcher(path).matches())
+        if (!JSONPOINTER_REGEX.matcher(s).matches())
             throw new IllegalArgumentException("illegal JSON Pointer " + path);
 
-        final Matcher matcher = PATH_SPLIT.matcher(path.replaceFirst("#", ""));
+        final Matcher matcher = PATH_SPLIT.matcher(s.replaceFirst("#", ""));
 
         while (matcher.find())
             elements.add(decode(matcher.group(1)));
+
+        rawPath = buildRaw(elements);
     }
 
     /**
@@ -203,10 +210,9 @@ public final class JsonPointer
         if (pathElement == null)
             return this;
 
-        final JsonPointer ret = new JsonPointer();
-        ret.elements.addAll(elements);
-        ret.elements.add(pathElement);
-        return ret;
+        final List<String> list = new LinkedList<String>(elements);
+        list.add(pathElement);
+        return new JsonPointer(list);
     }
 
     /**
@@ -237,6 +243,53 @@ public final class JsonPointer
         }
 
         return ret;
+    }
+    /**
+     * Returns the percent-encoded representation of this JSON Pointer
+     *
+     * @return the full percent-encoded representation, including the initial
+     * {@code #}
+     */
+    public String toCookedString()
+    {
+        final StringBuilder sb = new StringBuilder("#");
+
+        for (final String element: elements)
+            sb.append("/").append(encode(element));
+
+        return sb.toString();
+    }
+
+    /**
+     * Return the raw representation of this JSON Pointer
+     *
+     * @return the full raw path, including the initial {@code #}
+     */
+    @Override
+    public String toString()
+    {
+        return rawPath;
+    }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+
+        final JsonPointer that = (JsonPointer) o;
+
+        return rawPath.equals(that.rawPath);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return elements.hashCode();
     }
 
     /**
@@ -274,55 +327,19 @@ public final class JsonPointer
     }
 
     /**
-     * Returns the percent-encoded representation of this JSON Pointer
+     * Build the raw representation of that JSON Pointer
      *
-     * @return the full percent-encoded representation, including the initial
-     * {@code #}
+     * @param list the list of path elements
+     * @return the representation
      */
-    public String toCookedString()
+    private static String buildRaw(final List<String> list)
     {
         final StringBuilder sb = new StringBuilder("#");
 
-        for (final String element: elements)
-            sb.append("/").append(encode(element));
-
-        return sb.toString();
-    }
-
-    /**
-     * Return the raw representation of this JSON Pointer
-     *
-     * @return the full raw path, including the initial {@code #}
-     */
-    @Override
-    public String toString()
-    {
-        final StringBuilder sb = new StringBuilder("#");
-
-        for (final String element: elements)
+        for (final String element: list)
             sb.append("/").append(element.replace("/", SLASH));
 
         return sb.toString();
     }
 
-    @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
-            return false;
-
-        final JsonPointer that = (JsonPointer) o;
-
-        return elements.equals(that.elements);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return elements.hashCode();
-    }
 }
