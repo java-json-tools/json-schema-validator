@@ -18,7 +18,6 @@
 package org.eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.MissingNode;
 
 import java.net.URLEncoder;
@@ -71,8 +70,7 @@ public final class JsonPointer
      * A {@link MissingNode}, as a shortcut to return when a pointer is
      * "dangling"
      */
-    private static final JsonNode MISSING
-        = JsonNodeFactory.instance.objectNode().path("foo");
+    private static final JsonNode MISSING = MissingNode.getInstance();
 
     /**
      * Percent-encoded representation of the {@code /} character
