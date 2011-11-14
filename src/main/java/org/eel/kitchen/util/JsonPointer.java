@@ -57,9 +57,9 @@ import java.util.regex.Pattern;
  *
  * <p>The draft also recommends that all special characters defined by
  * <a href="http://tools.ietf.org/html/rfc3986">RFC 3986 (section 2.2)</a> be
- * percent-encoded. This class' {@link #toString()} returns the percent-encoded
- * pointer , but also proposes a non percent-encoded form using
- * {@link #toDecodedString()}. It accepts both non percent-encoded pointers
+ * percent-encoded. This class' {@link #toString()} returns the raw
+ * pointer, but also proposes a percent-encoded form using
+ * {@link #toCookedString()}. It accepts both non percent-encoded pointers
  * and percent-encoded pointers as inputs, and you can also, if you wish to,
  * omit the initial {@code #}.
  * </p>
@@ -274,12 +274,12 @@ public final class JsonPointer
     }
 
     /**
-     * Returns the percent-encoded form of this JSON Pointer
+     * Returns the percent-encoded representation of this JSON Pointer
      *
-     * @return the full percent-encoded path, including the initial {@code #}
+     * @return the full percent-encoded representation, including the initial
+     * {@code #}
      */
-    @Override
-    public String toString()
+    public String toCookedString()
     {
         final StringBuilder sb = new StringBuilder("#");
 
@@ -290,11 +290,12 @@ public final class JsonPointer
     }
 
     /**
-     * Return the decoded form of this JSON Pointer
+     * Return the raw representation of this JSON Pointer
      *
-     * @return the full decoded path, including the initial {@code #}
+     * @return the full raw path, including the initial {@code #}
      */
-    public String toDecodedString()
+    @Override
+    public String toString()
     {
         final StringBuilder sb = new StringBuilder("#");
 

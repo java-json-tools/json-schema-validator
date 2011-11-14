@@ -100,8 +100,8 @@ public final class JsonPointerTest
         final JsonPointer p2 = new JsonPointer(encoded);
 
         assertEquals(p1, p2);
-        assertEquals(p1.toString(), "#" + encoded);
-        assertEquals(p2.toDecodedString(), "#" + decoded);
+        assertEquals(p1.toCookedString(), "#" + encoded);
+        assertEquals(p2.toString(), "#" + decoded);
     }
 
     @Test
@@ -111,8 +111,8 @@ public final class JsonPointerTest
         final String normalizedPath = "#/a%2fbC";
         final JsonPointer p = new JsonPointer(path);
 
+        assertEquals(p.toCookedString(), normalizedPath);
         assertEquals(p.toString(), normalizedPath);
-        assertEquals(p.toDecodedString(), normalizedPath);
 
         final String path2 = "/a/bC";
         assertNotEquals(p, new JsonPointer(path2));
@@ -128,8 +128,8 @@ public final class JsonPointerTest
         final JsonPointer p2 = new JsonPointer(normalizedPath);
 
         assertEquals(p1, p2);
-        assertEquals(p1.toString(), normalizedPath);
-        assertEquals(p2.toDecodedString(), "#" + path);
+        assertEquals(p1.toCookedString(), normalizedPath);
+        assertEquals(p2.toString(), "#" + path);
     }
 
     @Test
@@ -137,8 +137,8 @@ public final class JsonPointerTest
     {
         final JsonPointer p = new JsonPointer("#/a%%253a");
 
-        assertEquals(p.toDecodedString(), "#/a%%3a");
-        assertEquals(p.toString(), "#/a%25%253a");
+        assertEquals(p.toString(), "#/a%%3a");
+        assertEquals(p.toCookedString(), "#/a%25%253a");
     }
 
     @Test

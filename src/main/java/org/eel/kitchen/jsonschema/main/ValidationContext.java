@@ -318,7 +318,7 @@ public final class ValidationContext
     {
         if (!validatedSchemas.contains(schemaNode)) {
             final ValidationReport report
-                = new ValidationReport(path.toDecodedString());
+                = new ValidationReport(path.toString());
 
             final Validator v = factory.getSyntaxValidator(this);
 
@@ -353,14 +353,13 @@ public final class ValidationContext
     {
         final ValidationReport report = createReport();
 
-        logger.trace("trying to lookup path \"#{}\" from node {} ",
-            pointer.toDecodedString(), schemaNode);
+        logger.trace("trying to lookup path \"#{}\" from node {} ", pointer,
+            schemaNode);
 
         final JsonNode schema = pointer.getPath(rootSchema);
 
         if (schema.isMissingNode()) {
-            report.error("no match in schema for path "
-                + pointer.toDecodedString());
+            report.error("no match in schema for path " + pointer);
             return new AlwaysFalseValidator(report);
         }
 
@@ -384,7 +383,7 @@ public final class ValidationContext
      */
     public ValidationReport createReport(final String prefix)
     {
-        return new ValidationReport(path.toDecodedString() + prefix);
+        return new ValidationReport(path + prefix);
     }
 
     /**
