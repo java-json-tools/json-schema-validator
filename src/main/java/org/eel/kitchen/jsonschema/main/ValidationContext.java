@@ -55,6 +55,7 @@ import java.util.Set;
  *     <li>provide other instances of itself.</li>
  * </ul>
  */
+// TODO: unclutter
 public final class ValidationContext
 {
     private static final Logger logger
