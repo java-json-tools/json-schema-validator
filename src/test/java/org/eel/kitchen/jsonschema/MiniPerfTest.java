@@ -32,10 +32,10 @@ public final class MiniPerfTest
     public static void main(final String... args)
         throws IOException
     {
-        final JsonNode draftv3 = JsonLoader.fromResource(
-            "/schema-draftv3" + ".json");
-        final JsonNode googleAPI = JsonLoader.fromResource("/other/google-json"
-            + "-api.json");
+        final JsonNode draftv3
+            = JsonLoader.fromResource("/schema-draftv3.json");
+        final JsonNode googleAPI
+            = JsonLoader.fromResource("/other/google-json-api.json");
         final SortedMap<String, JsonNode> schemas
             = CollectionUtils.toSortedMap(googleAPI.get("schemas").getFields());
 
