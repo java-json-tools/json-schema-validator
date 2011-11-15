@@ -20,10 +20,11 @@ package org.eel.kitchen.jsonschema.syntax;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
+import org.eel.kitchen.jsonschema.main.FullValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -76,7 +77,7 @@ public final class SyntaxValidatorFactoryTest
 
         context = new ValidationContext(schema);
         v = context.getValidator(schema);
-        report = new ValidationReport();
+        report = new FullValidationReport();
 
         assertTrue(report.isSuccess());
 

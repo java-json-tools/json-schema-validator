@@ -319,7 +319,7 @@ public final class ValidationContext
     {
         if (!validatedSchemas.contains(schemaNode)) {
             final ValidationReport report
-                = new ValidationReport(path.toString());
+                = new FullValidationReport(path.toString());
 
             final Validator v = factory.getSyntaxValidator(this);
 
@@ -384,7 +384,7 @@ public final class ValidationContext
      */
     public ValidationReport createReport(final String prefix)
     {
-        return new ValidationReport(path + prefix);
+        return new FullValidationReport(path + prefix);
     }
 
     /**
