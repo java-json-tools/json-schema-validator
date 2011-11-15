@@ -25,13 +25,38 @@ public enum ValidationStatus
     /**
      * The validation was successful
      */
-    SUCCESS,
+    SUCCESS(0),
     /**
      * The validation failed
      */
-    FAILURE,
+    FAILURE(1),
     /**
      * A fatal error occurred
      */
-    ERROR
+    ERROR(2);
+
+    private final int level;
+
+    ValidationStatus(final int level)
+    {
+        this.level = level;
+    }
+
+    private static ValidationStatus fromLevel(final int level)
+    {
+        switch (level) {
+            case 0:
+                return SUCCESS;
+            case 1:
+                return FAILURE;
+            default:
+                return ERROR;
+        }
+    }
+
+    public static ValidationStatus worstOf(final ValidationStatus first,
+        final ValidationStatus second)
+    {
+        return fromLevel(Math.max(first.level, second.level));
+    }
 }

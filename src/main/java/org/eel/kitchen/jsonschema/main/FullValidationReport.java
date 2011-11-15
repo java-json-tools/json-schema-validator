@@ -134,7 +134,9 @@ public final class FullValidationReport
     @Override
     public void mergeWith(final ValidationReport other)
     {
-        switch (other.getStatus()) {
+        status = ValidationStatus.worstOf(status, other.getStatus());
+
+        switch (status) {
             case SUCCESS:
                 return;
             case ERROR:
@@ -142,8 +144,6 @@ public final class FullValidationReport
                 // Fall through
             case FAILURE:
                 messages.addAll(other.getMessages());
-                if (status != ValidationStatus.ERROR)
-                    status = other.getStatus();
         }
     }
 }
