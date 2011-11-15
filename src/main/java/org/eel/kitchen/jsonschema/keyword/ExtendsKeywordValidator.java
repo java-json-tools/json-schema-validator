@@ -29,8 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>Keyword validator for the {@code extends} keyword (draft section
- * 5.26).</p>
+ * Keyword validator for the {@code extends} keyword (draft section 5.26)
  *
  * <p>While the draft makes it optional, this validator also supports
  * "multiple extends", that is, extension of several schemas at once.</p>
@@ -95,8 +94,8 @@ public final class ExtendsKeywordValidator
      * other node in this copy (overwriting any node defined in the other
      * node which existed in the base node).</p>
      *
-     * @param map the field/node map of the schema node,
-     * minus the {@code extends} field
+     * @param map the field/node map of the schema node, minus the
+     * {@code extends} field
      * @param otherNode the other node
      * @return the copy
      */

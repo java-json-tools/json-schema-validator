@@ -75,7 +75,7 @@ import java.util.Set;
  * (in fact, the only current user for this is {@link ValidationContext}).</p>
  *
  * <p>Note that unknown keywords to this factory trigger a validation
- * <b>failure</b>. Therefore, it is important that all keywords be
+ * <b>failure</b>. Therefore, it is important that <b>all</b> keywords be
  * registered. This is on purpose.</p>
  */
 public final class SyntaxFactory
@@ -140,9 +140,9 @@ public final class SyntaxFactory
      * node to validate. As the summary mentions, an unknown keyword to this
      * factory will trigger a failure by returning an {@link
      * AlwaysFalseValidator}.</p>
+     *
      * <p>This is also the place where ill-formed schemas are captured (ie,
-     * a null input or a node which is not an object to begin with).
-     * </p>
+     * a null input or a node which is not an object to begin with).</p>
      *
      * @param context the validation context
      * @return the matching validator

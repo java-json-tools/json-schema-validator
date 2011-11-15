@@ -23,8 +23,9 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 /**
  * Keyword validator for the {@code enum} keyword (draft section 5.19).
- * Jackson is of great help here, since {@link JsonNode#equals(Object)} works
- * perfectly <i>and</i> recursively for container nodes.
+ *
+ * <p>Jackson is of great help here, since {@link JsonNode#equals(Object)} works
+ * perfectly <i>and</i> recursively for container nodes.</p>
  */
 public final class EnumKeywordValidator
     extends KeywordValidator

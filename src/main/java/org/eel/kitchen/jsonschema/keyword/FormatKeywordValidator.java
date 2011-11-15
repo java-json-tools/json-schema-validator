@@ -24,8 +24,7 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 /**
- * <p>Keyword validator for the {@code format} keyword (draft section
- * 5.23).</p>
+ * Keyword validator for the {@code format} keyword (draft section 5.23)
  *
  * <p>This is the only validator which uses a builtin factory (a {@link
  * FormatFactory}) for its own purposes, as it needs to pick a validator

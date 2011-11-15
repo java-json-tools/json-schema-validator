@@ -53,9 +53,11 @@ public final class ValidatorCache
     private static final int CACHE_MAX = 50;
 
     /**
-     * The {@link EnumMap} containing all caches. Keys are {@link NodeType}
-     * values, values are {@link LRUMap} instances pairing a schema as a key
-     * and the matching validator as a value -- no matter how complex.
+     * The {@link EnumMap} containing all caches
+     *
+     * <p>Keys are {@link NodeType} values, values are {@link LRUMap} instances
+     * pairing a schema as a key and the matching validator as a value -- no
+     * matter how complex.</p>
      */
     private final Map<NodeType, Map<JsonNode, Validator>> cache
         = new EnumMap<NodeType, Map<JsonNode, Validator>>(NodeType.class);
@@ -68,11 +70,11 @@ public final class ValidatorCache
     }
 
     /**
-     * Get an entry from the cache. If none exists, returns {@code null}.
+     * Get an entry from the cache
      *
      * @param type the type of the instance to validate
      * @param schema the schema to validate the instance against
-     * @return the matching validator, if any
+     * @return the matching validator, or null if none is found
      */
     public Validator get(final NodeType type, final JsonNode schema)
     {

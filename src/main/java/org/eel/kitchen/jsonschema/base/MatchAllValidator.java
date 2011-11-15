@@ -25,12 +25,23 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * A validator which takes a {@link Collection} of validators as an argument,
+ * and requires all of them to validate in order to report a success
+ */
 public final class MatchAllValidator
     implements Validator
 {
-    private final List<Validator> validators
-        = new LinkedList<Validator>();
+    /**
+     * The list of validators
+     */
+    private final List<Validator> validators = new LinkedList<Validator>();
 
+    /**
+     * Constructor
+     *
+     * @param c the collection to fill out {@link #validators} with
+     */
     public MatchAllValidator(final Collection<Validator> c)
     {
         validators.addAll(c);

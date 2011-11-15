@@ -53,7 +53,7 @@ public final class JsonLoader
     private static final ObjectMapper mapper = new ObjectMapper();
 
     static {
-        /**
+        /*
          * NECESSARY! Otherwise Jackson will limit itself to what Javascript
          * can operate!
          */
@@ -132,8 +132,8 @@ public final class JsonLoader
     }
 
     /**
-     * Same as #fromPath, but this time the user supplies the {@link File}
-     * object instead
+     * Same as {@link #fromPath(String)}, but this time the user supplies the
+     * {@link File} object instead
      *
      * @param file the File object
      * @return The document

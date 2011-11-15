@@ -18,9 +18,19 @@
 package org.eel.kitchen.jsonschema.base;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
+/**
+ * Interface which all validators must implement
+ *
+ * @see SyntaxValidator
+ * @see KeywordValidator
+ * @see FormatValidator
+ */
 public interface Validator
 {
     ValidationReport validate(final ValidationContext context,

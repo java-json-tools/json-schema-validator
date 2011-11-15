@@ -21,6 +21,9 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
+/**
+ * A validator which always returns false
+ */
 public final class AlwaysFalseValidator
     implements Validator
 {

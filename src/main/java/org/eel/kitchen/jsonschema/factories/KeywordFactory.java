@@ -82,9 +82,10 @@ public final class KeywordFactory
     private final Set<String> ignoredKeywords = new HashSet<String>();
 
     /**
-     * Map of all validators. The key is the node type,
-     * the value is itself a map pairing keywords with their matching
-     * validators.
+     * Map of all validators
+     *
+     * <p>The key is the node type, the value is itself a map pairing keywords
+     * with their matching validators.</p>
      */
     private final Map<NodeType, Map<String, KeywordValidator>> validators
         = new EnumMap<NodeType, Map<String, KeywordValidator>>(NodeType.class);

@@ -99,7 +99,7 @@ public final class ValidationContext
      * Map of already seen URIs and the schema located at these URIs
      *
      * <p>Note that in the current state of the implementation,
-     * it is <b>enforced</b> that the URIs be absolute.</p>
+     * it is <b>enforced</b> that URIs in this map be absolute.</p>
      */
     private final Map<URI, JsonNode> locators = new HashMap<URI, JsonNode>();
 

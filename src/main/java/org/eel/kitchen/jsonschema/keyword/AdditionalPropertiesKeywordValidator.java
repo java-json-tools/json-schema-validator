@@ -106,6 +106,14 @@ public final class AdditionalPropertiesKeywordValidator
         return report;
     }
 
+    /**
+     * See if a property name matches one regex found in {@code
+     * patternProperties} (if any)
+     *
+     * @param patterns the list of patterns
+     * @param field the property name
+     * @return true on a match
+     */
     private static boolean patternsMatch(final Set<String> patterns,
         final String field)
     {
