@@ -37,10 +37,9 @@ public final class UnixEpochValidator
     extends FormatValidator
 {
     /**
-     * The amount by which the instance divided by 1000 will be shifted,
-     * to see if it is 0
+     * The maximum bit length of a Unix timestamp value
      */
-    private static final int EPOCH_SHIFT = 31;
+    private static final int EPOCH_BITLENGTH = 31;
 
     /**
      * 1000 as a {@link BigInteger}
@@ -53,16 +52,16 @@ public final class UnixEpochValidator
     {
         final ValidationReport report = context.createReport();
 
-        BigInteger epoch = instance.getDecimalValue().toBigInteger();
+        BigInteger epoch = instance.getBigIntegerValue();
 
-        if (BigInteger.ZERO.compareTo(epoch) > 0) {
+        if (epoch.signum() == -1) {
             report.addMessage("epoch cannot be negative");
             return report;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
-        if (!BigInteger.ZERO.equals(epoch.shiftRight(EPOCH_SHIFT)))
+        if (epoch.bitLength() > EPOCH_BITLENGTH)
             report.addMessage("epoch time would overflow");
 
         return report;
