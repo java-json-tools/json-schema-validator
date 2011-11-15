@@ -22,7 +22,9 @@ import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.node.MissingNode;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.Map;
 
 /**
  * Enumeration for the different types of JSON instances which can be
@@ -34,31 +36,31 @@ public enum NodeType
     /**
      * Array nodes
      */
-    ARRAY("array", JsonToken.START_ARRAY),
+    ARRAY("array"),
     /**
      * Boolean nodes
      */
-    BOOLEAN("boolean", JsonToken.VALUE_TRUE, JsonToken.VALUE_FALSE),
+    BOOLEAN("boolean"),
     /**
      * Integer nodes
      */
-    INTEGER("integer", JsonToken.VALUE_NUMBER_INT),
+    INTEGER("integer"),
     /**
      * Number nodes (ie, decimal numbers)
      */
-    NUMBER("number", JsonToken.VALUE_NUMBER_FLOAT),
+    NUMBER("number"),
     /**
      * Null nodes
      */
-    NULL("null", JsonToken.VALUE_NULL),
+    NULL("null"),
     /**
      * Object nodes
      */
-    OBJECT("object", JsonToken.START_OBJECT),
+    OBJECT("object"),
     /**
      * String nodes
      */
-    STRING("string", JsonToken.VALUE_STRING);
+    STRING("string");
 
     /**
      * The name for this type, as encountered in a JSON schema
@@ -66,14 +68,26 @@ public enum NodeType
     private final String name;
 
     /**
-     * Expected {@link JsonToken} values for this type
+     * Mapping of {@link JsonToken} back to node types (used in
+     * {@link #getNodeType(JsonNode)})
      */
-    private final EnumSet<JsonToken> tokens;
+    private static final Map<JsonToken, NodeType> reverseMap
+        = new EnumMap<JsonToken, NodeType>(JsonToken.class);
 
-    NodeType(final String name, final JsonToken... tokenlist)
+    static {
+        reverseMap.put(JsonToken.START_ARRAY, ARRAY);
+        reverseMap.put(JsonToken.VALUE_TRUE, BOOLEAN);
+        reverseMap.put(JsonToken.VALUE_FALSE, BOOLEAN);
+        reverseMap.put(JsonToken.VALUE_NUMBER_INT, INTEGER);
+        reverseMap.put(JsonToken.VALUE_NUMBER_FLOAT, NUMBER);
+        reverseMap.put(JsonToken.VALUE_NULL, NULL);
+        reverseMap.put(JsonToken.START_OBJECT, OBJECT);
+        reverseMap.put(JsonToken.VALUE_STRING, STRING);
+    }
+
+    NodeType(final String name)
     {
         this.name = name;
-        tokens = EnumSet.copyOf(Arrays.asList(tokenlist));
     }
 
     @Override
@@ -92,11 +106,11 @@ public enum NodeType
     public static NodeType getNodeType(final JsonNode node)
     {
         final JsonToken token = node.asToken();
+        final NodeType ret = reverseMap.get(token);
 
-        for (final NodeType type: values())
-            if (type.tokens.contains(token))
-                return type;
+        if (ret == null)
+            throw new IllegalArgumentException("unhandled token type " + token);
 
-        throw new IllegalArgumentException("unhandled token type " + token);
+        return ret;
     }
 }
