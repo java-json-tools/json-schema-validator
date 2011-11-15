@@ -21,9 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.node.MissingNode;
 
-import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.Map;
 
 /**

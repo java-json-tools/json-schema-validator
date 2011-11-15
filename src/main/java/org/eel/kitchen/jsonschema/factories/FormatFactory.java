@@ -18,11 +18,9 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.format.CSSColorValidator;
 import org.eel.kitchen.jsonschema.keyword.format.CSSStyleValidator;
 import org.eel.kitchen.jsonschema.keyword.format.DateFormatValidator;
@@ -37,6 +35,8 @@ import org.eel.kitchen.jsonschema.keyword.format.RegexValidator;
 import org.eel.kitchen.jsonschema.keyword.format.TimeFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.URIValidator;
 import org.eel.kitchen.jsonschema.keyword.format.UnixEpochValidator;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.Arrays;

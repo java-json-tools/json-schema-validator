@@ -18,13 +18,13 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
-import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxValidator;

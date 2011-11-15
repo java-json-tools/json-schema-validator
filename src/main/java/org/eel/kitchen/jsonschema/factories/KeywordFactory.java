@@ -18,10 +18,8 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.AdditionalPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.DependenciesKeywordValidator;
@@ -42,6 +40,8 @@ import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;

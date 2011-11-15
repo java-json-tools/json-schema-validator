@@ -17,8 +17,8 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.math.BigDecimal;
 
