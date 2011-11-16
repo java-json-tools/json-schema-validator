@@ -164,8 +164,7 @@ public final class JsonValidator
     {
         final JsonPointer pointer = new JsonPointer(path);
 
-        final Validator validator
-            = context.getValidator(pointer, instance);
+        final Validator validator = context.getValidator(pointer, instance);
         return validator.validate(context, instance);
     }
 }

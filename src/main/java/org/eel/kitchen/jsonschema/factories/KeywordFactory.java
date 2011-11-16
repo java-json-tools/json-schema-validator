@@ -206,6 +206,11 @@ public final class KeywordFactory
     private void register(final String keyword, final KeywordValidator kv,
         final NodeType... types)
     {
+        if (kv == null) {
+            ignoredKeywords.add(keyword);
+            return;
+        }
+
         for (final NodeType type: types)
             validators.get(type).put(keyword, kv);
     }
