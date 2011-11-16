@@ -70,7 +70,7 @@ public final class ArrayValidator
     {
         final int index = Integer.parseInt(path);
 
-        final JsonNode schema =  index < items.size() ? items.get(index)
+        final JsonNode schema = index < items.size() ? items.get(index)
             : additionalItems;
 
         return Arrays.asList(schema);
