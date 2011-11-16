@@ -57,6 +57,8 @@ public final class MatchAnyValidator
 
         for (final Validator v: validators) {
             report = v.validate(context, instance);
+            if (report.isError())
+                return report;
             if (report.isSuccess())
                 return report;
             ret.mergeWith(report);
