@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.base;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.AbstractValidationReport;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -28,6 +29,6 @@ public final class AlwaysTrueValidator
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        return context.createReport();
+        return AbstractValidationReport.TRUE;
     }
 }

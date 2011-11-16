@@ -29,11 +29,10 @@ import java.util.List;
  */
 //TODO: separate failure message queue from error message queue
 public final class FullValidationReport
-    implements ValidationReport
+    extends AbstractValidationReport
 {
     private final String path;
     private final List<String> messages = new LinkedList<String>();
-    private ValidationStatus status = ValidationStatus.SUCCESS;
 
     /**
      * Default constructor. Only sets {@link #path} to an empty string.
@@ -52,35 +51,6 @@ public final class FullValidationReport
     public FullValidationReport(final String path)
     {
         this.path = path;
-    }
-
-    @Override
-    public ValidationStatus getStatus()
-    {
-        return status;
-    }
-
-    /**
-     * Tells whether the validation was successful. If it wasn't,
-     * you can use #getMessages to obtain the list of validation failures.
-     *
-     * @return {@link ValidationStatus#SUCCESS} on success, or...
-     */
-    @Override
-    public boolean isSuccess()
-    {
-        return status == ValidationStatus.SUCCESS;
-    }
-
-    /**
-     * Tells whether the validation led up to a fatal error.
-     *
-     * @return true if so
-     */
-    @Override
-    public boolean isError()
-    {
-        return status == ValidationStatus.ERROR;
     }
 
     /**
