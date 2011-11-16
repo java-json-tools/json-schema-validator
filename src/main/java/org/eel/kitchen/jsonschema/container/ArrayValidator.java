@@ -44,7 +44,7 @@ public final class ArrayValidator
      * What is in {@code additionalItems}, or {@code items} if the latter
      * contains a schema
      */
-    private JsonNode additionalItems;
+    private final JsonNode additionalItems;
 
     public ArrayValidator(final JsonNode schema, final Validator validator)
     {
