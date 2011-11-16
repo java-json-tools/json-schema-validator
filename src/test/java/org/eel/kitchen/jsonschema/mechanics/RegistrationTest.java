@@ -84,49 +84,58 @@ public final class RegistrationTest
             + " [p1, p2] are missing");
     }
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^keyword is null$"
-    )
+    @Test
     public void testNullKeywordRegistration()
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
-        validator.registerValidator(null, null, null);
+        try {
+            validator.registerValidator(null, null, null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "keyword is null");
+        }
     }
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^keyword already registered$"
-    )
+    @Test
     public void testExistingKeywordRegistrationFailure()
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
-        validator.registerValidator("default", null, null);
+        try {
+            validator.registerValidator("default", null, null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "keyword already registered");
+        }
     }
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^cannot register a new keyword"
-                + " with no JSON type to match against$"
-    )
+    @Test
     public void testEmptyTypeSetFails()
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
-        validator.registerValidator("foo", null, RequiredKeywordValidator.class);
+        try {
+            validator.registerValidator("foo", null,
+                RequiredKeywordValidator.class);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "cannot register a new keyword with "
+                + "no JSON type to match against");
+        }
     }
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^keyword is null$"
-    )
+    @Test
     public void testUnregisteringNullKeywordFails()
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
-        validator.unregisterValidator(null);
+        try {
+            validator.unregisterValidator(null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "keyword is null");
+        }
     }
 
     private JsonValidator prepareValidator(final String name)

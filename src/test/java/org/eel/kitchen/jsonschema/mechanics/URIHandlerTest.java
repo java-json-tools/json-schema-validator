@@ -40,40 +40,48 @@ public final class URIHandlerTest
 
     private static final URIHandler handler = new HTTPURIHandler();
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^scheme http already registered$"
-    )
+    @Test
     public void testRegisteringExistingSchemeFails()
     {
-        validator.registerURIHandler("http", handler);
+        try {
+            validator.registerURIHandler("http", handler);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "scheme http already registered");
+        }
     }
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^scheme is null$"
-    )
+    @Test
     public void testNullSchemeFails()
     {
-        validator.registerURIHandler(null, handler);
+        try {
+            validator.registerURIHandler(null, handler);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "scheme is null");
+        }
     }
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^handler is null$"
-    )
+    @Test
     public void testNullHandlerFails()
     {
-        validator.registerURIHandler("myscheme", null);
+        try {
+            validator.registerURIHandler("myscheme", null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "handler is null");
+        }
     }
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^invalid scheme \\+23$"
-    )
+    @Test
     public void testInvalidSchemeFails()
     {
-        validator.registerURIHandler("+23", handler);
+        try {
+            validator.registerURIHandler("+23", handler);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "invalid scheme +23");
+        }
     }
 
     @Test
@@ -81,6 +89,7 @@ public final class URIHandlerTest
     {
         validator.unregisterURIHandler("http");
         validator.registerURIHandler("http", handler);
+        assertTrue(true);
     }
 
     @Test
@@ -100,8 +109,7 @@ public final class URIHandlerTest
             }
         };
 
-        final JsonValidator validator
-            = new JsonValidator(testNode);
+        final JsonValidator validator = new JsonValidator(testNode);
 
         validator.registerURIHandler("mystuff", handler);
 
