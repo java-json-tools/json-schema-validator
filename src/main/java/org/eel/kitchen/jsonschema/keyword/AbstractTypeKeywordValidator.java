@@ -146,7 +146,7 @@ abstract class AbstractTypeKeywordValidator
             return;
         }
 
-        final NodeType type = NodeType.valueOf(s.toUpperCase());
+        final NodeType type = NodeType.fromName(s);
         typeSet.add(type);
 
         if (type == NodeType.NUMBER)

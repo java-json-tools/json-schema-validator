@@ -22,6 +22,7 @@ import org.codehaus.jackson.JsonToken;
 import org.codehaus.jackson.node.MissingNode;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -65,6 +66,9 @@ public enum NodeType
      */
     private final String name;
 
+    private static final Map<String, NodeType> nameMap
+        = new HashMap<String, NodeType>();
+
     /**
      * Mapping of {@link JsonToken} back to node types (used in
      * {@link #getNodeType(JsonNode)})
@@ -81,6 +85,9 @@ public enum NodeType
         reverseMap.put(JsonToken.VALUE_NULL, NULL);
         reverseMap.put(JsonToken.START_OBJECT, OBJECT);
         reverseMap.put(JsonToken.VALUE_STRING, STRING);
+
+        for (final NodeType type: NodeType.values())
+            nameMap.put(type.name, type);
     }
 
     NodeType(final String name)
@@ -92,6 +99,11 @@ public enum NodeType
     public String toString()
     {
         return name;
+    }
+
+    public static NodeType fromName(final String name)
+    {
+        return nameMap.get(name);
     }
 
     /**

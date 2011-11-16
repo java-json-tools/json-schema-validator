@@ -94,13 +94,11 @@ abstract class TypeNodeSyntaxValidator
                 return;
             case STRING:
                 final String s = element.getTextValue();
-                try {
-                    if (!ANY.equals(s))
-                        NodeType.valueOf(s.toUpperCase());
-                } catch (IllegalArgumentException ignored) {
+                if (ANY.equals(s))
+                    return;
+                if (NodeType.fromName(s) == null)
                     report.addMessage(String.format("%sunknown simple type %s",
                         prefix, s));
-                }
                 return;
             default:
                 report.addMessage(String.format("%selement has wrong "
