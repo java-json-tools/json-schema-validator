@@ -22,11 +22,6 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * The {@link ContainerValidator} for array instances
  *
@@ -35,45 +30,9 @@ import java.util.List;
 public final class ArrayValidator
     extends ContainerValidator
 {
-    /**
-     * The elements in {@code items}, if any
-     */
-    private final List<JsonNode> items = new LinkedList<JsonNode>();
-
-    /**
-     * What is in {@code additionalItems}, or {@code items} if the latter
-     * contains a schema
-     */
-    private final JsonNode additionalItems;
-
-    public ArrayValidator(final JsonNode schema, final Validator validator)
+    public ArrayValidator(final JsonNode schemaNode, final Validator validator)
     {
-        super(validator);
-        JsonNode node = schema.path("items");
-
-        if (node.isObject()) {
-            additionalItems = node;
-            return;
-        }
-
-        if (node.isArray())
-            for (final JsonNode item: node)
-                items.add(item);
-
-        node = schema.path("additionalItems");
-
-        additionalItems = node.isObject() ? node : EMPTY_SCHEMA;
-    }
-
-    @Override
-    protected Collection<JsonNode> getSchemas(final String path)
-    {
-        final int index = Integer.parseInt(path);
-
-        final JsonNode schema = index < items.size() ? items.get(index)
-            : additionalItems;
-
-        return Arrays.asList(schema);
+        super(schemaNode, validator);
     }
 
     @Override
@@ -83,15 +42,13 @@ public final class ArrayValidator
         final ValidationReport report = context.createReport();
 
         int i = 0;
-        String path;
         ValidationContext ctx;
-        JsonNode schema;
+        JsonNode node;
         Validator v;
 
         for (final JsonNode child: instance) {
-            path = Integer.toString(i++);
-            schema = getSchemas(path).iterator().next();
-            ctx = context.createContext(path, schema);
+            node = schema.arrayPath(i);
+            ctx = context.createContext(Integer.toString(i++), node);
             v = ctx.getValidator(instance);
             report.mergeWith(v.validate(ctx, child));
         }

@@ -22,15 +22,10 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
-import org.eel.kitchen.util.RhinoHelper;
 
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
-import java.util.TreeMap;
 
 /**
  * A specialized {@link ContainerValidator} for object nodes.
@@ -38,60 +33,9 @@ import java.util.TreeMap;
 public final class ObjectValidator
     extends ContainerValidator
 {
-    /**
-     * The contents of the {@code properties} keyword, as a {@link SortedMap}
-     */
-    private final SortedMap<String, JsonNode> properties
-        = new TreeMap<String, JsonNode>();
-
-    /**
-     * The contents of the {@code patternProperties} keyword
-     */
-    private final SortedMap<String, JsonNode> patternProperties
-        = new TreeMap<String, JsonNode>();
-
-    /**
-     * The content of {@code additionalProperties}
-     */
-    private final JsonNode additionalProperties;
-
-    public ObjectValidator(final JsonNode schema, final Validator validator)
+    public ObjectValidator(final JsonNode schemaNode, final Validator validator)
     {
-        super(validator);
-
-        JsonNode node;
-
-        node = schema.path("properties");
-
-        if (node.isObject())
-            properties.putAll(CollectionUtils.toMap(node.getFields()));
-
-        node = schema.path("patternProperties");
-
-        if (node.isObject())
-            patternProperties.putAll(CollectionUtils.toMap(node.getFields()));
-
-        node = schema.path("additionalProperties");
-
-        additionalProperties = node.isObject() ? node : EMPTY_SCHEMA;
-    }
-
-    @Override
-    protected Collection<JsonNode> getSchemas(final String path)
-    {
-        final Set<JsonNode> schemas = new HashSet<JsonNode>();
-
-        if (properties.containsKey(path))
-            schemas.add(properties.get(path));
-
-        for (final String pattern: patternProperties.keySet())
-            if (RhinoHelper.regMatch(pattern, path))
-                schemas.add(patternProperties.get(pattern));
-
-        if (schemas.isEmpty())
-            schemas.add(additionalProperties);
-
-        return schemas;
+        super(schemaNode, validator);
     }
 
     /**
@@ -104,6 +48,7 @@ public final class ObjectValidator
         final JsonNode instance)
     {
         final ValidationReport report = context.createReport();
+
         final SortedMap<String, JsonNode> map
             = CollectionUtils.toSortedMap(instance.getFields());
 
@@ -115,8 +60,8 @@ public final class ObjectValidator
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             path = entry.getKey();
             child = entry.getValue();
-            for (final JsonNode schema: getSchemas(path)) {
-                ctx = context.createContext(path, schema);
+            for (final JsonNode node: schema.objectPath(path)) {
+                ctx = context.createContext(path, node);
                 v = ctx.getValidator(child);
                 report.mergeWith(v.validate(ctx, child));
             }

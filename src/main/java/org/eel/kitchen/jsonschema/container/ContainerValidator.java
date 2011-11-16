@@ -22,8 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-
-import java.util.Collection;
+import org.eel.kitchen.util.JsonSchema;
 
 /**
  * <p>>A specialized {@link Validator} implementation for validating container
@@ -53,17 +52,17 @@ abstract class ContainerValidator
      */
     private final Validator validator;
 
+    protected final JsonSchema schema;
     /**
      * Constructor
      *
      * @param validator the structure validator, see {@link #validator}
      */
-    ContainerValidator(final Validator validator)
+    ContainerValidator(final JsonNode schemaNode, final Validator validator)
     {
         this.validator = validator;
+        schema = new JsonSchema(schemaNode);
     }
-
-    protected abstract Collection<JsonNode> getSchemas(final String path);
 
     protected abstract ValidationReport validateChildren(
         final ValidationContext context, final JsonNode instance);
