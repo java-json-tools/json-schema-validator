@@ -48,7 +48,7 @@ public final class ArrayValidator
 
         for (final JsonNode child: instance) {
             node = schema.arrayPath(i);
-            ctx = context.createContext(Integer.toString(i++), node);
+            ctx = context.relocate(Integer.toString(i++), node);
             v = ctx.getValidator(instance);
             report.mergeWith(v.validate(ctx, child));
         }

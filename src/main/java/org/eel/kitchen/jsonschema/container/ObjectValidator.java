@@ -61,7 +61,7 @@ public final class ObjectValidator
             path = entry.getKey();
             child = entry.getValue();
             for (final JsonNode node: schema.objectPath(path)) {
-                ctx = context.createContext(path, node);
+                ctx = context.relocate(path, node);
                 v = ctx.getValidator(child);
                 report.mergeWith(v.validate(ctx, child));
             }

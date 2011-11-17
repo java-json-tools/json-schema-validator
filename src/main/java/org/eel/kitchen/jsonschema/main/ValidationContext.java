@@ -122,32 +122,25 @@ public final class ValidationContext
      * @param subSchema the schema node to use for the new context
      * @return the new context
      */
-    public ValidationContext createContext(final String subPath,
+    public ValidationContext relocate(final String subPath,
         final JsonNode subSchema)
     {
         final JsonPointer newPath = path.append(subPath);
 
         final SchemaProvider sp = provider.withSchema(subSchema);
 
-        final ValidationContext other = new ValidationContext(sp, newPath,
-            factory, validatedSchemas);
-
-        if (newPath.equals(path))
-            other.refLookups.addAll(refLookups);
-
-        return other;
+        return new ValidationContext(sp, newPath, factory, validatedSchemas);
     }
 
-    /**
-     * Shortcut to call {@link #createContext(String, JsonNode)}
-     * with an empty path
-     *
-     * @param subSchema the schema node to use
-     * @return the new context
-     */
-    public ValidationContext createContext(final JsonNode subSchema)
+    public ValidationContext withSchema(final JsonNode subSchema)
     {
-        return createContext(null, subSchema);
+        final SchemaProvider sp = provider.withSchema(subSchema);
+
+        final ValidationContext ret = new ValidationContext(sp, path, factory,
+            validatedSchemas);
+
+        ret.refLookups.addAll(refLookups);
+        return ret;
     }
 
     /**
@@ -162,7 +155,7 @@ public final class ValidationContext
      * @return the new context
      * @throws IOException the schema at the given URI could not be downloaded
      */
-    public ValidationContext createContextFromURI(final URI uri)
+    public ValidationContext fromURI(final URI uri)
         throws IOException
     {
         if (!uri.isAbsolute()) {

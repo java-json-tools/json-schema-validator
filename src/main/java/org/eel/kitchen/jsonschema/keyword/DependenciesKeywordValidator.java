@@ -107,7 +107,7 @@ public final class DependenciesKeywordValidator
             return depreport;
         }
 
-        final ValidationContext ctx = context.createContext(depnode);
+        final ValidationContext ctx = context.withSchema(depnode);
         final Validator v = ctx.getValidator(instance);
         return v.validate(ctx, instance);
     }

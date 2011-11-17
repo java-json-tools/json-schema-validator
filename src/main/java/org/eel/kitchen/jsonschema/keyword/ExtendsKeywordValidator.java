@@ -62,7 +62,7 @@ public final class ExtendsKeywordValidator
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(baseNode.getFields());
 
-        ValidationContext current = context.createContext(baseNode);
+        ValidationContext current = context.withSchema(baseNode);
 
         Validator v;
 
@@ -73,12 +73,12 @@ public final class ExtendsKeywordValidator
 
         if (extendsNode.isObject()) {
             mergedNode = merge(map, extendsNode);
-            current = context.createContext(mergedNode);
+            current = context.withSchema(mergedNode);
             v = current.getValidator(instance);
             report.mergeWith(v.validate(current, instance));
         } else for (final JsonNode node: extendsNode) {
             mergedNode = merge(map, node);
-            current = context.createContext(mergedNode);
+            current = context.withSchema(mergedNode);
             v = current.getValidator(instance);
             report.mergeWith(v.validate(current, instance));
         }

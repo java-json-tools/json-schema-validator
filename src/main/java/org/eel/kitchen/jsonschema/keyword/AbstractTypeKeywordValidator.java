@@ -96,7 +96,7 @@ abstract class AbstractTypeKeywordValidator
         final ValidationContext context, final JsonNode schema,
         final JsonNode instance)
     {
-        final ValidationContext ctx = context.createContext(schema);
+        final ValidationContext ctx = context.withSchema(schema);
 
         return ctx.getValidator(instance).validate(ctx, instance);
     }

@@ -93,7 +93,7 @@ public final class RefKeywordValidator
 
         final ValidationContext ctx;
         try {
-            ctx = context.createContextFromURI(baseURI);
+            ctx = context.fromURI(baseURI);
         } catch (IOException e) {
             report.error(String.format("cannot download schema at ref %s: %s: "
                 + "%s", ref, e.getClass().getName(), e.getMessage()));
