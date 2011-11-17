@@ -33,13 +33,15 @@ public final class JsonPointerTest
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
-    @Test(
-        expectedExceptions = IllegalArgumentException.class,
-        expectedExceptionsMessageRegExp = "^illegal JSON Pointer haha$"
-    )
+    @Test
     public void testInvalidPath()
     {
-        new JsonPointer("haha");
+        try {
+            new JsonPointer("haha");
+            fail("Exception not thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "illegal JSON Pointer haha");
+        }
     }
 
     @Test

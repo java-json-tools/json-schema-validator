@@ -95,16 +95,16 @@ public final class ValidationContext
         this.validatedSchemas = validatedSchemas;
     }
 
-    public ValidationContext(final JsonNode schema)
+    public ValidationContext(final SchemaProvider provider)
     {
         path = new JsonPointer("");
 
-        provider = new SchemaProvider(schema);
+        this.provider = provider;
 
         factory = new ValidatorFactory();
 
         validatedSchemas = new HashSet<JsonNode>(CACHE_INIT);
-        refLookups.add(schema);
+        refLookups.add(provider.getSchema());
     }
 
     /**

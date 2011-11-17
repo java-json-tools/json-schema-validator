@@ -41,6 +41,8 @@ public final class JsonValidator
      */
     private final ValidationContext context;
 
+    private final SchemaProvider provider;
+
     /**
      * The constructor
      *
@@ -48,7 +50,8 @@ public final class JsonValidator
      */
     public JsonValidator(final JsonNode schema)
     {
-        context = new ValidationContext(schema);
+        provider = new SchemaProvider(schema);
+        context = new ValidationContext(provider);
     }
 
     /**
