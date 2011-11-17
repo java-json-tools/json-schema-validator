@@ -36,10 +36,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -66,20 +64,7 @@ public final class ValidationContext
     private final Set<JsonNode> validatedSchemas
         = new HashSet<JsonNode>(CACHE_INIT);
 
-    /**
-     * The root schema of this validation context
-     */
-    private final JsonNode rootSchema;
-
-    /**
-     * The schema used by the current context
-     */
-    private JsonNode schemaNode;
-
-    /**
-     * The {@link URIHandler} provider for this context
-     */
-    private final URIHandlerFactory uriHandlerFactory;
+    private SchemaProvider provider;
 
     /**
      * The JSON path within the instance for the current context
@@ -96,59 +81,28 @@ public final class ValidationContext
     private final ValidatorFactory factory;
 
     /**
-     * Map of already seen URIs and the schema located at these URIs
-     *
-     * <p>Note that in the current state of the implementation,
-     * it is <b>enforced</b> that URIs in this map be absolute.</p>
-     */
-    private final Map<URI, JsonNode> locators = new HashMap<URI, JsonNode>();
-
-    /**
      * The ref result lookups for this {@link #path},
      * used for ref looping detection
      */
     private final Set<JsonNode> refLookups = new LinkedHashSet<JsonNode>();
 
-    /**
-     * Private constructor to help spawning new contexts
-     *
-     * @param rootSchema the root schema for this new context
-     * @param schemaNode the subschema for this new context
-     * @param path the pointer inside the validated instance
-     * @param factory the {@link ValidatorFactory} to use
-     * @param uriHandlerFactory the {@link URIHandlerFactory}
-     * @param validatedSchemas the list of already validated schemas
-     */
-    private ValidationContext(final JsonNode rootSchema,
-        final JsonNode schemaNode, final JsonPointer path,
-        final ValidatorFactory factory,
-        final URIHandlerFactory uriHandlerFactory,
+    private ValidationContext(final SchemaProvider provider,
+        final JsonPointer path, final ValidatorFactory factory,
         final Set<JsonNode> validatedSchemas)
     {
-        this.rootSchema = rootSchema;
-        this.schemaNode = schemaNode;
+        this.provider = provider;
         this.path = path;
         this.factory = factory;
-        this.uriHandlerFactory = uriHandlerFactory;
         this.validatedSchemas.addAll(validatedSchemas);
     }
 
-    /**
-     * The public constructor. Only used from {@link JsonValidator}.
-     *
-     * <p>On initial setup, the argument is the root schema,
-     * see {@link #rootSchema}.
-     *
-     * @param schema the root schema used by this context
-     */
     public ValidationContext(final JsonNode schema)
     {
         path = new JsonPointer("");
-        rootSchema = schema;
-        schemaNode = schema;
+
+        provider = new SchemaProvider(schema);
 
         factory = new ValidatorFactory();
-        uriHandlerFactory = new URIHandlerFactory();
         refLookups.add(schema);
     }
 
@@ -203,7 +157,7 @@ public final class ValidationContext
      */
     public void registerURIHandler(final String scheme, final URIHandler handler)
     {
-        uriHandlerFactory.registerHandler(scheme, handler);
+        provider.registerHandler(scheme, handler);
     }
 
     /**
@@ -215,7 +169,7 @@ public final class ValidationContext
      */
     public void unregisterURIHandler(final String scheme)
     {
-        uriHandlerFactory.unregisterHandler(scheme);
+        provider.unregisterHandler(scheme);
     }
 
     /**
@@ -225,7 +179,7 @@ public final class ValidationContext
      */
     public JsonNode getSchemaNode()
     {
-        return schemaNode;
+        return provider.getSchema();
     }
 
     /**
@@ -242,13 +196,13 @@ public final class ValidationContext
     {
         final JsonPointer newPath = path.append(subPath);
 
-        final ValidationContext other = new ValidationContext(rootSchema,
-            subSchema, newPath, factory, uriHandlerFactory, validatedSchemas);
+        final SchemaProvider sp = provider.withSchema(subSchema);
+
+        final ValidationContext other = new ValidationContext(sp, newPath,
+            factory, validatedSchemas);
 
         if (newPath.equals(path))
             other.refLookups.addAll(refLookups);
-
-        other.locators.putAll(locators);
 
         return other;
     }
@@ -287,20 +241,12 @@ public final class ValidationContext
             return this;
         }
 
-        JsonNode newSchema = locators.get(uri);
+        final SchemaProvider sp = provider.atURI(uri);
 
-        if (newSchema == null) {
-            final URIHandler handler = uriHandlerFactory.getHandler(uri);
-            newSchema = handler.getDocument(uri);
-            locators.put(uri, newSchema);
-        }
-
-        final ValidationContext ret = new ValidationContext(newSchema,
-            newSchema, path, factory, uriHandlerFactory, validatedSchemas);
+        final ValidationContext ret = new ValidationContext(sp,
+            path, factory, validatedSchemas);
 
         ret.refLookups.addAll(refLookups);
-
-        ret.locators.putAll(locators);
 
         return ret;
     }
@@ -317,7 +263,7 @@ public final class ValidationContext
      */
     public Validator getValidator(final JsonNode instance)
     {
-        if (!validatedSchemas.contains(schemaNode)) {
+        if (!validatedSchemas.contains(provider.getSchema())) {
             final ValidationReport report
                 = new FullValidationReport(path.toString());
 
@@ -338,26 +284,16 @@ public final class ValidationContext
         return factory.getFormatValidator(this, fmt, instance);
     }
 
-    /**
-     * Get a validator for the subschema at a given pointer below {@link
-     * #rootSchema} for a given instance
-     *
-     * <p>This validator will spawn an {@link AlwaysFalseValidator} if the
-     * pointer doesn't match anything, <b>or</b> if a ref loop is detected.</p>
-     *
-     * @param pointer the JSON pointer to find within the schema
-     * @param instance the instance to validate
-     * @return the matching validator
-     */
     public Validator getValidator(final JsonPointer pointer,
         final JsonNode instance)
     {
         final ValidationReport report = createReport();
 
         logger.trace("trying to lookup path \"#{}\" from node {} ", pointer,
-            schemaNode);
+            provider.getSchema());
 
-        final JsonNode schema = pointer.getPath(rootSchema);
+        provider = provider.atPoint(pointer);
+        final JsonNode schema = provider.getSchema();
 
         if (schema.isMissingNode()) {
             report.error("no match in schema for path " + pointer);
@@ -371,7 +307,6 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
         }
 
-        schemaNode = schema;
 
         return getValidator(instance);
     }
