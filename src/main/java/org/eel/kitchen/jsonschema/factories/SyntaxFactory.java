@@ -273,8 +273,7 @@ public final class SyntaxFactory
      * @param fields the list of keywords
      * @return the list of validators
      */
-    private Collection<Validator> getValidators(
-        final Set<String> fields)
+    private Collection<Validator> getValidators(final Set<String> fields)
     {
         final Set<Validator> ret = new HashSet<Validator>();
 
