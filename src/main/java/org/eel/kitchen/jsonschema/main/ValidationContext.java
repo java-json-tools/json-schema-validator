@@ -61,8 +61,7 @@ public final class ValidationContext
 
     private static final int CACHE_INIT = 50;
 
-    private final Set<JsonNode> validatedSchemas
-        = new HashSet<JsonNode>(CACHE_INIT);
+    private final Set<JsonNode> validatedSchemas;
 
     private SchemaProvider provider;
 
@@ -93,7 +92,7 @@ public final class ValidationContext
         this.provider = provider;
         this.path = path;
         this.factory = factory;
-        this.validatedSchemas.addAll(validatedSchemas);
+        this.validatedSchemas = validatedSchemas;
     }
 
     public ValidationContext(final JsonNode schema)
@@ -103,6 +102,8 @@ public final class ValidationContext
         provider = new SchemaProvider(schema);
 
         factory = new ValidatorFactory();
+
+        validatedSchemas = new HashSet<JsonNode>(CACHE_INIT);
         refLookups.add(schema);
     }
 
