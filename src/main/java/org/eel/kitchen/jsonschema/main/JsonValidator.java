@@ -37,11 +37,6 @@ import org.eel.kitchen.util.NodeType;
  */
 public final class JsonValidator
 {
-    /**
-     * The context, initialized by the constructor
-     */
-    private final ValidationContext context;
-
     private final ValidatorFactory factory;
 
     private final SchemaProvider provider;
@@ -55,7 +50,6 @@ public final class JsonValidator
     {
         provider = new SchemaProvider(schema);
         factory = new ValidatorFactory();
-        context = new ValidationContext(factory, provider);
     }
 
     /**
@@ -146,8 +140,9 @@ public final class JsonValidator
      */
     public ValidationReport validate(final JsonNode instance)
     {
-        final Validator validator = context.getValidator(instance);
-        return validator.validate(context, instance);
+        final ValidationContext ctx = new ValidationContext(factory, provider);
+        final Validator validator = ctx.getValidator(instance);
+        return validator.validate(ctx, instance);
     }
 
     /**
@@ -171,7 +166,8 @@ public final class JsonValidator
     {
         final JsonPointer pointer = new JsonPointer(path);
 
-        final Validator validator = context.getValidator(pointer, instance);
-        return validator.validate(context, instance);
+        final ValidationContext ctx = new ValidationContext(factory, provider);
+        final Validator validator = ctx.getValidator(pointer, instance);
+        return validator.validate(ctx, instance);
     }
 }
