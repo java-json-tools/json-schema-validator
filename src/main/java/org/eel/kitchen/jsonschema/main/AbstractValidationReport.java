@@ -25,7 +25,7 @@ public abstract class AbstractValidationReport
 {
     protected ValidationStatus status = ValidationStatus.SUCCESS;
 
-    public static ValidationReport TRUE = new AbstractValidationReport()
+    public static final ValidationReport TRUE = new AbstractValidationReport()
     {
         @Override
         public List<String> getMessages()

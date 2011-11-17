@@ -18,8 +18,7 @@ public final class JsonSchema
 
     private final JsonNode schema;
 
-    private final List<JsonNode> items
-        = new ArrayList<JsonNode>();
+    private final List<JsonNode> items = new ArrayList<JsonNode>();
 
     private JsonNode additionalItems = EMPTY_SCHEMA;
 
