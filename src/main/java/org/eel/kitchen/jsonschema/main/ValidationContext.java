@@ -20,17 +20,12 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;
-import org.eel.kitchen.jsonschema.factories.KeywordFactory;
-import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.jsonschema.uri.URIHandler;
-import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonPointer;
-import org.eel.kitchen.util.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -95,82 +90,17 @@ public final class ValidationContext
         this.validatedSchemas = validatedSchemas;
     }
 
-    public ValidationContext(final SchemaProvider provider)
+    public ValidationContext(final ValidatorFactory factory,
+        final SchemaProvider provider)
     {
         path = new JsonPointer("");
 
         this.provider = provider;
 
-        factory = new ValidatorFactory();
+        this.factory = factory;
 
         validatedSchemas = new HashSet<JsonNode>(CACHE_INIT);
         refLookups.add(provider.getSchema());
-    }
-
-    /**
-     * Unregister all validators ({@link SyntaxValidator} and
-     * {@link KeywordValidator}) for a given keyword. Note that the null case
-     * is handled in the factories themselves.
-     *
-     * @param keyword the victim
-     */
-    public void unregisterValidator(final String keyword)
-    {
-        factory.unregisterValidator(keyword);
-        validatedSchemas.clear();
-    }
-
-    /**
-     * Register a validator for a new keyword
-     *
-     * <p>Note that if you wish to replace validators for an existing
-     * keyword, then you <b>must</b> call
-     * {@link #unregisterValidator(String)} first.</p>
-     *
-     * @param keyword the new/modified keyword
-     * @param sv the {@link SyntaxValidator} implementation
-     * @param kv the {@link KeywordValidator} implementation
-     * @param types the list of JSON types the keyword validator is able to
-     * validate
-     *
-     * @see SyntaxFactory#registerValidator(String, Class)
-     * @see KeywordFactory#registerValidator(String, Class, NodeType...)
-     */
-    public void registerValidator(final String keyword,
-        final Class<? extends SyntaxValidator> sv,
-        final Class<? extends KeywordValidator> kv, final NodeType... types)
-    {
-        factory.registerValidator(keyword, sv, kv, types);
-        validatedSchemas.clear();
-    }
-
-    /**
-     * Register a handler for a new URI scheme
-     *
-     * <p>Note that if you wish to replace the handler for an existing
-     * scheme, you <b>must</b> pair this call with {@link
-     * #unregisterURIHandler(String)}.</p>
-     *
-     * @param scheme the scheme
-     * @param handler the new URI handler
-     *
-     * @see URIHandlerFactory#registerHandler(String, URIHandler)
-     */
-    public void registerURIHandler(final String scheme, final URIHandler handler)
-    {
-        provider.registerHandler(scheme, handler);
-    }
-
-    /**
-     * Unregister a URI handler for a given scheme
-     *
-     * @param scheme the victim
-     *
-     * @see URIHandlerFactory#unregisterHandler(String)
-     */
-    public void unregisterURIHandler(final String scheme)
-    {
-        provider.unregisterHandler(scheme);
     }
 
     /**

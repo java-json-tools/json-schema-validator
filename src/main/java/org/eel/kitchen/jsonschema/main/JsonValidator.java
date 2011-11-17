@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.main;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
@@ -41,6 +42,8 @@ public final class JsonValidator
      */
     private final ValidationContext context;
 
+    private final ValidatorFactory factory;
+
     private final SchemaProvider provider;
 
     /**
@@ -51,7 +54,8 @@ public final class JsonValidator
     public JsonValidator(final JsonNode schema)
     {
         provider = new SchemaProvider(schema);
-        context = new ValidationContext(provider);
+        factory = new ValidatorFactory();
+        context = new ValidationContext(factory, provider);
     }
 
     /**
@@ -74,7 +78,7 @@ public final class JsonValidator
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
 
-        context.unregisterValidator(keyword);
+        factory.unregisterValidator(keyword);
     }
 
     /**
@@ -99,7 +103,7 @@ public final class JsonValidator
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
 
-        context.registerValidator(keyword, sv, kv, types);
+        factory.registerValidator(keyword, sv, kv, types);
     }
 
     /**
@@ -116,7 +120,7 @@ public final class JsonValidator
         if (scheme == null)
             throw new IllegalArgumentException("scheme is null");
 
-        context.registerURIHandler(scheme, handler);
+        provider.registerHandler(scheme, handler);
     }
 
     /**
@@ -132,7 +136,7 @@ public final class JsonValidator
         if (scheme == null)
             throw new IllegalArgumentException("scheme is null");
 
-        context.unregisterURIHandler(scheme);
+        provider.unregisterHandler(scheme);
     }
 
     /**
