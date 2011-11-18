@@ -33,6 +33,16 @@ public abstract class ValidationReport
         }
 
         @Override
+        public void message(final String message)
+        {
+        }
+
+        @Override
+        public void fail()
+        {
+        }
+
+        @Override
         public void fail(final String message)
         {
         }
@@ -49,6 +59,10 @@ public abstract class ValidationReport
     };
 
     public abstract List<String> getMessages();
+
+    public abstract void message(final String message);
+
+    public abstract void fail();
 
     public abstract void fail(final String message);
 

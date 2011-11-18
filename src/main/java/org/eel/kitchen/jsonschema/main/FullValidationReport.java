@@ -64,6 +64,18 @@ public final class FullValidationReport
         return Collections.unmodifiableList(messages);
     }
 
+    @Override
+    public void message(final String message)
+    {
+        messages.add(path + ": " + message);
+    }
+
+    @Override
+    public void fail()
+    {
+        status = ValidationStatus.worstOf(status, ValidationStatus.FAILURE);
+    }
+
     /**
      * Add one message to this report, effectively reporting a failure.
      *
@@ -72,9 +84,9 @@ public final class FullValidationReport
     @Override
     public void fail(final String message)
     {
+        fail();
         if (status == ValidationStatus.ERROR)
             return;
-        status = ValidationStatus.FAILURE;
         messages.add(path + ": " + message);
     }
 
