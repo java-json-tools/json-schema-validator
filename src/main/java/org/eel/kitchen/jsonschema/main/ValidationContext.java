@@ -193,7 +193,9 @@ public final class ValidationContext
     public Validator getValidator(final JsonNode instance)
         throws JsonValidationFailureException
     {
-        if (!validatedSchemas.contains(provider.getSchema())) {
+        final JsonNode schema = provider.getSchema();
+
+        if (!validatedSchemas.contains(schema)) {
             final ValidationReport report = reports.create(path.toString());
 
             final Validator v = factory.getSyntaxValidator(this);
@@ -202,6 +204,8 @@ public final class ValidationContext
 
             if (!report.isSuccess())
                 return new AlwaysFalseValidator(report);
+
+            validatedSchemas.add(schema);
         }
 
         return factory.getInstanceValidator(this, instance);
