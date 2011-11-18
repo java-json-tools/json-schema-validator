@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -57,7 +58,8 @@ abstract class AbstractTypeKeywordValidator
      */
     protected abstract ValidationReport doValidate(
         final ValidationContext context, final JsonNode instance,
-        final EnumSet<NodeType> typeSet, final List<JsonNode> schemas);
+        final EnumSet<NodeType> typeSet, final List<JsonNode> schemas)
+        throws JsonValidationFailureException;
 
     /**
      * The main validation function
@@ -67,6 +69,7 @@ abstract class AbstractTypeKeywordValidator
      * {@link #doValidate(ValidationContext, JsonNode, EnumSet, List)},
      * which actually does the validation.
      *
+     *
      * @param context the validation context
      * @param instance the instance to validate
      * @return the validation report
@@ -74,6 +77,7 @@ abstract class AbstractTypeKeywordValidator
     @Override
     public final ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchemaNode();
         final JsonNode typeNode = schema.get(keyword);
@@ -91,10 +95,12 @@ abstract class AbstractTypeKeywordValidator
      * @param schema the found schema
      * @param instance the instance
      * @return the report
+     * @throws JsonValidationFailureException
      */
     protected static ValidationReport validateSchema(
         final ValidationContext context, final JsonNode schema,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final ValidationContext ctx = context.withSchema(schema);
 

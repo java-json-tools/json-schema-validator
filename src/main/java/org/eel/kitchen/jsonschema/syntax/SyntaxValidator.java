@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.syntax;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -77,11 +78,14 @@ public abstract class SyntaxValidator
      * Abstract method for validators which need to check more than the type
      * of the node to validate
      *
+     *
      * @param schema the schema to analyze
      * @param report the report to use
+     * @throws JsonValidationFailureException
      */
     protected abstract void checkFurther(final JsonNode schema,
-        final ValidationReport report);
+        final ValidationReport report)
+        throws JsonValidationFailureException;
 
     /**
      * Type checks the node, then invokes {@link #checkFurther(JsonNode,
@@ -92,6 +96,7 @@ public abstract class SyntaxValidator
     @Override
     public final ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchemaNode();
 

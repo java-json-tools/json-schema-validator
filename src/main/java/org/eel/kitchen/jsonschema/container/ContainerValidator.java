@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonSchema;
@@ -65,11 +66,13 @@ abstract class ContainerValidator
     }
 
     protected abstract ValidationReport validateChildren(
-        final ValidationContext context, final JsonNode instance);
+        final ValidationContext context, final JsonNode instance)
+        throws JsonValidationFailureException;
 
     @Override
     public final ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         report.mergeWith(validator.validate(context, instance));

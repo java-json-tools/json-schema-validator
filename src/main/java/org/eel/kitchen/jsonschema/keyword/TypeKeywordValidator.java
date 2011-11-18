@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -42,6 +43,7 @@ public final class TypeKeywordValidator
     protected ValidationReport doValidate(final ValidationContext context,
         final JsonNode instance, final EnumSet<NodeType> typeSet,
         final List<JsonNode> schemas)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final NodeType type = NodeType.getNodeType(instance);

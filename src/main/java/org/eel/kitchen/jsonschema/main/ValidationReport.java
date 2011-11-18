@@ -62,11 +62,14 @@ public abstract class ValidationReport
 
     public abstract void message(final String message);
 
-    public abstract void fail();
+    public abstract void fail()
+        throws JsonValidationFailureException;
 
-    public abstract void fail(final String message);
+    public abstract void fail(final String message)
+        throws JsonValidationFailureException;
 
-    public abstract void error(final String message);
+    public abstract void error(final String message)
+        throws JsonValidationFailureException;
 
     public abstract void mergeWith(final ValidationReport other);
 

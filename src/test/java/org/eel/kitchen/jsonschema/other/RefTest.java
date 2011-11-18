@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.other;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -48,6 +49,7 @@ public final class RefTest
 
     @Test
     public void testLoopingRef()
+        throws JsonValidationFailureException
     {
         final ObjectNode schemaNode = factory.objectNode();
 
@@ -55,8 +57,7 @@ public final class RefTest
 
         final JsonValidator validator = new JsonValidator(schemaNode);
 
-        final ValidationReport report
-            = validator.validate(factory.arrayNode());
+        final ValidationReport report = validator.validate(factory.arrayNode());
 
         assertFalse(report.isSuccess());
 
@@ -68,6 +69,7 @@ public final class RefTest
 
     @Test
     public void testMissingPath()
+        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("missingref");
 
@@ -85,6 +87,7 @@ public final class RefTest
 
     @Test
     public void testDisallowLoopRef()
+        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("disallow");
 
@@ -103,6 +106,7 @@ public final class RefTest
 
     @Test
     public void testUnsupportedScheme()
+        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("unsupportedScheme");
 
@@ -120,6 +124,7 @@ public final class RefTest
 
     @Test
     public void testNonEmptySSP()
+        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("nonEmptySSP");
 
@@ -138,7 +143,7 @@ public final class RefTest
 
     @Test
     public void testUnknownHost()
-        throws URISyntaxException, IOException
+        throws URISyntaxException, JsonValidationFailureException
     {
         String hostname;
 
@@ -181,6 +186,7 @@ public final class RefTest
 
     @Test
     public void testCrossSchemaLoop()
+        throws JsonValidationFailureException
     {
         final ObjectNode schema1 = factory.objectNode();
         schema1.put("$ref", "#/schema2");

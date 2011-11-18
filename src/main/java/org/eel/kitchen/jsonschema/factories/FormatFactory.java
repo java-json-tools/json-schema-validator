@@ -35,6 +35,7 @@ import org.eel.kitchen.jsonschema.keyword.format.RegexValidator;
 import org.eel.kitchen.jsonschema.keyword.format.TimeFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.format.URIValidator;
 import org.eel.kitchen.jsonschema.keyword.format.UnixEpochValidator;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -102,6 +103,7 @@ public final class FormatFactory
      */
     public Validator getFormatValidator(final ValidationContext context,
         final String name, final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final NodeType type = NodeType.getNodeType(instance);
         final ValidationReport report = context.createReport();

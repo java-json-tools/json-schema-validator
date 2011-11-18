@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -39,6 +40,7 @@ public final class MaximumKeywordValidator
     @Override
     protected ValidationReport validateLong(final ValidationContext context,
         final long value, final long against)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchemaNode();
@@ -59,6 +61,7 @@ public final class MaximumKeywordValidator
     @Override
     protected ValidationReport validateDecimal(final ValidationContext context,
         final BigDecimal value, final BigDecimal against)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchemaNode();

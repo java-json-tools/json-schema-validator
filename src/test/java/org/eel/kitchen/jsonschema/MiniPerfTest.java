@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
@@ -30,7 +31,7 @@ import java.util.SortedMap;
 public final class MiniPerfTest
 {
     public static void main(final String... args)
-        throws IOException
+        throws IOException, JsonValidationFailureException
     {
         final JsonNode draftv3
             = JsonLoader.fromResource("/schema-draftv3.json");

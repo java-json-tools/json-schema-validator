@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
@@ -35,6 +36,7 @@ public final class ExclusiveMaximumSyntaxValidator
     @Override
     protected void checkFurther(final JsonNode schema,
         final ValidationReport report)
+        throws JsonValidationFailureException
     {
         if (!schema.has("maximum"))
             report.fail("exclusiveMaximum without maximum");

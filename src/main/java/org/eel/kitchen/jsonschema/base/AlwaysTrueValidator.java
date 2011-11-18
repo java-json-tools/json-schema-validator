@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.base;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 
@@ -27,6 +28,7 @@ public final class AlwaysTrueValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         return ValidationReport.TRUE;
     }

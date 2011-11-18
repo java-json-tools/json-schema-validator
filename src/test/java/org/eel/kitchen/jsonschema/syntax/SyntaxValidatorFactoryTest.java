@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.main.FullValidationReport;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.SchemaProvider;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -61,6 +62,7 @@ public final class SyntaxValidatorFactoryTest
 
     @Test
     public void testNullSchema()
+        throws JsonValidationFailureException
     {
         provider = new SchemaProvider(null);
         context = new ValidationContext(factory, provider);
@@ -76,6 +78,7 @@ public final class SyntaxValidatorFactoryTest
 
     @Test
     public void testEmptySchema()
+        throws JsonValidationFailureException
     {
         final JsonNode schema = nodeFactory.objectNode();
 
@@ -91,6 +94,7 @@ public final class SyntaxValidatorFactoryTest
 
     @Test
     public void testNonObjectSchema()
+        throws JsonValidationFailureException
     {
         final JsonNode schema = nodeFactory.textNode("hello");
 
@@ -109,6 +113,7 @@ public final class SyntaxValidatorFactoryTest
 
     @Test
     public void testUnknownKeyword()
+        throws JsonValidationFailureException
     {
         final ObjectNode schema = nodeFactory.objectNode();
         schema.put("toto", 2);
@@ -302,8 +307,12 @@ public final class SyntaxValidatorFactoryTest
 
         provider = new SchemaProvider(schema);
         context = new ValidationContext(factory, provider);
-        final Validator sv = syntaxFactory.getValidator(context);
-        report = sv.validate(context, schema);
+        try {
+            final Validator sv = syntaxFactory.getValidator(context);
+            report = sv.validate(context, schema);
+        } catch (JsonValidationFailureException e) {
+            fail();
+        }
 
         if (valid) {
             assertTrue(report.isSuccess(), "schema " + schema + " considered "

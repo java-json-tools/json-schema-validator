@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
@@ -50,6 +51,7 @@ public final class ExtendsKeywordValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode schemaNode = context.getSchemaNode();

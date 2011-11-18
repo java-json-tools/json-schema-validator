@@ -139,6 +139,7 @@ public final class JsonValidator
      * @return the validation report
      */
     public ValidationReport validate(final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final ValidationContext ctx = new ValidationContext(factory, provider);
         final Validator validator = ctx.getValidator(instance);
@@ -163,6 +164,7 @@ public final class JsonValidator
      * @return a report of the validation
      */
     public ValidationReport validate(final String path, final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final JsonPointer pointer = new JsonPointer(path);
 

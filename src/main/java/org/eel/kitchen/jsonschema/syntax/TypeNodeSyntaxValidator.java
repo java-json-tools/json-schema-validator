@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
@@ -55,6 +56,7 @@ abstract class TypeNodeSyntaxValidator
     @Override
     protected final void checkFurther(final JsonNode schema,
         final ValidationReport report)
+        throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
 
@@ -81,6 +83,7 @@ abstract class TypeNodeSyntaxValidator
      */
     private static void validateOne(final ValidationReport report,
         final String prefix, final JsonNode element)
+        throws JsonValidationFailureException
     {
         final NodeType type = NodeType.getNodeType(element);
 
@@ -97,13 +100,12 @@ abstract class TypeNodeSyntaxValidator
                 if (ANY.equals(s))
                     return;
                 if (NodeType.fromName(s) == null)
-                    report.fail(
-                        String.format("%sunknown simple type %s", prefix, s));
+                    report.fail(String.format("%sunknown simple type %s",
+                        prefix, s));
                 return;
             default:
-                report.fail(String.format("%selement has wrong "
-                    + "type %s (expected a simple type or a schema)", prefix,
-                    type));
+                report.fail(String.format("%selement has wrong type %s "
+                    + "(expected a simple type or a schema)", prefix, type));
         }
     }
 
@@ -116,6 +118,7 @@ abstract class TypeNodeSyntaxValidator
      */
     private static void validateOne(final ValidationReport report,
         final JsonNode element)
+        throws JsonValidationFailureException
     {
         validateOne(report, "", element);
     }

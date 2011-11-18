@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
@@ -55,6 +56,7 @@ public final class DependenciesKeywordValidator
      *     against this schema as well as the current one.</li>
      * </ul>
      *
+     *
      * @param context the validation context
      * @param instance the instance to validte
      * @return the report
@@ -62,6 +64,7 @@ public final class DependenciesKeywordValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchemaNode();
@@ -98,6 +101,7 @@ public final class DependenciesKeywordValidator
     private static ValidationReport doOneDependency(
         final ValidationContext context, final JsonNode instance,
         final Map.Entry<String, JsonNode> entry)
+        throws JsonValidationFailureException
     {
         final JsonNode depnode = entry.getValue();
 
@@ -118,10 +122,12 @@ public final class DependenciesKeywordValidator
      * @param entry the dependency entry
      * @param fieldNames the property names in the instance
      * @param depreport the report to fill
+     * @throws JsonValidationFailureException
      */
     private static void doSimpleDependency(
         final Map.Entry<String, JsonNode> entry,
         final Iterator<String> fieldNames, final ValidationReport depreport)
+        throws JsonValidationFailureException
     {
         final String depname = entry.getKey();
         final JsonNode depnode = entry.getValue();

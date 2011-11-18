@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -43,47 +44,55 @@ public final class ObjectTest
 
     @Test
     public void testAdditionalProperties()
+        throws JsonValidationFailureException
     {
         testOne("additionalProperties");
     }
 
     @Test
     public void testAdditionalPropertiesSchema()
+        throws JsonValidationFailureException
     {
         testOne("additionalPropertiesSchema");
     }
 
     @Test
     public void testDependencies()
+        throws JsonValidationFailureException
     {
         testOne("dependencies");
     }
 
     @Test
     public void testDependenciesSchema()
+        throws JsonValidationFailureException
     {
         testOne("dependenciesSchema");
     }
 
     @Test
     public void testRequired()
+        throws JsonValidationFailureException
     {
         testOne("required");
     }
 
     @Test
     public void testPatternProperties()
+        throws JsonValidationFailureException
     {
         testOne("patternProperties");
     }
 
     @Test
     public void testProperties()
+        throws JsonValidationFailureException
     {
         testOne("properties");
     }
 
     private void testOne(final String testName)
+        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(testName);
         final JsonNode schema = node.get("schema");

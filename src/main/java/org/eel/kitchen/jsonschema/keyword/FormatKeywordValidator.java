@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -52,6 +53,7 @@ public final class FormatKeywordValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchemaNode();
 

@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.other;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -43,17 +44,20 @@ public final class ExtendsTest
 
     @Test
     public void testSimple()
+        throws JsonValidationFailureException
     {
         testOne("simple");
     }
 
     @Test
     public void testMultiple()
+        throws JsonValidationFailureException
     {
         testOne("multiple");
     }
 
     private void testOne(final String testName)
+        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(testName);
         final JsonNode schema = node.get("schema");

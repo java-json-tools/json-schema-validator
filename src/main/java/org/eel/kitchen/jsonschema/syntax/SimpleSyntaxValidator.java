@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
@@ -50,6 +51,7 @@ public abstract class SimpleSyntaxValidator
     @Override
     protected final void checkFurther(final JsonNode schema,
         final ValidationReport report)
+        throws JsonValidationFailureException
     {
     }
 }

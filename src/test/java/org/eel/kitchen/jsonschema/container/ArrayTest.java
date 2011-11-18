@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -43,41 +44,48 @@ public final class ArrayTest
 
     @Test
     public void testItems()
+        throws JsonValidationFailureException
     {
         testOne("items");
     }
 
     @Test
     public void testMinItems()
+        throws JsonValidationFailureException
     {
         testOne("minItems");
     }
 
     @Test
     public void testMaxItems()
+        throws JsonValidationFailureException
     {
         testOne("maxItems");
     }
 
     @Test
     public void testUniqueItems()
+        throws JsonValidationFailureException
     {
         testOne("uniqueItems");
     }
 
     @Test
     public void testAdditionalItems()
+        throws JsonValidationFailureException
     {
         testOne("additionalItems");
     }
 
     @Test
     public void testAdditionalItemsSchema()
+        throws JsonValidationFailureException
     {
         testOne("additionalItemsSchema");
     }
 
     private void testOne(final String testName)
+        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(testName);
         final JsonNode schema = node.get("schema");

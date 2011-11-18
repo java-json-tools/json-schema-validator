@@ -187,6 +187,7 @@ public final class ValidationContext
      * @return the validator
      */
     public Validator getValidator(final JsonNode instance)
+        throws JsonValidationFailureException
     {
         if (!validatedSchemas.contains(provider.getSchema())) {
             final ValidationReport report
@@ -211,6 +212,7 @@ public final class ValidationContext
 
     public Validator getValidator(final JsonPointer pointer,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = createReport();
 

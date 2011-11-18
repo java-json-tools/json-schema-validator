@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxValidator;
@@ -148,6 +149,7 @@ public final class SyntaxFactory
      * @return the matching validator
      */
     public Validator getValidator(final ValidationContext context)
+        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchemaNode();
         final ValidationReport report = context.createReport(" [schema]");

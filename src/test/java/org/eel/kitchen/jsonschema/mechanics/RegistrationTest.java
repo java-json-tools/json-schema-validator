@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.draftv4.newkeywords.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.draftv4.newkeywords.RequiredKeywordValidator;
 import org.eel.kitchen.jsonschema.draftv4.newkeywords.RequiredSyntaxValidator;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -47,6 +48,7 @@ public final class RegistrationTest
 
     @Test
     public void testDraftV3SchemaisInvalid()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator = prepareValidator("badschema");
         final ValidationReport report
@@ -62,6 +64,7 @@ public final class RegistrationTest
 
     @Test
     public void testValidationWithNewKeywords()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator = prepareValidator("schema");
 

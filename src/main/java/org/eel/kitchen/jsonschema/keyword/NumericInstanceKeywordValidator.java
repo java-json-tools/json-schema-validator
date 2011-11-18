@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -53,6 +54,7 @@ public abstract class NumericInstanceKeywordValidator
      * (ValidationContext, long, long)} and {@link #validateDecimal
      * (ValidationContext, BigDecimal, BigDecimal)}.</p>
      *
+     *
      * @param context the validation context
      * @param instance the instance to validate
      * @return the validation report
@@ -60,6 +62,7 @@ public abstract class NumericInstanceKeywordValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchemaNode();
 
@@ -86,17 +89,20 @@ public abstract class NumericInstanceKeywordValidator
      * Validate a numeric instance if both the schema value and this instance
      * fit into the {@code long} primitive type
      *
+     *
      * @param context the context
      * @param value the schema value
      * @param against the instance value
      * @return the report
      */
     protected abstract ValidationReport validateLong(
-        final ValidationContext context, final long value, final long against);
+        final ValidationContext context, final long value, final long against)
+        throws JsonValidationFailureException;
 
     /**
      * Validate a numeric instance if itself or the schema value don't fit in
      * a {@code long}
+     *
      *
      * @param context the context
      * @param value the schema value
@@ -105,5 +111,6 @@ public abstract class NumericInstanceKeywordValidator
      */
     protected abstract ValidationReport validateDecimal(
         final ValidationContext context, final BigDecimal value,
-        final BigDecimal against);
+        final BigDecimal against)
+        throws JsonValidationFailureException;
 }

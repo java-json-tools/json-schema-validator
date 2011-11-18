@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.typekeywords;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -48,6 +49,7 @@ public final class DisallowTest
 
     @Test
     public void testEmptyDisallowArrayMatchesAll()
+        throws JsonValidationFailureException
     {
         final ObjectNode schema = factory.objectNode();
         schema.put("disallow", factory.arrayNode());
@@ -87,6 +89,7 @@ public final class DisallowTest
 
     @Test
     public void testDisallowAnyMatchesNothing()
+        throws JsonValidationFailureException
     {
         final List<String> list = Arrays.asList("#: disallow keyword forbids "
             + "all primitive types, validation will always fail!");
@@ -129,29 +132,34 @@ public final class DisallowTest
 
     @Test
     public void testOneType()
+        throws JsonValidationFailureException
     {
         testOne("one");
     }
 
     @Test
     public void testSimpleTypes()
+        throws JsonValidationFailureException
     {
         testOne("simple");
     }
 
     @Test
     public void testUnionType()
+        throws JsonValidationFailureException
     {
         testOne("union");
     }
 
     @Test
     public void testUnionOnly()
+        throws JsonValidationFailureException
     {
         testOne("uniononly");
     }
 
     private void testOne(final String testName)
+        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(testName);
         final JsonNode schema = node.get("schema");

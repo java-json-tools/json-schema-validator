@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.other;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
@@ -48,6 +49,7 @@ public final class SelfValidationTest
 
     @Test
     public void testSchemaValidatesItself()
+        throws JsonValidationFailureException
     {
         final ValidationReport report = validator.validate(draftv3);
 
@@ -56,6 +58,7 @@ public final class SelfValidationTest
 
     @Test
     public void testGoogleSchemas()
+        throws JsonValidationFailureException
     {
         final SortedMap<String, JsonNode> schemas
             = CollectionUtils.toSortedMap(googleAPI.get("schemas").getFields());

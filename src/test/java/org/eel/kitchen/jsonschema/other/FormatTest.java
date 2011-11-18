@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.other;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -46,54 +47,63 @@ public final class FormatTest
 
     @Test
     public void testStyle()
+        throws JsonValidationFailureException
     {
         testOne("style");
     }
 
     @Test
     public void testIPV4()
+        throws JsonValidationFailureException
     {
         testOne("ip-address");
     }
 
     @Test
     public void testPhone()
+        throws JsonValidationFailureException
     {
         testOne("phone");
     }
 
     @Test
     public void testUnixEpoch()
+        throws JsonValidationFailureException
     {
         testOne("utc-millisec");
     }
 
     @Test
     public void testURI()
+        throws JsonValidationFailureException
     {
         testOne("uri");
     }
 
     @Test
     public void testDate()
+        throws JsonValidationFailureException
     {
         testOne("date");
     }
 
     @Test
     public void testDateTime()
+        throws JsonValidationFailureException
     {
         testOne("date-time");
     }
 
     @Test
     public void testTime()
+        throws JsonValidationFailureException
     {
         testOne("time");
     }
 
     @Test
     public void testHostName()
+        throws JsonValidationFailureException
     {
         final ObjectNode schema = factory.objectNode();
         schema.put("format", "host-name");
@@ -123,6 +133,7 @@ public final class FormatTest
 
     @Test
     public void testUnknownFormatFails()
+        throws JsonValidationFailureException
     {
         final ObjectNode schema = factory.objectNode();
         schema.put("format", "izjefoizjoeijf");
@@ -140,6 +151,7 @@ public final class FormatTest
     }
 
     private void testOne(final String fmt)
+        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(fmt);
         final JsonNode instance = node.get("instance");

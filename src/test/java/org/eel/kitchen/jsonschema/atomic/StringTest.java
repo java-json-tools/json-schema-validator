@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.atomic;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -43,23 +44,27 @@ public final class StringTest
 
     @Test
     public void testMinLength()
+        throws JsonValidationFailureException
     {
         testOne("minLength");
     }
 
     @Test
     public void testMaxLength()
+        throws JsonValidationFailureException
     {
         testOne("maxLength");
     }
 
     @Test
     public void testPattern()
+        throws JsonValidationFailureException
     {
         testOne("pattern");
     }
 
     private void testOne(final String testName)
+        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(testName);
         final JsonNode schema = node.get("schema");

@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.typekeywords;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
@@ -48,6 +49,7 @@ public final class TypeTest
 
     @Test
     public void testNoTypeKeywordMatchesAll()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
@@ -84,6 +86,7 @@ public final class TypeTest
 
     @Test
     public void testTypeAnyMatchesAll()
+        throws JsonValidationFailureException
     {
         final ObjectNode schema = factory.objectNode();
         schema.put("type", "any");
@@ -123,6 +126,7 @@ public final class TypeTest
 
     @Test
     public void testEmptyTypeArrayMatchesNothing()
+        throws JsonValidationFailureException
     {
         final List<String> list = Arrays.asList("#: cannot match anything! "
             + "Empty simple type set _and_ I don't have any enclosed schema "
@@ -166,29 +170,34 @@ public final class TypeTest
 
     @Test
     public void testOneType()
+        throws JsonValidationFailureException
     {
         testOne("one");
     }
 
     @Test
     public void testSimpleTypes()
+        throws JsonValidationFailureException
     {
         testOne("simple");
     }
 
     @Test
     public void testUnionType()
+        throws JsonValidationFailureException
     {
         testOne("union");
     }
 
     @Test
     public void testUnionOnly()
+        throws JsonValidationFailureException
     {
         testOne("uniononly");
     }
 
     private void testOne(final String testName)
+        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(testName);
         final JsonNode schema = node.get("schema");

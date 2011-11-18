@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.mechanics;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.uri.HTTPURIHandler;
@@ -94,7 +95,7 @@ public final class URIHandlerTest
 
     @Test
     public void aspirinTime()
-        throws IOException
+        throws IOException, JsonValidationFailureException
     {
         final JsonNode testNode
             = JsonLoader.fromResource("/ref/torture.json").get("aspirin");

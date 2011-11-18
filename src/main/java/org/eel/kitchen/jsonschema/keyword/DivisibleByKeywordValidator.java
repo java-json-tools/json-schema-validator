@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -36,6 +37,7 @@ public final class DivisibleByKeywordValidator
     @Override
     protected ValidationReport validateLong(final ValidationContext context,
         final long value, final long against)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
 
@@ -48,6 +50,7 @@ public final class DivisibleByKeywordValidator
     @Override
     protected ValidationReport validateDecimal(final ValidationContext context,
         final BigDecimal value, final BigDecimal against)
+        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
 
