@@ -23,7 +23,6 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
-import org.eel.kitchen.jsonschema.main.FullValidationReport;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.SchemaProvider;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -85,7 +84,7 @@ public final class SyntaxValidatorFactoryTest
         provider = new SchemaProvider(schema);
         context = new ValidationContext(factory, provider);
         v = context.getValidator(schema);
-        report = new FullValidationReport();
+        report = v.validate(context, schema);
 
         assertTrue(report.isSuccess());
 
