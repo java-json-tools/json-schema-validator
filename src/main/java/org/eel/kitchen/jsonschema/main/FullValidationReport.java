@@ -29,7 +29,7 @@ import java.util.List;
  */
 //TODO: separate failure message queue from error message queue
 public final class FullValidationReport
-    extends AbstractValidationReport
+    extends ValidationReport
 {
     private final String path;
     private final List<String> messages = new LinkedList<String>();
@@ -104,7 +104,7 @@ public final class FullValidationReport
     @Override
     public void mergeWith(final ValidationReport other)
     {
-        status = ValidationStatus.worstOf(status, other.getStatus());
+        status = ValidationStatus.worstOf(status, other.status);
 
         switch (status) {
             case SUCCESS:
