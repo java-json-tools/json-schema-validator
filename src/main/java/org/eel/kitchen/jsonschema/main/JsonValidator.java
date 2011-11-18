@@ -30,6 +30,7 @@ import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * The main interface to use for JSON Schema validation
@@ -39,12 +40,18 @@ import java.util.EnumSet;
  */
 public final class JsonValidator
 {
+    private final ReentrantReadWriteLock ctxlock
+        = new ReentrantReadWriteLock();
+
     private final ValidatorFactory factory;
 
     private final SchemaProvider provider;
 
-    private EnumSet<ValidationFeature> features;
+    private final EnumSet<ValidationFeature> features;
 
+    private ReportFactory reports;
+
+    private ValidationContext context;
     /**
      * The constructor
      *
@@ -54,17 +61,49 @@ public final class JsonValidator
     {
         provider = new SchemaProvider(schema);
         factory = new ValidatorFactory();
+        reports = new ReportFactory(false);
         features = EnumSet.noneOf(ValidationFeature.class);
+        context = new ValidationContext(factory, provider, reports);
     }
 
     public void setFeature(final ValidationFeature feature)
     {
-        features.add(feature);
+        if (features.contains(feature))
+            return;
+
+        ctxlock.writeLock().lock();
+
+        try {
+            features.add(feature);
+            switch (feature) {
+                case FAIL_FAST:
+                    reports = new ReportFactory(true);
+                    break;
+            }
+            context = new ValidationContext(factory, provider, reports);
+        } finally {
+            ctxlock.writeLock().unlock();
+        }
     }
 
     public void removeFeature(final ValidationFeature feature)
     {
-        features.remove(feature);
+        if (!features.contains(feature))
+            return;
+
+        ctxlock.writeLock().lock();
+
+        try {
+            features.remove(feature);
+            switch (feature) {
+                case FAIL_FAST:
+                    reports = new ReportFactory(false);
+                    break;
+            }
+            context = new ValidationContext(factory, provider, reports);
+        } finally {
+            ctxlock.writeLock().unlock();
+        }
     }
 
     /**
@@ -87,7 +126,13 @@ public final class JsonValidator
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
 
-        factory.unregisterValidator(keyword);
+        ctxlock.writeLock().lock();
+
+        try {
+            factory.unregisterValidator(keyword);
+        } finally {
+            ctxlock.writeLock().unlock();
+        }
     }
 
     /**
@@ -112,7 +157,13 @@ public final class JsonValidator
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
 
-        factory.registerValidator(keyword, sv, kv, types);
+        ctxlock.writeLock().lock();
+
+        try {
+            factory.registerValidator(keyword, sv, kv, types);
+        } finally {
+            ctxlock.writeLock().unlock();
+        }
     }
 
     /**
@@ -129,7 +180,13 @@ public final class JsonValidator
         if (scheme == null)
             throw new IllegalArgumentException("scheme is null");
 
-        provider.registerHandler(scheme, handler);
+        ctxlock.writeLock().lock();
+
+        try {
+            provider.registerHandler(scheme, handler);
+        } finally {
+            ctxlock.writeLock().unlock();
+        }
     }
 
     /**
@@ -145,7 +202,12 @@ public final class JsonValidator
         if (scheme == null)
             throw new IllegalArgumentException("scheme is null");
 
-        provider.unregisterHandler(scheme);
+        ctxlock.writeLock().lock();
+        try {
+            provider.unregisterHandler(scheme);
+        } finally {
+            ctxlock.writeLock().unlock();
+        }
     }
 
     /**
@@ -156,13 +218,14 @@ public final class JsonValidator
     public ValidationReport validate(final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final ReportFactory reports
-            = new ReportFactory(features.contains(ValidationFeature.FAIL_FAST));
+        ctxlock.readLock().lock();
 
-        final ValidationContext ctx
-            = new ValidationContext(factory, provider, reports);
-        final Validator validator = ctx.getValidator(instance);
-        return validator.validate(ctx, instance);
+        try {
+            final Validator validator = context.getValidator(instance);
+            return validator.validate(context, instance);
+        } finally {
+            ctxlock.readLock().unlock();
+        }
     }
 
     /**
@@ -186,13 +249,14 @@ public final class JsonValidator
         throws JsonValidationFailureException
     {
         final JsonPointer pointer = new JsonPointer(path);
-        final ReportFactory reports
-            = new ReportFactory(features.contains(ValidationFeature.FAIL_FAST));
 
-        final ValidationContext ctx
-            = new ValidationContext(factory, provider, reports);
+        ctxlock.readLock().lock();
 
-        final Validator validator = ctx.getValidator(pointer, instance);
-        return validator.validate(ctx, instance);
+        try {
+            final Validator validator = context.getValidator(pointer, instance);
+            return validator.validate(context, instance);
+        } finally {
+            ctxlock.readLock().unlock();
+        }
     }
 }
