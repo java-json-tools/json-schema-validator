@@ -79,14 +79,14 @@ public final class CSSColorValidator
         matcher = rgb.matcher(value);
 
         if (!matcher.matches()) {
-            report.addMessage("string is not a valid CSS 2.1 color");
+            report.fail("string is not a valid CSS 2.1 color");
             return report;
         }
 
         final String[] colors = SPLIT_PATTERN.split(matcher.group(1));
 
         if (colors.length != 3) {
-            report.addMessage("string is not a valid CSS 2.1 color");
+            report.fail("string is not a valid CSS 2.1 color");
             return report;
         }
 
@@ -102,7 +102,7 @@ public final class CSSColorValidator
                 if (i >> 8 != 0)
                     throw new NumberFormatException();
             } catch (NumberFormatException ignored) {
-                report.addMessage("string is not a valid CSS 2.1 color");
+                report.fail("string is not a valid CSS 2.1 color");
                 break;
             }
         }

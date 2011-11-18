@@ -53,7 +53,7 @@ public final class PatternKeywordValidator
             .getTextValue();
 
         if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
-            report.addMessage("string does not match specified regex");
+            report.fail("string does not match specified regex");
 
         return report;
     }

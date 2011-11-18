@@ -53,7 +53,7 @@ public final class IPV4Validator
                 throw new UnknownHostException();
             Inet4Address.getByName(ipaddr);
         } catch (UnknownHostException ignored) {
-            report.addMessage("string is not a valid IPv4 address");
+            report.fail("string is not a valid IPv4 address");
         }
 
         return report;

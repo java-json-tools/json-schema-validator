@@ -37,6 +37,6 @@ public final class ExclusiveMinimumSyntaxValidator
         final ValidationReport report)
     {
         if (!schema.has("minimum"))
-            report.addMessage("exclusiveMinimum without minimum");
+            report.fail("exclusiveMinimum without minimum");
     }
 }

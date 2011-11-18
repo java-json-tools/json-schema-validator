@@ -58,7 +58,7 @@ public final class CSSStyleValidator
         for (final String rule : rules) {
             matcher = styleElement.matcher(rule);
             if (!matcher.matches()) {
-                report.addMessage("string is not a valid CSS 2.1 style");
+                report.fail("string is not a valid CSS 2.1 style");
                 break;
             }
         }

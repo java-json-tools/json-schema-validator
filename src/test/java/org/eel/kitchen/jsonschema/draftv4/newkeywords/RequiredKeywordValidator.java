@@ -53,8 +53,7 @@ public final class RequiredKeywordValidator
         required.removeAll(instanceFields);
 
         if (!required.isEmpty())
-            report.addMessage("required properties " + required
-                + " are missing");
+            report.fail("required properties " + required + " are missing");
 
         return report;
     }

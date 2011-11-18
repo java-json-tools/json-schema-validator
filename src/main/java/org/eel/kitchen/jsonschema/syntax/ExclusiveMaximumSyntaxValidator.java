@@ -37,6 +37,6 @@ public final class ExclusiveMaximumSyntaxValidator
         final ValidationReport report)
     {
         if (!schema.has("maximum"))
-            report.addMessage("exclusiveMaximum without maximum");
+            report.fail("exclusiveMaximum without maximum");
     }
 }

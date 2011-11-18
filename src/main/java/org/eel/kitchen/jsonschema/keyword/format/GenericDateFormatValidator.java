@@ -64,7 +64,7 @@ public abstract class GenericDateFormatValidator
         try {
             format.parse(instance.getTextValue());
         } catch (ParseException ignored) {
-            report.addMessage(errmsg);
+            report.fail(errmsg);
         }
 
         return report;

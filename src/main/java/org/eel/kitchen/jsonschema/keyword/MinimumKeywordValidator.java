@@ -47,10 +47,10 @@ public final class MinimumKeywordValidator
         final long cmp = value - against;
 
         if (cmp > 0)
-            report.addMessage("number is lower than the required minimum");
+            report.fail("number is lower than the required minimum");
         else  if (cmp == 0 && exclusiveMinimum)
-            report.addMessage("number is not strictly greater than "
-                + "the required minimum");
+            report.fail("number is not strictly greater than the required "
+                + "minimum");
 
         return report;
     }
@@ -67,10 +67,10 @@ public final class MinimumKeywordValidator
         final int cmp = value.compareTo(against);
 
         if (cmp > 0)
-            report.addMessage("number is lower than the required minimum");
+            report.fail("number is lower than the required minimum");
         else if (cmp == 0 && exclusiveMinimum)
-            report.addMessage("number is not strictly greater than "
-                + "the required minimum");
+            report.fail("number is not strictly greater than the required "
+                + "minimum");
 
         return report;
     }

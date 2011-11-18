@@ -47,7 +47,7 @@ public final class IPV6Validator
                 throw new UnknownHostException();
             Inet6Address.getByName(ipaddr);
         } catch (UnknownHostException ignored) {
-            report.addMessage("string is not a valid IPv6 address");
+            report.fail("string is not a valid IPv6 address");
         }
 
         return report;

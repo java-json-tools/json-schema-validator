@@ -40,7 +40,7 @@ public final class MinItemsKeywordValidator
         final int minItems = context.getSchemaNode().get(keyword).getIntValue();
 
         if (instance.size() < minItems)
-            report.addMessage("array has less than minItems elements");
+            report.fail("array has less than minItems elements");
 
         return report;
     }

@@ -153,12 +153,12 @@ public final class SyntaxFactory
         final ValidationReport report = context.createReport(" [schema]");
 
         if (schema == null) {
-            report.addMessage("schema is null");
+            report.fail("schema is null");
             return new AlwaysFalseValidator(report);
         }
 
         if (!schema.isObject()) {
-            report.addMessage("not a valid schema (not an object)");
+            report.fail("not a valid schema (not an object)");
             return new AlwaysFalseValidator(report);
         }
 
@@ -172,7 +172,7 @@ public final class SyntaxFactory
         if (!keywords.containsAll(fields)) {
             fields.removeAll(keywords);
             for (final String field: fields)
-                report.addMessage("unknown keyword " + field);
+                report.fail("unknown keyword " + field);
             return new AlwaysFalseValidator(report);
         }
 

@@ -101,8 +101,9 @@ public abstract class SyntaxValidator
         final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
 
         if (!validTypes.contains(nodeType))
-            report.addMessage("field has wrong type " + nodeType
-                + ", expected one of " + validTypes);
+            report.fail(
+                "field has wrong type " + nodeType + ", expected one of "
+                    + validTypes);
         else
             checkFurther(schema, report);
 

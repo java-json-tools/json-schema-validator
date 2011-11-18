@@ -58,7 +58,7 @@ public final class PropertiesSyntaxValidator
             field = entry.getKey();
             element = entry.getValue();
             if (!element.isObject()) {
-                report.addMessage(String.format("field \"%s\": value has "
+                report.fail(String.format("field \"%s\": value has "
                     + "wrong type %s (expected a schema)", field,
                     NodeType.getNodeType(element)));
                 continue;
@@ -68,7 +68,7 @@ public final class PropertiesSyntaxValidator
             type = NodeType.getNodeType(element.get("required"));
             if (type == NodeType.BOOLEAN)
                 continue;
-            report.addMessage(String.format("field \"%s\": attribute "
+            report.fail(String.format("field \"%s\": attribute "
                 + "\"required\" of enclosed schema has wrong type %s "
                 + "(expected a boolean)", field, type));
         }

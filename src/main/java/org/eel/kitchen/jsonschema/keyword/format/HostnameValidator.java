@@ -81,7 +81,7 @@ public final class HostnameValidator
         }
 
         if (!ret)
-            report.addMessage("string is not a valid hostname");
+            report.fail("string is not a valid hostname");
         return report;
     }
 }

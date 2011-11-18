@@ -51,11 +51,11 @@ public final class DisallowKeywordValidator
 
         if (typeSet.containsAll(EnumSet.allOf(NodeType.class))) {
             failure = true;
-            report.addMessage("disallow keyword forbids all primitive types, "
+            report.fail("disallow keyword forbids all primitive types, "
                 + "validation will always fail!");
         } else if (typeSet.contains(type)) {
             failure = true;
-            report.addMessage(String.format("instance is of type %s, "
+            report.fail(String.format("instance is of type %s, "
                 + "which falls into the list of explicitly disallowed types "
                 + "(%s)", type, typeSet));
         }
@@ -68,7 +68,7 @@ public final class DisallowKeywordValidator
         for (final JsonNode schema: schemas) {
             schemaReport = validateSchema(context, schema, instance);
             if (schemaReport.isSuccess()) {
-                report.addMessage("instance validates against an explicitly "
+                report.fail("instance validates against an explicitly "
                     + "disallowed schema");
                 break;
             }

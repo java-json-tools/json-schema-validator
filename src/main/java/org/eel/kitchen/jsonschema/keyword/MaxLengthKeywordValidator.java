@@ -42,7 +42,7 @@ public final class MaxLengthKeywordValidator
             .getIntValue();
 
         if (instance.getTextValue().length() > maxLength)
-            report.addMessage("string is longer than maxLength");
+            report.fail("string is longer than maxLength");
 
         return report;
     }

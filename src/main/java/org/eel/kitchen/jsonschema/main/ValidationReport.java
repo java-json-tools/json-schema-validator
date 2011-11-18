@@ -33,7 +33,7 @@ public abstract class ValidationReport
         }
 
         @Override
-        public void addMessage(final String message)
+        public void fail(final String message)
         {
         }
 
@@ -50,7 +50,7 @@ public abstract class ValidationReport
 
     public abstract List<String> getMessages();
 
-    public abstract void addMessage(final String message);
+    public abstract void fail(final String message);
 
     public abstract void error(final String message);
 

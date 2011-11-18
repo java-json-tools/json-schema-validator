@@ -52,11 +52,11 @@ public abstract class PositiveIntegerSyntaxValidator
         try {
             value.intValueExact();
         } catch (ArithmeticException ignored) {
-            report.addMessage("value is too large");
+            report.fail("value is too large");
             return;
         }
 
         if (node.getIntValue() < 0)
-            report.addMessage("value is negative");
+            report.fail("value is negative");
     }
 }

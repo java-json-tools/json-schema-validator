@@ -44,7 +44,7 @@ public final class FullValidationReport
 
     /**
      * Constructor of a validator which will prepend all messages added to it
-     * (using #addMessage) with a path and a colon.
+     * (using #fail) with a path and a colon.
      *
      * @param path the path which will appear before all messages
      */
@@ -70,7 +70,7 @@ public final class FullValidationReport
      * @param message The message to add
      */
     @Override
-    public void addMessage(final String message)
+    public void fail(final String message)
     {
         if (status == ValidationStatus.ERROR)
             return;

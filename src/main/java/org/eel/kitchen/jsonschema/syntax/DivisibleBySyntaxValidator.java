@@ -43,6 +43,6 @@ public final class DivisibleBySyntaxValidator
         if (BigDecimal.ZERO.compareTo(divisor) != 0)
             return;
 
-        report.addMessage("divisor is 0");
+        report.fail("divisor is 0");
     }
 }

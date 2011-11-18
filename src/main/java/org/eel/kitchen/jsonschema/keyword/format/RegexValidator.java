@@ -40,7 +40,7 @@ public final class RegexValidator
         final ValidationReport report = context.createReport();
 
         if (!RhinoHelper.regexIsValid(instance.getTextValue()))
-            report.addMessage("string is not a valid regular expression");
+            report.fail("string is not a valid regular expression");
 
         return report;
     }

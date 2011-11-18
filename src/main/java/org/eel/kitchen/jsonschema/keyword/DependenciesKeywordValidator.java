@@ -140,7 +140,7 @@ public final class DependenciesKeywordValidator
         if (expected.isEmpty())
             return;
 
-        depreport.addMessage("property " + depname + " is missing dependencies "
+        depreport.fail("property " + depname + " is missing dependencies "
             + expected);
     }
 }

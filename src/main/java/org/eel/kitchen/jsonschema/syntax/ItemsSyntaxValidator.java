@@ -50,8 +50,9 @@ public final class ItemsSyntaxValidator
             type = NodeType.getNodeType(element);
             if (type == NodeType.OBJECT)
                 continue;
-            report.addMessage(String.format("array element %d has wrong"
-                + " type %s (expected a schema)", i, type));
+            report.fail(String.format(
+                "array element %d has wrong" + " type %s (expected a schema)",
+                i, type));
         }
     }
 }

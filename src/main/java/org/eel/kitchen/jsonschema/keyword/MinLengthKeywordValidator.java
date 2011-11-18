@@ -41,7 +41,7 @@ public final class MinLengthKeywordValidator
             .getIntValue();
 
         if (instance.getTextValue().length() < minLength)
-            report.addMessage("string is shorter than minLength");
+            report.fail("string is shorter than minLength");
 
         return report;
     }

@@ -86,7 +86,7 @@ public final class PropertiesKeywordValidator
             required.remove(fields.next());
 
         for (final String missing: required)
-            report.addMessage("required property " + missing + " is missing");
+            report.fail("required property " + missing + " is missing");
 
         return report;
     }

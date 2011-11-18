@@ -43,7 +43,7 @@ public final class EmailFormatValidator
         try {
             new InternetAddress(instance.getTextValue());
         } catch (AddressException ignored) {
-            report.addMessage("string is not a valid email address");
+            report.fail("string is not a valid email address");
         }
 
         return report;

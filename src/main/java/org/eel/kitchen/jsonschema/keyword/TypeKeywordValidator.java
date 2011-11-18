@@ -53,7 +53,7 @@ public final class TypeKeywordValidator
             + "_and_ I don't have any enclosed schema either";
 
         if (schemas.isEmpty() && typeSet.isEmpty()) {
-            report.addMessage(message);
+            report.fail(message);
             return report;
         }
 
@@ -62,27 +62,27 @@ public final class TypeKeywordValidator
                 + "the allowed primitive types (%s)", type, typeSet);
 
 
-        report.addMessage(message);
+        report.fail(message);
 
         if (schemas.isEmpty())
             return report;
 
-        report.addMessage("trying with enclosed schemas instead");
+        report.fail("trying with enclosed schemas instead");
 
         int i = 1;
         ValidationReport schemaReport;
 
         for (final JsonNode schema: schemas) {
-            report.addMessage("trying schema #" + i + "...");
+            report.fail("trying schema #" + i + "...");
             schemaReport = validateSchema(context, schema, instance);
             if (schemaReport.isSuccess())
                 return schemaReport;
             report.mergeWith(schemaReport);
-            report.addMessage("schema #" + i + ": no match");
+            report.fail("schema #" + i + ": no match");
             i++;
         }
 
-        report.addMessage("enclosed schemas did not match");
+        report.fail("enclosed schemas did not match");
 
         return report;
     }

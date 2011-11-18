@@ -107,7 +107,7 @@ public final class FormatFactory
         final ValidationReport report = context.createReport();
 
         if (!typeMap.containsKey(name)) {
-            report.addMessage("no validator for format " + name);
+            report.fail("no validator for format " + name);
             return new AlwaysFalseValidator(report);
         }
 

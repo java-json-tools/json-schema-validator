@@ -97,13 +97,13 @@ abstract class TypeNodeSyntaxValidator
                 if (ANY.equals(s))
                     return;
                 if (NodeType.fromName(s) == null)
-                    report.addMessage(String.format("%sunknown simple type %s",
-                        prefix, s));
+                    report.fail(
+                        String.format("%sunknown simple type %s", prefix, s));
                 return;
             default:
-                report.addMessage(String.format("%selement has wrong "
-                    + "type %s (expected a simple type or a schema)",
-                    prefix, type));
+                report.fail(String.format("%selement has wrong "
+                    + "type %s (expected a simple type or a schema)", prefix,
+                    type));
         }
     }
 

@@ -69,7 +69,7 @@ public final class AdditionalItemsKeywordValidator
         final int itemsCount = itemsNode.isArray() ? itemsNode.size() : 0;
 
         if (instance.size() > itemsCount)
-            report.addMessage("array only allows " + itemsCount + " item(s)");
+            report.fail("array only allows " + itemsCount + " item(s)");
 
         return report;
     }

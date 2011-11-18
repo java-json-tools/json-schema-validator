@@ -48,10 +48,10 @@ public final class MaximumKeywordValidator
         final long cmp = value - against;
 
         if (cmp < 0)
-            report.addMessage("number is greater than the required maximum");
+            report.fail("number is greater than the required maximum");
         else if (cmp == 0 && exclusive)
-            report.addMessage("number is not strictly lower than "
-                + "the required maximum");
+            report.fail("number is not strictly lower than the required "
+                + "maximum");
 
         return report;
     }
@@ -68,10 +68,10 @@ public final class MaximumKeywordValidator
         final int cmp = value.compareTo(against);
 
         if (cmp < 0)
-            report.addMessage("number is greater than the required maximum");
+            report.fail("number is greater than the required maximum");
         else if (cmp == 0 && exclusive)
-            report.addMessage("number is not strictly lower than "
-                + "the required maximum");
+            report.fail("number is not strictly lower than the required "
+                + "maximum");
 
         return report;
     }
