@@ -62,23 +62,25 @@ public final class TypeKeywordValidator
                 + "the allowed primitive types (%s)", type, typeSet);
 
 
-        report.fail(message);
+        report.message(message);
 
-        if (schemas.isEmpty())
+        if (schemas.isEmpty()) {
+            report.fail();
             return report;
+        }
 
-        report.fail("trying with enclosed schemas instead");
+        report.message("trying with enclosed schemas instead");
 
         int i = 1;
         ValidationReport schemaReport;
 
         for (final JsonNode schema: schemas) {
-            report.fail("trying schema #" + i + "...");
+            report.message("trying schema #" + i + "...");
             schemaReport = validateSchema(context, schema, instance);
             if (schemaReport.isSuccess())
                 return schemaReport;
             report.mergeWith(schemaReport);
-            report.fail("schema #" + i + ": no match");
+            report.message("schema #" + i + ": no match");
             i++;
         }
 

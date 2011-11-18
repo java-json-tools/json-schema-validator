@@ -67,7 +67,8 @@ public final class FullValidationReport
     @Override
     public void message(final String message)
     {
-        messages.add(path + ": " + message);
+        if (status != ValidationStatus.ERROR)
+            messages.add(path + ": " + message);
     }
 
     @Override
@@ -85,9 +86,7 @@ public final class FullValidationReport
     public void fail(final String message)
     {
         fail();
-        if (status == ValidationStatus.ERROR)
-            return;
-        messages.add(path + ": " + message);
+        message(message);
     }
 
     /**
