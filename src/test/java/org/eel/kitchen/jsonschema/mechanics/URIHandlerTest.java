@@ -75,6 +75,17 @@ public final class URIHandlerTest
     }
 
     @Test
+    public void testUnregisteringNullSchemeFails()
+    {
+        try {
+            validator.unregisterURIHandler(null);
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "scheme is null");
+        }
+    }
+
+    @Test
     public void testInvalidSchemeFails()
     {
         try {
