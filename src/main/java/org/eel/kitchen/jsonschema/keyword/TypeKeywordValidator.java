@@ -46,6 +46,9 @@ public final class TypeKeywordValidator
         final ValidationReport report = context.createReport();
         final NodeType type = NodeType.getNodeType(instance);
 
+        if (typeSet.contains(type))
+            return report;
+
         String message = "cannot match anything! Empty simple type set "
             + "_and_ I don't have any enclosed schema either";
 
@@ -53,9 +56,6 @@ public final class TypeKeywordValidator
             report.addMessage(message);
             return report;
         }
-
-        if (typeSet.contains(type))
-            return report;
 
         message = typeSet.isEmpty() ? "no primitive types to match against"
             : String.format("instance is of type %s, which is none of "
