@@ -29,6 +29,8 @@ import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
 
+import java.util.EnumSet;
+
 /**
  * The main interface to use for JSON Schema validation
  *
@@ -41,6 +43,8 @@ public final class JsonValidator
 
     private final SchemaProvider provider;
 
+    private EnumSet<ValidationFeature> features;
+
     /**
      * The constructor
      *
@@ -50,6 +54,17 @@ public final class JsonValidator
     {
         provider = new SchemaProvider(schema);
         factory = new ValidatorFactory();
+        features = EnumSet.noneOf(ValidationFeature.class);
+    }
+
+    public void setFeature(final ValidationFeature feature)
+    {
+        features.add(feature);
+    }
+
+    public void removeFeature(final ValidationFeature feature)
+    {
+        features.remove(feature);
     }
 
     /**
@@ -141,7 +156,11 @@ public final class JsonValidator
     public ValidationReport validate(final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final ValidationContext ctx = new ValidationContext(factory, provider);
+        final ReportFactory reports
+            = new ReportFactory(features.contains(ValidationFeature.FAIL_FAST));
+
+        final ValidationContext ctx
+            = new ValidationContext(factory, provider, reports);
         final Validator validator = ctx.getValidator(instance);
         return validator.validate(ctx, instance);
     }
@@ -167,8 +186,12 @@ public final class JsonValidator
         throws JsonValidationFailureException
     {
         final JsonPointer pointer = new JsonPointer(path);
+        final ReportFactory reports
+            = new ReportFactory(features.contains(ValidationFeature.FAIL_FAST));
 
-        final ValidationContext ctx = new ValidationContext(factory, provider);
+        final ValidationContext ctx
+            = new ValidationContext(factory, provider, reports);
+
         final Validator validator = ctx.getValidator(pointer, instance);
         return validator.validate(ctx, instance);
     }

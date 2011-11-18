@@ -25,6 +25,7 @@ import org.eel.kitchen.jsonschema.container.ArrayValidator;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -66,6 +67,7 @@ public final class ValidatorFactory
      * @return the matching validator
      */
     public Validator getSyntaxValidator(final ValidationContext context)
+        throws JsonValidationFailureException
     {
         return syntaxFactory.getValidator(context);
     }
@@ -131,6 +133,7 @@ public final class ValidatorFactory
      */
     public Validator getFormatValidator(final ValidationContext context,
         final String fmt, final JsonNode instance)
+        throws JsonValidationFailureException
     {
         return formatFactory.getFormatValidator(context, fmt, instance);
     }

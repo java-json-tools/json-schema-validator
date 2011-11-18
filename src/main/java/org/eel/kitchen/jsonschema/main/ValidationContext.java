@@ -74,6 +74,8 @@ public final class ValidationContext
      */
     private final ValidatorFactory factory;
 
+    private final ReportFactory reports;
+
     /**
      * The ref result lookups for this {@link #path},
      * used for ref looping detection
@@ -82,22 +84,23 @@ public final class ValidationContext
 
     private ValidationContext(final SchemaProvider provider,
         final JsonPointer path, final ValidatorFactory factory,
-        final Set<JsonNode> validatedSchemas)
+        final ReportFactory reports, final Set<JsonNode> validatedSchemas)
     {
         this.provider = provider;
         this.path = path;
         this.factory = factory;
+        this.reports = reports;
         this.validatedSchemas = validatedSchemas;
     }
 
     public ValidationContext(final ValidatorFactory factory,
-        final SchemaProvider provider)
+        final SchemaProvider provider, final ReportFactory reports)
     {
         path = new JsonPointer("");
 
         this.provider = provider;
-
         this.factory = factory;
+        this.reports = reports;
 
         validatedSchemas = new HashSet<JsonNode>(CACHE_INIT);
         refLookups.add(provider.getSchema());
@@ -129,7 +132,8 @@ public final class ValidationContext
 
         final SchemaProvider sp = provider.withSchema(subSchema);
 
-        return new ValidationContext(sp, newPath, factory, validatedSchemas);
+        return new ValidationContext(sp, newPath, factory,  reports,
+            validatedSchemas);
     }
 
     public ValidationContext withSchema(final JsonNode subSchema)
@@ -137,7 +141,7 @@ public final class ValidationContext
         final SchemaProvider sp = provider.withSchema(subSchema);
 
         final ValidationContext ret = new ValidationContext(sp, path, factory,
-            validatedSchemas);
+            reports, validatedSchemas);
 
         ret.refLookups.addAll(refLookups);
         return ret;
@@ -168,8 +172,8 @@ public final class ValidationContext
 
         final SchemaProvider sp = provider.atURI(uri);
 
-        final ValidationContext ret = new ValidationContext(sp,
-            path, factory, validatedSchemas);
+        final ValidationContext ret = new ValidationContext(sp, path, factory,
+            reports, validatedSchemas);
 
         ret.refLookups.addAll(refLookups);
 
@@ -190,8 +194,7 @@ public final class ValidationContext
         throws JsonValidationFailureException
     {
         if (!validatedSchemas.contains(provider.getSchema())) {
-            final ValidationReport report
-                = new FullValidationReport(path.toString());
+            final ValidationReport report = reports.create(path.toString());
 
             final Validator v = factory.getSyntaxValidator(this);
 
@@ -206,6 +209,7 @@ public final class ValidationContext
 
     public Validator getFormatValidator(final String fmt,
         final JsonNode instance)
+        throws JsonValidationFailureException
     {
         return factory.getFormatValidator(this, fmt, instance);
     }
@@ -246,7 +250,7 @@ public final class ValidationContext
      */
     public ValidationReport createReport(final String prefix)
     {
-        return new FullValidationReport(path + prefix);
+        return reports.create(path + prefix);
     }
 
     /**

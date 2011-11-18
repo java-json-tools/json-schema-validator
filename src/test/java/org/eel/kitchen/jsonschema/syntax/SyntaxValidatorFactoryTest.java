@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
+import org.eel.kitchen.jsonschema.main.ReportFactory;
 import org.eel.kitchen.jsonschema.main.SchemaProvider;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -45,6 +46,7 @@ public final class SyntaxValidatorFactoryTest
     private static final JsonNode dummy = nodeFactory.nullNode();
     private static final SyntaxFactory syntaxFactory = new SyntaxFactory();
     private static final ValidatorFactory factory = new ValidatorFactory();
+    private static final ReportFactory reports = new ReportFactory(false);
 
     private JsonNode allTests;
     private ValidationContext context;
@@ -64,7 +66,7 @@ public final class SyntaxValidatorFactoryTest
         throws JsonValidationFailureException
     {
         provider = new SchemaProvider(null);
-        context = new ValidationContext(factory, provider);
+        context = new ValidationContext(factory, provider, reports);
         v = context.getValidator(dummy);
         report = v.validate(context, dummy);
 
@@ -82,7 +84,7 @@ public final class SyntaxValidatorFactoryTest
         final JsonNode schema = nodeFactory.objectNode();
 
         provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider);
+        context = new ValidationContext(factory, provider, reports);
         v = context.getValidator(schema);
         report = v.validate(context, schema);
 
@@ -98,7 +100,7 @@ public final class SyntaxValidatorFactoryTest
         final JsonNode schema = nodeFactory.textNode("hello");
 
         provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider);
+        context = new ValidationContext(factory, provider, reports);
         v = context.getValidator(schema);
         report = v.validate(context, dummy);
 
@@ -118,7 +120,7 @@ public final class SyntaxValidatorFactoryTest
         schema.put("toto", 2);
 
         provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider);
+        context = new ValidationContext(factory, provider, reports);
         v = context.getValidator(schema);
         report = v.validate(context, dummy);
 
@@ -305,7 +307,7 @@ public final class SyntaxValidatorFactoryTest
         final boolean valid = element.get("valid").getBooleanValue();
 
         provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider);
+        context = new ValidationContext(factory, provider, reports);
         try {
             final Validator sv = syntaxFactory.getValidator(context);
             report = sv.validate(context, schema);
