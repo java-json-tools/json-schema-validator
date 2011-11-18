@@ -235,7 +235,6 @@ public final class SyntaxFactory
         final String errmsg = String.format("cannot instantiate validator: "
             + "%s: %s", exception.getClass().getName(), exception.getMessage());
         throw new IllegalArgumentException(errmsg);
-
     }
 
     /**
