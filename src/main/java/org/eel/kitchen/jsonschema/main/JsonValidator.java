@@ -35,23 +35,49 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * The main interface to use for JSON Schema validation
  *
+ * <p>All accesses to this class are protected by {@link #ctxlock}, which is a
+ * {@link ReentrantReadWriteLock}. Namely, all modifications
+ * (registering/unregistering a validator, setting a feature etc) need to
+ * acquire the write lock, whereas instance validation needs the read lock.</p>
+ *
  * @see JsonLoader
  * @see ValidationContext
  */
 public final class JsonValidator
 {
+    /**
+     * Lock to protect context creation
+     */
     private final ReentrantReadWriteLock ctxlock
         = new ReentrantReadWriteLock();
 
+    /**
+     * Validator factory (both {@link SyntaxValidator} and {@link
+     * KeywordValidator} instances)
+     */
     private final ValidatorFactory factory;
 
+    /**
+     * The schema provider
+     */
     private final SchemaProvider provider;
 
+    /**
+     * Set of features enabled for this validator (see {@link
+     * ValidationFeature})
+     */
     private final EnumSet<ValidationFeature> features;
 
+    /**
+     * Report generator
+     */
     private ReportFactory reports;
 
+    /**
+     * This validator's {@link ValidationContext}
+     */
     private ValidationContext context;
+
     /**
      * The constructor
      *
@@ -66,6 +92,11 @@ public final class JsonValidator
         context = new ValidationContext(factory, provider, reports);
     }
 
+    /**
+     * Set a feature for this validator
+     *
+     * @param feature the feature to set
+     */
     public void setFeature(final ValidationFeature feature)
     {
         if (features.contains(feature))
@@ -86,6 +117,11 @@ public final class JsonValidator
         }
     }
 
+    /**
+     * Remove a feature from this validator
+     *
+     * @param feature the feature to remove
+     */
     public void removeFeature(final ValidationFeature feature)
     {
         if (!features.contains(feature))

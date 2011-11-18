@@ -17,15 +17,37 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+/**
+ * A report generator
+ *
+ * <p>Its only role is to generate either a {@link FullValidationReport} or a
+ * {@link FailFastValidationReport}, depending on its constructor.
+ * </p>
+ */
 public final class ReportFactory
 {
+    /**
+     * True if this factory should generate {@link FailFastValidationReport}
+     * instances
+     */
     private final boolean failFast;
 
+    /**
+     * Constructor
+     *
+     * @param failFast value of {@link #failFast}
+     */
     public ReportFactory(final boolean failFast)
     {
         this.failFast = failFast;
     }
 
+    /**
+     * Create a report with a prefix prepended to all messages
+     *
+     * @param prefix the prefix
+     * @return the report
+     */
     public ValidationReport create(final String prefix)
     {
         return failFast

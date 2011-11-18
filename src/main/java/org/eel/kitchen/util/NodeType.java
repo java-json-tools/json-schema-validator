@@ -101,6 +101,12 @@ public enum NodeType
         return name;
     }
 
+    /**
+     * Given a type name, return the corresponding node type
+     *
+     * @param name the type name
+     * @return the node type, or null if not found
+     */
     public static NodeType fromName(final String name)
     {
         return nameMap.get(name);

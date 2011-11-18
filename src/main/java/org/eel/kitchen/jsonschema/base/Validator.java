@@ -34,6 +34,15 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
  */
 public interface Validator
 {
+    /**
+     * Validate an instance
+     *
+     * @param context the validation context
+     * @param instance the instance to validate
+     * @return the report
+     * @throws JsonValidationFailureException if the report is set to throw
+     * this exception instead of collecting messages
+     */
     ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
         throws JsonValidationFailureException;

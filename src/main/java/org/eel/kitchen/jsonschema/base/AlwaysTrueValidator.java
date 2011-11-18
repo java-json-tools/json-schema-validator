@@ -22,6 +22,9 @@ import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 
+/**
+ * A validator which is always true
+ */
 public final class AlwaysTrueValidator
     implements Validator
 {

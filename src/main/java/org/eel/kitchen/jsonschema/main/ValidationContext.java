@@ -25,6 +25,7 @@ import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.RefKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonPointer;
 import org.slf4j.Logger;
@@ -55,10 +56,19 @@ public final class ValidationContext
     private static final Logger logger
         = LoggerFactory.getLogger(ValidationContext.class);
 
+    /**
+     * Size of the schema cache
+     */
     private static final int CACHE_INIT = 50;
 
+    /**
+     * Set of cached schemas
+     */
     private final Set<JsonNode> validatedSchemas;
 
+    /**
+     * The schema provider used
+     */
     private SchemaProvider provider;
 
     /**
@@ -75,6 +85,9 @@ public final class ValidationContext
      */
     private final ValidatorFactory factory;
 
+    /**
+     * The {@link ValidationReport} generator
+     */
     private final ReportFactory reports;
 
     /**
@@ -83,6 +96,15 @@ public final class ValidationContext
      */
     private final Set<JsonNode> refLookups = new LinkedHashSet<JsonNode>();
 
+    /**
+     * Private constructor
+     *
+     * @param provider the schema provider
+     * @param path the JSON Pointer within the instance
+     * @param factory the validator factory
+     * @param reports the report generator
+     * @param validatedSchemas the list of already validated schemas
+     */
     private ValidationContext(final SchemaProvider provider,
         final JsonPointer path, final ValidatorFactory factory,
         final ReportFactory reports, final Set<JsonNode> validatedSchemas)
@@ -94,6 +116,13 @@ public final class ValidationContext
         this.validatedSchemas = validatedSchemas;
     }
 
+    /**
+     * Public constructor
+     *
+     * @param factory the validator factory
+     * @param provider the schema provider
+     * @param reports the report generator
+     */
     public ValidationContext(final ValidatorFactory factory,
         final SchemaProvider provider, final ReportFactory reports)
     {
@@ -118,9 +147,10 @@ public final class ValidationContext
     }
 
     /**
-     * Spawn a new context from this context
+     * Spawn a new context from this context, with a (potentially) different
+     * JSON Pointer within the instance and a new schema
      *
-     * @param subPath the pointer element to append to {@link #path} (MUST be
+     * @param subPath the path element to append to {@link #path} (MUST be
      * {@code null} if the context is spawned for the same path: remember
      * that an empty string is a valid JSON Pointer element!)
      * @param subSchema the schema node to use for the new context
@@ -137,6 +167,13 @@ public final class ValidationContext
             validatedSchemas);
     }
 
+    /**
+     * Spawn a new context with the same JSON Pointer into the instance and a
+     * different schema
+     *
+     * @param subSchema the new schema
+     * @return the new context
+     */
     public ValidationContext withSchema(final JsonNode subSchema)
     {
         final SchemaProvider sp = provider.withSchema(subSchema);
@@ -214,6 +251,15 @@ public final class ValidationContext
         return factory.getInstanceValidator(this, instance);
     }
 
+    /**
+     * Get a format validator for an instance
+     *
+     * @param fmt the format specification
+     * @param instance the instance
+     * @return the {@link FormatValidator}
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
+     */
     public Validator getFormatValidator(final String fmt,
         final JsonNode instance)
         throws JsonValidationFailureException
@@ -221,6 +267,15 @@ public final class ValidationContext
         return factory.getFormatValidator(this, fmt, instance);
     }
 
+    /**
+     * Get a validator for a given pointer within a schema for a given instance
+     *
+     * @param pointer the JSON Pointer from the root of the schema
+     * @param instance the instance to validate
+     * @return the appropriate validator
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
+     */
     public Validator getValidator(final JsonPointer pointer,
         final JsonNode instance)
         throws JsonValidationFailureException

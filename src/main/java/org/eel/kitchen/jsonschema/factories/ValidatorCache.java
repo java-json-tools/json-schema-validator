@@ -95,6 +95,9 @@ public final class ValidatorCache
         cache.get(type).put(schema, validator);
     }
 
+    /**
+     * Clear the cache entirely
+     */
     public void clear()
     {
         /*

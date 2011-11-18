@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -42,14 +41,7 @@ abstract class ContainerValidator
     implements Validator
 {
     /**
-     * An empty schema, always true
-     */
-    protected static final JsonNode EMPTY_SCHEMA
-        = JsonNodeFactory.instance.objectNode();
-
-    /**
      * The {@link Validator} which validates the structure of the instance
-     * itself
      */
     private final Validator validator;
 
@@ -66,6 +58,14 @@ abstract class ContainerValidator
         schema = new JsonSchema(schemaNode);
     }
 
+    /**
+     * Validate the children node of the instance
+     *
+     * @param context the context
+     * @param instance the instance
+     * @return the report
+     * @throws JsonValidationFailureException if the report is set to throw it
+     */
     protected abstract ValidationReport validateChildren(
         final ValidationContext context, final JsonNode instance)
         throws JsonValidationFailureException;

@@ -35,6 +35,9 @@ public enum ValidationStatus
      */
     ERROR(2);
 
+    /**
+     * The level matching that status
+     */
     private final int level;
 
     ValidationStatus(final int level)
@@ -42,6 +45,13 @@ public enum ValidationStatus
         this.level = level;
     }
 
+    /**
+     * Get a status from its level. Returns {@link #ERROR} if the level is
+     * unknown.
+     *
+     * @param level the level
+     * @return the appropriate status
+     */
     private static ValidationStatus fromLevel(final int level)
     {
         switch (level) {
@@ -54,6 +64,13 @@ public enum ValidationStatus
         }
     }
 
+    /**
+     * Given two validation statuses, return the worst one of them both
+     *
+     * @param first the first
+     * @param second the second
+     * @return the worst
+     */
     public static ValidationStatus worstOf(final ValidationStatus first,
         final ValidationStatus second)
     {

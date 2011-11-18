@@ -17,7 +17,14 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+/**
+ * List of validation features
+ */
 public enum ValidationFeature
 {
+    /**
+     * Should the validation fail at the first error encountered (see {@link
+     * JsonValidationFailureException})
+     */
     FAIL_FAST
 }
