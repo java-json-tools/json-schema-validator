@@ -28,6 +28,14 @@ import java.util.List;
 public final class FailFastValidationReport
     extends ValidationReport
 {
+    private final String prefix;
+    private String message = null;
+
+    public FailFastValidationReport(final String prefix)
+    {
+        this.prefix = prefix;
+    }
+
     @Override
     public List<String> getMessages()
     {
@@ -37,12 +45,16 @@ public final class FailFastValidationReport
     @Override
     public void message(final String message)
     {
+        this.message = prefix + ": " + message;
     }
 
     @Override
     public void fail()
         throws JsonValidationFailureException
     {
+        if (message != null)
+            throw new JsonValidationFailureException(message);
+
         throw new JsonValidationFailureException();
     }
 
@@ -50,14 +62,14 @@ public final class FailFastValidationReport
     public void fail(final String message)
         throws JsonValidationFailureException
     {
-        throw new JsonValidationFailureException(message);
+        throw new JsonValidationFailureException(prefix + ": " + message);
     }
 
     @Override
     public void error(final String message)
         throws JsonValidationFailureException
     {
-        throw new JsonValidationFailureException(message);
+        throw new JsonValidationFailureException(prefix + ": " + message);
     }
 
     @Override
