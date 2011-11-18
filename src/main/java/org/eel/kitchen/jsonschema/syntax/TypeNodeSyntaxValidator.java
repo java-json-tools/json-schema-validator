@@ -80,6 +80,8 @@ abstract class TypeNodeSyntaxValidator
      * @param report the report to use
      * @param prefix the prefix to use for the report
      * @param element the element of the array to check
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     private static void validateOne(final ValidationReport report,
         final String prefix, final JsonNode element)
@@ -115,6 +117,8 @@ abstract class TypeNodeSyntaxValidator
      *
      * @param report the report to use
      * @param element the element to check
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     private static void validateOne(final ValidationReport report,
         final JsonNode element)

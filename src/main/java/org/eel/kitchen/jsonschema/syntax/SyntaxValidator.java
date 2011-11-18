@@ -81,7 +81,8 @@ public abstract class SyntaxValidator
      *
      * @param schema the schema to analyze
      * @param report the report to use
-     * @throws JsonValidationFailureException
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     protected abstract void checkFurther(final JsonNode schema,
         final ValidationReport report)

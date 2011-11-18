@@ -311,7 +311,7 @@ public final class SyntaxValidatorFactoryTest
         try {
             final Validator sv = syntaxFactory.getValidator(context);
             report = sv.validate(context, schema);
-        } catch (JsonValidationFailureException e) {
+        } catch (JsonValidationFailureException ignored) {
             fail();
         }
 

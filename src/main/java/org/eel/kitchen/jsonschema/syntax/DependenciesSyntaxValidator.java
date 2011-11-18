@@ -90,6 +90,8 @@ public final class DependenciesSyntaxValidator
      * @param report the report to use
      * @param field the field name
      * @param node the array node for this field
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     private static void checkDependencyArray(final ValidationReport report,
         final String field, final JsonNode node)

@@ -190,6 +190,8 @@ public final class ValidationContext
      *
      * @param instance the JSON instance
      * @return the validator
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     public Validator getValidator(final JsonNode instance)
         throws JsonValidationFailureException

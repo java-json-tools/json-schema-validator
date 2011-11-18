@@ -65,6 +65,8 @@ public final class ValidatorFactory
      *
      * @param context the context containing the schema node
      * @return the matching validator
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     public Validator getSyntaxValidator(final ValidationContext context)
         throws JsonValidationFailureException
@@ -130,6 +132,8 @@ public final class ValidatorFactory
      * @param fmt the format specification
      * @param instance the instance to validate
      * @return the matching {@link FormatValidator}
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     public Validator getFormatValidator(final ValidationContext context,
         final String fmt, final JsonNode instance)

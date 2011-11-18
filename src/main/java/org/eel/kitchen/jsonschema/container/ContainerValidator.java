@@ -57,6 +57,7 @@ abstract class ContainerValidator
     /**
      * Constructor
      *
+     * @param schemaNode the schema
      * @param validator the structure validator, see {@link #validator}
      */
     ContainerValidator(final JsonNode schemaNode, final Validator validator)

@@ -97,6 +97,8 @@ public final class DependenciesKeywordValidator
      * @param instance the instance
      * @param entry the dependency entry
      * @return the report
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     private static ValidationReport doOneDependency(
         final ValidationContext context, final JsonNode instance,
@@ -122,7 +124,8 @@ public final class DependenciesKeywordValidator
      * @param entry the dependency entry
      * @param fieldNames the property names in the instance
      * @param depreport the report to fill
-     * @throws JsonValidationFailureException
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     private static void doSimpleDependency(
         final Map.Entry<String, JsonNode> entry,

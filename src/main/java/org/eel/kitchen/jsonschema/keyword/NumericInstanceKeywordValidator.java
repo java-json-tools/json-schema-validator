@@ -89,11 +89,12 @@ public abstract class NumericInstanceKeywordValidator
      * Validate a numeric instance if both the schema value and this instance
      * fit into the {@code long} primitive type
      *
-     *
      * @param context the context
      * @param value the schema value
      * @param against the instance value
      * @return the report
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     protected abstract ValidationReport validateLong(
         final ValidationContext context, final long value, final long against)
@@ -108,6 +109,8 @@ public abstract class NumericInstanceKeywordValidator
      * @param value the schema value
      * @param against the instance value
      * @return the report
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     protected abstract ValidationReport validateDecimal(
         final ValidationContext context, final BigDecimal value,

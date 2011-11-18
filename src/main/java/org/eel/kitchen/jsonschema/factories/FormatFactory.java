@@ -100,6 +100,8 @@ public final class FormatFactory
      * @param name the format specification
      * @param instance the instance to validate
      * @return the matching validator
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     public Validator getFormatValidator(final ValidationContext context,
         final String name, final JsonNode instance)

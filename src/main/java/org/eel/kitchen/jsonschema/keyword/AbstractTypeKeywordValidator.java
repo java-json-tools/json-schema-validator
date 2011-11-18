@@ -55,6 +55,8 @@ abstract class AbstractTypeKeywordValidator
      * @param typeSet the primitive types
      * @param schemas the schemas found, if any
      * @return the validation report
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate mode
      */
     protected abstract ValidationReport doValidate(
         final ValidationContext context, final JsonNode instance,
@@ -95,7 +97,8 @@ abstract class AbstractTypeKeywordValidator
      * @param schema the found schema
      * @param instance the instance
      * @return the report
-     * @throws JsonValidationFailureException
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     protected static ValidationReport validateSchema(
         final ValidationContext context, final JsonNode schema,

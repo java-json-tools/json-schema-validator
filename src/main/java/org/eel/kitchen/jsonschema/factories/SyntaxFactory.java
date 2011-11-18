@@ -147,6 +147,8 @@ public final class SyntaxFactory
      *
      * @param context the validation context
      * @return the matching validator
+     * @throws JsonValidationFailureException on validation failure,
+     * with the appropriate validation mode
      */
     public Validator getValidator(final ValidationContext context)
         throws JsonValidationFailureException

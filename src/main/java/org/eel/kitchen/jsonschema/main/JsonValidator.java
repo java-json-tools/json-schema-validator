@@ -212,8 +212,11 @@ public final class JsonValidator
 
     /**
      * Validate an instance against the schema
+     *
      * @param instance the instance to validate
      * @return the validation report
+     * @throws JsonValidationFailureException on validation failure,
+     * if {@link ValidationFeature#FAIL_FAST} is set
      */
     public ValidationReport validate(final JsonNode instance)
         throws JsonValidationFailureException
@@ -244,6 +247,8 @@ public final class JsonValidator
      * @param path the path to the actual schema
      * @param instance the instance to validate
      * @return a report of the validation
+     * @throws JsonValidationFailureException on validation failure,
+     * if {@link ValidationFeature#FAIL_FAST} is set
      */
     public ValidationReport validate(final String path, final JsonNode instance)
         throws JsonValidationFailureException
