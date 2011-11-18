@@ -158,6 +158,7 @@ public final class ValidationContext
     public ValidationContext fromURI(final URI uri)
         throws IOException
     {
+        // FIXME: move this out of here
         if (!uri.isAbsolute()) {
             if (!uri.getSchemeSpecificPart().isEmpty())
                 throw new IllegalArgumentException("invalid URI: "
