@@ -25,6 +25,7 @@ import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -38,7 +39,8 @@ import org.eel.kitchen.util.NodeType;
  * not whether it is actually valid for your country! If you really want
  * that, you will probably want to write your own {@link KeywordValidator}.</p>
  *
- * @see JsonValidator#registerValidator(String, Class, Class, NodeType...)
+ * @see JsonValidator#registerValidator(String, SyntaxValidator,
+ * KeywordValidator, NodeType...)
  */
 //TODO: more tests?
 public final class PhoneNumberValidator

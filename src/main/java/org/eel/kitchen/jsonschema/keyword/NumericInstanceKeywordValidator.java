@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 /**
  * Keyword validator specialized in numeric instances keyword validation
  *
- * <p>This class uses Java's {@link long} primitive type if both the value
+ * <p>This class uses Java's {@code long} primitive type if both the value
  * of the keyword and the instance fit within this type,
  * otherwise it uses {@link BigDecimal}, even for numbers which would fit
  * within a float or a double. The reason is, for example,
