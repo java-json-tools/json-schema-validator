@@ -151,7 +151,8 @@ public final class JsonValidator
      * which means schemas bearing this particular keyword will be considered
      * <b>INVALID</b>. This is why this method should always be called
      * before, and paired with,
-     * {@link #registerValidator(String, Class, Class, NodeType...)},
+     * {@link #registerValidator(String, SyntaxValidator, KeywordValidator,
+     * NodeType...)}
      * unless you really mean to reduce the subset of recognized keywords.</p>
      *
      * @param keyword the keyword to unregister

@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -96,18 +97,15 @@ public final class ValidatorCache
     }
 
     /**
-     * Clear the cache entirely
+     * Clear the cache for certain JSON instance types
+     *
+     * @param types the type list to clear the cache
      */
-    public void clear()
+    public void clear(final EnumSet<NodeType> types)
     {
-        /*
-         * TODO: optimize?
-         *
-         * For instance, if we register a new validator only for objects,
-         * we don't need to clear entries for other types...
-         */
-        logger.debug("purging cache!");
-        for (final NodeType type: NodeType.values())
+        for (final NodeType type: types) {
+            logger.debug("purging cache for type " + type);
             cache.get(type).clear();
+        }
     }
 }

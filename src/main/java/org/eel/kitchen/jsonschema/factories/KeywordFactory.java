@@ -50,6 +50,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -77,7 +78,8 @@ public final class KeywordFactory
     /**
      * Set of ignored keywords (for which validation is always true)
      */
-    private final Set<String> ignoredKeywords = new HashSet<String>();
+    private final Map<NodeType, Set<String>> ignoredKeywords
+        = new EnumMap<NodeType, Set<String>>(NodeType.class);
 
     /**
      * Map of all validators
@@ -94,8 +96,10 @@ public final class KeywordFactory
      */
     public KeywordFactory()
     {
-        for (final NodeType type: NodeType.values())
+        for (final NodeType type: NodeType.values()) {
             validators.put(type, new HashMap<String, KeywordValidator>());
+            ignoredKeywords.put(type, new HashSet<String>());
+        }
 
         registerValidator("additionalItems",
             new AdditionalItemsKeywordValidator(), ARRAY);
@@ -130,8 +134,8 @@ public final class KeywordFactory
             ARRAY);
         registerValidator("$ref", new RefKeywordValidator(), NodeType.values());
 
-        ignoredKeywords.add("items");
-        ignoredKeywords.add("patternProperties");
+        registerValidator("items", null, ARRAY);
+        registerValidator("patternProperties", null, OBJECT);
     }
 
     /**
@@ -161,19 +165,22 @@ public final class KeywordFactory
          * Both tests below are for security only... They should not happen
          * until the "no schema validation" feature is implemented.
          */
-        if (ignoredKeywords.contains(keyword))
-            throw new IllegalArgumentException("keyword already registered");
 
-        for (final NodeType type: types)
-            if (validators.get(type).keySet().contains(keyword))
+        for (final NodeType type: types) {
+            if (ignoredKeywords.get(type).contains(keyword))
                 throw new IllegalArgumentException("keyword already registered");
+            if (validators.get(type).keySet().contains(keyword))
+                throw new IllegalArgumentException(
+                    "keyword already registered");
+        }
 
         if (types.length == 0)
             throw new IllegalArgumentException("cannot register a new keyword"
                 + " with no JSON type to match against");
 
         if (kv == null) {
-            ignoredKeywords.add(keyword);
+            for (final NodeType type: types)
+                ignoredKeywords.get(type).add(keyword);
             return;
         }
 
@@ -185,12 +192,20 @@ public final class KeywordFactory
      * Unregister a validator for the given keyword
      *
      * @param keyword the victim
+     * @return the list of types for which this keyword was registered
      */
-    public void unregisterValidator(final String keyword)
+    public EnumSet<NodeType> unregisterValidator(final String keyword)
     {
-        ignoredKeywords.remove(keyword);
-        for (final NodeType type: NodeType.values())
-            validators.get(type).remove(keyword);
+        final EnumSet<NodeType> ret = EnumSet.noneOf(NodeType.class);
+
+        for (final NodeType type: NodeType.values()) {
+            if (ignoredKeywords.get(type).remove(keyword))
+                ret.add(type);
+            if (validators.get(type).remove(keyword) != null)
+                ret.add(type);
+        }
+
+        return ret;
     }
 
     /**

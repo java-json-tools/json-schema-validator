@@ -30,7 +30,9 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 
 /**
  * Factory centralizing all validator factories, and in charge or returning
@@ -155,8 +157,8 @@ public final class ValidatorFactory
      * @param types the list of JSON types the keyword validator is able to
      * validate
      *
-     * @see SyntaxFactory#registerValidator(String, Class)
-     * @see KeywordFactory#registerValidator(String, Class, NodeType...)
+     * @see SyntaxFactory#registerValidator(String, SyntaxValidator)
+     * @see KeywordFactory#registerValidator(String, KeywordValidator, NodeType...)
      */
     public void registerValidator(final String keyword,
         final SyntaxValidator sv, final KeywordValidator kv,
@@ -164,7 +166,7 @@ public final class ValidatorFactory
     {
         syntaxFactory.registerValidator(keyword, sv);
         keywordFactory.registerValidator(keyword, kv, types);
-        cache.clear();
+        cache.clear(EnumSet.copyOf(Arrays.asList(types)));
     }
 
     /**
@@ -177,7 +179,8 @@ public final class ValidatorFactory
     public void unregisterValidator(final String keyword)
     {
         syntaxFactory.unregisterValidator(keyword);
-        keywordFactory.unregisterValidator(keyword);
-        cache.clear();
+        final EnumSet<NodeType> types
+            = keywordFactory.unregisterValidator(keyword);
+        cache.clear(types);
     }
 }
