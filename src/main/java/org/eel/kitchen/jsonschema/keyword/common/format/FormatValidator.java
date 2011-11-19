@@ -15,23 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.bundle;
+package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.eel.kitchen.jsonschema.keyword.draftv3.PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv3.RequiredSyntaxValidator;
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.base.Validator;
 
-public class DraftV3ValidatorBundle
-    extends CommonValidatorBundle
+/**
+ * Base implementation of validations for the {@code format} keyword (draft
+ * section 5.23)
+ */
+//FIXME: empty, but will be necessary if we propose validator registration
+public abstract class FormatValidator
+    implements Validator
 {
-    public DraftV3ValidatorBundle()
-    {
-        registerSV("required", new RequiredSyntaxValidator());
-        registerIgnoredKV("required", NodeType.OBJECT);
-
-        registerSV("properties", new PropertiesSyntaxValidator());
-        registerKV("properties", new PropertiesKeywordValidator(),
-            NodeType.OBJECT);
-    }
 }

@@ -15,35 +15,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.util.NodeType;
 
-/**
- * Interface which all validators must implement
- *
- * @see SyntaxValidator
- * @see KeywordValidator
- * @see FormatValidator
- */
-public interface Validator
+import java.net.URI;
+import java.net.URISyntaxException;
+
+public final class DollarRefSyntaxValidator
+    extends SyntaxValidator
 {
-    /**
-     * Validate an instance
-     *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
-     */
-    ValidationReport validate(final ValidationContext context,
-        final JsonNode instance)
-        throws JsonValidationFailureException;
+    public DollarRefSyntaxValidator()
+    {
+        super("$ref", NodeType.STRING);
+    }
+
+    @Override
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
+        throws JsonValidationFailureException
+    {
+        try {
+            new URI(schema.get(keyword).getTextValue());
+        } catch (URISyntaxException ignored) {
+            report.fail("not a valid URI");
+        }
+
+        if (schema.size() > 1)
+            report.fail("$ref should be by itself");
+    }
 }

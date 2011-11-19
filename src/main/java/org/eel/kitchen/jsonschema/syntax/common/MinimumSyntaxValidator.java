@@ -15,23 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.bundle;
+package org.eel.kitchen.jsonschema.syntax.common;
 
-import org.eel.kitchen.jsonschema.keyword.draftv3.PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv3.RequiredSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
-public class DraftV3ValidatorBundle
-    extends CommonValidatorBundle
+public final class MinimumSyntaxValidator
+    extends SimpleSyntaxValidator
 {
-    public DraftV3ValidatorBundle()
+    public MinimumSyntaxValidator()
     {
-        registerSV("required", new RequiredSyntaxValidator());
-        registerIgnoredKV("required", NodeType.OBJECT);
-
-        registerSV("properties", new PropertiesSyntaxValidator());
-        registerKV("properties", new PropertiesKeywordValidator(),
-            NodeType.OBJECT);
+        super("minimum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

@@ -15,35 +15,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.util.NodeType;
 
-/**
- * Interface which all validators must implement
- *
- * @see SyntaxValidator
- * @see KeywordValidator
- * @see FormatValidator
- */
-public interface Validator
+import java.math.BigDecimal;
+
+public final class DivisibleBySyntaxValidator
+    extends SyntaxValidator
 {
+    public DivisibleBySyntaxValidator()
+    {
+        super("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
+    }
+
     /**
-     * Validate an instance
-     *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
+     * Check that the divisor is not 0
      */
-    ValidationReport validate(final ValidationContext context,
-        final JsonNode instance)
-        throws JsonValidationFailureException;
+    @Override
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
+        throws JsonValidationFailureException
+    {
+        final BigDecimal divisor = schema.get(keyword).getDecimalValue();
+
+        if (BigDecimal.ZERO.compareTo(divisor) != 0)
+            return;
+
+        report.fail("divisor is 0");
+    }
 }

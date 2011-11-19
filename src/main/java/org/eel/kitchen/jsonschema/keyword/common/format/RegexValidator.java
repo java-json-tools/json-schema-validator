@@ -15,35 +15,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.keyword.common.format;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.util.RhinoHelper;
 
 /**
- * Interface which all validators must implement
+ * Validator for the "regex" format specification
  *
- * @see SyntaxValidator
- * @see KeywordValidator
- * @see FormatValidator
+ * <p>Again, here, we do <b>not</b> use {@link java.util.regex} because it
+ * does not fit the bill.</p>
+ *
+ * @see RhinoHelper
  */
-public interface Validator
+public final class RegexValidator
+    extends FormatValidator
 {
-    /**
-     * Validate an instance
-     *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
-     */
-    ValidationReport validate(final ValidationContext context,
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException;
+        throws JsonValidationFailureException
+    {
+        final ValidationReport report = context.createReport();
+
+        if (!RhinoHelper.regexIsValid(instance.getTextValue()))
+            report.fail("string is not a valid regular expression");
+
+        return report;
+    }
 }

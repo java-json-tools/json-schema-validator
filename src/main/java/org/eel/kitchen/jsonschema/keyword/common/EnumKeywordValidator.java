@@ -15,35 +15,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.keyword.common;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 /**
- * Interface which all validators must implement
+ * Keyword validator for the {@code enum} keyword (draft section 5.19).
  *
- * @see SyntaxValidator
- * @see KeywordValidator
- * @see FormatValidator
+ * <p>Jackson is of great help here, since {@link JsonNode#equals(Object)} works
+ * perfectly <i>and</i> recursively for container nodes.</p>
  */
-public interface Validator
+public final class EnumKeywordValidator
+    extends KeywordValidator
 {
-    /**
-     * Validate an instance
-     *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
-     */
-    ValidationReport validate(final ValidationContext context,
+    public EnumKeywordValidator()
+    {
+        super("enum");
+    }
+
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException;
+        throws JsonValidationFailureException
+    {
+        final ValidationReport report = context.createReport();
+        final JsonNode enumNode = context.getSchemaNode().get(keyword);
+
+        for (final JsonNode element: enumNode)
+            if (element.equals(instance))
+                return report;
+
+        report.fail("instance does not match any member of the enumeration");
+
+        return report;
+    }
 }

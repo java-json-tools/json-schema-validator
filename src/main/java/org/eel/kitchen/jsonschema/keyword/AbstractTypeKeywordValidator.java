@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.keyword.common.DisallowKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -34,7 +36,7 @@ import java.util.List;
  * @see TypeKeywordValidator
  * @see DisallowKeywordValidator
  */
-abstract class AbstractTypeKeywordValidator
+public abstract class AbstractTypeKeywordValidator
     extends KeywordValidator
 {
     /**
@@ -42,7 +44,7 @@ abstract class AbstractTypeKeywordValidator
      */
     private static final String ANY = "any";
 
-    AbstractTypeKeywordValidator(final String keyword)
+    protected AbstractTypeKeywordValidator(final String keyword)
     {
         super(keyword);
     }

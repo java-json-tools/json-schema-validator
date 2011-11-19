@@ -15,35 +15,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.util.RhinoHelper;
 
-/**
- * Interface which all validators must implement
- *
- * @see SyntaxValidator
- * @see KeywordValidator
- * @see FormatValidator
- */
-public interface Validator
+public final class PatternSyntaxValidator
+    extends SyntaxValidator
 {
+    public PatternSyntaxValidator()
+    {
+        super("pattern", NodeType.STRING);
+    }
+
     /**
-     * Validate an instance
+     * Check that the value is a valid regex
      *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
+     * @see RhinoHelper#regexIsValid(String)
      */
-    ValidationReport validate(final ValidationContext context,
-        final JsonNode instance)
-        throws JsonValidationFailureException;
+    @Override
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
+        throws JsonValidationFailureException
+    {
+        final JsonNode node = schema.get(keyword);
+        final String pattern = node.getTextValue();
+
+        if (!RhinoHelper.regexIsValid(pattern))
+            report.fail("invalid regex " + pattern);
+    }
 }
