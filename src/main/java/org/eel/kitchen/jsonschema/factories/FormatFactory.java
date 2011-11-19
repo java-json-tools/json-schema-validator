@@ -131,8 +131,7 @@ public final class FormatFactory
     private void registerFormat(final String name,
         final FormatValidator validator, final NodeType... types)
     {
-        final EnumSet<NodeType> typeSet
-            = EnumSet.copyOf(Arrays.asList(types));
+        final EnumSet<NodeType> typeSet = EnumSet.copyOf(Arrays.asList(types));
 
         typeMap.put(name, typeSet);
         validators.put(name, validator);
