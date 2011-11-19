@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema.mechanics;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.draftv4.newkeywords.PropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.draftv4.newkeywords.RequiredKeywordValidator;
-import org.eel.kitchen.jsonschema.draftv4.newkeywords.RequiredSyntaxValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
+import org.eel.kitchen.jsonschema.syntax.draftv4.PropertiesSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;

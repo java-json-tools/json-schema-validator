@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.draftv4.newkeywords;
+package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
@@ -49,7 +49,8 @@ public final class PropertiesSyntaxValidator
 
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet())
             if (!entry.getValue().isObject())
-                report.fail(String.format("value for property %s is not an "
-                    + "object", entry.getKey()));
+                report.fail(String.format(
+                    "value for property %s is not an " + "object",
+                    entry.getKey()));
     }
 }
