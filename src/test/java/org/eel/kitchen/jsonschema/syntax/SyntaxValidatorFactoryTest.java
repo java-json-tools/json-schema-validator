@@ -45,7 +45,7 @@ public final class SyntaxValidatorFactoryTest
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
     private static final JsonNode dummy = nodeFactory.nullNode();
     private static final SyntaxFactory syntaxFactory = new SyntaxFactory();
-    private static final ValidatorFactory factory = new ValidatorFactory();
+    private static final ValidatorFactory factory = new ValidatorFactory(false);
     private static final ReportFactory reports = new ReportFactory(false);
 
     private JsonNode allTests;

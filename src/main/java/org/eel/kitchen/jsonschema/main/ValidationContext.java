@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -60,11 +59,6 @@ public final class ValidationContext
      * Size of the schema cache
      */
     private static final int CACHE_INIT = 50;
-
-    /**
-     * Set of cached schemas
-     */
-    private final Set<JsonNode> validatedSchemas;
 
     /**
      * The schema provider used
@@ -103,17 +97,15 @@ public final class ValidationContext
      * @param path the JSON Pointer within the instance
      * @param factory the validator factory
      * @param reports the report generator
-     * @param validatedSchemas the list of already validated schemas
      */
     private ValidationContext(final SchemaProvider provider,
         final JsonPointer path, final ValidatorFactory factory,
-        final ReportFactory reports, final Set<JsonNode> validatedSchemas)
+        final ReportFactory reports)
     {
         this.provider = provider;
         this.path = path;
         this.factory = factory;
         this.reports = reports;
-        this.validatedSchemas = validatedSchemas;
     }
 
     /**
@@ -132,7 +124,6 @@ public final class ValidationContext
         this.factory = factory;
         this.reports = reports;
 
-        validatedSchemas = new HashSet<JsonNode>(CACHE_INIT);
         refLookups.add(provider.getSchema());
     }
 
@@ -163,8 +154,7 @@ public final class ValidationContext
 
         final SchemaProvider sp = provider.withSchema(subSchema);
 
-        return new ValidationContext(sp, newPath, factory,  reports,
-            validatedSchemas);
+        return new ValidationContext(sp, newPath, factory,  reports);
     }
 
     /**
@@ -179,7 +169,7 @@ public final class ValidationContext
         final SchemaProvider sp = provider.withSchema(subSchema);
 
         final ValidationContext ret = new ValidationContext(sp, path, factory,
-            reports, validatedSchemas);
+            reports);
 
         ret.refLookups.addAll(refLookups);
         return ret;
@@ -211,7 +201,7 @@ public final class ValidationContext
         final SchemaProvider sp = provider.atURI(uri);
 
         final ValidationContext ret = new ValidationContext(sp, path, factory,
-            reports, validatedSchemas);
+            reports);
 
         ret.refLookups.addAll(refLookups);
 
@@ -233,20 +223,10 @@ public final class ValidationContext
     public Validator getValidator(final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final JsonNode schema = provider.getSchema();
+        final ValidationReport report = factory.validateSchema(this);
 
-        if (!validatedSchemas.contains(schema)) {
-            final ValidationReport report = reports.create(path.toString());
-
-            final Validator v = factory.getSyntaxValidator(this);
-
-            report.mergeWith(v.validate(this, instance));
-
-            if (!report.isSuccess())
-                return new AlwaysFalseValidator(report);
-
-            validatedSchemas.add(schema);
-        }
+        if (!report.isSuccess())
+            return new AlwaysFalseValidator(report);
 
         return factory.getInstanceValidator(this, instance);
     }

@@ -27,12 +27,15 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Factory centralizing all validator factories, and in charge or returning
@@ -52,6 +55,17 @@ public final class ValidatorFactory
     private final SyntaxFactory syntaxFactory = new SyntaxFactory();
 
     /**
+     * Should schema syntax checking be skipped altogether?
+     */
+    private final boolean skipSyntax;
+
+    /**
+     * List of already validated schemas (if {@link #skipSyntax} is {@code
+     * false})
+     */
+    private final Set<JsonNode> validated = new HashSet<JsonNode>();
+
+    /**
      * The {@link FormatValidator} factory
      */
     private final FormatFactory formatFactory = new FormatFactory();
@@ -62,18 +76,49 @@ public final class ValidatorFactory
     private final ValidatorCache cache = new ValidatorCache();
 
     /**
-     * Return a {@link SyntaxValidator} for the schema node located in a
-     * {@link ValidationContext}
+     * Constructor
      *
-     * @param context the context containing the schema node
-     * @return the matching validator
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
+     * @param skipSyntax set to {@code true} if schema syntax checking should
+     * be skipped
      */
-    public Validator getSyntaxValidator(final ValidationContext context)
+    public ValidatorFactory(final boolean skipSyntax)
+    {
+        this.skipSyntax = skipSyntax;
+    }
+
+    /**
+     * Validate a schema and return the report
+     *
+     * <p>Will return {@link ValidationReport#TRUE} if:</p>
+     * <ul>
+     *     <li>{@link #skipSyntax} is set to {@code true}, or</li>
+     *     <li>the schema has already been validated</li>
+     * </ul>
+     *
+     * @param context the context containing the schema
+     * @return the report
+     * @throws JsonValidationFailureException if validation failure is set to
+     * throw this exception
+     */
+    public ValidationReport validateSchema(final ValidationContext context)
         throws JsonValidationFailureException
     {
-        return syntaxFactory.getValidator(context);
+        if (skipSyntax)
+            return ValidationReport.TRUE;
+
+        final JsonNode schema = context.getSchemaNode();
+
+        if (validated.contains(schema))
+            return ValidationReport.TRUE;
+
+        final Validator validator = syntaxFactory.getValidator(context);
+        final ValidationReport report
+            = validator.validate(context, schema);
+
+        if (report.isSuccess())
+            validated.add(schema);
+
+        return report;
     }
 
     /**
@@ -84,8 +129,8 @@ public final class ValidatorFactory
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public Validator getInstanceValidator(
-        final ValidationContext context, final JsonNode instance)
+    public Validator getInstanceValidator(final ValidationContext context,
+        final JsonNode instance)
     {
         final JsonNode schema = context.getSchemaNode();
         final NodeType type = NodeType.getNodeType(instance);
@@ -167,6 +212,7 @@ public final class ValidatorFactory
         syntaxFactory.registerValidator(keyword, sv);
         keywordFactory.registerValidator(keyword, kv, types);
         cache.clear(EnumSet.copyOf(Arrays.asList(types)));
+        validated.clear();
     }
 
     /**
@@ -182,5 +228,6 @@ public final class ValidatorFactory
         final EnumSet<NodeType> types
             = keywordFactory.unregisterValidator(keyword);
         cache.clear(types);
+        validated.clear();
     }
 }

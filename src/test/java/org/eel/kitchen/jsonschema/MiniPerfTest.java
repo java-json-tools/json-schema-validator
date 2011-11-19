@@ -43,6 +43,7 @@ public final class MiniPerfTest
 
         final JsonValidator validator = new JsonValidator(draftv3);
         validator.setFeature(ValidationFeature.FAIL_FAST);
+        validator.setFeature(ValidationFeature.SKIP_SCHEMACHECK);
         String name;
         JsonNode schema;
         ValidationReport report;

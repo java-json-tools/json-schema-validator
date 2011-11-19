@@ -55,7 +55,7 @@ public final class JsonValidator
      * Validator factory (both {@link SyntaxValidator} and {@link
      * KeywordValidator} instances)
      */
-    private final ValidatorFactory factory;
+    private ValidatorFactory factory;
 
     /**
      * The schema provider
@@ -86,7 +86,7 @@ public final class JsonValidator
     public JsonValidator(final JsonNode schema)
     {
         provider = new SchemaProvider(schema);
-        factory = new ValidatorFactory();
+        factory = new ValidatorFactory(false);
         reports = new ReportFactory(false);
         features = EnumSet.noneOf(ValidationFeature.class);
         context = new ValidationContext(factory, provider, reports);
@@ -109,6 +109,9 @@ public final class JsonValidator
             switch (feature) {
                 case FAIL_FAST:
                     reports = new ReportFactory(true);
+                    break;
+                case SKIP_SCHEMACHECK:
+                    factory = new ValidatorFactory(true);
                     break;
             }
             context = new ValidationContext(factory, provider, reports);
@@ -135,6 +138,8 @@ public final class JsonValidator
                 case FAIL_FAST:
                     reports = new ReportFactory(false);
                     break;
+                case SKIP_SCHEMACHECK:
+                    factory = new ValidatorFactory(false);
             }
             context = new ValidationContext(factory, provider, reports);
         } finally {

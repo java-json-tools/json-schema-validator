@@ -19,6 +19,9 @@ package org.eel.kitchen.jsonschema.main;
 
 /**
  * List of validation features
+ *
+ * @see JsonValidator#setFeature(ValidationFeature)
+ * @see JsonValidator#removeFeature(ValidationFeature)
  */
 public enum ValidationFeature
 {
@@ -26,5 +29,9 @@ public enum ValidationFeature
      * Should the validation fail at the first error encountered (see {@link
      * JsonValidationFailureException})
      */
-    FAIL_FAST
+    FAIL_FAST,
+    /**
+     * Should schema syntax checking be skipped (use at your own risks!)
+     */
+    SKIP_SCHEMACHECK
 }
