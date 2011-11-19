@@ -13,6 +13,19 @@ validation using draft v3, and can be extended to support draft v4 easily.
 for a list of features. Among others, it performs <b>more than 25 times better
 than the previous version</b>.
 
+<p>Small overview of available features:
+
+* ability to register/unregister new keywords;
+* validator/schema caching;
+* arbitrary length/precision number validation;
+* full report or fail-fast report modes;
+* complete <tt>$ref</tt> support, with loop detection;
+* ECMA 262 regexes (using Rhino);
+* others.
+
+<p>I believe this to be the most complete implementation of JSON Schema in Java
+today.
+
 <p>For a detailed discussion of the implementation, see
 [here](https://github.com/fge/json-schema-validator/wiki/Status). For a list of
 planned features for next versions, see
