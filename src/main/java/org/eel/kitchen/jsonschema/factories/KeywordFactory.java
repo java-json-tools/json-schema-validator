@@ -215,8 +215,8 @@ public final class KeywordFactory
      * @param instance the instance to be validated
      * @return the matching set of validators
      */
-    public Collection<Validator> getValidators(
-        final ValidationContext context, final JsonNode instance)
+    public Collection<Validator> getValidators(final ValidationContext context,
+        final JsonNode instance)
     {
         final JsonNode schemaNode = context.getSchemaNode();
         final Set<String> keywords
