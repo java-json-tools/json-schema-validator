@@ -8,7 +8,7 @@ the corner, for some defintion of "corner" -- understand, days,
 or a few weeks). This implementation has <b>full</b> support for instance
 validation using draft v3, and can be extended to support draft v4 easily.
 
-<p><b>Version 0.2.1 is out</b>: see [here]
+<p><b>Version 0.3 is out</b>: see [here]
 (https://github.com/fge/json-schema-validator/wiki/ChangeLog)
 for a list of features.
 
