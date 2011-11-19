@@ -21,6 +21,7 @@ than the previous version</b>.
 * full report or fail-fast report modes;
 * complete <tt>$ref</tt> support, with loop detection;
 * ECMA 262 regexes (using Rhino);
+* ability to register URI handlers for any scheme (HTTP only natively);
 * others.
 
 <p>I believe this to be the most complete implementation of JSON Schema in Java
