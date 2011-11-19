@@ -187,8 +187,8 @@ public final class JsonValidator
      * @throws IllegalArgumentException if keyword is null
      */
     public void registerValidator(final String keyword,
-        final Class<? extends SyntaxValidator> sv,
-        final Class<? extends KeywordValidator> kv, final NodeType... types)
+        final SyntaxValidator sv, final KeywordValidator kv,
+        final NodeType... types)
     {
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");

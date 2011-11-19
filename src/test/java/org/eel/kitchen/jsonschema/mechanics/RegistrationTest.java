@@ -120,7 +120,7 @@ public final class RegistrationTest
 
         try {
             validator.registerValidator("foo", null,
-                RequiredKeywordValidator.class);
+                new RequiredKeywordValidator());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "cannot register a new keyword with "
@@ -147,10 +147,10 @@ public final class RegistrationTest
         final JsonValidator ret = new JsonValidator(schema);
         ret.unregisterValidator("properties");
         ret.unregisterValidator("required");
-        ret.registerValidator("properties", PropertiesSyntaxValidator.class,
+        ret.registerValidator("properties", new PropertiesSyntaxValidator(),
             null, NodeType.OBJECT);
-        ret.registerValidator("required", RequiredSyntaxValidator.class,
-            RequiredKeywordValidator.class, NodeType.OBJECT);
+        ret.registerValidator("required", new RequiredSyntaxValidator(),
+            new RequiredKeywordValidator(), NodeType.OBJECT);
 
         return ret;
     }

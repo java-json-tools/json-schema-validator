@@ -46,8 +46,6 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -92,36 +90,45 @@ public final class KeywordFactory
 
     /**
      * Constructor; registers validators using
-     * {@link #register(String, KeywordValidator, NodeType...)}
+     * {@link #registerValidator(String, KeywordValidator, NodeType...)}
      */
     public KeywordFactory()
     {
         for (final NodeType type: NodeType.values())
             validators.put(type, new HashMap<String, KeywordValidator>());
 
-        register("additionalItems", new AdditionalItemsKeywordValidator(),
-            ARRAY);
-        register("additionalProperties",
+        registerValidator("additionalItems",
+            new AdditionalItemsKeywordValidator(), ARRAY);
+        registerValidator("additionalProperties",
             new AdditionalPropertiesKeywordValidator(), OBJECT);
-        register("dependencies", new DependenciesKeywordValidator(),
+        registerValidator("dependencies", new DependenciesKeywordValidator(),
             NodeType.values());
-        register("disallow", new DisallowKeywordValidator(), NodeType.values());
-        register("divisibleBy", new DivisibleByKeywordValidator(), INTEGER,
+        registerValidator("disallow", new DisallowKeywordValidator(),
+            NodeType.values());
+        registerValidator("divisibleBy", new DivisibleByKeywordValidator(),
+            INTEGER, NUMBER);
+        registerValidator("enum", new EnumKeywordValidator(),
+            NodeType.values());
+        registerValidator("extends", new ExtendsKeywordValidator(),
+            NodeType.values());
+        registerValidator("format", new FormatKeywordValidator(),
+            NodeType.values());
+        registerValidator("maximum", new MaximumKeywordValidator(), INTEGER,
             NUMBER);
-        register("enum", new EnumKeywordValidator(), NodeType.values());
-        register("extends", new ExtendsKeywordValidator(), NodeType.values());
-        register("format", new FormatKeywordValidator(), NodeType.values());
-        register("maximum", new MaximumKeywordValidator(), INTEGER, NUMBER);
-        register("maxItems", new MaxItemsKeywordValidator(), ARRAY);
-        register("maxLength", new MaxLengthKeywordValidator(), STRING);
-        register("minimum", new MinimumKeywordValidator(), INTEGER, NUMBER);
-        register("minItems", new MinItemsKeywordValidator(), ARRAY);
-        register("minLength", new MinLengthKeywordValidator(), STRING);
-        register("pattern", new PatternKeywordValidator(), STRING);
-        register("properties", new PropertiesKeywordValidator(), OBJECT);
-        register("type", new TypeKeywordValidator(), NodeType.values());
-        register("uniqueItems", new UniqueItemsKeywordValidator(), ARRAY);
-        register("$ref", new RefKeywordValidator(), NodeType.values());
+        registerValidator("maxItems", new MaxItemsKeywordValidator(), ARRAY);
+        registerValidator("maxLength", new MaxLengthKeywordValidator(), STRING);
+        registerValidator("minimum", new MinimumKeywordValidator(), INTEGER,
+            NUMBER);
+        registerValidator("minItems", new MinItemsKeywordValidator(), ARRAY);
+        registerValidator("minLength", new MinLengthKeywordValidator(), STRING);
+        registerValidator("pattern", new PatternKeywordValidator(), STRING);
+        registerValidator("properties", new PropertiesKeywordValidator(),
+            OBJECT);
+        registerValidator("type", new TypeKeywordValidator(),
+            NodeType.values());
+        registerValidator("uniqueItems", new UniqueItemsKeywordValidator(),
+            ARRAY);
+        registerValidator("$ref", new RefKeywordValidator(), NodeType.values());
 
         ignoredKeywords.add("items");
         ignoredKeywords.add("patternProperties");
@@ -138,16 +145,17 @@ public final class KeywordFactory
      * </p>
      *
      * @param keyword the keyword
-     * @param c the {@link KeywordValidator} as a {@link Class} object
+     * @param kv the {@link KeywordValidator} as a {@link Class} object
      * @param types the instance types this validator can handle
      * @throws IllegalArgumentException if the keyword is already registerd,
      * or if the {@code types} array is empty
      *
-     * @see SyntaxFactory#registerValidator(String, Class)
-     * @see JsonValidator#registerValidator(String, Class, Class, NodeType...)
+     * @see SyntaxFactory#registerValidator(String, SyntaxValidator)
+     * @see JsonValidator#registerValidator(String, SyntaxValidator,
+     * KeywordValidator, NodeType...)
      */
     public void registerValidator(final String keyword,
-        final Class<? extends KeywordValidator> c, final NodeType... types)
+        final KeywordValidator kv, final NodeType... types)
     {
         /*
          * Both tests below are for security only... They should not happen
@@ -160,52 +168,10 @@ public final class KeywordFactory
             if (validators.get(type).keySet().contains(keyword))
                 throw new IllegalArgumentException("keyword already registered");
 
-        if (c == null) {
-            ignoredKeywords.add(keyword);
-            return;
-        }
-
         if (types.length == 0)
             throw new IllegalArgumentException("cannot register a new keyword"
                 + " with no JSON type to match against");
 
-        final KeywordValidator kv;
-
-        Exception exception;
-
-        try {
-            kv = buildValidator(c);
-            register(keyword, kv, types);
-            return;
-        } catch (NoSuchMethodException e) {
-            exception = e;
-        } catch (InvocationTargetException e) {
-            exception = e;
-        } catch (IllegalAccessException e) {
-            exception = e;
-        } catch (InstantiationException e) {
-            exception = e;
-        }
-
-        final String errmsg = String.format("cannot instantiate validator: "
-            + "%s: %s", exception.getClass().getName(), exception.getMessage());
-
-        throw new IllegalArgumentException(errmsg);
-    }
-
-    /**
-     * Private validator registration method
-     *
-     * <p>The only difference with {@link #registerValidator(String, Class,
-     * NodeType...)} is that here the validator is instantiated.</p>
-     *
-     * @param keyword the keyword to register
-     * @param kv the validator
-     * @param types the type set validable by this validator
-     */
-    private void register(final String keyword, final KeywordValidator kv,
-        final NodeType... types)
-    {
         if (kv == null) {
             ignoredKeywords.add(keyword);
             return;
@@ -251,26 +217,5 @@ public final class KeywordFactory
             return Arrays.<Validator>asList(new AlwaysTrueValidator());
 
         return Collections.unmodifiableCollection(map.values());
-    }
-
-    /**
-     * Build a validator given a class
-     *
-     * @param c the class object
-     * @return the validator
-     * @throws NoSuchMethodException constructor was not found
-     * @throws InvocationTargetException see {@link InvocationTargetException}
-     * @throws IllegalAccessException see {@link IllegalAccessException}
-     * @throws InstantiationException see {@link InstantiationException}
-     */
-    private static KeywordValidator buildValidator(
-        final Class<? extends KeywordValidator> c)
-        throws NoSuchMethodException, InvocationTargetException,
-        IllegalAccessException, InstantiationException
-    {
-        final Constructor<? extends KeywordValidator> constructor
-            = c.getConstructor();
-
-        return constructor.newInstance();
     }
 }

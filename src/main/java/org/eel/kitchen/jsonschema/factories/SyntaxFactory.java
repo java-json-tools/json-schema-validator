@@ -57,8 +57,6 @@ import org.eel.kitchen.jsonschema.syntax.TypeSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.UniqueItemsSyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -98,39 +96,43 @@ public final class SyntaxFactory
 
     /**
      * Constructor, registering all validators with {@link
-     * #registerValidator(String, Class)}
+     * #registerValidator(String, SyntaxValidator)}
      */
     public SyntaxFactory()
     {
-        register("additionalItems", new AdditionalItemsSyntaxValidator());
-        register("additionalProperties",
+        registerValidator("additionalItems",
+            new AdditionalItemsSyntaxValidator());
+        registerValidator("additionalProperties",
             new AdditionalPropertiesSyntaxValidator());
-        register("dependencies", new DependenciesSyntaxValidator());
-        register("description", new DescriptionSyntaxValidator());
-        register("disallow", new DisallowSyntaxValidator());
-        register("divisibleBy", new DivisibleBySyntaxValidator());
-        register("$ref", new DollarRefSyntaxValidator());
-        register("$schema", new DollarSchemaSyntaxValidator());
-        register("enum", new EnumSyntaxValidator());
-        register("exclusiveMaximum", new ExclusiveMaximumSyntaxValidator());
-        register("exclusiveMinimum", new ExclusiveMinimumSyntaxValidator());
-        register("extends", new ExtendsSyntaxValidator());
-        register("format", new FormatSyntaxValidator());
-        register("id", new IdSyntaxValidator());
-        register("items", new ItemsSyntaxValidator());
-        register("maximum", new MaximumSyntaxValidator());
-        register("maxItems", new MaxItemsSyntaxValidator());
-        register("maxLength", new MaxLengthSyntaxValidator());
-        register("minimum", new MinimumSyntaxValidator());
-        register("minItems", new MinItemsSyntaxValidator());
-        register("minLength", new MinLengthSyntaxValidator());
-        register("pattern", new PatternSyntaxValidator());
-        register("patternProperties", new PatternPropertiesSyntaxValidator());
-        register("properties", new PropertiesSyntaxValidator());
-        register("required", new RequiredSyntaxValidator());
-        register("title", new TitleSyntaxValidator());
-        register("type", new TypeSyntaxValidator());
-        register("uniqueItems", new UniqueItemsSyntaxValidator());
+        registerValidator("dependencies", new DependenciesSyntaxValidator());
+        registerValidator("description", new DescriptionSyntaxValidator());
+        registerValidator("disallow", new DisallowSyntaxValidator());
+        registerValidator("divisibleBy", new DivisibleBySyntaxValidator());
+        registerValidator("$ref", new DollarRefSyntaxValidator());
+        registerValidator("$schema", new DollarSchemaSyntaxValidator());
+        registerValidator("enum", new EnumSyntaxValidator());
+        registerValidator("exclusiveMaximum",
+            new ExclusiveMaximumSyntaxValidator());
+        registerValidator("exclusiveMinimum",
+            new ExclusiveMinimumSyntaxValidator());
+        registerValidator("extends", new ExtendsSyntaxValidator());
+        registerValidator("format", new FormatSyntaxValidator());
+        registerValidator("id", new IdSyntaxValidator());
+        registerValidator("items", new ItemsSyntaxValidator());
+        registerValidator("maximum", new MaximumSyntaxValidator());
+        registerValidator("maxItems", new MaxItemsSyntaxValidator());
+        registerValidator("maxLength", new MaxLengthSyntaxValidator());
+        registerValidator("minimum", new MinimumSyntaxValidator());
+        registerValidator("minItems", new MinItemsSyntaxValidator());
+        registerValidator("minLength", new MinLengthSyntaxValidator());
+        registerValidator("pattern", new PatternSyntaxValidator());
+        registerValidator("patternProperties",
+            new PatternPropertiesSyntaxValidator());
+        registerValidator("properties", new PropertiesSyntaxValidator());
+        registerValidator("required", new RequiredSyntaxValidator());
+        registerValidator("title", new TitleSyntaxValidator());
+        registerValidator("type", new TypeSyntaxValidator());
+        registerValidator("uniqueItems", new UniqueItemsSyntaxValidator());
 
         ignoredKeywords.add("default");
     }
@@ -200,53 +202,24 @@ public final class SyntaxFactory
      * {@link KeywordValidator} can handle the situation!</p>
      *
      * @param keyword the keyword
-     * @param c the {@link SyntaxValidator} as a {@link Class} object
+     * @param sv the {@link SyntaxValidator} as a {@link Class} object
      * @throws IllegalArgumentException if a validator has already been
      * registered for this keyword
      *
      * @see #unregisterValidator(String)
      */
     public void registerValidator(final String keyword,
-        final Class<? extends SyntaxValidator> c)
+        final SyntaxValidator sv)
     {
-        if (ignoredKeywords.contains(keyword) || validators.containsKey(keyword))
+        if (ignoredKeywords.contains(keyword)
+            || validators.containsKey(keyword))
             throw new IllegalArgumentException("keyword already registered");
 
-        if (c == null) {
+        if (sv == null) {
             ignoredKeywords.add(keyword);
             return;
         }
 
-        final SyntaxValidator sv;
-
-        Exception exception;
-        try {
-            sv = buildValidator(c);
-            validators.put(keyword, sv);
-            return;
-        } catch (NoSuchMethodException e) {
-            exception = e;
-        } catch (InvocationTargetException e) {
-            exception = e;
-        } catch (IllegalAccessException e) {
-            exception = e;
-        } catch (InstantiationException e) {
-            exception = e;
-        }
-
-        final String errmsg = String.format("cannot instantiate validator: "
-            + "%s: %s", exception.getClass().getName(), exception.getMessage());
-        throw new IllegalArgumentException(errmsg);
-    }
-
-    /**
-     * Private registration method
-     *
-     * @param keyword the keyword
-     * @param sv the validator, already instantiated
-     */
-    private void register(final String keyword, final SyntaxValidator sv)
-    {
         validators.put(keyword, sv);
     }
 
@@ -258,7 +231,7 @@ public final class SyntaxFactory
      *
      * @param keyword the victim
      *
-     * @see #registerValidator(String, Class)
+     * @see #registerValidator(String, SyntaxValidator)
      */
     public void unregisterValidator(final String keyword)
     {
@@ -284,26 +257,5 @@ public final class SyntaxFactory
             ret.add(validators.get(field));
 
         return ret;
-    }
-
-    /**
-     * Instantiate a {@link SyntaxValidator}
-     *
-     * @param c the class
-     * @return the instantiated validator
-     * @throws NoSuchMethodException constructor not found
-     * @throws InvocationTargetException see {@link InvocationTargetException}
-     * @throws IllegalAccessException see {@link IllegalAccessException}
-     * @throws InstantiationException see {@link InstantiationException}
-     */
-    private static SyntaxValidator buildValidator(
-        final Class<? extends SyntaxValidator> c)
-        throws NoSuchMethodException, InvocationTargetException,
-        IllegalAccessException, InstantiationException
-    {
-        final Constructor<? extends SyntaxValidator> constructor
-            = c.getConstructor();
-
-        return constructor.newInstance();
     }
 }

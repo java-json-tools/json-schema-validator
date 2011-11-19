@@ -159,8 +159,8 @@ public final class ValidatorFactory
      * @see KeywordFactory#registerValidator(String, Class, NodeType...)
      */
     public void registerValidator(final String keyword,
-        final Class<? extends SyntaxValidator> sv,
-        final Class<? extends KeywordValidator> kv, final NodeType... types)
+        final SyntaxValidator sv, final KeywordValidator kv,
+        final NodeType... types)
     {
         syntaxFactory.registerValidator(keyword, sv);
         keywordFactory.registerValidator(keyword, kv, types);
