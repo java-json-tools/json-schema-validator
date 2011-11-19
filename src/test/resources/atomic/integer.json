@@ -116,5 +116,17 @@
         "messages": [
             "#: number is not a multiple of divisibleBy"
         ]
+    },
+    "hugeIntegers": {
+        "schema": {
+            "type": "integer",
+            "minimum": 190283098091209380981092830991,
+            "exclusiveMinimum": true
+        },
+        "good": 190283098091209380981092830992,
+        "bad": 190283098091209380981092830991,
+        "messages": [
+            "#: number is not strictly greater than the required minimum"
+        ]
     }
 }

@@ -112,6 +112,13 @@ public final class IntegerTest
         testOne("divisibleByHuge");
     }
 
+    @Test
+    public void testHugeIntegers()
+        throws JsonValidationFailureException
+    {
+        testOne("hugeIntegers");
+    }
+
     private void testOne(final String testName)
         throws JsonValidationFailureException
     {

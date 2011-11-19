@@ -22,8 +22,6 @@ import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-import java.math.BigDecimal;
-
 /**
  * Specialized syntax validator for integer values.
  *
@@ -49,11 +47,8 @@ public abstract class PositiveIntegerSyntaxValidator
         throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
-        final BigDecimal value = node.getDecimalValue();
 
-        try {
-            value.intValueExact();
-        } catch (ArithmeticException ignored) {
+        if (!node.isInt()) {
             report.fail("value is too large");
             return;
         }

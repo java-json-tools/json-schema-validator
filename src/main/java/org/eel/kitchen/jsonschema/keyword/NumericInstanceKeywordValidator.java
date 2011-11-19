@@ -66,23 +66,17 @@ public abstract class NumericInstanceKeywordValidator
     {
         final JsonNode schema = context.getSchemaNode();
 
-        final BigDecimal value = schema.get(keyword).getDecimalValue();
-        final BigDecimal against = instance.getDecimalValue();
+        final JsonNode value = schema.get(keyword);
 
-        /*
-         * Unfortunately, there is a "bug" in Jackson: if you use
-         * USE_BIG_INTEGER_FOR_INT as a deserialization option, .isLong(),
-         * or .isInt(), will always return false :/
-         *
-         * We have to do the following to work around it... In the future,
-         * hopefully, we'll have .fitsXXX() for primitive types.
-         */
-        try {
-            return validateLong(context, value.longValueExact(),
-                against.longValueExact());
-        } catch (ArithmeticException ignored) {
-            return validateDecimal(context, value, against);
-        }
+        final boolean valueIsInt = value.isInt() || value.isLong();
+
+        final boolean instanceIsInt = instance.isInt() || instance.isLong();
+
+        return valueIsInt && instanceIsInt
+            ? validateLong(context, value.getLongValue(),
+                instance.getLongValue())
+            : validateDecimal(context, value.getDecimalValue(),
+                instance.getDecimalValue());
     }
 
     /**
