@@ -17,11 +17,34 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
+import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.util.NodeType;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public final class DollarRefSyntaxValidator
-    extends URISyntaxValidator
+    extends SyntaxValidator
 {
     public DollarRefSyntaxValidator()
     {
-        super("$ref");
+        super("$ref", NodeType.STRING);
+    }
+
+    @Override
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
+        throws JsonValidationFailureException
+    {
+        try {
+            new URI(schema.get(keyword).getTextValue());
+        } catch (URISyntaxException ignored) {
+            report.fail("not a valid URI");
+        }
+
+        if (schema.size() > 1)
+            report.fail("$ref should be by itself");
     }
 }
