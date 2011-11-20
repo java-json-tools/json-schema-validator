@@ -66,7 +66,8 @@ public final class JsonValidator
      * Set of features enabled for this validator (see {@link
      * ValidationFeature})
      */
-    private final EnumSet<ValidationFeature> features;
+    private final EnumSet<ValidationFeature> features
+        = EnumSet.noneOf(ValidationFeature.class);
 
     /**
      * Report generator
@@ -88,7 +89,6 @@ public final class JsonValidator
         provider = new SchemaProvider(schema);
         factory = new ValidatorFactory(false);
         reports = new ReportFactory(false);
-        features = EnumSet.noneOf(ValidationFeature.class);
         context = new ValidationContext(factory, provider, reports);
     }
 
