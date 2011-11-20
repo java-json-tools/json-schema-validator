@@ -182,8 +182,6 @@ public final class SyntaxFactory
             return new AlwaysFalseValidator(report);
         }
 
-        fields.retainAll(keywords);
-
         if (fields.isEmpty())
             return new AlwaysTrueValidator();
 
