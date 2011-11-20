@@ -56,11 +56,6 @@ public final class ValidationContext
         = LoggerFactory.getLogger(ValidationContext.class);
 
     /**
-     * Size of the schema cache
-     */
-    private static final int CACHE_INIT = 50;
-
-    /**
      * The schema provider used
      */
     private SchemaProvider provider;
