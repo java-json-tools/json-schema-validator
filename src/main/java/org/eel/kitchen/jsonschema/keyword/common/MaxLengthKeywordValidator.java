@@ -41,8 +41,7 @@ public final class MaxLengthKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final int maxLength = context.getSchemaNode().get(keyword)
-            .getIntValue();
+        final int maxLength = context.getSchema().get(keyword).getIntValue();
 
         if (instance.getTextValue().length() > maxLength)
             report.fail("string is longer than maxLength");

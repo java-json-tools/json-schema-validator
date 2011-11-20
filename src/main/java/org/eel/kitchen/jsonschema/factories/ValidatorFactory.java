@@ -106,7 +106,7 @@ public final class ValidatorFactory
         if (skipSyntax)
             return ValidationReport.TRUE;
 
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
 
         if (validated.contains(schema))
             return ValidationReport.TRUE;
@@ -132,7 +132,7 @@ public final class ValidatorFactory
     public Validator getInstanceValidator(final ValidationContext context,
         final JsonNode instance)
     {
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
         final NodeType type = NodeType.getNodeType(instance);
 
         Validator ret = cache.get(type, schema);

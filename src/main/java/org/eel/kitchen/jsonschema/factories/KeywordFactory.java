@@ -218,7 +218,7 @@ public final class KeywordFactory
     public Collection<Validator> getValidators(final ValidationContext context,
         final JsonNode instance)
     {
-        final JsonNode schemaNode = context.getSchemaNode();
+        final JsonNode schemaNode = context.getSchema();
         final Set<String> keywords
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 

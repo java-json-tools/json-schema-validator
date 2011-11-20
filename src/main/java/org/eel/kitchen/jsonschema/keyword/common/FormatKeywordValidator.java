@@ -56,7 +56,7 @@ public final class FormatKeywordValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
 
         final String fmt = schema.get(keyword).getTextValue();
 

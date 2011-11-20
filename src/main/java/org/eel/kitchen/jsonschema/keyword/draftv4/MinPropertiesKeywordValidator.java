@@ -40,7 +40,7 @@ public final class MinPropertiesKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final int value = context.getSchemaNode().get(keyword).getIntValue();
+        final int value = context.getSchema().get(keyword).getIntValue();
 
         if (instance.size() < value)
             report.fail("object has less than minProperties children");

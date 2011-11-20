@@ -43,7 +43,7 @@ public final class MinimumKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
         final boolean exclusiveMinimum = schema.path("exclusiveMinimum")
             .asBoolean(false);
 
@@ -64,7 +64,7 @@ public final class MinimumKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
         final boolean exclusiveMinimum = schema.path("exclusiveMinimum")
             .asBoolean(false);
 

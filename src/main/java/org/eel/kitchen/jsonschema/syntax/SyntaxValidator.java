@@ -99,7 +99,7 @@ public abstract class SyntaxValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
 
         final String prefix = String.format(" [schema:%s]", keyword);
         final ValidationReport report = context.createReport(prefix);

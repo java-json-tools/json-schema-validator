@@ -66,7 +66,7 @@ public final class AdditionalPropertiesKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
 
         final boolean shortcut = schema.get(keyword).asBoolean(true);
 

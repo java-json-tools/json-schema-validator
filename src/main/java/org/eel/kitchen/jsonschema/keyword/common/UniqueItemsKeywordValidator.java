@@ -48,7 +48,7 @@ public final class UniqueItemsKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final boolean unique = context.getSchemaNode().get(keyword)
+        final boolean unique = context.getSchema().get(keyword)
             .getBooleanValue();
 
         if (!unique)

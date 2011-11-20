@@ -132,7 +132,7 @@ public final class ValidationContext
      *
      * @return the matching {@link JsonNode}
      */
-    public JsonNode getSchemaNode()
+    public JsonNode getSchema()
     {
         return provider.getSchema();
     }

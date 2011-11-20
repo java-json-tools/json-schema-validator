@@ -43,7 +43,7 @@ public final class EnumKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode enumNode = context.getSchemaNode().get(keyword);
+        final JsonNode enumNode = context.getSchema().get(keyword);
 
         for (final JsonNode element: enumNode)
             if (element.equals(instance))

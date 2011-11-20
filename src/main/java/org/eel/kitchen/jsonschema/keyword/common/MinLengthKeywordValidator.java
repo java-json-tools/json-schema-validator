@@ -40,8 +40,7 @@ public final class MinLengthKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final int minLength = context.getSchemaNode().get(keyword)
-            .getIntValue();
+        final int minLength = context.getSchema().get(keyword).getIntValue();
 
         if (instance.getTextValue().length() < minLength)
             report.fail("string is shorter than minLength");

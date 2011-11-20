@@ -64,9 +64,7 @@ public abstract class NumericInstanceKeywordValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final JsonNode schema = context.getSchemaNode();
-
-        final JsonNode value = schema.get(keyword);
+        final JsonNode value = context.getSchema().get(keyword);
 
         final boolean valueIsInt = value.isInt() || value.isLong();
 

@@ -55,7 +55,7 @@ public final class ExtendsKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode schemaNode = context.getSchemaNode();
+        final JsonNode schemaNode = context.getSchema();
 
         final ObjectNode baseNode = nodeFactory.objectNode();
         baseNode.putAll((ObjectNode) schemaNode);

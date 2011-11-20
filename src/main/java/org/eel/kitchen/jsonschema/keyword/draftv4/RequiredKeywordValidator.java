@@ -41,12 +41,12 @@ public final class RequiredKeywordValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
+        final JsonNode node = context.getSchema().get("required");
         final ValidationReport report = context.createReport();
-        final JsonNode schema = context.getSchemaNode();
 
         final SortedSet<String> required = new TreeSet<String>();
 
-        for (final JsonNode element: schema.get("required"))
+        for (final JsonNode element: node)
             required.add(element.getTextValue());
 
         final Set<String> instanceFields

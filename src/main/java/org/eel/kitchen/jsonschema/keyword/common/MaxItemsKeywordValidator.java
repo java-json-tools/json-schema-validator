@@ -40,7 +40,7 @@ public final class MaxItemsKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final int maxItems = context.getSchemaNode().get(keyword).getIntValue();
+        final int maxItems = context.getSchema().get(keyword).getIntValue();
 
         if (instance.size() > maxItems)
             report.fail("array has more than maxItems elements");

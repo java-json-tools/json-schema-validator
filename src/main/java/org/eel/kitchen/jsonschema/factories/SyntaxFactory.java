@@ -139,7 +139,7 @@ public final class SyntaxFactory
 
     /**
      * <p>Get the syntax validator for a given context,
-     * calling {@link ValidationContext#getSchemaNode()} to grab the schema
+     * calling {@link ValidationContext#getSchema()} to grab the schema
      * node to validate. As the summary mentions, an unknown keyword to this
      * factory will trigger a failure by returning an {@link
      * AlwaysFalseValidator}.</p>
@@ -155,7 +155,7 @@ public final class SyntaxFactory
     public Validator getValidator(final ValidationContext context)
         throws JsonValidationFailureException
     {
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
         final ValidationReport report = context.createReport(" [schema]");
 
         if (schema == null) {

@@ -83,8 +83,8 @@ public abstract class AbstractTypeKeywordValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final JsonNode schema = context.getSchemaNode();
-        final JsonNode typeNode = schema.get(keyword);
+        final JsonNode typeNode = context.getSchema().get(keyword);
+
         final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
         final List<JsonNode> schemas = new ArrayList<JsonNode>();
 

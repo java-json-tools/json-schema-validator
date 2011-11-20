@@ -67,13 +67,12 @@ public final class DependenciesKeywordValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
+        final JsonNode node = context.getSchema().get(keyword);
         final ValidationReport report = context.createReport();
-        final JsonNode schema = context.getSchemaNode();
 
         final SortedSet<String> fields = new TreeSet<String>();
         fields.addAll(CollectionUtils.toSet(instance.getFieldNames()));
 
-        final JsonNode node = schema.get(keyword);
         final SortedMap<String, JsonNode> dependencies
             = CollectionUtils.toSortedMap(node.getFields());
 

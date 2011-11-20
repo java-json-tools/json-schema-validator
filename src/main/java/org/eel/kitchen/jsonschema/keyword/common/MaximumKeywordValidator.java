@@ -44,7 +44,7 @@ public final class MaximumKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
         final boolean exclusive = schema.path("exclusiveMaximum")
             .asBoolean(false);
 
@@ -65,7 +65,7 @@ public final class MaximumKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode schema = context.getSchemaNode();
+        final JsonNode schema = context.getSchema();
         final boolean exclusive = schema.path("exclusiveMaximum")
             .asBoolean(false);
 

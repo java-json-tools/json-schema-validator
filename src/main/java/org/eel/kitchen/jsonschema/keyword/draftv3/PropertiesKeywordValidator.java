@@ -70,7 +70,7 @@ public final class PropertiesKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final JsonNode properties = context.getSchemaNode().get(keyword);
+        final JsonNode properties = context.getSchema().get(keyword);
 
         final SortedSet<String> required = new TreeSet<String>();
 

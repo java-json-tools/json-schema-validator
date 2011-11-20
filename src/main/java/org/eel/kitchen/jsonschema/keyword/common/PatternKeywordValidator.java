@@ -52,8 +52,7 @@ public final class PatternKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final String regex = context.getSchemaNode().get(keyword)
-            .getTextValue();
+        final String regex = context.getSchema().get(keyword).getTextValue();
 
         if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
             report.fail("string does not match specified regex");
