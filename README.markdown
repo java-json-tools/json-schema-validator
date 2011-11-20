@@ -1,21 +1,21 @@
-<p>This is an implementation of the [JSON Schema specification](http://www.json-schema.org)
-written in pure Java. This allows pure server side JSON schema validation if
-this is what you are looking for.
+<p>This is an implementation of the [JSON Schema
+specification](http://www.json-schema.org) written in pure Java. This allows
+pure server side JSON schema validation if this is what you are looking for.
 
-<p>The draft serving as a reference is, at the moment, draft version 3, which can
-be found [here](http://json-schema.org/draft-03/schema") (version 4 is around
-the corner, for some defintion of "corner" -- understand, days,
-or a few weeks). This implementation has <b>full</b> support for instance
-validation using draft v3, and can be extended to support draft v4 easily.
+<p>The draft serving as a reference is, at the moment, draft version 3, which
+can be found [here](http://json-schema.org/draft-03/schema") (version 4 is
+around the corner, for some defintion of "corner" -- understand, days, or a few
+weeks). This implementation has <b>full</b> support for instance validation
+using draft v3, and can be extended to support draft v4 easily.
 
 <p><b>Version 0.3 is out</b>: see [here]
-(https://github.com/fge/json-schema-validator/wiki/ChangeLog)
-for a list of features. Among others, it performs <b>more than 25 times better
-than the previous version</b>.
+(https://github.com/fge/json-schema-validator/wiki/ChangeLog) for a list of
+features. Among others, it performs <b>more than 25 times better than the
+previous version</b>.
 
 <p>Small overview of available features:
 
-* ability to register/unregister new keywords;
+* ability to register/unregister keywords;
 * validator/schema caching;
 * arbitrary length/precision number validation;
 * full report or fail-fast report modes;
