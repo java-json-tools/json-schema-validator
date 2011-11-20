@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.util.SchemaVersion;
 
 import java.util.EnumSet;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -87,7 +88,8 @@ public final class JsonValidator
     public JsonValidator(final JsonNode schema)
     {
         provider = new SchemaProvider(schema);
-        factory = new ValidatorFactory(false);
+        factory = new ValidatorFactory(SchemaVersion.DRAFT_V3.getBundle(),
+            false);
         reports = new ReportFactory(false);
         context = new ValidationContext(factory, provider, reports);
     }
@@ -111,7 +113,8 @@ public final class JsonValidator
                     reports = new ReportFactory(true);
                     break;
                 case SKIP_SCHEMACHECK:
-                    factory = new ValidatorFactory(true);
+                    factory = new ValidatorFactory(SchemaVersion.DRAFT_V3
+                        .getBundle(), true);
                     break;
             }
             context = new ValidationContext(factory, provider, reports);
@@ -139,7 +142,8 @@ public final class JsonValidator
                     reports = new ReportFactory(false);
                     break;
                 case SKIP_SCHEMACHECK:
-                    factory = new ValidatorFactory(false);
+                    factory = new ValidatorFactory(SchemaVersion.DRAFT_V3
+                        .getBundle(), false);
             }
             context = new ValidationContext(factory, provider, reports);
         } finally {

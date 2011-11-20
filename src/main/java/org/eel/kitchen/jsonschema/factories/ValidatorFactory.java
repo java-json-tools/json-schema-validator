@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.container.ArrayValidator;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
@@ -30,7 +31,6 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
-import org.eel.kitchen.util.SchemaVersion;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -48,14 +48,12 @@ public final class ValidatorFactory
     /**
      * The {@link KeywordValidator} factory
      */
-    private final KeywordFactory keywordFactory
-        = new KeywordFactory(SchemaVersion.DRAFT_V3.getBundle());
+    private final KeywordFactory keywordFactory;
 
     /**
      * The {@link SyntaxValidator} factory
      */
-    private final SyntaxFactory syntaxFactory
-        = new SyntaxFactory(SchemaVersion.DRAFT_V3.getBundle());
+    private final SyntaxFactory syntaxFactory;
 
     /**
      * Should schema syntax checking be skipped altogether?
@@ -84,8 +82,11 @@ public final class ValidatorFactory
      * @param skipSyntax set to {@code true} if schema syntax checking should
      * be skipped
      */
-    public ValidatorFactory(final boolean skipSyntax)
+    public ValidatorFactory(final ValidatorBundle bundle,
+        final boolean skipSyntax)
     {
+        keywordFactory = new KeywordFactory(bundle);
+        syntaxFactory = new SyntaxFactory(bundle);
         this.skipSyntax = skipSyntax;
     }
 
