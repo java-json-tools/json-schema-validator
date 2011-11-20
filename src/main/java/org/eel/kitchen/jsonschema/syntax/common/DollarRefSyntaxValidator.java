@@ -26,6 +26,13 @@ import org.eel.kitchen.util.NodeType;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * Syntax validator for {@code $ref}
+ *
+ * <p>Note that we go a little further than what the spec says,
+ * but this is logical: {@code $ref} should be by itself,
+ * there is just no point in it being accompanied by other keywords</p>
+ */
 public final class DollarRefSyntaxValidator
     extends SyntaxValidator
 {

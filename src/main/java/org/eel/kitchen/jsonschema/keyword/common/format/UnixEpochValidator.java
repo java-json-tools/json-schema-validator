@@ -25,7 +25,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import java.math.BigInteger;
 
 /**
- * Validator for the "utc-millisec" format specification
+ * Validator for the {@code utc-millisec} format specification
  *
  * <p>As an extra step, this validator also ensures that the number in the
  * instance is not negative, and does not overflow: Java's {@link

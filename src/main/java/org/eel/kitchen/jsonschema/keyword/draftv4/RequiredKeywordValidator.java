@@ -28,6 +28,9 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * Keyword validator for the {@code required} keyword (draft v4)
+ */
 public final class RequiredKeywordValidator
     extends KeywordValidator
 {

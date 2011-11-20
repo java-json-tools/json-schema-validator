@@ -26,7 +26,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Validator for the "host-name" format specification
+ * Validator for the {@code host-name} format specification
  *
  * <p>Note: non FQDN hostnames are valid, and are considered as such! The
  * draft doesn't specify anywhere that the hostname should be fully

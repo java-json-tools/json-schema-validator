@@ -28,17 +28,46 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Helper class for object instance validation
+ *
+ * <p>This class is in charge of returning a set of schemas to validate a
+ * child element of an object instance. For a given property name of the
+ * instance, the rules are as follows:</p>
+ * <ul>
+ *     <li>if the name is exactly equal to a property name in {@code
+ *     properties}, the corresponding schema is added to the set;
+ *     </li>
+ *     <li>if the name matches one or more patterns defined in {@code
+ *     patternProperties}, then the corresponding schemas are added to the set;
+ *     </li>
+ *     <li>if, at this point, the set is empty, the content of {@code
+ *     additionalProperties} is added to the set (or an empty schema if {@code
+ *     additionalProperties} is undefined), and the set is returned.
+ *     </li>
+ * </ul>
+ *
+ */
 public final class ObjectSchemaNode
 {
     private static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
+    /**
+     * The contents of {@code properties}
+     */
     private final Map<String, JsonNode> properties
         = new HashMap<String, JsonNode>();
 
+    /**
+     * The contents of {@code patternProperties}
+     */
     private final Map<String, JsonNode> patternProperties
         = new HashMap<String, JsonNode>();
 
+    /**
+     * The contents of {@code additionalProperties}
+     */
     private JsonNode additionalProperties = EMPTY_SCHEMA;
 
     public ObjectSchemaNode(final JsonNode schema)

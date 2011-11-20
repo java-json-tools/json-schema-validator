@@ -22,8 +22,9 @@ import java.util.List;
 
 /**
  * A {@link ValidationReport} which will throw {@link
- * JsonValidationFailureException} instead of failing or reporting errors
- * (used if validation mode is set to {@link ValidationFeature#FAIL_FAST})
+ * JsonValidationFailureException} instead of collecting validation messages
+ *
+ * @see ValidationFeature#FAIL_FAST
  */
 public final class FailFastValidationReport
     extends ValidationReport

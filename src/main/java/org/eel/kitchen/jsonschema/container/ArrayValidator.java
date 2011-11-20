@@ -27,6 +27,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  * The {@link ContainerValidator} for array instances
  *
  * @see ContainerValidator
+ * @see ArraySchemaNode
  */
 public final class ArrayValidator
     extends ContainerValidator

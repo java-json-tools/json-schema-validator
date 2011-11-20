@@ -26,6 +26,13 @@ import org.eel.kitchen.jsonschema.syntax.draftv4.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Validator bundle for JSON Schema draft v4
+ *
+ * <p><b>EXPERIMENTAL!</b> Draft 4 is not even out yet,
+ * but the keywords (re)defined by this bundle have a very high chance of
+ * making it into the finished draft.</p>
+ */
 public class DraftV4ValidatorBundle
     extends CommonValidatorBundle
 {

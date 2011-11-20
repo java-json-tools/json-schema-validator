@@ -28,8 +28,14 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class used to collect and fetch JSON schemas
+ */
 public final class SchemaProvider
 {
+    /**
+     * ID used by schemas which do not define {@code id}
+     */
     private static final URI ANONYMOUS_ID;
 
     static {
@@ -40,14 +46,31 @@ public final class SchemaProvider
         }
     }
 
+    /**
+     * Factory used to fetch schemas when a JSON Reference is not a JSON Pointer
+     */
     private URIHandlerFactory factory;
 
+    /**
+     * Map of already collected schemas
+     */
     private Map<URI, JsonNode> locators;
 
+    /**
+     * ID of the current schema
+     */
     private URI currentLocation;
 
+    /**
+     * Currently active schema
+     */
     private JsonNode schema;
 
+    /**
+     * Constructor
+     *
+     * @param schema the initial schema
+     */
     public SchemaProvider(final JsonNode schema)
     {
         this.schema = schema;
@@ -75,6 +98,12 @@ public final class SchemaProvider
     {
     }
 
+    /**
+     * Spawn a new provider with a subschema of the currently active schema
+     *
+     * @param pointer the JSON Pointer to locate the subschema
+     * @return a new provider
+     */
     public SchemaProvider atPoint(final JsonPointer pointer)
     {
         final SchemaProvider ret = new SchemaProvider();
@@ -85,6 +114,12 @@ public final class SchemaProvider
         return ret;
     }
 
+    /**
+     * Spawn a new provider with a new active schema
+     *
+     * @param newschema the schema to use
+     * @return the provider
+     */
     public SchemaProvider withSchema(final JsonNode newschema)
     {
         final SchemaProvider ret = new SchemaProvider();
@@ -95,6 +130,14 @@ public final class SchemaProvider
         return ret;
     }
 
+    /**
+     * Spawn a new provider with a schema located at an URI (typically,
+     * an argument to {@code $ref})
+     *
+     * @param uri the complete URI to the new schema
+     * @return the new provider
+     * @throws IOException the schema could not be fetched
+     */
     public SchemaProvider atURI(final URI uri)
         throws IOException
     {
@@ -119,17 +162,33 @@ public final class SchemaProvider
         return ret;
     }
 
+    /**
+     * Return the currently active schema
+     *
+     * @return the active schema for that provider
+     */
     public JsonNode getSchema()
     {
         return schema;
     }
 
+    /**
+     * Register a new handler for a specific scheme
+     *
+     * @param scheme the new scheme
+     * @param handler the new handler
+     */
     public void registerHandler(final String scheme,
         final URIHandler handler)
     {
         factory.registerHandler(scheme, handler);
     }
 
+    /**
+     * Unregister a handler for a scheme
+     *
+     * @param scheme the scheme
+     */
     public void unregisterHandler(final String scheme)
     {
         factory.unregisterHandler(scheme);

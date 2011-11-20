@@ -26,7 +26,7 @@ import java.net.Inet6Address;
 import java.net.UnknownHostException;
 
 /**
- * Validator for the "ipv6" format specification
+ * Validator for the {@code ipv6} format specification
  *
  * <p>This uses {@link Inet6Address#getByName(String)} to validate,
  * which means we must ensure this is a "numerical" IPv6 address before

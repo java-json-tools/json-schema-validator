@@ -24,7 +24,6 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 
-import java.util.Iterator;
 import java.util.Map;
 import java.util.SortedMap;
 
@@ -43,11 +42,6 @@ public final class ObjectValidator
         schema = new ObjectSchemaNode(schemaNode);
     }
 
-    /**
-     * Builds the children validator queue, by grabbing all properties of the
-     * instance in alphabetical order (using
-     * {@link CollectionUtils#toSortedMap(Iterator)}.
-     */
     @Override
     protected ValidationReport validateChildren(final ValidationContext context,
         final JsonNode instance)

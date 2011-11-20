@@ -24,7 +24,7 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 /**
- * Keyword validator for the {@code maxProperties} keyword
+ * Keyword validator for the {@code maxProperties} keyword (draft v4)
  */
 public final class MaxPropertiesKeywordValidator
     extends KeywordValidator

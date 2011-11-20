@@ -29,8 +29,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  *
  * <p>The particularity of these validators is that not only do they need to
  * validate the structure of the instance itself, they must also,
- * if the structure is valid, spawn validators for all the subnodes of the
- * object instance.
+ * if the structure is valid, spawn validators for all their children.
  * </p>
  *
  * @see ArrayValidator

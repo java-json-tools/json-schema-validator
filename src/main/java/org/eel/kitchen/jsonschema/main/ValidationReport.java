@@ -107,7 +107,7 @@ public abstract class ValidationReport
     /**
      * Add a message and set the status to {@link ValidationStatus#ERROR}
      *
-     * <p>The difference with a failure is that reporting an erorr flushes
+     * <p>The difference with a failure is that reporting an error flushes
      * all messages already collected.</p>
      *
      * @param message the message to add
@@ -125,7 +125,7 @@ public abstract class ValidationReport
     public abstract void mergeWith(final ValidationReport other);
 
     /**
-     * Does this report tells success?
+     * Does this report tell success?
      *
      * @return true if {@link #status} is {@link ValidationStatus#SUCCESS}
      */

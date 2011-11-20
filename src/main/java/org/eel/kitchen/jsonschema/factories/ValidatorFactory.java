@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -39,10 +40,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Factory centralizing all validator factories, and in charge or returning
- * validators as well.
+ * Factory initializing all validator factories with a given schema bundle.
+ *
+ * @see KeywordFactory
+ * @see SyntaxFactory
+ * @see FormatFactory
+ * @see ValidatorBundle
  */
-
 public final class ValidatorFactory
 {
     /**
@@ -56,7 +60,8 @@ public final class ValidatorFactory
     private final SyntaxFactory syntaxFactory;
 
     /**
-     * Should schema syntax checking be skipped altogether?
+     * Should schema syntax checking be skipped altogether (see {@link
+     * ValidationFeature#SKIP_SCHEMACHECK})
      */
     private final boolean skipSyntax;
 
@@ -79,6 +84,7 @@ public final class ValidatorFactory
     /**
      * Constructor
      *
+     * @param bundle the validator bundle to use
      * @param skipSyntax set to {@code true} if schema syntax checking should
      * be skipped
      */
@@ -110,8 +116,7 @@ public final class ValidatorFactory
         final JsonNode schema = context.getSchema();
 
         final Validator validator = syntaxFactory.getValidator(context);
-        final ValidationReport report
-            = validator.validate(context, schema);
+        final ValidationReport report = validator.validate(context, schema);
 
         if (report.isSuccess())
             validated.add(schema);

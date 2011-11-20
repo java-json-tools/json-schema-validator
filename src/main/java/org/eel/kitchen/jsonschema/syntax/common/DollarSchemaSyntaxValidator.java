@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.syntax.common;
 
 import org.eel.kitchen.jsonschema.syntax.URISyntaxValidator;
 
+//TODO: maybe check that the value is valid?
 public final class DollarSchemaSyntaxValidator
     extends URISyntaxValidator
 {

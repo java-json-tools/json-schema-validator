@@ -22,7 +22,6 @@ import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
@@ -52,6 +51,7 @@ import java.util.Set;
  * for instance.</p>
  *
  * @see SyntaxFactory
+ * @see ValidatorFactory
  */
 public final class KeywordFactory
 {
@@ -71,8 +71,9 @@ public final class KeywordFactory
         = new EnumMap<NodeType, Map<String, KeywordValidator>>(NodeType.class);
 
     /**
-     * Constructor; registers validators using
-     * {@link #registerValidator(String, KeywordValidator, NodeType...)}
+     * Constructor
+     *
+     * @param bundle the validator bundle to use
      */
     public KeywordFactory(final ValidatorBundle bundle)
     {
@@ -85,6 +86,11 @@ public final class KeywordFactory
         pushIgnored(bundle);
     }
 
+    /**
+     * Fill the map of ignored keywords registered for this bundle
+     *
+     * @param bundle the validator bundle
+     */
     private void pushIgnored(final ValidatorBundle bundle)
     {
         final Map<NodeType, Set<String>> bundleMap =
@@ -94,6 +100,11 @@ public final class KeywordFactory
             ignoredKeywords.get(entry.getKey()).addAll(entry.getValue());
     }
 
+    /**
+     * Fill the map of registered keyword validators for this bundle
+     *
+     * @param bundle the validator bundle
+     */
     private void pushValidators(final ValidatorBundle bundle)
     {
         final Map<NodeType, Map<String, KeywordValidator>> bundleMap
@@ -104,6 +115,14 @@ public final class KeywordFactory
             validators.get(entry.getKey()).putAll(entry.getValue());
     }
 
+    /**
+     * Tell whether, for a given set of types, a keyword is known (either
+     * ignored, or validated)
+     *
+     * @param keyword the keyword
+     * @param types the list of types
+     * @return true if already present
+     */
     private boolean hasKeyword(final String keyword, final NodeType... types)
     {
         for (final NodeType type: types) {
@@ -127,14 +146,10 @@ public final class KeywordFactory
      * </p>
      *
      * @param keyword the keyword
-     * @param kv the {@link KeywordValidator} as a {@link Class} object
-     * @param types the instance types this validator can handle
+     * @param kv the validator, or {@code null}
+     * @param types the instance types this keyword can handle
      * @throws IllegalArgumentException if the keyword is already registerd,
      * or if the {@code types} array is empty
-     *
-     * @see SyntaxFactory#registerValidator(String, SyntaxValidator)
-     * @see JsonValidator#registerValidator(String, SyntaxValidator,
-     * KeywordValidator, NodeType...)
      */
     public void registerValidator(final String keyword,
         final KeywordValidator kv, final NodeType... types)
@@ -164,8 +179,14 @@ public final class KeywordFactory
     /**
      * Unregister a validator for the given keyword
      *
+     * <p>This method returns the list of types for which this keyword was
+     * registered: this list is used to help pruning the validator cache more
+     * finely than just scrapping it all.</p>
+     *
      * @param keyword the victim
      * @return the list of types for which this keyword was registered
+     *
+     * @see ValidatorCache#clear(EnumSet)
      */
     public EnumSet<NodeType> unregisterValidator(final String keyword)
     {
@@ -183,6 +204,11 @@ public final class KeywordFactory
 
     /**
      * Get a validator set for a given context and instance
+     *
+     * <p>If no keyword is found (which is possible if the instance is of a
+     * type for which none of the current schema keywords apply),
+     * then an {@link AlwaysTrueValidator} is returned.
+     * </p>
      *
      * @param context the context
      * @param instance the instance to be validated

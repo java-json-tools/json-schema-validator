@@ -28,8 +28,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Attempt at validating a CSS 2.1 color ("color" format specification in the
- * draft). It is far from being perfect... Ideally, it should use something
+ * Attempt at validating a CSS 2.1 color ({@code color} format specification in
+ * the draft). It is far from being perfect... Ideally, it should use something
  * like jStyleParser.
  */
 public final class CSSColorValidator

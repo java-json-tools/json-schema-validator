@@ -29,7 +29,7 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
 /**
- * Attempt to validate the "phone" format specification
+ * Attempt to validate the {@code phone} format specification
  *
  * <p>The draft says the phone MAY match E.123. Quite vague. Here we use
  * Google's <a href="http://code.google.com/p/libphonenumber/">libphonenumber</a>

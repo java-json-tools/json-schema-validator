@@ -57,8 +57,8 @@ public abstract class AbstractTypeKeywordValidator
      * @param typeSet the primitive types
      * @param schemas the schemas found, if any
      * @return the validation report
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate mode
+     * @throws JsonValidationFailureException if reporting is configured to
+     * throw this exception instead of collecting messages
      */
     protected abstract ValidationReport doValidate(
         final ValidationContext context, final JsonNode instance,
@@ -77,6 +77,8 @@ public abstract class AbstractTypeKeywordValidator
      * @param context the validation context
      * @param instance the instance to validate
      * @return the validation report
+     * @throws JsonValidationFailureException if reporting is configured to
+     * throw this exception instead of collecting messages
      */
     @Override
     public final ValidationReport validate(final ValidationContext context,
@@ -99,8 +101,8 @@ public abstract class AbstractTypeKeywordValidator
      * @param schema the found schema
      * @param instance the instance
      * @return the report
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
+     * @throws JsonValidationFailureException if reporting is configured to
+     * throw this exception instead of collecting messages
      */
     protected static ValidationReport validateSchema(
         final ValidationContext context, final JsonNode schema,
@@ -142,8 +144,8 @@ public abstract class AbstractTypeKeywordValidator
      *
      * <p>This is in a separate function because we need to take two special
      * cases into account: the first is {@link #ANY}; the second is the
-     * number type: it also englobes integer, which mean we must add it as
-     * well.
+     * {@code number} type: it also englobes {@code integer}, which mean we must
+     * add it as well.
      * </p>
      *
      * @param s the primitive type as a string

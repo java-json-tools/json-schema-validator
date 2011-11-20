@@ -29,6 +29,8 @@ import java.util.List;
 /**
  * A validator which takes a {@link Collection} of validators as an argument,
  * and requires all of them to validate in order to report a success
+ *
+ * <p>It will declare validation a failure on the first failing validator.</p>
  */
 public final class MatchAllValidator
     implements Validator
@@ -41,7 +43,7 @@ public final class MatchAllValidator
     /**
      * Constructor
      *
-     * @param c the collection to fill out {@link #validators} with
+     * @param c the collection of validators to use
      */
     public MatchAllValidator(final Collection<Validator> c)
     {

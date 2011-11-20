@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
 /**
- * Validator for the "date" format specification
+ * Validator for the {@code date} format specification
  */
 public final class DateFormatValidator
     extends GenericDateFormatValidator

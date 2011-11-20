@@ -27,7 +27,7 @@ import java.net.UnknownHostException;
 import java.util.regex.Pattern;
 
 /**
- * Validator for the "ip-address" format specification, ie an IPv4 address
+ * Validator for the {@code ip-address} format specification, ie an IPv4 address
  *
  * <p>This uses {@link Inet4Address#getByName(String)} to validate,
  * but this means we must ensure the shape of the address is good first: when

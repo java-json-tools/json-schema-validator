@@ -30,16 +30,35 @@ import java.util.Set;
 
 import static org.eel.kitchen.util.NodeType.*;
 
+/**
+ * A validator bundle
+ *
+ * <p>As validators vary from one schema to another (and as you can even
+ * register your own validators), this class is here to relieve factories
+ * from registering validators themselves.</p>
+ */
 public abstract class ValidatorBundle
 {
+    /**
+     * The {@link SyntaxValidator} map
+     */
     protected final Map<String, SyntaxValidator> svMap
         = new HashMap<String, SyntaxValidator>();
 
+    /**
+     * Keywords to ignore for syntax validation
+     */
     protected final Set<String> ignoredSV = new HashSet<String>();
 
+    /**
+     * The {@link KeywordValidator} map
+     */
     protected final Map<NodeType, Map<String, KeywordValidator>> kvMap
         = new EnumMap<NodeType, Map<String, KeywordValidator>>(NodeType.class);
 
+    /**
+     * Keywords to ignore for instance validation
+     */
     protected final Map<NodeType, Set<String>> ignoredKV
         = new EnumMap<NodeType, Set<String>>(NodeType.class);
 

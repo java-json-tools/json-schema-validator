@@ -26,8 +26,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Attempt to recognize a CSS 2.1 style ("style" format specification in the
- * draft). Ideally, it should use something like jStyleParser.
+ * Attempt to recognize a CSS 2.1 style ({@code style} format specification in
+ * the draft). Ideally, it should use something like jStyleParser.
  */
 public final class CSSStyleValidator
     extends FormatValidator

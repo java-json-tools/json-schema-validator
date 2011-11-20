@@ -54,7 +54,6 @@ public abstract class NumericInstanceKeywordValidator
      * (ValidationContext, long, long)} and {@link #validateDecimal
      * (ValidationContext, BigDecimal, BigDecimal)}.</p>
      *
-     *
      * @param context the validation context
      * @param instance the instance to validate
      * @return the validation report
@@ -95,7 +94,6 @@ public abstract class NumericInstanceKeywordValidator
     /**
      * Validate a numeric instance if itself or the schema value don't fit in
      * a {@code long}
-     *
      *
      * @param context the context
      * @param value the schema value

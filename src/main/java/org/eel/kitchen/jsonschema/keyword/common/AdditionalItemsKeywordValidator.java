@@ -67,8 +67,7 @@ public final class AdditionalItemsKeywordValidator
 
         /*
          * Meh. If additionalItems is false and items is not an array,
-         * it is clearly a logical error... But this will be left to logical
-         * validators, when they are implemented.
+         * it is clearly a logical error... A user error, in other words.
          */
         final int itemsCount = itemsNode.isArray() ? itemsNode.size() : 0;
 

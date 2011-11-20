@@ -50,7 +50,7 @@ public final class AdditionalPropertiesKeywordValidator
      *     the instance:
      *     </li>
      *     <ul>
-     *         <li>is not found in {@code properties}, or</li>
+     *         <li>is not found in {@code properties}, and</li>
      *         <li>does not match any regex in {@code patternProperties}.</li>
      *     </ul>
      * </ul>

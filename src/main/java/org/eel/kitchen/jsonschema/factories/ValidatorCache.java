@@ -31,10 +31,10 @@ import java.util.Map;
 /**
  * Crude validator LRU cache -- but it works quite well
  *
- * <p>This cache relies on both the schema and the type of the validated node
- * to cache a validator (it is perfectly possible that the validator is
- * different from one type to another, since the keywords in the schema may
- * apply to different instance types).
+ * <p>This cache relies on both the schema and the type of the validated
+ * instance to cache a validator (it is perfectly possible that the validator
+ * for a given schema is different from one type to another, since the keywords
+ * in the schema may apply to different instance types).
  * </p>
  *
  * <p>This cache uses Jackson's {@link LRUMap} at its core.</p>
@@ -97,9 +97,11 @@ public final class ValidatorCache
     }
 
     /**
-     * Clear the cache for certain JSON instance types
+     * Clear the cache for a set of JSON node types
      *
      * @param types the type list to clear the cache
+     *
+     * @see KeywordFactory#unregisterValidator(String)
      */
     public void clear(final EnumSet<NodeType> types)
     {

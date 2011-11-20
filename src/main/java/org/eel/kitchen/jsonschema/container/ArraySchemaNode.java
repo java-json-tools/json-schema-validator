@@ -23,13 +23,37 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Helper class for array validation
+ *
+ * <p>Its role is to provide schemas for array instance elements to an
+ * {@link ArrayValidator}. For an array index {@code i} in the instance,
+ * the rules are as follows:</p>
+ * <ul>
+ *     <li>if {@code items} exists and is an object,
+ *     then its content is returned;</li>
+ *     <li>if {@code items} exists and is an array, and {@code i} is a valid
+ *     index for this array, return the corresponding element;
+ *     </li>
+ *     <li>otherwise, return the contents of {@code additionalItems},
+ *     if it is an object, or if undefined, an empty schema.</li>
+ * </ul>
+ *
+ * @see ArrayValidator
+ */
 public final class ArraySchemaNode
 {
     private static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
+    /**
+     * The contents of {@code items}
+     */
     private final List<JsonNode> items = new ArrayList<JsonNode>();
 
+    /**
+     * The contents of {@code additionalItems}
+     */
     private JsonNode additionalItems = EMPTY_SCHEMA;
 
     public ArraySchemaNode(final JsonNode schema)
@@ -41,6 +65,13 @@ public final class ArraySchemaNode
     {
         JsonNode node = schema.path("items");
 
+        /**
+         * We don't bother at this point: if items is a schema,
+         * then it will be used for each and every element of the instance to
+         * validate -- it's just as if additionalItems were never defined.
+         * So, as items is defined as a list above, we just leave it empty
+         * and assign the contents of the keyword to additionalItems.
+         */
         if (node.isObject()) {
             additionalItems = node;
             return;

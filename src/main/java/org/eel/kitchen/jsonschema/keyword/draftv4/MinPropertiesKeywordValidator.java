@@ -24,7 +24,7 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 /**
- * Keyword validator for the {@code minProperties} keyword
+ * Keyword validator for the {@code minProperties} keyword (draft v4)
  */
 public final class MinPropertiesKeywordValidator
     extends KeywordValidator

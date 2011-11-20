@@ -64,6 +64,9 @@ import org.eel.kitchen.jsonschema.syntax.common.UniqueItemsSyntaxValidator;
 
 import static org.eel.kitchen.util.NodeType.*;
 
+/**
+ * The common set of validators used by existing JSON Schema specifications
+ */
 public abstract class CommonValidatorBundle
     extends ValidatorBundle
 {
@@ -95,9 +98,6 @@ public abstract class CommonValidatorBundle
         registerKV("uniqueItems", new UniqueItemsKeywordValidator(), ARRAY);
         registerKV("$ref", new RefKeywordValidator(), values());
 
-        /*
-         * Register ignored keyword validators
-         */
         registerIgnoredKV("items", ARRAY);
         registerIgnoredKV("patternProperties", OBJECT);
 
@@ -133,6 +133,5 @@ public abstract class CommonValidatorBundle
         registerSV("uniqueItems", new UniqueItemsSyntaxValidator());
 
         registerIgnoredSV("default");
-
     }
 }

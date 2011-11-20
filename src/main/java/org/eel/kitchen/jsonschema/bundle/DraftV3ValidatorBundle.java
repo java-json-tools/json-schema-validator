@@ -22,6 +22,9 @@ import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv3.RequiredSyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Validator bundle for JSON Schema draft v3
+ */
 public class DraftV3ValidatorBundle
     extends CommonValidatorBundle
 {

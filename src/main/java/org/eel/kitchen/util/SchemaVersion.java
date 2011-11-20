@@ -26,6 +26,16 @@ import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Enumeration of JSON Schema versions
+ *
+ * <p>While currently only draft v3 really exists, we also define draft v4.
+ * This enum holds two elements:</p>
+ * <ul>
+ *     <li>the URI of this schema as a {@link String},</li>
+ *     <li>the matching {@link ValidatorBundle}.</li>
+ * </ul>
+ */
 public enum SchemaVersion
 {
     DRAFT_V3("http://json-schema.org/draft-03/schema#",
@@ -33,13 +43,27 @@ public enum SchemaVersion
     DRAFT_V4("http://json-schema.org/draft-04/schema#",
         new DraftV4ValidatorBundle());
 
+    /**
+     * Default version, draft v3 for now
+     */
     private static final SchemaVersion DEFAULT_VERSION = DRAFT_V3;
 
+    /**
+     * Reverse map of locators to versions
+     *
+     * @see #getVersion(JsonNode)
+     */
     private static final Map<String, SchemaVersion> locatorMap
         = new HashMap<String, SchemaVersion>();
 
+    /**
+     * This schema version's locator
+     */
     private final String locator;
 
+    /**
+     * This schema version's base validator bundle
+     */
     private final ValidatorBundle bundle;
 
     static {
@@ -53,6 +77,15 @@ public enum SchemaVersion
         this.bundle = bundle;
     }
 
+    /**
+     * Get the version of a given schema by looking at its {@code $schema}
+     * attribute
+     *
+     * @param schema the schema
+     * @return the version ({@link #DEFAULT_VERSION} by default)
+     * @throws JsonValidationFailureException the schema is null or is not an
+     * object
+     */
     public static SchemaVersion getVersion(final JsonNode schema)
         throws JsonValidationFailureException
     {
@@ -71,6 +104,11 @@ public enum SchemaVersion
         return locatorMap.containsKey(s) ? locatorMap.get(s) : DEFAULT_VERSION;
     }
 
+    /**
+     * Return the validator bundle for this schema version
+     *
+     * @return a {@link ValidatorBundle}
+     */
     public ValidatorBundle getBundle()
     {
         return bundle;

@@ -43,12 +43,9 @@ import java.util.Set;
  * they ensure that keyword validators always have correct data to deal with.
  * </p>
  *
- * <p>Normally, you should never have to instantiate this factory yourself
- * (in fact, the only current user for this is {@link ValidationContext}).</p>
- *
  * <p>Note that unknown keywords to this factory trigger a validation
  * <b>failure</b>. Therefore, it is important that <b>all</b> keywords be
- * registered. This is on purpose.</p>
+ * registered (even if knowingly ignored). This is on purpose.</p>
  */
 public final class SyntaxFactory
 {
@@ -67,8 +64,9 @@ public final class SyntaxFactory
     private final Set<String> ignoredKeywords;
 
     /**
-     * Constructor, registering all validators with {@link
-     * #registerValidator(String, SyntaxValidator)}
+     * Constructor
+     *
+     * @param bundle the validator bundle to use
      */
     public SyntaxFactory(final ValidatorBundle bundle)
     {
@@ -79,19 +77,15 @@ public final class SyntaxFactory
     }
 
     /**
-     * <p>Get the syntax validator for a given context,
-     * calling {@link ValidationContext#getSchema()} to grab the schema
-     * node to validate. As the summary mentions, an unknown keyword to this
-     * factory will trigger a failure by returning an {@link
-     * AlwaysFalseValidator}.</p>
+     * Get the syntax validator for a given context
      *
-     * <p>This is also the place where ill-formed schemas are captured (ie,
-     * a null input or a node which is not an object to begin with).</p>
+     * <p>As the summary mentions, an unknown keyword to this factory will
+     * trigger a failure by returning an {@link AlwaysFalseValidator}.</p>
      *
      * @param context the validation context
      * @return the matching validator
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
+     * @throws JsonValidationFailureException if reporting is set to throw
+     * this exception instead of collecting messages
      */
     public Validator getValidator(final ValidationContext context)
         throws JsonValidationFailureException

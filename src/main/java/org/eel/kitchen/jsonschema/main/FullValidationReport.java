@@ -17,47 +17,30 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import org.codehaus.jackson.JsonNode;
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * An object containing the validation status of an instance against a schema.
- * This is what is returned by {@link JsonValidator#validate(JsonNode)}.
+ * A validation report collecting all messages added to it
  */
 //TODO: separate failure message queue from error message queue
 public final class FullValidationReport
     extends ValidationReport
 {
-    private final String path;
+    private final String prefix;
     private final List<String> messages = new LinkedList<String>();
 
     /**
-     * Default constructor. Only sets {@link #path} to an empty string.
-     */
-    public FullValidationReport()
-    {
-        path = "";
-    }
-
-    /**
      * Constructor of a validator which will prepend all messages added to it
-     * (using #fail) with a path and a colon.
      *
-     * @param path the path which will appear before all messages
+     * @param prefix the prefix which will appear before all messages
      */
-    public FullValidationReport(final String path)
+    public FullValidationReport(final String prefix)
     {
-        this.path = path;
+        this.prefix = prefix;
     }
 
-    /**
-     * Returns the list of validation errors collected by this report.
-     *
-     * @return an unmodifiable list of messages
-     */
     @Override
     public List<String> getMessages()
     {
@@ -68,7 +51,7 @@ public final class FullValidationReport
     public void message(final String message)
     {
         if (status != ValidationStatus.ERROR)
-            messages.add(path + ": " + message);
+            messages.add(prefix + ": " + message);
     }
 
     @Override
@@ -77,11 +60,6 @@ public final class FullValidationReport
         status = ValidationStatus.worstOf(status, ValidationStatus.FAILURE);
     }
 
-    /**
-     * Add one message to this report, effectively reporting a failure.
-     *
-     * @param message The message to add
-     */
     @Override
     public void fail(final String message)
     {
@@ -89,29 +67,14 @@ public final class FullValidationReport
         message(message);
     }
 
-    /**
-     * Report a fatal error message. In this case, all previous messages are
-     * cleared and the message remains the only one in the list. Sets the
-     * status of this report to {@link ValidationStatus#ERROR}.
-     *
-     * @param message the error message
-     */
     @Override
     public void error(final String message)
     {
         status = ValidationStatus.ERROR;
         messages.clear();
-        messages.add(path + ": FATAL: " + message);
+        messages.add(prefix + ": FATAL: " + message);
     }
 
-    /**
-     * Merge the current report with another report. In effect,
-     * it adds all messages of the other report to the list of the current
-     * report, and sets this report's {@link #status} to the other report's
-     * status.
-     *
-     * @param other The other report
-     */
     @Override
     public void mergeWith(final ValidationReport other)
     {

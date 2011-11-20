@@ -26,7 +26,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Validator for the "uri" format specification
+ * Validator for the {@code uri} format specification
  */
 public final class URIValidator
     extends FormatValidator

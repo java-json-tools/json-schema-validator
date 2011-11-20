@@ -34,12 +34,12 @@ import java.util.TreeSet;
 
 /**
  * <p>Keyword validator for the {@code properties} and {@code required}
- * keywords (draft sections 5.2 and 5.7).</p>
+ * keywords, draft v3 (draft sections 5.2 and 5.7).</p>
  *
  * <p>Well, this validator only really validates {@code required}: the syntax
  * of the keyword was already checked by {@link PropertiesSyntaxValidator},
- * so there is no point in checking it again here,
- * and it is up to {@link ObjectValidator} to spawn children validators.</p>
+ * so there is no point in checking it again here, and it is up to {@link
+ * ObjectValidator} to spawn children validators.</p>
  *
  * @see ObjectValidator
  * @see SyntaxValidator

@@ -91,7 +91,7 @@ public final class DependenciesKeywordValidator
      * Compute one dependency
      *
      * <p>This handles schema dependencies; property dependencies is handled to
-     * {@link #doSimpleDependency(Map.Entry, Iterator, ValidationReport)}
+     * {@link #doSimpleDependency(Map.Entry, Iterator, ValidationReport)}</p>
      *
      * @param context the context
      * @param instance the instance
@@ -122,14 +122,14 @@ public final class DependenciesKeywordValidator
      * Handle a property dependency
      *
      * @param entry the dependency entry
-     * @param fieldNames the property names in the instance
+     * @param fields the property names in the instance
      * @param depreport the report to fill
      * @throws JsonValidationFailureException on validation failure,
      * with the appropriate validation mode
      */
     private static void doSimpleDependency(
-        final Map.Entry<String, JsonNode> entry,
-        final Iterator<String> fieldNames, final ValidationReport depreport)
+        final Map.Entry<String, JsonNode> entry, final Iterator<String> fields,
+        final ValidationReport depreport)
         throws JsonValidationFailureException
     {
         final String depname = entry.getKey();
@@ -143,8 +143,8 @@ public final class DependenciesKeywordValidator
             for (final JsonNode element: depnode)
                 expected.add(element.getTextValue());
 
-        while (fieldNames.hasNext())
-            expected.remove(fieldNames.next());
+        while (fields.hasNext())
+            expected.remove(fields.next());
 
         if (expected.isEmpty())
             return;

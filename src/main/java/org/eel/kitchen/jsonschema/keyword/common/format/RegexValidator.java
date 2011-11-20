@@ -24,7 +24,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.RhinoHelper;
 
 /**
- * Validator for the "regex" format specification
+ * Validator for the {@code regex} format specification
  *
  * <p>Again, here, we do <b>not</b> use {@link java.util.regex} because it
  * does not fit the bill.</p>

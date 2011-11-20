@@ -41,11 +41,11 @@ import java.util.Set;
  * <ul>
  *     <li>checking the schema correctness (using {@link SyntaxValidator}
  *     instances);</li>
- *     <li>create validator instances;</li>
- *     <li>resolve {@code $ref} (see {@link RefKeywordValidator}) <b>and</b>
+ *     <li>creating validator instances;</li>
+ *     <li>resolving {@code $ref} (see {@link RefKeywordValidator}) <b>and</b>
  *     detect ref looping;</li>
- *     <li>provide {@link ValidationReport} instances;</li>
- *     <li>provide other instances of itself.</li>
+ *     <li>providing {@link ValidationReport} instances;</li>
+ *     <li>providing other instances of itself.</li>
  * </ul>
  */
 // TODO: unclutter
@@ -64,6 +64,10 @@ public final class ValidationContext
      */
     private final JsonPointer path;
 
+    /**
+     * The map of {@link ValidatorFactory} instances paired with the
+     * appropriate schema versions
+     */
     private final Map<SchemaVersion, ValidatorFactory> factories;
 
     /**
@@ -82,7 +86,7 @@ public final class ValidationContext
      *
      * @param provider the schema provider
      * @param path the JSON Pointer within the instance
-     * @param factories
+     * @param factories the validator factory
      * @param reports the report generator
      */
     private ValidationContext(final SchemaProvider provider,
@@ -99,7 +103,7 @@ public final class ValidationContext
     /**
      * Public constructor
      *
-     * @param factories
+     * @param factories the validator factory
      * @param provider the schema provider
      * @param reports the report generator
      */
@@ -197,6 +201,13 @@ public final class ValidationContext
         return ret;
     }
 
+    /**
+     * Validate the currently active schema
+     *
+     * @return the validation report
+     * @throws JsonValidationFailureException if reporting is configured to
+     * throw this exception
+     */
     public ValidationReport validateSchema()
         throws JsonValidationFailureException
     {
@@ -222,6 +233,7 @@ public final class ValidationContext
      * <p>This is what MUST be called by validators when they need to spawn a
      * new validator, because this method handles syntax checking. If the syntax
      * of the schema itself is wrong, returns an {@link AlwaysFalseValidator}.
+     * </p>
      *
      * @param instance the JSON instance
      * @return the validator

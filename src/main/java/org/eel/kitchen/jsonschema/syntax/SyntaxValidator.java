@@ -78,7 +78,6 @@ public abstract class SyntaxValidator
      * Abstract method for validators which need to check more than the type
      * of the node to validate
      *
-     *
      * @param schema the schema to analyze
      * @param report the report to use
      * @throws JsonValidationFailureException on validation failure,

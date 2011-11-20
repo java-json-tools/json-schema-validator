@@ -31,6 +31,7 @@ import java.text.SimpleDateFormat;
  * <p>We use {@link SimpleDateFormat#parse(String)} for that, since it can
  * handle all defined formats.</p>
  */
+//TODO: use joda?
 public abstract class GenericDateFormatValidator
     extends FormatValidator
 {
