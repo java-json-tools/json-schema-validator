@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.DraftV3ValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.DraftV4ValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
+import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +54,15 @@ public enum SchemaVersion
     }
 
     public static SchemaVersion getVersion(final JsonNode schema)
+        throws JsonValidationFailureException
     {
+        if (schema == null)
+            throw new JsonValidationFailureException("schema is null");
+
+        if (!schema.isObject())
+            throw new JsonValidationFailureException("not a schema (not an "
+                + "object)");
+
         if (!schema.has("$schema"))
             return DEFAULT_VERSION;
 
