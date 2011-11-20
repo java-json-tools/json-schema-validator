@@ -30,6 +30,7 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.util.SchemaVersion;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -47,12 +48,14 @@ public final class ValidatorFactory
     /**
      * The {@link KeywordValidator} factory
      */
-    private final KeywordFactory keywordFactory = new KeywordFactory();
+    private final KeywordFactory keywordFactory
+        = new KeywordFactory(SchemaVersion.DRAFT_V3.getBundle());
 
     /**
      * The {@link SyntaxValidator} factory
      */
-    private final SyntaxFactory syntaxFactory = new SyntaxFactory();
+    private final SyntaxFactory syntaxFactory
+        = new SyntaxFactory(SchemaVersion.DRAFT_V3.getBundle());
 
     /**
      * Should schema syntax checking be skipped altogether?

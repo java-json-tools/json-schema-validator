@@ -29,6 +29,7 @@ import org.eel.kitchen.jsonschema.main.SchemaProvider;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.util.SchemaVersion;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,7 +45,8 @@ public final class SyntaxValidatorFactoryTest
 {
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
     private static final JsonNode dummy = nodeFactory.nullNode();
-    private static final SyntaxFactory syntaxFactory = new SyntaxFactory();
+    private static final SyntaxFactory syntaxFactory
+        = new SyntaxFactory(SchemaVersion.DRAFT_V3.getBundle());
     private static final ValidatorFactory factory = new ValidatorFactory(false);
     private static final ReportFactory reports = new ReportFactory(false);
 

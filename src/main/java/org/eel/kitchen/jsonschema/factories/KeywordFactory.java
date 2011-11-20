@@ -20,26 +20,8 @@ package org.eel.kitchen.jsonschema.factories;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.AdditionalPropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.DependenciesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.DisallowKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.DivisibleByKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.ExtendsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.FormatKeywordValidator;
+import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.MaxItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.MaxLengthKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.MaximumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.MinItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.MinLengthKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.MinimumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.PatternKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.TypeKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -55,8 +37,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-
-import static org.eel.kitchen.util.NodeType.*;
 
 /**
  * Factory for keyword validators, ie the core of the validation process
@@ -94,48 +74,53 @@ public final class KeywordFactory
      * Constructor; registers validators using
      * {@link #registerValidator(String, KeywordValidator, NodeType...)}
      */
-    public KeywordFactory()
+    public KeywordFactory(final ValidatorBundle bundle)
     {
         for (final NodeType type: NodeType.values()) {
             validators.put(type, new HashMap<String, KeywordValidator>());
             ignoredKeywords.put(type, new HashSet<String>());
         }
 
-        registerValidator("additionalItems",
-            new AdditionalItemsKeywordValidator(), ARRAY);
-        registerValidator("additionalProperties",
-            new AdditionalPropertiesKeywordValidator(), OBJECT);
-        registerValidator("dependencies", new DependenciesKeywordValidator(),
-            NodeType.values());
-        registerValidator("disallow", new DisallowKeywordValidator(),
-            NodeType.values());
-        registerValidator("divisibleBy", new DivisibleByKeywordValidator(),
-            INTEGER, NUMBER);
-        registerValidator("enum", new EnumKeywordValidator(),
-            NodeType.values());
-        registerValidator("extends", new ExtendsKeywordValidator(),
-            NodeType.values());
-        registerValidator("format", new FormatKeywordValidator(),
-            NodeType.values());
-        registerValidator("maximum", new MaximumKeywordValidator(), INTEGER,
-            NUMBER);
-        registerValidator("maxItems", new MaxItemsKeywordValidator(), ARRAY);
-        registerValidator("maxLength", new MaxLengthKeywordValidator(), STRING);
-        registerValidator("minimum", new MinimumKeywordValidator(), INTEGER,
-            NUMBER);
-        registerValidator("minItems", new MinItemsKeywordValidator(), ARRAY);
-        registerValidator("minLength", new MinLengthKeywordValidator(), STRING);
-        registerValidator("pattern", new PatternKeywordValidator(), STRING);
-        registerValidator("properties", new PropertiesKeywordValidator(),
-            OBJECT);
-        registerValidator("type", new TypeKeywordValidator(),
-            NodeType.values());
-        registerValidator("uniqueItems", new UniqueItemsKeywordValidator(),
-            ARRAY);
-        registerValidator("$ref", new RefKeywordValidator(), NodeType.values());
+        pushValidators(bundle);
+        pushIgnored(bundle);
+    }
 
-        registerValidator("items", null, ARRAY);
-        registerValidator("patternProperties", null, OBJECT);
+    private void pushIgnored(final ValidatorBundle bundle)
+    {
+        final Map<NodeType, Set<String>> bundleMap =
+            bundle.ignoredKeywordValidators();
+
+        Set<String> set;
+
+        for (final NodeType type: bundleMap.keySet()) {
+            set = ignoredKeywords.get(type);
+            set.addAll(bundleMap.get(type));
+        }
+    }
+
+    private void pushValidators(final ValidatorBundle bundle)
+    {
+        final Map<NodeType, Map<String, KeywordValidator>> bundleMap
+            = bundle.keywordValidators();
+
+        Map<String, KeywordValidator> map;
+
+        for (final NodeType type: bundleMap.keySet()) {
+            map = validators.get(type);
+            map.putAll(bundleMap.get(type));
+        }
+    }
+
+    private boolean hasKeyword(final String keyword, final NodeType... types)
+    {
+        for (final NodeType type: types) {
+            if (ignoredKeywords.get(type).contains(keyword))
+                return true;
+            if (validators.get(type).keySet().contains(keyword))
+                return true;
+        }
+
+        return false;
     }
 
     /**
@@ -166,17 +151,12 @@ public final class KeywordFactory
          * until the "no schema validation" feature is implemented.
          */
 
-        for (final NodeType type: types) {
-            if (ignoredKeywords.get(type).contains(keyword))
-                throw new IllegalArgumentException("keyword already registered");
-            if (validators.get(type).keySet().contains(keyword))
-                throw new IllegalArgumentException(
-                    "keyword already registered");
-        }
-
         if (types.length == 0)
             throw new IllegalArgumentException("cannot register a new keyword"
                 + " with no JSON type to match against");
+
+        if (hasKeyword(keyword, types))
+            throw new IllegalArgumentException("keyword already registered");
 
         if (kv == null) {
             for (final NodeType type: types)

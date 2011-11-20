@@ -22,39 +22,12 @@ import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.common.AdditionalItemsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.AdditionalPropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.DependenciesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.DescriptionSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.DisallowSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.DollarRefSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.DollarSchemaSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMaximumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMinimumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.ExtendsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.FormatSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.IdSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.ItemsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.MaxItemsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.MaxLengthSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.MaximumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.MinItemsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.MinLengthSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.MinimumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.PatternPropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv3.RequiredSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.TitleSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.TypeSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.UniqueItemsSyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.Collection;
@@ -82,8 +55,7 @@ public final class SyntaxFactory
     /**
      * Map pairing a schema keyword with its corresponding syntax validator
      */
-    private final Map<String, SyntaxValidator> validators
-        = new HashMap<String, SyntaxValidator>();
+    private final Map<String, SyntaxValidator> validators;
 
     /**
      * The set of ignored keywords for this factory
@@ -92,49 +64,18 @@ public final class SyntaxFactory
      * keyword, it simply means that if the keyword is found in the schema,
      * it is assumed to always be valid.</p>
      */
-    private final Set<String> ignoredKeywords = new HashSet<String>();
+    private final Set<String> ignoredKeywords;
 
     /**
      * Constructor, registering all validators with {@link
      * #registerValidator(String, SyntaxValidator)}
      */
-    public SyntaxFactory()
+    public SyntaxFactory(final ValidatorBundle bundle)
     {
-        registerValidator("additionalItems",
-            new AdditionalItemsSyntaxValidator());
-        registerValidator("additionalProperties",
-            new AdditionalPropertiesSyntaxValidator());
-        registerValidator("dependencies", new DependenciesSyntaxValidator());
-        registerValidator("description", new DescriptionSyntaxValidator());
-        registerValidator("disallow", new DisallowSyntaxValidator());
-        registerValidator("divisibleBy", new DivisibleBySyntaxValidator());
-        registerValidator("$ref", new DollarRefSyntaxValidator());
-        registerValidator("$schema", new DollarSchemaSyntaxValidator());
-        registerValidator("enum", new EnumSyntaxValidator());
-        registerValidator("exclusiveMaximum",
-            new ExclusiveMaximumSyntaxValidator());
-        registerValidator("exclusiveMinimum",
-            new ExclusiveMinimumSyntaxValidator());
-        registerValidator("extends", new ExtendsSyntaxValidator());
-        registerValidator("format", new FormatSyntaxValidator());
-        registerValidator("id", new IdSyntaxValidator());
-        registerValidator("items", new ItemsSyntaxValidator());
-        registerValidator("maximum", new MaximumSyntaxValidator());
-        registerValidator("maxItems", new MaxItemsSyntaxValidator());
-        registerValidator("maxLength", new MaxLengthSyntaxValidator());
-        registerValidator("minimum", new MinimumSyntaxValidator());
-        registerValidator("minItems", new MinItemsSyntaxValidator());
-        registerValidator("minLength", new MinLengthSyntaxValidator());
-        registerValidator("pattern", new PatternSyntaxValidator());
-        registerValidator("patternProperties",
-            new PatternPropertiesSyntaxValidator());
-        registerValidator("properties", new PropertiesSyntaxValidator());
-        registerValidator("required", new RequiredSyntaxValidator());
-        registerValidator("title", new TitleSyntaxValidator());
-        registerValidator("type", new TypeSyntaxValidator());
-        registerValidator("uniqueItems", new UniqueItemsSyntaxValidator());
+        validators = new HashMap<String, SyntaxValidator>(bundle
+            .syntaxValidators());
 
-        ignoredKeywords.add("default");
+        ignoredKeywords = new HashSet<String>(bundle.ignoredSyntaxValidators());
     }
 
     /**
