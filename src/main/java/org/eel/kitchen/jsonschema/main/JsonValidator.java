@@ -314,6 +314,6 @@ public final class JsonValidator
     public ValidationReport validateSchema()
         throws JsonValidationFailureException
     {
-        return factory.validateSchema(context);
+        return context.validateSchema();
     }
 }

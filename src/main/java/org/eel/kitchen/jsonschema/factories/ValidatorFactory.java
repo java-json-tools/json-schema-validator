@@ -107,13 +107,7 @@ public final class ValidatorFactory
     public ValidationReport validateSchema(final ValidationContext context)
         throws JsonValidationFailureException
     {
-        if (skipSyntax)
-            return ValidationReport.TRUE;
-
         final JsonNode schema = context.getSchema();
-
-        if (validated.contains(schema))
-            return ValidationReport.TRUE;
 
         final Validator validator = syntaxFactory.getValidator(context);
         final ValidationReport report
@@ -123,6 +117,11 @@ public final class ValidatorFactory
             validated.add(schema);
 
         return report;
+    }
+
+    public boolean isValidated(final JsonNode schema)
+    {
+        return skipSyntax || validated.contains(schema);
     }
 
     /**

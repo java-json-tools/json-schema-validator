@@ -99,16 +99,6 @@ public final class SyntaxFactory
         final JsonNode schema = context.getSchema();
         final ValidationReport report = context.createReport(" [schema]");
 
-        if (schema == null) {
-            report.fail("schema is null");
-            return new AlwaysFalseValidator(report);
-        }
-
-        if (!schema.isObject()) {
-            report.fail("not a valid schema (not an object)");
-            return new AlwaysFalseValidator(report);
-        }
-
         final Set<String> fields
             = CollectionUtils.toSet(schema.getFieldNames());
 

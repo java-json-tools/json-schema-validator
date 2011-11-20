@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -55,13 +56,14 @@ public final class SyntaxValidatorFactoryTest
         throws JsonValidationFailureException
     {
         validator = new JsonValidator(null);
+        validator.setFeature(ValidationFeature.SKIP_SCHEMACHECK);
         report = validator.validateSchema();
 
         assertFalse(report.isSuccess());
 
         final List<String> messages = report.getMessages();
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "# [schema]: schema is null");
+        assertEquals(messages.get(0), "# [schema]: FATAL: schema is null");
     }
 
     @Test
@@ -81,14 +83,15 @@ public final class SyntaxValidatorFactoryTest
         throws JsonValidationFailureException
     {
         validator = new JsonValidator(nodeFactory.textNode("hello"));
+        validator.setFeature(ValidationFeature.SKIP_SCHEMACHECK);
         report = validator.validateSchema();
 
         assertFalse(report.isSuccess());
 
         final List<String> messages = report.getMessages();
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "# [schema]: not a valid schema (not an"
-            + " object)");
+        assertEquals(messages.get(0), "# [schema]: FATAL: not a schema (not "
+            + "an object)");
     }
 
     @Test

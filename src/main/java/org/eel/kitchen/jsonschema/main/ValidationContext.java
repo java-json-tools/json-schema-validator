@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonPointer;
+import org.eel.kitchen.util.SchemaVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -203,6 +204,24 @@ public final class ValidationContext
         return ret;
     }
 
+    public ValidationReport validateSchema()
+        throws JsonValidationFailureException
+    {
+        final JsonNode schema = provider.getSchema();
+
+        try {
+            SchemaVersion.getVersion(schema);
+            if (factory.isValidated(schema))
+                return ValidationReport.TRUE;
+        } catch (JsonValidationFailureException e) {
+            final ValidationReport ret = createReport(" [schema]");
+            ret.error(e.getMessage());
+            return ret;
+        }
+
+        return factory.validateSchema(this);
+    }
+
     /**
      * Create a {@link Validator} for a given JSON instance.
      *
@@ -218,7 +237,7 @@ public final class ValidationContext
     public Validator getValidator(final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final ValidationReport report = factory.validateSchema(this);
+        final ValidationReport report = validateSchema();
 
         if (!report.isSuccess())
             return new AlwaysFalseValidator(report);
