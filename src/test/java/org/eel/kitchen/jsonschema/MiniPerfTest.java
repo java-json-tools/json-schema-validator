@@ -27,7 +27,6 @@ import org.eel.kitchen.util.JsonLoader;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.SortedMap;
 
 public final class MiniPerfTest
 {
@@ -38,8 +37,8 @@ public final class MiniPerfTest
             = JsonLoader.fromResource("/schema-draftv3.json");
         final JsonNode googleAPI
             = JsonLoader.fromResource("/other/google-json-api.json");
-        final SortedMap<String, JsonNode> schemas
-            = CollectionUtils.toSortedMap(googleAPI.get("schemas").getFields());
+        final Map<String, JsonNode> schemas
+            = CollectionUtils.toMap(googleAPI.get("schemas").getFields());
 
         final JsonValidator validator = new JsonValidator(draftv3);
         validator.setFeature(ValidationFeature.FAIL_FAST);
