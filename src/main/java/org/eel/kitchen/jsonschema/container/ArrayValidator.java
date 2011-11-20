@@ -31,9 +31,12 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class ArrayValidator
     extends ContainerValidator
 {
+    private final ArraySchemaNode schema;
+
     public ArrayValidator(final JsonNode schemaNode, final Validator validator)
     {
-        super(schemaNode, validator);
+        super(validator);
+        schema = new ArraySchemaNode(schemaNode);
     }
 
     @Override

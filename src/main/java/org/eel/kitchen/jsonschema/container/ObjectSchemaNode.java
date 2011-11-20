@@ -15,29 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.util;
+package org.eel.kitchen.jsonschema.container;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
+import org.eel.kitchen.util.CollectionUtils;
+import org.eel.kitchen.util.RhinoHelper;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public final class JsonSchema
+public final class ObjectSchemaNode
 {
     private static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
-
-    private final JsonNode schema;
-
-    private final List<JsonNode> items = new ArrayList<JsonNode>();
-
-    private JsonNode additionalItems = EMPTY_SCHEMA;
 
     private final Map<String, JsonNode> properties
         = new HashMap<String, JsonNode>();
@@ -47,33 +41,12 @@ public final class JsonSchema
 
     private JsonNode additionalProperties = EMPTY_SCHEMA;
 
-    public JsonSchema(final JsonNode schema)
+    public ObjectSchemaNode(final JsonNode schema)
     {
-        this.schema = schema;
-        setupArrayNodes();
-        setupObjectNodes();
+        setupObjectNodes(schema);
     }
 
-    private void setupArrayNodes()
-    {
-        JsonNode node = schema.path("items");
-
-        if (node.isObject()) {
-            additionalItems = node;
-            return;
-        }
-
-        if (node.isArray())
-            for (final JsonNode item: node)
-                items.add(item);
-
-        node = schema.path("additionalItems");
-
-        if (node.isObject())
-            additionalItems = node;
-    }
-
-    private void setupObjectNodes()
+    private void setupObjectNodes(final JsonNode schema)
     {
         JsonNode node = schema.path("properties");
 
@@ -89,11 +62,6 @@ public final class JsonSchema
 
         if (node.isObject())
             additionalProperties = node;
-    }
-
-    public JsonNode arrayPath(final int index)
-    {
-        return index < items.size() ? items.get(index) : additionalItems;
     }
 
     public Collection<JsonNode> objectPath(final String path)

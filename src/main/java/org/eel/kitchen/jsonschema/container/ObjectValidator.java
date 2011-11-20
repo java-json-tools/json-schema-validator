@@ -34,9 +34,13 @@ import java.util.SortedMap;
 public final class ObjectValidator
     extends ContainerValidator
 {
+    private final ObjectSchemaNode schema;
+
     public ObjectValidator(final JsonNode schemaNode, final Validator validator)
     {
-        super(schemaNode, validator);
+        super(validator);
+
+        schema = new ObjectSchemaNode(schemaNode);
     }
 
     /**
