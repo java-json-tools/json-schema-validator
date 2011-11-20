@@ -20,16 +20,10 @@ package org.eel.kitchen.jsonschema.syntax;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
-import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
-import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.ReportFactory;
-import org.eel.kitchen.jsonschema.main.SchemaProvider;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
-import org.eel.kitchen.util.SchemaVersion;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,17 +38,10 @@ import static org.testng.Assert.*;
 public final class SyntaxValidatorFactoryTest
 {
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
-    private static final JsonNode dummy = nodeFactory.nullNode();
-    private static final SyntaxFactory syntaxFactory
-        = new SyntaxFactory(SchemaVersion.DRAFT_V3.getBundle());
-    private static final ValidatorFactory factory = new ValidatorFactory(false);
-    private static final ReportFactory reports = new ReportFactory(false);
 
     private JsonNode allTests;
-    private ValidationContext context;
-    private Validator v;
     private ValidationReport report;
-    private SchemaProvider provider;
+    private JsonValidator validator;
 
     @BeforeClass
     public void setUp()
@@ -67,10 +54,8 @@ public final class SyntaxValidatorFactoryTest
     public void testNullSchema()
         throws JsonValidationFailureException
     {
-        provider = new SchemaProvider(null);
-        context = new ValidationContext(factory, provider, reports);
-        v = context.getValidator(dummy);
-        report = v.validate(context, dummy);
+        validator = new JsonValidator(null);
+        report = validator.validateSchema();
 
         assertFalse(report.isSuccess());
 
@@ -83,12 +68,8 @@ public final class SyntaxValidatorFactoryTest
     public void testEmptySchema()
         throws JsonValidationFailureException
     {
-        final JsonNode schema = nodeFactory.objectNode();
-
-        provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider, reports);
-        v = context.getValidator(schema);
-        report = v.validate(context, schema);
+        validator = new JsonValidator(nodeFactory.objectNode());
+        report = validator.validateSchema();
 
         assertTrue(report.isSuccess());
 
@@ -99,12 +80,8 @@ public final class SyntaxValidatorFactoryTest
     public void testNonObjectSchema()
         throws JsonValidationFailureException
     {
-        final JsonNode schema = nodeFactory.textNode("hello");
-
-        provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider, reports);
-        v = context.getValidator(schema);
-        report = v.validate(context, dummy);
+        validator = new JsonValidator(nodeFactory.textNode("hello"));
+        report = validator.validateSchema();
 
         assertFalse(report.isSuccess());
 
@@ -121,10 +98,9 @@ public final class SyntaxValidatorFactoryTest
         final ObjectNode schema = nodeFactory.objectNode();
         schema.put("toto", 2);
 
-        provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider, reports);
-        v = context.getValidator(schema);
-        report = v.validate(context, dummy);
+        validator = new JsonValidator(schema);
+
+        report = validator.validateSchema();
 
         assertFalse(report.isSuccess());
         final List<String> messages = report.getMessages();
@@ -308,11 +284,10 @@ public final class SyntaxValidatorFactoryTest
         final JsonNode schema = element.get("schema");
         final boolean valid = element.get("valid").getBooleanValue();
 
-        provider = new SchemaProvider(schema);
-        context = new ValidationContext(factory, provider, reports);
+        validator = new JsonValidator(schema);
+
         try {
-            final Validator sv = syntaxFactory.getValidator(context);
-            report = sv.validate(context, schema);
+            report = validator.validateSchema();
         } catch (JsonValidationFailureException ignored) {
             fail();
         }

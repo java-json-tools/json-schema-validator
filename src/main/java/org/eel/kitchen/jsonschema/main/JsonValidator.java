@@ -306,4 +306,10 @@ public final class JsonValidator
             ctxlock.readLock().unlock();
         }
     }
+
+    public ValidationReport validateSchema()
+        throws JsonValidationFailureException
+    {
+        return factory.validateSchema(context);
+    }
 }
