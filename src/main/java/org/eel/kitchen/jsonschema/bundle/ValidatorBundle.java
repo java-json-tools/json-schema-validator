@@ -23,7 +23,6 @@ import org.eel.kitchen.util.NodeType;
 
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -75,14 +74,9 @@ public abstract class ValidatorBundle
         return Collections.unmodifiableMap(ignoredKV);
     }
 
-    public final void registerSV(final String keyword,
+    protected final void registerSV(final String keyword,
         final SyntaxValidator sv)
     {
-        if (sv == null) {
-            registerIgnoredSV(keyword);
-            return;
-        }
-
         svMap.put(keyword, sv);
     }
 
@@ -91,20 +85,9 @@ public abstract class ValidatorBundle
         ignoredSV.add(keyword);
     }
 
-    public final void unregisterSV(final String keyword)
-    {
-        ignoredSV.remove(keyword);
-        svMap.remove(keyword);
-    }
-
-    public final void registerKV(final String keyword,
+    protected final void registerKV(final String keyword,
         final KeywordValidator kv, final NodeType... types)
     {
-        if (kv == null) {
-            registerIgnoredKV(keyword, types);
-            return;
-        }
-
         for (final NodeType type: types)
             kvMap.get(type).put(keyword, kv);
     }
@@ -114,36 +97,5 @@ public abstract class ValidatorBundle
     {
         for (final NodeType type: types)
             ignoredKV.get(type).add(keyword);
-    }
-
-    public final EnumSet<NodeType> unregisterKV(final String keyword)
-    {
-        final EnumSet<NodeType> ret = EnumSet.noneOf(NodeType.class);
-
-        for (final NodeType type: values()) {
-            if (ignoredKV.get(type).remove(keyword))
-                ret.add(type);
-            if (kvMap.get(type).remove(keyword) != null)
-                ret.add(type);
-        }
-
-        return ret;
-    }
-
-    public final boolean hasKeyword(final String keyword)
-    {
-        if (ignoredSV.contains(keyword))
-            return true;
-        if (svMap.containsKey(keyword))
-            return true;
-
-        for (final NodeType type: values()) {
-            if (ignoredKV.get(type).contains(keyword))
-                return true;
-            if (kvMap.get(type).containsKey(keyword))
-                return true;
-        }
-
-        return false;
     }
 }
