@@ -40,17 +40,14 @@ public final class PropertiesSyntaxValidator
         final ValidationReport report)
         throws JsonValidationFailureException
     {
-        //Check that all child elements are objects
-
         final JsonNode node = schema.get(keyword);
 
-        final SortedMap<String, JsonNode> fields = CollectionUtils
-            .toSortedMap(node.getFields());
+        final SortedMap<String, JsonNode> fields
+            = CollectionUtils.toSortedMap(node.getFields());
 
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet())
             if (!entry.getValue().isObject())
-                report.fail(String.format(
-                    "value for property %s is not an " + "object",
-                    entry.getKey()));
+                report.fail(String.format("value for property %s is not an "
+                    + "object", entry.getKey()));
     }
 }
