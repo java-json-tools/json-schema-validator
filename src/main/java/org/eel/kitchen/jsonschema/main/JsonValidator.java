@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.main;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
+import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -30,7 +31,9 @@ import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.SchemaVersion;
 
+import java.util.EnumMap;
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
@@ -46,17 +49,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public final class JsonValidator
 {
+    private static final SchemaVersion DEFAULT_VERSION = SchemaVersion.DRAFT_V3;
+
     /**
      * Lock to protect context creation
      */
     private final ReentrantReadWriteLock ctxlock
         = new ReentrantReadWriteLock();
 
-    /**
-     * Validator factory (both {@link SyntaxValidator} and {@link
-     * KeywordValidator} instances)
-     */
-    private ValidatorFactory factory;
+    private final Map<SchemaVersion, ValidatorFactory> factories
+        = new EnumMap<SchemaVersion, ValidatorFactory>(SchemaVersion.class);
 
     /**
      * The schema provider
@@ -88,10 +90,18 @@ public final class JsonValidator
     public JsonValidator(final JsonNode schema)
     {
         provider = new SchemaProvider(schema);
-        factory = new ValidatorFactory(SchemaVersion.DRAFT_V3.getBundle(),
-            false);
         reports = new ReportFactory(false);
-        context = new ValidationContext(factory, provider, reports);
+        buildFactories(false);
+        context = new ValidationContext(factories, provider, reports);
+    }
+
+    private void buildFactories(final boolean skipSyntax)
+    {
+        ValidatorBundle bundle;
+        for (final SchemaVersion version: SchemaVersion.values()) {
+            bundle = version.getBundle();
+            factories.put(version, new ValidatorFactory(bundle, skipSyntax));
+        }
     }
 
     /**
@@ -113,11 +123,10 @@ public final class JsonValidator
                     reports = new ReportFactory(true);
                     break;
                 case SKIP_SCHEMACHECK:
-                    factory = new ValidatorFactory(SchemaVersion.DRAFT_V3
-                        .getBundle(), true);
+                    buildFactories(true);
                     break;
             }
-            context = new ValidationContext(factory, provider, reports);
+            context = new ValidationContext(factories, provider, reports);
         } finally {
             ctxlock.writeLock().unlock();
         }
@@ -142,10 +151,9 @@ public final class JsonValidator
                     reports = new ReportFactory(false);
                     break;
                 case SKIP_SCHEMACHECK:
-                    factory = new ValidatorFactory(SchemaVersion.DRAFT_V3
-                        .getBundle(), false);
+                    buildFactories(true);
             }
-            context = new ValidationContext(factory, provider, reports);
+            context = new ValidationContext(factories, provider, reports);
         } finally {
             ctxlock.writeLock().unlock();
         }
@@ -175,7 +183,7 @@ public final class JsonValidator
         ctxlock.writeLock().lock();
 
         try {
-            factory.unregisterValidator(keyword);
+            factories.get(DEFAULT_VERSION).unregisterValidator(keyword);
         } finally {
             ctxlock.writeLock().unlock();
         }
@@ -206,7 +214,8 @@ public final class JsonValidator
         ctxlock.writeLock().lock();
 
         try {
-            factory.registerValidator(keyword, sv, kv, types);
+            factories.get(DEFAULT_VERSION).registerValidator(keyword, sv, kv,
+                types);
         } finally {
             ctxlock.writeLock().unlock();
         }

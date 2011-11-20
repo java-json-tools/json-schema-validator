@@ -20,10 +20,7 @@ package org.eel.kitchen.jsonschema.main;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.factories.FormatFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
-import org.eel.kitchen.jsonschema.keyword.common.FormatKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -35,6 +32,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -66,14 +64,7 @@ public final class ValidationContext
      */
     private final JsonPointer path;
 
-    /**
-     * The validator factory to use
-     *
-     * <p>It is in charge of returning all {@link SyntaxValidator} and
-     * {@link KeywordValidator} instances, as well as a {@link FormatFactory}
-     * for {@link FormatKeywordValidator}.</p>
-     */
-    private final ValidatorFactory factory;
+    private final Map<SchemaVersion, ValidatorFactory> factories;
 
     /**
      * The {@link ValidationReport} generator
@@ -91,33 +82,35 @@ public final class ValidationContext
      *
      * @param provider the schema provider
      * @param path the JSON Pointer within the instance
-     * @param factory the validator factory
+     * @param factories
      * @param reports the report generator
      */
     private ValidationContext(final SchemaProvider provider,
-        final JsonPointer path, final ValidatorFactory factory,
+        final JsonPointer path,
+        final Map<SchemaVersion, ValidatorFactory> factories,
         final ReportFactory reports)
     {
         this.provider = provider;
         this.path = path;
-        this.factory = factory;
+        this.factories = factories;
         this.reports = reports;
     }
 
     /**
      * Public constructor
      *
-     * @param factory the validator factory
+     * @param factories
      * @param provider the schema provider
      * @param reports the report generator
      */
-    public ValidationContext(final ValidatorFactory factory,
+    public ValidationContext(
+        final Map<SchemaVersion, ValidatorFactory> factories,
         final SchemaProvider provider, final ReportFactory reports)
     {
         path = new JsonPointer("");
 
         this.provider = provider;
-        this.factory = factory;
+        this.factories = factories;
         this.reports = reports;
 
         refLookups.add(provider.getSchema());
@@ -150,7 +143,7 @@ public final class ValidationContext
 
         final SchemaProvider sp = provider.withSchema(subSchema);
 
-        return new ValidationContext(sp, newPath, factory,  reports);
+        return new ValidationContext(sp, newPath, factories,  reports);
     }
 
     /**
@@ -164,7 +157,7 @@ public final class ValidationContext
     {
         final SchemaProvider sp = provider.withSchema(subSchema);
 
-        final ValidationContext ret = new ValidationContext(sp, path, factory,
+        final ValidationContext ret = new ValidationContext(sp, path, factories,
             reports);
 
         ret.refLookups.addAll(refLookups);
@@ -196,7 +189,7 @@ public final class ValidationContext
 
         final SchemaProvider sp = provider.atURI(uri);
 
-        final ValidationContext ret = new ValidationContext(sp, path, factory,
+        final ValidationContext ret = new ValidationContext(sp, path, factories,
             reports);
 
         ret.refLookups.addAll(refLookups);
@@ -208,9 +201,10 @@ public final class ValidationContext
         throws JsonValidationFailureException
     {
         final JsonNode schema = provider.getSchema();
+        final ValidatorFactory factory;
 
         try {
-            SchemaVersion.getVersion(schema);
+            factory = factories.get(SchemaVersion.getVersion(schema));
             if (factory.isValidated(schema))
                 return ValidationReport.TRUE;
         } catch (JsonValidationFailureException e) {
@@ -242,7 +236,9 @@ public final class ValidationContext
         if (!report.isSuccess())
             return new AlwaysFalseValidator(report);
 
-        return factory.getInstanceValidator(this, instance);
+        final SchemaVersion version
+            = SchemaVersion.getVersion(provider.getSchema());
+        return factories.get(version).getInstanceValidator(this, instance);
     }
 
     /**
@@ -258,7 +254,9 @@ public final class ValidationContext
         final JsonNode instance)
         throws JsonValidationFailureException
     {
-        return factory.getFormatValidator(this, fmt, instance);
+        final SchemaVersion version
+            = SchemaVersion.getVersion(provider.getSchema());
+        return factories.get(version).getFormatValidator(this, fmt, instance);
     }
 
     /**
