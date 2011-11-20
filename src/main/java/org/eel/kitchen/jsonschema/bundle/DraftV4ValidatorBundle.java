@@ -32,15 +32,17 @@ public class DraftV4ValidatorBundle
     public DraftV4ValidatorBundle()
     {
         registerSV("required", new RequiredSyntaxValidator());
-        registerKV("required", new RequiredKeywordValidator());
+        registerKV("required", new RequiredKeywordValidator(), NodeType.OBJECT);
 
         registerSV("properties", new PropertiesSyntaxValidator());
         registerIgnoredKV("properties", NodeType.OBJECT);
 
         registerSV("minProperties", new MinPropertiesSyntaxValidator());
-        registerKV("minProperties", new MinPropertiesKeywordValidator());
+        registerKV("minProperties", new MinPropertiesKeywordValidator(),
+            NodeType.OBJECT);
 
         registerSV("maxProperties", new MaxPropertiesSyntaxValidator());
-        registerKV("maxProperties", new MaxPropertiesKeywordValidator());
+        registerKV("maxProperties", new MaxPropertiesKeywordValidator(),
+            NodeType.OBJECT);
     }
 }
