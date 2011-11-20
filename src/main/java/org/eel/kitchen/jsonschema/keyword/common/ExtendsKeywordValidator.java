@@ -25,10 +25,6 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.CollectionUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Keyword validator for the {@code extends} keyword (draft section 5.26)
@@ -40,7 +36,8 @@ public final class ExtendsKeywordValidator
     extends KeywordValidator
 {
     /**
-     * A {@link JsonNodeFactory}, needed for {@link #merge(Map, JsonNode)}
+     * A {@link JsonNodeFactory}, needed for {@link #merge(ObjectNode,
+     * ObjectNode)}
      */
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
@@ -62,9 +59,6 @@ public final class ExtendsKeywordValidator
 
         final JsonNode extendsNode = baseNode.remove("extends");
 
-        final Map<String, JsonNode> map
-            = CollectionUtils.toMap(baseNode.getFields());
-
         ValidationContext current = context.withSchema(baseNode);
 
         Validator v;
@@ -72,15 +66,15 @@ public final class ExtendsKeywordValidator
         v = current.getValidator(instance);
         report.mergeWith(v.validate(current, instance));
 
-        JsonNode mergedNode;
+        ObjectNode mergedNode;
 
         if (extendsNode.isObject()) {
-            mergedNode = merge(map, extendsNode);
+            mergedNode = merge(baseNode, (ObjectNode) extendsNode);
             current = context.withSchema(mergedNode);
             v = current.getValidator(instance);
             report.mergeWith(v.validate(current, instance));
         } else for (final JsonNode node: extendsNode) {
-            mergedNode = merge(map, node);
+            mergedNode = merge(baseNode, (ObjectNode) node);
             current = context.withSchema(mergedNode);
             v = current.getValidator(instance);
             report.mergeWith(v.validate(current, instance));
@@ -97,20 +91,18 @@ public final class ExtendsKeywordValidator
      * other node in this copy (overwriting any node defined in the other
      * node which existed in the base node).</p>
      *
-     * @param map the field/node map of the schema node, minus the
-     * {@code extends} field
-     * @param otherNode the other node
-     * @return the copy
+     * @param base the base node
+     * @param other the other node
+     * @return the merge node
      */
-    private static JsonNode merge(final Map<String, JsonNode> map,
-        final JsonNode otherNode)
+    private static ObjectNode merge(final ObjectNode base,
+        final ObjectNode other)
     {
-        final Map<String, JsonNode>
-            ret = new HashMap<String, JsonNode>(map),
-            other = CollectionUtils.toMap(otherNode.getFields());
+        final ObjectNode ret = nodeFactory.objectNode();
 
+        ret.putAll(base);
         ret.putAll(other);
 
-        return nodeFactory.objectNode().putAll(ret);
+        return ret;
     }
 }
