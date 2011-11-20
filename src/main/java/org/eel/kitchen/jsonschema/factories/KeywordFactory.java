@@ -90,12 +90,8 @@ public final class KeywordFactory
         final Map<NodeType, Set<String>> bundleMap =
             bundle.ignoredKeywordValidators();
 
-        Set<String> set;
-
-        for (final NodeType type: bundleMap.keySet()) {
-            set = ignoredKeywords.get(type);
-            set.addAll(bundleMap.get(type));
-        }
+        for (final Map.Entry<NodeType, Set<String>> entry: bundleMap.entrySet())
+            ignoredKeywords.get(entry.getKey()).addAll(entry.getValue());
     }
 
     private void pushValidators(final ValidatorBundle bundle)
@@ -103,12 +99,9 @@ public final class KeywordFactory
         final Map<NodeType, Map<String, KeywordValidator>> bundleMap
             = bundle.keywordValidators();
 
-        Map<String, KeywordValidator> map;
-
-        for (final NodeType type: bundleMap.keySet()) {
-            map = validators.get(type);
-            map.putAll(bundleMap.get(type));
-        }
+        for (final Map.Entry<NodeType, Map<String, KeywordValidator>> entry:
+            bundleMap.entrySet())
+            validators.get(entry.getKey()).putAll(entry.getValue());
     }
 
     private boolean hasKeyword(final String keyword, final NodeType... types)
