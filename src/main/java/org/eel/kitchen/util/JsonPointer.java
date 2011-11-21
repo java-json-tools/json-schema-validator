@@ -147,6 +147,9 @@ public final class JsonPointer
      */
     private final List<String> elements = new LinkedList<String>();
 
+    /**
+     * The complete path as a decoded string
+     */
     private final String rawPath;
 
     /**
@@ -242,6 +245,7 @@ public final class JsonPointer
 
         return ret;
     }
+
     /**
      * Returns the percent-encoded representation of this JSON Pointer
      *
@@ -339,5 +343,4 @@ public final class JsonPointer
 
         return sb.toString();
     }
-
 }
