@@ -49,7 +49,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public final class JsonValidator
 {
-    private static final SchemaVersion DEFAULT_VERSION = SchemaVersion.DRAFT_V3;
+    private SchemaVersion defaultVersion = SchemaVersion.DRAFT_V3;
 
     /**
      * Lock to protect context creation
@@ -103,6 +103,29 @@ public final class JsonValidator
             factories.put(version, new ValidatorFactory(bundle, skipSyntax));
         }
     }
+
+    /**
+     * Returns the default schema version for this validator if it cannot be
+     * determined from the schema itself
+     *
+     * @return the default version
+     */
+    public SchemaVersion getDefaultVersion()
+    {
+        return defaultVersion;
+    }
+
+    /**
+     * Sets the default schema version for this validator if it cannot be
+     * determined from the schema itself
+     *
+     * @param defaultVersion the default version
+     */
+    public void setDefaultVersion(final SchemaVersion defaultVersion)
+    {
+        this.defaultVersion = defaultVersion;
+    }
+
 
     /**
      * Set a feature for this validator
@@ -183,7 +206,7 @@ public final class JsonValidator
         ctxlock.writeLock().lock();
 
         try {
-            factories.get(DEFAULT_VERSION).unregisterValidator(keyword);
+            factories.get(defaultVersion).unregisterValidator(keyword);
         } finally {
             ctxlock.writeLock().unlock();
         }
@@ -214,7 +237,7 @@ public final class JsonValidator
         ctxlock.writeLock().lock();
 
         try {
-            factories.get(DEFAULT_VERSION).registerValidator(keyword, sv, kv,
+            factories.get(defaultVersion).registerValidator(keyword, sv, kv,
                 types);
         } finally {
             ctxlock.writeLock().unlock();
