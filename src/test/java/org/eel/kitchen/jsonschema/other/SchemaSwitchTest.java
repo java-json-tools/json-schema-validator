@@ -22,6 +22,7 @@ import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.util.SchemaVersion;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -34,7 +35,7 @@ import static org.testng.Assert.*;
 public final class SchemaSwitchTest
 {
     private JsonNode good, bad;
-    private JsonValidator validator;
+    private JsonValidator validator, validator2;
     private final List<String> messages = new LinkedList<String>();
 
     @BeforeClass
@@ -46,6 +47,7 @@ public final class SchemaSwitchTest
         good = node.get("good");
         bad = node.get("bad");
         validator = new JsonValidator(node.get("schema"));
+        validator2 = new JsonValidator(node.get("schema"));
 
         for (final JsonNode msg: node.get("messages"))
             messages.add(msg.getTextValue());
@@ -70,5 +72,20 @@ public final class SchemaSwitchTest
         assertFalse(report.isError());
 
         assertEquals(report.getMessages(), messages);
+    }
+
+    @Test
+    public void testSetDefaultSchema()
+        throws JsonValidationFailureException
+    {
+        validator2.setDefaultVersion(SchemaVersion.DRAFT_V4);
+
+        final ValidationReport report = validator2.validate(good);
+
+        assertFalse(report.isSuccess());
+
+        assertEquals(report.getMessages().size(), 1);
+        assertEquals(report.getMessages().get(0), "#/p [schema:required]: "
+            + "field has wrong type boolean, expected one of [array]");
     }
 }
