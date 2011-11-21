@@ -125,7 +125,7 @@ public final class SyntaxFactory
      * {@link KeywordValidator} can handle the situation!</p>
      *
      * @param keyword the keyword
-     * @param sv the {@link SyntaxValidator} as a {@link Class} object
+     * @param sv the {@link SyntaxValidator} instance
      * @throws IllegalArgumentException if a validator has already been
      * registered for this keyword
      *

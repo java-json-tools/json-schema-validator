@@ -180,8 +180,8 @@ public final class KeywordFactory
      * Unregister a validator for the given keyword
      *
      * <p>This method returns the list of types for which this keyword was
-     * registered: this list is used to help pruning the validator cache more
-     * finely than just scrapping it all.</p>
+     * registered: this allows more fine-grained pruning of a
+     * {@link ValidatorCache}.</p>
      *
      * @param keyword the victim
      * @return the list of types for which this keyword was registered

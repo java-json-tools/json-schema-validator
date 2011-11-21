@@ -36,8 +36,8 @@ import java.net.URL;
  * everything has {@link
  * DeserializationConfig.Feature#USE_BIG_DECIMAL_FOR_FLOATS} enabled.
  * This is to be able to deal with floating point numbers of arbitrary
- * precision. Otherwise Jackson limits itself to double numbers, for performance
- * reasons but also because, to quote its documentation,  * "[the] Javascript
+ * precision. Otherwise Jackson limits itself to {@code double}, for performance
+ * reasons but also because, to quote its documentation, "[the] Javascript
  * standard specifies that all number handling should be done using 64-bit IEEE
  * 754 floating point values" (therefore the equivalent of the {@code double}
  * primitive type).

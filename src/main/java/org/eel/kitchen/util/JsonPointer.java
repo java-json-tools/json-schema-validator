@@ -39,13 +39,9 @@ import java.util.regex.Pattern;
  *
  * <p>The general syntax is {@code #/path/elements/here}. JSON Pointers are
  * <b>always</b> absolute: it is perfectly legal, for instance,
- * to have properties named {@code /}, {@code .} or {@code ..} in a JSON
- * object. Having relative JSON Pointers therefore make no sense at all.</p>
- *
- * <p>This means {@code /} must always be encoded (to {@code %2f}) when
- * displaying path elements. The draft also recommends that all special
- * characters defined by <a href="http://tools.ietf.org/html/rfc3986">RFC
- * 3986 (section 2.2)</a> be percent-encoded.</p>
+ * to have properties named {@code .} and {@code ..} in a JSON
+ * object. Even {@code /} is a valid property name,
+ * which means it must always be encoded (to {@code %2f}).</p>
  *
  * <p>As if things were not funny enough like that, it must also be remembered
  * that even an empty string is a valid property name. This means that JSON
@@ -54,13 +50,11 @@ import java.util.regex.Pattern;
  * of the document!
  * </p>
  *
- * <p>The draft also recommends that all special characters defined by
+ * <p>The draft recommends that all special characters defined by
  * <a href="http://tools.ietf.org/html/rfc3986">RFC 3986 (section 2.2)</a> be
- * percent-encoded. This class' {@link #toString()} returns the raw
- * pointer, but also proposes a percent-encoded form using
- * {@link #toCookedString()}. It accepts both non percent-encoded pointers
- * and percent-encoded pointers as inputs, and you can also, if you wish to,
- * omit the initial {@code #}.
+ * percent-encoded. This class' {@link #toString()}, however, returns the raw
+ * pointer, but you can get a percent-encoded form using
+ * {@link #toCookedString()}.
  * </p>
  */
 
