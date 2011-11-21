@@ -24,8 +24,8 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 /**
- * <p>>A specialized {@link Validator} implementation for validating container
- * nodes (ie, array or object JSON instances).</p>
+ * A specialized {@link Validator} implementation for validating container
+ * nodes (ie, array or object JSON instances)
  *
  * <p>The particularity of these validators is that not only do they need to
  * validate the structure of the instance itself, they must also,
@@ -35,7 +35,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  * @see ArrayValidator
  * @see ObjectValidator
  */
-abstract class ContainerValidator
+public abstract class ContainerValidator
     implements Validator
 {
     /**
