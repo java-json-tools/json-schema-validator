@@ -22,7 +22,6 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
-import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -53,17 +52,13 @@ public final class SyntaxValidatorFactoryTest
 
     @Test
     public void testNullSchema()
-        throws JsonValidationFailureException
     {
-        validator = new JsonValidator(null);
-        validator.setFeature(ValidationFeature.SKIP_SCHEMACHECK);
-        report = validator.validateSchema();
-
-        assertFalse(report.isSuccess());
-
-        final List<String> messages = report.getMessages();
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "# [schema]: FATAL: schema is null");
+        try {
+            validator = new JsonValidator(null);
+            fail("No exception thrown");
+        } catch (JsonValidationFailureException e) {
+            assertEquals(e.getMessage(), "schema is null");
+        }
     }
 
     @Test
@@ -80,18 +75,13 @@ public final class SyntaxValidatorFactoryTest
 
     @Test
     public void testNonObjectSchema()
-        throws JsonValidationFailureException
     {
-        validator = new JsonValidator(nodeFactory.textNode("hello"));
-        validator.setFeature(ValidationFeature.SKIP_SCHEMACHECK);
-        report = validator.validateSchema();
-
-        assertFalse(report.isSuccess());
-
-        final List<String> messages = report.getMessages();
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "# [schema]: FATAL: not a schema (not "
-            + "an object)");
+        try {
+            validator = new JsonValidator(nodeFactory.textNode("hello"));
+            fail("No exception thrown");
+        } catch (JsonValidationFailureException e) {
+            assertEquals(e.getMessage(), "not a schema (not an object)");
+        }
     }
 
     @Test
@@ -114,167 +104,195 @@ public final class SyntaxValidatorFactoryTest
 
     @Test
     public void testAdditionalItems()
+        throws JsonValidationFailureException
     {
         testKeyword("additionalItems");
     }
 
     @Test
     public void testAdditionalProperties()
+        throws JsonValidationFailureException
     {
         testKeyword("additionalProperties");
     }
 
     @Test
     public void testDependencies()
+        throws JsonValidationFailureException
     {
         testKeyword("dependencies");
     }
 
     @Test
     public void testDescription()
+        throws JsonValidationFailureException
     {
         testKeyword("description");
     }
 
     @Test
     public void testDisallow()
+        throws JsonValidationFailureException
     {
         testKeyword("disallow");
     }
 
     @Test
     public void testDivisibleBy()
+        throws JsonValidationFailureException
     {
         testKeyword("divisibleBy");
     }
 
     @Test
     public void testDollarRef()
+        throws JsonValidationFailureException
     {
         testKeyword("$ref");
     }
 
     @Test
     public void testDollarSchema()
+        throws JsonValidationFailureException
     {
         testKeyword("$schema");
     }
 
     @Test
     public void testEnum()
+        throws JsonValidationFailureException
     {
         testKeyword("enum");
     }
 
     @Test
     public void testExclusiveMaximum()
+        throws JsonValidationFailureException
     {
         testKeyword("exclusiveMaximum");
     }
 
     @Test
     public void testExclusiveMinimum()
+        throws JsonValidationFailureException
     {
         testKeyword("exclusiveMinimum");
     }
 
     @Test
     public void testExtends()
+        throws JsonValidationFailureException
     {
         testKeyword("extends");
     }
 
     @Test
     public void testFormat()
+        throws JsonValidationFailureException
     {
         testKeyword("format");
     }
 
     @Test
     public void testId()
+        throws JsonValidationFailureException
     {
         testKeyword("id");
     }
 
     @Test
     public void testItems()
+        throws JsonValidationFailureException
     {
         testKeyword("items");
     }
 
     @Test
     public void testMaximum()
+        throws JsonValidationFailureException
     {
         testKeyword("maximum");
     }
 
     @Test
     public void testMaxItems()
+        throws JsonValidationFailureException
     {
         testKeyword("maxItems");
     }
 
     @Test
     public void testMaxLength()
+        throws JsonValidationFailureException
     {
         testKeyword("maxLength");
     }
 
     @Test
     public void testMinimum()
+        throws JsonValidationFailureException
     {
         testKeyword("minimum");
     }
 
     @Test
     public void testMinItems()
+        throws JsonValidationFailureException
     {
         testKeyword("minItems");
     }
 
     @Test
     public void testMinLength()
+        throws JsonValidationFailureException
     {
         testKeyword("minLength");
     }
 
     @Test
     public void testPatternProperties()
+        throws JsonValidationFailureException
     {
         testKeyword("patternProperties");
     }
 
     @Test
     public void testPattern()
+        throws JsonValidationFailureException
     {
         testKeyword("pattern");
     }
 
     @Test
     public void testProperties()
+        throws JsonValidationFailureException
     {
         testKeyword("properties");
     }
 
     @Test
     public void testTitle()
+        throws JsonValidationFailureException
     {
         testKeyword("title");
     }
 
     @Test
     public void testType()
+        throws JsonValidationFailureException
     {
         testKeyword("type");
     }
 
     @Test
     public void testUniqueItems()
+        throws JsonValidationFailureException
     {
         testKeyword("uniqueItems");
     }
 
     private void testKeyword(final String keyword)
+        throws JsonValidationFailureException
     {
         final JsonNode node = allTests.get(keyword);
 
@@ -283,6 +301,7 @@ public final class SyntaxValidatorFactoryTest
     }
 
     private void testEntry(final JsonNode element)
+        throws JsonValidationFailureException
     {
         final JsonNode schema = element.get("schema");
         final boolean valid = element.get("valid").getBooleanValue();
@@ -308,6 +327,7 @@ public final class SyntaxValidatorFactoryTest
             expected.add(message.getTextValue());
 
         assertEquals(report.getMessages().toArray(), expected.toArray(),
-            "message list differs from expectations while validating " + schema);
+            "message list differs from expectations while validating "
+                + schema);
     }
 }

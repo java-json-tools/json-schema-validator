@@ -86,8 +86,11 @@ public final class JsonValidator
      * The constructor
      *
      * @param schema the root schema to use for validation
+     * @throws JsonValidationFailureException the initial JSON node is not a
+     * schema
      */
     public JsonValidator(final JsonNode schema)
+        throws JsonValidationFailureException
     {
         provider = new SchemaProvider(schema);
         reports = new ReportFactory(false);

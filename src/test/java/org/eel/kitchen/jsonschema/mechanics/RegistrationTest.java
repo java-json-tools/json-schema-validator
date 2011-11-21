@@ -89,6 +89,7 @@ public final class RegistrationTest
 
     @Test
     public void testNullKeywordRegistration()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
@@ -102,6 +103,7 @@ public final class RegistrationTest
 
     @Test
     public void testExistingKeywordRegistrationFailure()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
@@ -115,6 +117,7 @@ public final class RegistrationTest
 
     @Test
     public void testEmptyTypeSetFails()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
@@ -130,6 +133,7 @@ public final class RegistrationTest
 
     @Test
     public void testUnregisteringNullKeywordFails()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
@@ -142,6 +146,7 @@ public final class RegistrationTest
     }
 
     private JsonValidator prepareValidator(final String name)
+        throws JsonValidationFailureException
     {
         final JsonNode schema = testNode.get(name);
         final JsonValidator ret = new JsonValidator(schema);

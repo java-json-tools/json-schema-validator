@@ -40,7 +40,7 @@ public final class SelfValidationTest
 
     @BeforeClass
     public void setUp()
-        throws IOException
+        throws IOException, JsonValidationFailureException
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");

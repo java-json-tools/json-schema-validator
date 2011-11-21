@@ -70,13 +70,20 @@ public final class SchemaProvider
      * Constructor
      *
      * @param schema the initial schema
+     * @throws JsonValidationFailureException the initial JSON document is
+     * not a schema
      */
     public SchemaProvider(final JsonNode schema)
+        throws JsonValidationFailureException
     {
-        this.schema = schema;
-
         if (schema == null)
-            return;
+            throw new JsonValidationFailureException("schema is null");
+
+        if (!schema.isObject())
+            throw new JsonValidationFailureException("not a schema (not an "
+                + "object)");
+
+        this.schema = schema;
 
         factory = new URIHandlerFactory();
         locators = new HashMap<URI, JsonNode>();

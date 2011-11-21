@@ -37,7 +37,15 @@ public final class URIHandlerTest
     private static final JsonNode schema
         = JsonNodeFactory.instance.objectNode();
 
-    private static final JsonValidator validator = new JsonValidator(schema);
+    private static final JsonValidator validator;
+
+    static {
+        try {
+            validator = new JsonValidator(schema);
+        } catch (JsonValidationFailureException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
 
     private static final URIHandler handler = new HTTPURIHandler();
 

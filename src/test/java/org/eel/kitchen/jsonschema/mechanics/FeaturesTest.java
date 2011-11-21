@@ -43,6 +43,7 @@ public final class FeaturesTest
 
     @Test
     public void testFailFast()
+        throws JsonValidationFailureException
     {
         final JsonValidator validator
             = new JsonValidator(testNode.get("schema"));

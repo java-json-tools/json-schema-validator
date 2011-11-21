@@ -39,7 +39,7 @@ public final class SchemaSwitchTest
 
     @BeforeClass
     public void setup()
-        throws IOException
+        throws IOException, JsonValidationFailureException
     {
         final JsonNode node = JsonLoader.fromResource("/other/schemaswitch"
             + ".json");
