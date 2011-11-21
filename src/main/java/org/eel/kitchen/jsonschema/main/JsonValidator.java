@@ -195,6 +195,23 @@ public final class JsonValidator
     /**
      * Unregister validators for a particular keyword
      *
+     * <p>This is equivalent to calling {@link
+     * #unregisterValidator(SchemaVersion, String)} for the current default
+     * version of this validator.</p>
+     *
+     * @param keyword the keyword to unregister
+     * @throws IllegalArgumentException if keyword is null
+     *
+     * @see #setDefaultVersion(SchemaVersion)
+     */
+    public void unregisterValidator(final String keyword)
+    {
+        unregisterValidator(defaultVersion, keyword);
+    }
+
+    /**
+     * Unregister validators for a particular keyword and schema version
+     *
      * <p>This will unregister both the {@link SyntaxValidator} and {@link
      * KeywordValidator} for this keyword. Note that calling this method
      * will effectively render the keyword <b>unrecognized</b>,
@@ -205,10 +222,12 @@ public final class JsonValidator
      * NodeType...)}
      * unless you really mean to reduce the subset of recognized keywords.</p>
      *
+     * @param version the schema version against which to unregister the keyword
      * @param keyword the keyword to unregister
      * @throws IllegalArgumentException if keyword is null
      */
-    public void unregisterValidator(final String keyword)
+    public void unregisterValidator(final SchemaVersion version,
+        final String keyword)
     {
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
@@ -216,7 +235,7 @@ public final class JsonValidator
         ctxlock.writeLock().lock();
 
         try {
-            factories.get(defaultVersion).unregisterValidator(keyword);
+            factories.get(version).unregisterValidator(keyword);
         } finally {
             ctxlock.writeLock().unlock();
         }
@@ -225,21 +244,48 @@ public final class JsonValidator
     /**
      * Register a new set of validators for a particular keyword
      *
-     * <p>Note that if {@code null} is passed to validators,
-     * then validation will always succeed. Be particularly careful if you
-     * pass null as an argument to the syntax validator and not the keyword
-     * validator, as the primary role of a syntax validator is to ensure that
-     * the keyword validator have the data it expects in the schema!</p>
+     * <p>This is equivalent to calling {@link
+     * #registerValidator(SchemaVersion, String, SyntaxValidator,
+     * KeywordValidator, NodeType...)} with the current default version for
+     * this validator.</p>
      *
      * @param keyword the keyword to register
      * @param sv the {@link SyntaxValidator} to register for this keyword
      * @param kv the {@link KeywordValidator} to register for this keyword
      * @param types the list of primitive types the keyword validator applies to
      * @throws IllegalArgumentException if keyword is null
+     *
+     * @see #setDefaultVersion(SchemaVersion)
      */
     public void registerValidator(final String keyword,
         final SyntaxValidator sv, final KeywordValidator kv,
         final NodeType... types)
+    {
+        registerValidator(defaultVersion, keyword, sv, kv, types);
+    }
+
+    /**
+     * Register a new set of validators for a particular keyword and schema
+     * version
+     *
+     * <p>Note that if {@code null} is passed to validators,
+     * then validation will always succeed. Be particularly careful if you
+     * pass null as an argument to the syntax validator and not the keyword
+     * validator, as the primary role of a syntax validator is to ensure that
+     * the keyword validator have the data it expects in the schema!</p>
+     *
+     * @param version the schema version against which these validators
+     * should be registered
+     * @param keyword the keyword to register
+     * @param sv the {@link SyntaxValidator} to register for this keyword
+     * @param kv the {@link KeywordValidator} to register for this keyword
+     * @param types the list of primitive types the keyword validator applies to
+     * @throws IllegalArgumentException if keyword is null
+     */
+
+    public void registerValidator(final SchemaVersion version,
+        final String keyword, final SyntaxValidator sv,
+        final KeywordValidator kv, final NodeType... types)
     {
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
@@ -247,8 +293,7 @@ public final class JsonValidator
         ctxlock.writeLock().lock();
 
         try {
-            factories.get(defaultVersion).registerValidator(keyword, sv, kv,
-                types);
+            factories.get(version).registerValidator(keyword, sv, kv, types);
         } finally {
             ctxlock.writeLock().unlock();
         }
@@ -353,6 +398,13 @@ public final class JsonValidator
         }
     }
 
+    /**
+     * Validate the registered schema
+     *
+     * @return a validation report
+     * @throws JsonValidationFailureException if reporting has been set to
+     * throw this exception instead of collecting messages
+     */
     public ValidationReport validateSchema()
         throws JsonValidationFailureException
     {

@@ -79,6 +79,7 @@ public final class SchemaSwitchTest
         throws JsonValidationFailureException
     {
         validator2.setDefaultVersion(SchemaVersion.DRAFT_V4);
+        assertEquals(validator2.getDefaultVersion(), SchemaVersion.DRAFT_V4);
 
         final ValidationReport report = validator2.validate(good);
 
