@@ -92,7 +92,7 @@ public final class JsonValidator
     public JsonValidator(final JsonNode schema)
         throws JsonValidationFailureException
     {
-        provider = new SchemaProvider(schema);
+        provider = new SchemaProvider(defaultVersion, schema);
         reports = new ReportFactory(false);
         buildFactories(false);
         context = new ValidationContext(factories, provider, reports);
@@ -126,7 +126,14 @@ public final class JsonValidator
      */
     public void setDefaultVersion(final SchemaVersion defaultVersion)
     {
-        this.defaultVersion = defaultVersion;
+        ctxlock.writeLock().lock();
+
+        try {
+            this.defaultVersion = defaultVersion;
+            provider.setDefaultVersion(defaultVersion);
+        } finally {
+            ctxlock.writeLock().unlock();
+        }
     }
 
 

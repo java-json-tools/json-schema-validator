@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonPointer;
+import org.eel.kitchen.util.SchemaVersion;
 
 import java.io.IOException;
 import java.net.URI;
@@ -66,6 +67,8 @@ public final class SchemaProvider
      */
     private JsonNode schema;
 
+    private SchemaVersion defaultVersion;
+
     /**
      * Constructor
      *
@@ -73,7 +76,8 @@ public final class SchemaProvider
      * @throws JsonValidationFailureException the initial JSON document is
      * not a schema
      */
-    public SchemaProvider(final JsonNode schema)
+    public SchemaProvider(final SchemaVersion defaultVersion,
+        final JsonNode schema)
         throws JsonValidationFailureException
     {
         if (schema == null)
@@ -83,6 +87,7 @@ public final class SchemaProvider
             throw new JsonValidationFailureException("not a schema (not an "
                 + "object)");
 
+        this.defaultVersion = defaultVersion;
         this.schema = schema;
 
         factory = new URIHandlerFactory();
@@ -199,5 +204,10 @@ public final class SchemaProvider
     public void unregisterHandler(final String scheme)
     {
         factory.unregisterHandler(scheme);
+    }
+
+    public void setDefaultVersion(final SchemaVersion defaultVersion)
+    {
+        this.defaultVersion = defaultVersion;
     }
 }
