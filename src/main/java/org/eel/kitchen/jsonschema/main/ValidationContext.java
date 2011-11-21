@@ -240,8 +240,8 @@ public final class ValidationContext
      *
      * @param instance the JSON instance
      * @return the validator
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
+     * @throws JsonValidationFailureException if reporting is configured to
+     * throw this exception
      */
     public Validator getValidator(final JsonNode instance)
         throws JsonValidationFailureException
@@ -261,8 +261,8 @@ public final class ValidationContext
      * @param fmt the format specification
      * @param instance the instance
      * @return the {@link FormatValidator}
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
+     * @throws JsonValidationFailureException if reporting is configured to
+     * throw this exception
      */
     public Validator getFormatValidator(final String fmt,
         final JsonNode instance)
@@ -278,8 +278,8 @@ public final class ValidationContext
      * @param pointer the JSON Pointer from the root of the schema
      * @param instance the instance to validate
      * @return the appropriate validator
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
+     * @throws JsonValidationFailureException if reporting is configured to
+     * throw this exception
      */
     public Validator getValidator(final JsonPointer pointer,
         final JsonNode instance)

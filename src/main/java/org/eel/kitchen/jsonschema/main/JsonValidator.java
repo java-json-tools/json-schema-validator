@@ -39,10 +39,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * The main interface to use for JSON Schema validation
  *
- * <p>All accesses to this class are protected by {@link #ctxlock}, which is a
- * {@link ReentrantReadWriteLock}. Namely, all modifications
- * (registering/unregistering a validator, setting a feature etc) need to
- * acquire the write lock, whereas instance validation needs the read lock.</p>
+ * <p>Apart from validating JSON instances, it has several other roles:</p>
+ * <ul>
+ *     <li>determining which JSON Schema version is used by default,
+ *     if schemas do not provide a {@code $schema} keyword;</li>
+ *     <li>registering/unregistering validators against a particular schema
+ *     version;</li>
+ *     <li>registering/unregistering a {@link URIHandler} for a particular
+ *     scheme.
+ *     </li>
+ * </ul>
  *
  * @see JsonLoader
  * @see ValidationContext
@@ -367,7 +373,7 @@ public final class JsonValidator
     /**
      * Validate an instance against a subschema of a given schema
      *
-     * <p>If, for instance, you have a schema defined as:</p>
+     * <p>If, for instance, you have a JSON document such as:</p>
      * <pre>
      *     {
      *         "schema1": { "some": "schema here" },

@@ -125,7 +125,7 @@ public abstract class ValidationReport
     public abstract void mergeWith(final ValidationReport other);
 
     /**
-     * Does this report tell success?
+     * Is the validation a success?
      *
      * @return true if {@link #status} is {@link ValidationStatus#SUCCESS}
      */
@@ -135,7 +135,7 @@ public abstract class ValidationReport
     }
 
     /**
-     * Is this report a fatal error?
+     * Did a fatal error occur during validation?
      *
      * @return true if {@link #status} is {@link ValidationStatus#ERROR}
      */

@@ -67,8 +67,14 @@ public final class SchemaProvider
      */
     private JsonNode schema;
 
+    /**
+     * The version of the current schema
+     */
     private SchemaVersion version;
 
+    /**
+     * The default version if the current schema doesn't have {@code $schema}
+     */
     private SchemaVersion defaultVersion;
 
     /**
@@ -102,6 +108,12 @@ public final class SchemaProvider
         }
     }
 
+    /**
+     * Constructor
+     *
+     * @param defaultVersion the schema version to use if collected schemas
+     * do not declare one
+     */
     private SchemaProvider(final SchemaVersion defaultVersion)
     {
         this.defaultVersion = defaultVersion;
@@ -221,11 +233,21 @@ public final class SchemaProvider
         factory.unregisterHandler(scheme);
     }
 
+    /**
+     * Set the default schema version for this provider
+     *
+     * @param defaultVersion the version
+     */
     public void setDefaultVersion(final SchemaVersion defaultVersion)
     {
         this.defaultVersion = defaultVersion;
     }
 
+    /**
+     * Get the version of the current schema
+     *
+     * @return the default version
+     */
     public SchemaVersion getVersion()
     {
         return version;
