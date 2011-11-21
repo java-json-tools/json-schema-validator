@@ -81,6 +81,7 @@ public final class JsonPointerTest
 
         assertTrue(p1.equals(p2) && p2.equals(p3));
         assertTrue(p1.equals(p3));
+        assertTrue(p1.equals(p1));
     }
 
     @Test
