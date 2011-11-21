@@ -44,11 +44,6 @@ public enum SchemaVersion
         new DraftV4ValidatorBundle());
 
     /**
-     * Default version, draft v3 for now
-     */
-    private static final SchemaVersion DEFAULT_VERSION = DRAFT_V3;
-
-    /**
      * Reverse map of locators to versions
      *
      * @see #getVersion(JsonNode)
@@ -82,26 +77,24 @@ public enum SchemaVersion
      * attribute
      *
      * @param schema the schema
-     * @return the version ({@link #DEFAULT_VERSION} by default)
-     * @throws JsonValidationFailureException the schema is null or is not an
-     * object
+     * @return the version, or null if {@code $schema} was not found or its
+     * value is unknown
+     * @throws JsonValidationFailureException {@code $schema} exists but is
+     * not a text node
      */
     public static SchemaVersion getVersion(final JsonNode schema)
         throws JsonValidationFailureException
     {
-        if (schema == null)
-            throw new JsonValidationFailureException("schema is null");
+        final JsonNode node = schema.get("$schema");
 
-        if (!schema.isObject())
-            throw new JsonValidationFailureException("not a schema (not an "
-                + "object)");
+        if (node == null)
+            return null;
 
-        if (!schema.has("$schema"))
-            return DEFAULT_VERSION;
+        if (!node.isTextual())
+            throw new JsonValidationFailureException("$schema is not a text "
+                + "node");
 
-        final String s = schema.get("$schema").getTextValue();
-
-        return locatorMap.containsKey(s) ? locatorMap.get(s) : DEFAULT_VERSION;
+        return locatorMap.get(node.getTextValue());
     }
 
     /**

@@ -152,13 +152,6 @@ public final class SyntaxValidatorFactoryTest
     }
 
     @Test
-    public void testDollarSchema()
-        throws JsonValidationFailureException
-    {
-        testKeyword("$schema");
-    }
-
-    @Test
     public void testEnum()
         throws JsonValidationFailureException
     {

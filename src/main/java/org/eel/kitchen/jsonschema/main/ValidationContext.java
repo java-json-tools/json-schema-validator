@@ -139,9 +139,12 @@ public final class ValidationContext
      * that an empty string is a valid JSON Pointer element!)
      * @param subSchema the schema node to use for the new context
      * @return the new context
+     * @throws JsonValidationFailureException the subSchema argument is not a
+     * schema
      */
     public ValidationContext relocate(final String subPath,
         final JsonNode subSchema)
+        throws JsonValidationFailureException
     {
         final JsonPointer newPath = path.append(subPath);
 
@@ -156,8 +159,11 @@ public final class ValidationContext
      *
      * @param subSchema the new schema
      * @return the new context
+     * @throws JsonValidationFailureException the subSchema argument is not a
+     * schema
      */
     public ValidationContext withSchema(final JsonNode subSchema)
+        throws JsonValidationFailureException
     {
         final SchemaProvider sp = provider.withSchema(subSchema);
 
@@ -179,9 +185,11 @@ public final class ValidationContext
      * @param uri the URI where the new scheme is located
      * @return the new context
      * @throws IOException the schema at the given URI could not be downloaded
+     * @throws JsonValidationFailureException the subSchema argument is not a
+     * schema
      */
     public ValidationContext fromURI(final URI uri)
-        throws IOException
+        throws IOException, JsonValidationFailureException
     {
         // FIXME: move this out of here
         if (!uri.isAbsolute()) {
@@ -212,17 +220,12 @@ public final class ValidationContext
         throws JsonValidationFailureException
     {
         final JsonNode schema = provider.getSchema();
+        final SchemaVersion version = provider.getVersion();
         final ValidatorFactory factory;
 
-        try {
-            factory = factories.get(SchemaVersion.getVersion(schema));
-            if (factory.isValidated(schema))
-                return ValidationReport.TRUE;
-        } catch (JsonValidationFailureException e) {
-            final ValidationReport ret = createReport(" [schema]");
-            ret.error(e.getMessage());
-            return ret;
-        }
+        factory = factories.get(version);
+        if (factory.isValidated(schema))
+            return ValidationReport.TRUE;
 
         return factory.validateSchema(this);
     }
@@ -248,8 +251,7 @@ public final class ValidationContext
         if (!report.isSuccess())
             return new AlwaysFalseValidator(report);
 
-        final SchemaVersion version
-            = SchemaVersion.getVersion(provider.getSchema());
+        final SchemaVersion version = provider.getVersion();
         return factories.get(version).getInstanceValidator(this, instance);
     }
 
@@ -266,8 +268,7 @@ public final class ValidationContext
         final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final SchemaVersion version
-            = SchemaVersion.getVersion(provider.getSchema());
+        final SchemaVersion version = provider.getVersion();
         return factories.get(version).getFormatValidator(this, fmt, instance);
     }
 
@@ -289,13 +290,14 @@ public final class ValidationContext
         logger.trace("trying to lookup path \"#{}\" from node {} ", pointer,
             provider.getSchema());
 
-        provider = provider.atPoint(pointer);
-        final JsonNode schema = provider.getSchema();
-
-        if (schema.isMissingNode()) {
-            report.error("no match in schema for path " + pointer);
+        try {
+            provider = provider.atPoint(pointer);
+        } catch (JsonValidationFailureException e) {
+            report.error(e.getMessage());
             return new AlwaysFalseValidator(report);
         }
+
+        final JsonNode schema = provider.getSchema();
 
         if (!refLookups.add(schema)) {
             logger.debug("ref loop detected!");

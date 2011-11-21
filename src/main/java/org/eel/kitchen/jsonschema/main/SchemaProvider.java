@@ -67,6 +67,8 @@ public final class SchemaProvider
      */
     private JsonNode schema;
 
+    private SchemaVersion version;
+
     private SchemaVersion defaultVersion;
 
     /**
@@ -80,15 +82,9 @@ public final class SchemaProvider
         final JsonNode schema)
         throws JsonValidationFailureException
     {
-        if (schema == null)
-            throw new JsonValidationFailureException("schema is null");
-
-        if (!schema.isObject())
-            throw new JsonValidationFailureException("not a schema (not an "
-                + "object)");
-
         this.defaultVersion = defaultVersion;
         this.schema = schema;
+        version = calculateVersion(schema);
 
         factory = new URIHandlerFactory();
         locators = new HashMap<URI, JsonNode>();
@@ -106,8 +102,9 @@ public final class SchemaProvider
         }
     }
 
-    private SchemaProvider()
+    private SchemaProvider(final SchemaVersion defaultVersion)
     {
+        this.defaultVersion = defaultVersion;
     }
 
     /**
@@ -115,14 +112,24 @@ public final class SchemaProvider
      *
      * @param pointer the JSON Pointer to locate the subschema
      * @return a new provider
+     * @throws JsonValidationFailureException the calculated subschema is not
+     * a valid schema
      */
     public SchemaProvider atPoint(final JsonPointer pointer)
+        throws JsonValidationFailureException
     {
-        final SchemaProvider ret = new SchemaProvider();
+        final SchemaProvider ret = new SchemaProvider(defaultVersion);
         ret.currentLocation = currentLocation;
         ret.factory = factory;
         ret.locators = locators;
-        ret.schema = pointer.getPath(locators.get(currentLocation));
+
+        final JsonNode node = pointer.getPath(locators.get(currentLocation));
+        if (node.isMissingNode())
+            throw new JsonValidationFailureException("no match in schema for "
+                + "path " + pointer);
+
+        ret.schema = node;
+        ret.version = calculateVersion(node);
         return ret;
     }
 
@@ -131,13 +138,17 @@ public final class SchemaProvider
      *
      * @param newschema the schema to use
      * @return the provider
+     * @throws JsonValidationFailureException the calculated subschema is not
+     * a valid schema
      */
     public SchemaProvider withSchema(final JsonNode newschema)
+        throws JsonValidationFailureException
     {
-        final SchemaProvider ret = new SchemaProvider();
+        final SchemaProvider ret = new SchemaProvider(defaultVersion);
         ret.factory = factory;
         ret.locators = locators;
         ret.schema = newschema;
+        ret.version = calculateVersion(newschema);
         ret.currentLocation = currentLocation;
         return ret;
     }
@@ -149,9 +160,11 @@ public final class SchemaProvider
      * @param uri the complete URI to the new schema
      * @return the new provider
      * @throws IOException the schema could not be fetched
+     * @throws JsonValidationFailureException the calculated subschema is not
+     * a valid schema
      */
     public SchemaProvider atURI(final URI uri)
-        throws IOException
+        throws IOException, JsonValidationFailureException
     {
         if (!uri.isAbsolute()) {
             if (!uri.getSchemeSpecificPart().isEmpty())
@@ -160,16 +173,18 @@ public final class SchemaProvider
             return this;
         }
 
-        final SchemaProvider ret = new SchemaProvider();
+        final SchemaProvider ret = new SchemaProvider(defaultVersion);
         ret.factory = factory;
         ret.currentLocation = uri;
         ret.locators = locators;
         if (locators.containsKey(uri)) {
             ret.schema = locators.get(uri);
+            ret.version = version;
             return ret;
         }
 
         ret.schema = factory.getHandler(uri).getDocument(uri);
+        ret.version = calculateVersion(ret.schema);
         locators.put(uri, ret.schema);
         return ret;
     }
@@ -209,5 +224,25 @@ public final class SchemaProvider
     public void setDefaultVersion(final SchemaVersion defaultVersion)
     {
         this.defaultVersion = defaultVersion;
+    }
+
+    public SchemaVersion getVersion()
+    {
+        return version;
+    }
+
+    private SchemaVersion calculateVersion(final JsonNode schema)
+        throws JsonValidationFailureException
+    {
+        if (schema == null)
+            throw new JsonValidationFailureException("schema is null");
+
+        if (!schema.isObject())
+            throw new JsonValidationFailureException("not a schema (not an "
+                + "object)");
+
+        final SchemaVersion ret = SchemaVersion.getVersion(schema);
+
+        return ret == null ? defaultVersion : ret;
     }
 }

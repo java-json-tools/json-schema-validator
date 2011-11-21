@@ -204,38 +204,6 @@
             ]
         }
     ],
-    "$schema": [
-        {
-            "schema": {
-                "$schema": "#"
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "$schema": "http://json-schema.org/schema/v3#/a/b"
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "$schema": false
-            },
-            "valid": false,
-            "messages": [
-                "# [schema:$schema]: field has wrong type boolean, expected one of [string]"
-            ]
-        },
-        {
-            "schema": {
-                "$schema": "+23:"
-            },
-            "valid": false,
-            "messages": [
-                "# [schema:$schema]: not a valid URI"
-            ]
-        }
-    ],
     "enum": [
         {
             "schema": {
