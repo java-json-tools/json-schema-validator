@@ -168,6 +168,14 @@ public abstract class ValidatorBundle
             ignoredKV.get(type).add(keyword);
     }
 
+    /**
+     * Validate a bundle
+     *
+     * <p>Validation means verifying that the same set of keywords have been
+     * registered for syntax validation and keyword validation. If a
+     * discrepancy is found, an {@link IllegalArgumentException} is thrown.
+     * </p>
+     */
     public final void validate()
     {
         final Set<String> s = new HashSet<String>();
