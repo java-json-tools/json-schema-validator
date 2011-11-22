@@ -19,6 +19,8 @@ package org.eel.kitchen.jsonschema.mechanics;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
+import org.eel.kitchen.jsonschema.bundle.CommonValidatorBundle;
+import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv4.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxValidator;
@@ -142,6 +144,23 @@ public final class RegistrationTest
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "keyword is null");
+        }
+    }
+
+    @Test
+    public void testMisbalancedBundle()
+    {
+        /* Yeah, ugly... */
+        final ValidatorBundle myBundle = new CommonValidatorBundle()
+        {
+        };
+
+        try {
+            myBundle.validate();
+            fail("No exception thrown");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "registered syntax/keyword validators "
+                + "do not covert the same set of keywords");
         }
     }
 

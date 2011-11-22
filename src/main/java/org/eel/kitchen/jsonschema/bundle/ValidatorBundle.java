@@ -161,10 +161,29 @@ public abstract class ValidatorBundle
      * @param keyword the keyword
      * @param types the associated node types
      */
-    protected void registerIgnoredKV(final String keyword,
+    protected final void registerIgnoredKV(final String keyword,
         final NodeType... types)
     {
         for (final NodeType type: types)
             ignoredKV.get(type).add(keyword);
+    }
+
+    public final void validate()
+    {
+        final Set<String> s = new HashSet<String>();
+        final Set<String> k = new HashSet<String>();
+
+        s.addAll(ignoredSV);
+        s.addAll(svMap.keySet());
+
+        for (final Set<String> set: ignoredKV.values())
+            k.addAll(set);
+
+        for (final Map<String, KeywordValidator> map: kvMap.values())
+            k.addAll(map.keySet());
+
+        if (!s.equals(k))
+            throw new IllegalArgumentException("registered syntax/keyword "
+                + "validators do not covert the same set of keywords");
     }
 }
