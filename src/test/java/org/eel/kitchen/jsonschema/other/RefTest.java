@@ -66,7 +66,7 @@ public final class RefTest
         assertEquals(report.getMessages().size(), 1);
 
         assertEquals(report.getMessages().get(0),  "# [schema:$ref]: $ref "
-            + "should be by itself");
+            + "can only be by itself, or paired with required");
     }
 
     @Test
