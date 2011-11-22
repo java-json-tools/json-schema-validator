@@ -73,32 +73,64 @@ public abstract class ValidatorBundle
         }
     }
 
+    /**
+     * Return the list of registered syntax validators
+     *
+     * @return a map pairing keywords to their validators
+     */
     public final Map<String, SyntaxValidator> syntaxValidators()
     {
         return Collections.unmodifiableMap(svMap);
     }
 
+    /**
+     * Return the set of ignored keywords on syntax validation
+     *
+     * @return the set
+     */
     public final Set<String> ignoredSyntaxValidators()
     {
         return Collections.unmodifiableSet(ignoredSV);
     }
 
+    /**
+     * Return the list of registered keyword validators and associated
+     * instance types
+     *
+     * @return a map pairing instance types and keywords to validators
+     */
     public final Map<NodeType, Map<String, KeywordValidator>> keywordValidators()
     {
         return Collections.unmodifiableMap(kvMap);
     }
 
+    /**
+     * Return the list of ignored keywords for instance validation
+     *
+     * @return a map pairing the instance types and set of keywords
+     */
     public final Map<NodeType, Set<String>> ignoredKeywordValidators()
     {
         return Collections.unmodifiableMap(ignoredKV);
     }
 
+    /**
+     * Register a syntax validator
+     *
+     * @param keyword the keyword
+     * @param sv the syntax validator
+     */
     protected final void registerSV(final String keyword,
         final SyntaxValidator sv)
     {
         svMap.put(keyword, sv);
     }
 
+    /**
+     * Register an ignored keyword for syntax validation
+     *
+     * @param keyword the keyword
+     */
     protected void registerIgnoredSV(final String keyword)
     {
         ignoredSV.add(keyword);
@@ -111,6 +143,12 @@ public abstract class ValidatorBundle
             kvMap.get(type).put(keyword, kv);
     }
 
+    /**
+     * Register an ignored keyword for keyword validations
+     *
+     * @param keyword the keyword
+     * @param types the associated node types
+     */
     protected void registerIgnoredKV(final String keyword,
         final NodeType... types)
     {
