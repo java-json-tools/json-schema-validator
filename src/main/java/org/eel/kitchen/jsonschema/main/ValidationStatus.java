@@ -25,44 +25,15 @@ public enum ValidationStatus
     /**
      * The validation was successful
      */
-    SUCCESS(0),
+    SUCCESS,
     /**
      * The validation failed
      */
-    FAILURE(1),
+    FAILURE,
     /**
      * A fatal error occurred
      */
-    ERROR(2);
-
-    /**
-     * The level matching that status
-     */
-    private final int level;
-
-    ValidationStatus(final int level)
-    {
-        this.level = level;
-    }
-
-    /**
-     * Get a status from its level. Returns {@link #ERROR} if the level is
-     * unknown.
-     *
-     * @param level the level
-     * @return the appropriate status
-     */
-    private static ValidationStatus fromLevel(final int level)
-    {
-        switch (level) {
-            case 0:
-                return SUCCESS;
-            case 1:
-                return FAILURE;
-            default:
-                return ERROR;
-        }
-    }
+    ERROR;
 
     /**
      * Given two validation statuses, return the worst one of them both
@@ -74,6 +45,9 @@ public enum ValidationStatus
     public static ValidationStatus worstOf(final ValidationStatus first,
         final ValidationStatus second)
     {
-        return fromLevel(Math.max(first.level, second.level));
+        /*
+         * Order is crucial here!
+         */
+        return values()[Math.max(first.ordinal(), second.ordinal())];
     }
 }
