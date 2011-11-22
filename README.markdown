@@ -8,21 +8,25 @@ around the corner, for some defintion of "corner" -- understand, days, or a few
 weeks). This implementation has <b>full</b> support for instance validation
 using draft v3, and can be extended to support draft v4 easily.
 
-<p><b>Version 0.3 is out</b>: see [here]
+<p><b>Version 0.4 is out</b>: see [here]
 (https://github.com/fge/json-schema-validator/wiki/ChangeLog) for a list of
-features. Among others, it performs <b>more than 25 times better than the
-previous version</b>.
+features. It now has experimental draft v4 support.</p>
 
 <p>Small overview of available features:
 
-* ability to register/unregister keywords;
-* validator/schema caching;
+* full draft v3 validation support, and experimental draft v4 validation
+  support;
+* full report or fail-fast report modes (ie, go deep or fail at first error);
 * arbitrary length/precision number validation;
-* full report or fail-fast report modes;
-* complete <tt>$ref</tt> support, with loop detection;
-* ECMA 262 regexes (using Rhino);
+* validator caching for performance;
+* ECMA 262 regexes (using Rhino), as required by the draft;
+* schema syntax validation, and the possibility to skip it;
 * ability to register URI handlers for any scheme (HTTP only natively);
-* others.
+* complete <tt>$ref</tt> support, with loop detection;
+* ability to determine the default schema version to use (draft v3 by default);
+* ability to register/unregister keywords against a specific schema version;
+* automatic schema version switching if <tt>$schema</tt> is encountered within a
+  schema.
 
 <p>I believe this to be the most complete implementation of JSON Schema in Java
 today.
