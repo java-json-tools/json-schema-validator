@@ -176,6 +176,15 @@ public final class JsonPointerTest
     }
 
     @Test
+    public void testAppendNull()
+    {
+        final JsonPointer p1 = new JsonPointer("#/a/%25/");
+        final JsonPointer p2 = p1.append(null);
+
+        assertTrue(p1.equals(p2) && p2.equals(p1));
+    }
+
+    @Test
     public void testArrayAddressing()
     {
         final ArrayNode array = factory.arrayNode();
