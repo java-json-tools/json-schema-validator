@@ -40,7 +40,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Factory initializing all validator factories with a given schema bundle.
+ * Factory initializing all validator factories with a given schema bundle,
+ * and in charge of validator caching
  *
  * @see KeywordFactory
  * @see SyntaxFactory
