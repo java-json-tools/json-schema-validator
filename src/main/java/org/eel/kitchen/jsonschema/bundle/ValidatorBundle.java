@@ -184,6 +184,6 @@ public abstract class ValidatorBundle
 
         if (!s.equals(k))
             throw new IllegalArgumentException("registered syntax/keyword "
-                + "validators do not covert the same set of keywords");
+                + "validators do not cover the same set of keywords");
     }
 }

@@ -160,7 +160,7 @@ public final class RegistrationTest
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "registered syntax/keyword validators "
-                + "do not covert the same set of keywords");
+                + "do not cover the same set of keywords");
         }
     }
 
