@@ -67,71 +67,130 @@ import static org.eel.kitchen.util.NodeType.*;
 /**
  * The common set of validators used by existing JSON Schema specifications
  */
-public abstract class CommonValidatorBundle
+public class CommonValidatorBundle
     extends ValidatorBundle
 {
     CommonValidatorBundle()
     {
-        /*
-         * Register common keyword validators
-         */
+
+        /* additionalItems */
+        registerSV("additionalItems", new AdditionalItemsSyntaxValidator());
         registerKV("additionalItems", new AdditionalItemsKeywordValidator(),
             ARRAY);
-        registerKV("additionalProperties",
-            new AdditionalPropertiesKeywordValidator(), OBJECT);
-        registerKV("dependencies", new DependenciesKeywordValidator(),
-            values());
-        registerKV("disallow", new DisallowKeywordValidator(), values());
-        registerKV("divisibleBy", new DivisibleByKeywordValidator(), INTEGER,
-            NUMBER);
-        registerKV("enum", new EnumKeywordValidator(), values());
-        registerKV("extends", new ExtendsKeywordValidator(), values());
-        registerKV("format", new FormatKeywordValidator(), values());
-        registerKV("maximum", new MaximumKeywordValidator(), INTEGER, NUMBER);
-        registerKV("maxItems", new MaxItemsKeywordValidator(), ARRAY);
-        registerKV("maxLength", new MaxLengthKeywordValidator(), STRING);
-        registerKV("minimum", new MinimumKeywordValidator(), INTEGER, NUMBER);
-        registerKV("minItems", new MinItemsKeywordValidator(), ARRAY);
-        registerKV("minLength", new MinLengthKeywordValidator(), STRING);
-        registerKV("pattern", new PatternKeywordValidator(), STRING);
-        registerKV("type", new TypeKeywordValidator(), values());
-        registerKV("uniqueItems", new UniqueItemsKeywordValidator(), ARRAY);
-        registerKV("$ref", new RefKeywordValidator(), values());
 
-        registerIgnoredKV("items", ARRAY);
-        registerIgnoredKV("patternProperties", OBJECT);
-
-        /*
-         * Register common syntax validators
-         */
-        registerSV("additionalItems", new AdditionalItemsSyntaxValidator());
+        /* additionalProperties */
         registerSV("additionalProperties",
             new AdditionalPropertiesSyntaxValidator());
-        registerSV("dependencies", new DependenciesSyntaxValidator());
-        registerSV("description", new DescriptionSyntaxValidator());
-        registerSV("disallow", new DisallowSyntaxValidator());
-        registerSV("divisibleBy", new DivisibleBySyntaxValidator());
-        registerSV("$ref", new DollarRefSyntaxValidator());
-        registerSV("$schema", new DollarSchemaSyntaxValidator());
-        registerSV("enum", new EnumSyntaxValidator());
-        registerSV("exclusiveMaximum", new ExclusiveMaximumSyntaxValidator());
-        registerSV("exclusiveMinimum", new ExclusiveMinimumSyntaxValidator());
-        registerSV("extends", new ExtendsSyntaxValidator());
-        registerSV("format", new FormatSyntaxValidator());
-        registerSV("id", new IdSyntaxValidator());
-        registerSV("items", new ItemsSyntaxValidator());
-        registerSV("maximum", new MaximumSyntaxValidator());
-        registerSV("maxItems", new MaxItemsSyntaxValidator());
-        registerSV("maxLength", new MaxLengthSyntaxValidator());
-        registerSV("minimum", new MinimumSyntaxValidator());
-        registerSV("minItems", new MinItemsSyntaxValidator());
-        registerSV("minLength", new MinLengthSyntaxValidator());
-        registerSV("pattern", new PatternSyntaxValidator());
-        registerSV("patternProperties", new PatternPropertiesSyntaxValidator());
-        registerSV("title", new TitleSyntaxValidator());
-        registerSV("type", new TypeSyntaxValidator());
-        registerSV("uniqueItems", new UniqueItemsSyntaxValidator());
+        registerKV("additionalProperties",
+            new AdditionalPropertiesKeywordValidator(), OBJECT);
 
+        /* default */
         registerIgnoredSV("default");
+        registerIgnoredKV("default", values());
+
+        /* dependencies */
+        registerSV("dependencies", new DependenciesSyntaxValidator());
+        registerKV("dependencies", new DependenciesKeywordValidator(),
+            values());
+
+        /* description */
+        registerSV("description", new DescriptionSyntaxValidator());
+        registerIgnoredKV("description", values());
+
+        /* disallow */
+        registerSV("disallow", new DisallowSyntaxValidator());
+        registerKV("disallow", new DisallowKeywordValidator(), values());
+
+        /* divisibleBy */
+        registerSV("divisibleBy", new DivisibleBySyntaxValidator());
+        registerKV("divisibleBy", new DivisibleByKeywordValidator(), INTEGER,
+            NUMBER);
+
+        /* enum */
+        registerSV("enum", new EnumSyntaxValidator());
+        registerKV("enum", new EnumKeywordValidator(), values());
+
+        /* exclusiveMaximum */
+        registerSV("exclusiveMaximum", new ExclusiveMaximumSyntaxValidator());
+        registerIgnoredKV("exclusiveMaximum", INTEGER, NUMBER);
+
+        /* exclusiveMinimum */
+        registerSV("exclusiveMinimum", new ExclusiveMinimumSyntaxValidator());
+        registerIgnoredKV("exclusiveMinimum", INTEGER, NUMBER);
+
+        /* extends */
+        registerSV("extends", new ExtendsSyntaxValidator());
+        registerKV("extends", new ExtendsKeywordValidator(), values());
+
+        /* format */
+        registerSV("format", new FormatSyntaxValidator());
+        registerKV("format", new FormatKeywordValidator(), values());
+
+        /* id */
+        registerSV("id", new IdSyntaxValidator());
+        registerIgnoredKV("id", values());
+
+        /* items */
+        registerSV("items", new ItemsSyntaxValidator());
+        registerIgnoredKV("items", ARRAY);
+
+        /* links */
+        registerIgnoredSV("links");
+        registerIgnoredKV("links", values());
+
+        /* maximum */
+        registerSV("maximum", new MaximumSyntaxValidator());
+        registerKV("maximum", new MaximumKeywordValidator(), INTEGER, NUMBER);
+
+        /* maxItems */
+        registerSV("maxItems", new MaxItemsSyntaxValidator());
+        registerKV("maxItems", new MaxItemsKeywordValidator(), ARRAY);
+
+        /* maxLength */
+        registerSV("maxLength", new MaxLengthSyntaxValidator());
+        registerKV("maxLength", new MaxLengthKeywordValidator(), STRING);
+
+        /* minimum */
+        registerSV("minimum", new MinimumSyntaxValidator());
+        registerKV("minimum", new MinimumKeywordValidator(), INTEGER, NUMBER);
+
+        /* minItems */
+        registerSV("minItems", new MinItemsSyntaxValidator());
+        registerKV("minItems", new MinItemsKeywordValidator(), ARRAY);
+
+        /* minLength */
+        registerSV("minLength", new MinLengthSyntaxValidator());
+        registerKV("minLength", new MinLengthKeywordValidator(), STRING);
+
+        /* pattern */
+        registerSV("pattern", new PatternSyntaxValidator());
+        registerKV("pattern", new PatternKeywordValidator(), STRING);
+
+        /* patternProperties */
+        registerSV("patternProperties", new PatternPropertiesSyntaxValidator());
+        registerIgnoredKV("patternProperties", OBJECT);
+
+        /* properties: left to subclasses */
+        /* required: left to subclasses */
+
+        /* title */
+        registerSV("title", new TitleSyntaxValidator());
+        registerIgnoredKV("title", values());
+
+        /* type */
+        registerSV("type", new TypeSyntaxValidator());
+        registerKV("type", new TypeKeywordValidator(), values());
+
+        /* uniqueItems */
+        registerSV("uniqueItems", new UniqueItemsSyntaxValidator());
+        registerKV("uniqueItems", new UniqueItemsKeywordValidator(), ARRAY);
+
+        /* $ref */
+        registerSV("$ref", new DollarRefSyntaxValidator());
+        registerKV("$ref", new RefKeywordValidator(), values());
+
+        /* $schema */
+        registerSV("$schema", new DollarSchemaSyntaxValidator());
+        registerIgnoredKV("$schema", values());
     }
 }

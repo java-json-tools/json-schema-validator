@@ -30,11 +30,13 @@ public class DraftV3ValidatorBundle
 {
     public DraftV3ValidatorBundle()
     {
-        registerSV("required", new RequiredSyntaxValidator());
-        registerIgnoredKV("required", NodeType.OBJECT);
-
+        /* properties */
         registerSV("properties", new PropertiesSyntaxValidator());
         registerKV("properties", new PropertiesKeywordValidator(),
             NodeType.OBJECT);
+
+        /* required */
+        registerSV("required", new RequiredSyntaxValidator());
+        registerIgnoredKV("required", NodeType.OBJECT);
     }
 }

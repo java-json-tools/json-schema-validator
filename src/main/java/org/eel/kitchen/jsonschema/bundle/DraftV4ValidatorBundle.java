@@ -38,18 +38,22 @@ public class DraftV4ValidatorBundle
 {
     public DraftV4ValidatorBundle()
     {
-        registerSV("required", new RequiredSyntaxValidator());
-        registerKV("required", new RequiredKeywordValidator(), NodeType.OBJECT);
+        /* maxProperties */
+        registerSV("maxProperties", new MaxPropertiesSyntaxValidator());
+        registerKV("maxProperties", new MaxPropertiesKeywordValidator(),
+            NodeType.OBJECT);
 
-        registerSV("properties", new PropertiesSyntaxValidator());
-        registerIgnoredKV("properties", NodeType.OBJECT);
-
+        /* minProperties */
         registerSV("minProperties", new MinPropertiesSyntaxValidator());
         registerKV("minProperties", new MinPropertiesKeywordValidator(),
             NodeType.OBJECT);
 
-        registerSV("maxProperties", new MaxPropertiesSyntaxValidator());
-        registerKV("maxProperties", new MaxPropertiesKeywordValidator(),
-            NodeType.OBJECT);
+        /* required */
+        registerSV("required", new RequiredSyntaxValidator());
+        registerKV("required", new RequiredKeywordValidator(), NodeType.OBJECT);
+
+        /* properties */
+        registerSV("properties", new PropertiesSyntaxValidator());
+        registerIgnoredKV("properties", NodeType.OBJECT);
     }
 }
