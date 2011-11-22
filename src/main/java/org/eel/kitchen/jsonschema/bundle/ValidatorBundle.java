@@ -147,10 +147,6 @@ public abstract class ValidatorBundle
     protected final void registerKV(final String keyword,
         final KeywordValidator kv, final NodeType... types)
     {
-        if (types.length == 0)
-            throw new IllegalArgumentException("cannot register a keyword "
-                + "validator with no JSON types to validate against");
-
         for (final NodeType type: types)
             kvMap.get(type).put(keyword, kv);
     }

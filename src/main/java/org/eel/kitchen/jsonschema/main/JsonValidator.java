@@ -294,6 +294,10 @@ public final class JsonValidator
         final String keyword, final SyntaxValidator sv,
         final KeywordValidator kv, final NodeType... types)
     {
+        if (types.length == 0)
+            throw new IllegalArgumentException("cannot register a new keyword"
+                + " with no JSON type to match against");
+
         if (keyword == null)
             throw new IllegalArgumentException("keyword is null");
 

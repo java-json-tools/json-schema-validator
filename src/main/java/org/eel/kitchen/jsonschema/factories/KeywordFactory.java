@@ -154,15 +154,6 @@ public final class KeywordFactory
     public void registerValidator(final String keyword,
         final KeywordValidator kv, final NodeType... types)
     {
-        /*
-         * Both tests below are for security only... They should not happen
-         * until the "no schema validation" feature is implemented.
-         */
-
-        if (types.length == 0)
-            throw new IllegalArgumentException("cannot register a new keyword"
-                + " with no JSON type to match against");
-
         if (hasKeyword(keyword, types))
             throw new IllegalArgumentException("keyword already registered");
 

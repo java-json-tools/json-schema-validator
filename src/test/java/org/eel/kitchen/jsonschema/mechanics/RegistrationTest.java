@@ -96,7 +96,7 @@ public final class RegistrationTest
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
         try {
-            validator.registerValidator(null, null, null);
+            validator.registerValidator(null, null, null, NodeType.values());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "keyword is null");
@@ -110,7 +110,8 @@ public final class RegistrationTest
         final JsonValidator validator = new JsonValidator(factory.objectNode());
 
         try {
-            validator.registerValidator("default", null, null);
+            validator.registerValidator("default", null, null,
+                NodeType.values());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "keyword already registered");
@@ -161,22 +162,6 @@ public final class RegistrationTest
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "registered syntax/keyword validators "
                 + "do not cover the same set of keywords");
-        }
-    }
-
-    @Test
-    public void testEmptyTypesetKeywordRegistration()
-        throws JsonValidationFailureException
-    {
-        final JsonValidator v
-            = new JsonValidator(JsonNodeFactory.instance.objectNode());
-
-        try {
-            v.registerValidator("foo", null, null);
-            fail("No exception thrown");
-        } catch (Exception e) {
-            assertEquals(e.getMessage(), "cannot register a new keyword "
-                + "with no JSON type to match against");
         }
     }
 
