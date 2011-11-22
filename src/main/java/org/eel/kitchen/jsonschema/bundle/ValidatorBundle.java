@@ -136,9 +136,21 @@ public abstract class ValidatorBundle
         ignoredSV.add(keyword);
     }
 
+    /**
+     * Register a keyword validator for a given keyword and a set of types
+     *
+     * @param keyword the keyword
+     * @param kv the validator
+     * @param types the list of types
+     * @throws IllegalArgumentException the list of types is empty
+     */
     protected final void registerKV(final String keyword,
         final KeywordValidator kv, final NodeType... types)
     {
+        if (types.length == 0)
+            throw new IllegalArgumentException("cannot register a keyword "
+                + "validator with no JSON types to validate against");
+
         for (final NodeType type: types)
             kvMap.get(type).put(keyword, kv);
     }
