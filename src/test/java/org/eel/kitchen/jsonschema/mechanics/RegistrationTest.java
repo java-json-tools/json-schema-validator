@@ -22,11 +22,11 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.CommonValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv4.PropertiesSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.syntax.draftv4.PropertiesSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxValidator;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.NodeType;
 import org.testng.annotations.BeforeClass;
@@ -161,6 +161,22 @@ public final class RegistrationTest
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "registered syntax/keyword validators "
                 + "do not cover the same set of keywords");
+        }
+    }
+
+    @Test
+    public void testEmptyTypesetKeywordRegistration()
+        throws JsonValidationFailureException
+    {
+        final JsonValidator v
+            = new JsonValidator(JsonNodeFactory.instance.objectNode());
+
+        try {
+            v.registerValidator("foo", null, null);
+            fail("No exception thrown");
+        } catch (Exception e) {
+            assertEquals(e.getMessage(), "cannot register a new keyword "
+                + "with no JSON type to match against");
         }
     }
 
