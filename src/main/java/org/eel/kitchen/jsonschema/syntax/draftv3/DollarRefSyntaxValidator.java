@@ -21,19 +21,30 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Set;
 
 /**
  * Syntax validator for {@code $ref}
  *
  * <p>Note that we go a little further than what the spec says,
  * but this is logical: {@code $ref} should be by itself,
- * there is just no point in it being accompanied by other keywords</p>
+ * there is just no point in it being accompanied by other keywords...</p>
+ *
+ * <p>Well, except for {@code required}! Consider:</p>
+ *
+ * <pre>
+ *     {
+ *         "properties": {
+ *             "p": {
+ *                 "$ref": "whatever",
+ *                 "required": true
+ *             }
+ *         }
+ *     }
+ * </pre>
  */
 public final class DollarRefSyntaxValidator
     extends SyntaxValidator
@@ -54,17 +65,16 @@ public final class DollarRefSyntaxValidator
             report.fail("not a valid URI");
         }
 
-        if (schema.size() == 1)
-            return;
-
-        if (schema.size() > 2)
-            report.fail("$ref can only be by itself, or paired with required");
-
-        final Set<String> set = CollectionUtils.toSet(schema.getFieldNames());
-
-        set.remove("$ref");
-
-        if (!set.remove("required"))
-            report.fail("$ref can only be by itself, or paired with required");
+        switch (schema.size()) {
+            case 1:
+                return;
+            case 2:
+                if (schema.has("required"))
+                    return;
+                // fall through
+            default:
+                report.fail("$ref can only be by itself, or paired with "
+                    + "required");
+        }
     }
 }
