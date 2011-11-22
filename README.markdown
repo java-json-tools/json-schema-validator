@@ -5,12 +5,11 @@ pure server side JSON schema validation if this is what you are looking for.
 <p>The draft serving as a reference is, at the moment, draft version 3, which
 can be found [here](http://json-schema.org/draft-03/schema) (version 4 is
 around the corner, for some defintion of "corner" -- understand, days, or a few
-weeks). This implementation has <b>full</b> support for instance validation
-using draft v3, and can be extended to support draft v4 easily.
+weeks).
 
-<p><b>Version 0.4 is out</b>: see [here]
+<p><b>Version 0.4 is out, and should show up on Maven very soon</b>. see [here]
 (https://github.com/fge/json-schema-validator/wiki/ChangeLog) for a list of
-features. It now has experimental draft v4 support.</p>
+features. It now has experimental draft v4 support.
 
 <p>Small overview of available features:
 
@@ -18,7 +17,7 @@ features. It now has experimental draft v4 support.</p>
   support;
 * full report or fail-fast report modes (ie, go deep or fail at first error);
 * arbitrary length/precision number validation;
-* validator caching for performance;
+* validator and schema caching for performance;
 * ECMA 262 regexes (using Rhino), as required by the draft;
 * schema syntax validation, and the possibility to skip it;
 * ability to register URI handlers for any scheme (HTTP only natively);
