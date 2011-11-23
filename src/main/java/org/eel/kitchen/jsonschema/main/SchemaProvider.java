@@ -80,6 +80,8 @@ public final class SchemaProvider
     /**
      * Constructor
      *
+     * @param defaultVersion the version to assume if a schema does not have
+     * {@code $schema}
      * @param schema the initial schema
      * @throws JsonValidationFailureException the initial JSON document is
      * not a schema
