@@ -39,9 +39,17 @@ import java.util.TreeSet;
 public final class DependenciesKeywordValidator
     extends KeywordValidator
 {
-    public DependenciesKeywordValidator()
+    private static final DependenciesKeywordValidator instance
+        = new DependenciesKeywordValidator();
+
+    private DependenciesKeywordValidator()
     {
         super("dependencies");
+    }
+
+    public static DependenciesKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     /**

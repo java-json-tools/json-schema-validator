@@ -40,9 +40,17 @@ import org.eel.kitchen.util.RhinoHelper;
 public final class PatternKeywordValidator
     extends KeywordValidator
 {
-    public PatternKeywordValidator()
+    private static final PatternKeywordValidator instance
+        = new PatternKeywordValidator();
+
+    private PatternKeywordValidator()
     {
         super("pattern");
+    }
+
+    public static PatternKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

@@ -32,9 +32,17 @@ import java.math.BigDecimal;
 public final class MinimumKeywordValidator
     extends NumericInstanceKeywordValidator
 {
-    public MinimumKeywordValidator()
+    private static final MinimumKeywordValidator instance
+        = new MinimumKeywordValidator();
+
+    private MinimumKeywordValidator()
     {
         super("minimum");
+    }
+
+    public static MinimumKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

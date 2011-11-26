@@ -29,9 +29,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class MinItemsKeywordValidator
     extends KeywordValidator
 {
-    public MinItemsKeywordValidator()
+    private static final MinItemsKeywordValidator instance
+        = new MinItemsKeywordValidator();
+
+    private MinItemsKeywordValidator()
     {
         super("minItems");
+    }
+
+    public static MinItemsKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

@@ -32,9 +32,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class EnumKeywordValidator
     extends KeywordValidator
 {
-    public EnumKeywordValidator()
+    private static final EnumKeywordValidator instance
+        = new EnumKeywordValidator();
+
+    private EnumKeywordValidator()
     {
         super("enum");
+    }
+
+    public static EnumKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

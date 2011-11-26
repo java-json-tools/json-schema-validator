@@ -47,9 +47,17 @@ import java.util.TreeSet;
 public final class PropertiesKeywordValidator
     extends KeywordValidator
 {
-    public PropertiesKeywordValidator()
+    private static final PropertiesKeywordValidator instance
+        = new PropertiesKeywordValidator();
+
+    private PropertiesKeywordValidator()
     {
         super("properties");
+    }
+
+    public static PropertiesKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     /**

@@ -33,7 +33,7 @@ public class DraftV3ValidatorBundle
     {
         /* properties */
         registerSV("properties", PropertiesSyntaxValidator.getInstance());
-        registerKV("properties", new PropertiesKeywordValidator(),
+        registerKV("properties", PropertiesKeywordValidator.getInstance(),
             NodeType.OBJECT);
 
         /* required */

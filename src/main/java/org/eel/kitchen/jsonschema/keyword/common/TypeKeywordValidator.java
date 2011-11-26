@@ -35,9 +35,17 @@ import java.util.List;
 public final class TypeKeywordValidator
     extends AbstractTypeKeywordValidator
 {
-    public TypeKeywordValidator()
+    private static final TypeKeywordValidator instance
+        = new TypeKeywordValidator();
+
+    private TypeKeywordValidator()
     {
         super("type");
+    }
+
+    public static TypeKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

@@ -35,10 +35,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class FormatKeywordValidator
     extends KeywordValidator
 {
+    private static final FormatKeywordValidator instance
+        = new FormatKeywordValidator();
 
-    public FormatKeywordValidator()
+    private FormatKeywordValidator()
     {
         super("format");
+    }
+
+    public static FormatKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     /**

@@ -29,10 +29,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class MaxLengthKeywordValidator
     extends KeywordValidator
 {
+    private static final MaxLengthKeywordValidator instance
+        = new MaxLengthKeywordValidator();
 
-    public MaxLengthKeywordValidator()
+    private MaxLengthKeywordValidator()
     {
         super("maxLength");
+    }
+
+    public static MaxLengthKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

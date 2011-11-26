@@ -29,10 +29,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class AdditionalItemsKeywordValidator
     extends KeywordValidator
 {
+    private static final AdditionalItemsKeywordValidator instance
+        = new AdditionalItemsKeywordValidator();
 
-    public AdditionalItemsKeywordValidator()
+    private AdditionalItemsKeywordValidator()
     {
         super("additionalItems");
+    }
+
+    public static AdditionalItemsKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     /**

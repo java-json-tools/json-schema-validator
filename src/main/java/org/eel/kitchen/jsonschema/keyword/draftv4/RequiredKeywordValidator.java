@@ -34,9 +34,17 @@ import java.util.TreeSet;
 public final class RequiredKeywordValidator
     extends KeywordValidator
 {
-    public RequiredKeywordValidator()
+    private static final RequiredKeywordValidator instance
+        = new RequiredKeywordValidator();
+
+    private RequiredKeywordValidator()
     {
         super("required");
+    }
+
+    public static RequiredKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

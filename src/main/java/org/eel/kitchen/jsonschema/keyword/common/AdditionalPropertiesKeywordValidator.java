@@ -34,9 +34,17 @@ import java.util.Set;
 public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator
 {
-    public AdditionalPropertiesKeywordValidator()
+    private static final AdditionalPropertiesKeywordValidator instance
+        = new AdditionalPropertiesKeywordValidator();
+
+    private AdditionalPropertiesKeywordValidator()
     {
         super("additionalProperties");
+    }
+
+    public static AdditionalPropertiesKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     /**

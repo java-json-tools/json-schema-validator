@@ -50,9 +50,17 @@ import java.net.URISyntaxException;
 public final class RefKeywordValidator
     extends KeywordValidator
 {
-    public RefKeywordValidator()
+    private static final RefKeywordValidator instance
+        = new RefKeywordValidator();
+
+    private RefKeywordValidator()
     {
         super("$ref");
+    }
+
+    public static RefKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     /**

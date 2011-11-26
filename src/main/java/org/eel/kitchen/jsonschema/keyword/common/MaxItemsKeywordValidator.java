@@ -29,9 +29,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class MaxItemsKeywordValidator
     extends KeywordValidator
 {
-    public MaxItemsKeywordValidator()
+    private static final MaxItemsKeywordValidator instance
+        = new MaxItemsKeywordValidator();
+
+    private MaxItemsKeywordValidator()
     {
         super("maxItems");
+    }
+
+    public static MaxItemsKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

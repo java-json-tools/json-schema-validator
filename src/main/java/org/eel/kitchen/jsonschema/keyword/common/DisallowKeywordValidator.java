@@ -35,9 +35,17 @@ import java.util.List;
 public final class DisallowKeywordValidator
     extends AbstractTypeKeywordValidator
 {
-    public DisallowKeywordValidator()
+    private static final DisallowKeywordValidator instance
+        = new DisallowKeywordValidator();
+
+    private DisallowKeywordValidator()
     {
         super("disallow");
+    }
+
+    public static DisallowKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

@@ -126,7 +126,7 @@ public final class RegistrationTest
 
         try {
             validator.registerValidator("foo", null,
-                new RequiredKeywordValidator());
+                RequiredKeywordValidator.getInstance());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "cannot register a new keyword with "
@@ -176,7 +176,7 @@ public final class RegistrationTest
             PropertiesSyntaxValidator.getInstance(), null, NodeType.OBJECT);
         ret.registerValidator("required",
             RequiredSyntaxValidator.getInstance(),
-            new RequiredKeywordValidator(), NodeType.OBJECT);
+            RequiredKeywordValidator.getInstance(), NodeType.OBJECT);
 
         return ret;
     }

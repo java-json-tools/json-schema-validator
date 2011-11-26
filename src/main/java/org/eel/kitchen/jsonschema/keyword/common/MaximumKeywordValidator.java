@@ -32,10 +32,17 @@ import java.math.BigDecimal;
 public final class MaximumKeywordValidator
     extends NumericInstanceKeywordValidator
 {
+    private static final MaximumKeywordValidator instance
+        = new MaximumKeywordValidator();
 
-    public MaximumKeywordValidator()
+    private MaximumKeywordValidator()
     {
         super("maximum");
+    }
+
+    public static MaximumKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

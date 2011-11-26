@@ -29,9 +29,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class MinLengthKeywordValidator
     extends KeywordValidator
 {
-    public MinLengthKeywordValidator()
+    private static final MinLengthKeywordValidator instance
+        = new MinLengthKeywordValidator();
+
+    private MinLengthKeywordValidator()
     {
         super("minLength");
+    }
+
+    public static MinLengthKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

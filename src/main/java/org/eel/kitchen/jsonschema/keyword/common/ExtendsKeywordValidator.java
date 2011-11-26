@@ -41,9 +41,17 @@ public final class ExtendsKeywordValidator
      */
     private static final JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
-    public ExtendsKeywordValidator()
+    private static final ExtendsKeywordValidator instance
+        = new ExtendsKeywordValidator();
+
+    private ExtendsKeywordValidator()
     {
         super("extends");
+    }
+
+    public static ExtendsKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

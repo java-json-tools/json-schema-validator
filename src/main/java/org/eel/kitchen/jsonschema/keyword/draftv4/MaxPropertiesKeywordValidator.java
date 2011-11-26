@@ -29,9 +29,17 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class MaxPropertiesKeywordValidator
     extends KeywordValidator
 {
-    public MaxPropertiesKeywordValidator()
+    private static final MaxPropertiesKeywordValidator instance
+        = new MaxPropertiesKeywordValidator();
+
+    private MaxPropertiesKeywordValidator()
     {
         super("maxProperties");
+    }
+
+    public static MaxPropertiesKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

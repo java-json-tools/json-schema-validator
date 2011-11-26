@@ -37,9 +37,17 @@ import java.util.Set;
 public final class UniqueItemsKeywordValidator
     extends KeywordValidator
 {
-    public UniqueItemsKeywordValidator()
+    private static final UniqueItemsKeywordValidator instance
+        = new UniqueItemsKeywordValidator();
+
+    private UniqueItemsKeywordValidator()
     {
         super("uniqueItems");
+    }
+
+    public static UniqueItemsKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

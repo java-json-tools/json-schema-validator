@@ -41,17 +41,18 @@ public class DraftV4ValidatorBundle
     {
         /* maxProperties */
         registerSV("maxProperties", MaxPropertiesSyntaxValidator.getInstance());
-        registerKV("maxProperties", new MaxPropertiesKeywordValidator(),
+        registerKV("maxProperties", MaxPropertiesKeywordValidator.getInstance(),
             NodeType.OBJECT);
 
         /* minProperties */
         registerSV("minProperties", MinPropertiesSyntaxValidator.getInstance());
-        registerKV("minProperties", new MinPropertiesKeywordValidator(),
+        registerKV("minProperties", MinPropertiesKeywordValidator.getInstance(),
             NodeType.OBJECT);
 
         /* required */
         registerSV("required", RequiredSyntaxValidator.getInstance());
-        registerKV("required", new RequiredKeywordValidator(), NodeType.OBJECT);
+        registerKV("required", RequiredKeywordValidator.getInstance(),
+            NodeType.OBJECT);
 
         /* properties */
         registerSV("properties", PropertiesSyntaxValidator.getInstance());

@@ -30,9 +30,17 @@ import java.math.BigDecimal;
 public final class DivisibleByKeywordValidator
     extends NumericInstanceKeywordValidator
 {
-    public DivisibleByKeywordValidator()
+    private static final DivisibleByKeywordValidator instance
+        = new DivisibleByKeywordValidator();
+
+    private DivisibleByKeywordValidator()
     {
         super("divisibleBy");
+    }
+
+    public static DivisibleByKeywordValidator getInstance()
+    {
+        return instance;
     }
 
     @Override
