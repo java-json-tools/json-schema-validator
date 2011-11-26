@@ -25,6 +25,6 @@ public final class DateTimeFormatValidator
 {
     public DateTimeFormatValidator()
     {
-        super("yyyy-MM-dd'T'HH:mm:ssz", "ISO 8601 date");
+        super("yyyy-MM-dd'T'HH:mm:ssZ", "ISO 8601 date");
     }
 }
