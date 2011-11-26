@@ -21,29 +21,31 @@ import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 /**
  * Specialized format validator for date/time checking
  *
- * <p>We use {@link SimpleDateFormat#parse(String)} for that, since it can
- * handle all defined formats.</p>
+ * <p><a href="http://joda-time.sourceforge.net/">Joda</a> is used for date and
+ * time parsing, and more specifically
+ * {@link DateTimeFormatter#parseDateTime(String)}: it can handle all defined
+ * formats, and catches more errors than {@link SimpleDateFormat} does.</p>
  */
-//TODO: use joda?
 public abstract class GenericDateFormatValidator
     extends FormatValidator
 {
     /**
-     * The {@link SimpleDateFormat} to use
-     */
-    private final SimpleDateFormat format;
-
-    /**
      * The error message in case of validation failure
      */
     private final String errmsg;
+
+    /**
+     * The {@link DateTimeFormatter} to use
+     */
+    private final DateTimeFormatter dtf;
 
     /**
      * Constructor
@@ -53,7 +55,7 @@ public abstract class GenericDateFormatValidator
      */
     protected GenericDateFormatValidator(final String fmt, final String desc)
     {
-        format = new SimpleDateFormat(fmt);
+        dtf = DateTimeFormat.forPattern(fmt);
         errmsg = String.format("string is not a valid %s", desc);
     }
 
@@ -65,8 +67,8 @@ public abstract class GenericDateFormatValidator
         final ValidationReport report = context.createReport();
 
         try {
-            format.parse(instance.getTextValue());
-        } catch (ParseException ignored) {
+            dtf.parseDateTime(instance.getTextValue());
+        } catch (IllegalArgumentException ignored) {
             report.fail(errmsg);
         }
 
