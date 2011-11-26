@@ -22,8 +22,16 @@ import org.eel.kitchen.jsonschema.syntax.URISyntaxValidator;
 public final class IdSyntaxValidator
     extends URISyntaxValidator
 {
-    public IdSyntaxValidator()
+    private static final IdSyntaxValidator instance
+        = new IdSyntaxValidator();
+
+    private IdSyntaxValidator()
     {
         super("id");
+    }
+
+    public static IdSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

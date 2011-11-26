@@ -28,7 +28,15 @@ import java.math.BigDecimal;
 public final class DivisibleBySyntaxValidator
     extends SyntaxValidator
 {
-    public DivisibleBySyntaxValidator()
+    private static final DivisibleBySyntaxValidator instance
+        = new DivisibleBySyntaxValidator();
+
+    public static DivisibleBySyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private DivisibleBySyntaxValidator()
     {
         super("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
     }

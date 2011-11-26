@@ -23,7 +23,15 @@ import org.eel.kitchen.util.NodeType;
 public final class AdditionalItemsSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public AdditionalItemsSyntaxValidator()
+    private static final AdditionalItemsSyntaxValidator instance
+        = new AdditionalItemsSyntaxValidator();
+
+    public static AdditionalItemsSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private AdditionalItemsSyntaxValidator()
     {
         super("additionalItems", NodeType.OBJECT, NodeType.BOOLEAN);
     }

@@ -33,7 +33,15 @@ import org.eel.kitchen.util.NodeType;
 public final class ExtendsSyntaxValidator
     extends SyntaxValidator
 {
-    public ExtendsSyntaxValidator()
+    private static final ExtendsSyntaxValidator instance
+        = new ExtendsSyntaxValidator();
+
+    public static ExtendsSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private ExtendsSyntaxValidator()
     {
         super("extends", NodeType.OBJECT, NodeType.ARRAY);
     }

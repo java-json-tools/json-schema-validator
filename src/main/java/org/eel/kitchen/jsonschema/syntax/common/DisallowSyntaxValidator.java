@@ -22,7 +22,15 @@ import org.eel.kitchen.jsonschema.syntax.TypeNodeSyntaxValidator;
 public final class DisallowSyntaxValidator
     extends TypeNodeSyntaxValidator
 {
-    public DisallowSyntaxValidator()
+    private static final DisallowSyntaxValidator instance
+        = new DisallowSyntaxValidator();
+
+    public static DisallowSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private DisallowSyntaxValidator()
     {
         super("disallow");
     }

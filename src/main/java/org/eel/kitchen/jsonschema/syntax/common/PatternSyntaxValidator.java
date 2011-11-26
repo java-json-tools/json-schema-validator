@@ -27,9 +27,17 @@ import org.eel.kitchen.util.RhinoHelper;
 public final class PatternSyntaxValidator
     extends SyntaxValidator
 {
-    public PatternSyntaxValidator()
+    private static final PatternSyntaxValidator instance
+        = new PatternSyntaxValidator();
+
+    private PatternSyntaxValidator()
     {
         super("pattern", NodeType.STRING);
+    }
+
+    public static PatternSyntaxValidator getInstance()
+    {
+        return instance;
     }
 
     /**

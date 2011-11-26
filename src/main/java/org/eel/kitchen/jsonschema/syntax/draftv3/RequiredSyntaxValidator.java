@@ -23,8 +23,16 @@ import org.eel.kitchen.util.NodeType;
 public final class RequiredSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public RequiredSyntaxValidator()
+    private static final RequiredSyntaxValidator instance
+        = new RequiredSyntaxValidator();
+
+    private RequiredSyntaxValidator()
     {
         super("required", NodeType.BOOLEAN);
+    }
+
+    public static RequiredSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

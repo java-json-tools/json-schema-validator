@@ -26,7 +26,15 @@ import org.eel.kitchen.util.NodeType;
 public final class ExclusiveMaximumSyntaxValidator
     extends SyntaxValidator
 {
-    public ExclusiveMaximumSyntaxValidator()
+    private static final ExclusiveMaximumSyntaxValidator instance
+        = new ExclusiveMaximumSyntaxValidator();
+
+    public static ExclusiveMaximumSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private ExclusiveMaximumSyntaxValidator()
     {
         super("exclusiveMaximum", NodeType.BOOLEAN);
     }

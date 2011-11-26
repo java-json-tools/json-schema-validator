@@ -30,9 +30,17 @@ import java.util.SortedMap;
 public final class PropertiesSyntaxValidator
     extends SyntaxValidator
 {
-    public PropertiesSyntaxValidator()
+    private static final PropertiesSyntaxValidator instance
+        = new PropertiesSyntaxValidator();
+
+    private PropertiesSyntaxValidator()
     {
         super("properties", NodeType.OBJECT);
+    }
+
+    public static PropertiesSyntaxValidator getInstance()
+    {
+        return instance;
     }
 
     /**

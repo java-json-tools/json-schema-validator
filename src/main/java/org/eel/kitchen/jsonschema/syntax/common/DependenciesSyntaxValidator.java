@@ -42,7 +42,16 @@ import java.util.SortedMap;
 public final class DependenciesSyntaxValidator
     extends SyntaxValidator
 {
-    public DependenciesSyntaxValidator()
+    private static final DependenciesSyntaxValidator instance
+        = new DependenciesSyntaxValidator();
+
+
+    public static DependenciesSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private DependenciesSyntaxValidator()
     {
         super("dependencies", NodeType.OBJECT);
     }

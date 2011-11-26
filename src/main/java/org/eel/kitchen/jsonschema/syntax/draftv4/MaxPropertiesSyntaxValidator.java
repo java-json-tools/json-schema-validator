@@ -22,8 +22,16 @@ import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxValidator;
 public final class MaxPropertiesSyntaxValidator
     extends PositiveIntegerSyntaxValidator
 {
-    public MaxPropertiesSyntaxValidator()
+    private static final MaxPropertiesSyntaxValidator instance
+        = new MaxPropertiesSyntaxValidator();
+
+    private MaxPropertiesSyntaxValidator()
     {
         super("maxProperties");
+    }
+
+    public static MaxPropertiesSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

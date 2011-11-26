@@ -23,8 +23,16 @@ import org.eel.kitchen.util.NodeType;
 public final class TitleSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public TitleSyntaxValidator()
+    private static final TitleSyntaxValidator instance
+        = new TitleSyntaxValidator();
+
+    private TitleSyntaxValidator()
     {
         super("title", NodeType.STRING);
+    }
+
+    public static TitleSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

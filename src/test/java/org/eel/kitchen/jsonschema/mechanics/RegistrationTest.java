@@ -172,9 +172,10 @@ public final class RegistrationTest
         final JsonValidator ret = new JsonValidator(schema);
         ret.unregisterValidator("properties");
         ret.unregisterValidator("required");
-        ret.registerValidator("properties", new PropertiesSyntaxValidator(),
-            null, NodeType.OBJECT);
-        ret.registerValidator("required", new RequiredSyntaxValidator(),
+        ret.registerValidator("properties",
+            PropertiesSyntaxValidator.getInstance(), null, NodeType.OBJECT);
+        ret.registerValidator("required",
+            RequiredSyntaxValidator.getInstance(),
             new RequiredKeywordValidator(), NodeType.OBJECT);
 
         return ret;

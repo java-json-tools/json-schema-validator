@@ -79,13 +79,14 @@ public abstract class CommonValidatorBundle
     {
 
         /* additionalItems */
-        registerSV("additionalItems", new AdditionalItemsSyntaxValidator());
+        registerSV("additionalItems",
+            AdditionalItemsSyntaxValidator.getInstance());
         registerKV("additionalItems", new AdditionalItemsKeywordValidator(),
             ARRAY);
 
         /* additionalProperties */
         registerSV("additionalProperties",
-            new AdditionalPropertiesSyntaxValidator());
+            AdditionalPropertiesSyntaxValidator.getInstance());
         registerKV("additionalProperties",
             new AdditionalPropertiesKeywordValidator(), OBJECT);
 
@@ -94,49 +95,52 @@ public abstract class CommonValidatorBundle
         registerIgnoredKV("default", values());
 
         /* dependencies */
-        registerSV("dependencies", new DependenciesSyntaxValidator());
+        registerSV("dependencies",
+            DependenciesSyntaxValidator.getInstance());
         registerKV("dependencies", new DependenciesKeywordValidator(),
             values());
 
         /* description */
-        registerSV("description", new DescriptionSyntaxValidator());
+        registerSV("description", DescriptionSyntaxValidator.getInstance());
         registerIgnoredKV("description", values());
 
         /* disallow */
-        registerSV("disallow", new DisallowSyntaxValidator());
+        registerSV("disallow", DisallowSyntaxValidator.getInstance());
         registerKV("disallow", new DisallowKeywordValidator(), values());
 
         /* divisibleBy */
-        registerSV("divisibleBy", new DivisibleBySyntaxValidator());
+        registerSV("divisibleBy", DivisibleBySyntaxValidator.getInstance());
         registerKV("divisibleBy", new DivisibleByKeywordValidator(), INTEGER,
             NUMBER);
 
         /* enum */
-        registerSV("enum", new EnumSyntaxValidator());
+        registerSV("enum", EnumSyntaxValidator.getInstance());
         registerKV("enum", new EnumKeywordValidator(), values());
 
         /* exclusiveMaximum */
-        registerSV("exclusiveMaximum", new ExclusiveMaximumSyntaxValidator());
+        registerSV("exclusiveMaximum",
+            ExclusiveMaximumSyntaxValidator.getInstance());
         registerIgnoredKV("exclusiveMaximum", INTEGER, NUMBER);
 
         /* exclusiveMinimum */
-        registerSV("exclusiveMinimum", new ExclusiveMinimumSyntaxValidator());
+        registerSV("exclusiveMinimum",
+            ExclusiveMinimumSyntaxValidator.getInstance());
         registerIgnoredKV("exclusiveMinimum", INTEGER, NUMBER);
 
         /* extends */
-        registerSV("extends", new ExtendsSyntaxValidator());
+        registerSV("extends", ExtendsSyntaxValidator.getInstance());
         registerKV("extends", new ExtendsKeywordValidator(), values());
 
         /* format */
-        registerSV("format", new FormatSyntaxValidator());
+        registerSV("format", FormatSyntaxValidator.getInstance());
         registerKV("format", new FormatKeywordValidator(), values());
 
         /* id */
-        registerSV("id", new IdSyntaxValidator());
+        registerSV("id", IdSyntaxValidator.getInstance());
         registerIgnoredKV("id", values());
 
         /* items */
-        registerSV("items", new ItemsSyntaxValidator());
+        registerSV("items", ItemsSyntaxValidator.getInstance());
         registerIgnoredKV("items", ARRAY);
 
         /* links */
@@ -144,50 +148,51 @@ public abstract class CommonValidatorBundle
         registerIgnoredKV("links", values());
 
         /* maximum */
-        registerSV("maximum", new MaximumSyntaxValidator());
+        registerSV("maximum", MaximumSyntaxValidator.getInstance());
         registerKV("maximum", new MaximumKeywordValidator(), INTEGER, NUMBER);
 
         /* maxItems */
-        registerSV("maxItems", new MaxItemsSyntaxValidator());
+        registerSV("maxItems", MaxItemsSyntaxValidator.getInstance());
         registerKV("maxItems", new MaxItemsKeywordValidator(), ARRAY);
 
         /* maxLength */
-        registerSV("maxLength", new MaxLengthSyntaxValidator());
+        registerSV("maxLength", MaxLengthSyntaxValidator.getInstance());
         registerKV("maxLength", new MaxLengthKeywordValidator(), STRING);
 
         /* minimum */
-        registerSV("minimum", new MinimumSyntaxValidator());
+        registerSV("minimum", MinimumSyntaxValidator.getInstance());
         registerKV("minimum", new MinimumKeywordValidator(), INTEGER, NUMBER);
 
         /* minItems */
-        registerSV("minItems", new MinItemsSyntaxValidator());
+        registerSV("minItems", MinItemsSyntaxValidator.getInstance());
         registerKV("minItems", new MinItemsKeywordValidator(), ARRAY);
 
         /* minLength */
-        registerSV("minLength", new MinLengthSyntaxValidator());
+        registerSV("minLength", MinLengthSyntaxValidator.getInstance());
         registerKV("minLength", new MinLengthKeywordValidator(), STRING);
 
         /* pattern */
-        registerSV("pattern", new PatternSyntaxValidator());
+        registerSV("pattern", PatternSyntaxValidator.getInstance());
         registerKV("pattern", new PatternKeywordValidator(), STRING);
 
         /* patternProperties */
-        registerSV("patternProperties", new PatternPropertiesSyntaxValidator());
+        registerSV("patternProperties",
+            PatternPropertiesSyntaxValidator.getInstance());
         registerIgnoredKV("patternProperties", OBJECT);
 
         /* properties: left to subclasses */
         /* required: left to subclasses */
 
         /* title */
-        registerSV("title", new TitleSyntaxValidator());
+        registerSV("title", TitleSyntaxValidator.getInstance());
         registerIgnoredKV("title", values());
 
         /* type */
-        registerSV("type", new TypeSyntaxValidator());
+        registerSV("type", TypeSyntaxValidator.getInstance());
         registerKV("type", new TypeKeywordValidator(), values());
 
         /* uniqueItems */
-        registerSV("uniqueItems", new UniqueItemsSyntaxValidator());
+        registerSV("uniqueItems", UniqueItemsSyntaxValidator.getInstance());
         registerKV("uniqueItems", new UniqueItemsKeywordValidator(), ARRAY);
 
         /* $ref */
@@ -198,7 +203,7 @@ public abstract class CommonValidatorBundle
         registerKV("$ref", new RefKeywordValidator(), values());
 
         /* $schema */
-        registerSV("$schema", new DollarSchemaSyntaxValidator());
+        registerSV("$schema", DollarSchemaSyntaxValidator.getInstance());
         registerIgnoredKV("$schema", values());
     }
 }

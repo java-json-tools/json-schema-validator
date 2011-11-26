@@ -22,8 +22,16 @@ import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxValidator;
 public final class MinLengthSyntaxValidator
     extends PositiveIntegerSyntaxValidator
 {
-    public MinLengthSyntaxValidator()
+    private static final MinLengthSyntaxValidator instance
+        = new MinLengthSyntaxValidator();
+
+    private MinLengthSyntaxValidator()
     {
         super("minLength");
+    }
+
+    public static MinLengthSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

@@ -36,9 +36,17 @@ import java.net.URISyntaxException;
 public final class DollarRefSyntaxValidator
     extends SyntaxValidator
 {
-    public DollarRefSyntaxValidator()
+    private static final DollarRefSyntaxValidator instance
+        = new DollarRefSyntaxValidator();
+
+    private DollarRefSyntaxValidator()
     {
         super("$ref", NodeType.STRING);
+    }
+
+    public static DollarRefSyntaxValidator getInstance()
+    {
+        return instance;
     }
 
     @Override

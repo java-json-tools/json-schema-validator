@@ -23,7 +23,15 @@ import org.eel.kitchen.util.NodeType;
 public final class DescriptionSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public DescriptionSyntaxValidator()
+    private static final DescriptionSyntaxValidator instance
+        = new DescriptionSyntaxValidator();
+
+    public static DescriptionSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private DescriptionSyntaxValidator()
     {
         super("description", NodeType.STRING);
     }

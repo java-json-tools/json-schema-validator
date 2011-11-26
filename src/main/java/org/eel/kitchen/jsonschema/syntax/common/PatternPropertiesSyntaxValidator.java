@@ -31,9 +31,17 @@ import java.util.SortedMap;
 public final class PatternPropertiesSyntaxValidator
     extends SyntaxValidator
 {
-    public PatternPropertiesSyntaxValidator()
+    private static final PatternPropertiesSyntaxValidator instance
+        = new PatternPropertiesSyntaxValidator();
+
+    private PatternPropertiesSyntaxValidator()
     {
         super("patternProperties", NodeType.OBJECT);
+    }
+
+    public static PatternPropertiesSyntaxValidator getInstance()
+    {
+        return instance;
     }
 
     /**

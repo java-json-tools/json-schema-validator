@@ -23,7 +23,15 @@ import org.eel.kitchen.util.NodeType;
 public final class EnumSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public EnumSyntaxValidator()
+    private static final EnumSyntaxValidator instance
+        = new EnumSyntaxValidator();
+
+    public static EnumSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private EnumSyntaxValidator()
     {
         super("enum", NodeType.ARRAY);
     }

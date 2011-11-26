@@ -23,8 +23,16 @@ import org.eel.kitchen.util.NodeType;
 public final class MinimumSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public MinimumSyntaxValidator()
+    private static final MinimumSyntaxValidator instance
+        = new MinimumSyntaxValidator();
+
+    private MinimumSyntaxValidator()
     {
         super("minimum", NodeType.INTEGER, NodeType.NUMBER);
+    }
+
+    public static MinimumSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

@@ -22,8 +22,16 @@ import org.eel.kitchen.jsonschema.syntax.TypeNodeSyntaxValidator;
 public final class TypeSyntaxValidator
     extends TypeNodeSyntaxValidator
 {
-    public TypeSyntaxValidator()
+    private static final TypeSyntaxValidator instance
+        = new TypeSyntaxValidator();
+
+    private TypeSyntaxValidator()
     {
         super("type");
+    }
+
+    public static TypeSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

@@ -23,7 +23,15 @@ import org.eel.kitchen.util.NodeType;
 public final class MaximumSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public MaximumSyntaxValidator()
+    private static final MaximumSyntaxValidator instance
+        = new MaximumSyntaxValidator();
+
+    public static MaximumSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private MaximumSyntaxValidator()
     {
         super("maximum", NodeType.INTEGER, NodeType.NUMBER);
     }

@@ -23,7 +23,15 @@ import org.eel.kitchen.util.NodeType;
 public final class FormatSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public FormatSyntaxValidator()
+    private static final FormatSyntaxValidator instance
+        = new FormatSyntaxValidator();
+
+    public static FormatSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private FormatSyntaxValidator()
     {
         super("format", NodeType.STRING);
     }

@@ -26,9 +26,17 @@ import org.eel.kitchen.util.NodeType;
 public final class ItemsSyntaxValidator
     extends SyntaxValidator
 {
-    public ItemsSyntaxValidator()
+    private static final ItemsSyntaxValidator instance
+        = new ItemsSyntaxValidator();
+
+    private ItemsSyntaxValidator()
     {
         super("items", NodeType.OBJECT, NodeType.ARRAY);
+    }
+
+    public static ItemsSyntaxValidator getInstance()
+    {
+        return instance;
     }
 
     /**

@@ -23,7 +23,15 @@ import org.eel.kitchen.jsonschema.syntax.URISyntaxValidator;
 public final class DollarSchemaSyntaxValidator
     extends URISyntaxValidator
 {
-    public DollarSchemaSyntaxValidator()
+    private static final DollarSchemaSyntaxValidator instance
+        = new DollarSchemaSyntaxValidator();
+
+    public static DollarSchemaSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private DollarSchemaSyntaxValidator()
     {
         super("$schema");
     }

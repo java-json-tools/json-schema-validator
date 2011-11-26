@@ -32,15 +32,15 @@ public class DraftV3ValidatorBundle
     public DraftV3ValidatorBundle()
     {
         /* properties */
-        registerSV("properties", new PropertiesSyntaxValidator());
+        registerSV("properties", PropertiesSyntaxValidator.getInstance());
         registerKV("properties", new PropertiesKeywordValidator(),
             NodeType.OBJECT);
 
         /* required */
-        registerSV("required", new RequiredSyntaxValidator());
+        registerSV("required", RequiredSyntaxValidator.getInstance());
         registerIgnoredKV("required", NodeType.OBJECT);
 
         /* $ref -- syntax only */
-        registerSV("$ref", new DollarRefSyntaxValidator());
+        registerSV("$ref", DollarRefSyntaxValidator.getInstance());
     }
 }

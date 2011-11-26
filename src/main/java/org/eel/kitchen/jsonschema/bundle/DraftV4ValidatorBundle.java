@@ -40,24 +40,24 @@ public class DraftV4ValidatorBundle
     public DraftV4ValidatorBundle()
     {
         /* maxProperties */
-        registerSV("maxProperties", new MaxPropertiesSyntaxValidator());
+        registerSV("maxProperties", MaxPropertiesSyntaxValidator.getInstance());
         registerKV("maxProperties", new MaxPropertiesKeywordValidator(),
             NodeType.OBJECT);
 
         /* minProperties */
-        registerSV("minProperties", new MinPropertiesSyntaxValidator());
+        registerSV("minProperties", MinPropertiesSyntaxValidator.getInstance());
         registerKV("minProperties", new MinPropertiesKeywordValidator(),
             NodeType.OBJECT);
 
         /* required */
-        registerSV("required", new RequiredSyntaxValidator());
+        registerSV("required", RequiredSyntaxValidator.getInstance());
         registerKV("required", new RequiredKeywordValidator(), NodeType.OBJECT);
 
         /* properties */
-        registerSV("properties", new PropertiesSyntaxValidator());
+        registerSV("properties", PropertiesSyntaxValidator.getInstance());
         registerIgnoredKV("properties", NodeType.OBJECT);
 
         /* $ref -- syntax only */
-        registerSV("$ref", new DollarRefSyntaxValidator());
+        registerSV("$ref", DollarRefSyntaxValidator.getInstance());
     }
 }

@@ -26,7 +26,15 @@ import org.eel.kitchen.util.NodeType;
 public final class ExclusiveMinimumSyntaxValidator
     extends SyntaxValidator
 {
-    public ExclusiveMinimumSyntaxValidator()
+    private static final ExclusiveMinimumSyntaxValidator instance
+        = new ExclusiveMinimumSyntaxValidator();
+
+    public static ExclusiveMinimumSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private ExclusiveMinimumSyntaxValidator()
     {
         super("exclusiveMinimum", NodeType.BOOLEAN);
     }

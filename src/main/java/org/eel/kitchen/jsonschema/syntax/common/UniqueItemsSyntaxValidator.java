@@ -23,8 +23,16 @@ import org.eel.kitchen.util.NodeType;
 public final class UniqueItemsSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public UniqueItemsSyntaxValidator()
+    private static final UniqueItemsSyntaxValidator instance
+        = new UniqueItemsSyntaxValidator();
+
+    private UniqueItemsSyntaxValidator()
     {
         super("uniqueItems", NodeType.BOOLEAN);
+    }
+
+    public static UniqueItemsSyntaxValidator getInstance()
+    {
+        return instance;
     }
 }

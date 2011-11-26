@@ -23,7 +23,15 @@ import org.eel.kitchen.util.NodeType;
 public final class AdditionalPropertiesSyntaxValidator
     extends SimpleSyntaxValidator
 {
-    public AdditionalPropertiesSyntaxValidator()
+    private static final AdditionalPropertiesSyntaxValidator instance
+        = new AdditionalPropertiesSyntaxValidator();
+
+    public static AdditionalPropertiesSyntaxValidator getInstance()
+    {
+        return instance;
+    }
+
+    private AdditionalPropertiesSyntaxValidator()
     {
         super("additionalProperties", NodeType.OBJECT, NodeType.BOOLEAN);
     }
