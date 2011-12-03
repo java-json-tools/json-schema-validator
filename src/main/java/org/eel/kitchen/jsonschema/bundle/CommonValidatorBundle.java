@@ -72,7 +72,7 @@ import static org.eel.kitchen.util.NodeType.*;
 /**
  * The common set of validators used by existing JSON Schema specifications
  */
-public abstract class CommonValidatorBundle
+public class CommonValidatorBundle
     extends ValidatorBundle
 {
     protected CommonValidatorBundle()

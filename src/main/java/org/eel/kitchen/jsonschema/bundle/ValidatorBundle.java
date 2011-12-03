@@ -37,7 +37,7 @@ import static org.eel.kitchen.util.NodeType.*;
  * register your own validators), this class is here to relieve factories
  * from registering validators themselves.</p>
  */
-public abstract class ValidatorBundle
+public class ValidatorBundle
 {
     /**
      * The {@link SyntaxValidator} map
