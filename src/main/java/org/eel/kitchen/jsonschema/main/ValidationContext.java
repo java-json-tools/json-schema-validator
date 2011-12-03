@@ -287,7 +287,7 @@ public final class ValidationContext
     {
         final ValidationReport report = createReport();
 
-        logger.trace("trying to lookup path \"#{}\" from node {} ", pointer,
+        logger.trace("trying to lookup path \"{}\" from node {}", pointer,
             provider.getSchema());
 
         try {
