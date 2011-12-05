@@ -37,7 +37,7 @@ public final class DraftV3ValidatorBundle
         return instance;
     }
 
-    protected DraftV3ValidatorBundle()
+    private DraftV3ValidatorBundle()
     {
         /* properties */
         registerSV("properties", PropertiesSyntaxValidator.getInstance());
