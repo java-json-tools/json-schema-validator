@@ -39,9 +39,9 @@ import java.util.Map;
 public enum SchemaVersion
 {
     DRAFT_V3("http://json-schema.org/draft-03/schema#",
-        new DraftV3ValidatorBundle()),
+        DraftV3ValidatorBundle.getInstance()),
     DRAFT_V4("http://json-schema.org/draft-04/schema#",
-        new DraftV4ValidatorBundle());
+        DraftV4ValidatorBundle.getInstance());
 
     /**
      * Reverse map of locators to versions

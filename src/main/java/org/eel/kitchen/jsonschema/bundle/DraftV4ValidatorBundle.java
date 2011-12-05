@@ -37,7 +37,14 @@ import org.eel.kitchen.util.NodeType;
 public class DraftV4ValidatorBundle
     extends CommonValidatorBundle
 {
-    public DraftV4ValidatorBundle()
+    private static ValidatorBundle instance = new DraftV4ValidatorBundle();
+
+    public static ValidatorBundle getInstance()
+    {
+        return instance;
+    }
+
+    protected DraftV4ValidatorBundle()
     {
         /* maxProperties */
         registerSV("maxProperties", MaxPropertiesSyntaxValidator.getInstance());

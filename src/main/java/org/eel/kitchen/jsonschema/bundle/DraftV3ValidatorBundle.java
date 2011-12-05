@@ -29,7 +29,15 @@ import org.eel.kitchen.util.NodeType;
 public class DraftV3ValidatorBundle
     extends CommonValidatorBundle
 {
-    public DraftV3ValidatorBundle()
+    private static final DraftV3ValidatorBundle instance
+        = new DraftV3ValidatorBundle();
+
+    public static ValidatorBundle getInstance()
+    {
+        return instance;
+    }
+
+    protected DraftV3ValidatorBundle()
     {
         /* properties */
         registerSV("properties", PropertiesSyntaxValidator.getInstance());
