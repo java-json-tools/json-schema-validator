@@ -34,7 +34,7 @@ import org.eel.kitchen.util.NodeType;
  * but the keywords (re)defined by this bundle have a very high chance of
  * making it into the finished draft.</p>
  */
-public class DraftV4ValidatorBundle
+public final class DraftV4ValidatorBundle
     extends CommonValidatorBundle
 {
     private static ValidatorBundle instance = new DraftV4ValidatorBundle();
