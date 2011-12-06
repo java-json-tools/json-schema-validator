@@ -31,7 +31,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,42 +74,8 @@ public final class KeywordFactory
      */
     public KeywordFactory(final ValidatorBundle bundle)
     {
-        for (final NodeType type: NodeType.values()) {
-            validators.put(type, new HashMap<String, KeywordValidator>());
-            ignoredKeywords.put(type, new HashSet<String>());
-        }
-
-        pushValidators(bundle);
-        pushIgnored(bundle);
-    }
-
-    /**
-     * Fill the map of ignored keywords registered for this bundle
-     *
-     * @param bundle the validator bundle
-     */
-    private void pushIgnored(final ValidatorBundle bundle)
-    {
-        final Map<NodeType, Set<String>> bundleMap =
-            bundle.ignoredKeywordValidators();
-
-        for (final Map.Entry<NodeType, Set<String>> entry: bundleMap.entrySet())
-            ignoredKeywords.get(entry.getKey()).addAll(entry.getValue());
-    }
-
-    /**
-     * Fill the map of registered keyword validators for this bundle
-     *
-     * @param bundle the validator bundle
-     */
-    private void pushValidators(final ValidatorBundle bundle)
-    {
-        final Map<NodeType, Map<String, KeywordValidator>> bundleMap
-            = bundle.keywordValidators();
-
-        for (final Map.Entry<NodeType, Map<String, KeywordValidator>> entry:
-            bundleMap.entrySet())
-            validators.get(entry.getKey()).putAll(entry.getValue());
+        validators.putAll(bundle.keywordValidators());
+        ignoredKeywords.putAll(bundle.ignoredKeywordValidators());
     }
 
     /**
