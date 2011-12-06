@@ -109,7 +109,6 @@ public final class JsonValidator
         ValidatorBundle bundle;
         for (final SchemaVersion version: SchemaVersion.values()) {
             bundle = version.getBundle();
-            bundle.validate();
             factories.put(version, new ValidatorFactory(bundle, skipSyntax));
         }
     }
