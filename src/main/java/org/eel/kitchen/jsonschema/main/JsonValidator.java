@@ -54,18 +54,10 @@ public final class JsonValidator
 {
     private final ValidationConfig cfg;
 
-    private final Map<SchemaVersion, ValidatorFactory> factories
-        = new EnumMap<SchemaVersion, ValidatorFactory>(SchemaVersion.class);
-
     /**
      * The schema provider
      */
     private final SchemaProvider provider;
-
-    /**
-     * Report generator
-     */
-    private ReportFactory reports;
 
     /**
      * This validator's {@link ValidationContext}
@@ -85,27 +77,12 @@ public final class JsonValidator
         throws JsonValidationFailureException
     {
         this.cfg = cfg;
+        cfg.buildFactories();
 
         final EnumSet<ValidationFeature> features = cfg.getFeatures();
 
         provider = new SchemaProvider(cfg, schema);
-        reports = new ReportFactory(features
-            .contains(ValidationFeature.FAIL_FAST));
-        buildFactories(features.contains(ValidationFeature.SKIP_SCHEMACHECK));
-        context = new ValidationContext(factories, provider, reports);
-    }
-
-    private void buildFactories(final boolean skipSyntax)
-    {
-        ValidatorBundle bundle;
-        ValidatorFactory factory;
-
-        for (final SchemaVersion version: SchemaVersion.values()) {
-            bundle = cfg.getBundles().get(version);
-            factory = skipSyntax ? new NoSyntaxValidatorFactory(bundle)
-                : new FullValidatorFactory(bundle);
-            factories.put(version, factory);
-        }
+        context = new ValidationContext(cfg, provider);
     }
 
     /**

@@ -19,6 +19,9 @@ package org.eel.kitchen.jsonschema.main;
 
 import org.eel.kitchen.jsonschema.bundle.CustomValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
+import org.eel.kitchen.jsonschema.factories.FullValidatorFactory;
+import org.eel.kitchen.jsonschema.factories.NoSyntaxValidatorFactory;
+import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
@@ -30,9 +33,17 @@ import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+import static org.eel.kitchen.jsonschema.main.ValidationFeature.*;
 
 public final class ValidationConfig
 {
+    private final Lock factoryLock = new ReentrantLock();
+
+    private boolean factoriesBuilt = false;
+
     private SchemaVersion defaultVersion = SchemaVersion.DRAFT_V3;
 
     private final Map<SchemaVersion, ValidatorBundle> bundles
@@ -43,6 +54,11 @@ public final class ValidationConfig
 
     private final URIHandlerFactory handlerFactory
         = new URIHandlerFactory();
+
+    private final Map<SchemaVersion, ValidatorFactory> factories
+        = new EnumMap<SchemaVersion, ValidatorFactory>(SchemaVersion.class);
+
+    private ReportFactory reports;
 
     public ValidationConfig()
     {
@@ -145,5 +161,40 @@ public final class ValidationConfig
     public URIHandlerFactory getHandlerFactory()
     {
         return handlerFactory;
+    }
+
+    void buildFactories()
+    {
+        factoryLock.lock();
+
+        try {
+            if (factoriesBuilt)
+                return;
+
+            reports = new ReportFactory(features.contains(FAIL_FAST));
+
+            ValidatorFactory factory;
+            ValidatorBundle bundle;
+
+            for (final SchemaVersion version: SchemaVersion.values()) {
+                bundle = bundles.get(version);
+                factory = features.contains(SKIP_SCHEMACHECK)
+                    ? new NoSyntaxValidatorFactory(bundle)
+                    : new FullValidatorFactory(bundle);
+                factories.put(version, factory);
+            }
+        } finally {
+            factoryLock.unlock();
+        }
+    }
+
+    public ValidatorFactory getFactory(final SchemaVersion version)
+    {
+        return factories.get(version);
+    }
+
+    public ValidationReport getReport(final String prefix)
+    {
+        return reports.create(prefix);
     }
 }

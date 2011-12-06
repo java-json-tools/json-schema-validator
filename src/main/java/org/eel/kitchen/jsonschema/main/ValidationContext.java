@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.main;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -32,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedHashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -64,16 +62,7 @@ public final class ValidationContext
      */
     private final JsonPointer path;
 
-    /**
-     * The map of {@link ValidatorFactory} instances paired with the
-     * appropriate schema versions
-     */
-    private final Map<SchemaVersion, ValidatorFactory> factories;
-
-    /**
-     * The {@link ValidationReport} generator
-     */
-    private final ReportFactory reports;
+    private final ValidationConfig cfg;
 
     /**
      * The ref result lookups for this {@link #path},
@@ -81,41 +70,21 @@ public final class ValidationContext
      */
     private final Set<JsonNode> refLookups = new LinkedHashSet<JsonNode>();
 
-    /**
-     * Private constructor
-     *
-     * @param provider the schema provider
-     * @param path the JSON Pointer within the instance
-     * @param factories the validator factory
-     * @param reports the report generator
-     */
-    private ValidationContext(final SchemaProvider provider,
-        final JsonPointer path,
-        final Map<SchemaVersion, ValidatorFactory> factories,
-        final ReportFactory reports)
+    private ValidationContext(final ValidationConfig cfg,
+        final SchemaProvider provider, final JsonPointer path)
     {
+        this.cfg = cfg;
         this.provider = provider;
         this.path = path;
-        this.factories = factories;
-        this.reports = reports;
     }
 
-    /**
-     * Public constructor
-     *
-     * @param factories the validator factory
-     * @param provider the schema provider
-     * @param reports the report generator
-     */
-    public ValidationContext(
-        final Map<SchemaVersion, ValidatorFactory> factories,
-        final SchemaProvider provider, final ReportFactory reports)
+    public ValidationContext(final ValidationConfig cfg,
+        final SchemaProvider provider)
     {
         path = new JsonPointer("");
 
+        this.cfg = cfg;
         this.provider = provider;
-        this.factories = factories;
-        this.reports = reports;
 
         refLookups.add(provider.getSchema());
     }
@@ -150,7 +119,7 @@ public final class ValidationContext
 
         final SchemaProvider sp = provider.withSchema(subSchema);
 
-        return new ValidationContext(sp, newPath, factories,  reports);
+        return new ValidationContext(cfg, sp, newPath);
     }
 
     /**
@@ -167,8 +136,7 @@ public final class ValidationContext
     {
         final SchemaProvider sp = provider.withSchema(subSchema);
 
-        final ValidationContext ret = new ValidationContext(sp, path, factories,
-            reports);
+        final ValidationContext ret = new ValidationContext(cfg, sp, path);
 
         ret.refLookups.addAll(refLookups);
         return ret;
@@ -201,8 +169,7 @@ public final class ValidationContext
 
         final SchemaProvider sp = provider.atURI(uri);
 
-        final ValidationContext ret = new ValidationContext(sp, path, factories,
-            reports);
+        final ValidationContext ret = new ValidationContext(cfg, sp, path);
 
         ret.refLookups.addAll(refLookups);
 
@@ -220,7 +187,7 @@ public final class ValidationContext
         throws JsonValidationFailureException
     {
         final SchemaVersion version = provider.getVersion();
-        return factories.get(version).validateSchema(this);
+        return cfg.getFactory(version).validateSchema(this);
     }
 
     /**
@@ -245,7 +212,7 @@ public final class ValidationContext
             return new AlwaysFalseValidator(report);
 
         final SchemaVersion version = provider.getVersion();
-        return factories.get(version).getInstanceValidator(this, instance);
+        return cfg.getFactory(version).getInstanceValidator(this, instance);
     }
 
     /**
@@ -262,7 +229,7 @@ public final class ValidationContext
         throws JsonValidationFailureException
     {
         final SchemaVersion version = provider.getVersion();
-        return factories.get(version).getFormatValidator(this, fmt, instance);
+        return cfg.getFactory(version).getFormatValidator(this, fmt, instance);
     }
 
     /**
@@ -311,7 +278,7 @@ public final class ValidationContext
      */
     public ValidationReport createReport(final String prefix)
     {
-        return reports.create(path + prefix);
+        return cfg.getReport(path + prefix);
     }
 
     /**
