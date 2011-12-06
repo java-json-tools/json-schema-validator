@@ -98,10 +98,9 @@ class BuiltinValidatorBundle
         registerIgnoredKV("default", values());
 
         /* dependencies */
-        registerSV("dependencies",
-            DependenciesSyntaxValidator.getInstance());
+        registerSV("dependencies", DependenciesSyntaxValidator.getInstance());
         registerKV("dependencies", DependenciesKeywordValidator.getInstance(),
-            values());
+            OBJECT);
 
         /* description */
         registerSV("description", DescriptionSyntaxValidator.getInstance());
