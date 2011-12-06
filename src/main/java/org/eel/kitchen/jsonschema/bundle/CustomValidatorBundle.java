@@ -33,12 +33,12 @@ import static org.eel.kitchen.util.NodeType.*;
 public final class CustomValidatorBundle
     extends AbstractValidatorBundle
 {
-    public CustomValidatorBundle(final CustomValidatorBundle bundle)
+    public CustomValidatorBundle(final ValidatorBundle bundle)
     {
-        svMap.putAll(bundle.svMap);
-        ignoredSV.addAll(bundle.ignoredSV);
-        kvMap.putAll(bundle.kvMap);
-        ignoredKV.putAll(bundle.ignoredKV);
+        svMap.putAll(bundle.syntaxValidators());
+        ignoredSV.addAll(bundle.ignoredSyntaxValidators());
+        kvMap.putAll(bundle.keywordValidators());
+        ignoredKV.putAll(bundle.ignoredKeywordValidators());
     }
 
 
