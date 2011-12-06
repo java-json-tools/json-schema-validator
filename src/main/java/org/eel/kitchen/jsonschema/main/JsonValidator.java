@@ -20,18 +20,9 @@ package org.eel.kitchen.jsonschema.main;
 
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
-import org.eel.kitchen.jsonschema.factories.FullValidatorFactory;
-import org.eel.kitchen.jsonschema.factories.NoSyntaxValidatorFactory;
-import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
-import org.eel.kitchen.util.SchemaVersion;
-
-import java.util.EnumMap;
-import java.util.EnumSet;
-import java.util.Map;
 
 /**
  * The main interface to use for JSON Schema validation
@@ -78,8 +69,6 @@ public final class JsonValidator
     {
         this.cfg = cfg;
         cfg.buildFactories();
-
-        final EnumSet<ValidationFeature> features = cfg.getFeatures();
 
         provider = new SchemaProvider(cfg, schema);
         context = new ValidationContext(cfg, provider);
