@@ -38,7 +38,6 @@ public final class CustomValidatorBundle
         svMap.putAll(bundle.syntaxValidators());
         ignoredSV.addAll(bundle.ignoredSyntaxValidators());
         kvMap.putAll(bundle.keywordValidators());
-        ignoredKV.putAll(bundle.ignoredKeywordValidators());
     }
 
 
@@ -68,9 +67,7 @@ public final class CustomValidatorBundle
         else
             svMap.put(keyword, sv);
 
-        if (kv == null)
-            registerIgnoredKV(keyword, types);
-        else
+        if (kv != null)
             registerKV(keyword, kv, types);
     }
 
@@ -87,9 +84,7 @@ public final class CustomValidatorBundle
         ignoredSV.remove(keyword);
         svMap.remove(keyword);
 
-        for (final NodeType type: values()) {
-            ignoredKV.get(type).remove(keyword);
+        for (final NodeType type: values())
             kvMap.get(type).remove(keyword);
-        }
     }
 }

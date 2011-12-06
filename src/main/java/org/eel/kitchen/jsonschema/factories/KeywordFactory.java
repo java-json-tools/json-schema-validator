@@ -53,12 +53,6 @@ import java.util.Set;
 public final class KeywordFactory
 {
     /**
-     * Set of ignored keywords (for which validation is always true)
-     */
-    private final Map<NodeType, Set<String>> ignoredKeywords
-        = new EnumMap<NodeType, Set<String>>(NodeType.class);
-
-    /**
      * Map of all validators
      *
      * <p>The key is the node type, the value is itself a map pairing keywords
@@ -75,7 +69,6 @@ public final class KeywordFactory
     public KeywordFactory(final ValidatorBundle bundle)
     {
         validators.putAll(bundle.keywordValidators());
-        ignoredKeywords.putAll(bundle.ignoredKeywordValidators());
     }
 
     /**

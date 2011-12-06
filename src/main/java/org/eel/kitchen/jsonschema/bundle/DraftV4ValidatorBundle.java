@@ -64,7 +64,6 @@ public final class DraftV4ValidatorBundle
 
         /* properties */
         registerSV("properties", PropertiesSyntaxValidator.getInstance());
-        registerIgnoredKV("properties", NodeType.OBJECT);
 
         /* $ref -- syntax only */
         registerSV("$ref", DollarRefSyntaxValidator.getInstance());

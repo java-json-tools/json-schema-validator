@@ -15,8 +15,6 @@ public interface ValidatorBundle
 
     Map<NodeType, Map<String, KeywordValidator>> keywordValidators();
 
-    Map<NodeType, Set<String>> ignoredKeywordValidators();
-
     void registerValidator(final String keyword, final SyntaxValidator sv,
         final KeywordValidator kv, final NodeType... types);
 

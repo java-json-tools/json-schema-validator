@@ -60,18 +60,13 @@ abstract class AbstractValidatorBundle
     /**
      * Keywords to ignore for instance validation
      */
-    protected final Map<NodeType, Set<String>> ignoredKV
-        = new EnumMap<NodeType, Set<String>>(NodeType.class);
-
     protected AbstractValidatorBundle()
     {
         /*
          * Initialize keyword validator maps
          */
-        for (final NodeType type: values()) {
+        for (final NodeType type: values())
             kvMap.put(type, new HashMap<String, KeywordValidator>());
-            ignoredKV.put(type, new HashSet<String>());
-        }
     }
 
     /**
@@ -109,17 +104,6 @@ abstract class AbstractValidatorBundle
     }
 
     /**
-     * Return the list of ignored keywords for instance validation
-     *
-     * @return a map pairing the instance types and set of keywords
-     */
-    @Override
-    public final Map<NodeType, Set<String>> ignoredKeywordValidators()
-    {
-        return Collections.unmodifiableMap(ignoredKV);
-    }
-
-    /**
      * Register a syntax validator
      *
      * @param keyword the keyword
@@ -154,18 +138,5 @@ abstract class AbstractValidatorBundle
     {
         for (final NodeType type: types)
             kvMap.get(type).put(keyword, kv);
-    }
-
-    /**
-     * Register an ignored keyword for keyword validations
-     *
-     * @param keyword the keyword
-     * @param types the associated node types
-     */
-    protected final void registerIgnoredKV(final String keyword,
-        final NodeType... types)
-    {
-        for (final NodeType type: types)
-            ignoredKV.get(type).add(keyword);
     }
 }

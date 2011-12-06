@@ -46,7 +46,6 @@ public final class DraftV3ValidatorBundle
 
         /* required */
         registerSV("required", RequiredSyntaxValidator.getInstance());
-        registerIgnoredKV("required", NodeType.OBJECT);
 
         /* $ref -- syntax only */
         registerSV("$ref", DollarRefSyntaxValidator.getInstance());

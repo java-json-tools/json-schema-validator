@@ -95,7 +95,6 @@ class BuiltinValidatorBundle
 
         /* default */
         registerIgnoredSV("default");
-        registerIgnoredKV("default", values());
 
         /* dependencies */
         registerSV("dependencies", DependenciesSyntaxValidator.getInstance());
@@ -104,7 +103,6 @@ class BuiltinValidatorBundle
 
         /* description */
         registerSV("description", DescriptionSyntaxValidator.getInstance());
-        registerIgnoredKV("description", values());
 
         /* disallow */
         registerSV("disallow", DisallowSyntaxValidator.getInstance());
@@ -123,12 +121,10 @@ class BuiltinValidatorBundle
         /* exclusiveMaximum */
         registerSV("exclusiveMaximum",
             ExclusiveMaximumSyntaxValidator.getInstance());
-        registerIgnoredKV("exclusiveMaximum", INTEGER, NUMBER);
 
         /* exclusiveMinimum */
         registerSV("exclusiveMinimum",
             ExclusiveMinimumSyntaxValidator.getInstance());
-        registerIgnoredKV("exclusiveMinimum", INTEGER, NUMBER);
 
         /* extends */
         registerSV("extends", ExtendsSyntaxValidator.getInstance());
@@ -140,15 +136,12 @@ class BuiltinValidatorBundle
 
         /* id */
         registerSV("id", IdSyntaxValidator.getInstance());
-        registerIgnoredKV("id", values());
 
         /* items */
         registerSV("items", ItemsSyntaxValidator.getInstance());
-        registerIgnoredKV("items", ARRAY);
 
         /* links */
         registerIgnoredSV("links");
-        registerIgnoredKV("links", values());
 
         /* maximum */
         registerSV("maximum", MaximumSyntaxValidator.getInstance());
@@ -185,14 +178,12 @@ class BuiltinValidatorBundle
         /* patternProperties */
         registerSV("patternProperties",
             PatternPropertiesSyntaxValidator.getInstance());
-        registerIgnoredKV("patternProperties", OBJECT);
 
         /* properties: left to subclasses */
         /* required: left to subclasses */
 
         /* title */
         registerSV("title", TitleSyntaxValidator.getInstance());
-        registerIgnoredKV("title", values());
 
         /* type */
         registerSV("type", TypeSyntaxValidator.getInstance());
@@ -212,7 +203,6 @@ class BuiltinValidatorBundle
 
         /* $schema */
         registerSV("$schema", DollarSchemaSyntaxValidator.getInstance());
-        registerIgnoredKV("$schema", values());
     }
 
     @Override
