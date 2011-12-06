@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.draftv4.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxValidator;
@@ -91,10 +92,10 @@ public final class RegistrationTest
     public void testNullKeywordRegistration()
         throws JsonValidationFailureException
     {
-        final JsonValidator validator = new JsonValidator(factory.objectNode());
+        final ValidationConfig cfg = new ValidationConfig();
 
         try {
-            validator.registerValidator(null, null, null, NodeType.values());
+            cfg.registerValidator(null, null, null, NodeType.values());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "keyword is null");
@@ -105,11 +106,10 @@ public final class RegistrationTest
     public void testExistingKeywordRegistrationFailure()
         throws JsonValidationFailureException
     {
-        final JsonValidator validator = new JsonValidator(factory.objectNode());
+        final ValidationConfig cfg = new ValidationConfig();
 
         try {
-            validator.registerValidator("default", null, null,
-                NodeType.values());
+            cfg.registerValidator("default", null, null, NodeType.values());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "keyword already registered");
@@ -120,10 +120,10 @@ public final class RegistrationTest
     public void testEmptyTypeSetFails()
         throws JsonValidationFailureException
     {
-        final JsonValidator validator = new JsonValidator(factory.objectNode());
+        final ValidationConfig cfg = new ValidationConfig();
 
         try {
-            validator.registerValidator("foo", null,
+            cfg.registerValidator("foo", null,
                 RequiredKeywordValidator.getInstance());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
@@ -136,10 +136,10 @@ public final class RegistrationTest
     public void testUnregisteringNullKeywordFails()
         throws JsonValidationFailureException
     {
-        final JsonValidator validator = new JsonValidator(factory.objectNode());
+        final ValidationConfig cfg = new ValidationConfig();
 
         try {
-            validator.unregisterValidator(null);
+            cfg.unregisterValidator(null);
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "keyword is null");
@@ -150,15 +150,15 @@ public final class RegistrationTest
         throws JsonValidationFailureException
     {
         final JsonNode schema = testNode.get(name);
-        final JsonValidator ret = new JsonValidator(schema);
-        ret.unregisterValidator("properties");
-        ret.unregisterValidator("required");
-        ret.registerValidator("properties",
+        final ValidationConfig cfg = new ValidationConfig();
+        cfg.unregisterValidator("properties");
+        cfg.unregisterValidator("required");
+        cfg.registerValidator("properties",
             PropertiesSyntaxValidator.getInstance(), null, NodeType.OBJECT);
-        ret.registerValidator("required",
-            RequiredSyntaxValidator.getInstance(),
+        cfg.registerValidator("required", RequiredSyntaxValidator.getInstance
+            (),
             RequiredKeywordValidator.getInstance(), NodeType.OBJECT);
 
-        return ret;
+        return new JsonValidator(cfg, schema);
     }
 }

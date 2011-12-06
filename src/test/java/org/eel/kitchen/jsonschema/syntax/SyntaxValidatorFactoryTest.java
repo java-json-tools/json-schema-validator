@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -42,6 +43,7 @@ public final class SyntaxValidatorFactoryTest
     private JsonNode allTests;
     private ValidationReport report;
     private JsonValidator validator;
+    private final ValidationConfig cfg = new ValidationConfig();
 
     @BeforeClass
     public void setUp()
@@ -54,7 +56,7 @@ public final class SyntaxValidatorFactoryTest
     public void testNullSchema()
     {
         try {
-            validator = new JsonValidator(null);
+            validator = new JsonValidator(cfg, null);
             fail("No exception thrown");
         } catch (JsonValidationFailureException e) {
             assertEquals(e.getMessage(), "schema is null");
@@ -65,7 +67,7 @@ public final class SyntaxValidatorFactoryTest
     public void testEmptySchema()
         throws JsonValidationFailureException
     {
-        validator = new JsonValidator(nodeFactory.objectNode());
+        validator = new JsonValidator(cfg, nodeFactory.objectNode());
         report = validator.validateSchema();
 
         assertTrue(report.isSuccess());
@@ -77,7 +79,7 @@ public final class SyntaxValidatorFactoryTest
     public void testNonObjectSchema()
     {
         try {
-            validator = new JsonValidator(nodeFactory.textNode("hello"));
+            validator = new JsonValidator(cfg, nodeFactory.textNode("hello"));
             fail("No exception thrown");
         } catch (JsonValidationFailureException e) {
             assertEquals(e.getMessage(), "not a schema (not an object)");
@@ -91,7 +93,7 @@ public final class SyntaxValidatorFactoryTest
         final ObjectNode schema = nodeFactory.objectNode();
         schema.put("toto", 2);
 
-        validator = new JsonValidator(schema);
+        validator = new JsonValidator(cfg, schema);
 
         report = validator.validateSchema();
 
@@ -299,7 +301,7 @@ public final class SyntaxValidatorFactoryTest
         final JsonNode schema = element.get("schema");
         final boolean valid = element.get("valid").getBooleanValue();
 
-        validator = new JsonValidator(schema);
+        validator = new JsonValidator(cfg, schema);
 
         try {
             report = validator.validateSchema();

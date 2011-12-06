@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -39,6 +40,7 @@ public final class DisallowTest
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
     private JsonNode testNode;
+    private final ValidationConfig cfg = new ValidationConfig();
 
     @BeforeClass
     public void setUp()
@@ -54,7 +56,7 @@ public final class DisallowTest
         final ObjectNode schema = factory.objectNode();
         schema.put("disallow", factory.arrayNode());
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report;
 
@@ -97,7 +99,7 @@ public final class DisallowTest
         final ObjectNode schema = factory.objectNode();
         schema.put("disallow", "any");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report;
 
@@ -166,7 +168,7 @@ public final class DisallowTest
         final JsonNode good = node.get("good");
         final JsonNode bad = node.get("bad");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report = validator.validate(good);
 

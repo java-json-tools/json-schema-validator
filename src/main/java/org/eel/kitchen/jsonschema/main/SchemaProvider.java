@@ -236,16 +236,6 @@ public final class SchemaProvider
     }
 
     /**
-     * Set the default schema version for this provider
-     *
-     * @param defaultVersion the version
-     */
-    public void setDefaultVersion(final SchemaVersion defaultVersion)
-    {
-        this.defaultVersion = defaultVersion;
-    }
-
-    /**
      * Get the version of the current schema
      *
      * @return the default version

@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.other;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
@@ -36,6 +37,7 @@ public final class SelfValidationTest
 {
     private JsonNode draftv3;
     private JsonNode googleAPI;
+    private ValidationConfig cfg;
     private JsonValidator validator;
 
     @BeforeClass
@@ -44,7 +46,8 @@ public final class SelfValidationTest
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
-        validator = new JsonValidator(draftv3);
+        cfg = new ValidationConfig();
+        validator = new JsonValidator(cfg, draftv3);
     }
 
     @Test

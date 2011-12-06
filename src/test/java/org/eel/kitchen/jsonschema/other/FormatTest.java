@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -37,6 +38,7 @@ public final class FormatTest
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
     private JsonNode testNode;
+    private final ValidationConfig cfg = new ValidationConfig();
 
     @BeforeClass
     public void setUp()
@@ -108,7 +110,7 @@ public final class FormatTest
         final ObjectNode schema = factory.objectNode();
         schema.put("format", "host-name");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
         ValidationReport report;
 
         final String msg = "#: string is not a valid hostname";
@@ -138,7 +140,7 @@ public final class FormatTest
         final ObjectNode schema = factory.objectNode();
         schema.put("format", "izjefoizjoeijf");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
@@ -160,7 +162,7 @@ public final class FormatTest
 
         schema.put("format", fmt);
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report = validator.validate(instance);
 

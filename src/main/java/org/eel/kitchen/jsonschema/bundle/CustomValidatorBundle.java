@@ -61,7 +61,7 @@ public final class CustomValidatorBundle
          * it is up to the developer to ensure this.
          */
         if (ignoredSV.contains(keyword) || svMap.containsKey(keyword))
-            throw new IllegalArgumentException(keyword + " already registered");
+            throw new IllegalArgumentException("keyword already registered");
 
         if (sv == null)
             ignoredSV.add(keyword);

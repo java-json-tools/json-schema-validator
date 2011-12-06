@@ -21,6 +21,7 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.uri.HTTPURIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
@@ -39,9 +40,11 @@ public final class URIHandlerTest
 
     private static final JsonValidator validator;
 
+    private static final ValidationConfig cfg = new ValidationConfig();
+
     static {
         try {
-            validator = new JsonValidator(schema);
+            validator = new JsonValidator(cfg, schema);
         } catch (JsonValidationFailureException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -129,7 +132,7 @@ public final class URIHandlerTest
             }
         };
 
-        final JsonValidator validator = new JsonValidator(testNode);
+        final JsonValidator validator = new JsonValidator(cfg, testNode);
 
         validator.registerURIHandler("mystuff", handler);
 

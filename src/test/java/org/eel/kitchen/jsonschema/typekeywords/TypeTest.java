@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -39,6 +40,7 @@ public final class TypeTest
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
     private JsonNode testNode;
+    private final ValidationConfig cfg = new ValidationConfig();
 
     @BeforeClass
     public void setUp()
@@ -51,7 +53,8 @@ public final class TypeTest
     public void testNoTypeKeywordMatchesAll()
         throws JsonValidationFailureException
     {
-        final JsonValidator validator = new JsonValidator(factory.objectNode());
+        final JsonValidator validator = new JsonValidator(cfg,
+            factory.objectNode());
 
         ValidationReport report;
 
@@ -91,7 +94,7 @@ public final class TypeTest
         final ObjectNode schema = factory.objectNode();
         schema.put("type", "any");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report;
 
@@ -135,7 +138,7 @@ public final class TypeTest
         final ObjectNode schema = factory.objectNode();
         schema.put("type", factory.arrayNode());
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report;
 
@@ -204,7 +207,7 @@ public final class TypeTest
         final JsonNode good = node.get("good");
         final JsonNode bad = node.get("bad");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report = validator.validate(good);
 

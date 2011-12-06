@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -99,7 +100,8 @@ public final class ObjectTest
         final JsonNode good = node.get("good");
         final JsonNode bad = node.get("bad");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final ValidationConfig cfg = new ValidationConfig();
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report = validator.validate(good);
 

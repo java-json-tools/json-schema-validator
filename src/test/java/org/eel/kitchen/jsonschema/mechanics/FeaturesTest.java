@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.mechanics;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -45,8 +46,9 @@ public final class FeaturesTest
     public void testFailFast()
         throws JsonValidationFailureException
     {
+        final ValidationConfig cfg = new ValidationConfig();
         final JsonValidator validator
-            = new JsonValidator(testNode.get("schema"));
+            = new JsonValidator(cfg, testNode.get("schema"));
         validator.setFeature(ValidationFeature.FAIL_FAST);
 
         try {

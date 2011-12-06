@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.other;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.SchemaVersion;
@@ -34,8 +35,7 @@ import static org.testng.Assert.*;
 
 public final class SchemaSwitchTest
 {
-    private JsonNode good, bad;
-    private JsonValidator validator, validator2;
+    private JsonNode good, bad, schema;
     private final List<String> messages = new LinkedList<String>();
 
     @BeforeClass
@@ -46,8 +46,7 @@ public final class SchemaSwitchTest
             + ".json");
         good = node.get("good");
         bad = node.get("bad");
-        validator = new JsonValidator(node.get("schema"));
-        validator2 = new JsonValidator(node.get("schema"));
+        schema = node.get("schema");
 
         for (final JsonNode msg: node.get("messages"))
             messages.add(msg.getTextValue());
@@ -57,6 +56,8 @@ public final class SchemaSwitchTest
     public void testGood()
         throws JsonValidationFailureException
     {
+        final ValidationConfig cfg = new ValidationConfig();
+        final JsonValidator validator = new JsonValidator(cfg, schema);
         final ValidationReport report = validator.validate(good);
 
         assertTrue(report.isSuccess());
@@ -66,6 +67,8 @@ public final class SchemaSwitchTest
     public void testBad()
         throws JsonValidationFailureException
     {
+        final ValidationConfig cfg = new ValidationConfig();
+        final JsonValidator validator = new JsonValidator(cfg, schema);
         final ValidationReport report = validator.validate(bad);
 
         assertFalse(report.isSuccess());
@@ -78,10 +81,12 @@ public final class SchemaSwitchTest
     public void testSetDefaultSchema()
         throws JsonValidationFailureException
     {
-        validator2.setDefaultVersion(SchemaVersion.DRAFT_V4);
-        assertEquals(validator2.getDefaultVersion(), SchemaVersion.DRAFT_V4);
+        final ValidationConfig cfg = new ValidationConfig();
+        cfg.setDefaultVersion(SchemaVersion.DRAFT_V4);
+        assertEquals(cfg.getDefaultVersion(), SchemaVersion.DRAFT_V4);
 
-        final ValidationReport report = validator2.validate(good);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
+        final ValidationReport report = validator.validate(good);
 
         assertFalse(report.isSuccess());
 

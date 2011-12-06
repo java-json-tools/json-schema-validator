@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.container;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -34,6 +35,7 @@ import static org.testng.Assert.*;
 public final class ArrayTest
 {
     private JsonNode testNode;
+    private final ValidationConfig cfg = new ValidationConfig();
 
     @BeforeClass
     public void setUp()
@@ -92,7 +94,7 @@ public final class ArrayTest
         final JsonNode good = node.get("good");
         final JsonNode bad = node.get("bad");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         ValidationReport report = validator.validate(good);
 

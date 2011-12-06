@@ -22,6 +22,7 @@ import org.codehaus.jackson.node.JsonNodeFactory;
 import org.codehaus.jackson.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -40,6 +41,7 @@ public final class RefTest
 {
     private JsonNode torture;
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+    private final ValidationConfig cfg = new ValidationConfig();
 
     @BeforeClass
     public void setUp()
@@ -57,7 +59,7 @@ public final class RefTest
         schemaNode.put("$ref", "#");
         schemaNode.put("format", "uri");
 
-        final JsonValidator validator = new JsonValidator(schemaNode);
+        final JsonValidator validator = new JsonValidator(cfg, schemaNode);
 
         final ValidationReport report = validator.validate(factory.arrayNode());
 
@@ -77,7 +79,7 @@ public final class RefTest
 
         schemaNode.put("$ref", "#");
 
-        final JsonValidator validator = new JsonValidator(schemaNode);
+        final JsonValidator validator = new JsonValidator(cfg, schemaNode);
 
         final ValidationReport report = validator.validate(factory.arrayNode());
 
@@ -95,7 +97,7 @@ public final class RefTest
     {
         final JsonNode schema = torture.get("missingref");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
@@ -113,7 +115,7 @@ public final class RefTest
     {
         final JsonNode schema = torture.get("disallow");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
@@ -132,7 +134,7 @@ public final class RefTest
     {
         final JsonNode schema = torture.get("unsupportedScheme");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
@@ -150,7 +152,7 @@ public final class RefTest
     {
         final JsonNode schema = torture.get("nonEmptySSP");
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
@@ -196,7 +198,7 @@ public final class RefTest
         final ObjectNode schema = factory.objectNode();
         schema.put("$ref", ref);
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
@@ -220,7 +222,7 @@ public final class RefTest
         schema.put("schema1", schema1);
         schema.put("schema2", schema2);
 
-        final JsonValidator validator = new JsonValidator(schema);
+        final JsonValidator validator = new JsonValidator(cfg, schema);
 
         final ValidationReport report
             = validator.validate("#/schema1", factory.nullNode());
