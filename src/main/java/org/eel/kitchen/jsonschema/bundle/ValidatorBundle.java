@@ -131,7 +131,7 @@ public class ValidatorBundle
      *
      * @param keyword the keyword
      */
-    protected void registerIgnoredSV(final String keyword)
+    protected final void registerIgnoredSV(final String keyword)
     {
         ignoredSV.add(keyword);
     }
