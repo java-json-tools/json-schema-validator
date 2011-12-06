@@ -33,9 +33,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -196,47 +194,5 @@ public final class ValidatorFactory
         throws JsonValidationFailureException
     {
         return formatFactory.getFormatValidator(context, fmt, instance);
-    }
-
-    /**
-     * Register a validator for a new keyword
-     *
-     * <p>Note that if you wish to replace validators for an existing
-     * keyword, then you <b>must</b> call
-     * {@link #unregisterValidator(String)} first.</p>
-     *
-     * @param keyword the new/modified keyword
-     * @param sv the {@link SyntaxValidator} implementation
-     * @param kv the {@link KeywordValidator} implementation
-     * @param types the list of JSON types the keyword validator is able to
-     * validate
-     *
-     * @see SyntaxFactory#registerValidator(String, SyntaxValidator)
-     * @see KeywordFactory#registerValidator(String, KeywordValidator, NodeType...)
-     */
-    public void registerValidator(final String keyword,
-        final SyntaxValidator sv, final KeywordValidator kv,
-        final NodeType... types)
-    {
-        syntaxFactory.registerValidator(keyword, sv);
-        keywordFactory.registerValidator(keyword, kv, types);
-        cache.clear(EnumSet.copyOf(Arrays.asList(types)));
-        validated.clear();
-    }
-
-    /**
-     * Unregister all validators ({@link SyntaxValidator} and
-     * {@link KeywordValidator}) for a given keyword. Note that the null case
-     * is handled in the factories themselves.
-     *
-     * @param keyword the victim
-     */
-    public void unregisterValidator(final String keyword)
-    {
-        syntaxFactory.unregisterValidator(keyword);
-        final EnumSet<NodeType> types
-            = keywordFactory.unregisterValidator(keyword);
-        cache.clear(types);
-        validated.clear();
     }
 }

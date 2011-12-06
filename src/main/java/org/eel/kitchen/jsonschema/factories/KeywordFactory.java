@@ -23,7 +23,6 @@ import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -31,7 +30,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -113,84 +111,6 @@ public final class KeywordFactory
         for (final Map.Entry<NodeType, Map<String, KeywordValidator>> entry:
             bundleMap.entrySet())
             validators.get(entry.getKey()).putAll(entry.getValue());
-    }
-
-    /**
-     * Tell whether, for a given set of types, a keyword is known (either
-     * ignored, or validated)
-     *
-     * @param keyword the keyword
-     * @param types the list of types
-     * @return true if already present
-     */
-    private boolean hasKeyword(final String keyword, final NodeType... types)
-    {
-        for (final NodeType type: types) {
-            if (ignoredKeywords.get(type).contains(keyword))
-                return true;
-            if (validators.get(type).keySet().contains(keyword))
-                return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Register one validator for a given keyword
-     *
-     * <p>If the validator argument is {@code null}, this means no validation
-     * will be performed at all. If it is not null, however,
-     * be sure to pair it with a {@link SyntaxValidator},
-     * since it is the latter which will ensure that on invocation,
-     * the new validator will not fail (or crash) due to incorrect input.
-     * </p>
-     *
-     * @param keyword the keyword
-     * @param kv the validator, or {@code null}
-     * @param types the instance types this keyword can handle
-     * @throws IllegalArgumentException if the keyword is already registerd,
-     * or if the {@code types} array is empty
-     */
-    public void registerValidator(final String keyword,
-        final KeywordValidator kv, final NodeType... types)
-    {
-        if (hasKeyword(keyword, types))
-            throw new IllegalArgumentException("keyword already registered");
-
-        if (kv == null) {
-            for (final NodeType type: types)
-                ignoredKeywords.get(type).add(keyword);
-            return;
-        }
-
-        for (final NodeType type: types)
-            validators.get(type).put(keyword, kv);
-    }
-
-    /**
-     * Unregister a validator for the given keyword
-     *
-     * <p>This method returns the list of types for which this keyword was
-     * registered: this allows more fine-grained pruning of a
-     * {@link ValidatorCache}.</p>
-     *
-     * @param keyword the victim
-     * @return the list of types for which this keyword was registered
-     *
-     * @see ValidatorCache#clear(EnumSet)
-     */
-    public EnumSet<NodeType> unregisterValidator(final String keyword)
-    {
-        final EnumSet<NodeType> ret = EnumSet.noneOf(NodeType.class);
-
-        for (final NodeType type: NodeType.values()) {
-            if (ignoredKeywords.get(type).remove(keyword))
-                ret.add(type);
-            if (validators.get(type).remove(keyword) != null)
-                ret.add(type);
-        }
-
-        return ret;
     }
 
     /**

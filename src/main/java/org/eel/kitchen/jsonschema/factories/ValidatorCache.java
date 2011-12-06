@@ -100,8 +100,6 @@ public final class ValidatorCache
      * Clear the cache for a set of JSON node types
      *
      * @param types the type list to clear the cache
-     *
-     * @see KeywordFactory#unregisterValidator(String)
      */
     public void clear(final EnumSet<NodeType> types)
     {

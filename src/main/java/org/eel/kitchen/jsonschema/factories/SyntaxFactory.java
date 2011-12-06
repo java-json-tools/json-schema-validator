@@ -23,7 +23,6 @@ import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -114,56 +113,6 @@ public final class SyntaxFactory
 
         return collection.size() == 1 ? collection.iterator().next()
             : new MatchAllValidator(collection);
-    }
-
-    /**
-     * Register a validator for a given keyword
-     *
-     * <p>Note that if the class argument is {@code null},
-     * the keyword will be registered but validation will be happily ignored.
-     * If you choose to go this route, be sure that the matching
-     * {@link KeywordValidator} can handle the situation!</p>
-     *
-     * @param keyword the keyword
-     * @param sv the {@link SyntaxValidator} instance
-     * @throws IllegalArgumentException if a validator has already been
-     * registered for this keyword
-     *
-     * @see #unregisterValidator(String)
-     */
-    public void registerValidator(final String keyword,
-        final SyntaxValidator sv)
-    {
-        if (ignoredKeywords.contains(keyword)
-            || validators.containsKey(keyword))
-            throw new IllegalArgumentException("keyword already registered");
-
-        if (sv == null) {
-            ignoredKeywords.add(keyword);
-            return;
-        }
-
-        validators.put(keyword, sv);
-    }
-
-    /**
-     * Unregister a validator for the given keyword
-     *
-     * <p>This method <b>must</b> be called before registering a new keyword.
-     * Unlike the latter however, it silently ignores unexisting keywords.</p>
-     *
-     * @param keyword the victim
-     *
-     * @see #registerValidator(String, SyntaxValidator)
-     */
-    public void unregisterValidator(final String keyword)
-    {
-        /*
-         * Unlike for registering, we choose to blindly ignore unregistering
-         * of non existing keywords.
-         */
-        validators.remove(keyword);
-        ignoredKeywords.remove(keyword);
     }
 
     /**
