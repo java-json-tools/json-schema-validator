@@ -62,7 +62,7 @@ public class ValidatorBundle
     protected final Map<NodeType, Set<String>> ignoredKV
         = new EnumMap<NodeType, Set<String>>(NodeType.class);
 
-    protected ValidatorBundle()
+    public ValidatorBundle()
     {
         /*
          * Initialize keyword validator maps
@@ -71,6 +71,14 @@ public class ValidatorBundle
             kvMap.put(type, new HashMap<String, KeywordValidator>());
             ignoredKV.put(type, new HashSet<String>());
         }
+    }
+
+    public ValidatorBundle(final ValidatorBundle bundle)
+    {
+        svMap.putAll(bundle.svMap);
+        ignoredSV.addAll(bundle.ignoredSV);
+        kvMap.putAll(bundle.kvMap);
+        ignoredKV.putAll(bundle.ignoredKV);
     }
 
     /**
