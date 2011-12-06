@@ -3,8 +3,8 @@
  *
  * <p>Syntax validators are used to validate your schemas. Their role is
  * fundamental, since they guarantee that {@link
- * org.eel.kitchen.jsonschema.keyword.KeywordValidator} instances need not
- * worry about malformed schemas.
+ * org.eel.kitchen.jsonschema.keyword.KeywordValidator} instances need not worry
+ * about malformed schemas.
  * </p>
  *
  * <p>Note that schemas are not checked in depth, but only at the level where
@@ -16,9 +16,11 @@
  *
  * <p>You will probably never need to subclass
  * {@link org.eel.kitchen.jsonschema.syntax.SyntaxValidator} directly: other
- * abstract classes in this package handle some of the work for you in 90+%
- * of cases, so you will probably use one of those instead (especially
- * {@link org.eel.kitchen.jsonschema.syntax.SimpleSyntaxValidator}).
+ * abstract classes in this package handle some of the work for you in 90+% of
+ * cases, so you will probably use one of those instead (especially {@link
+ * org.eel.kitchen.jsonschema.syntax.SimpleSyntaxValidator}).
  * </p>
  */
 package org.eel.kitchen.jsonschema.syntax;
+
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;

@@ -151,8 +151,7 @@ public abstract class AbstractTypeKeywordValidator
      * @param s the primitive type as a string
      * @param typeSet the type set to add to
      */
-    private static void addType(final String s, final EnumSet<NodeType>
-        typeSet)
+    private static void addType(final String s, final EnumSet<NodeType> typeSet)
     {
         if (ANY.equals(s)) {
             typeSet.addAll(EnumSet.allOf(NodeType.class));

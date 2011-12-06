@@ -86,9 +86,8 @@ public final class DependenciesSyntaxValidator
                 case STRING: case OBJECT:
                     break;
                 default:
-                    report.fail(String.format(
-                        "field \"%s\": illegal " + "value of type %s", field,
-                        type));
+                    report.fail(String.format( "field \"%s\": illegal " +
+                        "value of type %s", field, type));
             }
         }
     }

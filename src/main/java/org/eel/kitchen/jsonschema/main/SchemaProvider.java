@@ -75,7 +75,7 @@ public final class SchemaProvider
     /**
      * The default version if the current schema doesn't have {@code $schema}
      */
-    private SchemaVersion defaultVersion;
+    private final SchemaVersion defaultVersion;
 
     /**
      * Constructor

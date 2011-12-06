@@ -13,7 +13,7 @@
  * <p>They also provide interfaces to register and unregister new validators
  * (except for {@code format} -- this may change in the furture) via the main
  * factory, which is {@link
- * org.eel.kitchen.jsonschema.factories.ValidatorFactory}. The latter is also
+ * org.eel.kitchen.jsonschema.factories.ValidatorFactory}. The  latter is also
  * in charge of caching:
  * </p>
  * <ul>

@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -94,18 +93,5 @@ public final class ValidatorCache
     {
         logger.debug("Registering new validator for type {}", type);
         cache.get(type).put(schema, validator);
-    }
-
-    /**
-     * Clear the cache for a set of JSON node types
-     *
-     * @param types the type list to clear the cache
-     */
-    public void clear(final EnumSet<NodeType> types)
-    {
-        for (final NodeType type: types) {
-            logger.debug("purging cache for type " + type);
-            cache.get(type).clear();
-        }
     }
 }

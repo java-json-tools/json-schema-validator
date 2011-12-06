@@ -39,8 +39,6 @@ import org.eel.kitchen.util.NodeType;
  * not whether it is actually valid for your country! If you really want
  * that, you will probably want to write your own {@link KeywordValidator}.</p>
  *
- * @see JsonValidator#registerValidator(String, SyntaxValidator,
- * KeywordValidator, NodeType...)
  */
 //TODO: more tests?
 public final class PhoneNumberValidator

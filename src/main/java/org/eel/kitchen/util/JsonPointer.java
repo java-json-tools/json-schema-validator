@@ -268,16 +268,16 @@ public final class JsonPointer
     }
 
     @Override
-    public boolean equals(final Object o)
+    public boolean equals(final Object obj)
     {
-        if (this == o)
+        if (this == obj)
             return true;
-        if (o == null)
+        if (obj == null)
             return false;
-        if (getClass() != o.getClass())
+        if (getClass() != obj.getClass())
             return false;
 
-        final JsonPointer that = (JsonPointer) o;
+        final JsonPointer that = (JsonPointer) obj;
 
         return rawPath.equals(that.rawPath);
     }

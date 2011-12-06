@@ -37,7 +37,6 @@ public final class SelfValidationTest
 {
     private JsonNode draftv3;
     private JsonNode googleAPI;
-    private ValidationConfig cfg;
     private JsonValidator validator;
 
     @BeforeClass
@@ -46,7 +45,7 @@ public final class SelfValidationTest
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
-        cfg = new ValidationConfig();
+        final ValidationConfig cfg = new ValidationConfig();
         validator = new JsonValidator(cfg, draftv3);
     }
 
