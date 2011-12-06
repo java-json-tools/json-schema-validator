@@ -50,6 +50,10 @@ public final class CustomValidatorBundle
         if (types.length == 0)
             throw new IllegalArgumentException("cannot register a new keyword"
                 + " with no JSON type to match against");
+
+        if (keyword == null)
+            throw new IllegalArgumentException("keyword is null");
+
         /*
          * We only need to check for syntax validators: the public
          * registration mechanism guarantees that the keyword set of syntax
@@ -73,6 +77,9 @@ public final class CustomValidatorBundle
     @Override
     public void unregisterValidator(final String keyword)
     {
+        if (keyword == null)
+            throw new IllegalArgumentException("keyword is null");
+
         /*
          * We choose to completely ignore keywords which were not registered
          * at this point
