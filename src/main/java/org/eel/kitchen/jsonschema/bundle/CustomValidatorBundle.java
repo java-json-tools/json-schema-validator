@@ -47,6 +47,9 @@ public final class CustomValidatorBundle
         final SyntaxValidator sv, final KeywordValidator kv,
         final NodeType... types)
     {
+        if (types.length == 0)
+            throw new IllegalArgumentException("cannot register a new keyword"
+                + " with no JSON type to match against");
         /*
          * We only need to check for syntax validators: the public
          * registration mechanism guarantees that the keyword set of syntax
