@@ -171,4 +171,43 @@ public class ValidatorBundle
         for (final NodeType type: types)
             ignoredKV.get(type).add(keyword);
     }
+
+    public final void registerValidator(final String keyword,
+        final SyntaxValidator sv, final KeywordValidator kv,
+        final NodeType... types)
+    {
+        /*
+         * We only need to check for syntax validators: the public
+         * registration mechanism guarantees that the keyword set of syntax
+         * and keyword validators is the same. As to the "private" API,
+         * it is up to the developer to ensure this.
+         */
+        if (ignoredSV.contains(keyword) || svMap.containsKey(keyword))
+            throw new IllegalArgumentException(keyword + " already registered");
+
+        if (sv == null)
+            ignoredSV.add(keyword);
+        else
+            svMap.put(keyword, sv);
+
+        if (kv == null)
+            registerIgnoredKV(keyword, types);
+        else
+            registerKV(keyword, kv, types);
+    }
+
+    public final void unregisterValidator(final String keyword)
+    {
+        /*
+         * We choose to completely ignore keywords which were not registered
+         * at this point
+         */
+        ignoredSV.remove(keyword);
+        svMap.remove(keyword);
+
+        for (final NodeType type: values()) {
+            ignoredKV.get(type).remove(keyword);
+            kvMap.get(type).remove(keyword);
+        }
+    }
 }
