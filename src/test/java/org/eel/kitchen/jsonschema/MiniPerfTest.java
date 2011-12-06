@@ -42,10 +42,11 @@ public final class MiniPerfTest
             = CollectionUtils.toMap(googleAPI.get("schemas").getFields());
 
         final ValidationConfig cfg = new ValidationConfig();
+        cfg.enable(ValidationFeature.FAIL_FAST);
+        cfg.enable(ValidationFeature.SKIP_SCHEMACHECK);
+
         final JsonValidator validator = new JsonValidator(cfg, draftv3);
 
-        validator.setFeature(ValidationFeature.FAIL_FAST);
-        validator.setFeature(ValidationFeature.SKIP_SCHEMACHECK);
         String name;
         JsonNode schema;
         ValidationReport report;

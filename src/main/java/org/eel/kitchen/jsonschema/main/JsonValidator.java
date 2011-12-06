@@ -69,13 +69,6 @@ public final class JsonValidator
     private final SchemaProvider provider;
 
     /**
-     * Set of features enabled for this validator (see {@link
-     * ValidationFeature})
-     */
-    private final EnumSet<ValidationFeature> features
-        = EnumSet.noneOf(ValidationFeature.class);
-
-    /**
      * Report generator
      */
     private ReportFactory reports;
@@ -98,9 +91,13 @@ public final class JsonValidator
         throws JsonValidationFailureException
     {
         this.cfg = cfg;
+
+        final EnumSet<ValidationFeature> features = cfg.getFeatures();
+
         provider = new SchemaProvider(cfg.getDefaultVersion(), schema);
-        reports = new ReportFactory(false);
-        buildFactories(false);
+        reports = new ReportFactory(features
+            .contains(ValidationFeature.FAIL_FAST));
+        buildFactories(features.contains(ValidationFeature.SKIP_SCHEMACHECK));
         context = new ValidationContext(factories, provider, reports);
     }
 
@@ -110,61 +107,6 @@ public final class JsonValidator
         for (final SchemaVersion version: SchemaVersion.values()) {
             bundle = cfg.getBundles().get(version);
             factories.put(version, new ValidatorFactory(bundle, skipSyntax));
-        }
-    }
-
-    /**
-     * Set a feature for this validator
-     *
-     * @param feature the feature to set
-     */
-    public void setFeature(final ValidationFeature feature)
-    {
-        if (features.contains(feature))
-            return;
-
-        ctxlock.writeLock().lock();
-
-        try {
-            features.add(feature);
-            switch (feature) {
-                case FAIL_FAST:
-                    reports = new ReportFactory(true);
-                    break;
-                case SKIP_SCHEMACHECK:
-                    buildFactories(true);
-                    break;
-            }
-            context = new ValidationContext(factories, provider, reports);
-        } finally {
-            ctxlock.writeLock().unlock();
-        }
-    }
-
-    /**
-     * Remove a feature from this validator
-     *
-     * @param feature the feature to remove
-     */
-    public void removeFeature(final ValidationFeature feature)
-    {
-        if (!features.contains(feature))
-            return;
-
-        ctxlock.writeLock().lock();
-
-        try {
-            features.remove(feature);
-            switch (feature) {
-                case FAIL_FAST:
-                    reports = new ReportFactory(false);
-                    break;
-                case SKIP_SCHEMACHECK:
-                    buildFactories(true);
-            }
-            context = new ValidationContext(factories, provider, reports);
-        } finally {
-            ctxlock.writeLock().unlock();
         }
     }
 

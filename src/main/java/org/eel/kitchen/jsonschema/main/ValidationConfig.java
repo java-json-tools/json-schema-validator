@@ -26,6 +26,7 @@ import org.eel.kitchen.util.SchemaVersion;
 
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.Map;
 
 public final class ValidationConfig
@@ -34,6 +35,9 @@ public final class ValidationConfig
 
     private final Map<SchemaVersion, ValidatorBundle> bundles
         = new EnumMap<SchemaVersion, ValidatorBundle>(SchemaVersion.class);
+
+    private final EnumSet<ValidationFeature> features
+        = EnumSet.noneOf(ValidationFeature.class);
 
     public ValidationConfig()
     {
@@ -83,5 +87,20 @@ public final class ValidationConfig
         final String keyword)
     {
         bundles.get(version).unregisterValidator(keyword);
+    }
+
+    public boolean enable(final ValidationFeature feature)
+    {
+        return features.add(feature);
+    }
+
+    public boolean disable(final ValidationFeature feature)
+    {
+        return features.remove(feature);
+    }
+
+    public EnumSet<ValidationFeature> getFeatures()
+    {
+        return EnumSet.copyOf(features);
     }
 }

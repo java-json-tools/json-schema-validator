@@ -47,9 +47,10 @@ public final class FeaturesTest
         throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
+        cfg.enable(ValidationFeature.FAIL_FAST);
+
         final JsonValidator validator
             = new JsonValidator(cfg, testNode.get("schema"));
-        validator.setFeature(ValidationFeature.FAIL_FAST);
 
         try {
             validator.validate(testNode.get("bad"));
