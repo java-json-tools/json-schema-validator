@@ -32,7 +32,6 @@ import org.eel.kitchen.util.SchemaVersion;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * The main interface to use for JSON Schema validation
@@ -54,12 +53,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public final class JsonValidator
 {
     private final ValidationConfig cfg;
-
-    /**
-     * Lock to protect context creation
-     */
-    private final ReentrantReadWriteLock ctxlock
-        = new ReentrantReadWriteLock();
 
     private final Map<SchemaVersion, ValidatorFactory> factories
         = new EnumMap<SchemaVersion, ValidatorFactory>(SchemaVersion.class);
@@ -126,14 +119,8 @@ public final class JsonValidator
     public ValidationReport validate(final JsonNode instance)
         throws JsonValidationFailureException
     {
-        ctxlock.readLock().lock();
-
-        try {
-            final Validator validator = context.getValidator(instance);
-            return validator.validate(context, instance);
-        } finally {
-            ctxlock.readLock().unlock();
-        }
+        final Validator validator = context.getValidator(instance);
+        return validator.validate(context, instance);
     }
 
     /**
@@ -160,14 +147,8 @@ public final class JsonValidator
     {
         final JsonPointer pointer = new JsonPointer(path);
 
-        ctxlock.readLock().lock();
-
-        try {
-            final Validator validator = context.getValidator(pointer, instance);
-            return validator.validate(context, instance);
-        } finally {
-            ctxlock.readLock().unlock();
-        }
+        final Validator validator = context.getValidator(pointer, instance);
+        return validator.validate(context, instance);
     }
 
     /**
