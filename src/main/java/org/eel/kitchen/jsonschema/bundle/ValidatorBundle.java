@@ -1,213 +1,24 @@
-/*
- * Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the Lesser GNU General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * Lesser GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 package org.eel.kitchen.jsonschema.bundle;
 
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.eel.kitchen.util.NodeType.*;
-
-/**
- * A validator bundle
- *
- * <p>As validators vary from one schema to another (and as you can even
- * register your own validators), this class is here to relieve factories
- * from registering validators themselves.</p>
- */
-public class ValidatorBundle
+public interface ValidatorBundle
 {
-    /**
-     * The {@link SyntaxValidator} map
-     */
-    protected final Map<String, SyntaxValidator> svMap
-        = new HashMap<String, SyntaxValidator>();
+    Map<String, SyntaxValidator> syntaxValidators();
 
-    /**
-     * Keywords to ignore for syntax validation
-     */
-    protected final Set<String> ignoredSV = new HashSet<String>();
+    Set<String> ignoredSyntaxValidators();
 
-    /**
-     * The {@link KeywordValidator} map
-     */
-    protected final Map<NodeType, Map<String, KeywordValidator>> kvMap
-        = new EnumMap<NodeType, Map<String, KeywordValidator>>(NodeType.class);
+    Map<NodeType, Map<String, KeywordValidator>> keywordValidators();
 
-    /**
-     * Keywords to ignore for instance validation
-     */
-    protected final Map<NodeType, Set<String>> ignoredKV
-        = new EnumMap<NodeType, Set<String>>(NodeType.class);
+    Map<NodeType, Set<String>> ignoredKeywordValidators();
 
-    public ValidatorBundle()
-    {
-        /*
-         * Initialize keyword validator maps
-         */
-        for (final NodeType type: values()) {
-            kvMap.put(type, new HashMap<String, KeywordValidator>());
-            ignoredKV.put(type, new HashSet<String>());
-        }
-    }
+    void registerValidator(final String keyword, final SyntaxValidator sv,
+        final KeywordValidator kv, final NodeType... types);
 
-    public ValidatorBundle(final ValidatorBundle bundle)
-    {
-        svMap.putAll(bundle.svMap);
-        ignoredSV.addAll(bundle.ignoredSV);
-        kvMap.putAll(bundle.kvMap);
-        ignoredKV.putAll(bundle.ignoredKV);
-    }
-
-    /**
-     * Return the list of registered syntax validators
-     *
-     * @return a map pairing keywords to their validators
-     */
-    public final Map<String, SyntaxValidator> syntaxValidators()
-    {
-        return Collections.unmodifiableMap(svMap);
-    }
-
-    /**
-     * Return the set of ignored keywords on syntax validation
-     *
-     * @return the set
-     */
-    public final Set<String> ignoredSyntaxValidators()
-    {
-        return Collections.unmodifiableSet(ignoredSV);
-    }
-
-    /**
-     * Return the list of registered keyword validators and associated
-     * instance types
-     *
-     * @return a map pairing instance types and keywords to validators
-     */
-    public final Map<NodeType, Map<String, KeywordValidator>> keywordValidators()
-    {
-        return Collections.unmodifiableMap(kvMap);
-    }
-
-    /**
-     * Return the list of ignored keywords for instance validation
-     *
-     * @return a map pairing the instance types and set of keywords
-     */
-    public final Map<NodeType, Set<String>> ignoredKeywordValidators()
-    {
-        return Collections.unmodifiableMap(ignoredKV);
-    }
-
-    /**
-     * Register a syntax validator
-     *
-     * @param keyword the keyword
-     * @param sv the syntax validator
-     */
-    protected final void registerSV(final String keyword,
-        final SyntaxValidator sv)
-    {
-        svMap.put(keyword, sv);
-    }
-
-    /**
-     * Register an ignored keyword for syntax validation
-     *
-     * @param keyword the keyword
-     */
-    protected final void registerIgnoredSV(final String keyword)
-    {
-        ignoredSV.add(keyword);
-    }
-
-    /**
-     * Register a keyword validator for a given keyword and a set of types
-     *
-     * @param keyword the keyword
-     * @param kv the validator
-     * @param types the list of types
-     * @throws IllegalArgumentException the list of types is empty
-     */
-    protected final void registerKV(final String keyword,
-        final KeywordValidator kv, final NodeType... types)
-    {
-        for (final NodeType type: types)
-            kvMap.get(type).put(keyword, kv);
-    }
-
-    /**
-     * Register an ignored keyword for keyword validations
-     *
-     * @param keyword the keyword
-     * @param types the associated node types
-     */
-    protected final void registerIgnoredKV(final String keyword,
-        final NodeType... types)
-    {
-        for (final NodeType type: types)
-            ignoredKV.get(type).add(keyword);
-    }
-
-    public final void registerValidator(final String keyword,
-        final SyntaxValidator sv, final KeywordValidator kv,
-        final NodeType... types)
-    {
-        /*
-         * We only need to check for syntax validators: the public
-         * registration mechanism guarantees that the keyword set of syntax
-         * and keyword validators is the same. As to the "private" API,
-         * it is up to the developer to ensure this.
-         */
-        if (ignoredSV.contains(keyword) || svMap.containsKey(keyword))
-            throw new IllegalArgumentException(keyword + " already registered");
-
-        if (sv == null)
-            ignoredSV.add(keyword);
-        else
-            svMap.put(keyword, sv);
-
-        if (kv == null)
-            registerIgnoredKV(keyword, types);
-        else
-            registerKV(keyword, kv, types);
-    }
-
-    public final void unregisterValidator(final String keyword)
-    {
-        /*
-         * We choose to completely ignore keywords which were not registered
-         * at this point
-         */
-        ignoredSV.remove(keyword);
-        svMap.remove(keyword);
-
-        for (final NodeType type: values()) {
-            ignoredKV.get(type).remove(keyword);
-            kvMap.get(type).remove(keyword);
-        }
-    }
+    void unregisterValidator(final String keyword);
 }

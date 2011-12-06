@@ -27,9 +27,9 @@ import org.eel.kitchen.util.NodeType;
  * Validator bundle for JSON Schema draft v3
  */
 public final class DraftV3ValidatorBundle
-    extends CommonValidatorBundle
+    extends BuiltinValidatorBundle
 {
-    private static final DraftV3ValidatorBundle instance
+    private static final ValidatorBundle instance
         = new DraftV3ValidatorBundle();
 
     public static ValidatorBundle getInstance()

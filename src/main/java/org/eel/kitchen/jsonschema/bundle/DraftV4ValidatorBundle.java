@@ -35,7 +35,7 @@ import org.eel.kitchen.util.NodeType;
  * making it into the finished draft.</p>
  */
 public final class DraftV4ValidatorBundle
-    extends CommonValidatorBundle
+    extends BuiltinValidatorBundle
 {
     private static final ValidatorBundle instance
         = new DraftV4ValidatorBundle();

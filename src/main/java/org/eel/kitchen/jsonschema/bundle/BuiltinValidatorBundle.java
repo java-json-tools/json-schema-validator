@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common
     .AdditionalItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common
@@ -37,6 +38,7 @@ import org.eel.kitchen.jsonschema.keyword.common.PatternKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.AdditionalItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common
     .AdditionalPropertiesSyntaxValidator;
@@ -66,16 +68,17 @@ import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.TitleSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.TypeSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.UniqueItemsSyntaxValidator;
+import org.eel.kitchen.util.NodeType;
 
 import static org.eel.kitchen.util.NodeType.*;
 
 /**
  * The common set of validators used by existing JSON Schema specifications
  */
-class CommonValidatorBundle
-    extends ValidatorBundle
+class BuiltinValidatorBundle
+    extends AbstractValidatorBundle
 {
-    protected CommonValidatorBundle()
+    protected BuiltinValidatorBundle()
     {
 
         /* additionalItems */
@@ -211,5 +214,19 @@ class CommonValidatorBundle
         /* $schema */
         registerSV("$schema", DollarSchemaSyntaxValidator.getInstance());
         registerIgnoredKV("$schema", values());
+    }
+
+    @Override
+    public void registerValidator(final String keyword,
+        final SyntaxValidator sv, final KeywordValidator kv,
+        final NodeType... types)
+    {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void unregisterValidator(final String keyword)
+    {
+        throw new UnsupportedOperationException();
     }
 }
