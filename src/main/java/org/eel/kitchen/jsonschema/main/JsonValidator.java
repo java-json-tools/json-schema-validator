@@ -25,7 +25,6 @@ import org.eel.kitchen.jsonschema.factories.FullValidatorFactory;
 import org.eel.kitchen.jsonschema.factories.NoSyntaxValidatorFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
-import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.SchemaVersion;
@@ -78,7 +77,7 @@ public final class JsonValidator
     /**
      * This validator's {@link ValidationContext}
      */
-    private ValidationContext context;
+    private final ValidationContext context;
 
     /**
      * The constructor
@@ -96,7 +95,7 @@ public final class JsonValidator
 
         final EnumSet<ValidationFeature> features = cfg.getFeatures();
 
-        provider = new SchemaProvider(cfg.getDefaultVersion(), schema);
+        provider = new SchemaProvider(cfg, schema);
         reports = new ReportFactory(features
             .contains(ValidationFeature.FAIL_FAST));
         buildFactories(features.contains(ValidationFeature.SKIP_SCHEMACHECK));
@@ -113,50 +112,6 @@ public final class JsonValidator
             factory = skipSyntax ? new NoSyntaxValidatorFactory(bundle)
                 : new FullValidatorFactory(bundle);
             factories.put(version, factory);
-        }
-    }
-
-    /**
-     * Register a new {@link URIHandler} for a given scheme
-     *
-     * @param scheme the scheme
-     * @param handler the handler
-     * @throws IllegalArgumentException the provided scheme is null
-     *
-     * @see URIHandlerFactory#registerHandler(String, URIHandler)
-     */
-    public void registerURIHandler(final String scheme, final URIHandler handler)
-    {
-        if (scheme == null)
-            throw new IllegalArgumentException("scheme is null");
-
-        ctxlock.writeLock().lock();
-
-        try {
-            provider.registerHandler(scheme, handler);
-        } finally {
-            ctxlock.writeLock().unlock();
-        }
-    }
-
-    /**
-     * Unregister the handler for a given scheme
-     *
-     * @param scheme the victim
-     * @throws IllegalArgumentException the provided scheme is null
-     *
-     * @see URIHandlerFactory#unregisterHandler(String)
-     */
-    public void unregisterURIHandler(final String scheme)
-    {
-        if (scheme == null)
-            throw new IllegalArgumentException("scheme is null");
-
-        ctxlock.writeLock().lock();
-        try {
-            provider.unregisterHandler(scheme);
-        } finally {
-            ctxlock.writeLock().unlock();
         }
     }
 

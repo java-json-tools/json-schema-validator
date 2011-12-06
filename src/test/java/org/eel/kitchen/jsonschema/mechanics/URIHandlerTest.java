@@ -38,17 +38,7 @@ public final class URIHandlerTest
     private static final JsonNode schema
         = JsonNodeFactory.instance.objectNode();
 
-    private static final JsonValidator validator;
-
     private static final ValidationConfig cfg = new ValidationConfig();
-
-    static {
-        try {
-            validator = new JsonValidator(cfg, schema);
-        } catch (JsonValidationFailureException e) {
-            throw new ExceptionInInitializerError(e);
-        }
-    }
 
     private static final URIHandler handler = new HTTPURIHandler();
 
@@ -56,7 +46,7 @@ public final class URIHandlerTest
     public void testRegisteringExistingSchemeFails()
     {
         try {
-            validator.registerURIHandler("http", handler);
+            cfg.registerURIHandler("http", handler);
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "scheme http already registered");
@@ -67,7 +57,7 @@ public final class URIHandlerTest
     public void testNullSchemeFails()
     {
         try {
-            validator.registerURIHandler(null, handler);
+            cfg.registerURIHandler(null, handler);
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "scheme is null");
@@ -78,7 +68,7 @@ public final class URIHandlerTest
     public void testNullHandlerFails()
     {
         try {
-            validator.registerURIHandler("myscheme", null);
+            cfg.registerURIHandler("myscheme", null);
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "handler is null");
@@ -89,7 +79,7 @@ public final class URIHandlerTest
     public void testUnregisteringNullSchemeFails()
     {
         try {
-            validator.unregisterURIHandler(null);
+            cfg.unregisterURIHandler(null);
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "scheme is null");
@@ -100,7 +90,7 @@ public final class URIHandlerTest
     public void testInvalidSchemeFails()
     {
         try {
-            validator.registerURIHandler("+23", handler);
+            cfg.registerURIHandler("+23", handler);
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "invalid scheme +23");
@@ -110,8 +100,8 @@ public final class URIHandlerTest
     @Test
     public void testUnregisteringAndRegistering()
     {
-        validator.unregisterURIHandler("http");
-        validator.registerURIHandler("http", handler);
+        cfg.unregisterURIHandler("http");
+        cfg.registerURIHandler("http", handler);
         assertTrue(true);
     }
 
@@ -132,9 +122,9 @@ public final class URIHandlerTest
             }
         };
 
+        cfg.registerURIHandler("mystuff", handler);
         final JsonValidator validator = new JsonValidator(cfg, testNode);
 
-        validator.registerURIHandler("mystuff", handler);
 
         final ValidationReport report = validator.validate("#/link1",
             JsonNodeFactory.instance.nullNode());

@@ -77,24 +77,14 @@ public final class SchemaProvider
      */
     private final SchemaVersion defaultVersion;
 
-    /**
-     * Constructor
-     *
-     * @param defaultVersion the version to assume if a schema does not have
-     * {@code $schema}
-     * @param schema the initial schema
-     * @throws JsonValidationFailureException the initial JSON document is
-     * not a schema
-     */
-    public SchemaProvider(final SchemaVersion defaultVersion,
-        final JsonNode schema)
+    public SchemaProvider(final ValidationConfig cfg, final JsonNode schema)
         throws JsonValidationFailureException
     {
-        this.defaultVersion = defaultVersion;
+        defaultVersion = cfg.getDefaultVersion();
         this.schema = schema;
         version = calculateVersion(schema);
 
-        factory = new URIHandlerFactory();
+        factory = cfg.getHandlerFactory();
         locators = new HashMap<URI, JsonNode>();
 
         final URI root;

@@ -21,6 +21,8 @@ import org.eel.kitchen.jsonschema.bundle.CustomValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.jsonschema.uri.URIHandler;
+import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.SchemaVersion;
 
@@ -38,6 +40,9 @@ public final class ValidationConfig
 
     private final EnumSet<ValidationFeature> features
         = EnumSet.noneOf(ValidationFeature.class);
+
+    private final URIHandlerFactory handlerFactory
+        = new URIHandlerFactory();
 
     public ValidationConfig()
     {
@@ -102,5 +107,43 @@ public final class ValidationConfig
     public EnumSet<ValidationFeature> getFeatures()
     {
         return EnumSet.copyOf(features);
+    }
+
+    /**
+     * Register a new {@link URIHandler} for a given scheme
+     *
+     * @param scheme the scheme
+     * @param handler the handler
+     * @throws IllegalArgumentException the provided scheme is null
+     *
+     * @see URIHandlerFactory#registerHandler(String, URIHandler)
+     */
+    public void registerURIHandler(final String scheme, final URIHandler handler)
+    {
+        if (scheme == null)
+            throw new IllegalArgumentException("scheme is null");
+
+        handlerFactory.registerHandler(scheme, handler);
+    }
+
+    /**
+     * Unregister the handler for a given scheme
+     *
+     * @param scheme the victim
+     * @throws IllegalArgumentException the provided scheme is null
+     *
+     * @see URIHandlerFactory#unregisterHandler(String)
+     */
+    public void unregisterURIHandler(final String scheme)
+    {
+        if (scheme == null)
+            throw new IllegalArgumentException("scheme is null");
+
+        handlerFactory.unregisterHandler(scheme);
+    }
+
+    public URIHandlerFactory getHandlerFactory()
+    {
+        return handlerFactory;
     }
 }
