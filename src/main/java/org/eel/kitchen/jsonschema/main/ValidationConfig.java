@@ -92,7 +92,7 @@ public final class ValidationConfig
         registerValidator(defaultVersion, keyword, sv, kv, types);
     }
 
-    private void registerValidator(final SchemaVersion version,
+    public void registerValidator(final SchemaVersion version,
         final String keyword, final SyntaxValidator sv,
         final KeywordValidator kv, final NodeType... types)
     {
@@ -104,7 +104,7 @@ public final class ValidationConfig
         unregisterValidator(defaultVersion, keyword);
     }
 
-    private void unregisterValidator(final SchemaVersion version,
+    public void unregisterValidator(final SchemaVersion version,
         final String keyword)
     {
         bundles.get(version).unregisterValidator(keyword);
@@ -134,7 +134,8 @@ public final class ValidationConfig
      *
      * @see URIHandlerFactory#registerHandler(String, URIHandler)
      */
-    public void registerURIHandler(final String scheme, final URIHandler handler)
+    public void registerURIHandler(final String scheme,
+        final URIHandler handler)
     {
         if (scheme == null)
             throw new IllegalArgumentException("scheme is null");
@@ -163,7 +164,7 @@ public final class ValidationConfig
         return handlerFactory;
     }
 
-    void buildFactories()
+    public void buildFactories()
     {
         factoryLock.lock();
 
