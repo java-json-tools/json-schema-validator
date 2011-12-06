@@ -219,15 +219,8 @@ public final class ValidationContext
     public ValidationReport validateSchema()
         throws JsonValidationFailureException
     {
-        final JsonNode schema = provider.getSchema();
         final SchemaVersion version = provider.getVersion();
-        final ValidatorFactory factory;
-
-        factory = factories.get(version);
-        if (factory.isValidated(schema))
-            return ValidationReport.TRUE;
-
-        return factory.validateSchema(this);
+        return factories.get(version).validateSchema(this);
     }
 
     /**

@@ -28,14 +28,10 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Factory initializing all validator factories with a given schema bundle,
@@ -46,34 +42,17 @@ import java.util.Set;
  * @see FormatFactory
  * @see ValidatorBundle
  */
-public final class ValidatorFactory
+public abstract class ValidatorFactory
 {
     /**
      * The {@link KeywordValidator} factory
      */
-    private final KeywordFactory keywordFactory;
-
-    /**
-     * The {@link SyntaxValidator} factory
-     */
-    private final SyntaxFactory syntaxFactory;
-
-    /**
-     * Should schema syntax checking be skipped altogether (see {@link
-     * ValidationFeature#SKIP_SCHEMACHECK})
-     */
-    private final boolean skipSyntax;
-
-    /**
-     * List of already validated schemas (if {@link #skipSyntax} is {@code
-     * false})
-     */
-    private final Set<JsonNode> validated = new HashSet<JsonNode>();
+    protected final KeywordFactory keywordFactory;
 
     /**
      * The {@link FormatValidator} factory
      */
-    private final FormatFactory formatFactory = new FormatFactory();
+    protected final FormatFactory formatFactory = new FormatFactory();
 
     /**
      * Our validator cache
@@ -84,49 +63,15 @@ public final class ValidatorFactory
      * Constructor
      *
      * @param bundle the validator bundle to use
-     * @param skipSyntax set to {@code true} if schema syntax checking should
-     * be skipped
      */
-    public ValidatorFactory(final ValidatorBundle bundle,
-        final boolean skipSyntax)
+    protected ValidatorFactory(final ValidatorBundle bundle)
     {
         keywordFactory = new KeywordFactory(bundle);
-        syntaxFactory = new SyntaxFactory(bundle);
-        this.skipSyntax = skipSyntax;
     }
 
-    /**
-     * Validate a schema and return the report
-     *
-     * <p>Will return {@link ValidationReport#TRUE} if:</p>
-     * <ul>
-     *     <li>{@link #skipSyntax} is set to {@code true}, or</li>
-     *     <li>the schema has already been validated</li>
-     * </ul>
-     *
-     * @param context the context containing the schema
-     * @return the report
-     * @throws JsonValidationFailureException if validation failure is set to
-     * throw this exception
-     */
-    public ValidationReport validateSchema(final ValidationContext context)
-        throws JsonValidationFailureException
-    {
-        final JsonNode schema = context.getSchema();
-
-        final Validator validator = syntaxFactory.getValidator(context);
-        final ValidationReport report = validator.validate(context, schema);
-
-        if (report.isSuccess())
-            validated.add(schema);
-
-        return report;
-    }
-
-    public boolean isValidated(final JsonNode schema)
-    {
-        return skipSyntax || validated.contains(schema);
-    }
+    public abstract ValidationReport validateSchema(
+        final ValidationContext context)
+        throws JsonValidationFailureException;
 
     /**
      * Return a {@link KeywordValidator} to validate an instance against a
@@ -136,7 +81,7 @@ public final class ValidatorFactory
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public Validator getInstanceValidator(final ValidationContext context,
+    public final Validator getInstanceValidator(final ValidationContext context,
         final JsonNode instance)
     {
         final JsonNode schema = context.getSchema();
@@ -189,7 +134,7 @@ public final class ValidatorFactory
      * @throws JsonValidationFailureException on validation failure,
      * with the appropriate validation mode
      */
-    public Validator getFormatValidator(final ValidationContext context,
+    public final Validator getFormatValidator(final ValidationContext context,
         final String fmt, final JsonNode instance)
         throws JsonValidationFailureException
     {

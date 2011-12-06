@@ -21,6 +21,8 @@ package org.eel.kitchen.jsonschema.main;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
+import org.eel.kitchen.jsonschema.factories.FullValidatorFactory;
+import org.eel.kitchen.jsonschema.factories.NoSyntaxValidatorFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
@@ -104,9 +106,13 @@ public final class JsonValidator
     private void buildFactories(final boolean skipSyntax)
     {
         ValidatorBundle bundle;
+        ValidatorFactory factory;
+
         for (final SchemaVersion version: SchemaVersion.values()) {
             bundle = cfg.getBundles().get(version);
-            factories.put(version, new ValidatorFactory(bundle, skipSyntax));
+            factory = skipSyntax ? new NoSyntaxValidatorFactory(bundle)
+                : new FullValidatorFactory(bundle);
+            factories.put(version, factory);
         }
     }
 
