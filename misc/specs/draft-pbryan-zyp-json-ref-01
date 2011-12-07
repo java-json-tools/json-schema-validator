@@ -13,7 +13,7 @@
 
     <link rel="icon" href="/images/id.png" type="image/png" />
     <link rel="shortcut icon" href="/images/id.png" type="image/png" />
-    <title>draft-pbryan-zyp-json-ref-00 - JSON Reference</title>
+    <title>draft-pbryan-zyp-json-ref-01 - JSON Reference</title>
     
     
     <style type="text/css">
@@ -141,25 +141,25 @@
            onmouseout="hideElem('legend');">
       </div>
    </div>
-<span class="pre noprint docinfo top">[<a href="../html/" title="Document search and retrieval page">Docs</a>] [<a href="http://tools.ietf.org/id/draft-pbryan-zyp-json-ref-00.txt" title="Plaintext version of this document">txt</a>|<a href="/pdf/draft-pbryan-zyp-json-ref-00.txt" title="PDF version of this document">pdf</a>] [<a href='https://datatracker.ietf.org/doc/draft-pbryan-zyp-json-ref' title='IESG Datatracker information for this document'>Tracker</a>] [<a href="mailto:draft-pbryan-zyp-json-ref@tools.ietf.org?subject=draft-pbryan-zyp-json-ref%20" title="Send email to the document authors">Email</a>] [<a href="/idnits?url=http://tools.ietf.org/id/draft-pbryan-zyp-json-ref-00.txt" title="Run an idnits check of this document">Nits</a>]                               </span><br />
+<span class="pre noprint docinfo top">[<a href="../html/" title="Document search and retrieval page">Docs</a>] [<a href="http://tools.ietf.org/id/draft-pbryan-zyp-json-ref-01.txt" title="Plaintext version of this document">txt</a>|<a href="/pdf/draft-pbryan-zyp-json-ref-01.txt" title="PDF version of this document">pdf</a>|<a href="/id/draft-pbryan-zyp-json-ref-01.html" title="HTML version of this document, from XML2RFC">html</a>] [<a href='https://datatracker.ietf.org/doc/draft-pbryan-zyp-json-ref' title='IESG Datatracker information for this document'>Tracker</a>] [<a href="mailto:draft-pbryan-zyp-json-ref@tools.ietf.org?subject=draft-pbryan-zyp-json-ref%20" title="Send email to the document authors">Email</a>] [<a href="/rfcdiff?difftype=--hwdiff&amp;url2=draft-pbryan-zyp-json-ref-01.txt" title="Inline diff (wdiff)">Diff1</a>] [<a href="/rfcdiff?url2=draft-pbryan-zyp-json-ref-01.txt" title="Side-by-side diff">Diff2</a>] [<a href="/idnits?url=http://tools.ietf.org/id/draft-pbryan-zyp-json-ref-01.txt" title="Run an idnits check of this document">Nits</a>]          </span><br />
 <span class="pre noprint docinfo">                                                                        </span><br />
-<span class="pre noprint docinfo">Versions: <a href="./draft-pbryan-zyp-json-ref-00">00</a>                                                            </span><br />
+<span class="pre noprint docinfo">Versions: <a href="./draft-pbryan-zyp-json-ref-00">00</a> <a href="./draft-pbryan-zyp-json-ref-01">01</a>                                                         </span><br />
 <span class="pre noprint docinfo">                                                                        </span><br />
 <pre>
 Internet Engineering Task Force                            P. Bryan, Ed.
 Internet-Draft                                        ForgeRock US, Inc.
 Intended status: Informational                                    K. Zyp
-Expires: May 17, 2012                                      SitePen (USA)
-                                                       November 14, 2011
+Expires: May 27, 2012                                      SitePen (USA)
+                                                       November 24, 2011
 
 
                              <span class="h1">JSON Reference</span>
-                      <span class="h1">draft-pbryan-zyp-json-ref-00</span>
+                      <span class="h1">draft-pbryan-zyp-json-ref-01</span>
 
 Abstract
 
-   JSON Reference allows a JSON value to be referenced from within a
-   JSON document.
+   JSON Reference allows a JSON value to reference another JSON value in
+   a JSON document.
 
 Status of this Memo
 
@@ -176,7 +176,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 17, 2012.
+   This Internet-Draft will expire on May 27, 2012.
 
 Copyright Notice
 
@@ -197,7 +197,7 @@ Copyright Notice
 
 
 
-<span class="grey">Bryan &amp; Zyp               Expires May 17, 2012                  [Page 1]</span>
+<span class="grey">Bryan &amp; Zyp               Expires May 27, 2012                  [Page 1]</span>
 </pre><pre class='newpage'><a name="page-2" id="page-2" href="#page-2" class="invisible"> </a>
 <span class="grey">Internet-Draft               JSON Reference                November 2011</span>
 
@@ -208,12 +208,14 @@ Table of Contents
    <a href="#section-2">2</a>.  Conventions . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-3">3</a>
    <a href="#section-3">3</a>.  Syntax  . . . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-3">3</a>
    <a href="#section-4">4</a>.  Resolution  . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-3">3</a>
-   <a href="#section-5">5</a>.  Media Type  . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-3">3</a>
-   <a href="#section-6">6</a>.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
-   <a href="#section-7">7</a>.  Security Considerations . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
-   <a href="#section-8">8</a>.  Normative References  . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
-   <a href="#appendix-A">Appendix A</a>.  Examples . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
+   <a href="#section-5">5</a>.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
+   <a href="#section-6">6</a>.  Media Type  . . . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
+   <a href="#section-7">7</a>.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
+   <a href="#section-8">8</a>.  Security Considerations . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
+   <a href="#section-9">9</a>.  Normative References  . . . . . . . . . . . . . . . . . . . . . <a href="#page-4">4</a>
+   <a href="#appendix-A">Appendix A</a>.  Acknowledgements . . . . . . . . . . . . . . . . . . . <a href="#page-5">5</a>
+   <a href="#appendix-B">Appendix B</a>.  Examples . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-5">5</a>
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . <a href="#page-5">5</a>
 
 
 
@@ -251,19 +253,17 @@ Table of Contents
 
 
 
-
-
-<span class="grey">Bryan &amp; Zyp               Expires May 17, 2012                  [Page 2]</span>
+<span class="grey">Bryan &amp; Zyp               Expires May 27, 2012                  [Page 2]</span>
 </pre><pre class='newpage'><a name="page-3" id="page-3" href="#page-3" class="invisible"> </a>
 <span class="grey">Internet-Draft               JSON Reference                November 2011</span>
 
 
 <span class="h2"><a name="section-1">1</a>.  Introduction</span>
 
-   This specification defines a JSON [<a href="./rfc4627" title='"The application/json Media Type for JavaScript Object Notation (JSON)"'>RFC4627</a>] structure for referencing
-   a specific JSON value within a JSON document.  This provides a basis
-   for transclusion in JSON: the use of a target resource as an
-   effective substitute for the reference.
+   This specification defines a JSON [<a href="./rfc4627" title='"The application/json Media Type for JavaScript Object Notation (JSON)"'>RFC4627</a>] structure which allows a
+   JSON value to reference another JSON value in a JSON document.  This
+   provides the basis for transclusion in JSON: the use of a target
+   resource as an effective substitute for the reference.
 
 
 <span class="h2"><a name="section-2">2</a>.  Conventions</span>
@@ -275,17 +275,26 @@ Table of Contents
 
 <span class="h2"><a name="section-3">3</a>.  Syntax</span>
 
-   A JSON Reference is a JSON object containing a single member "$ref",
-   whose value identifies another JSON value via a URI [<a href="./rfc3986" title='"Uniform Resource Identifier (URI): Generic Syntax"'>RFC3986</a>].
-   Example:
+   A JSON Reference is a JSON object, which contains a member named
+   "$ref", which has a JSON string value.  Example:
 
    { "$ref": "http://example.com/example.json#/foo/bar" }
+
+   If a JSON value does not have these characteristics, then it SHOULD
+   NOT be interpreted as a JSON Reference.
+
+   The "$ref" string value contains a URI [<a href="./rfc3986" title='"Uniform Resource Identifier (URI): Generic Syntax"'>RFC3986</a>], which identifies
+   the location of the JSON value being referenced.  It is an error
+   condition if the string value does not conform to URI syntax rules.
+   Any members other than "$ref" in a JSON Reference object SHALL be
+   ignored.
 
 
 <span class="h2"><a name="section-4">4</a>.  Resolution</span>
 
    Resolution of a JSON Reference object SHOULD yield the referenced
-   JSON value.
+   JSON value.  Implementations MAY choose to replace the reference with
+   the referenced value.
 
    If the URI contained in the JSON Reference value is a relative URI,
    then the base URI resolution MUST be calculated according to
@@ -299,34 +308,43 @@ Table of Contents
    Pointer].
 
 
-<span class="h2"><a name="section-5">5</a>.  Media Type</span>
+
+<span class="grey">Bryan &amp; Zyp               Expires May 27, 2012                  [Page 3]</span>
+</pre><pre class='newpage'><a name="page-4" id="page-4" href="#page-4" class="invisible"> </a>
+<span class="grey">Internet-Draft               JSON Reference                November 2011</span>
+
+
+<span class="h2"><a name="section-5">5</a>.  Error Handling</span>
+
+   In the event of an error condition, evaluation of the JSON Reference
+   SHOULD fail to complete.
+
+
+<span class="h2"><a name="section-6">6</a>.  Media Type</span>
 
    Documents that use JSON Reference SHOULD include a media type
    parameter: application/json; profile=http://json-schema.org/json-ref
    or refer to a schema that extends <a href="http://json-schema.org/json-ref">http://json-schema.org/json-ref</a>.
 
 
-
-
-
-<span class="grey">Bryan &amp; Zyp               Expires May 17, 2012                  [Page 3]</span>
-</pre><pre class='newpage'><a name="page-4" id="page-4" href="#page-4" class="invisible"> </a>
-<span class="grey">Internet-Draft               JSON Reference                November 2011</span>
-
-
-<span class="h2"><a name="section-6">6</a>.  IANA Considerations</span>
+<span class="h2"><a name="section-7">7</a>.  IANA Considerations</span>
 
    This draft includes no request to IANA.
 
 
-<span class="h2"><a name="section-7">7</a>.  Security Considerations</span>
+<span class="h2"><a name="section-8">8</a>.  Security Considerations</span>
 
    A JSON Reference is not guaranteed to resolve to a JSON value.
-   Implementations of this specification should be aware of this and
-   take appropriate precautions.
+   Implementations of this specification SHOULD take appropriate
+   precautions.
+
+   Documents containing JSON References can be structured to resolve
+   cyclically.  Implementations SHOULD include appropriate checks to
+   prevent such structures from resulting in infinite recursion or
+   iteration.
 
 
-<span class="h2"><a name="section-8">8</a>.  Normative References</span>
+<span class="h2"><a name="section-9">9</a>.  Normative References</span>
 
    [JSON Pointer]
               Bryan, P. and K. Zyp, "JSON Pointer", October 2011, &lt;http:
@@ -343,7 +361,24 @@ Table of Contents
               JavaScript Object Notation (JSON)", <a href="./rfc4627">RFC 4627</a>, July 2006.
 
 
-<span class="h2"><a name="appendix-A">Appendix A</a>.  Examples</span>
+
+
+
+
+<span class="grey">Bryan &amp; Zyp               Expires May 27, 2012                  [Page 4]</span>
+</pre><pre class='newpage'><a name="page-5" id="page-5" href="#page-5" class="invisible"> </a>
+<span class="grey">Internet-Draft               JSON Reference                November 2011</span>
+
+
+<span class="h2"><a name="appendix-A">Appendix A</a>.  Acknowledgements</span>
+
+   The authors acknowledge the following individuals for their
+   contributed feedback, which influenced this specification:
+
+      Bob Aman, Francis Galiegue.
+
+
+<span class="h2"><a name="appendix-B">Appendix B</a>.  Examples</span>
 
    TBD.
 
@@ -358,16 +393,6 @@ Authors' Addresses
 
    Phone: +1 604 783 1481
    Email: paul.bryan@forgerock.com
-
-
-
-
-
-
-
-<span class="grey">Bryan &amp; Zyp               Expires May 17, 2012                  [Page 4]</span>
-</pre><pre class='newpage'><a name="page-5" id="page-5" href="#page-5" class="invisible"> </a>
-<span class="grey">Internet-Draft               JSON Reference                November 2011</span>
 
 
    Kris Zyp
@@ -396,32 +421,7 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Bryan &amp; Zyp               Expires May 17, 2012                  [Page 5]
+Bryan &amp; Zyp               Expires May 27, 2012                  [Page 5]
 </pre><pre class='newpage'>
 
 </pre><br />
