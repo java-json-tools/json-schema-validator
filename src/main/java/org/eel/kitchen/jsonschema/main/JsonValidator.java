@@ -43,12 +43,6 @@ import org.eel.kitchen.util.JsonPointer;
  */
 public final class JsonValidator
 {
-    private final ValidationConfig cfg;
-
-    /**
-     * The schema provider
-     */
-    private final SchemaProvider provider;
 
     /**
      * This validator's {@link ValidationContext}
@@ -58,8 +52,7 @@ public final class JsonValidator
     /**
      * The constructor
      *
-     *
-     * @param cfg
+     * @param cfg the {@link ValidationConfig} object
      * @param schema the root schema to use for validation
      * @throws JsonValidationFailureException the initial JSON node is not a
      * schema
@@ -67,10 +60,9 @@ public final class JsonValidator
     public JsonValidator(final ValidationConfig cfg, final JsonNode schema)
         throws JsonValidationFailureException
     {
-        this.cfg = cfg;
         cfg.buildFactories();
 
-        provider = new SchemaProvider(cfg, schema);
+        final SchemaProvider provider = new SchemaProvider(cfg, schema);
         context = new ValidationContext(cfg, provider);
     }
 
