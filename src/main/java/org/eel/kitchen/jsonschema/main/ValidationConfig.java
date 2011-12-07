@@ -184,6 +184,8 @@ public final class ValidationConfig
                     : new FullValidatorFactory(bundle);
                 factories.put(version, factory);
             }
+
+            factoriesBuilt = true;
         } finally {
             factoryLock.unlock();
         }
