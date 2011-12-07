@@ -57,9 +57,9 @@ public final class MinimumKeywordValidator
 
         final long cmp = value - against;
 
-        if (cmp > 0)
+        if (cmp > 0L)
             report.fail("number is lower than the required minimum");
-        else  if (cmp == 0 && exclusiveMinimum)
+        else  if (cmp == 0L && exclusiveMinimum)
             report.fail("number is not strictly greater than the required "
                 + "minimum");
 

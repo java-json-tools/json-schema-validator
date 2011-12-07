@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.keyword.common;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.uri.URIHandler;
@@ -34,7 +34,7 @@ import java.net.URISyntaxException;
  * Keyword validator for {@code $ref} (draft version 5.28)
  *
  * <p>Please note that while you can register any URI scheme you want (see
- * {@link JsonValidator#registerURIHandler(String, URIHandler)}),
+ * {@link ValidationConfig#registerURIHandler(String, URIHandler)}),
  * relative URIs which are <b>not</b> JSON Pointers are not supported by
  * choice: we cannot tell where to base the lookup from (for JSON Pointers,
  * it's easy enough: it's the current schema).

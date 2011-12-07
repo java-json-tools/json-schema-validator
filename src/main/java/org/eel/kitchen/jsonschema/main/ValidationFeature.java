@@ -20,8 +20,8 @@ package org.eel.kitchen.jsonschema.main;
 /**
  * List of validation features
  *
- * @see JsonValidator#setFeature(ValidationFeature)
- * @see JsonValidator#removeFeature(ValidationFeature)
+ * @see ValidationConfig#enable(ValidationFeature)
+ * @see ValidationConfig#disable(ValidationFeature)
  */
 public enum ValidationFeature
 {

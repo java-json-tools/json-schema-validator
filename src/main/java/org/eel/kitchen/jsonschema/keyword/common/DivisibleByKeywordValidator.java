@@ -50,7 +50,7 @@ public final class DivisibleByKeywordValidator
     {
         final ValidationReport report = context.createReport();
 
-        if (against % value != 0)
+        if (against % value != 0L)
             report.fail("number is not a multiple of divisibleBy");
 
         return report;

@@ -57,9 +57,9 @@ public final class MaximumKeywordValidator
 
         final long cmp = value - against;
 
-        if (cmp < 0)
+        if (cmp < 0L)
             report.fail("number is greater than the required maximum");
-        else if (cmp == 0 && exclusive)
+        else if (cmp == 0L && exclusive)
             report.fail("number is not strictly lower than the required "
                 + "maximum");
 
