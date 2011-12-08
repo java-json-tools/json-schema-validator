@@ -22,5 +22,3 @@
  * </p>
  */
 package org.eel.kitchen.jsonschema.syntax;
-
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;

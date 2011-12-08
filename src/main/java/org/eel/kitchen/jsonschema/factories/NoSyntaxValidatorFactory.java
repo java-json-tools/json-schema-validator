@@ -27,7 +27,6 @@ public final class NoSyntaxValidatorFactory
 {
     @Override
     public ValidationReport validateSchema(final ValidationContext context)
-        throws JsonValidationFailureException
     {
         return ValidationReport.TRUE;
     }

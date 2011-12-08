@@ -22,11 +22,8 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.util.NodeType;
 
 /**
  * Attempt to validate the {@code phone} format specification

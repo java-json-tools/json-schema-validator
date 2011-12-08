@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.mechanics;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
@@ -37,7 +36,6 @@ import static org.testng.Assert.*;
 
 public final class RegistrationTest
 {
-    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
     private JsonNode testNode;
 
     @BeforeClass
@@ -90,7 +88,6 @@ public final class RegistrationTest
 
     @Test
     public void testNullKeywordRegistration()
-        throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
 
@@ -104,7 +101,6 @@ public final class RegistrationTest
 
     @Test
     public void testExistingKeywordRegistrationFailure()
-        throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
 
@@ -118,7 +114,6 @@ public final class RegistrationTest
 
     @Test
     public void testEmptyTypeSetFails()
-        throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
 
@@ -134,7 +129,6 @@ public final class RegistrationTest
 
     @Test
     public void testUnregisteringNullKeywordFails()
-        throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
 

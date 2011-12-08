@@ -35,9 +35,6 @@ import static org.testng.Assert.*;
 
 public final class URIHandlerTest
 {
-    private static final JsonNode schema
-        = JsonNodeFactory.instance.objectNode();
-
     private static final ValidationConfig cfg = new ValidationConfig();
 
     private static final URIHandler handler = new HTTPURIHandler();
@@ -116,7 +113,6 @@ public final class URIHandlerTest
         {
             @Override
             public JsonNode getDocument(final URI uri)
-                throws IOException
             {
                 return testNode;
             }

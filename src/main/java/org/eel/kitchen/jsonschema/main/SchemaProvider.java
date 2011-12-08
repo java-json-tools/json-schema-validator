@@ -204,28 +204,6 @@ public final class SchemaProvider
     }
 
     /**
-     * Register a new handler for a specific scheme
-     *
-     * @param scheme the new scheme
-     * @param handler the new handler
-     */
-    public void registerHandler(final String scheme,
-        final URIHandler handler)
-    {
-        factory.registerHandler(scheme, handler);
-    }
-
-    /**
-     * Unregister a handler for a scheme
-     *
-     * @param scheme the scheme
-     */
-    public void unregisterHandler(final String scheme)
-    {
-        factory.unregisterHandler(scheme);
-    }
-
-    /**
      * Get the version of the current schema
      *
      * @return the default version

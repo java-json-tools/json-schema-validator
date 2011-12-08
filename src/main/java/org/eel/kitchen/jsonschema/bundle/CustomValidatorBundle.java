@@ -40,7 +40,6 @@ public final class CustomValidatorBundle
         kvMap.putAll(bundle.keywordValidators());
     }
 
-
     @Override
     public void registerValidator(final String keyword,
         final SyntaxValidator sv, final KeywordValidator kv,
