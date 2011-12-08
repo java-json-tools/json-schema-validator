@@ -24,15 +24,20 @@ import org.eel.kitchen.util.NodeType;
 import static org.eel.kitchen.util.NodeType.*;
 
 /**
- * A validator bundle
+ * A custom validator bundle
  *
- * <p>As validators vary from one schema to another (and as you can even
- * register your own validators), this class is here to relieve factories
- * from registering validators themselves.</p>
+ * <p>This validator takes an existing bundle as an argument and allows you
+ * to change the set of validated keywords and the validators to use.
+ * </p>
  */
 public final class CustomValidatorBundle
     extends AbstractValidatorBundle
 {
+    /**
+     * Constructor
+     *
+     * @param bundle the validator bundle to use
+     */
     public CustomValidatorBundle(final ValidatorBundle bundle)
     {
         svMap.putAll(bundle.syntaxValidators());
@@ -53,10 +58,8 @@ public final class CustomValidatorBundle
             throw new IllegalArgumentException("keyword is null");
 
         /*
-         * We only need to check for syntax validators: the public
-         * registration mechanism guarantees that the keyword set of syntax
-         * and keyword validators is the same. As to the "private" API,
-         * it is up to the developer to ensure this.
+         * We must check for syntax validators to determine whether a keyword
+         * is registered: it is not mandatory to have a keyword validator.
          */
         if (ignoredSV.contains(keyword) || svMap.containsKey(keyword))
             throw new IllegalArgumentException("keyword already registered");

@@ -44,6 +44,11 @@ public abstract class AbstractTypeKeywordValidator
      */
     private static final String ANY = "any";
 
+    /**
+     * Constructor
+     *
+     * @param keyword the keyword (either {@code type} or {@code disallow})
+     */
     protected AbstractTypeKeywordValidator(final String keyword)
     {
         super(keyword);

@@ -20,6 +20,10 @@ package org.eel.kitchen.jsonschema.syntax.common;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Syntax validator for the {@code additionalProperties} keyword (draft section
+ * 5.3)
+ */
 public final class AdditionalPropertiesSyntaxValidator
     extends SimpleSyntaxValidator
 {

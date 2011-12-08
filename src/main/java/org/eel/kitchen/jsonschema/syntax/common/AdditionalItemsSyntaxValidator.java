@@ -20,6 +20,9 @@ package org.eel.kitchen.jsonschema.syntax.common;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Syntax validator for the {@code additionalItems} keyword (draft section 5.6)
+ */
 public final class AdditionalItemsSyntaxValidator
     extends SimpleSyntaxValidator
 {
