@@ -285,7 +285,7 @@ public final class JsonPointer
     @Override
     public int hashCode()
     {
-        return elements.hashCode();
+        return rawPath.hashCode();
     }
 
     /**
