@@ -7,7 +7,7 @@
 
     },
     "ip-address": {
-        "instance": "slashdot.org",
+        "instance": "::1",
         "messages": [
             "#: string is not a valid IPv4 address"
         ]

@@ -17,13 +17,13 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
+import com.google.common.net.InetAddresses;
 import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.net.Inet6Address;
-import java.net.UnknownHostException;
 
 /**
  * Validator for the {@code ipv6} format specification
@@ -36,6 +36,8 @@ import java.net.UnknownHostException;
 public final class IPV6Validator
     extends FormatValidator
 {
+    private static final int IPV6_LENGTH = 16;
+
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
@@ -43,14 +45,13 @@ public final class IPV6Validator
     {
         final ValidationReport report = context.createReport();
 
-        try {
-            final String ipaddr = instance.getTextValue();
-            if (ipaddr.indexOf(':') == -1)
-                throw new UnknownHostException();
-            Inet6Address.getByName(ipaddr);
-        } catch (UnknownHostException ignored) {
+        final String ipaddr = instance.getTextValue();
+
+        if (!InetAddresses.isInetAddress(ipaddr))
             report.fail("string is not a valid IPv6 address");
-        }
+
+        if (InetAddresses.forString(ipaddr).getAddress().length != IPV6_LENGTH)
+            report.fail("string is not a valid IPv6 address");
 
         return report;
     }
