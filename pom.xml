@@ -50,7 +50,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <links>
-                        <link>http://jackson.codehaus.org/1.9.0/javadoc</link>
+                        <link>http://jackson.codehaus.org/1.9.3/javadoc</link>
                         <link>http://download.oracle.com/javase/6/docs/api</link>
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
