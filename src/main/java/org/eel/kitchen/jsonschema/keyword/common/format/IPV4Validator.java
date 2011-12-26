@@ -23,14 +23,10 @@ import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
-import java.net.Inet4Address;
-
 /**
  * Validator for the {@code ip-address} format specification, ie an IPv4 address
  *
- * <p>This uses {@link Inet4Address#getByName(String)} to validate,
- * but this means we must ensure the shape of the address is good first: when
- * given a hostname, it will try to resolve it and we don't want that.</p>
+ * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
  */
 public final class IPV4Validator
     extends FormatValidator

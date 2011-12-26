@@ -23,15 +23,10 @@ import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
-import java.net.Inet6Address;
-
 /**
  * Validator for the {@code ipv6} format specification
  *
- * <p>This uses {@link Inet6Address#getByName(String)} to validate,
- * which means we must ensure this is a "numerical" IPv6 address before
- * proceeding. Easy enough: {@code :} is not valid in host names,
- * but it required for IPv6 addresses...</p>
+ * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
  */
 public final class IPV6Validator
     extends FormatValidator
