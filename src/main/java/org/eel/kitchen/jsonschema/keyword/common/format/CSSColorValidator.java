@@ -39,7 +39,7 @@ public final class CSSColorValidator
      * The 17 color names defined by CSS 2.1
      */
     private static final List<String> colorNames = Arrays.asList("maroon",
-         "red", "orange", "yellow", "olive", "green", "purple", "fuschia",
+         "red", "orange", "yellow", "olive", "green", "purple", "fuchsia",
          "lime", "teal", "aqua", "blue", "navy", "black", "gray", "silver",
          "white");
 
@@ -47,7 +47,8 @@ public final class CSSColorValidator
      * Pattern to recognize a "hash-defined" color
      */
     private static final Pattern
-        hash = Pattern.compile("#[\\da-f]{1,6}", Pattern.CASE_INSENSITIVE);
+        hash = Pattern.compile("#([\\da-f][\\da-f][\\da-f]){1,2}",
+            Pattern.CASE_INSENSITIVE);
 
     /**
      * Pattern to recognize an "rgb-defined" color
