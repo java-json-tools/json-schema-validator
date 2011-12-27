@@ -95,20 +95,33 @@ public final class CSSColorValidator
 
         int i;
 
-        for (final String color: colors) {
-            try {
-                i = Integer.parseInt(color);
-                /*
-                 * A color element must not be negative or greater than 255.
-                 * This means right shifting by 8 should yield 0.
-                 */
-                if (i >> 8 != 0)
-                    throw new NumberFormatException();
-            } catch (NumberFormatException ignored) {
+        for (final String color: colors)
+            if (!isValidRGBColorElement(color)) {
                 report.fail("string is not a valid CSS 2.1 color");
                 break;
             }
-        }
+
         return report;
+    }
+
+    private static boolean isValidRGBColorElement(final String color)
+    {
+        // TODO: more tests
+        final int i;
+        String tmp = color;
+        int max = 255;
+
+        if (color.endsWith("%")) {
+            tmp = color.substring(0, color.lastIndexOf("%"));
+            max = 100;
+        }
+
+        try {
+            i = Integer.parseInt(tmp);
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+
+        return i >= 0 && i <= max;
     }
 }
