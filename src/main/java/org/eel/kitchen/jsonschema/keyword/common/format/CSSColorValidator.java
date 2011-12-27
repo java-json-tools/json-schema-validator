@@ -65,6 +65,7 @@ public final class CSSColorValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
+        //TODO: more tests!
         final ValidationReport report = context.createReport();
 
         final String value = instance.getTextValue();
@@ -93,35 +94,52 @@ public final class CSSColorValidator
             return report;
         }
 
-        int i;
+        final ColorType type = getElementType(colors[0]);
 
-        for (final String color: colors)
-            if (!isValidRGBColorElement(color)) {
-                report.fail("string is not a valid CSS 2.1 color");
-                break;
-            }
+        if (type == ColorType.INVALID) {
+            report.fail("string is not a valid CSS 2.1 color");
+            return report;
+        }
+
+        if (type != getElementType(colors[1])) {
+            report.fail("string is not a valid CSS 2.1 color");
+            return report;
+        }
+
+        if (type != getElementType(colors[2])) {
+            report.fail("string is not a valid CSS 2.1 color");
+            return report;
+        }
 
         return report;
     }
 
-    private static boolean isValidRGBColorElement(final String color)
+    private static ColorType getElementType(final String element)
     {
-        // TODO: more tests
+        ColorType ret = ColorType.INTEGER;
         final int i;
-        String tmp = color;
+        String tmp = element;
         int max = 255;
 
-        if (color.endsWith("%")) {
-            tmp = color.substring(0, color.lastIndexOf("%"));
+        if (element.endsWith("%")) {
+            tmp = element.substring(0, element.lastIndexOf("%"));
             max = 100;
+            ret = ColorType.PERCENT;
         }
 
         try {
             i = Integer.parseInt(tmp);
         } catch (NumberFormatException ignored) {
-            return false;
+            return ColorType.INVALID;
         }
 
-        return i >= 0 && i <= max;
+        return i >= 0 && i <= max ? ret : ColorType.INVALID;
+    }
+
+    private enum ColorType
+    {
+        INTEGER,
+        PERCENT,
+        INVALID
     }
 }
