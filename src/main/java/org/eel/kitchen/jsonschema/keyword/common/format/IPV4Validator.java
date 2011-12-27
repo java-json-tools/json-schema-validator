@@ -42,8 +42,10 @@ public final class IPV4Validator
 
         final String ipaddr = instance.getTextValue();
 
-        if (!InetAddresses.isInetAddress(ipaddr))
+        if (!InetAddresses.isInetAddress(ipaddr)) {
             report.fail("string is not a valid IPv4 address");
+            return report;
+        }
 
         if (InetAddresses.forString(ipaddr).getAddress().length != IPV4_LENGTH)
             report.fail("string is not a valid IPv4 address");

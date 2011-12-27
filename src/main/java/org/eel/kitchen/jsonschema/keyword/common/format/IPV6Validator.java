@@ -42,8 +42,10 @@ public final class IPV6Validator
 
         final String ipaddr = instance.getTextValue();
 
-        if (!InetAddresses.isInetAddress(ipaddr))
+        if (!InetAddresses.isInetAddress(ipaddr)) {
             report.fail("string is not a valid IPv6 address");
+            return report;
+        }
 
         if (InetAddresses.forString(ipaddr).getAddress().length != IPV6_LENGTH)
             report.fail("string is not a valid IPv6 address");
