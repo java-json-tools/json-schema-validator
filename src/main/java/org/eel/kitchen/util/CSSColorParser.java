@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.util;
 
+import org.parboiled.Action;
+import org.parboiled.Context;
 import org.parboiled.Rule;
 import org.parboiled.annotations.BuildParseTree;
 
@@ -63,25 +65,52 @@ public class CSSColorParser
     }
 
     /**
-     * Rule to match a range of digits
+     * When matching an integer, check that it is bounded by two values
      *
-     * @param start the starting digit
-     * @param end the ending digit
-     * @return the matching rule
-     * @throws IllegalStateException start or end are either negative or
-     * strictly greater than 9, or end is not strictly greater than start
+     * @param start the lower bound
+     * @param end the upper bould
+     * @return the action
      */
-    Rule Digits(final int start, final int end)
+    static <V> Action<V> RangeCheck(final int start, final int end)
     {
-        if (start < 0 || start >= 10)
-            throw new IllegalStateException();
-        if (end < 0 || end >= 10)
-            throw new IllegalStateException();
-        if (end <= start)
+        if (start > end)
             throw new IllegalStateException();
 
-        return CharRange(Character.forDigit(start, 10),
-            Character.forDigit(end, 10));
+        return new Action<V>() {
+
+            /**
+             * Runs the parser action.
+             *
+             * @param context the current parsing context
+             * @return true if the parsing process is to proceed,
+             * false if the current rule is to fail
+             */
+            @Override
+            public boolean run(final Context<V> context)
+            {
+                final int value;
+
+                try {
+                    value = Integer.parseInt(context.getMatch());
+                } catch (NumberFormatException ignored) {
+                    //Overflow
+                    return false;
+                }
+                return value >= start && value <= end;
+            }
+        };
+    }
+
+    /**
+     * Match a positive integer bounded by two values
+     *
+     * @param start the lower bound
+     * @param end the upper bound
+     * @return the matching rule
+     */
+    Rule PositiveInteger(final int start, final int end)
+    {
+        return Sequence(OneOrMore(Digit()), RangeCheck(start, end));
     }
 
     /**
@@ -89,19 +118,9 @@ public class CSSColorParser
      *
      * @return the matching rule
      */
-    Rule AllDigits()
+    Rule Digit()
     {
-        return Digits(0, 9);
-    }
-
-    /**
-     * Rule to match all numbers from 10 to 99 inclusive
-     *
-     * @return the matching rule
-     */
-    Rule TenTo99()
-    {
-        return Sequence(Digits(1, 9), AllDigits());
+        return CharRange('0', '9');
     }
 
     /**
@@ -122,7 +141,7 @@ public class CSSColorParser
      */
     Rule HexDigit()
     {
-        return FirstOf(IgnoreCase("abcdef"), AllDigits());
+        return FirstOf(CharRange('a', 'f'), CharRange('A', 'F'), Digit());
     }
 
     /**
@@ -181,7 +200,7 @@ public class CSSColorParser
      */
     Rule PercentColorElement()
     {
-        return Sequence(FirstOf("100", TenTo99(), AllDigits()), '%');
+        return PositiveInteger(0, 100);
     }
 
     /**
@@ -195,13 +214,7 @@ public class CSSColorParser
      */
     Rule NumericColorElement()
     {
-        return FirstOf(
-            Sequence("25", CharRange('0', '5')),
-            Sequence('2', CharRange('0', '4'), AllDigits()),
-            Sequence('1', AllDigits(), AllDigits()),
-            TenTo99(),
-            AllDigits()
-        );
+        return PositiveInteger(0, 255);
     }
 
     /**
@@ -214,16 +227,8 @@ public class CSSColorParser
      */
     Rule CSSRGBColor()
     {
-        return Sequence(
-            "rgb(",
-            Spaces(),
-            FirstOf(
-                Join(3, PercentColorElement(), Comma()),
-                Join(3, NumericColorElement(), Comma())
-            ),
-            Spaces(),
-            ')'
-        );
+        return Sequence("rgb(", Spaces(), FirstOf(Join(3, PercentColorElement(),
+            Comma()), Join(3, NumericColorElement(), Comma())), Spaces(), ')');
     }
 
     /**
