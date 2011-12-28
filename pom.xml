@@ -54,6 +54,8 @@
                         <link>http://download.oracle.com/javase/6/docs/api</link>
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
+                        <link>http://www.decodified.com/parboiled/api/core</link>
+                        <link>http://www.decodified.com/parboiled/api/java</link>
                     </links>
                 </configuration>
                 <executions>
@@ -137,6 +139,11 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>10.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.parboiled</groupId>
+            <artifactId>parboiled-java</artifactId>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
     <licenses>
