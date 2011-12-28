@@ -200,7 +200,7 @@ public class CSSColorParser
      */
     Rule PercentColorElement()
     {
-        return PositiveInteger(0, 100);
+        return Sequence(PositiveInteger(0, 100), '%');
     }
 
     /**
@@ -227,8 +227,16 @@ public class CSSColorParser
      */
     Rule CSSRGBColor()
     {
-        return Sequence("rgb(", Spaces(), FirstOf(Join(3, PercentColorElement(),
-            Comma()), Join(3, NumericColorElement(), Comma())), Spaces(), ')');
+        return Sequence(
+            "rgb(",
+            Spaces(),
+            FirstOf(
+                Join(3, PercentColorElement(), Comma()),
+                Join(3, NumericColorElement(), Comma())
+            ),
+            Spaces(),
+            ')'
+        );
     }
 
     /**
