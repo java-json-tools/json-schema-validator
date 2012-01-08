@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -17,9 +17,10 @@
 
 package org.eel.kitchen.util;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Function;
+import org.mozilla.javascript.Scriptable;
+
 import java.util.regex.Pattern;
 
 /**
@@ -44,26 +45,52 @@ import java.util.regex.Pattern;
 public final class RhinoHelper
 {
     /**
-     * The scriptlet template used to validate a regex
+     * JavaScript scriptlet defining functions {@link #regexIsValid}
+     * and {@link #regMatch}
      */
-    private static final String REGEX_FORMAT = "/%s/";
+    private static final String jsAsString
+        = "function regexIsValid(re) "
+        + "{"
+        + "    try {"
+        + "         new RegExp(re);"
+        + "         return true;"
+        + "    } catch (e) {"
+        + "        return false;"
+        + "    }"
+        + "}"
+        + ""
+        + "function regMatch(re, input)"
+        + "{"
+        + "    return new RegExp(re).test(input);"
+        + "}";
 
     /**
-     * The scriptlet template used to match an input against a regex
+     * Script context to use
      */
-    private static final String REGEX_VALIDATE = "/%s/.test(\"%s\")";
+    private static final Context ctx;
 
     /**
-     * The {@link Pattern} used to recognize a /, using a positive lookahead
-     * construct
+     * Script scope
      */
-    private static final Pattern SLASH_LOOKAHEAD = Pattern.compile("(?=/)");
+    private static final Scriptable scope;
 
     /**
-     * Instance of Rhino's {@link ScriptEngine} to use.
+     * Reference to Javascript function for regex validation
      */
-    private static final ScriptEngine engine
-        = new ScriptEngineManager().getEngineByName("JavaScript");
+    private static final Function regexIsValid;
+
+    /**
+     * Reference to Javascript function for regex matching
+     */
+    private static final Function regMatch;
+
+    static {
+        ctx = Context.enter();
+        scope = ctx.initStandardObjects();
+        ctx.evaluateString(scope, jsAsString, "re", 1, null);
+        regexIsValid = (Function) scope.get("regexIsValid", scope);
+        regMatch = (Function) scope.get("regMatch", scope);
+    }
 
     /**
      * Validate that a regex is correct
@@ -73,12 +100,8 @@ public final class RhinoHelper
      */
     public static boolean regexIsValid(final String regex)
     {
-        try {
-            engine.eval(String.format(REGEX_FORMAT, escape(regex)));
-            return true;
-        } catch (ScriptException ignored) {
-            return false;
-        }
+        return (Boolean) regexIsValid.call(ctx, scope, scope,
+            new Object[] { regex });
     }
 
     /**
@@ -98,26 +121,7 @@ public final class RhinoHelper
      */
     public static boolean regMatch(final String regex, final String input)
     {
-        final String js = String.format(REGEX_VALIDATE, escape(regex), input);
-
-        try {
-            return (Boolean) engine.eval(js);
-        } catch (ScriptException e) {
-            throw new RuntimeException("Should never have reached this point!"
-                + " Regex SHOULD have been validated already", e);
-        }
-    }
-
-    /**
-     * Utility function to escape slashes in a given regex string. Given that we
-     * feed the regex to Rhino as {@code /re/}, where {@code re} is the regex,
-     * we need to prepend a backslash to all slashes found in {@code re}.
-     *
-     * @param regex the regex as a String
-     * @return the regex, with all slashes escaped
-     */
-    private static String escape(final String regex)
-    {
-        return SLASH_LOOKAHEAD.matcher(regex).replaceAll("\\\\");
+        return (Boolean) regMatch.call(ctx, scope, scope,
+            new Object[] { regex, input });
     }
 }
