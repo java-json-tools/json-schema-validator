@@ -90,6 +90,7 @@ public final class RhinoHelper
         ctx.evaluateString(scope, jsAsString, "re", 1, null);
         regexIsValid = (Function) scope.get("regexIsValid", scope);
         regMatch = (Function) scope.get("regMatch", scope);
+        ctx.seal(null);
     }
 
     /**
