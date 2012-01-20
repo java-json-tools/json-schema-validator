@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.main;
 
 import org.codehaus.jackson.JsonNode;
-import org.eel.kitchen.jsonschema.uri.URIHandler;
 import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.SchemaVersion;
@@ -77,6 +76,13 @@ public final class SchemaProvider
      */
     private final SchemaVersion defaultVersion;
 
+    /**
+     * Constructor
+     *
+     * @param cfg this provider's configuration
+     * @param schema the schema to use
+     * @throws JsonValidationFailureException if the schema is invalid
+     */
     public SchemaProvider(final ValidationConfig cfg, final JsonNode schema)
         throws JsonValidationFailureException
     {
@@ -101,7 +107,7 @@ public final class SchemaProvider
     }
 
     /**
-     * Constructor
+     * Private constructor
      *
      * @param defaultVersion the schema version to use if collected schemas
      * do not declare one
@@ -116,8 +122,8 @@ public final class SchemaProvider
      *
      * @param pointer the JSON Pointer to locate the subschema
      * @return a new provider
-     * @throws JsonValidationFailureException the calculated subschema is not
-     * a valid schema
+     * @throws JsonValidationFailureException the given pointer does not
+     * point to a valid schema
      */
     public SchemaProvider atPoint(final JsonPointer pointer)
         throws JsonValidationFailureException
@@ -142,8 +148,7 @@ public final class SchemaProvider
      *
      * @param newschema the schema to use
      * @return the provider
-     * @throws JsonValidationFailureException the calculated subschema is not
-     * a valid schema
+     * @throws JsonValidationFailureException the new schema isn't one
      */
     public SchemaProvider withSchema(final JsonNode newschema)
         throws JsonValidationFailureException
@@ -161,11 +166,10 @@ public final class SchemaProvider
      * Spawn a new provider with a schema located at an URI (typically,
      * an argument to {@code $ref})
      *
-     * @param uri the complete URI to the new schema
+     * @param uri the URI to the new schema
      * @return the new provider
      * @throws IOException the schema could not be fetched
-     * @throws JsonValidationFailureException the calculated subschema is not
-     * a valid schema
+     * @throws JsonValidationFailureException the JSON reference is invalid
      */
     public SchemaProvider atURI(final URI uri)
         throws IOException, JsonValidationFailureException
