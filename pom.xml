@@ -22,7 +22,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <links>
-                        <link>http://jackson.codehaus.org/1.9.3/javadoc</link>
+                        <link>http://jackson.codehaus.org/1.9.4/javadoc</link>
                         <link>http://download.oracle.com/javase/6/docs/api</link>
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
@@ -70,14 +70,14 @@
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
-            <version>1.9.3</version>
+            <version>1.9.4</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.3</version>
+            <version>1.9.4</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>libphonenumber</artifactId>
-            <version>4.2</version>
+            <version>4.5</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -110,7 +110,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>10.0.1</version>
+            <version>11.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.parboiled</groupId>
