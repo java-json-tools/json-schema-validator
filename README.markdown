@@ -1,3 +1,7 @@
+<p><b>IMPORTANT: if you report a bug, please mention what version you are
+using!</b> 0.4 and master differ quite a lot now, and I need to know what
+codebase you are refering to.</p>
+
 <p>This is an implementation of the [JSON Schema
 specification](http://www.json-schema.org) written in pure Java. This allows
 pure server side JSON schema validation if this is what you are looking for.
