@@ -11,7 +11,7 @@ can be found [here](http://json-schema.org/draft-03/schema) (version 4 is
 around the corner, for some defintion of "corner" -- understand, days, or a few
 weeks).
 
-<p><b>Version 0.4 is out, and should show up on Maven very soon</b>. see [here]
+<p><b>Version 0.4.1 is out</b>. see [here]
 (https://github.com/fge/json-schema-validator/wiki/ChangeLog) for a list of
 features. It now has experimental draft v4 support.
 
