@@ -210,6 +210,6 @@ public final class RefTest
 
         assertEquals(report.getMessages().size(), 1);
         assertEquals(report.getMessages().get(0), "#: FATAL: schema {\"$ref\":"
-            + "\"#/schema2\"} loops on itself");
+            + "\"#/schema1\"} loops on itself");
     }
 }

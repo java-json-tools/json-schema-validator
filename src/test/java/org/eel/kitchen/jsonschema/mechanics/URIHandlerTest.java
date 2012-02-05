@@ -130,6 +130,6 @@ public final class URIHandlerTest
 
         assertEquals(report.getMessages().size(), 1);
         assertEquals(report.getMessages().get(0), "#: FATAL: schema "
-            + "{\"$ref\":\"mystuff:a#/link2\"} loops on itself");
+            + "{\"$ref\":\"mystuff:b#/link3/2/%25/\"} loops on itself");
     }
 }

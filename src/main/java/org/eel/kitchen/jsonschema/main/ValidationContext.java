@@ -237,12 +237,13 @@ public final class ValidationContext
      *
      * @param pointer the JSON Pointer from the root of the schema
      * @param instance the instance to validate
+     * @param record record schema in ref lookups
      * @return the appropriate validator
      * @throws JsonValidationFailureException if reporting is configured to
      * throw this exception
      */
     public Validator getValidator(final JsonPointer pointer,
-        final JsonNode instance)
+        final JsonNode instance, final boolean record)
         throws JsonValidationFailureException
     {
         final ValidationReport report = createReport();
@@ -259,7 +260,7 @@ public final class ValidationContext
 
         final JsonNode schema = provider.getSchema();
 
-        if (!refLookups.add(schema)) {
+        if (record && !refLookups.add(schema)) {
             logger.debug("ref loop detected!");
             logger.debug("path to loop: {}", refLookups);
             report.error("schema " + schema + " loops on itself");

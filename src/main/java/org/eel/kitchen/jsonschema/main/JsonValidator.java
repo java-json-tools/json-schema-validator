@@ -104,8 +104,9 @@ public final class JsonValidator
         throws JsonValidationFailureException
     {
         final JsonPointer pointer = new JsonPointer(path);
+        final Validator validator
+            = context.getValidator(pointer, instance, false);
 
-        final Validator validator = context.getValidator(pointer, instance);
         return validator.validate(context, instance);
     }
 
