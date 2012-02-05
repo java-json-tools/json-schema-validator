@@ -402,7 +402,8 @@ public final class JsonValidator
         ctxlock.readLock().lock();
 
         try {
-            final Validator validator = context.getValidator(pointer, instance);
+            final Validator validator
+                = context.getValidator(pointer, instance, false);
             return validator.validate(context, instance);
         } finally {
             ctxlock.readLock().unlock();

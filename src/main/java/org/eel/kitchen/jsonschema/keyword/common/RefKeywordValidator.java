@@ -42,7 +42,7 @@ import java.net.URISyntaxException;
  *
  * <p>Note that ref loop detection is not done here, nor is malformed JSON
  * Pointers. This is the role of {@link
- * ValidationContext#getValidator(JsonPointer, JsonNode)}.</p>
+ * ValidationContext#getValidator(JsonPointer, JsonNode, boolean)}.</p>
  *
  * @see URIHandler
  * @see JsonPointer
@@ -107,6 +107,7 @@ public final class RefKeywordValidator
             return report;
         }
 
-        return ctx.getValidator(pointer, instance).validate(ctx, instance);
+        return ctx.getValidator(pointer, instance, true)
+            .validate(ctx, instance);
     }
 }
