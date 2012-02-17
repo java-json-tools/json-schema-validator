@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.bundle;
 
 import org.eel.kitchen.jsonschema.keyword.draftv3.PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv3.DollarRefSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv3.RequiredSyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -46,8 +45,5 @@ public final class DraftV3ValidatorBundle
 
         /* required */
         registerSV("required", RequiredSyntaxValidator.getInstance());
-
-        /* $ref -- syntax only */
-        registerSV("$ref", DollarRefSyntaxValidator.getInstance());
     }
 }

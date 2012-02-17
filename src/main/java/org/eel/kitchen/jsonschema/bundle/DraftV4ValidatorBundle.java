@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.bundle;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MaxPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MinPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
-import org.eel.kitchen.jsonschema.syntax.draftv4.DollarRefSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv4.MaxPropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv4.MinPropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.draftv4.PropertiesSyntaxValidator;
@@ -64,8 +63,5 @@ public final class DraftV4ValidatorBundle
 
         /* properties */
         registerSV("properties", PropertiesSyntaxValidator.getInstance());
-
-        /* $ref -- syntax only */
-        registerSV("$ref", DollarRefSyntaxValidator.getInstance());
     }
 }

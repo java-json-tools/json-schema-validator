@@ -46,6 +46,7 @@ import org.eel.kitchen.jsonschema.syntax.common.DependenciesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DescriptionSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DisallowSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.common.DollarRefSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DollarSchemaSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common
@@ -195,10 +196,7 @@ class BuiltinValidatorBundle
             ARRAY);
 
         /* $ref */
-        /*
-         * Unfortunately, syntax validation differs between draft v3 and v4:
-         * in v3, $ref may be paired with required -- in v4, no.
-         */
+        registerSV("$ref", DollarRefSyntaxValidator.getInstance());
         registerKV("$ref", RefKeywordValidator.getInstance(), values());
 
         /* $schema */

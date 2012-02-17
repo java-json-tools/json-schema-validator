@@ -51,27 +51,6 @@ public final class RefTest
     }
 
     @Test
-    public void testRefNotAlone()
-        throws JsonValidationFailureException
-    {
-        final ObjectNode schemaNode = factory.objectNode();
-
-        schemaNode.put("$ref", "#");
-        schemaNode.put("format", "uri");
-
-        final JsonValidator validator = new JsonValidator(cfg, schemaNode);
-
-        final ValidationReport report = validator.validate(factory.arrayNode());
-
-        assertFalse(report.isSuccess());
-
-        assertEquals(report.getMessages().size(), 1);
-
-        assertEquals(report.getMessages().get(0),  "# [schema:$ref]: $ref "
-            + "can only be by itself, or paired with required");
-    }
-
-    @Test
     public void testLoopingRef()
         throws JsonValidationFailureException
     {
