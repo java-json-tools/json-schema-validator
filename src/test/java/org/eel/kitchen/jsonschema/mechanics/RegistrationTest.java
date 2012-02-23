@@ -105,7 +105,7 @@ public final class RegistrationTest
         final ValidationConfig cfg = new ValidationConfig();
 
         try {
-            cfg.registerValidator("default", null, null, NodeType.values());
+            cfg.registerValidator("$ref", null, null, NodeType.values());
             fail("No exception thrown");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "keyword already registered");

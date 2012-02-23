@@ -94,9 +94,6 @@ class BuiltinValidatorBundle
         registerKV("additionalProperties",
             AdditionalPropertiesKeywordValidator.getInstance(), OBJECT);
 
-        /* default */
-        registerIgnoredSV("default");
-
         /* dependencies */
         registerSV("dependencies", DependenciesSyntaxValidator.getInstance());
         registerKV("dependencies", DependenciesKeywordValidator.getInstance(),
@@ -140,9 +137,6 @@ class BuiltinValidatorBundle
 
         /* items */
         registerSV("items", ItemsSyntaxValidator.getInstance());
-
-        /* links */
-        registerIgnoredSV("links");
 
         /* maximum */
         registerSV("maximum", MaximumSyntaxValidator.getInstance());

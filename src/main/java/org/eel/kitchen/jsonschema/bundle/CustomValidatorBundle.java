@@ -41,7 +41,6 @@ public final class CustomValidatorBundle
     public CustomValidatorBundle(final ValidatorBundle bundle)
     {
         svMap.putAll(bundle.syntaxValidators());
-        ignoredSV.addAll(bundle.ignoredSyntaxValidators());
         kvMap.putAll(bundle.keywordValidators());
     }
 
@@ -61,12 +60,10 @@ public final class CustomValidatorBundle
          * We must check for syntax validators to determine whether a keyword
          * is registered: it is not mandatory to have a keyword validator.
          */
-        if (ignoredSV.contains(keyword) || svMap.containsKey(keyword))
+        if (svMap.containsKey(keyword))
             throw new IllegalArgumentException("keyword already registered");
 
-        if (sv == null)
-            ignoredSV.add(keyword);
-        else
+        if (sv != null)
             svMap.put(keyword, sv);
 
         if (kv != null)
@@ -83,7 +80,6 @@ public final class CustomValidatorBundle
          * We choose to completely ignore keywords which were not registered
          * at this point
          */
-        ignoredSV.remove(keyword);
         svMap.remove(keyword);
 
         for (final NodeType type: values())

@@ -5,7 +5,6 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.Map;
-import java.util.Set;
 
 public interface ValidatorBundle
 {
@@ -15,13 +14,6 @@ public interface ValidatorBundle
      * @return a map pairing keywords to their validators
      */
     Map<String, SyntaxValidator> syntaxValidators();
-
-    /**
-     * Return the set of ignored keywords on syntax validation
-     *
-     * @return the set
-     */
-    Set<String> ignoredSyntaxValidators();
 
     /**
      * Return the list of registered keyword validators and associated

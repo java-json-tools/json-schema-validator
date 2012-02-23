@@ -24,9 +24,7 @@ import org.eel.kitchen.util.NodeType;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import static org.eel.kitchen.util.NodeType.*;
 
@@ -45,11 +43,6 @@ abstract class AbstractValidatorBundle
      */
     protected final Map<String, SyntaxValidator> svMap
         = new HashMap<String, SyntaxValidator>();
-
-    /**
-     * Keywords to ignore for syntax validation
-     */
-    protected final Set<String> ignoredSV = new HashSet<String>();
 
     /**
      * The {@link KeywordValidator} map
@@ -81,17 +74,6 @@ abstract class AbstractValidatorBundle
     }
 
     /**
-     * Return the set of ignored keywords on syntax validation
-     *
-     * @return the set
-     */
-    @Override
-    public final Set<String> ignoredSyntaxValidators()
-    {
-        return Collections.unmodifiableSet(ignoredSV);
-    }
-
-    /**
      * Return the list of registered keyword validators and associated
      * instance types
      *
@@ -113,16 +95,6 @@ abstract class AbstractValidatorBundle
         final SyntaxValidator sv)
     {
         svMap.put(keyword, sv);
-    }
-
-    /**
-     * Register an ignored keyword for syntax validation
-     *
-     * @param keyword the keyword
-     */
-    protected final void registerIgnoredSV(final String keyword)
-    {
-        ignoredSV.add(keyword);
     }
 
     /**
