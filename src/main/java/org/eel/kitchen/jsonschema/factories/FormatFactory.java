@@ -107,7 +107,7 @@ public final class FormatFactory
         final String name, final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final NodeType type = NodeType.getNodeType(instance);
+        final NodeType type = getNodeType(instance);
         final ValidationReport report = context.createReport();
 
         if (!typeMap.containsKey(name)) {
