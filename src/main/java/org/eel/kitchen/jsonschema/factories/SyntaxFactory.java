@@ -17,9 +17,7 @@
 
 package org.eel.kitchen.jsonschema.factories;
 
-import org.codehaus.jackson.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
-import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
@@ -60,13 +58,6 @@ public final class SyntaxFactory
     private final Map<String, SyntaxValidator> validators;
 
     /**
-     * The set of keywords for this factory
-     *
-     * <p>In fact, this is the key set of the {@link #validators} map.</p>
-     */
-    private final Set<String> keywords;
-
-    /**
      * Constructor
      *
      * @param bundle the validator bundle to use
@@ -75,8 +66,6 @@ public final class SyntaxFactory
     {
         validators = new HashMap<String, SyntaxValidator>(bundle
             .syntaxValidators());
-
-        keywords = validators.keySet();
     }
 
     /**
@@ -90,22 +79,8 @@ public final class SyntaxFactory
      */
     public Validator getValidator(final ValidationContext context)
     {
-        final JsonNode schema = context.getSchema();
-
         final Set<String> fields
-            = CollectionUtils.toSet(schema.getFieldNames());
-
-        final Set<String> extra = new HashSet<String>(fields);
-
-        extra.removeAll(keywords);
-
-        for (final String s: extra)
-            logger.warn("ignored keyword {}", s);
-
-        fields.retainAll(keywords);
-
-        if (fields.isEmpty())
-            return new AlwaysTrueValidator();
+            = CollectionUtils.toSet(context.getSchema().getFieldNames());
 
         final Collection<Validator> collection = getValidators(fields);
 
@@ -124,7 +99,10 @@ public final class SyntaxFactory
         final Set<Validator> ret = new HashSet<Validator>();
 
         for (final String field: fields)
-            ret.add(validators.get(field));
+            if (validators.containsKey(field))
+                ret.add(validators.get(field));
+            else
+                logger.warn("ignored keyword {}", field);
 
         return ret;
     }
