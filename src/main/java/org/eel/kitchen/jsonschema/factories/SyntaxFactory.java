@@ -23,11 +23,11 @@ import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,6 +48,12 @@ import java.util.Set;
  */
 public final class SyntaxFactory
 {
+    /*
+     * Our logger
+     */
+    private static final Logger logger
+        = LoggerFactory.getLogger(SyntaxFactory.class);
+
     /**
      * Map pairing a schema keyword with its corresponding syntax validator
      */
@@ -63,6 +69,13 @@ public final class SyntaxFactory
     private final Set<String> ignoredKeywords;
 
     /**
+     * The set of keywords for this factory
+     *
+     * <p>In fact, this is the key set of the {@link #validators} map.</p>
+     */
+    private final Set<String> keywords;
+
+    /**
      * Constructor
      *
      * @param bundle the validator bundle to use
@@ -73,6 +86,7 @@ public final class SyntaxFactory
             .syntaxValidators());
 
         ignoredKeywords = new HashSet<String>(bundle.ignoredSyntaxValidators());
+        keywords = validators.keySet();
     }
 
     /**
@@ -83,28 +97,24 @@ public final class SyntaxFactory
      *
      * @param context the validation context
      * @return the matching validator
-     * @throws JsonValidationFailureException if reporting is set to throw
-     * this exception instead of collecting messages
      */
     public Validator getValidator(final ValidationContext context)
-        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchema();
-        final ValidationReport report = context.createReport(" [schema]");
 
         final Set<String> fields
             = CollectionUtils.toSet(schema.getFieldNames());
 
+        final Set<String> extra = new HashSet<String>(fields);
+
+        extra.removeAll(keywords);
+
+        for (final String s: extra)
+            logger.warn("ignored keyword {}", s);
+
+        fields.retainAll(keywords);
+
         fields.removeAll(ignoredKeywords);
-
-        final Set<String> keywords = new HashSet<String>(validators.keySet());
-
-        if (!keywords.containsAll(fields)) {
-            fields.removeAll(keywords);
-            for (final String field: fields)
-                report.fail("unknown keyword " + field);
-            return new AlwaysFalseValidator(report);
-        }
 
         if (fields.isEmpty())
             return new AlwaysTrueValidator();

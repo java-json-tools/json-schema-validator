@@ -97,11 +97,7 @@ public final class SyntaxValidatorFactoryTest
 
         report = validator.validateSchema();
 
-        assertFalse(report.isSuccess());
-        final List<String> messages = report.getMessages();
-
-        assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0), "# [schema]: unknown keyword toto");
+        assertTrue(report.isSuccess());
     }
 
     @Test
