@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.factories;
 
-import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.MatchAllValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
@@ -27,7 +26,6 @@ import org.eel.kitchen.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -40,9 +38,8 @@ import java.util.Set;
  * they ensure that keyword validators always have correct data to deal with.
  * </p>
  *
- * <p>Note that unknown keywords to this factory trigger a validation
- * <b>failure</b>. Therefore, it is important that <b>all</b> keywords be
- * registered (even if knowingly ignored). This is on purpose.</p>
+ * <p>Note that unknown keywords to this factory will be ignored -- they will
+ * be logged at the warning level, but that's it.</p>
  */
 public final class SyntaxFactory
 {
@@ -71,9 +68,6 @@ public final class SyntaxFactory
     /**
      * Get the syntax validator for a given context
      *
-     * <p>As the summary mentions, an unknown keyword to this factory will
-     * trigger a failure by returning an {@link AlwaysFalseValidator}.</p>
-     *
      * @param context the validation context
      * @return the matching validator
      */
@@ -82,21 +76,7 @@ public final class SyntaxFactory
         final Set<String> fields
             = CollectionUtils.toSet(context.getSchema().getFieldNames());
 
-        final Collection<Validator> collection = getValidators(fields);
-
-        return collection.size() == 1 ? collection.iterator().next()
-            : new MatchAllValidator(collection);
-    }
-
-    /**
-     * Return a list of validators for a schema node
-     *
-     * @param fields the list of keywords
-     * @return the list of validators
-     */
-    private Collection<Validator> getValidators(final Set<String> fields)
-    {
-        final Set<Validator> ret = new HashSet<Validator>();
+        final Set<Validator> ret = new HashSet<Validator>(fields.size());
 
         for (final String field: fields)
             if (validators.containsKey(field))
@@ -104,6 +84,7 @@ public final class SyntaxFactory
             else
                 logger.warn("ignored keyword {}", field);
 
-        return ret;
+        return ret.size() == 1 ? ret.iterator().next()
+            : new MatchAllValidator(ret);
     }
 }
