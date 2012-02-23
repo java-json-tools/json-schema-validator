@@ -60,15 +60,6 @@ public final class SyntaxFactory
     private final Map<String, SyntaxValidator> validators;
 
     /**
-     * The set of ignored keywords for this factory
-     *
-     * <p>Note that an ignored keyword is <b>not</b> the same as an unknown
-     * keyword, it simply means that if the keyword is found in the schema,
-     * it is assumed to always be valid.</p>
-     */
-    private final Set<String> ignoredKeywords;
-
-    /**
      * The set of keywords for this factory
      *
      * <p>In fact, this is the key set of the {@link #validators} map.</p>
@@ -85,7 +76,6 @@ public final class SyntaxFactory
         validators = new HashMap<String, SyntaxValidator>(bundle
             .syntaxValidators());
 
-        ignoredKeywords = new HashSet<String>(bundle.ignoredSyntaxValidators());
         keywords = validators.keySet();
     }
 
@@ -113,8 +103,6 @@ public final class SyntaxFactory
             logger.warn("ignored keyword {}", s);
 
         fields.retainAll(keywords);
-
-        fields.removeAll(ignoredKeywords);
 
         if (fields.isEmpty())
             return new AlwaysTrueValidator();
