@@ -22,6 +22,7 @@ import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
@@ -89,6 +90,9 @@ public final class KeywordFactory
         final JsonNode schemaNode = context.getSchema();
         final Set<String> keywords
             = CollectionUtils.toSet(schemaNode.getFieldNames());
+
+        if (keywords.contains("$ref"))
+            return Arrays.<Validator>asList(RefKeywordValidator.getInstance());
 
         final NodeType type = NodeType.getNodeType(instance);
         final Map<String, Validator> map

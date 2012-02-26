@@ -57,6 +57,8 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  * but validators are not reset -- as such, when trying and validating
  * against <code>divisibleBy</code>, the code tries to lookup a non existing
  * key.</p>
+ *
+ * <p><b>FIXED</b></p>
  */
 final class Bug1
     extends Bug
@@ -79,7 +81,7 @@ final class Bug1
 
         schema = node;
 
-        value = factory.numberNode(2);
+        value = factory.numberNode(3);
 
         final ValidationConfig cfg = new ValidationConfig();
         final JsonValidator validator = new JsonValidator(cfg, schema);
