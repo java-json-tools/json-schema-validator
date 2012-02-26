@@ -45,20 +45,15 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  *     2
  * </pre>
  *
- * <p>Validate with:</p>
+ * <p>Validate twice with:</p>
  *
  * <pre>
  *     validator.validate("#/sub", data);
  * </pre>
  *
  * <p>Expected: validation success.</p>
- * <p>What happens instead: NullPointerException :(</p>
- * <p>What goes wrong: <code>$ref</code> is calculated,
- * but validators are not reset -- as such, when trying and validating
- * against <code>divisibleBy</code>, the code tries to lookup a non existing
- * key.</p>
- *
- * <p><b>FIXED</b></p>
+ * <p>What happens instead: ref loop detected on second run</p>
+ * <p>What goes wrong: ref lookups are not cleared before the second run.</p>
  */
 final class Bug1
     extends Bug
@@ -86,7 +81,7 @@ final class Bug1
         final ValidationConfig cfg = new ValidationConfig();
         final JsonValidator validator = new JsonValidator(cfg, schema);
 
-        final ValidationReport report = validator.validate("#/sub", value);
+        ValidationReport report = validator.validate("#/sub", value);
 
         if (report.isError()) {
             retcode = 1;
@@ -94,6 +89,13 @@ final class Bug1
                 System.out.println(msg);
         }
 
+        report = validator.validate("#/sub", value);
+
+        if (report.isError()) {
+            retcode = 1;
+            for (final String msg : report.getMessages())
+                System.out.println(msg);
+        }
         System.exit(retcode);
     }
 }
