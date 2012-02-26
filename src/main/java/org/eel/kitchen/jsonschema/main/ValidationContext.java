@@ -86,7 +86,7 @@ public final class ValidationContext
         this.cfg = cfg;
         this.provider = provider;
 
-        refLookups.add(provider.getSchema());
+        //refLookups.add(provider.getSchema());
     }
 
     /**

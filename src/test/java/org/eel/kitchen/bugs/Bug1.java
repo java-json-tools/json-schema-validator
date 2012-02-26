@@ -52,9 +52,11 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  * </pre>
  *
  * <p>Expected: validation success.</p>
- * <p>What happens instead: ref loop detected</p>
- * <p>What goes wrong: the initial schema is pushed into ref lookups,
- * it shouldn't</p>
+ * <p>What happens instead: NullPointerException :(</p>
+ * <p>What goes wrong: <code>$ref</code> is calculated,
+ * but validators are not reset -- as such, when trying and validating
+ * against <code>divisibleBy</code>, the code tries to lookup a non existing
+ * key.</p>
  */
 final class Bug1
     extends Bug
