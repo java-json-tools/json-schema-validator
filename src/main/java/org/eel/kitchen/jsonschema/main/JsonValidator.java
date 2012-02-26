@@ -103,6 +103,7 @@ public final class JsonValidator
     public ValidationReport validate(final String path, final JsonNode instance)
         throws JsonValidationFailureException
     {
+        context.resetLookups();
         final JsonPointer pointer = new JsonPointer(path);
         final Validator validator
             = context.getValidator(pointer, instance, false);

@@ -42,7 +42,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  * <p>Data:</p>
  *
  * <pre>
- *     2
+ *     3
  * </pre>
  *
  * <p>Validate twice with:</p>
@@ -54,6 +54,8 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
  * <p>Expected: validation success.</p>
  * <p>What happens instead: ref loop detected on second run</p>
  * <p>What goes wrong: ref lookups are not cleared before the second run.</p>
+ *
+ * <p><b>FIXED</b></p>
  */
 final class Bug1
     extends Bug

@@ -107,6 +107,17 @@ public final class ValidationContext
     }
 
     /**
+     * Reset the {@link #refLookups} set
+     *
+     * <p>This method is necessary before reusing a context for another
+     * validation.</p>
+     */
+    public void resetLookups()
+    {
+        refLookups.clear();
+    }
+
+    /**
      * Spawn a new context from this context, with a (potentially) different
      * JSON Pointer within the instance and a new schema
      *
