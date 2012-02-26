@@ -62,6 +62,9 @@ public final class ValidationContext
      */
     private final JsonPointer path;
 
+    /**
+     * Configuration object for this validation context
+     */
     private final ValidationConfig cfg;
 
     /**
@@ -78,6 +81,12 @@ public final class ValidationContext
         this.path = path;
     }
 
+    /**
+     * Constructor
+     *
+     * @param cfg the configuration object
+     * @param provider the schema provider
+     */
     public ValidationContext(final ValidationConfig cfg,
         final SchemaProvider provider)
     {
