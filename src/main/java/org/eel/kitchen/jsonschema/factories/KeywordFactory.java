@@ -91,6 +91,14 @@ public final class KeywordFactory
         final Set<String> keywords
             = CollectionUtils.toSet(schemaNode.getFieldNames());
 
+        /*
+         * FIXME: this is really ugly!
+         *
+         * $ref simply does not have its place here,
+         * it should not be a keyword validator to start with,
+         * but a processor of its own in the validation chain (with error
+         * handling etc).
+         */
         if (keywords.contains("$ref"))
             return Arrays.<Validator>asList(RefKeywordValidator.getInstance());
 
