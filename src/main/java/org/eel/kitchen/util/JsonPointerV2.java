@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.util;
 
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,8 +107,10 @@ public final class JsonPointerV2
      * therefore both are accepted</p>
      *
      * @param input The input string, guaranteed not to be JSON encoded
+     * @throws JsonSchemaException Illegal JSON Pointer
      */
     public JsonPointerV2(final String input)
+        throws JsonSchemaException
     {
         final String s = input.replaceFirst("^#", "");
         process(s);
@@ -131,8 +135,10 @@ public final class JsonPointerV2
      * then a slash, etc. Bail out if the string is malformed.</p>
      *
      * @param input Input string, guaranteed not to be JSON encoded
+     * @throws JsonSchemaException the input is not a valid JSON Pointer
      */
     private void process(final String input)
+        throws JsonSchemaException
     {
         String cooked, raw;
         String victim = input;
@@ -143,7 +149,7 @@ public final class JsonPointerV2
              * Skip the /
              */
             if (!victim.startsWith("/"))
-                throw new IllegalArgumentException("Illegal JSON Pointer");
+                throw new JsonSchemaException("Illegal JSON Pointer");
             victim = victim.substring(1);
 
             /*

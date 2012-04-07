@@ -18,6 +18,7 @@
 package org.eel.kitchen.util;
 
 import org.codehaus.jackson.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -40,6 +41,7 @@ public final class JsonPointerV2Test
 
     @Test
     public void testEqualsBasics()
+        throws JsonSchemaException
     {
         final JsonPointerV2 p1 = new JsonPointerV2("#/");
         final JsonPointerV2 p2 = new JsonPointerV2("#/");
@@ -53,6 +55,7 @@ public final class JsonPointerV2Test
 
     @Test
     public void testHashCode()
+        throws JsonSchemaException
     {
         final JsonPointerV2 p1 = new JsonPointerV2("#/");
         final JsonPointerV2 p2 = new JsonPointerV2("#/");
@@ -65,6 +68,7 @@ public final class JsonPointerV2Test
 
     @Test
     public void testInitialHashDoesNotMatter()
+        throws JsonSchemaException
     {
         final JsonPointerV2 p1 = new JsonPointerV2("#/a/b");
         final JsonPointerV2 p2 = new JsonPointerV2("/a/b");
@@ -75,6 +79,7 @@ public final class JsonPointerV2Test
 
     @Test
     public void testToString()
+        throws JsonSchemaException
     {
         final String s1 = "#/a/b";
         final String s2 = "/a/b";
@@ -88,6 +93,7 @@ public final class JsonPointerV2Test
 
     @Test
     public void testJSONDecoding()
+        throws JsonSchemaException
     {
         // We are really testing Jackson here, this should therefore never
         // fail.
@@ -108,6 +114,7 @@ public final class JsonPointerV2Test
 
     @Test
     public void testCaretEscape()
+        throws JsonSchemaException
     {
         final String[] array = { "a^", "^a", "a^a", "^" };
         final List<String> expected = Arrays.asList(array);
@@ -120,6 +127,7 @@ public final class JsonPointerV2Test
 
     @Test
     public void testSlashEscape()
+        throws JsonSchemaException
     {
         final String[] array = { "a/", "/a", "a/a", "/" };
         final List<String> expected = Arrays.asList(array);
@@ -136,7 +144,7 @@ public final class JsonPointerV2Test
         try {
             new JsonPointerV2("#a");
             fail("No exception thrown!");
-        } catch (IllegalArgumentException ignored) {
+        } catch (JsonSchemaException ignored) {
             assertTrue(true);
         }
     }
@@ -147,14 +155,14 @@ public final class JsonPointerV2Test
         try {
             new JsonPointerV2("#/^a");
             fail("No exception thrown!");
-        } catch (IllegalArgumentException ignored) {
+        } catch (JsonSchemaException ignored) {
             assertTrue(true);
         }
 
         try {
             new JsonPointerV2("#/^");
             fail("No exception thrown!");
-        } catch (IllegalArgumentException ignored) {
+        } catch (JsonSchemaException ignored) {
             assertTrue(true);
         }
     }
