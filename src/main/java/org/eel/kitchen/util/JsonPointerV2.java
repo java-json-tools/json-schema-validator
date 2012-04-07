@@ -150,9 +150,6 @@ public final class JsonPointerV2
              * Grab the "cooked" reference token
              */
             m = REFTOKEN_REGEX.matcher(victim);
-            if (!m.find())
-                throw new IllegalArgumentException("Illegal JSON Pointer");
-
             cooked = m.group();
             victim = victim.substring(cooked.length());
 
