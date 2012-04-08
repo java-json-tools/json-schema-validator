@@ -156,6 +156,8 @@ public final class JsonPointerV2
              * Grab the "cooked" reference token
              */
             m = REFTOKEN_REGEX.matcher(victim);
+            m.find(); // never fails
+
             cooked = m.group();
             victim = victim.substring(cooked.length());
 
