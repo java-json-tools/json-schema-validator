@@ -16,7 +16,8 @@ pure server side JSON schema validation if this is what you are looking for./<p>
 <p>The draft serving as a reference is, at the moment, draft version 3, which
 can be found [here](http://json-schema.org/draft-03/schema).</p>
 
-<p>The current stable version (0.4.x) is pretty much feature complete:</p>
+<p>The current stable version (0.4.x) is actively maintained, and pretty much
+feature complete:</p>
 
 * full draft v3 validation support, and experimental draft v4 validation
   support;
@@ -32,8 +33,7 @@ can be found [here](http://json-schema.org/draft-03/schema).</p>
 * automatic schema version switching if <tt>$schema</tt> is encountered within a
   schema.
 
-<p>However, the project is currently undergoing a rewrite, which means some
-features will disappear before returning for 0.5.</p>
+<p>Work is currently underway for 0.5.</p>
 
 <p>For a detailed discussion of the implementation, see
 [here](https://github.com/fge/json-schema-validator/wiki/Status). For a list of
