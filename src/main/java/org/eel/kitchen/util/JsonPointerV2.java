@@ -73,6 +73,16 @@ import java.util.regex.Pattern;
 
 public final class JsonPointerV2
 {
+    public static final JsonPointerV2 ROOT;
+
+    static {
+        try {
+            ROOT = new JsonPointerV2("");
+        } catch (JsonSchemaException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
     /**
      * Regex for matching a reference token
      *
@@ -118,6 +128,11 @@ public final class JsonPointerV2
         fullPointer = "#" + s;
     }
 
+    private JsonPointerV2(final String fullPointer, final List<String> elements)
+    {
+        this.fullPointer = fullPointer;
+        this.elements.addAll(elements);
+    }
     /**
      * Return the reference tokens of this JSON Pointer, in order.
      *
@@ -128,6 +143,19 @@ public final class JsonPointerV2
         return Collections.unmodifiableList(elements);
     }
 
+    public JsonPointerV2 append(final String element)
+    {
+        final List<String> newElements = new LinkedList<String>(elements);
+        elements.add(element);
+
+        return new JsonPointerV2(fullPointer + "/" + refTokenEncode(element),
+            newElements);
+    }
+
+    public JsonPointerV2 append(final int index)
+    {
+        return append(Integer.toString(index));
+    }
     /**
      * Initialize the object -- FIXME: misnamed
      *
@@ -183,18 +211,31 @@ public final class JsonPointerV2
 
         boolean inEscape = false;
 
-        for (final char c: array) {
-            switch (c) {
-                case '^':
-                    if (!inEscape) {
-                        inEscape = true;
-                        continue;
-                    }
-                    // fall through
-                default:
-                    inEscape = false;
-                    sb.append(c);
+        for (final char c : array) {
+            if (c == '^' && !inEscape) {
+                inEscape = true;
+                continue;
             }
+            inEscape = false;
+            sb.append(c);
+        }
+
+        return sb.toString();
+    }
+
+    private static String refTokenEncode(final String raw)
+    {
+        final StringBuilder sb = new StringBuilder(raw.length());
+
+        /*
+         * Simple enough: insert a ^ in front of any ^ or /
+         */
+        final char[] array = raw.toCharArray();
+
+        for (final char c: array) {
+            if (c == '/' || c == '^')
+                sb.append('^');
+            sb.append(c);
         }
 
         return sb.toString();
