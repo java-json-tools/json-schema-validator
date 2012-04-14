@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -39,7 +39,7 @@ public final class URIValidator
         final ValidationReport report = context.createReport();
 
         try {
-            new URI(instance.getTextValue());
+            new URI(instance.textValue());
         } catch (URISyntaxException ignored) {
             report.fail("string is not a valid URI");
         }

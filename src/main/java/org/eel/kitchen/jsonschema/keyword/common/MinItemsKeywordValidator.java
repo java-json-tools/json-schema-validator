@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -48,7 +48,7 @@ public final class MinItemsKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final int minItems = context.getSchema().get(keyword).getIntValue();
+        final int minItems = context.getSchema().get(keyword).intValue();
 
         if (instance.size() < minItems)
             report.fail("array has less than minItems elements");

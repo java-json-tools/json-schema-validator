@@ -17,9 +17,9 @@
 
 package org.eel.kitchen.util;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,9 +33,8 @@ import java.net.URL;
  * sources as {@link JsonNode}s.
  *
  * <p>It should be noted here that the {@link ObjectMapper} used to read
- * everything has {@link
- * DeserializationConfig.Feature#USE_BIG_DECIMAL_FOR_FLOATS} enabled.
- * This is to be able to deal with floating point numbers of arbitrary
+ * everything has {@link * DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS}
+ * enabled. This is to be able to deal with floating point numbers of arbitrary
  * precision. Otherwise Jackson limits itself to {@code double}, for performance
  * reasons but also because, to quote its documentation, "[the] Javascript
  * standard specifies that all number handling should be done using 64-bit IEEE
@@ -54,7 +53,7 @@ public final class JsonLoader
         /*
          * NECESSARY! Otherwise Jackson will limit itself to doubles!
          */
-        mapper.enable(DeserializationConfig.Feature.USE_BIG_DECIMAL_FOR_FLOATS);
+        mapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
     }
 
     /**

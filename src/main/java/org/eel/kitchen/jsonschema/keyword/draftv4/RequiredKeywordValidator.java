@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.draftv4;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -58,10 +58,10 @@ public final class RequiredKeywordValidator
         final SortedSet<String> required = new TreeSet<String>();
 
         for (final JsonNode element: node)
-            required.add(element.getTextValue());
+            required.add(element.textValue());
 
         final Set<String> instanceFields
-            = CollectionUtils.toSet(instance.getFieldNames());
+            = CollectionUtils.toSet(instance.fieldNames());
 
         required.removeAll(instanceFields);
 

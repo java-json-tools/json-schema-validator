@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
@@ -39,7 +39,7 @@ public final class MiniPerfTest
         final JsonNode googleAPI
             = JsonLoader.fromResource("/other/google-json-api.json");
         final Map<String, JsonNode> schemas
-            = CollectionUtils.toMap(googleAPI.get("schemas").getFields());
+            = CollectionUtils.toMap(googleAPI.get("schemas").fields());
 
         final ValidationConfig cfg = new ValidationConfig();
         cfg.enable(ValidationFeature.FAIL_FAST);

@@ -74,7 +74,7 @@ public final class SyntaxFactory
     public Validator getValidator(final ValidationContext context)
     {
         final Set<String> fields
-            = CollectionUtils.toSet(context.getSchema().getFieldNames());
+            = CollectionUtils.toSet(context.getSchema().fieldNames());
 
         final Set<Validator> ret = new HashSet<Validator>(fields.size());
 

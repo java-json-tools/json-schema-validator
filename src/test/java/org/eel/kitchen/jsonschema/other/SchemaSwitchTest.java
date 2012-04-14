@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.other;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
@@ -49,7 +49,7 @@ public final class SchemaSwitchTest
         schema = node.get("schema");
 
         for (final JsonNode msg: node.get("messages"))
-            messages.add(msg.getTextValue());
+            messages.add(msg.textValue());
     }
 
     @Test

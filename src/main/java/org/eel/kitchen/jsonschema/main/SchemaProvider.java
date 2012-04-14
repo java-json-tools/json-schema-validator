@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.SchemaVersion;
@@ -97,7 +97,7 @@ public final class SchemaProvider
 
         try {
             root = schema.path("id").isTextual()
-                ? new URI(schema.get("id").getTextValue())
+                ? new URI(schema.get("id").textValue())
                 : ANONYMOUS_ID;
             locators.put(root, schema);
             currentLocation = root;

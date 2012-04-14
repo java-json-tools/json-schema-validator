@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.bugs;
 
-import org.codehaus.jackson.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
 class Bug
 {

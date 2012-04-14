@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -51,7 +51,7 @@ public final class PatternSyntaxValidator
         throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
-        final String pattern = node.getTextValue();
+        final String pattern = node.textValue();
 
         if (!RhinoHelper.regexIsValid(pattern))
             report.fail("invalid regex " + pattern);

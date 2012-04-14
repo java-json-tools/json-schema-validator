@@ -17,8 +17,8 @@
 
 package org.eel.kitchen.util;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.MissingNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 
 import java.net.URLEncoder;
 import java.util.HashMap;

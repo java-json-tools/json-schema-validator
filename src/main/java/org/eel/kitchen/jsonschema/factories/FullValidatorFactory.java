@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.factories;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;

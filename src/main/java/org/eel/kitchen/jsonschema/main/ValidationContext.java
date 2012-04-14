@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;

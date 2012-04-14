@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -41,7 +41,7 @@ public final class RegexValidator
     {
         final ValidationReport report = context.createReport();
 
-        if (!RhinoHelper.regexIsValid(instance.getTextValue()))
+        if (!RhinoHelper.regexIsValid(instance.textValue()))
             report.fail("string is not a valid regular expression");
 
         return report;

@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.uri;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.net.URI;

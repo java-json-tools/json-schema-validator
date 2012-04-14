@@ -17,8 +17,8 @@
 
 package org.eel.kitchen.jsonschema.factories;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.util.LRUMap;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.util.LRUMap;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.util.NodeType;
 import org.slf4j.Logger;

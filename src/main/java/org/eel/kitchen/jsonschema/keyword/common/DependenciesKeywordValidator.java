@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
@@ -79,10 +79,10 @@ public final class DependenciesKeywordValidator
         final ValidationReport report = context.createReport();
 
         final SortedSet<String> fields = new TreeSet<String>();
-        fields.addAll(CollectionUtils.toSet(instance.getFieldNames()));
+        fields.addAll(CollectionUtils.toSet(instance.fieldNames()));
 
         final SortedMap<String, JsonNode> dependencies
-            = CollectionUtils.toSortedMap(node.getFields());
+            = CollectionUtils.toSortedMap(node.fields());
 
         dependencies.keySet().retainAll(fields);
 
@@ -117,7 +117,7 @@ public final class DependenciesKeywordValidator
 
         if (!depnode.isObject()) {
             final ValidationReport depreport = context.createReport();
-            doSimpleDependency(entry, instance.getFieldNames(), depreport);
+            doSimpleDependency(entry, instance.fieldNames(), depreport);
             return depreport;
         }
 
@@ -146,10 +146,10 @@ public final class DependenciesKeywordValidator
         final SortedSet<String> expected = new TreeSet<String>();
 
         if (depnode.isTextual())
-            expected.add(depnode.getTextValue());
+            expected.add(depnode.textValue());
         else
             for (final JsonNode element: depnode)
-                expected.add(element.getTextValue());
+                expected.add(element.textValue());
 
         while (fields.hasNext())
             expected.remove(fields.next());

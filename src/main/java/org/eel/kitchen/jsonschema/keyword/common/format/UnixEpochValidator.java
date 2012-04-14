@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -54,7 +54,7 @@ public final class UnixEpochValidator
     {
         final ValidationReport report = context.createReport();
 
-        BigInteger epoch = instance.getBigIntegerValue();
+        BigInteger epoch = instance.bigIntegerValue();
 
         if (epoch.signum() == -1) {
             report.fail("epoch cannot be negative");

@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -43,7 +43,7 @@ public final class EmailFormatValidator
         final ValidationReport report = context.createReport();
 
         try {
-            new InternetAddress(instance.getTextValue());
+            new InternetAddress(instance.textValue());
         } catch (AddressException ignored) {
             report.fail("string is not a valid email address");
         }

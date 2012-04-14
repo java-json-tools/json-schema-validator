@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -65,15 +65,10 @@ public abstract class NumericInstanceKeywordValidator
     {
         final JsonNode value = context.getSchema().get(keyword);
 
-        final boolean valueIsInt = value.isInt() || value.isLong();
-
-        final boolean instanceIsInt = instance.isInt() || instance.isLong();
-
-        return valueIsInt && instanceIsInt
-            ? validateLong(context, value.getLongValue(),
-                instance.getLongValue())
-            : validateDecimal(context, value.getDecimalValue(),
-                instance.getDecimalValue());
+        return value.canConvertToLong() && instance.canConvertToLong()
+            ? validateLong(context, value.longValue(), instance.longValue())
+            : validateDecimal(context, value.decimalValue(),
+                instance.decimalValue());
     }
 
     /**

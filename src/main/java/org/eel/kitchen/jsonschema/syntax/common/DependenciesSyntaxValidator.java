@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -69,7 +69,7 @@ public final class DependenciesSyntaxValidator
         final JsonNode node = schema.get(keyword);
 
         final SortedMap<String, JsonNode> fields
-            = CollectionUtils.toSortedMap(node.getFields());
+            = CollectionUtils.toSortedMap(node.fields());
 
         String field;
         JsonNode element;

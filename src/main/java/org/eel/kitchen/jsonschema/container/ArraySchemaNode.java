@@ -17,8 +17,8 @@
 
 package org.eel.kitchen.jsonschema.container;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 
 import java.util.ArrayList;
 import java.util.List;

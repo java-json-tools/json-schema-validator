@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -45,7 +45,7 @@ public final class CSSColorValidator
     {
         final ValidationReport report = context.createReport();
 
-        final String value = instance.getTextValue();
+        final String value = instance.textValue();
 
         final ParsingResult<?> result
             = new ErrorLocatingParseRunner(rule).run(value);

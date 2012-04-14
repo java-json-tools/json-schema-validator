@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
 import com.google.common.net.InetAddresses;
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -40,7 +40,7 @@ public final class IPV4Validator
     {
         final ValidationReport report = context.createReport();
 
-        final String ipaddr = instance.getTextValue();
+        final String ipaddr = instance.textValue();
 
         if (!InetAddresses.isInetAddress(ipaddr)) {
             report.fail("string is not a valid IPv4 address");

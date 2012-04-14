@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -46,7 +46,7 @@ public abstract class URISyntaxValidator
         final JsonNode node = schema.get(keyword);
 
         try {
-            new URI(node.getTextValue());
+            new URI(node.textValue());
         } catch (URISyntaxException ignored) {
             report.fail("not a valid URI");
         }

@@ -17,9 +17,9 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
-import org.codehaus.jackson.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
@@ -295,7 +295,7 @@ public final class SyntaxValidatorFactoryTest
         throws JsonValidationFailureException
     {
         final JsonNode schema = element.get("schema");
-        final boolean valid = element.get("valid").getBooleanValue();
+        final boolean valid = element.get("valid").booleanValue();
 
         validator = new JsonValidator(cfg, schema);
 
@@ -315,7 +315,7 @@ public final class SyntaxValidatorFactoryTest
         final List<String> expected = new LinkedList<String>();
 
         for (final JsonNode message: element.get("messages"))
-            expected.add(message.getTextValue());
+            expected.add(message.textValue());
 
         assertEquals(report.getMessages().toArray(), expected.toArray(),
             "message list differs from expectations while validating "

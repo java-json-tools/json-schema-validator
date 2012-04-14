@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -59,9 +59,9 @@ public final class PatternKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final String regex = context.getSchema().get(keyword).getTextValue();
+        final String regex = context.getSchema().get(keyword).textValue();
 
-        if (!RhinoHelper.regMatch(regex, instance.getTextValue()))
+        if (!RhinoHelper.regMatch(regex, instance.textValue()))
             report.fail("string does not match specified regex");
 
         return report;

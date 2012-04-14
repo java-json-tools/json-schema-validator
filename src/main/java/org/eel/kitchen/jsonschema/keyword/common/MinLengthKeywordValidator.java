@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -48,9 +48,9 @@ public final class MinLengthKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final int minLength = context.getSchema().get(keyword).getIntValue();
+        final int minLength = context.getSchema().get(keyword).intValue();
 
-        if (instance.getTextValue().length() < minLength)
+        if (instance.textValue().length() < minLength)
             report.fail("string is shorter than minLength");
 
         return report;

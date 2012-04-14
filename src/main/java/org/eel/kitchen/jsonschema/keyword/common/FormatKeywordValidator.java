@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.FormatFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
@@ -65,7 +65,7 @@ public final class FormatKeywordValidator
     {
         final JsonNode schema = context.getSchema();
 
-        final String fmt = schema.get(keyword).getTextValue();
+        final String fmt = schema.get(keyword).textValue();
 
         final Validator validator
             = context.getFormatValidator(fmt, instance);

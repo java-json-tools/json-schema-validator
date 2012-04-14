@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -48,12 +48,12 @@ public abstract class PositiveIntegerSyntaxValidator
     {
         final JsonNode node = schema.get(keyword);
 
-        if (!node.isInt()) {
+        if (!node.canConvertToInt()) {
             report.fail("value is too large");
             return;
         }
 
-        if (node.getIntValue() < 0)
+        if (node.intValue() < 0)
             report.fail("value is negative");
     }
 }

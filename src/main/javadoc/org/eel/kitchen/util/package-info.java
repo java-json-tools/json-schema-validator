@@ -3,7 +3,7 @@
  *
  * <p>The one you will use the most often here is
  * {@link org.eel.kitchen.util.JsonLoader}: it contains various methods to
- * load JSON content (as {@link org.codehaus.jackson.JsonNode} instances),
+ * load JSON content (as {@link com.fasterxml.jackson.databind.JsonNode} instances),
  * which means schemas and instances to validate.</p>
  *
  * <p>You may want to have a look at {@link org.eel.kitchen.util.RhinoHelper},

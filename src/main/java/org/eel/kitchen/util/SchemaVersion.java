@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.util;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.DraftV3ValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.DraftV4ValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
@@ -94,7 +94,7 @@ public enum SchemaVersion
             throw new JsonValidationFailureException("$schema is not a text "
                 + "node");
 
-        return locatorMap.get(node.getTextValue());
+        return locatorMap.get(node.textValue());
     }
 
     /**

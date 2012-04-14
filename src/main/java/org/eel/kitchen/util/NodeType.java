@@ -17,9 +17,9 @@
 
 package org.eel.kitchen.util;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonToken;
-import org.codehaus.jackson.node.MissingNode;
+import com.fasterxml.jackson.core.JsonToken;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 
 import java.util.EnumMap;
 import java.util.HashMap;

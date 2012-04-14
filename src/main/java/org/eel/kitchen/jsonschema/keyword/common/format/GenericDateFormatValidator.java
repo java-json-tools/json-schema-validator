@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -67,7 +67,7 @@ public abstract class GenericDateFormatValidator
         final ValidationReport report = context.createReport();
 
         try {
-            dtf.parseDateTime(instance.getTextValue());
+            dtf.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
             report.fail(errmsg);
         }

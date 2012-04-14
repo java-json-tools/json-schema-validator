@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.common.DisallowKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
@@ -131,7 +131,7 @@ public abstract class AbstractTypeKeywordValidator
         final EnumSet<NodeType> typeSet, final List<JsonNode> schemas)
     {
         if (typeNode.isTextual()) {
-            addType(typeNode.getTextValue(), typeSet);
+            addType(typeNode.textValue(), typeSet);
             return;
         }
 
@@ -140,7 +140,7 @@ public abstract class AbstractTypeKeywordValidator
                 schemas.add(element);
                 continue;
             }
-            addType(element.getTextValue(), typeSet);
+            addType(element.textValue(), typeSet);
         }
     }
 

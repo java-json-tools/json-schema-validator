@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -57,7 +57,7 @@ public final class UniqueItemsKeywordValidator
     {
         final ValidationReport report = context.createReport();
         final boolean unique = context.getSchema().get(keyword)
-            .getBooleanValue();
+            .booleanValue();
 
         if (!unique)
             return report;

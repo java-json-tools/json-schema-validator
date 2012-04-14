@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.draftv4;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -48,7 +48,7 @@ public final class MinPropertiesKeywordValidator
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
-        final int value = context.getSchema().get(keyword).getIntValue();
+        final int value = context.getSchema().get(keyword).intValue();
 
         if (instance.size() < value)
             report.fail("object has less than minProperties children");

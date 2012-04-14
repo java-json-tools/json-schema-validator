@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.draftv3;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
@@ -83,7 +83,7 @@ public final class PropertiesKeywordValidator
         final SortedSet<String> required = new TreeSet<String>();
 
         final Map<String, JsonNode> map
-            = CollectionUtils.toMap(properties.getFields());
+            = CollectionUtils.toMap(properties.fields());
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
             if (entry.getValue().path("required").asBoolean(false))
@@ -92,7 +92,7 @@ public final class PropertiesKeywordValidator
         if (required.isEmpty())
             return report;
 
-        final Iterator<String> fields = instance.getFieldNames();
+        final Iterator<String> fields = instance.fieldNames();
 
         while (fields.hasNext())
             required.remove(fields.next());

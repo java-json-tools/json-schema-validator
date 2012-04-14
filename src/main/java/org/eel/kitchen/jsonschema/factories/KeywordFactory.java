@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.factories;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
@@ -89,7 +89,7 @@ public final class KeywordFactory
     {
         final JsonNode schemaNode = context.getSchema();
         final Set<String> keywords
-            = CollectionUtils.toSet(schemaNode.getFieldNames());
+            = CollectionUtils.toSet(schemaNode.fieldNames());
 
         /*
          * FIXME: this is really ugly!

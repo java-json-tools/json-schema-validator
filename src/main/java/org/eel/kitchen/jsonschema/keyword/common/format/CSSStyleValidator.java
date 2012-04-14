@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common.format;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -54,7 +54,7 @@ public final class CSSStyleValidator
     {
         final ValidationReport report = context.createReport();
 
-        final String[] rules = SPLIT_PATTERN.split(instance.getTextValue());
+        final String[] rules = SPLIT_PATTERN.split(instance.textValue());
         Matcher matcher;
 
         for (final String rule : rules) {

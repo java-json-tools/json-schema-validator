@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -88,16 +88,16 @@ public final class AdditionalPropertiesKeywordValidator
 
         if (schema.has("properties")) {
             node = schema.get("properties");
-            properties.addAll(CollectionUtils.toSet(node.getFieldNames()));
+            properties.addAll(CollectionUtils.toSet(node.fieldNames()));
         }
 
         if (schema.has("patternProperties")) {
             node = schema.get("patternProperties");
-            patterns.addAll(CollectionUtils.toSet(node.getFieldNames()));
+            patterns.addAll(CollectionUtils.toSet(node.fieldNames()));
         }
 
         final Set<String> fields =
-            CollectionUtils.toSet(instance.getFieldNames());
+            CollectionUtils.toSet(instance.fieldNames());
 
         fields.removeAll(properties);
 

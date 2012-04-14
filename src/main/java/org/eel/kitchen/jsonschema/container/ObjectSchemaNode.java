@@ -17,8 +17,8 @@
 
 package org.eel.kitchen.jsonschema.container;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.RhinoHelper;
 
@@ -80,12 +80,12 @@ public final class ObjectSchemaNode
         JsonNode node = schema.path("properties");
 
         if (node.isObject())
-            properties.putAll(CollectionUtils.toMap(node.getFields()));
+            properties.putAll(CollectionUtils.toMap(node.fields()));
 
         node = schema.path("patternProperties");
 
         if (node.isObject())
-            patternProperties.putAll(CollectionUtils.toMap(node.getFields()));
+            patternProperties.putAll(CollectionUtils.toMap(node.fields()));
 
         node = schema.path("additionalProperties");
 

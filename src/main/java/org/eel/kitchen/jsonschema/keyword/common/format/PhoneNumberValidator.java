@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.common.format;
 
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -50,7 +50,7 @@ public final class PhoneNumberValidator
     {
         final ValidationReport report = context.createReport();
 
-        final String input = instance.getTextValue();
+        final String input = instance.textValue();
 
         /*
          * The libphonenumber API doc says that no matter what region you put

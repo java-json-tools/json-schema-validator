@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.mechanics;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
@@ -57,7 +57,7 @@ public final class FeaturesTest
             fail("No exception thrown");
         } catch (JsonValidationFailureException e) {
             assertEquals(e.getMessage(), testNode.get("messages").get(0)
-                .getTextValue());
+                .textValue());
         }
     }
 }

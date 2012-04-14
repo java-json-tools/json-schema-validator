@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.util;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -103,10 +103,10 @@ public final class JsonPointerV2Test
         String tmp;
         final JsonPointerV2 p1, p2;
 
-        tmp = node.get("string1").getTextValue();
+        tmp = node.get("string1").textValue();
         p1 = new JsonPointerV2(tmp);
 
-        tmp = node.get("string2").getTextValue();
+        tmp = node.get("string2").textValue();
         p2 = new JsonPointerV2(tmp);
 
         assertEquals(p1, p2);

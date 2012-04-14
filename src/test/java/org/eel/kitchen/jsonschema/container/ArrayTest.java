@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.container;
 
-import org.codehaus.jackson.JsonNode;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
@@ -104,7 +104,7 @@ public final class ArrayTest
         final List<String> expected = new LinkedList<String>();
 
         for (final JsonNode element: node.get("messages"))
-            expected.add(element.getTextValue());
+            expected.add(element.textValue());
 
         report = validator.validate(bad);
 
