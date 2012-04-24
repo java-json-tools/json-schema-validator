@@ -126,7 +126,6 @@ public final class URIHandlerTest
             JsonNodeFactory.instance.nullNode());
 
         assertFalse(report.isSuccess());
-        assertTrue(report.isError());
 
         assertEquals(report.getMessages().size(), 1);
         assertEquals(report.getMessages().get(0), "#: FATAL: schema "

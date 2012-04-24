@@ -80,7 +80,7 @@ public final class RefTest
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
-        assertTrue(report.isError());
+        assertFalse(report.isSuccess());
 
         assertEquals(1, report.getMessages().size());
 
@@ -98,7 +98,7 @@ public final class RefTest
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
-        assertTrue(report.isError());
+        assertFalse(report.isSuccess());
 
         assertEquals(1, report.getMessages().size());
 
@@ -117,7 +117,7 @@ public final class RefTest
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
-        assertTrue(report.isError());
+        assertFalse(report.isSuccess());
 
         assertEquals(1, report.getMessages().size());
 
@@ -135,7 +135,7 @@ public final class RefTest
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
-        assertTrue(report.isError());
+        assertFalse(report.isSuccess());
 
         assertEquals(1, report.getMessages().size());
 
@@ -181,7 +181,7 @@ public final class RefTest
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
-        assertTrue(report.isError());
+        assertFalse(report.isSuccess());
 
         assertEquals(report.getMessages().size(), 1);
         assertEquals(report.getMessages().get(0), errmsg);
@@ -206,7 +206,7 @@ public final class RefTest
         final ValidationReport report
             = validator.validate("#/schema1", factory.nullNode());
 
-        assertTrue(report.isError());
+        assertFalse(report.isSuccess());
 
         assertEquals(report.getMessages().size(), 1);
         assertEquals(report.getMessages().get(0), "#: FATAL: schema {\"$ref\":"

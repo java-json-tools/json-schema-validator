@@ -72,7 +72,6 @@ public final class SchemaSwitchTest
         final ValidationReport report = validator.validate(bad);
 
         assertFalse(report.isSuccess());
-        assertFalse(report.isError());
 
         assertEquals(report.getMessages(), messages);
     }
