@@ -76,18 +76,19 @@ public final class FullValidationReport
     }
 
     @Override
-    public void mergeWith(final ValidationReport other)
+    public boolean mergeWith(final ValidationReport other)
     {
         status = ValidationStatus.worstOf(status, other.status);
 
         switch (status) {
             case SUCCESS:
-                return;
+                return true;
             case ERROR:
                 messages.clear();
                 // Fall through
             case FAILURE:
                 messages.addAll(other.getMessages());
         }
+        return false;
     }
 }

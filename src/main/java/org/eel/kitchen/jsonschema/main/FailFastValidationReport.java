@@ -74,7 +74,8 @@ public final class FailFastValidationReport
     }
 
     @Override
-    public void mergeWith(final ValidationReport other)
+    public boolean mergeWith(final ValidationReport other)
     {
+        return false;
     }
 }

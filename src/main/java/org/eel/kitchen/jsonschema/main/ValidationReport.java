@@ -66,8 +66,9 @@ public abstract class ValidationReport
         }
 
         @Override
-        public void mergeWith(final ValidationReport other)
+        public boolean mergeWith(final ValidationReport other)
         {
+            return true;
         }
     };
 
@@ -121,8 +122,9 @@ public abstract class ValidationReport
      * Merge this report with another report
      *
      * @param other the absorbed report
+     * @return true if validation should continue
      */
-    public abstract void mergeWith(final ValidationReport other);
+    public abstract boolean mergeWith(final ValidationReport other);
 
     /**
      * Is the validation a success?
