@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.AlwaysTrueValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.keyword.common.format.CSSColorValidator;
@@ -35,10 +34,10 @@ import org.eel.kitchen.jsonschema.keyword.common.format.RegexValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.TimeFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.URIValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.UnixEpochValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -52,6 +51,12 @@ import static org.eel.kitchen.util.NodeType.*;
  */
 public final class FormatFactory
 {
+    /**
+     * Our logger
+     */
+    private static final Logger logger
+        = LoggerFactory.getLogger(FormatFactory.class);
+
     /**
      * Map pairing a format specification with the list of instance types
      * they support
@@ -91,8 +96,8 @@ public final class FormatFactory
      * Get the {@link Validator} for the given format specification and
      * instance
      *
-     * <p>If the format specification is unknown, an
-     * {@link AlwaysFalseValidator} is returned; if the format specification is
+     * <p>If the format specification is unknown,
+     * the validation is ignored; if the format specification is
      * not applicable to the instance type, an {@link AlwaysTrueValidator} is
      * returned.</p>
      *
@@ -100,19 +105,15 @@ public final class FormatFactory
      * @param name the format specification
      * @param instance the instance to validate
      * @return the matching validator
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
      */
     public Validator getFormatValidator(final ValidationContext context,
         final String name, final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final NodeType type = getNodeType(instance);
-        final ValidationReport report = context.createReport();
 
         if (!typeMap.containsKey(name)) {
-            report.fail("no validator for format " + name);
-            return new AlwaysFalseValidator(report);
+            logger.warn("no validator for format \"{}\"", name);
+            return new AlwaysTrueValidator();
         }
 
         if (!typeMap.get(name).contains(type))

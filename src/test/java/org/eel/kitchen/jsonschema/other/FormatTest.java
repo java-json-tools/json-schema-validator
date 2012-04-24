@@ -134,7 +134,7 @@ public final class FormatTest
     }
 
     @Test
-    public void testUnknownFormatFails()
+    public void testUnknownFormatIsIgnored()
         throws JsonValidationFailureException
     {
         final ObjectNode schema = factory.objectNode();
@@ -144,12 +144,7 @@ public final class FormatTest
 
         final ValidationReport report = validator.validate(factory.nullNode());
 
-        assertFalse(report.isSuccess());
-        assertFalse(report.isError());
-
-        assertEquals(report.getMessages().size(), 1);
-        assertEquals(report.getMessages().get(0), "#: no validator for "
-            + "format izjefoizjoeijf");
+        assertTrue(report.isSuccess());
     }
 
     private void testOne(final String fmt)
