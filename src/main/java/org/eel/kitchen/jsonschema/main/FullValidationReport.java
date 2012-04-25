@@ -50,8 +50,7 @@ public final class FullValidationReport
     @Override
     public void message(final String message)
     {
-        if (status != ValidationStatus.ERROR)
-            messages.add(prefix + ": " + message);
+        messages.add(prefix + ": " + message);
     }
 
     @Override
