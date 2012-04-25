@@ -90,49 +90,6 @@ public final class DisallowTest
     }
 
     @Test
-    public void testDisallowAnyMatchesNothing()
-        throws JsonValidationFailureException
-    {
-        final List<String> list = Arrays.asList("#: disallow keyword forbids "
-            + "all primitive types, validation will always fail!");
-
-        final ObjectNode schema = factory.objectNode();
-        schema.put("disallow", "any");
-
-        final JsonValidator validator = new JsonValidator(cfg, schema);
-
-        ValidationReport report;
-
-        report = validator.validate(factory.arrayNode());
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.booleanNode(true));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.numberNode(0));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.numberNode(0.0));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.nullNode());
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.textNode(""));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.objectNode());
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-    }
-
-    @Test
     public void testOneType()
         throws JsonValidationFailureException
     {

@@ -58,21 +58,12 @@ public final class DisallowKeywordValidator
 
         final NodeType type = NodeType.getNodeType(instance);
 
-        boolean failure = false;
-
-        if (typeSet.containsAll(EnumSet.allOf(NodeType.class))) {
-            failure = true;
-            report.fail("disallow keyword forbids all primitive types, "
-                + "validation will always fail!");
-        } else if (typeSet.contains(type)) {
-            failure = true;
+        if (typeSet.contains(type)) {
             report.fail(String.format("instance is of type %s, "
                 + "which falls into the list of explicitly disallowed types "
                 + "(%s)", type, typeSet));
-        }
-
-        if (failure)
             return report;
+        }
 
         ValidationReport schemaReport;
 
