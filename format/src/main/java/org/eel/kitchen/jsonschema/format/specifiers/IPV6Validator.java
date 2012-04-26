@@ -15,33 +15,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.format.specifiers;
 
+import com.google.common.net.InetAddresses;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 /**
- * Interface which all validators must implement
+ * Validator for the {@code ipv6} format specification
  *
- * @see SyntaxValidator
- * @see KeywordValidator
+ * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
  */
-public interface Validator
+public final class IPV6Validator
+    extends FormatValidator
 {
-    /**
-     * Validate an instance
-     *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
-     */
-    ValidationReport validate(final ValidationContext context,
+    private static final int IPV6_LENGTH = 16;
+
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException;
+        throws JsonValidationFailureException
+    {
+        final ValidationReport report = context.createReport();
+
+        final String ipaddr = instance.textValue();
+
+        if (!InetAddresses.isInetAddress(ipaddr)) {
+            report.fail("string is not a valid IPv6 address");
+            return report;
+        }
+
+        if (InetAddresses.forString(ipaddr).getAddress().length != IPV6_LENGTH)
+            report.fail("string is not a valid IPv6 address");
+
+        return report;
+    }
 }

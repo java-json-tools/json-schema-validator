@@ -15,33 +15,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.format.specifiers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 /**
- * Interface which all validators must implement
+ * Validator for the {@code email} format specification.
  *
- * @see SyntaxValidator
- * @see KeywordValidator
+ * <p>Note: email addresses with no domain part ARE valid emails,
+ * and are recognized as such. The draft does not say anywhere that the email
+ * should have a domain part!</p>
  */
-public interface Validator
+public final class EmailFormatValidator
+    extends FormatValidator
 {
-    /**
-     * Validate an instance
-     *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
-     */
-    ValidationReport validate(final ValidationContext context,
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException;
+        throws JsonValidationFailureException
+    {
+        final ValidationReport report = context.createReport();
+
+        try {
+            new InternetAddress(instance.textValue());
+        } catch (AddressException ignored) {
+            report.fail("string is not a valid email address");
+        }
+
+        return report;
+    }
 }

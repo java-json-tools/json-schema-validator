@@ -15,33 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.base;
+package org.eel.kitchen.jsonschema.format.specifiers;
 
+import com.google.common.net.InternetDomainName;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 /**
- * Interface which all validators must implement
+ * Validator for the {@code host-name} format specification
  *
- * @see SyntaxValidator
- * @see KeywordValidator
+ * <p>Note: non FQDN hostnames are valid, and are considered as such! The
+ * draft doesn't specify anywhere that the hostname should be fully
+ * qualified.</p>
  */
-public interface Validator
+public final class HostnameValidator
+    extends FormatValidator
 {
-    /**
-     * Validate an instance
-     *
-     * @param context the validation context
-     * @param instance the instance to validate
-     * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw
-     * this exception instead of collecting messages
-     */
-    ValidationReport validate(final ValidationContext context,
+    @Override
+    public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException;
+        throws JsonValidationFailureException
+    {
+        final ValidationReport report = context.createReport();
+
+        final String value = instance.textValue();
+
+        if (!InternetDomainName.isValid(value))
+            report.fail("string is not a valid hostname");
+
+        return report;
+    }
 }

@@ -34,7 +34,6 @@ import java.util.Set;
  *
  * @see KeywordFactory
  * @see SyntaxFactory
- * @see FormatFactory
  * @see ValidatorBundle
  */
 public final class FullValidatorFactory

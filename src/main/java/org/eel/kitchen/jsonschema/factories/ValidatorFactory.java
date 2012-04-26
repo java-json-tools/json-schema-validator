@@ -38,7 +38,6 @@ import java.util.Collection;
  *
  * @see KeywordFactory
  * @see SyntaxFactory
- * @see FormatFactory
  * @see ValidatorBundle
  */
 public abstract class ValidatorFactory
