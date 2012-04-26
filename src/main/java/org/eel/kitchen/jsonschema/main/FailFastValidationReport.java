@@ -61,12 +61,6 @@ public final class FailFastValidationReport
     }
 
     @Override
-    public void error(final String msg)
-    {
-        message(msg);
-    }
-
-    @Override
     public boolean mergeWith(final ValidationReport other)
     {
         return false;

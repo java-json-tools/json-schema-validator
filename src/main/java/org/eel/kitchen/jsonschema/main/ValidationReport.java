@@ -61,11 +61,6 @@ public abstract class ValidationReport
         }
 
         @Override
-        public void error(final String message)
-        {
-        }
-
-        @Override
         public boolean mergeWith(final ValidationReport other)
         {
             return true;
@@ -102,18 +97,6 @@ public abstract class ValidationReport
      * FailFastValidationReport} instances
      */
     public abstract void fail(final String message);
-
-    /**
-     * Add a message and set the status to {@link ValidationStatus#ERROR}
-     *
-     * <p>The difference with a failure is that reporting an error flushes
-     * all messages already collected.</p>
-     *
-     * @param message the message to add
-     * @throws JsonValidationFailureException for {@link
-     * FailFastValidationReport} instances
-     */
-    public abstract void error(final String message);
 
     /**
      * Merge this report with another report

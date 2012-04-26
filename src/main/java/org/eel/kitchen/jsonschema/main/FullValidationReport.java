@@ -67,13 +67,6 @@ public final class FullValidationReport
     }
 
     @Override
-    public void error(final String message)
-    {
-        status = ValidationStatus.ERROR;
-        messages.add(prefix + ": FATAL: " + message);
-    }
-
-    @Override
     public boolean mergeWith(final ValidationReport other)
     {
         status = ValidationStatus.worstOf(status, other.status);
