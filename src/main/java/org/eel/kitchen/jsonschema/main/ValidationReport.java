@@ -115,14 +115,4 @@ public abstract class ValidationReport
     {
         return status == ValidationStatus.SUCCESS;
     }
-
-    /**
-     * Did a fatal error occur during validation?
-     *
-     * @return true if {@link #status} is {@link ValidationStatus#ERROR}
-     */
-    public final boolean isError()
-    {
-        return status == ValidationStatus.ERROR;
-    }
 }

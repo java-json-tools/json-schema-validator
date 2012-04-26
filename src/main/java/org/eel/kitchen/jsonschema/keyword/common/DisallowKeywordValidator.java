@@ -74,10 +74,6 @@ public final class DisallowKeywordValidator
                     + "disallowed schema");
                 break;
             }
-            if (schemaReport.isError()) {
-                report.mergeWith(schemaReport);
-                break;
-            }
         }
 
         return report;

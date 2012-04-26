@@ -74,9 +74,6 @@ public final class RefKeywordValidator
      *     <li>this is the only one which can spawn a {@link
      *     ValidationContext} with a different root schema (if the ref
      *     represents an absolute {@link URI});</li>
-     *     <li>this is the only validator implementation which can spawn
-     *     errors (ie, {@link ValidationReport#isError()} returns {@code true})
-     *     and not only failures.</li>
      * </ul>
      *
      * @return the report from the spawned validator
