@@ -11,10 +11,43 @@
     <description>JSON Schema format keyword validation</description>
     <url>https://github.com/fge/json-schema-validator</url>
     <dependencies>
+        <!--
+            FIXME! It seems I have fallen prey to a commonly known limitation in
+            Maven. The dependency below is not enough to refer to the parent
+            which is "just" a directory away :/
+
+            IDEA compiles fine, so I'll keep using IDEA,
+            until I decide to switch to Gradle.
+        -->
         <dependency>
             <groupId>org.kitchen-eel</groupId>
             <artifactId>json-schema-validator</artifactId>
             <version>0.5-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.mail</groupId>
+            <artifactId>mailapi</artifactId>
+            <version>1.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.libphonenumber</groupId>
+            <artifactId>libphonenumber</artifactId>
+            <version>4.5</version>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>11.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.parboiled</groupId>
+            <artifactId>parboiled-java</artifactId>
+            <version>1.0.2</version>
         </dependency>
     </dependencies>
 </project>
