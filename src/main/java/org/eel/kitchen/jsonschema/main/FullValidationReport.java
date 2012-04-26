@@ -70,7 +70,6 @@ public final class FullValidationReport
     public void error(final String message)
     {
         status = ValidationStatus.ERROR;
-        messages.clear();
         messages.add(prefix + ": FATAL: " + message);
     }
 
@@ -78,16 +77,7 @@ public final class FullValidationReport
     public boolean mergeWith(final ValidationReport other)
     {
         status = ValidationStatus.worstOf(status, other.status);
-
-        switch (status) {
-            case SUCCESS:
-                return true;
-            case ERROR:
-                messages.clear();
-                // Fall through
-            case FAILURE:
-                messages.addAll(other.getMessages());
-        }
+        messages.addAll(other.getMessages());
         return false;
     }
 }
