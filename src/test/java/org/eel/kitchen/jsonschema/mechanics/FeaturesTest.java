@@ -18,17 +18,10 @@
 package org.eel.kitchen.jsonschema.mechanics;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
-import org.eel.kitchen.jsonschema.main.ValidationConfig;
-import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import java.io.IOException;
-
-import static org.testng.Assert.*;
 
 public final class FeaturesTest
 {
@@ -40,24 +33,5 @@ public final class FeaturesTest
     {
         testNode = JsonLoader.fromResource("/container/array.json")
             .get("items");
-    }
-
-    @Test
-    public void testFailFast()
-        throws JsonValidationFailureException
-    {
-        final ValidationConfig cfg = new ValidationConfig();
-        cfg.enable(ValidationFeature.FAIL_FAST);
-
-        final JsonValidator validator
-            = new JsonValidator(cfg, testNode.get("schema"));
-
-        try {
-            validator.validate(testNode.get("bad"));
-            fail("No exception thrown");
-        } catch (JsonValidationFailureException e) {
-            assertEquals(e.getMessage(), testNode.get("messages").get(0)
-                .textValue());
-        }
     }
 }

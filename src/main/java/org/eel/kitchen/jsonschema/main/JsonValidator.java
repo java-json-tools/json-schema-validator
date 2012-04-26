@@ -78,7 +78,14 @@ public final class JsonValidator
         throws JsonValidationFailureException
     {
         final Validator validator = context.getValidator(instance);
-        return validator.validate(context, instance);
+        try {
+            return validator.validate(context, instance);
+        } catch (JsonRefException e) {
+            final ValidationReport report
+                = new FullValidationReport("#: FATAL");
+            report.fail(e.getMessage());
+            return report;
+        }
     }
 
     /**

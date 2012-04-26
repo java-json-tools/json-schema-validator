@@ -124,8 +124,8 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals("#: FATAL: cannot use ref ftp://some.site/some/schema:"
-            + " unsupported scheme ftp", report.getMessages().get(0));
+        assertEquals("#: FATAL: cannot use ref ftp://some.site/some/schema",
+            report.getMessages().get(0));
     }
 
     @Test
@@ -142,8 +142,7 @@ public final class RefTest
 
         assertEquals(1, report.getMessages().size());
 
-        assertEquals("#: FATAL: cannot use ref a/b/c#/d/e: invalid URI: "
-            + "URI is not absolute and is not a JSON Pointer either",
+        assertEquals("#: FATAL: cannot use ref a/b/c#/d/e",
             report.getMessages().get(0));
     }
 
@@ -174,8 +173,7 @@ public final class RefTest
 
         final String ref = uri.toASCIIString();
 
-        final String errmsg = String.format("#: FATAL: cannot download schema"
-            + " at ref %s: java.net.UnknownHostException: %s", ref, hostname);
+        final String errmsg = "#: FATAL: cannot download schema at " + ref;
 
         final ObjectNode schema = factory.objectNode();
         schema.put("$ref", ref);

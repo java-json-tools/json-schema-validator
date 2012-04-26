@@ -71,6 +71,7 @@ public final class ObjectTest
         testOne("dependenciesSchema");
     }
 
+    // FIXME: this test fails only on full runs...
     @Test
     public void testRequired()
         throws JsonValidationFailureException

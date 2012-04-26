@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.JsonRefException;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
@@ -85,8 +86,6 @@ public final class RefKeywordValidator
         final JsonNode instance)
         throws JsonValidationFailureException
     {
-        final ValidationReport report = context.createReport();
-
         final String ref = context.getSchema().get(keyword).textValue();
 
         final URI uri, baseURI;
@@ -98,21 +97,17 @@ public final class RefKeywordValidator
                 null);
             pointer = new JsonPointer(uri.getRawFragment());
         } catch (URISyntaxException e) {
-            throw new RuntimeException("PROBLEM: invalid URI found ("
-                + ref + "), syntax validation should have caught that", e);
+            throw new JsonRefException("PROBLEM: invalid URI found (" + ref
+                + "), syntax validation should have caught that", e);
         }
 
         final ValidationContext ctx;
         try {
             ctx = context.fromURI(baseURI);
         } catch (IOException e) {
-            report.error(String.format("cannot download schema at ref %s: %s: "
-                + "%s", ref, e.getClass().getName(), e.getMessage()));
-            return report;
+            throw new JsonRefException("cannot download schema at " + ref, e);
         } catch (IllegalArgumentException e) {
-            report.error(String.format("cannot use ref %s: %s", ref,
-                e.getMessage()));
-            return report;
+            throw new JsonRefException("cannot use ref " + ref, e);
         }
 
         return ctx.getValidator(pointer, instance, true)
