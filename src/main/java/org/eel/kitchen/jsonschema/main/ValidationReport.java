@@ -92,8 +92,7 @@ public abstract class ValidationReport
      * @throws JsonValidationFailureException for {@link
      * FailFastValidationReport} instances
      */
-    public abstract void fail()
-        throws JsonValidationFailureException;
+    public abstract void fail();
 
     /**
      * Add a message and set the status to failure at the same time
@@ -102,8 +101,7 @@ public abstract class ValidationReport
      * @throws JsonValidationFailureException for {@link
      * FailFastValidationReport} instances
      */
-    public abstract void fail(final String message)
-        throws JsonValidationFailureException;
+    public abstract void fail(final String message);
 
     /**
      * Add a message and set the status to {@link ValidationStatus#ERROR}
@@ -115,8 +113,7 @@ public abstract class ValidationReport
      * @throws JsonValidationFailureException for {@link
      * FailFastValidationReport} instances
      */
-    public abstract void error(final String message)
-        throws JsonValidationFailureException;
+    public abstract void error(final String message);
 
     /**
      * Merge this report with another report

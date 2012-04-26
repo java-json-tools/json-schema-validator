@@ -51,28 +51,19 @@ public final class FailFastValidationReport
 
     @Override
     public void fail()
-        throws JsonValidationFailureException
     {
-        if (message != null)
-            throw new JsonValidationFailureException(message);
-
-        throw new JsonValidationFailureException();
     }
 
     @Override
     public void fail(final String msg)
-        throws JsonValidationFailureException
     {
         message(msg);
-        throw new JsonValidationFailureException(message);
     }
 
     @Override
     public void error(final String msg)
-        throws JsonValidationFailureException
     {
         message(msg);
-        throw new JsonValidationFailureException(message);
     }
 
     @Override
