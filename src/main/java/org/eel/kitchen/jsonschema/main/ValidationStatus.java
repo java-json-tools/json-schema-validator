@@ -29,25 +29,5 @@ public enum ValidationStatus
     /**
      * The validation failed
      */
-    FAILURE,
-    /**
-     * A fatal error occurred
-     */
-    ERROR;
-
-    /**
-     * Given two validation statuses, return the worst one of them both
-     *
-     * @param first the first
-     * @param second the second
-     * @return the worst
-     */
-    public static ValidationStatus worstOf(final ValidationStatus first,
-        final ValidationStatus second)
-    {
-        /*
-         * Order is crucial here!
-         */
-        return values()[Math.max(first.ordinal(), second.ordinal())];
-    }
+    FAILURE
 }

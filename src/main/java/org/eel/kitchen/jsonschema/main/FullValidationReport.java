@@ -56,7 +56,7 @@ public final class FullValidationReport
     @Override
     public void fail()
     {
-        status = ValidationStatus.worstOf(status, ValidationStatus.FAILURE);
+        status = ValidationStatus.FAILURE;
     }
 
     @Override
@@ -69,8 +69,9 @@ public final class FullValidationReport
     @Override
     public boolean mergeWith(final ValidationReport other)
     {
-        status = ValidationStatus.worstOf(status, other.status);
         messages.addAll(other.getMessages());
+        status = messages.isEmpty() ? ValidationStatus.SUCCESS
+            : ValidationStatus.FAILURE;
         return false;
     }
 }
