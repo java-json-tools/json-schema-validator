@@ -17,25 +17,9 @@
 
 package org.eel.kitchen.jsonschema.other;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
-import org.eel.kitchen.jsonschema.main.ValidationConfig;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.JsonLoader;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-
-import static org.testng.Assert.*;
-
 public final class FormatTest
 {
+    /*
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
     private JsonNode testNode;
     private final ValidationConfig cfg = new ValidationConfig();
@@ -170,4 +154,5 @@ public final class FormatTest
 
         assertEquals(report.getMessages(), messages);
     }
+    */
 }

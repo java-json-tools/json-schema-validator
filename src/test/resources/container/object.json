@@ -31,7 +31,7 @@
             "properties": {
                 "p1": {
                     "type": "number",
-                    "format": "utc-millisec"
+                    "minimum": 3
                 },
                 "p2": {
                     "type": "string",
@@ -39,8 +39,7 @@
                 }
             },
             "additionalProperties": {
-                "type": "string",
-                "format": "ipv6"
+                "type": "string"
             }
         },
         "good": {
@@ -50,11 +49,11 @@
         },
         "bad": {
             "p1": -10,
-            "p4": "ipv6.google.com"
+            "p4": null
         },
         "messages": [
-            "#/p1: epoch cannot be negative",
-            "#/p4: string is not a valid IPv6 address"
+            "#/p1: number is lower than the required minimum",
+            "#/p4: instance is of type null, which is none of the allowed primitive types ([string])"
         ]
     },
     "dependencies": {
@@ -107,8 +106,7 @@
                 "p2": {
                     "properties": {
                         "p3" : {
-                            "type": "string",
-                            "format": "email"
+                            "type": "string"
                         }
                     }
                 }
@@ -121,10 +119,10 @@
         "bad": {
             "p1": null,
             "p2": "hey, joe",
-            "p3": "not a valid mail"
+            "p3": 31
         },
         "messages": [
-            "#/p3: string is not a valid email address"
+            "#/p3: instance is of type integer, which is none of the allowed primitive types ([string])"
         ]
     },
     "properties": {
@@ -193,8 +191,7 @@
                 }
             },
             "additionalProperties": {
-                "type": "string",
-                "format": "color"
+                "type": "string"
             }
         },
         "good": {
@@ -209,16 +206,14 @@
             "p1": 19,
             "zz1": 44,
             "p": 8,
-            "a": "#z",
-            "b": "rgb(32)",
-            "c": "rgb(0,0,256)",
-            "d": "gah"
+            "a": null,
+            "b": 1,
+            "c": 2.7
         },
         "messages": [
-            "#/a: string is not a valid CSS 2.1 color",
-            "#/b: string is not a valid CSS 2.1 color",
-            "#/c: string is not a valid CSS 2.1 color",
-            "#/d: string is not a valid CSS 2.1 color",
+            "#/a: instance is of type null, which is none of the allowed primitive types ([string])",
+            "#/b: instance is of type integer, which is none of the allowed primitive types ([string])",
+            "#/c: instance is of type number, which is none of the allowed primitive types ([string])",
             "#/p: number is lower than the required minimum",
             "#/p1: number is not a multiple of divisibleBy",
             "#/zz1: number is not a multiple of divisibleBy"

@@ -18,16 +18,13 @@
 package org.eel.kitchen.jsonschema.bundle;
 
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common
-    .AdditionalItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common
-    .AdditionalPropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.AdditionalPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.DependenciesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.DisallowKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.DivisibleByKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.ExtendsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MaxItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MaxLengthKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MaximumKeywordValidator;
@@ -40,8 +37,7 @@ import org.eel.kitchen.jsonschema.keyword.common.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.AdditionalItemsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common
-    .AdditionalPropertiesSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.common.AdditionalPropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DependenciesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DescriptionSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DisallowSyntaxValidator;
@@ -49,12 +45,9 @@ import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DollarRefSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.DollarSchemaSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common
-    .ExclusiveMaximumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common
-    .ExclusiveMinimumSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMaximumSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMinimumSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.ExtendsSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common.FormatSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.IdSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.ItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.MaxItemsSyntaxValidator;
@@ -63,8 +56,7 @@ import org.eel.kitchen.jsonschema.syntax.common.MaximumSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.MinItemsSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.MinLengthSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.MinimumSyntaxValidator;
-import org.eel.kitchen.jsonschema.syntax.common
-    .PatternPropertiesSyntaxValidator;
+import org.eel.kitchen.jsonschema.syntax.common.PatternPropertiesSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.TitleSyntaxValidator;
 import org.eel.kitchen.jsonschema.syntax.common.TypeSyntaxValidator;
@@ -127,10 +119,6 @@ class BuiltinValidatorBundle
         /* extends */
         registerSV("extends", ExtendsSyntaxValidator.getInstance());
         registerKV("extends", ExtendsKeywordValidator.getInstance(), values());
-
-        /* format */
-        registerSV("format", FormatSyntaxValidator.getInstance());
-        registerKV("format", FormatKeywordValidator.getInstance(), values());
 
         /* id */
         registerSV("id", IdSyntaxValidator.getInstance());

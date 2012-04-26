@@ -178,13 +178,6 @@ public final class SyntaxValidatorFactoryTest
     }
 
     @Test
-    public void testFormat()
-        throws JsonValidationFailureException
-    {
-        testKeyword("format");
-    }
-
-    @Test
     public void testId()
         throws JsonValidationFailureException
     {

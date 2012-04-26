@@ -26,7 +26,7 @@
                 "boolean",
                 {
                     "type": "string",
-                    "format": "regex"
+                    "minLength": 4
                 }
             ]
         },
@@ -36,7 +36,7 @@
             "#: instance is of type string, which is none of the allowed primitive types ([boolean, integer, number])",
             "#: trying with enclosed schemas instead",
             "#: trying schema #1...",
-            "#: string is not a valid regular expression",
+            "#: string is shorter than minLength",
             "#: schema #1: no match",
             "#: enclosed schemas did not match"
         ]
@@ -45,8 +45,7 @@
         "schema": {
             "type": [
                 {
-                    "type": "string",
-                    "format": "email"
+                    "type": "string"
                 },
                 {
                     "type": "number",

@@ -313,23 +313,6 @@
             ]
         }
     ],
-    "format": [
-        {
-            "schema": {
-                "format": "date-time"
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "format": {}
-            },
-            "valid": false,
-            "messages": [
-                "# [schema:format]: field has wrong type object, expected one of [string]"
-            ]
-        }
-    ],
     "id": [
         {
             "schema": {
