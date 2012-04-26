@@ -115,7 +115,14 @@ public final class JsonValidator
         final Validator validator
             = context.getValidator(pointer, instance, false);
 
-        return validator.validate(context, instance);
+        try {
+            return validator.validate(context, instance);
+        } catch (JsonRefException e) {
+            final ValidationReport report = new FullValidationReport("#: "
+                + "FATAL");
+            report.fail(e.getMessage());
+            return report;
+        }
     }
 
     /**

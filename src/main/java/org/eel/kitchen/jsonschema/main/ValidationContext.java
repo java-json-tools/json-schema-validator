@@ -255,8 +255,7 @@ public final class ValidationContext
         try {
             provider = provider.atPoint(pointer);
         } catch (JsonValidationFailureException e) {
-            report.error(e.getMessage());
-            return new AlwaysFalseValidator(report);
+            throw new JsonRefException(e.getMessage());
         }
 
         final JsonNode schema = provider.getSchema();
@@ -264,8 +263,7 @@ public final class ValidationContext
         if (record && !refLookups.add(schema)) {
             logger.debug("ref loop detected!");
             logger.debug("path to loop: {}", refLookups);
-            report.error("schema " + schema + " loops on itself");
-            return new AlwaysFalseValidator(report);
+            throw new JsonRefException("schema " + schema + " loops on itself");
         }
 
 
