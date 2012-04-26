@@ -1,0 +1,20 @@
+<project>
+    <parent>
+        <groupId>org.kitchen-eel</groupId>
+        <artifactId>json-schema-validator</artifactId>
+        <version>0.5-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.kitchen-eel</groupId>
+    <artifactId>json-schema-format</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <description>JSON Schema format keyword validation</description>
+    <url>https://github.com/fge/json-schema-validator</url>
+    <dependencies>
+        <dependency>
+            <groupId>org.kitchen-eel</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>0.5-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+</project>
