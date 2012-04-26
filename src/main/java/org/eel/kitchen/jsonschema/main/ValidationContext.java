@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.AlwaysFalseValidator;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.keyword.common.RefKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.SchemaVersion;
@@ -233,22 +232,6 @@ public final class ValidationContext
         return cfg.getFactory(version).getInstanceValidator(this, instance);
     }
 
-    /**
-     * Get a format validator for an instance
-     *
-     * @param fmt the format specification
-     * @param instance the instance
-     * @return the {@link FormatValidator}
-     * @throws JsonValidationFailureException if reporting is configured to
-     * throw this exception
-     */
-    public Validator getFormatValidator(final String fmt,
-        final JsonNode instance)
-        throws JsonValidationFailureException
-    {
-        final SchemaVersion version = provider.getVersion();
-        return cfg.getFactory(version).getFormatValidator(this, fmt, instance);
-    }
 
     /**
      * Get a validator for a given pointer within a schema for a given instance

@@ -25,7 +25,6 @@ import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.container.ArrayValidator;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.common.format.FormatValidator;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -48,11 +47,6 @@ public abstract class ValidatorFactory
      * The {@link KeywordValidator} factory
      */
     protected final KeywordFactory keywordFactory;
-
-    /**
-     * The {@link FormatValidator} factory
-     */
-    protected final FormatFactory formatFactory = new FormatFactory();
 
     /**
      * Our validator cache
@@ -121,23 +115,5 @@ public abstract class ValidatorFactory
         cache.put(type, schema, ret);
 
         return ret;
-    }
-
-    /**
-     * Get a validator for a given format specification,
-     * context and instance to validate
-     *
-     * @param context the context
-     * @param fmt the format specification
-     * @param instance the instance to validate
-     * @return the matching {@link FormatValidator}
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
-     */
-    public final Validator getFormatValidator(final ValidationContext context,
-        final String fmt, final JsonNode instance)
-        throws JsonValidationFailureException
-    {
-        return formatFactory.getFormatValidator(context, fmt, instance);
     }
 }

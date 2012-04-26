@@ -34,7 +34,6 @@ import org.eel.kitchen.jsonschema.keyword.common.format.RegexValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.TimeFormatValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.URIValidator;
 import org.eel.kitchen.jsonschema.keyword.common.format.UnixEpochValidator;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,6 +50,34 @@ import static org.eel.kitchen.util.NodeType.*;
  */
 public final class FormatFactory
 {
+    /**
+     * The one and only validator factory
+     */
+    private static final FormatFactory instance = new FormatFactory();
+
+    private FormatFactory()
+    {
+        registerFormat("date-time", new DateTimeFormatValidator(), STRING);
+        registerFormat("date", new DateFormatValidator(), STRING);
+        registerFormat("time", new TimeFormatValidator(), STRING);
+        registerFormat("utc-millisec", new UnixEpochValidator(), INTEGER,
+            NUMBER);
+        registerFormat("regex", new RegexValidator(), STRING);
+        registerFormat("color", new CSSColorValidator(), STRING);
+        registerFormat("style", new CSSStyleValidator(), STRING);
+        registerFormat("phone", new PhoneNumberValidator(), STRING);
+        registerFormat("uri", new URIValidator(), STRING);
+        registerFormat("email", new EmailFormatValidator(), STRING);
+        registerFormat("ip-address", new IPV4Validator(), STRING);
+        registerFormat("ipv6", new IPV6Validator(), STRING);
+        registerFormat("host-name", new HostnameValidator(), STRING);
+    }
+
+    public static FormatFactory getInstance()
+    {
+        return instance;
+    }
+
     /**
      * Our logger
      */
@@ -71,28 +98,6 @@ public final class FormatFactory
         = new HashMap<String, FormatValidator>();
 
     /**
-     * Constructor, which initiates all format validators once per validation
-     *
-     */
-    public FormatFactory()
-    {
-        registerFormat("date-time", new DateTimeFormatValidator(), STRING);
-        registerFormat("date", new DateFormatValidator(), STRING);
-        registerFormat("time", new TimeFormatValidator(), STRING);
-        registerFormat("utc-millisec", new UnixEpochValidator(), INTEGER,
-            NUMBER);
-        registerFormat("regex", new RegexValidator(), STRING);
-        registerFormat("color", new CSSColorValidator(), STRING);
-        registerFormat("style", new CSSStyleValidator(), STRING);
-        registerFormat("phone", new PhoneNumberValidator(), STRING);
-        registerFormat("uri", new URIValidator(), STRING);
-        registerFormat("email", new EmailFormatValidator(), STRING);
-        registerFormat("ip-address", new IPV4Validator(), STRING);
-        registerFormat("ipv6", new IPV6Validator(), STRING);
-        registerFormat("host-name", new HostnameValidator(), STRING);
-    }
-
-    /**
      * Get the {@link Validator} for the given format specification and
      * instance
      *
@@ -101,13 +106,12 @@ public final class FormatFactory
      * not applicable to the instance type, an {@link AlwaysTrueValidator} is
      * returned.</p>
      *
-     * @param context the context to use
      * @param name the format specification
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public Validator getFormatValidator(final ValidationContext context,
-        final String name, final JsonNode instance)
+    public Validator getFormatValidator(final String name,
+        final JsonNode instance)
     {
         final NodeType type = getNodeType(instance);
 

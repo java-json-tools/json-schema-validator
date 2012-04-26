@@ -38,6 +38,8 @@ public final class FormatKeywordValidator
     private static final FormatKeywordValidator instance
         = new FormatKeywordValidator();
 
+    private static final FormatFactory factory = FormatFactory.getInstance();
+
     private FormatKeywordValidator()
     {
         super("format");
@@ -50,13 +52,6 @@ public final class FormatKeywordValidator
 
     /**
      * Validate against a format specification
-     *
-     * <p>If the format specification is unknown, the validation is a failure
-     * (FIXME: not what the draft says). If the type of the instance cannot
-     * be validated by the matching validator, the validation is a success.
-     *
-     * @see FormatFactory#getFormatValidator(ValidationContext, String,
-     * JsonNode)
      */
     @Override
     public ValidationReport validate(final ValidationContext context,
@@ -68,7 +63,7 @@ public final class FormatKeywordValidator
         final String fmt = schema.get(keyword).textValue();
 
         final Validator validator
-            = context.getFormatValidator(fmt, instance);
+            = factory.getFormatValidator(fmt, instance);
 
         return validator.validate(context, instance);
     }
