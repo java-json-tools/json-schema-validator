@@ -29,12 +29,8 @@ import java.util.List;
 public final class FailFastValidationReport
     extends ValidationReport
 {
-    private final String prefix;
-    private String message = null;
-
     public FailFastValidationReport(final String prefix)
     {
-        this.prefix = prefix;
     }
 
     @Override
@@ -46,7 +42,6 @@ public final class FailFastValidationReport
     @Override
     public void message(final String message)
     {
-        this.message = prefix + ": " + message;
     }
 
     @Override
@@ -55,9 +50,9 @@ public final class FailFastValidationReport
     }
 
     @Override
-    public void fail(final String msg)
+    public void fail(final String message)
     {
-        message(msg);
+        message(message);
     }
 
     @Override
