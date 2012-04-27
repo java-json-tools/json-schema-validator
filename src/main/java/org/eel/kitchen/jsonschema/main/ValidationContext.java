@@ -276,7 +276,7 @@ public final class ValidationContext
      */
     public ValidationReport createReport(final String prefix)
     {
-        return cfg.getReport(path + prefix);
+        return new FullValidationReport(path + prefix);
     }
 
     /**
