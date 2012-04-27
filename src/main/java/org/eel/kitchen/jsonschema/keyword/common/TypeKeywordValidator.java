@@ -24,7 +24,6 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -50,25 +49,26 @@ public final class TypeKeywordValidator
 
     @Override
     protected ValidationReport doValidate(final ValidationContext context,
-        final JsonNode instance, final EnumSet<NodeType> typeSet,
+        final JsonNode instance, final TypeSet typeSet,
         final List<JsonNode> schemas)
         throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final NodeType type = NodeType.getNodeType(instance);
 
-        if (typeSet.contains(type))
+        if (typeSet.matches(instance))
             return report;
 
         String message = "cannot match anything! Empty simple type set "
             + "_and_ I don't have any enclosed schema either";
 
-        if (schemas.isEmpty() && typeSet.isEmpty()) {
+        if (schemas.isEmpty() && typeSet.getAll().isEmpty()) {
             report.fail(message);
             return report;
         }
 
-        message = typeSet.isEmpty() ? "no primitive types to match against"
+        message = typeSet.getAll().isEmpty()
+            ? "no primitive types to match against"
             : String.format("instance is of type %s, which is none of "
                 + "the allowed primitive types (%s)", type, typeSet);
 

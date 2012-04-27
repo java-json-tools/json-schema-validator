@@ -67,7 +67,7 @@ public abstract class AbstractTypeKeywordValidator
      */
     protected abstract ValidationReport doValidate(
         final ValidationContext context, final JsonNode instance,
-        final EnumSet<NodeType> typeSet, final List<JsonNode> schemas)
+        final TypeSet typeSet, final List<JsonNode> schemas)
         throws JsonValidationFailureException;
 
     /**
@@ -75,7 +75,7 @@ public abstract class AbstractTypeKeywordValidator
      *
      * <p>It calls {@link #prepare(JsonNode, TypeSet, List)} to build the
      * necessary elements, then
-     * {@link #doValidate(ValidationContext, JsonNode, EnumSet, List)},
+     * {@link #doValidate(ValidationContext, JsonNode, TypeSet, List)},
      * which actually does the validation.
      *
      * @param context the validation context
@@ -96,7 +96,7 @@ public abstract class AbstractTypeKeywordValidator
         final TypeSet set = new TypeSet();
 
         prepare(typeNode, set, schemas);
-        return doValidate(context, instance, set.getAll(), schemas);
+        return doValidate(context, instance, set, schemas);
     }
 
     /**

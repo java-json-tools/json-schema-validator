@@ -24,7 +24,6 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-import java.util.EnumSet;
 import java.util.List;
 
 /**
@@ -50,7 +49,7 @@ public final class DisallowKeywordValidator
 
     @Override
     protected ValidationReport doValidate(final ValidationContext context,
-        final JsonNode instance, final EnumSet<NodeType> typeSet,
+        final JsonNode instance, final TypeSet typeSet,
         final List<JsonNode> schemas)
         throws JsonValidationFailureException
     {
@@ -58,7 +57,7 @@ public final class DisallowKeywordValidator
 
         final NodeType type = NodeType.getNodeType(instance);
 
-        if (typeSet.contains(type)) {
+        if (typeSet.matches(instance)) {
             report.fail(String.format("instance is of type %s, "
                 + "which falls into the list of explicitly disallowed types "
                 + "(%s)", type, typeSet));
