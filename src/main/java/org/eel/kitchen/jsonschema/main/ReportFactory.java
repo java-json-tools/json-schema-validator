@@ -50,9 +50,7 @@ public final class ReportFactory
      */
     public ValidationReport create(final String prefix)
     {
-        return failFast
-            ? new FailFastValidationReport(prefix)
-            : new FullValidationReport(prefix);
+        return  new FullValidationReport(prefix);
 
     }
 }
