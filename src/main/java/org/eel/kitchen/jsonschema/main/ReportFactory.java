@@ -20,9 +20,7 @@ package org.eel.kitchen.jsonschema.main;
 /**
  * A report generator
  *
- * <p>Its only role is to generate either a {@link FullValidationReport} or a
- * {@link FailFastValidationReport}, depending on its constructor.
- * </p>
+ * <p>Will soon be given the boot!</p>
  */
 public final class ReportFactory
 {

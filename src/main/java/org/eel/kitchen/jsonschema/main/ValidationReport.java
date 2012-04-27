@@ -51,8 +51,6 @@ public abstract class ValidationReport
     /**
      * Set the status of this validator to {@link ValidationStatus#FAILURE}
      *
-     * @throws JsonValidationFailureException for {@link
-     * FailFastValidationReport} instances
      */
     public abstract void fail();
 
@@ -60,8 +58,6 @@ public abstract class ValidationReport
      * Add a message and set the status to failure at the same time
      *
      * @param message the message to add
-     * @throws JsonValidationFailureException for {@link
-     * FailFastValidationReport} instances
      */
     public abstract void fail(final String message);
 
