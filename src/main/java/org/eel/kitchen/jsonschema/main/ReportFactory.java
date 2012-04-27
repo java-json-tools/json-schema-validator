@@ -25,21 +25,6 @@ package org.eel.kitchen.jsonschema.main;
 public final class ReportFactory
 {
     /**
-     * Will be removed soon
-     */
-    private final boolean failFast;
-
-    /**
-     * Constructor
-     *
-     * @param failFast value of {@link #failFast}
-     */
-    public ReportFactory(final boolean failFast)
-    {
-        this.failFast = failFast;
-    }
-
-    /**
      * Create a report with a prefix prepended to all messages
      *
      * @param prefix the prefix
@@ -47,7 +32,7 @@ public final class ReportFactory
      */
     public ValidationReport create(final String prefix)
     {
-        return  new FullValidationReport(prefix);
+        return  new ValidationReport(prefix);
 
     }
 }

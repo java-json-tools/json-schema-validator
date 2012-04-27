@@ -172,7 +172,7 @@ public final class ValidationConfig
             if (factoriesBuilt)
                 return;
 
-            reports = new ReportFactory(features.contains(FAIL_FAST));
+            reports = new ReportFactory();
 
             ValidatorFactory factory;
             ValidatorBundle bundle;

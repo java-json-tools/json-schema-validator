@@ -18,10 +18,8 @@
 package org.eel.kitchen.jsonschema.factories;
 
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
-import org.eel.kitchen.jsonschema.main.FullValidationReport;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 public final class NoSyntaxValidatorFactory
     extends ValidatorFactory
@@ -29,7 +27,7 @@ public final class NoSyntaxValidatorFactory
     @Override
     public ValidationReport validateSchema(final ValidationContext context)
     {
-        return new FullValidationReport("");
+        return new ValidationReport("");
     }
 
     /**

@@ -26,11 +26,6 @@ package org.eel.kitchen.jsonschema.main;
 public enum ValidationFeature
 {
     /**
-     * Should the validation fail at the first error encountered (see {@link
-     * JsonValidationFailureException})
-     */
-    FAIL_FAST,
-    /**
      * Should schema syntax checking be skipped (use at your own risks!)
      */
     SKIP_SCHEMACHECK

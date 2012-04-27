@@ -27,6 +27,7 @@ import java.util.List;
 //TODO: separate failure message queue from error message queue
 public final class ValidationReport
 {
+    private ValidationStatus status = ValidationStatus.SUCCESS;
     private final String prefix;
     private final List<String> messages = new LinkedList<String>();
 
@@ -40,37 +41,36 @@ public final class ValidationReport
         this.prefix = prefix;
     }
 
-    @Override
     public List<String> getMessages()
     {
         return Collections.unmodifiableList(messages);
     }
 
-    @Override
     public void message(final String message)
     {
         messages.add(prefix + ": " + message);
     }
 
-    @Override
     public void fail()
     {
         status = ValidationStatus.FAILURE;
     }
 
-    @Override
     public void fail(final String message)
     {
         fail();
         message(message);
     }
 
-    @Override
     public boolean mergeWith(final ValidationReport other)
     {
         messages.addAll(other.getMessages());
         status = messages.isEmpty() ? ValidationStatus.SUCCESS
             : ValidationStatus.FAILURE;
         return false;
+    }
+
+    public boolean isSuccess() {
+        return status == ValidationStatus.SUCCESS;
     }
 }

@@ -18,9 +18,8 @@
 package org.eel.kitchen.jsonschema.base;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.FullValidationReport;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 /**
  * A validator which is always true
@@ -32,6 +31,6 @@ public final class AlwaysTrueValidator
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
     {
-        return new FullValidationReport("");
+        return new ValidationReport("");
     }
 }

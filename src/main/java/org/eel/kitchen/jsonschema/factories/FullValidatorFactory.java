@@ -20,10 +20,9 @@ package org.eel.kitchen.jsonschema.factories;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
-import org.eel.kitchen.jsonschema.main.FullValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 import java.util.HashSet;
@@ -68,7 +67,7 @@ public final class FullValidatorFactory
         final JsonNode schema = context.getSchema();
 
         if (validated.contains(schema))
-            return new FullValidationReport("");
+            return new ValidationReport("");
 
         final Validator validator = syntaxFactory.getValidator(context);
         final ValidationReport report = validator.validate(context, schema);

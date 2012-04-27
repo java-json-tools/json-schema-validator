@@ -71,8 +71,7 @@ public final class JsonValidator
      *
      * @param instance the instance to validate
      * @return the validation report
-     * @throws JsonValidationFailureException on validation failure,
-     * if {@link ValidationFeature#FAIL_FAST} is set
+     * @throws JsonValidationFailureException on validation failure.
      */
     public ValidationReport validate(final JsonNode instance)
         throws JsonValidationFailureException
@@ -82,7 +81,7 @@ public final class JsonValidator
             return validator.validate(context, instance);
         } catch (JsonRefException e) {
             final ValidationReport report
-                = new FullValidationReport("#: FATAL");
+                = new ValidationReport("#: FATAL");
             report.fail(e.getMessage());
             return report;
         }
@@ -104,8 +103,7 @@ public final class JsonValidator
      * @param path the path to the actual schema
      * @param instance the instance to validate
      * @return a report of the validation
-     * @throws JsonValidationFailureException on validation failure,
-     * if {@link ValidationFeature#FAIL_FAST} is set
+     * @throws JsonValidationFailureException on validation failure.
      */
     public ValidationReport validate(final String path, final JsonNode instance)
         throws JsonValidationFailureException
@@ -118,7 +116,7 @@ public final class JsonValidator
         try {
             return validator.validate(context, instance);
         } catch (JsonRefException e) {
-            final ValidationReport report = new FullValidationReport("#: "
+            final ValidationReport report = new ValidationReport("#: "
                 + "FATAL");
             report.fail(e.getMessage());
             return report;
