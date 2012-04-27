@@ -247,8 +247,6 @@ public final class ValidationContext
         final JsonNode instance, final boolean record)
         throws JsonValidationFailureException
     {
-        final ValidationReport report = createReport();
-
         logger.trace("trying to lookup path \"{}\" from node {}", pointer,
             provider.getSchema());
 
