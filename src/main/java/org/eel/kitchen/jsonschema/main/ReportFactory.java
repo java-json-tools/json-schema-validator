@@ -25,8 +25,7 @@ package org.eel.kitchen.jsonschema.main;
 public final class ReportFactory
 {
     /**
-     * True if this factory should generate {@link FailFastValidationReport}
-     * instances
+     * Will be removed soon
      */
     private final boolean failFast;
 
