@@ -29,14 +29,13 @@ import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.SchemaVersion;
 
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.eel.kitchen.jsonschema.main.ValidationFeature.*;
+import static org.eel.kitchen.jsonschema.main.ValidationFeature.SKIP_SCHEMACHECK;
 
 public final class ValidationConfig
 {
@@ -58,8 +57,6 @@ public final class ValidationConfig
     private final Map<SchemaVersion, ValidatorFactory> factories
         = new EnumMap<SchemaVersion, ValidatorFactory>(SchemaVersion.class);
 
-    private ReportFactory reports;
-
     public ValidationConfig()
     {
         ValidatorBundle bundle;
@@ -78,11 +75,6 @@ public final class ValidationConfig
     public void setDefaultVersion(final SchemaVersion defaultVersion)
     {
         this.defaultVersion = defaultVersion;
-    }
-
-    public Map<SchemaVersion, ValidatorBundle> getBundles()
-    {
-        return Collections.unmodifiableMap(bundles);
     }
 
     public void registerValidator(final String keyword,
@@ -118,11 +110,6 @@ public final class ValidationConfig
     public boolean disable(final ValidationFeature feature)
     {
         return features.remove(feature);
-    }
-
-    public EnumSet<ValidationFeature> getFeatures()
-    {
-        return EnumSet.copyOf(features);
     }
 
     /**
@@ -172,8 +159,6 @@ public final class ValidationConfig
             if (factoriesBuilt)
                 return;
 
-            reports = new ReportFactory();
-
             ValidatorFactory factory;
             ValidatorBundle bundle;
 
@@ -194,10 +179,5 @@ public final class ValidationConfig
     public ValidatorFactory getFactory(final SchemaVersion version)
     {
         return factories.get(version);
-    }
-
-    public ValidationReport getReport(final String prefix)
-    {
-        return reports.create(prefix);
     }
 }
