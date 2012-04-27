@@ -17,64 +17,60 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * A validation report
- *
- * <p>Depending on the implementation, this will collect messages or
- * immediately return a {@link JsonValidationFailureException} if an error
- * is encountered.</p>
+ * A validation report collecting all messages added to it
  */
-public abstract class ValidationReport
+//TODO: separate failure message queue from error message queue
+public final class ValidationReport
 {
-    /**
-     * The status of this report
-     */
-    protected ValidationStatus status = ValidationStatus.SUCCESS;
+    private final String prefix;
+    private final List<String> messages = new LinkedList<String>();
 
     /**
-     * Get the messages collected by this report
+     * Constructor of a validator which will prepend all messages added to it
      *
-     * @return the messages, in the order in which they were submitted
+     * @param prefix the prefix which will appear before all messages
      */
-    public abstract List<String> getMessages();
-
-    /**
-     * Add a message to this validator's message list
-     *
-     * @param message the message to add
-     */
-    public abstract void message(final String message);
-
-    /**
-     * Set the status of this validator to {@link ValidationStatus#FAILURE}
-     *
-     */
-    public abstract void fail();
-
-    /**
-     * Add a message and set the status to failure at the same time
-     *
-     * @param message the message to add
-     */
-    public abstract void fail(final String message);
-
-    /**
-     * Merge this report with another report
-     *
-     * @param other the absorbed report
-     * @return true if validation should continue
-     */
-    public abstract boolean mergeWith(final ValidationReport other);
-
-    /**
-     * Is the validation a success?
-     *
-     * @return true if {@link #status} is {@link ValidationStatus#SUCCESS}
-     */
-    public final boolean isSuccess()
+    public ValidationReport(final String prefix)
     {
-        return status == ValidationStatus.SUCCESS;
+        this.prefix = prefix;
+    }
+
+    @Override
+    public List<String> getMessages()
+    {
+        return Collections.unmodifiableList(messages);
+    }
+
+    @Override
+    public void message(final String message)
+    {
+        messages.add(prefix + ": " + message);
+    }
+
+    @Override
+    public void fail()
+    {
+        status = ValidationStatus.FAILURE;
+    }
+
+    @Override
+    public void fail(final String message)
+    {
+        fail();
+        message(message);
+    }
+
+    @Override
+    public boolean mergeWith(final ValidationReport other)
+    {
+        messages.addAll(other.getMessages());
+        status = messages.isEmpty() ? ValidationStatus.SUCCESS
+            : ValidationStatus.FAILURE;
+        return false;
     }
 }
