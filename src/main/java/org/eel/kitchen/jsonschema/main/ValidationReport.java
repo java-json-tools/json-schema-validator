@@ -35,39 +35,6 @@ public abstract class ValidationReport
     protected ValidationStatus status = ValidationStatus.SUCCESS;
 
     /**
-     * A validation report which is always true
-     */
-    public static final ValidationReport TRUE = new ValidationReport()
-    {
-        @Override
-        public List<String> getMessages()
-        {
-            return Collections.emptyList();
-        }
-
-        @Override
-        public void message(final String message)
-        {
-        }
-
-        @Override
-        public void fail()
-        {
-        }
-
-        @Override
-        public void fail(final String message)
-        {
-        }
-
-        @Override
-        public boolean mergeWith(final ValidationReport other)
-        {
-            return true;
-        }
-    };
-
-    /**
      * Get the messages collected by this report
      *
      * @return the messages, in the order in which they were submitted
