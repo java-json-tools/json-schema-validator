@@ -7,11 +7,7 @@
             "uniqueItems": false
         },
         "good": [ 3.14, 232, 30924, null, null ],
-        "bad": [ 4, 19, "pwet", 92831, [] ],
-        "messages": [
-            "#/2: instance is of type string, which is none of the allowed primitive types ([integer, number, null])",
-            "#/4: instance is of type array, which is none of the allowed primitive types ([integer, number, null])"
-        ]
+        "bad": [ 4, 19, "pwet", 92831, [] ]
     },
     "minItems": {
         "schema": {
@@ -19,10 +15,7 @@
             "minItems": 2
         },
         "good": [ 1, 2, 3 ],
-        "bad": [ "hello" ],
-        "messages" : [
-            "#: array has less than minItems elements"
-        ]
+        "bad": [ "hello" ]
     },
     "maxItems": {
         "schema": {
@@ -30,10 +23,7 @@
             "maxItems": 2
         },
         "good": [ "bisque bisque rage" ],
-        "bad": [ 1, 2, 3 ],
-        "messages": [
-            "#: array has more than maxItems elements"
-        ]
+        "bad": [ 1, 2, 3 ]
     },
     "uniqueItems": {
         "schema": {
@@ -41,10 +31,7 @@
             "uniqueItems": true
         },
         "good": [ 1, false ],
-        "bad": [ "fais tourner", "fais tourner", "fais tourner" ],
-        "messages": [
-            "#: items in the array are not unique"
-        ]
+        "bad": [ "fais tourner", "fais tourner", "fais tourner" ]
     },
     "additionalItems": {
         "schema": {
@@ -55,10 +42,7 @@
             "additionalItems": false
         },
         "good": [ 32089209840198240192738124091284 ],
-        "bad": [ 3, 4 ],
-        "messages": [
-            "#: array only allows 1 item(s)"
-        ]
+        "bad": [ 3, 4 ]
     },
     "additionalItemsSchema": {
         "schema": {
@@ -71,9 +55,6 @@
             }
         },
         "good": [ "forty-two", 42],
-        "bad": [ "hello", "world"],
-        "messages": [
-            "#/1: instance is of type string, which is none of the allowed primitive types ([integer])"
-        ]
+        "bad": [ "hello", "world"]
     }
 }

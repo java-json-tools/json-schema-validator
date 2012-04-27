@@ -27,8 +27,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -109,15 +107,8 @@ public final class ObjectTest
         assertTrue(report.isSuccess());
         assertTrue(report.getMessages().isEmpty());
 
-        final List<String> expected = new LinkedList<String>();
-
-        for (final JsonNode element: node.get("messages"))
-            expected.add(element.textValue());
-
         report = validator.validate(bad);
 
         assertFalse(report.isSuccess());
-
-        assertEquals(report.getMessages(), expected);
     }
 }

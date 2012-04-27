@@ -21,10 +21,7 @@
         "bad": {
             "p1": "slashdot.org",
             "p2": null
-        },
-        "messages": [
-            "#: additional properties are not permitted"
-        ]
+        }
     },
     "additionalPropertiesSchema": {
         "schema": {
@@ -50,11 +47,7 @@
         "bad": {
             "p1": -10,
             "p4": null
-        },
-        "messages": [
-            "#/p1: number is lower than the required minimum",
-            "#/p4: instance is of type null, which is none of the allowed primitive types ([string])"
-        ]
+        }
     },
     "dependencies": {
         "schema": {
@@ -86,11 +79,7 @@
             "p2": "you want",
             "laurel": "this will fail",
             "at": "structure validation"
-        },
-        "messages": [
-            "#: property laurel is missing dependencies [hardy]",
-            "#: property p1 is missing dependencies [p3]"
-        ]
+        }
     },
     "dependenciesSchema": {
         "schema": {
@@ -120,10 +109,7 @@
             "p1": null,
             "p2": "hey, joe",
             "p3": 31
-        },
-        "messages": [
-            "#/p3: instance is of type integer, which is none of the allowed primitive types ([string])"
-        ]
+        }
     },
     "properties": {
         "schema": {
@@ -147,10 +133,7 @@
                 "some": "thing"
             },
             "p2": 37
-        },
-        "messages": [
-            "#/p1: instance does not match any member of the enumeration"
-        ]
+        }
     },
     "required": {
         "schema": {
@@ -170,10 +153,8 @@
         },
         "bad": {
             "p2": null
-        },
-        "messages": [
-            "#: required property p1 is missing"
-        ]
+        }
+
     },
     "patternProperties": {
         "schema": {
@@ -209,14 +190,6 @@
             "a": null,
             "b": 1,
             "c": 2.7
-        },
-        "messages": [
-            "#/a: instance is of type null, which is none of the allowed primitive types ([string])",
-            "#/b: instance is of type integer, which is none of the allowed primitive types ([string])",
-            "#/c: instance is of type number, which is none of the allowed primitive types ([string])",
-            "#/p: number is lower than the required minimum",
-            "#/p1: number is not a multiple of divisibleBy",
-            "#/zz1: number is not a multiple of divisibleBy"
-        ]
+        }
     }
 }

@@ -4,20 +4,15 @@
             "type": "string"
         },
         "good": "finance and marketing are the two biggest failures of the western world",
-        "bad": null,
-        "messages": [
-            "#: instance is of type null, which is none of the allowed primitive types ([string])"
-        ]
+        "bad": null
+
     },
     "simple": {
         "schema": {
             "type": [ "integer", "boolean" ]
         },
         "good": true,
-        "bad": "finance",
-        "messages": [
-            "#: instance is of type string, which is none of the allowed primitive types ([boolean, integer])"
-        ]
+        "bad": "finance"
     },
     "union": {
         "schema": {
@@ -31,15 +26,7 @@
             ]
         },
         "good": 42329809283907240998102938019247192840,
-        "bad": "a++",
-        "messages": [
-            "#: instance is of type string, which is none of the allowed primitive types ([boolean, integer, number])",
-            "#: trying with enclosed schemas instead",
-            "#: trying schema #1...",
-            "#: string is shorter than minLength",
-            "#: schema #1: no match",
-            "#: enclosed schemas did not match"
-        ]
+        "bad": "a++"
     },
     "uniononly": {
         "schema": {
@@ -54,17 +41,6 @@
             ]
         },
         "good": "ilpapa@vaticano.it",
-        "bad": 17,
-        "messages": [
-            "#: no primitive types to match against",
-            "#: trying with enclosed schemas instead",
-            "#: trying schema #1...",
-            "#: instance is of type integer, which is none of the allowed primitive types ([string])",
-            "#: schema #1: no match",
-            "#: trying schema #2...",
-            "#: number is not a multiple of divisibleBy",
-            "#: schema #2: no match",
-            "#: enclosed schemas did not match"
-        ]
+        "bad": 17
     }
 }
