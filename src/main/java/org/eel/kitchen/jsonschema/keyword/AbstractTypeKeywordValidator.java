@@ -73,11 +73,10 @@ public abstract class AbstractTypeKeywordValidator
     /**
      * The main validation function
      *
-     * <p>It calls {@link #prepare(JsonNode, EnumSet, List)} to build the
+     * <p>It calls {@link #prepare(JsonNode, TypeSet, List)} to build the
      * necessary elements, then
      * {@link #doValidate(ValidationContext, JsonNode, EnumSet, List)},
      * which actually does the validation.
-     *
      *
      * @param context the validation context
      * @param instance the instance to validate
@@ -92,11 +91,12 @@ public abstract class AbstractTypeKeywordValidator
     {
         final JsonNode typeNode = context.getSchema().get(keyword);
 
-        final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
         final List<JsonNode> schemas = new ArrayList<JsonNode>();
 
-        prepare(typeNode, typeSet, schemas);
-        return doValidate(context, instance, typeSet, schemas);
+        final TypeSet set = new TypeSet();
+
+        prepare(typeNode, set, schemas);
+        return doValidate(context, instance, set.getAll(), schemas);
     }
 
     /**
@@ -124,14 +124,14 @@ public abstract class AbstractTypeKeywordValidator
      * the keyword node
      *
      * @param typeNode the keyword node
-     * @param typeSet  the typeset to fill
+     * @param set The {@link TypeSet} to fill
      * @param schemas the list of schemas to fill
      */
-    private static void prepare(final JsonNode typeNode,
-        final EnumSet<NodeType> typeSet, final List<JsonNode> schemas)
+    private static void prepare(final JsonNode typeNode, final TypeSet set,
+        final List<JsonNode> schemas)
     {
         if (typeNode.isTextual()) {
-            addType(typeNode.textValue(), typeSet);
+            set.addType(typeNode.textValue());
             return;
         }
 
@@ -140,33 +140,42 @@ public abstract class AbstractTypeKeywordValidator
                 schemas.add(element);
                 continue;
             }
-            addType(element.textValue(), typeSet);
+            set.addType(element.textValue());
         }
     }
 
-    /**
-     * Add a primitive type to a type set
-     *
-     * <p>This is in a separate function because we need to take two special
-     * cases into account: the first is {@link #ANY}; the second is the
-     * {@code number} type: it also englobes {@code integer}, which mean we must
-     * add it as well.
-     * </p>
-     *
-     * @param s the primitive type as a string
-     * @param typeSet the type set to add to
-     */
-    private static void addType(final String s, final EnumSet<NodeType> typeSet)
+    protected static class TypeSet
     {
-        if (ANY.equals(s)) {
-            typeSet.addAll(EnumSet.allOf(NodeType.class));
-            return;
+        private final EnumSet<NodeType> set = EnumSet.noneOf(NodeType.class);
+
+        public void addType(final String s)
+        {
+            if (ANY.equals(s)) {
+                set.addAll(EnumSet.allOf(NodeType.class));
+                return;
+            }
+
+            final NodeType type = NodeType.fromName(s);
+            set.add(type);
+
+            if (type == NodeType.NUMBER)
+                set.add(NodeType.INTEGER);
         }
 
-        final NodeType type = NodeType.fromName(s);
-        typeSet.add(type);
+        public boolean matches(final JsonNode instance)
+        {
+            return set.contains(NodeType.getNodeType(instance));
+        }
 
-        if (type == NodeType.NUMBER)
-            typeSet.add(NodeType.INTEGER);
+        @Override
+        public String toString()
+        {
+            return set.toString();
+        }
+
+        public EnumSet<NodeType> getAll()
+        {
+            return EnumSet.copyOf(set);
+        }
     }
 }
