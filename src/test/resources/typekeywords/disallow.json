@@ -4,20 +4,14 @@
             "disallow": "string"
         },
         "good": 3,
-        "bad": "finance will make the world better",
-        "messages": [
-            "#: instance is of type string, which falls into the list of explicitly disallowed types ([string])"
-        ]
+        "bad": "finance will make the world better"
     },
     "simple": {
         "schema": {
             "disallow": [ "integer", "string" ]
         },
         "good": true,
-        "bad": "finance",
-        "messages": [
-            "#: instance is of type string, which falls into the list of explicitly disallowed types ([integer, string])"
-        ]
+        "bad": "finance"
     },
     "union": {
         "schema": {
@@ -31,10 +25,7 @@
             ]
         },
         "good": {},
-        "bad": "\\ba/b",
-        "messages": [
-            "#: instance validates against an explicitly disallowed schema"
-        ]
+        "bad": "\\ba/b"
     },
     "uniononly": {
         "schema": {
@@ -50,9 +41,6 @@
             ]
         },
         "good": 17,
-        "bad": "ilpapa@vaticano.it",
-        "messages": [
-            "#: instance validates against an explicitly disallowed schema"
-        ]
+        "bad": "ilpapa@vaticano.it"
     }
 }

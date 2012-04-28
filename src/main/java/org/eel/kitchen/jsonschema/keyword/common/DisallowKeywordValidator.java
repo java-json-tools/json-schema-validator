@@ -58,17 +58,13 @@ public final class DisallowKeywordValidator
         final NodeType type = NodeType.getNodeType(instance);
 
         if (typeSet.matches(instance)) {
-            report.message(String.format("instance is of type %s, "
-                + "which falls into the list of explicitly disallowed types "
-                + "(%s)", type, typeSet));
+            report.message("instance is of type " + type + ", which is "
+                + "explicitly disallowed");
             return report;
         }
 
-        ValidationReport schemaReport;
-
         for (final JsonNode schema: schemas) {
-            schemaReport = validateSchema(context, schema, instance);
-            if (schemaReport.isSuccess()) {
+            if (validateSchema(context, schema, instance).isSuccess()) {
                 report.message("instance validates against an explicitly "
                     + "disallowed schema");
                 break;
