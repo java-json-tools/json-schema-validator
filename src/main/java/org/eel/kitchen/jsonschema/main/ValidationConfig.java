@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.main;
 import org.eel.kitchen.jsonschema.bundle.CustomValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.factories.FullValidatorFactory;
-import org.eel.kitchen.jsonschema.factories.NoSyntaxValidatorFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -35,7 +34,7 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static org.eel.kitchen.jsonschema.main.ValidationFeature.SKIP_SCHEMACHECK;
+import static org.eel.kitchen.jsonschema.main.ValidationFeature.*;
 
 public final class ValidationConfig
 {
@@ -164,9 +163,8 @@ public final class ValidationConfig
 
             for (final SchemaVersion version: SchemaVersion.values()) {
                 bundle = bundles.get(version);
-                factory = features.contains(SKIP_SCHEMACHECK)
-                    ? new NoSyntaxValidatorFactory(bundle)
-                    : new FullValidatorFactory(bundle);
+                factory = new FullValidatorFactory(bundle,
+                    features.contains(SKIP_SCHEMACHECK));
                 factories.put(version, factory);
             }
 
