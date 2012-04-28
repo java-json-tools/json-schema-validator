@@ -27,7 +27,6 @@ import java.util.List;
 //TODO: separate failure message queue from error message queue
 public final class ValidationReport
 {
-    private ValidationStatus status = ValidationStatus.SUCCESS;
     private final String prefix;
     private final List<String> messages = new LinkedList<String>();
 
@@ -53,7 +52,6 @@ public final class ValidationReport
 
     public void fail()
     {
-        status = ValidationStatus.FAILURE;
     }
 
     public void fail(final String message)
@@ -65,8 +63,6 @@ public final class ValidationReport
     public boolean mergeWith(final ValidationReport other)
     {
         messages.addAll(other.getMessages());
-        status = messages.isEmpty() ? ValidationStatus.SUCCESS
-            : ValidationStatus.FAILURE;
         return false;
     }
 
