@@ -50,13 +50,8 @@ public final class ValidationReport
         messages.add(prefix + ": " + message);
     }
 
-    public void fail()
-    {
-    }
-
     public void fail(final String message)
     {
-        fail();
         message(message);
     }
 
