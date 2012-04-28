@@ -71,6 +71,6 @@ public final class ValidationReport
     }
 
     public boolean isSuccess() {
-        return status == ValidationStatus.SUCCESS;
+        return messages.isEmpty();
     }
 }
