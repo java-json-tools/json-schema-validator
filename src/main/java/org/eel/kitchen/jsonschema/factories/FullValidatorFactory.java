@@ -43,8 +43,6 @@ public final class FullValidatorFactory
      */
     private final SyntaxFactory syntaxFactory;
 
-    private final boolean skipSyntax;
-
     /**
      * List of already validated schemas
      */
@@ -55,20 +53,15 @@ public final class FullValidatorFactory
      *
      * @param bundle the validator bundle to use
      */
-    public FullValidatorFactory(final ValidatorBundle bundle,
-        final boolean skipSyntax)
+    public FullValidatorFactory(final ValidatorBundle bundle)
     {
         super(bundle);
         syntaxFactory = new SyntaxFactory(bundle);
-        this.skipSyntax = skipSyntax;
     }
 
     @Override
     public ValidationReport validateSchema(final ValidationContext context)
     {
-        if (skipSyntax)
-            return new ValidationReport("");
-
         final JsonNode schema = context.getSchema();
 
         if (validated.contains(schema))

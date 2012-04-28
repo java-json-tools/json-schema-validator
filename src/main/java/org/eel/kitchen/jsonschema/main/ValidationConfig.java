@@ -29,12 +29,9 @@ import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.SchemaVersion;
 
 import java.util.EnumMap;
-import java.util.EnumSet;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
-import static org.eel.kitchen.jsonschema.main.ValidationFeature.*;
 
 public final class ValidationConfig
 {
@@ -46,9 +43,6 @@ public final class ValidationConfig
 
     private final Map<SchemaVersion, ValidatorBundle> bundles
         = new EnumMap<SchemaVersion, ValidatorBundle>(SchemaVersion.class);
-
-    private final EnumSet<ValidationFeature> features
-        = EnumSet.noneOf(ValidationFeature.class);
 
     private final URIHandlerFactory handlerFactory
         = new URIHandlerFactory();
@@ -99,16 +93,6 @@ public final class ValidationConfig
         final String keyword)
     {
         bundles.get(version).unregisterValidator(keyword);
-    }
-
-    public boolean enable(final ValidationFeature feature)
-    {
-        return features.add(feature);
-    }
-
-    public boolean disable(final ValidationFeature feature)
-    {
-        return features.remove(feature);
     }
 
     /**
@@ -163,8 +147,7 @@ public final class ValidationConfig
 
             for (final SchemaVersion version: SchemaVersion.values()) {
                 bundle = bundles.get(version);
-                factory = new FullValidatorFactory(bundle,
-                    features.contains(SKIP_SCHEMACHECK));
+                factory = new FullValidatorFactory(bundle);
                 factories.put(version, factory);
             }
 

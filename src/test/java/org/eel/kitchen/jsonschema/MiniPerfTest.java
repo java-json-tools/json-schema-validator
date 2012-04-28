@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
-import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
@@ -41,7 +40,6 @@ public final class MiniPerfTest
             = CollectionUtils.toMap(googleAPI.get("schemas").fields());
 
         final ValidationConfig cfg = new ValidationConfig();
-        cfg.enable(ValidationFeature.SKIP_SCHEMACHECK);
 
         final JsonValidator validator = new JsonValidator(cfg, draftv3);
 
