@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.atomic;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -45,83 +44,71 @@ public final class IntegerTest
 
     @Test
     public void testMinimum()
-        throws JsonValidationFailureException
     {
         testOne("minimum");
     }
 
     @Test
     public void testMinimumHuge()
-        throws JsonValidationFailureException
     {
         testOne("minimumHuge");
     }
 
     @Test
     public void testExclusiveMinimum()
-        throws JsonValidationFailureException
     {
         testOne("exclusiveMinimum");
     }
 
     @Test
     public void testExclusiveMinimumHuge()
-        throws JsonValidationFailureException
     {
         testOne("exclusiveMinimumHuge");
     }
 
     @Test
     public void testMaximum()
-        throws JsonValidationFailureException
     {
         testOne("maximum");
     }
 
     @Test
     public void testMaximumHuge()
-        throws JsonValidationFailureException
     {
         testOne("maximumHuge");
     }
 
     @Test
     public void testExclusiveMaximum()
-        throws JsonValidationFailureException
     {
         testOne("exclusiveMaximum");
     }
 
     @Test
     public void testExclusiveMaximumHuge()
-        throws JsonValidationFailureException
     {
         testOne("exclusiveMaximumHuge");
     }
 
     @Test
     public void testDivisibleBy()
-        throws JsonValidationFailureException
     {
         testOne("divisibleBy");
     }
 
     @Test
     public void testDivisibleByHuge()
-        throws JsonValidationFailureException
     {
         testOne("divisibleByHuge");
     }
 
     @Test
     public void testHugeIntegers()
-        throws JsonValidationFailureException
     {
         testOne("hugeIntegers");
     }
 
     private void testOne(final String testName)
-        throws JsonValidationFailureException
     {
         final JsonNode node = testNode.get(testName);
         final JsonNode schema = node.get("schema");

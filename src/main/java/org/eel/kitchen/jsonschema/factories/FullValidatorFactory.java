@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
@@ -62,7 +61,6 @@ public final class FullValidatorFactory
 
     @Override
     public ValidationReport validateSchema(final ValidationContext context)
-        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchema();
 

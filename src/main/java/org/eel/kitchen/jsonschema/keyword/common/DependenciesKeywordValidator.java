@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword.common;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
@@ -66,6 +65,7 @@ public final class DependenciesKeywordValidator
      * </ul>
      *
      *
+     *
      * @param context the validation context
      * @param instance the instance to validte
      * @return the report
@@ -73,7 +73,6 @@ public final class DependenciesKeywordValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final JsonNode node = context.getSchema().get(keyword);
         final ValidationReport report = context.createReport();
@@ -105,13 +104,10 @@ public final class DependenciesKeywordValidator
      * @param instance the instance
      * @param entry the dependency entry
      * @return the report
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
      */
     private static ValidationReport doOneDependency(
         final ValidationContext context, final JsonNode instance,
         final Map.Entry<String, JsonNode> entry)
-        throws JsonValidationFailureException
     {
         final JsonNode depnode = entry.getValue();
 
@@ -132,13 +128,10 @@ public final class DependenciesKeywordValidator
      * @param entry the dependency entry
      * @param fields the property names in the instance
      * @param depreport the report to fill
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
      */
     private static void doSimpleDependency(
         final Map.Entry<String, JsonNode> entry, final Iterator<String> fields,
         final ValidationReport depreport)
-        throws JsonValidationFailureException
     {
         final String depname = entry.getKey();
         final JsonNode depnode = entry.getValue();
@@ -157,7 +150,7 @@ public final class DependenciesKeywordValidator
         if (expected.isEmpty())
             return;
 
-        depreport.message("property " + depname + " is missing dependencies "
-            + expected);
+        depreport.message(
+            "property " + depname + " is missing dependencies " + expected);
     }
 }

@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
@@ -56,7 +55,6 @@ public abstract class TypeNodeSyntaxValidator
     @Override
     protected final void checkFurther(final JsonNode schema,
         final ValidationReport report)
-        throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
 
@@ -80,12 +78,9 @@ public abstract class TypeNodeSyntaxValidator
      * @param report the report to use
      * @param prefix the prefix to use for the report
      * @param element the element of the array to check
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
      */
     private static void validateOne(final ValidationReport report,
         final String prefix, final JsonNode element)
-        throws JsonValidationFailureException
     {
         final NodeType type = NodeType.getNodeType(element);
 
@@ -117,12 +112,9 @@ public abstract class TypeNodeSyntaxValidator
      *
      * @param report the report to use
      * @param element the element to check
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
      */
     private static void validateOne(final ValidationReport report,
         final JsonNode element)
-        throws JsonValidationFailureException
     {
         validateOne(report, "", element);
     }

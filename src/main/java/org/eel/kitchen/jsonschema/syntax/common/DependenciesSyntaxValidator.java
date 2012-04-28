@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
@@ -64,7 +63,6 @@ public final class DependenciesSyntaxValidator
     @Override
     protected void checkFurther(final JsonNode schema,
         final ValidationReport report)
-        throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
 
@@ -86,8 +84,9 @@ public final class DependenciesSyntaxValidator
                 case STRING: case OBJECT:
                     break;
                 default:
-                    report.message(String.format( "field \"%s\": illegal " +
-                        "value of type %s", field, type));
+                    report.message(String.format(
+                        "field \"%s\": illegal " + "value of type %s", field,
+                        type));
             }
         }
     }
@@ -99,12 +98,9 @@ public final class DependenciesSyntaxValidator
      * @param report the report to use
      * @param field the field name
      * @param node the array node for this field
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
      */
     private static void checkDependencyArray(final ValidationReport report,
         final String field, final JsonNode node)
-        throws JsonValidationFailureException
     {
         NodeType type;
         String message;

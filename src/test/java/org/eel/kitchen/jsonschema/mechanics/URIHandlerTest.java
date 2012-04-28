@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.mechanics;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -104,7 +103,7 @@ public final class URIHandlerTest
 
     @Test
     public void aspirinTime()
-        throws IOException, JsonValidationFailureException
+        throws IOException
     {
         final JsonNode testNode
             = JsonLoader.fromResource("/ref/torture.json").get("aspirin");

@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
@@ -32,7 +31,7 @@ import java.util.Map;
 public final class MiniPerfTest
 {
     public static void main(final String... args)
-        throws IOException, JsonValidationFailureException
+        throws IOException
     {
         final JsonNode draftv3
             = JsonLoader.fromResource("/schema-draftv3.json");

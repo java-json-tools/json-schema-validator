@@ -81,10 +81,8 @@ public final class SchemaProvider
      *
      * @param cfg this provider's configuration
      * @param schema the schema to use
-     * @throws JsonValidationFailureException if the schema is invalid
      */
     public SchemaProvider(final ValidationConfig cfg, final JsonNode schema)
-        throws JsonValidationFailureException
     {
         defaultVersion = cfg.getDefaultVersion();
         this.schema = schema;
@@ -148,10 +146,8 @@ public final class SchemaProvider
      *
      * @param newschema the schema to use
      * @return the provider
-     * @throws JsonValidationFailureException the new schema isn't one
      */
     public SchemaProvider withSchema(final JsonNode newschema)
-        throws JsonValidationFailureException
     {
         final SchemaProvider ret = new SchemaProvider(defaultVersion);
         ret.factory = factory;
@@ -169,10 +165,9 @@ public final class SchemaProvider
      * @param uri the URI to the new schema
      * @return the new provider
      * @throws IOException the schema could not be fetched
-     * @throws JsonValidationFailureException the JSON reference is invalid
      */
     public SchemaProvider atURI(final URI uri)
-        throws IOException, JsonValidationFailureException
+        throws IOException
     {
         if (!uri.isAbsolute()) {
             if (!uri.getSchemeSpecificPart().isEmpty())
@@ -218,14 +213,12 @@ public final class SchemaProvider
     }
 
     private SchemaVersion calculateVersion(final JsonNode schema)
-        throws JsonValidationFailureException
     {
         if (schema == null)
-            throw new JsonValidationFailureException("schema is null");
+            throw new RuntimeException("schema is null");
 
         if (!schema.isObject())
-            throw new JsonValidationFailureException("not a schema (not an "
-                + "object)");
+            throw new RuntimeException("not a schema (not an object)");
 
         final SchemaVersion ret = SchemaVersion.getVersion(schema);
 

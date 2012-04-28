@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -47,7 +46,6 @@ public final class DivisibleBySyntaxValidator
     @Override
     protected void checkFurther(final JsonNode schema,
         final ValidationReport report)
-        throws JsonValidationFailureException
     {
         final BigDecimal divisor = schema.get(keyword).decimalValue();
 

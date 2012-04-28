@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.other;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -52,7 +51,6 @@ public final class RefTest
 
     @Test
     public void testLoopingRef()
-        throws JsonValidationFailureException
     {
         final ObjectNode schemaNode = factory.objectNode();
 
@@ -72,7 +70,6 @@ public final class RefTest
 
     @Test
     public void testMissingPath()
-        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("missingref");
 
@@ -81,19 +78,10 @@ public final class RefTest
         final ValidationReport report = validator.validate(factory.nullNode());
 
         assertFalse(report.isSuccess());
-
-        /*
-         * FIXME: broken for now
-         */
-//        assertEquals(1, report.getMessages().size());
-//
-//        assertEquals(report.getMessages().get(0),  "#: FATAL: no match in "
-//            + "schema for path #/nope");
     }
 
     @Test
     public void testDisallowLoopRef()
-        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("disallow");
 
@@ -112,7 +100,6 @@ public final class RefTest
 
     @Test
     public void testUnsupportedScheme()
-        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("unsupportedScheme");
 
@@ -130,7 +117,6 @@ public final class RefTest
 
     @Test
     public void testNonEmptySSP()
-        throws JsonValidationFailureException
     {
         final JsonNode schema = torture.get("nonEmptySSP");
 
@@ -148,7 +134,7 @@ public final class RefTest
 
     @Test
     public void testUnknownHost()
-        throws URISyntaxException, JsonValidationFailureException
+        throws URISyntaxException
     {
         String hostname;
 
@@ -190,7 +176,6 @@ public final class RefTest
 
     @Test
     public void testCrossSchemaLoop()
-        throws JsonValidationFailureException
     {
         final ObjectNode schema1 = factory.objectNode();
         schema1.put("$ref", "#/schema2");

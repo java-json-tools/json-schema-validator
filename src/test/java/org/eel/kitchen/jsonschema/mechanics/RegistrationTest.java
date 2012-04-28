@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.mechanics;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -47,7 +46,6 @@ public final class RegistrationTest
 
     @Test
     public void testDraftV3SchemaisInvalid()
-        throws JsonValidationFailureException
     {
         final JsonValidator validator = prepareValidator("badschema");
         final ValidationReport report
@@ -63,7 +61,6 @@ public final class RegistrationTest
 
     @Test
     public void testValidationWithNewKeywords()
-        throws JsonValidationFailureException
     {
         final JsonValidator validator = prepareValidator("schema");
 
@@ -141,7 +138,6 @@ public final class RegistrationTest
     }
 
     private JsonValidator prepareValidator(final String name)
-        throws JsonValidationFailureException
     {
         final JsonNode schema = testNode.get(name);
         final ValidationConfig cfg = new ValidationConfig();

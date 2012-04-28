@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.base;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -53,7 +52,6 @@ public final class MatchAllValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
 

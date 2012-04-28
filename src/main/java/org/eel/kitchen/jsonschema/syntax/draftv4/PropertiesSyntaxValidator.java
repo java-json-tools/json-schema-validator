@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
@@ -46,7 +45,6 @@ public final class PropertiesSyntaxValidator
     @Override
     protected void checkFurther(final JsonNode schema,
         final ValidationReport report)
-        throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
 
@@ -55,7 +53,8 @@ public final class PropertiesSyntaxValidator
 
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet())
             if (!entry.getValue().isObject())
-                report.message(String.format("value for property %s is not an "
-                    + "object", entry.getKey()));
+                report.message(String.format(
+                    "value for property %s is not an " + "object",
+                    entry.getKey()));
     }
 }

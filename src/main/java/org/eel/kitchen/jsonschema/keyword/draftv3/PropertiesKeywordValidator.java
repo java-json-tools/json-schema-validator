@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword.draftv3;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxValidator;
@@ -68,6 +67,7 @@ public final class PropertiesKeywordValidator
      * will fail if the instance doesn't have a property by the name</p>
      *
      *
+     *
      * @param context the validation context
      * @param instance the instance to validate
      * @return the report
@@ -75,7 +75,6 @@ public final class PropertiesKeywordValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode properties = context.getSchema().get(keyword);

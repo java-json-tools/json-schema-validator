@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.NumericInstanceKeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -48,7 +47,6 @@ public final class MaximumKeywordValidator
     @Override
     protected ValidationReport validateLong(final ValidationContext context,
         final long value, final long against)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchema();
@@ -60,8 +58,8 @@ public final class MaximumKeywordValidator
         if (cmp < 0L)
             report.message("number is greater than the required maximum");
         else if (cmp == 0L && exclusive)
-            report.message("number is not strictly lower than the required "
-                + "maximum");
+            report.message(
+                "number is not strictly lower than the required " + "maximum");
 
         return report;
     }
@@ -69,7 +67,6 @@ public final class MaximumKeywordValidator
     @Override
     protected ValidationReport validateDecimal(final ValidationContext context,
         final BigDecimal value, final BigDecimal against)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchema();
@@ -81,8 +78,8 @@ public final class MaximumKeywordValidator
         if (cmp < 0)
             report.message("number is greater than the required maximum");
         else if (cmp == 0 && exclusive)
-            report.message("number is not strictly lower than the required "
-                + "maximum");
+            report.message(
+                "number is not strictly lower than the required " + "maximum");
 
         return report;
     }

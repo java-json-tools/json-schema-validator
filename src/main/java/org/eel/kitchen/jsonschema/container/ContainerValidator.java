@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.container;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -56,19 +55,17 @@ public abstract class ContainerValidator
     /**
      * Validate the children node of the instance
      *
+     *
      * @param context the context
      * @param instance the instance
      * @return the report
-     * @throws JsonValidationFailureException if the report is set to throw it
      */
     protected abstract ValidationReport validateChildren(
-        final ValidationContext context, final JsonNode instance)
-        throws JsonValidationFailureException;
+        final ValidationContext context, final JsonNode instance);
 
     @Override
     public final ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         report.mergeWith(validator.validate(context, instance));

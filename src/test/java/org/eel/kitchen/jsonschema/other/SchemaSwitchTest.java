@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -54,7 +53,6 @@ public final class SchemaSwitchTest
 
     @Test
     public void testGood()
-        throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
         final JsonValidator validator = new JsonValidator(cfg, schema);
@@ -65,7 +63,6 @@ public final class SchemaSwitchTest
 
     @Test
     public void testBad()
-        throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
         final JsonValidator validator = new JsonValidator(cfg, schema);
@@ -78,7 +75,6 @@ public final class SchemaSwitchTest
 
     @Test
     public void testSetDefaultSchema()
-        throws JsonValidationFailureException
     {
         final ValidationConfig cfg = new ValidationConfig();
         cfg.setDefaultVersion(SchemaVersion.DRAFT_V4);

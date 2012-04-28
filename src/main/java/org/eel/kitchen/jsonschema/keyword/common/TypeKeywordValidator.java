@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.AbstractTypeKeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -51,7 +50,6 @@ public final class TypeKeywordValidator
     protected ValidationReport doValidate(final ValidationContext context,
         final JsonNode instance, final TypeSet typeSet,
         final List<JsonNode> schemas)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final NodeType type = NodeType.getNodeType(instance);
@@ -61,8 +59,8 @@ public final class TypeKeywordValidator
         if (typeSet.matches(instance))
             return r1;
 
-        r1.message("instance type is not allowed (allowed types are: "
-            + typeSet + ")");
+        r1.message(
+            "instance type is not allowed (allowed types are: " + typeSet + ")");
 
         if (schemas.isEmpty())
             return r1;

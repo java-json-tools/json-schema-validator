@@ -125,12 +125,9 @@ public final class ValidationContext
      * that an empty string is a valid JSON Pointer element!)
      * @param subSchema the schema node to use for the new context
      * @return the new context
-     * @throws JsonValidationFailureException the subSchema argument is not a
-     * schema
      */
     public ValidationContext relocate(final String subPath,
         final JsonNode subSchema)
-        throws JsonValidationFailureException
     {
         final JsonPointer newPath = path.append(subPath);
 
@@ -145,11 +142,8 @@ public final class ValidationContext
      *
      * @param subSchema the new schema
      * @return the new context
-     * @throws JsonValidationFailureException the subSchema argument is not a
-     * schema
      */
     public ValidationContext withSchema(final JsonNode subSchema)
-        throws JsonValidationFailureException
     {
         final SchemaProvider sp = provider.withSchema(subSchema);
 
@@ -170,11 +164,9 @@ public final class ValidationContext
      * @param uri the URI where the new scheme is located
      * @return the new context
      * @throws IOException the schema at the given URI could not be downloaded
-     * @throws JsonValidationFailureException the subSchema argument is not a
-     * schema
      */
     public ValidationContext fromURI(final URI uri)
-        throws IOException, JsonValidationFailureException
+        throws IOException
     {
         // FIXME: move this out of here
         if (!uri.isAbsolute()) {
@@ -197,11 +189,8 @@ public final class ValidationContext
      * Validate the currently active schema
      *
      * @return the validation report
-     * @throws JsonValidationFailureException if reporting is configured to
-     * throw this exception
      */
     public ValidationReport validateSchema()
-        throws JsonValidationFailureException
     {
         final SchemaVersion version = provider.getVersion();
         return cfg.getFactory(version).validateSchema(this);
@@ -217,11 +206,8 @@ public final class ValidationContext
      *
      * @param instance the JSON instance
      * @return the validator
-     * @throws JsonValidationFailureException if reporting is configured to
-     * throw this exception
      */
     public Validator getValidator(final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = validateSchema();
 
@@ -240,12 +226,9 @@ public final class ValidationContext
      * @param instance the instance to validate
      * @param record record schema in ref lookups
      * @return the appropriate validator
-     * @throws JsonValidationFailureException if reporting is configured to
-     * throw this exception
      */
     public Validator getValidator(final JsonPointer pointer,
         final JsonNode instance, final boolean record)
-        throws JsonValidationFailureException
     {
         logger.trace("trying to lookup path \"{}\" from node {}", pointer,
             provider.getSchema());

@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.JsonValidator;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -41,7 +40,7 @@ public final class SelfValidationTest
 
     @BeforeClass
     public void setUp()
-        throws IOException, JsonValidationFailureException
+        throws IOException
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
@@ -51,7 +50,6 @@ public final class SelfValidationTest
 
     @Test
     public void testSchemaValidatesItself()
-        throws JsonValidationFailureException
     {
         final ValidationReport report = validator.validate(draftv3);
 
@@ -60,7 +58,6 @@ public final class SelfValidationTest
 
     @Test
     public void testGoogleSchemas()
-        throws JsonValidationFailureException
     {
         final SortedMap<String, JsonNode> schemas
             = CollectionUtils.toSortedMap(googleAPI.get("schemas").fields());

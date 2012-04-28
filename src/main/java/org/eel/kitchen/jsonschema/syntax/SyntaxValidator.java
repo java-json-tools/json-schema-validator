@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.base.Validator;
 import org.eel.kitchen.jsonschema.factories.SyntaxFactory;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -78,14 +77,12 @@ public abstract class SyntaxValidator
      * Abstract method for validators which need to check more than the type
      * of the node to validate
      *
+     *
      * @param schema the schema to analyze
      * @param report the report to use
-     * @throws JsonValidationFailureException on validation failure,
-     * with the appropriate validation mode
      */
     protected abstract void checkFurther(final JsonNode schema,
-        final ValidationReport report)
-        throws JsonValidationFailureException;
+        final ValidationReport report);
 
     /**
      * Type checks the node, then invokes {@link #checkFurther(JsonNode,
@@ -96,7 +93,6 @@ public abstract class SyntaxValidator
     @Override
     public final ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final JsonNode schema = context.getSchema();
 
@@ -106,8 +102,9 @@ public abstract class SyntaxValidator
         final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
 
         if (!validTypes.contains(nodeType))
-            report.message(String.format("field has wrong type %s, "
-                + "expected one of %s", nodeType, validTypes));
+            report.message(String.format(
+                "field has wrong type %s, " + "expected one of %s", nodeType,
+                validTypes));
         else
             checkFurther(schema, report);
 

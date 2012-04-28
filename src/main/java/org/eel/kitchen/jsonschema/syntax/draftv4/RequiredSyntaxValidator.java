@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -42,7 +41,6 @@ public final class RequiredSyntaxValidator
     @Override
     protected void checkFurther(final JsonNode schema,
         final ValidationReport report)
-        throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
 
@@ -52,8 +50,8 @@ public final class RequiredSyntaxValidator
             i++;
             if (element.isTextual())
                 continue;
-            report.message(String.format("array element %d is not a property name",
-                i));
+            report.message(String.format(
+                "array element %d is not a property name", i));
         }
     }
 }

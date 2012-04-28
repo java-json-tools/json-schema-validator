@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.common.DisallowKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.TypeKeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -57,18 +56,17 @@ public abstract class AbstractTypeKeywordValidator
     /**
      * The core validation function
      *
+     *
      * @param context the validation context
      * @param instance the instance to validate
      * @param typeSet the primitive types
      * @param schemas the schemas found, if any
      * @return the validation report
-     * @throws JsonValidationFailureException if reporting is configured to
      * throw this exception instead of collecting messages
      */
     protected abstract ValidationReport doValidate(
         final ValidationContext context, final JsonNode instance,
-        final TypeSet typeSet, final List<JsonNode> schemas)
-        throws JsonValidationFailureException;
+        final TypeSet typeSet, final List<JsonNode> schemas);
 
     /**
      * The main validation function
@@ -78,16 +76,15 @@ public abstract class AbstractTypeKeywordValidator
      * {@link #doValidate(ValidationContext, JsonNode, TypeSet, List)},
      * which actually does the validation.
      *
+     *
      * @param context the validation context
      * @param instance the instance to validate
      * @return the validation report
-     * @throws JsonValidationFailureException if reporting is configured to
      * throw this exception instead of collecting messages
      */
     @Override
     public final ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final JsonNode typeNode = context.getSchema().get(keyword);
 
@@ -106,13 +103,10 @@ public abstract class AbstractTypeKeywordValidator
      * @param schema the found schema
      * @param instance the instance
      * @return the report
-     * @throws JsonValidationFailureException if reporting is configured to
-     * throw this exception instead of collecting messages
      */
     protected static ValidationReport validateSchema(
         final ValidationContext context, final JsonNode schema,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final ValidationContext ctx = context.withSchema(schema);
 

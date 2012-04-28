@@ -25,7 +25,6 @@ import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
 import org.eel.kitchen.jsonschema.container.ArrayValidator;
 import org.eel.kitchen.jsonschema.container.ObjectValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -63,8 +62,7 @@ public abstract class ValidatorFactory
     }
 
     public abstract ValidationReport validateSchema(
-        final ValidationContext context)
-        throws JsonValidationFailureException;
+        final ValidationContext context);
 
     /**
      * Return a {@link KeywordValidator} to validate an instance against a

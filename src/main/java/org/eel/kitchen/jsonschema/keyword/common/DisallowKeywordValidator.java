@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.AbstractTypeKeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
@@ -51,7 +50,6 @@ public final class DisallowKeywordValidator
     protected ValidationReport doValidate(final ValidationContext context,
         final JsonNode instance, final TypeSet typeSet,
         final List<JsonNode> schemas)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
 

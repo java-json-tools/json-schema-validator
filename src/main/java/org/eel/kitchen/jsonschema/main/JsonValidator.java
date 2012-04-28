@@ -54,11 +54,8 @@ public final class JsonValidator
      *
      * @param cfg the {@link ValidationConfig} object
      * @param schema the root schema to use for validation
-     * @throws JsonValidationFailureException the initial JSON node is not a
-     * schema
      */
     public JsonValidator(final ValidationConfig cfg, final JsonNode schema)
-        throws JsonValidationFailureException
     {
         cfg.buildFactories();
 
@@ -71,10 +68,8 @@ public final class JsonValidator
      *
      * @param instance the instance to validate
      * @return the validation report
-     * @throws JsonValidationFailureException on validation failure.
      */
     public ValidationReport validate(final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final Validator validator = context.getValidator(instance);
         try {
@@ -103,10 +98,8 @@ public final class JsonValidator
      * @param path the path to the actual schema
      * @param instance the instance to validate
      * @return a report of the validation
-     * @throws JsonValidationFailureException on validation failure.
      */
     public ValidationReport validate(final String path, final JsonNode instance)
-        throws JsonValidationFailureException
     {
         context.resetLookups();
         final JsonPointer pointer = new JsonPointer(path);
@@ -127,11 +120,8 @@ public final class JsonValidator
      * Validate the registered schema
      *
      * @return a validation report
-     * @throws JsonValidationFailureException if reporting has been set to
-     * throw this exception instead of collecting messages
      */
     public ValidationReport validateSchema()
-        throws JsonValidationFailureException
     {
         return context.validateSchema();
     }

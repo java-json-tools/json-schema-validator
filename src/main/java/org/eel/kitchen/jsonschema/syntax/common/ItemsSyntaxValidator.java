@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
@@ -46,7 +45,6 @@ public final class ItemsSyntaxValidator
     @Override
     protected void checkFurther(final JsonNode schema,
         final ValidationReport report)
-        throws JsonValidationFailureException
     {
         final JsonNode node = schema.get(keyword);
 
@@ -61,8 +59,9 @@ public final class ItemsSyntaxValidator
             type = NodeType.getNodeType(element);
             if (type == NodeType.OBJECT)
                 continue;
-            report.message(String.format("array element %d has wrong type %s "
-                + "(expected a schema)", i, type));
+            report.message(String.format(
+                "array element %d has wrong type %s " + "(expected a schema)",
+                i, type));
         }
     }
 }

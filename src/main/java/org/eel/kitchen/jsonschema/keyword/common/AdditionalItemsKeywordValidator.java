@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -53,6 +52,7 @@ public final class AdditionalItemsKeywordValidator
      * </p>
      *
      *
+     *
      * @param context the validation context
      * @param instance the instance to validate
      * @return the report
@@ -60,7 +60,6 @@ public final class AdditionalItemsKeywordValidator
     @Override
     public ValidationReport validate(final ValidationContext context,
         final JsonNode instance)
-        throws JsonValidationFailureException
     {
         final ValidationReport report = context.createReport();
         final JsonNode schema = context.getSchema();

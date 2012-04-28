@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.DraftV3ValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.DraftV4ValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
-import org.eel.kitchen.jsonschema.main.JsonValidationFailureException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -79,11 +78,8 @@ public enum SchemaVersion
      * @param schema the schema
      * @return the version, or null if {@code $schema} was not found or its
      * value is unknown
-     * @throws JsonValidationFailureException {@code $schema} exists but is
-     * not a text node
      */
     public static SchemaVersion getVersion(final JsonNode schema)
-        throws JsonValidationFailureException
     {
         final JsonNode node = schema.get("$schema");
 
@@ -91,8 +87,7 @@ public enum SchemaVersion
             return null;
 
         if (!node.isTextual())
-            throw new JsonValidationFailureException("$schema is not a text "
-                + "node");
+            throw new RuntimeException("$schema is not a text  node");
 
         return locatorMap.get(node.textValue());
     }
