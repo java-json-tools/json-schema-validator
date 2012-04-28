@@ -235,8 +235,8 @@ public final class ValidationContext
 
         try {
             provider = provider.atPoint(pointer);
-        } catch (JsonValidationFailureException e) {
-            throw new JsonRefException(e.getMessage());
+        } catch (JsonSchemaException e) {
+            //TODO
         }
 
         final JsonNode schema = provider.getSchema();

@@ -118,13 +118,14 @@ public final class SchemaProvider
     /**
      * Spawn a new provider with a subschema of the currently active schema
      *
+     *
      * @param pointer the JSON Pointer to locate the subschema
      * @return a new provider
-     * @throws JsonValidationFailureException the given pointer does not
+     * @throws JsonSchemaException the given pointer does not
      * point to a valid schema
      */
     public SchemaProvider atPoint(final JsonPointer pointer)
-        throws JsonValidationFailureException
+        throws JsonSchemaException
     {
         final SchemaProvider ret = new SchemaProvider(defaultVersion);
         ret.currentLocation = currentLocation;
@@ -133,8 +134,8 @@ public final class SchemaProvider
 
         final JsonNode node = pointer.getPath(locators.get(currentLocation));
         if (node.isMissingNode())
-            throw new JsonValidationFailureException("no match in schema for "
-                + "path " + pointer);
+            throw new JsonSchemaException("no match in schema for path "
+                + pointer);
 
         ret.schema = node;
         ret.version = calculateVersion(node);
