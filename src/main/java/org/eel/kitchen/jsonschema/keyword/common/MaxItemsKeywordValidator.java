@@ -51,7 +51,7 @@ public final class MaxItemsKeywordValidator
         final int maxItems = context.getSchema().get(keyword).intValue();
 
         if (instance.size() > maxItems)
-            report.fail("array has more than maxItems elements");
+            report.message("array has more than maxItems elements");
 
         return report;
     }

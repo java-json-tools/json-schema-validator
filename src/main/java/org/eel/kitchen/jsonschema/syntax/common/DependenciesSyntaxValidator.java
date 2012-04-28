@@ -86,7 +86,7 @@ public final class DependenciesSyntaxValidator
                 case STRING: case OBJECT:
                     break;
                 default:
-                    report.fail(String.format( "field \"%s\": illegal " +
+                    report.message(String.format( "field \"%s\": illegal " +
                         "value of type %s", field, type));
             }
         }
@@ -117,7 +117,7 @@ public final class DependenciesSyntaxValidator
                 continue;
             message = String.format("field \"%s\": array element %d has wrong "
                 + "type %s, expected a property name", field, i, type);
-            report.fail(message);
+            report.message(message);
         }
     }
 }

@@ -61,7 +61,7 @@ public final class TypeKeywordValidator
         if (typeSet.matches(instance))
             return r1;
 
-        r1.fail("instance type is not allowed (allowed types are: "
+        r1.message("instance type is not allowed (allowed types are: "
             + typeSet + ")");
 
         if (schemas.isEmpty())

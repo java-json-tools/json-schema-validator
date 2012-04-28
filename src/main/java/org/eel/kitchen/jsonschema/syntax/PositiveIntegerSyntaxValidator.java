@@ -49,11 +49,11 @@ public abstract class PositiveIntegerSyntaxValidator
         final JsonNode node = schema.get(keyword);
 
         if (!node.canConvertToInt()) {
-            report.fail("value is too large");
+            report.message("value is too large");
             return;
         }
 
         if (node.intValue() < 0)
-            report.fail("value is negative");
+            report.message("value is negative");
     }
 }

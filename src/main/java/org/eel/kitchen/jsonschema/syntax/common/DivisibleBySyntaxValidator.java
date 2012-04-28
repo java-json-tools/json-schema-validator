@@ -54,6 +54,6 @@ public final class DivisibleBySyntaxValidator
         if (BigDecimal.ZERO.compareTo(divisor) != 0)
             return;
 
-        report.fail("divisor is 0");
+        report.message("divisor is 0");
     }
 }

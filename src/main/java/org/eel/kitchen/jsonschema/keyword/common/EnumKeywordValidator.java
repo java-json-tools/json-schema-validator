@@ -57,7 +57,7 @@ public final class EnumKeywordValidator
             if (element.equals(instance))
                 return report;
 
-        report.fail("instance does not match any member of the enumeration");
+        report.message("instance does not match any member of the enumeration");
 
         return report;
     }

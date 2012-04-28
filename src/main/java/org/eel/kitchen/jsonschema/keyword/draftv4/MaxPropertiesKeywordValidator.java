@@ -51,7 +51,7 @@ public final class MaxPropertiesKeywordValidator
         final int value = context.getSchema().get(keyword).intValue();
 
         if (instance.size() > value)
-            report.fail("object has more than maxProperties children");
+            report.message("object has more than maxProperties children");
 
         return report;
     }

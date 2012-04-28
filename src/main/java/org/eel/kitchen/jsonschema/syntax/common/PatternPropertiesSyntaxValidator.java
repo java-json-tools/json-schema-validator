@@ -66,13 +66,13 @@ public final class PatternPropertiesSyntaxValidator
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
             field = entry.getKey();
             if (!RhinoHelper.regexIsValid(field))
-                report.fail(String.format("field \"%s\": regex is invalid",
+                report.message(String.format("field \"%s\": regex is invalid",
                     field));
             element = entry.getValue();
             type = NodeType.getNodeType(element);
             if (type == NodeType.OBJECT)
                 continue;
-            report.fail(String.format("field \"%s\": value has wrong "
+            report.message(String.format("field \"%s\": value has wrong "
                 + "type %s (expected a schema)", field, type));
         }
     }

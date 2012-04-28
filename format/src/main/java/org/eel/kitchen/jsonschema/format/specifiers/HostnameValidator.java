@@ -43,7 +43,7 @@ public final class HostnameValidator
         final String value = instance.textValue();
 
         if (!InternetDomainName.isValid(value))
-            report.fail("string is not a valid hostname");
+            report.message("string is not a valid hostname");
 
         return report;
     }

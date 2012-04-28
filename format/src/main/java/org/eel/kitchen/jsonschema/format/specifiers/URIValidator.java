@@ -41,7 +41,7 @@ public final class URIValidator
         try {
             new URI(instance.textValue());
         } catch (URISyntaxException ignored) {
-            report.fail("string is not a valid URI");
+            report.message("string is not a valid URI");
         }
 
         return report;

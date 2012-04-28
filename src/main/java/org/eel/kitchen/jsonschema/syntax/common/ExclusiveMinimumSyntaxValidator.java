@@ -48,6 +48,6 @@ public final class ExclusiveMinimumSyntaxValidator
         throws JsonValidationFailureException
     {
         if (!schema.has("minimum"))
-            report.fail("exclusiveMinimum without minimum");
+            report.message("exclusiveMinimum without minimum");
     }
 }

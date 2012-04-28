@@ -69,7 +69,7 @@ public abstract class GenericDateFormatValidator
         try {
             dtf.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            report.fail(errmsg);
+            report.message(errmsg);
         }
 
         return report;

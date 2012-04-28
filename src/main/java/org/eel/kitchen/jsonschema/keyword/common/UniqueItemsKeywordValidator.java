@@ -66,7 +66,7 @@ public final class UniqueItemsKeywordValidator
 
         for (final JsonNode node: instance)
             if (!set.add(node)) {
-                report.fail("items in the array are not unique");
+                report.message("items in the array are not unique");
                 break;
             }
 

@@ -55,7 +55,7 @@ public final class PropertiesSyntaxValidator
 
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet())
             if (!entry.getValue().isObject())
-                report.fail(String.format("value for property %s is not an "
+                report.message(String.format("value for property %s is not an "
                     + "object", entry.getKey()));
     }
 }

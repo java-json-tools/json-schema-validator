@@ -105,13 +105,13 @@ public final class AdditionalPropertiesKeywordValidator
             return report;
 
         if (patterns.isEmpty()) {
-            report.fail("additional properties are not permitted");
+            report.message("additional properties are not permitted");
             return report;
         }
 
         for (final String field: fields)
             if (!patternsMatch(patterns, field)) {
-                report.fail("additional properties are not permitted");
+                report.message("additional properties are not permitted");
                 break;
             }
 

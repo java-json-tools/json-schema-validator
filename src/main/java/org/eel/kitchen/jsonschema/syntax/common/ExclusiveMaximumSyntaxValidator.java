@@ -48,6 +48,6 @@ public final class ExclusiveMaximumSyntaxValidator
         throws JsonValidationFailureException
     {
         if (!schema.has("maximum"))
-            report.fail("exclusiveMaximum without maximum");
+            report.message("exclusiveMaximum without maximum");
     }
 }

@@ -48,7 +48,7 @@ public abstract class URISyntaxValidator
         try {
             new URI(node.textValue());
         } catch (URISyntaxException ignored) {
-            report.fail("not a valid URI");
+            report.message("not a valid URI");
         }
     }
 }

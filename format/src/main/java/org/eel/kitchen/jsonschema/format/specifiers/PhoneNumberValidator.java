@@ -69,7 +69,7 @@ public final class PhoneNumberValidator
             else
                 parser.parse(input, "FR");
         } catch (NumberParseException ignored) {
-            report.fail("string is not a recognized phone number");
+            report.message("string is not a recognized phone number");
         }
 
         return report;

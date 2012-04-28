@@ -82,7 +82,7 @@ public final class JsonValidator
         } catch (JsonRefException e) {
             final ValidationReport report
                 = new ValidationReport("#: FATAL");
-            report.fail(e.getMessage());
+            report.message(e.getMessage());
             return report;
         }
     }
@@ -118,7 +118,7 @@ public final class JsonValidator
         } catch (JsonRefException e) {
             final ValidationReport report = new ValidationReport("#: "
                 + "FATAL");
-            report.fail(e.getMessage());
+            report.message(e.getMessage());
             return report;
         }
     }

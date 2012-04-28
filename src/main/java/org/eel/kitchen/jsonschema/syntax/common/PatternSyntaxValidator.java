@@ -54,6 +54,6 @@ public final class PatternSyntaxValidator
         final String pattern = node.textValue();
 
         if (!RhinoHelper.regexIsValid(pattern))
-            report.fail("invalid regex " + pattern);
+            report.message("invalid regex " + pattern);
     }
 }

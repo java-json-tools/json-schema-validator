@@ -57,14 +57,14 @@ public final class UnixEpochValidator
         BigInteger epoch = instance.bigIntegerValue();
 
         if (epoch.signum() == -1) {
-            report.fail("epoch cannot be negative");
+            report.message("epoch cannot be negative");
             return report;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
         if (epoch.bitLength() > EPOCH_BITLENGTH)
-            report.fail("epoch time would overflow");
+            report.message("epoch time would overflow");
 
         return report;
     }

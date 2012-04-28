@@ -50,11 +50,6 @@ public final class ValidationReport
         messages.add(prefix + ": " + message);
     }
 
-    public void fail(final String message)
-    {
-        message(message);
-    }
-
     public boolean mergeWith(final ValidationReport other)
     {
         messages.addAll(other.getMessages());

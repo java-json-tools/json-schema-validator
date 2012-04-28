@@ -51,7 +51,7 @@ public final class CSSColorValidator
             = new ErrorLocatingParseRunner(rule).run(value);
 
         if (result.hasErrors())
-            report.fail("string is not a valid CSS 2.1 color");
+            report.message("string is not a valid CSS 2.1 color");
 
         return report;
     }

@@ -52,7 +52,7 @@ public final class RequiredSyntaxValidator
             i++;
             if (element.isTextual())
                 continue;
-            report.fail(String.format("array element %d is not a property name",
+            report.message(String.format("array element %d is not a property name",
                 i));
         }
     }

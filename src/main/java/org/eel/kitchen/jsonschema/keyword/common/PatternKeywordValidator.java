@@ -62,7 +62,7 @@ public final class PatternKeywordValidator
         final String regex = context.getSchema().get(keyword).textValue();
 
         if (!RhinoHelper.regMatch(regex, instance.textValue()))
-            report.fail("string does not match specified regex");
+            report.message("string does not match specified regex");
 
         return report;
     }

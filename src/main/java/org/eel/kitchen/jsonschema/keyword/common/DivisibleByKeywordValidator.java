@@ -51,7 +51,7 @@ public final class DivisibleByKeywordValidator
         final ValidationReport report = context.createReport();
 
         if (against % value != 0L)
-            report.fail("number is not a multiple of divisibleBy");
+            report.message("number is not a multiple of divisibleBy");
 
         return report;
     }
@@ -66,7 +66,7 @@ public final class DivisibleByKeywordValidator
         final BigDecimal remainder = against.remainder(value);
 
         if (remainder.compareTo(BigDecimal.ZERO) != 0)
-            report.fail("number is not a multiple of divisibleBy");
+            report.message("number is not a multiple of divisibleBy");
 
         return report;
     }

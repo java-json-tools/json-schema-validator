@@ -51,7 +51,7 @@ public final class MinPropertiesKeywordValidator
         final int value = context.getSchema().get(keyword).intValue();
 
         if (instance.size() < value)
-            report.fail("object has less than minProperties children");
+            report.message("object has less than minProperties children");
 
         return report;
     }

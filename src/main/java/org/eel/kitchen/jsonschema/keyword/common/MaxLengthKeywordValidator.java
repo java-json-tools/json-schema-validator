@@ -51,7 +51,7 @@ public final class MaxLengthKeywordValidator
         final int maxLength = context.getSchema().get(keyword).intValue();
 
         if (instance.textValue().length() > maxLength)
-            report.fail("string is longer than maxLength");
+            report.message("string is longer than maxLength");
 
         return report;
     }

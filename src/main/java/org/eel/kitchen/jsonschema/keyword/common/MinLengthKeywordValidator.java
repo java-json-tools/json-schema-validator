@@ -51,7 +51,7 @@ public final class MinLengthKeywordValidator
         final int minLength = context.getSchema().get(keyword).intValue();
 
         if (instance.textValue().length() < minLength)
-            report.fail("string is shorter than minLength");
+            report.message("string is shorter than minLength");
 
         return report;
     }
