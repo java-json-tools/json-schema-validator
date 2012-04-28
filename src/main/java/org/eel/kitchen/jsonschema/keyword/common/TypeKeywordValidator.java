@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.AbstractTypeKeywordValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
 
 import java.util.List;
 
@@ -51,10 +50,7 @@ public final class TypeKeywordValidator
         final JsonNode instance, final TypeSet typeSet,
         final List<JsonNode> schemas)
     {
-        final ValidationReport report = context.createReport();
-        final NodeType type = NodeType.getNodeType(instance);
-
-        ValidationReport r1 = context.createReport();
+        final ValidationReport r1 = context.createReport();
 
         if (typeSet.matches(instance))
             return r1;
@@ -65,7 +61,7 @@ public final class TypeKeywordValidator
         if (schemas.isEmpty())
             return r1;
 
-        ValidationReport r2 = context.createReport();
+        final ValidationReport r2 = context.createReport();
 
         ValidationReport tmp;
 
