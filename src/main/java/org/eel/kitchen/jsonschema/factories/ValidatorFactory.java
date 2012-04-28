@@ -30,6 +30,8 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Factory initializing all validator factories with a given schema bundle,
@@ -39,12 +41,22 @@ import java.util.Collection;
  * @see SyntaxFactory
  * @see ValidatorBundle
  */
-public abstract class ValidatorFactory
+public final class ValidatorFactory
 {
+    /**
+     * The syntax validator factory
+     */
+    private final SyntaxFactory syntaxFactory;
+
     /**
      * The {@link KeywordValidator} factory
      */
-    protected final KeywordFactory keywordFactory;
+    private final KeywordFactory keywordFactory;
+
+    /**
+     * List of already validated schemas
+     */
+    private final Set<JsonNode> validated = new HashSet<JsonNode>();
 
     /**
      * Our validator cache
@@ -56,13 +68,11 @@ public abstract class ValidatorFactory
      *
      * @param bundle the validator bundle to use
      */
-    protected ValidatorFactory(final ValidatorBundle bundle)
+    public ValidatorFactory(final ValidatorBundle bundle)
     {
         keywordFactory = new KeywordFactory(bundle);
+        syntaxFactory = new SyntaxFactory(bundle);
     }
-
-    public abstract ValidationReport validateSchema(
-        final ValidationContext context);
 
     /**
      * Return a {@link KeywordValidator} to validate an instance against a
@@ -72,7 +82,7 @@ public abstract class ValidatorFactory
      * @param instance the instance to validate
      * @return the matching validator
      */
-    public final Validator getInstanceValidator(final ValidationContext context,
+    public Validator getInstanceValidator(final ValidationContext context,
         final JsonNode instance)
     {
         final JsonNode schema = context.getSchema();
@@ -112,5 +122,21 @@ public abstract class ValidatorFactory
         cache.put(type, schema, ret);
 
         return ret;
+    }
+
+    public ValidationReport validateSchema(final ValidationContext context)
+    {
+        final JsonNode schema = context.getSchema();
+
+        if (validated.contains(schema))
+            return new ValidationReport("");
+
+        final Validator validator = syntaxFactory.getValidator(context);
+        final ValidationReport report = validator.validate(context, schema);
+
+        if (report.isSuccess())
+            validated.add(schema);
+
+        return report;
     }
 }

@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.main;
 
 import org.eel.kitchen.jsonschema.bundle.CustomValidatorBundle;
 import org.eel.kitchen.jsonschema.bundle.ValidatorBundle;
-import org.eel.kitchen.jsonschema.factories.FullValidatorFactory;
 import org.eel.kitchen.jsonschema.factories.ValidatorFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -147,7 +146,7 @@ public final class ValidationConfig
 
             for (final SchemaVersion version: SchemaVersion.values()) {
                 bundle = bundles.get(version);
-                factory = new FullValidatorFactory(bundle);
+                factory = new ValidatorFactory(bundle);
                 factories.put(version, factory);
             }
 
