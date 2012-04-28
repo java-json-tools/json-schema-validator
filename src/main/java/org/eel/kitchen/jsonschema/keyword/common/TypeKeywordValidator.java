@@ -56,47 +56,29 @@ public final class TypeKeywordValidator
         final ValidationReport report = context.createReport();
         final NodeType type = NodeType.getNodeType(instance);
 
+        ValidationReport r1 = context.createReport();
+
         if (typeSet.matches(instance))
-            return report;
+            return r1;
 
-        String message = "cannot match anything! Empty simple type set "
-            + "_and_ I don't have any enclosed schema either";
+        r1.fail("instance type is not allowed (allowed types are: "
+            + typeSet + ")");
 
-        if (schemas.isEmpty() && typeSet.getAll().isEmpty()) {
-            report.fail(message);
-            return report;
-        }
+        if (schemas.isEmpty())
+            return r1;
 
-        message = typeSet.getAll().isEmpty()
-            ? "no primitive types to match against"
-            : String.format("instance is of type %s, which is none of "
-                + "the allowed primitive types (%s)", type, typeSet);
+        ValidationReport r2 = context.createReport();
 
-
-        report.message(message);
-
-        if (schemas.isEmpty()) {
-            report.fail();
-            return report;
-        }
-
-        report.message("trying with enclosed schemas instead");
-
-        int i = 1;
-        ValidationReport schemaReport;
+        ValidationReport tmp;
 
         for (final JsonNode schema: schemas) {
-            report.message("trying schema #" + i + "...");
-            schemaReport = validateSchema(context, schema, instance);
-            if (schemaReport.isSuccess())
-                return schemaReport;
-            report.mergeWith(schemaReport);
-            report.message("schema #" + i + ": no match");
-            i++;
+            tmp = validateSchema(context, schema, instance);
+            if (tmp.isSuccess())
+                return tmp;
+            r2.mergeWith(tmp);
         }
 
-        report.fail("enclosed schemas did not match");
-
-        return report;
+        r1.mergeWith(r2);
+        return r1;
     }
 }

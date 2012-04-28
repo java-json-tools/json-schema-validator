@@ -29,8 +29,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -124,50 +122,6 @@ public final class TypeTest
         report = validator.validate(factory.objectNode());
         assertTrue(report.isSuccess());
         assertTrue(report.getMessages().isEmpty());
-    }
-
-    @Test
-    public void testEmptyTypeArrayMatchesNothing()
-        throws JsonValidationFailureException
-    {
-        final List<String> list = Arrays.asList("#: cannot match anything! "
-            + "Empty simple type set _and_ I don't have any enclosed schema "
-            + "either");
-
-        final ObjectNode schema = factory.objectNode();
-        schema.put("type", factory.arrayNode());
-
-        final JsonValidator validator = new JsonValidator(cfg, schema);
-
-        ValidationReport report;
-
-        report = validator.validate(factory.arrayNode());
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.booleanNode(true));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.numberNode(0));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.numberNode(0.0));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.nullNode());
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.textNode(""));
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
-
-        report = validator.validate(factory.objectNode());
-        assertFalse(report.isSuccess());
-        assertEquals(report.getMessages(), list);
     }
 
     @Test
