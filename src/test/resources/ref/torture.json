@@ -22,13 +22,13 @@
             "$ref": "mystuff:a#/link2"
         },
         "link2": {
-            "$ref": "mystuff:b#/link3/2/%25/"
+            "$ref": "mystuff:b#/link3/2/%5e//"
         },
         "link3": [
             "boo",
             "you were scared, eh?",
             {
-                "%": {
+                "/": {
                     "war": "sucks",
                     "": {
                         "$ref": "mystuff:c#/link1"

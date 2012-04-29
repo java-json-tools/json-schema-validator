@@ -102,18 +102,22 @@ public final class JsonValidator
     public ValidationReport validate(final String path, final JsonNode instance)
     {
         context.resetLookups();
-        final JsonPointer pointer = new JsonPointer(path);
-        final Validator validator
-            = context.getValidator(pointer, instance, false);
+
+        ValidationReport report = new ValidationReport("#: FATAL");
+        final JsonPointer pointer;
+        final Validator validator;
 
         try {
-            return validator.validate(context, instance);
-        } catch (JsonRefException e) {
-            final ValidationReport report = new ValidationReport("#: "
-                + "FATAL");
+            pointer = new JsonPointer(path);
+            validator = context.getValidator(pointer, instance, false);
+            report = validator.validate(context, instance);
+        } catch (JsonSchemaException e) {
             report.message(e.getMessage());
-            return report;
+        } catch (JsonRefException e) {
+            report.message(e.getMessage());
         }
+
+        return report;
     }
 
     /**

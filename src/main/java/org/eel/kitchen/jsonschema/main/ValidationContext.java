@@ -89,7 +89,11 @@ public final class ValidationContext
     public ValidationContext(final ValidationConfig cfg,
         final SchemaProvider provider)
     {
-        path = new JsonPointer("");
+        try {
+            path = new JsonPointer("");
+        } catch (JsonSchemaException e) {
+            throw new RuntimeException("WTF???", e);
+        }
 
         this.cfg = cfg;
         this.provider = provider;

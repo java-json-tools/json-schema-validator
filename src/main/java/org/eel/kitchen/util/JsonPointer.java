@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -19,219 +19,160 @@ package org.eel.kitchen.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
-import java.net.URLEncoder;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Implementation of the JSON Pointer draft, version 2
+ * Implementation of IETF JSON Pointer draft, version 1
  *
- * <p><a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-pointer-02">
- * JSON Pointer</a> is a draft standard defining a way to address paths
- * within JSON documents. Paths apply to container objects,
- * ie arrays or nodes. For objects, path elements are property names. For
- * arrays, they are the index in the array.</p>
+ * <p><a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-01.txt">
+ * JSON Pointer</a> is a draft standard defining a way to address paths within
+ * JSON documents. Paths apply to container objects, ie arrays or nodes. For
+ * objects, path elements are property names. For arrays, they are the index in
+ * the array.</p>
  *
- * <p>The general syntax is {@code #/path/elements/here}. JSON Pointers are
- * <b>always</b> absolute: it is perfectly legal, for instance,
- * to have properties named {@code .} and {@code ..} in a JSON
- * object. Even {@code /} is a valid property name,
- * which means it must always be encoded (to {@code %2f}).</p>
+ * <p>The general syntax is {@code #/path/elements/here}. A path element is
+ * referred to as a "reference token" in the specification.</p>
  *
- * <p>As if things were not funny enough like that, it must also be remembered
- * that even an empty string is a valid property name. This means that JSON
- * Pointers {@code #/} and {@code #} do <b>not</b> mean the same: the first
- * means the document under path {@code ""} while the second means the root
- * of the document!
+ * <p>JSON Pointers are <b>always</b> absolute: it is perfectly legal, for
+ * instance, to have properties named {@code .} and {@code ..} in a JSON
+ * object.</p>
+ *
+ * <p>Even {@code /} is a valid property name. For this reason,
+ * the caret ({@code ^}) has been chosen as an escape character, but only if
+ * followed by itself or {@code /}. Therefore:
+ * <ul>
+ *     <li>{@code ^/} becomes {@code /},</li>
+ *     <li>{@code ^^} becomes {@code ^},</li>
+ *     <li>{@code ^&lt;anythingelse&gt;} is illegal.</li>
+ * </ul>
+ *
+ * <p>There are two pending traps with JSON Pointer which one must be aware of:
  * </p>
  *
- * <p>The draft recommends that all special characters defined by
- * <a href="http://tools.ietf.org/html/rfc3986">RFC 3986 (section 2.2)</a> be
- * percent-encoded. This class' {@link #toString()}, however, returns the raw
- * pointer, but you can get a percent-encoded form using
- * {@link #toCookedString()}.
- * </p>
+ * <ul>
+ *     <li><p>The initial input string <b>MAY be JSON escaped</b> (FIXME:
+ *     pointer to spec)</p>; it means that, for instance,
+ *     {@code "#\/"} and {@code "#/"} are the same string, since the first
+ *     version is "merely" the JSON escaped version of the first.</li>
+ *     <li><p>The empty string is a <b>valid</b> property name in a JSON
+ *     object, which means {@code #} and {@code #/} are different. The second
+ *     refers to property {@code ""} inside an object while the first refers
+ *     to the JSON document itself. Implied: implementations must handle
+ *     the case where the document is <i>not</i> an object (leading to a
+ *     "dangling" JSON Pointer).
+ *     </p></li>
+ * </ul>
+ *
+ * <p>Fortunately, Jackson makes both points easy to handle.</p>
+ *
  */
 
 public final class JsonPointer
 {
-    /**
-     * A {@link MissingNode}, as a shortcut to return when a pointer is
-     * "dangling"
-     */
-    private static final JsonNode MISSING = MissingNode.getInstance();
-
-    /**
-     * Percent-encoded representation of the {@code /} character
-     */
-    private static final String SLASH = "%2f";
-
-    /**
-     * Percent-encoded representation of the {@code %} character
-     */
-    private static final String PERCENT = "%25";
-
-    /**
-     * Regex identifying a JSON Pointer
-     *
-     * <p>Note that we also accept paths without an initial {@code #} for
-     * convenience. Note also that it is not anchored, since we use
-     * {@link Matcher#matches()} to match against inputs.</p>
-     */
-    private static final Pattern JSONPOINTER_REGEX
-        = Pattern.compile("#?(?:/[^/]*+)*+");
-
-    /**
-     * Regex used to break the pointer into its elements
-     */
-    private static final Pattern PATH_SPLIT = Pattern.compile("/([^/]*+)");
-
-    /**
-     * Map pairing non percent-encoded characters to their percent-encoded
-     * representation
-     *
-     * <p>We don't use {@link URLEncoder#encode(String, String)} since it will
-     * not encode certain characters we want to see encoded (such as {@code /}),
-     * and will turn the space into a {@code +}.</p>
-     */
-    private static final Map<String, String> encodingMap
-        = new HashMap<String, String>();
-
-    /**
-     * Map pairing percent-encoded representations with they decoded
-     * representations -- the reverse of {@link #encodingMap}
-     */
-    private static final Map<String, String> decodingMap
-        = new HashMap<String, String>();
+    public static final JsonPointer ROOT;
 
     static {
-        encodingMap.put(":", "%3a");
-        encodingMap.put(" ", "%20");
-        encodingMap.put("?", "%3f");
-        encodingMap.put("#", "%23");
-        encodingMap.put("[", "%5b");
-        encodingMap.put("]", "%5d");
-        encodingMap.put("@", "%40");
-        encodingMap.put("!", "%21");
-        encodingMap.put("$", "%24");
-        encodingMap.put("&", "%26");
-        encodingMap.put("'", "%27");
-        encodingMap.put("(", "%28");
-        encodingMap.put(")", "%29");
-        encodingMap.put("+", "%2b");
-        encodingMap.put(",", "%2c");
-        encodingMap.put("/", SLASH);
-        encodingMap.put("\t", "%09");
-        encodingMap.put("\r", "%0d");
-        encodingMap.put("\n", "%0a");
-        encodingMap.put("\b", "%08");
-        encodingMap.put("\f", "%0c");
-
-        for (final Map.Entry<String, String> entry: encodingMap.entrySet())
-            decodingMap.put(entry.getValue(), entry.getKey());
+        try {
+            ROOT = new JsonPointer("");
+        } catch (JsonSchemaException e) {
+            throw new ExceptionInInitializerError(e);
+        }
     }
 
     /**
-     * Path elements of this JSON Pointer, as decoded elements
+     * Regex for matching a reference token
+     *
+     * <p>This regex follows the {@code normal* (special normal*)*} pattern,
+     * with:</p>
+     * <ul>
+     *     <li>{@code normal} is anything but a slash ({@code /}) or caret
+     *     ({@code ^}): <b>{@code [^/^]}</b>,</li>
+     *     <li>{@code special} is a caret followed by itself or a slash
+     *     <i>exclusively</i>: <b>{@code ^[/^]}</b>.</li>
+     * </ul>
+     * <p>Note that the regex is anchored at the beginning, but not at the end.
+     * </p>
+     */
+    private static final Pattern REFTOKEN_REGEX
+        = Pattern.compile("^[^/^]*+(?:\\^[/^][^/^]*+)*+");
+
+    /**
+     * The pointer in a raw, but JSON Pointer-escaped, string.
+     */
+    private final String fullPointer;
+
+    /**
+     * The list of individual elements in the pointer.
      */
     private final List<String> elements = new LinkedList<String>();
 
     /**
-     * The complete path as a decoded string
-     */
-    private final String rawPath;
-
-    /**
-     * Private constructor, used by {@link #append(String)}
-     *
-     * @param elements the list of path elements (in order
-     */
-    private JsonPointer(final List<String> elements)
-    {
-        this.elements.addAll(elements);
-        rawPath = buildRaw(this.elements);
-    }
-
-    /**
      * Constructor
      *
-     * <p>The argument can be a complete JSON Pointer (ie, with the initial
-     * {@code #}), a pointer without the initial {@code #},
-     * and its argument can be either percent-encoded or not,
-     * or even a mix of both.</p>
+     * <p>FIXME: unclear whether we should only accept #-prefixed inputs,
+     * therefore both are accepted</p>
      *
-     * <p>Note that it is up to the caller to ensure input is correct when
-     * a percent character happens to appear in the path! This class cannot
-     * guess your intents, so in that case, it is better to pass a fully
-     * percent-encoded form as an argument.
-     * </p>
-     *
-     * @param path the JSON Pointer
-     * @throws IllegalArgumentException if the path is invalid
+     * @param input The input string, guaranteed not to be JSON encoded
+     * @throws JsonSchemaException Illegal JSON Pointer
      */
-    public JsonPointer(final String path)
+    public JsonPointer(final String input)
+        throws JsonSchemaException
     {
-        final String s = path == null ? "" : path;
+        final String s = input == null ? "" : input.replaceFirst("^#", "");
+        process(s);
 
-        if (!JSONPOINTER_REGEX.matcher(s).matches())
-            throw new IllegalArgumentException("illegal JSON Pointer " + path);
-
-        final Matcher matcher = PATH_SPLIT.matcher(s.replaceFirst("#", ""));
-
-        while (matcher.find())
-            elements.add(decode(matcher.group(1)));
-
-        rawPath = buildRaw(elements);
+        fullPointer = "#" + s;
     }
 
-    /**
-     * Return a new JsonPointer with an added <b>raw</b> path element
-     *
-     * <p>"Raw" means here that the path element should not be encoded in any
-     * way: it is expected to be a "pure" elements,
-     * where {@code /} and {@code %} are represented as such,
-     * not in their encoded form.</p>
-     *
-     * @param pathElement the path element to append to this pointer's path
-     * @return a JsonPointer with the new path
-     */
-    public JsonPointer append(final String pathElement)
+    private JsonPointer(final String fullPointer, final List<String> elements)
     {
-        if (pathElement == null)
-            return this;
-
-        final List<String> list = new LinkedList<String>(elements);
-        list.add(pathElement);
-        return new JsonPointer(list);
+        this.fullPointer = fullPointer;
+        this.elements.addAll(elements);
+    }
+    /**
+     * Return the reference tokens of this JSON Pointer, in order.
+     *
+     * @return a {@link List}
+     */
+    public List<String> getElements()
+    {
+        return Collections.unmodifiableList(elements);
     }
 
-    /**
-     * Given a {@link JsonNode} as an argument, return the node corresponding
-     * to that JsonPointer
-     *
-     * @param document the node to traverse
-     * @return the macthing document, a {@link MissingNode} if path does not
-     * exist
-     */
-    public JsonNode getPath(final JsonNode document)
+    public JsonPointer append(final String element)
     {
-        JsonNode ret = document;
+        final List<String> newElements = new LinkedList<String>(elements);
+        elements.add(element);
 
-        for (final String pathElement: elements) {
+        return new JsonPointer(fullPointer + "/" + refTokenEncode(element),
+            newElements);
+    }
+
+    public JsonPointer append(final int index)
+    {
+        return append(Integer.toString(index));
+    }
+
+    public JsonNode getPath(final JsonNode node)
+    {
+        JsonNode ret = node;
+
+        for (final String pathElement : elements) {
             if (!ret.isContainerNode())
-                return MISSING;
+                return MissingNode.getInstance();
             if (ret.isObject())
                 ret = ret.path(pathElement);
             else
                 try {
                     ret = ret.path(Integer.parseInt(pathElement));
                 } catch (NumberFormatException ignored) {
-                    return MISSING;
+                    return MissingNode.getInstance();
                 }
             if (ret.isMissingNode())
                 break;
@@ -239,32 +180,89 @@ public final class JsonPointer
 
         return ret;
     }
-
     /**
-     * Returns the percent-encoded representation of this JSON Pointer
+     * Initialize the object -- FIXME: misnamed
      *
-     * @return the full percent-encoded representation, including the initial
-     * {@code #}
+     * <p>We read the string sequentially, a slash, then a reference token,
+     * then a slash, etc. Bail out if the string is malformed.</p>
+     *
+     * @param input Input string, guaranteed not to be JSON encoded
+     * @throws JsonSchemaException the input is not a valid JSON Pointer
      */
-    public String toCookedString()
+    private void process(final String input)
+        throws JsonSchemaException
     {
-        final StringBuilder sb = new StringBuilder("#");
+        String cooked, raw;
+        String victim = input;
+        Matcher m;
 
-        for (final String element: elements)
-            sb.append("/").append(encode(element));
+        while (!victim.isEmpty()) {
+            /*
+             * Skip the /
+             */
+            if (!victim.startsWith("/"))
+                throw new JsonSchemaException("Illegal JSON Pointer");
+            victim = victim.substring(1);
+
+            /*
+             * Grab the "cooked" reference token
+             */
+            m = REFTOKEN_REGEX.matcher(victim);
+            m.find(); // never fails
+
+            cooked = m.group();
+            victim = victim.substring(cooked.length());
+
+            /*
+             * Decode it, push it in the elements list
+             */
+            raw = refTokenDecode(cooked);
+            elements.add(raw);
+        }
+    }
+
+    private static String refTokenDecode(final String cooked)
+    {
+        final StringBuilder sb = new StringBuilder(cooked.length());
+
+        /*
+         * Unescape the ^ and / if any. Elements are guaranteed to be well
+         * formed (ie, ^ can only be followed by ^ or /),
+         * we can therefore just skip all ^ we encounter unconditionally.
+         */
+
+        final char[] array = cooked.toCharArray();
+
+        boolean inEscape = false;
+
+        for (final char c : array) {
+            if (c == '^' && !inEscape) {
+                inEscape = true;
+                continue;
+            }
+            inEscape = false;
+            sb.append(c);
+        }
 
         return sb.toString();
     }
 
-    /**
-     * Return the raw representation of this JSON Pointer
-     *
-     * @return the full raw path, including the initial {@code #}
-     */
-    @Override
-    public String toString()
+    private static String refTokenEncode(final String raw)
     {
-        return rawPath;
+        final StringBuilder sb = new StringBuilder(raw.length());
+
+        /*
+         * Simple enough: insert a ^ in front of any ^ or /
+         */
+        final char[] array = raw.toCharArray();
+
+        for (final char c: array) {
+            if (c == '/' || c == '^')
+                sb.append('^');
+            sb.append(c);
+        }
+
+        return sb.toString();
     }
 
     @Override
@@ -277,64 +275,20 @@ public final class JsonPointer
         if (getClass() != obj.getClass())
             return false;
 
-        final JsonPointer that = (JsonPointer) obj;
+        final JsonPointer other = (JsonPointer) obj;
 
-        return rawPath.equals(that.rawPath);
+        return fullPointer.equals(other.fullPointer);
     }
 
     @Override
     public int hashCode()
     {
-        return rawPath.hashCode();
+        return fullPointer.hashCode();
     }
 
-    /**
-     * Turn a percent-encoded path element into its decoded form
-     *
-     * @param encoded the encoded path
-     * @return the decoded path
-     */
-    private static String decode(final String encoded)
+    @Override
+    public String toString()
     {
-        String ret = encoded;
-
-        for (final Map.Entry<String, String> entry: decodingMap.entrySet()) {
-            ret = ret.replace(entry.getKey(), entry.getValue());
-            ret = ret.replace(entry.getKey().toUpperCase(), entry.getValue());
-        }
-
-        return ret.replace(PERCENT, "%");
-    }
-
-    /**
-     * Turn a decoded path element into its percent-encoded form
-     *
-     * @param decoded the decoded path element
-     * @return the percent-encoded form
-     */
-    private static String encode(final String decoded)
-    {
-        String ret = decoded.replace("%", PERCENT);
-
-        for (final Map.Entry<String, String> entry: encodingMap.entrySet())
-            ret = ret.replace(entry.getKey(), entry.getValue());
-
-        return ret;
-    }
-
-    /**
-     * Build the raw representation of that JSON Pointer
-     *
-     * @param list the list of path elements
-     * @return the representation
-     */
-    private static String buildRaw(final List<String> list)
-    {
-        final StringBuilder sb = new StringBuilder("#");
-
-        for (final String element: list)
-            sb.append("/").append(element.replace("/", SLASH));
-
-        return sb.toString();
+        return fullPointer;
     }
 }

@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword.common;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonRefException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.ValidationConfig;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -90,10 +91,12 @@ public final class RefKeywordValidator
             uri = new URI(ref);
             baseURI = new URI(uri.getScheme(), uri.getSchemeSpecificPart(),
                 null);
-            pointer = new JsonPointer(uri.getRawFragment());
+            pointer = new JsonPointer(uri.getFragment());
         } catch (URISyntaxException e) {
             throw new JsonRefException("PROBLEM: invalid URI found (" + ref
                 + "), syntax validation should have caught that", e);
+        } catch (JsonSchemaException e) {
+            throw new JsonRefException("Invalid JSON Pointer", e);
         }
 
         final ValidationContext ctx;
