@@ -17,12 +17,9 @@
 
 package org.eel.kitchen.util;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,15 +27,6 @@ import static org.testng.Assert.*;
 
 public final class JsonPointerV2Test
 {
-    private JsonNode testData;
-
-    @BeforeClass
-    public void setup()
-        throws IOException
-    {
-        testData = JsonLoader.fromResource("/jsonpointer/pointerv2.json");
-    }
-
     @Test
     public void testEqualsBasics()
         throws JsonSchemaException
@@ -89,27 +77,6 @@ public final class JsonPointerV2Test
 
         assertEquals(s1, p1.toString());
         assertEquals(s1, p2.toString());
-    }
-
-    @Test
-    public void testJSONDecoding()
-        throws JsonSchemaException
-    {
-        // We are really testing Jackson here, this should therefore never
-        // fail.
-
-        final JsonNode node = testData.get("stringEscape");
-
-        String tmp;
-        final JsonPointerV2 p1, p2;
-
-        tmp = node.get("string1").textValue();
-        p1 = new JsonPointerV2(tmp);
-
-        tmp = node.get("string2").textValue();
-        p2 = new JsonPointerV2(tmp);
-
-        assertEquals(p1, p2);
     }
 
     @Test
