@@ -24,9 +24,11 @@ pure server side JSON schema validation if this is what you are looking for./<p>
 * schema caching for performance;
 * schema syntax validation (also cached);
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving <i>and loop
-  detection</i>.
+  detection</i>;
+* <b>thread safe validators</b> (0.4.x validation is not thread safe).
 
-<p>Features in 0.4.x not yet in 0.5.x:</p>
+<p>Features in 0.4.x which are not yet in 0.5.x (some of these are of
+questionable use anyway):</p>
 
 * experimental draft v4 validation;
 * full report or fail-fast report modes (ie, go deep or fail at first error);
