@@ -25,7 +25,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Implementation of IETF JSON Pointer draft, version 1
@@ -71,6 +70,9 @@ import java.util.regex.Pattern;
  *
  * <p>Fortunately, Jackson makes both points easy to handle.</p>
  *
+ * <p>Final note: please note that all instances of this class are
+ * <b>immutable</b>.</p>
+ *
  */
 
 public final class JsonPointer
@@ -84,23 +86,6 @@ public final class JsonPointer
             throw new ExceptionInInitializerError(e);
         }
     }
-
-    /**
-     * Regex for matching a reference token
-     *
-     * <p>This regex follows the {@code normal* (special normal*)*} pattern,
-     * with:</p>
-     * <ul>
-     *     <li>{@code normal} is anything but a slash ({@code /}) or caret
-     *     ({@code ^}): <b>{@code [^/^]}</b>,</li>
-     *     <li>{@code special} is a caret followed by itself or a slash
-     *     <i>exclusively</i>: <b>{@code ^[/^]}</b>.</li>
-     * </ul>
-     * <p>Note that the regex is anchored at the beginning, but not at the end.
-     * </p>
-     */
-    private static final Pattern REFTOKEN_REGEX
-        = Pattern.compile("^[^/^]*+(?:\\^[/^][^/^]*+)*+");
 
     /**
      * The pointer in a raw, but JSON Pointer-escaped, string.
@@ -135,6 +120,7 @@ public final class JsonPointer
         this.fullPointer = fullPointer;
         this.elements.addAll(elements);
     }
+
     /**
      * Return the reference tokens of this JSON Pointer, in order.
      *
@@ -145,6 +131,12 @@ public final class JsonPointer
         return Collections.unmodifiableList(elements);
     }
 
+    /**
+     * Append a path element to this pointer. Returns a new instance.
+     *
+     * @param element the element to append
+     * @return a new instance with the element appended
+     */
     public JsonPointer append(final String element)
     {
         final List<String> newElements = new LinkedList<String>(elements);
@@ -154,11 +146,26 @@ public final class JsonPointer
             newElements);
     }
 
+    /**
+     * Append an array index to this pointer. Returns a new instance.
+     *
+     * <p>Note that the index validity is NOT checked for (ie,
+     * you can append {@code -1} if you want to -- don't do that)</p>
+     *
+     * @param index the index to add
+     * @return a new instance with the index appended
+     */
     public JsonPointer append(final int index)
     {
         return append(Integer.toString(index));
     }
 
+    /**
+     * Resolve this JSON Pointer against a JSON instance
+     *
+     * @param node the node to resolve against
+     * @return the result document, which may be a {@link MissingNode}
+     */
     public JsonNode getPath(final JsonNode node)
     {
         JsonNode ret = node;
@@ -180,6 +187,7 @@ public final class JsonPointer
 
         return ret;
     }
+
     /**
      * Initialize the object -- FIXME: misnamed
      *
@@ -207,10 +215,7 @@ public final class JsonPointer
             /*
              * Grab the "cooked" reference token
              */
-            m = REFTOKEN_REGEX.matcher(victim);
-            m.find(); // never fails
-
-            cooked = m.group();
+            cooked = getNextRefToken(victim);
             victim = victim.substring(cooked.length());
 
             /*
@@ -221,6 +226,60 @@ public final class JsonPointer
         }
     }
 
+    /**
+     * Grab a (cooked) reference token from an input string
+     *
+     * <p>This method is only called from {@link #process(String)},
+     * after a delimiter ({@code /}) has been swallowed up. The input string
+     * is therefore guaranteed to start with a reference token,
+     * which may be empty.
+     * </p>
+     *
+     * @param input the input string
+     * @return the cooked reference token
+     * @throws JsonSchemaException the string is malformed
+     */
+    private String getNextRefToken(final String input)
+        throws JsonSchemaException
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        final char[] array = input.toCharArray();
+
+        boolean inEscape = false;
+
+        for (final char c: array) {
+            if (inEscape) {
+                if (!(c == '^' || c == '/'))
+                    throw new JsonSchemaException("illegal JSON Pointer");
+                sb.append(c);
+                inEscape = false;
+                continue;
+            }
+            if (c == '/')
+                break;
+            if (c == '^')
+                inEscape = true;
+            sb.append(c);
+        }
+
+        if (inEscape)
+            throw new JsonSchemaException("illegal JSON Pointer");
+        return sb.toString();
+    }
+
+    /**
+     * Turn a cooked reference token into a raw reference token
+     *
+     * <p>This means unescaping all slashes and carets. This function MUST
+     * be called with a valid cooked reference token.</p>
+     *
+     * <p>It is called from {@link #process(String)},
+     * in order to push a token into {@link #elements}.</p>
+     *
+     * @param cooked the cooked token
+     * @return the raw token
+     */
     private static String refTokenDecode(final String cooked)
     {
         final StringBuilder sb = new StringBuilder(cooked.length());
@@ -247,6 +306,16 @@ public final class JsonPointer
         return sb.toString();
     }
 
+    /**
+     * Make a cooked reference token out of a raw element token
+     *
+     * <p>Used to build new pointer instances when called from {@link #append
+     * (String)} or {@link #append(int)}, in order to build {@link
+     * #fullPointer}.</p>
+     *
+     * @param raw the raw token
+     * @return the cooked token
+     */
     private static String refTokenEncode(final String raw)
     {
         final StringBuilder sb = new StringBuilder(raw.length());
