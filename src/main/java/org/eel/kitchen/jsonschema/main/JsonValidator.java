@@ -31,7 +31,6 @@ public final class JsonValidator
         this.schemaNode = schemaNode;
     }
 
-
     public ValidationReport validate(final JsonNode instance)
     {
         final ValidationReport ret = new ValidationReport();

@@ -36,8 +36,7 @@ final class InvalidJsonSchema
     }
 
     @Override
-    public void validate(final ValidationReport report,
-        final JsonNode instance)
+    public void validate(final ValidationReport report, final JsonNode instance)
     {
         report.mergeWith(this.report);
     }
