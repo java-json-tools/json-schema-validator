@@ -17,11 +17,16 @@
 
 package org.eel.kitchen.jsonschema.syntax.common;
 
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxValidator;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.NodeType;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public final class EnumSyntaxValidator
-    extends SimpleSyntaxValidator
+    extends SyntaxValidator
 {
     private static final EnumSyntaxValidator instance
         = new EnumSyntaxValidator();
@@ -34,5 +39,24 @@ public final class EnumSyntaxValidator
     private EnumSyntaxValidator()
     {
         super("enum", NodeType.ARRAY);
+    }
+
+    /**
+     * Abstract method for validators which need to check more than the type
+     * of the node to validate
+     *
+     * @param schema the schema to analyze
+     * @param report the report to use
+     */
+    @Override
+    protected void checkFurther(final JsonNode schema,
+        final ValidationReport report)
+    {
+        final Set<JsonNode> set = new HashSet<JsonNode>();
+
+        for (final JsonNode element: schema.get("enum"))
+            if (!set.add(element)) {
+                report.message("elements in an enum array must be unique");
+            }
     }
 }
