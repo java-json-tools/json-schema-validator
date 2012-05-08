@@ -18,19 +18,20 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.schema.syntax.ArrayChildrenSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.DependenciesSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.DivisibleBySyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.EnumSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.ExclusiveMaximumSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.ExclusiveMinimumSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.PatternPropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.PatternSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.PositiveIntegerSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.PropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.TypeKeywordSyntaxChecker;
-import org.eel.kitchen.jsonschema.schema.syntax.URISyntaxChecker;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.syntax.ArrayChildrenSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.PatternSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.TypeKeywordSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 

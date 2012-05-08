@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.container;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
-import org.eel.kitchen.jsonschema.schema.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

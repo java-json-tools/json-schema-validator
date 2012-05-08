@@ -17,31 +17,29 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import org.eel.kitchen.jsonschema.base.Validator;
-import org.eel.kitchen.jsonschema.factories.KeywordFactory;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.util.NodeType;
 
-/**
- * Base abstract class for keyword validators
- *
- * <p>Keyword validators are the core of the validation process. As it is
- * guaranteed that the schema is correct when such a validator is called,
- * implementations don't have to worry about the validity of their data. They
- * just have to concentrate on validating their input.</p>
- *
- * @see SyntaxValidator
- * @see KeywordFactory
- */
+import java.util.Collections;
+import java.util.EnumSet;
+
 public abstract class KeywordValidator
-    implements Validator
 {
-    /**
-     * The keyword
-     */
-    protected final String keyword;
+    protected final EnumSet<NodeType> instanceTypes
+        = EnumSet.noneOf(NodeType.class);
 
-    protected KeywordValidator(final String keyword)
+    protected KeywordValidator(final NodeType... types)
     {
-        this.keyword = keyword;
+        Collections.addAll(instanceTypes, types);
     }
+
+    public final void validateInstance(final ValidationReport report,
+        final JsonNode instance)
+    {
+        if (instanceTypes.contains(NodeType.getNodeType(instance)))
+            validate(report,instance);
+    }
+    protected abstract void validate(final ValidationReport report,
+        final JsonNode instance);
 }

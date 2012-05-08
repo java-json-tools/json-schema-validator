@@ -17,46 +17,77 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.util.JsonPointer;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * A validation report collecting all messages added to it
- */
-//TODO: separate failure message queue from error message queue
 public final class ValidationReport
 {
-    private final String prefix;
+    private JsonNode schema;
+    private JsonPointer path;
     private final List<String> messages = new LinkedList<String>();
 
-    /**
-     * Constructor of a validator which will prepend all messages added to it
-     *
-     * @param prefix the prefix which will appear before all messages
-     */
-    public ValidationReport(final String prefix)
+    public ValidationReport asNew()
     {
-        this.prefix = prefix;
+        final ValidationReport ret = new ValidationReport();
+
+        ret.path = path;
+
+        return ret;
+    }
+    public ValidationReport()
+    {
+        try {
+            path = new JsonPointer("#");
+        } catch (JsonSchemaException e) {
+            throw new RuntimeException("WTF??", e);
+        }
     }
 
-    public List<String> getMessages()
+    public void addMessage(final String message)
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        sb.append(path).append(": ");
+        sb.append(message);
+        messages.add(sb.toString());
+    }
+
+    public void setPath(final JsonPointer path)
+    {
+        this.path = path;
+    }
+
+    public JsonPointer getPath()
+    {
+        return path;
+    }
+
+    public void setSchema(final JsonNode schema)
+    {
+        this.schema = schema;
+    }
+
+    public JsonNode getSchema()
+    {
+        return schema;
+    }
+
+    public boolean isSuccess()
+    {
+        return messages.isEmpty();
+    }
+
+    public void mergeWith(final ValidationReport other)
+    {
+        messages.addAll(other.messages);
+    }
+
+   public List<String> getMessages()
     {
         return Collections.unmodifiableList(messages);
-    }
-
-    public void message(final String message)
-    {
-        messages.add(prefix + ": " + message);
-    }
-
-    public boolean mergeWith(final ValidationReport other)
-    {
-        messages.addAll(other.getMessages());
-        return false;
-    }
-
-    public boolean isSuccess() {
-        return messages.isEmpty();
     }
 }
