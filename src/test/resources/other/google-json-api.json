@@ -1,8 +1,10 @@
 {
     "kind": "discovery#restDescription",
+    "discoveryVersion": "v1",
     "id": "plus:v1",
     "name": "plus",
     "version": "v1",
+    "revision": "20120419",
     "title": "Google+ API",
     "description": "The Google+ API enables developers to build on top of the Google+ platform.",
     "icons": {
@@ -10,11 +12,12 @@
         "x32": "http://www.google.com/images/icons/product/gplus-32.png"
     },
     "documentationLink": "http://developers.google.com/+/api/",
-    "labels": [
-        "labs"
-    ],
     "protocol": "rest",
+    "baseUrl": "https://www.googleapis.com/plus/v1/",
     "basePath": "/plus/v1/",
+    "rootUrl": "https://www.googleapis.com/",
+    "servicePath": "plus/v1/",
+    "batchPath": "batch",
     "parameters": {
         "alt": {
             "type": "string",
@@ -65,6 +68,9 @@
             "scopes": {
                 "https://www.googleapis.com/auth/plus.me": {
                     "description": "Know who you are on Google"
+                },
+                "https://www.googleapis.com/auth/userinfo.email": {
+                    "description": "View your email address"
                 }
             }
         }
@@ -82,7 +88,7 @@
                     "type": "array",
                     "description": "The list of access entries.",
                     "items": {
-                        "$ref": "#/PlusAclentryResource"
+                        "$ref": "PlusAclentryResource"
                     }
                 },
                 "kind": {
@@ -97,7 +103,7 @@
             "type": "object",
             "properties": {
                 "access": {
-                    "$ref": "#/Acl",
+                    "$ref": "Acl",
                     "description": "Identifies who has access to see this activity."
                 },
                 "actor": {
@@ -122,6 +128,20 @@
                                 }
                             }
                         },
+                        "name": {
+                            "type": "object",
+                            "description": "An object representation of the individual components of name.",
+                            "properties": {
+                                "familyName": {
+                                    "type": "string",
+                                    "description": "The family name (last name) of the actor."
+                                },
+                                "givenName": {
+                                    "type": "string",
+                                    "description": "The given name (first name) of the actor."
+                                }
+                            }
+                        },
                         "url": {
                             "type": "string",
                             "description": "The link to the actor's Google profile."
@@ -139,6 +159,10 @@
                 "crosspostSource": {
                     "type": "string",
                     "description": "If this activity is a crosspost from another system, this property specifies the ID of the original activity."
+                },
+                "etag": {
+                    "type": "string",
+                    "description": "ETag of this response for caching purposes."
                 },
                 "geocode": {
                     "type": "string",
@@ -191,44 +215,9 @@
                             "items": {
                                 "type": "object",
                                 "properties": {
-                                    "categories": {
-                                        "type": "array",
-                                        "description": "Specifies zero or more categories the attachment belongs to.",
-                                        "items": {
-                                            "type": "object",
-                                            "properties": {
-                                                "label": {
-                                                    "type": "string",
-                                                    "description": "The category label, suitable for display (e.g. \"album cover\")."
-                                                },
-                                                "schema": {
-                                                    "type": "string",
-                                                    "description": "Domain of schema, e.g. http://google.com."
-                                                },
-                                                "term": {
-                                                    "type": "string",
-                                                    "description": "The tag, e.g. album."
-                                                }
-                                            }
-                                        }
-                                    },
                                     "content": {
                                         "type": "string",
                                         "description": "If the attachment is an article, this property contains a snippet of text from the article."
-                                    },
-                                    "contentsource": {
-                                        "type": "object",
-                                        "description": "If the attachment is audio, the link to the content.",
-                                        "properties": {
-                                            "type": {
-                                                "type": "string",
-                                                "description": "Media type of the link."
-                                            },
-                                            "url": {
-                                                "type": "string",
-                                                "description": "URL of the link."
-                                            }
-                                        }
                                     },
                                     "displayName": {
                                         "type": "string",
@@ -432,6 +421,10 @@
             "id": "ActivityFeed",
             "type": "object",
             "properties": {
+                "etag": {
+                    "type": "string",
+                    "description": "ETag of this response for caching purposes."
+                },
                 "id": {
                     "type": "string",
                     "description": "The ID of this collection of activities."
@@ -440,7 +433,7 @@
                     "type": "array",
                     "description": "The activities in this page of results.",
                     "items": {
-                        "$ref": "#/Activity"
+                        "$ref": "Activity"
                     }
                 },
                 "kind": {
@@ -502,6 +495,10 @@
                             "description": "A link to the person resource for this actor."
                         }
                     }
+                },
+                "etag": {
+                    "type": "string",
+                    "description": "ETag of this response for caching purposes."
                 },
                 "id": {
                     "type": "string",
@@ -569,6 +566,10 @@
             "id": "CommentFeed",
             "type": "object",
             "properties": {
+                "etag": {
+                    "type": "string",
+                    "description": "ETag of this response for caching purposes."
+                },
                 "id": {
                     "type": "string",
                     "description": "The ID of this collection of comments."
@@ -577,7 +578,7 @@
                     "type": "array",
                     "description": "The comments in this page of results.",
                     "items": {
-                        "$ref": "#/Comment"
+                        "$ref": "Comment"
                     }
                 },
                 "kind": {
@@ -608,11 +609,15 @@
             "id": "PeopleFeed",
             "type": "object",
             "properties": {
+                "etag": {
+                    "type": "string",
+                    "description": "ETag of this response for caching purposes."
+                },
                 "items": {
                     "type": "array",
                     "description": "The people in this page of results. Each item will include the id, displayName, image, and url for the person. To retrieve additional profile data, see the people.get method.",
                     "items": {
-                        "$ref": "#/Person"
+                        "$ref": "Person"
                     }
                 },
                 "kind": {
@@ -674,6 +679,10 @@
                             }
                         }
                     }
+                },
+                "etag": {
+                    "type": "string",
+                    "description": "ETag of this response for caching purposes."
                 },
                 "gender": {
                     "type": "string",
@@ -742,6 +751,10 @@
                 "nickname": {
                     "type": "string",
                     "description": "The nickname of this person."
+                },
+                "objectType": {
+                    "type": "string",
+                    "description": "Type of person within Google+. Possible values are:  \n- \"person\" - represents an actual person. \n- \"page\" - represents a page."
                 },
                 "organizations": {
                     "type": "array",
@@ -887,7 +900,7 @@
                         "activityId"
                     ],
                     "response": {
-                        "$ref": "#/Activity"
+                        "$ref": "Activity"
                     },
                     "scopes": [
                         "https://www.googleapis.com/auth/plus.me"
@@ -950,7 +963,7 @@
                         "collection"
                     ],
                     "response": {
-                        "$ref": "#/ActivityFeed"
+                        "$ref": "ActivityFeed"
                     },
                     "scopes": [
                         "https://www.googleapis.com/auth/plus.me"
@@ -964,7 +977,7 @@
                     "parameters": {
                         "language": {
                             "type": "string",
-                            "description": "Specify the preferred language to search with. See Language Codes for available values.",
+                            "description": "Specify the preferred language to search with. See search language codes for available values.",
                             "default": "",
                             "location": "query"
                         },
@@ -1007,7 +1020,7 @@
                         "query"
                     ],
                     "response": {
-                        "$ref": "#/ActivityFeed"
+                        "$ref": "ActivityFeed"
                     },
                     "scopes": [
                         "https://www.googleapis.com/auth/plus.me"
@@ -1034,7 +1047,7 @@
                         "commentId"
                     ],
                     "response": {
-                        "$ref": "#/Comment"
+                        "$ref": "Comment"
                     },
                     "scopes": [
                         "https://www.googleapis.com/auth/plus.me"
@@ -1077,13 +1090,27 @@
                             "type": "string",
                             "description": "The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of \"nextPageToken\" from the previous response.",
                             "location": "query"
+                        },
+                        "sortOrder": {
+                            "type": "string",
+                            "description": "The order in which to sort the list of comments.",
+                            "default": "ascending",
+                            "enum": [
+                                "ascending",
+                                "descending"
+                            ],
+                            "enumDescriptions": [
+                                "Sort oldest comments first.",
+                                "Sort newest comments first."
+                            ],
+                            "location": "query"
                         }
                     },
                     "parameterOrder": [
                         "activityId"
                     ],
                     "response": {
-                        "$ref": "#/CommentFeed"
+                        "$ref": "CommentFeed"
                     },
                     "scopes": [
                         "https://www.googleapis.com/auth/plus.me"
@@ -1111,10 +1138,11 @@
                         "userId"
                     ],
                     "response": {
-                        "$ref": "#/Person"
+                        "$ref": "Person"
                     },
                     "scopes": [
-                        "https://www.googleapis.com/auth/plus.me"
+                        "https://www.googleapis.com/auth/plus.me",
+                        "https://www.googleapis.com/auth/userinfo.email"
                     ]
                 },
                 "listByActivity": {
@@ -1163,7 +1191,7 @@
                         "collection"
                     ],
                     "response": {
-                        "$ref": "#/PeopleFeed"
+                        "$ref": "PeopleFeed"
                     },
                     "scopes": [
                         "https://www.googleapis.com/auth/plus.me"
@@ -1177,7 +1205,7 @@
                     "parameters": {
                         "language": {
                             "type": "string",
-                            "description": "Specify the preferred language to search with. See Language Codes for available values.",
+                            "description": "Specify the preferred language to search with. See search language codes for available values.",
                             "default": "",
                             "location": "query"
                         },
@@ -1206,7 +1234,7 @@
                         "query"
                     ],
                     "response": {
-                        "$ref": "#/PeopleFeed"
+                        "$ref": "PeopleFeed"
                     },
                     "scopes": [
                         "https://www.googleapis.com/auth/plus.me"
