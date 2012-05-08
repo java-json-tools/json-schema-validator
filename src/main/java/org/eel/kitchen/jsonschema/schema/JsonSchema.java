@@ -24,17 +24,12 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.ref.JsonReference;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Map;
 
 public abstract class JsonSchema
 {
     private static final Map<JsonNode, JsonSchema> cache
-        = Collections.synchronizedMap(new LRUMap<JsonNode, JsonSchema>(10, 50));
-
-    static {
-        cache.put(null, new InvalidJsonSchema("schema is null"));
-    }
+        = new LRUMap<JsonNode, JsonSchema>(10, 50);
 
     public static JsonSchema fromNode(final JsonNode parent,
         final JsonNode node)
