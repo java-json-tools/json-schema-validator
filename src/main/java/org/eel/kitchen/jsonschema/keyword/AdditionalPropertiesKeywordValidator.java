@@ -60,10 +60,14 @@ public class AdditionalPropertiesKeywordValidator
 
         fields.removeAll(properties);
 
+        final Set<String> tmp = new HashSet<String>();
+
         for (final String field: fields)
             for (final String regex: patternProperties)
                 if (RhinoHelper.regMatch(regex, field))
-                    fields.remove(field);
+                    tmp.add(field);
+
+        fields.removeAll(tmp);
 
         if (!fields.isEmpty())
             report.addMessage("additional properties not permitted");

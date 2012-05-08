@@ -38,10 +38,8 @@ public abstract class NumericKeywordValidator
         super(NodeType.INTEGER, NodeType.NUMBER);
         final JsonNode node = schema.get(keyword);
 
-        isLong = node.canConvertToLong(); // FIXME: check docs
-
+        isLong = node.canConvertToLong();
         decimalValue = node.decimalValue();
-
         longValue = node.longValue();
     }
 

@@ -32,7 +32,7 @@ public final class UniqueItemsKeywordValidator
     public UniqueItemsKeywordValidator(final JsonNode schema)
     {
         super(NodeType.ARRAY);
-        uniqueItems = schema.path("uniqueItems").booleanValue();
+        uniqueItems = schema.get("uniqueItems").booleanValue();
     }
     @Override
     protected void validate(final ValidationReport report,

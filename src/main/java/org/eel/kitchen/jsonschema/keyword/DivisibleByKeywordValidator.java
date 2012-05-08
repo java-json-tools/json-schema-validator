@@ -44,6 +44,10 @@ public final class DivisibleByKeywordValidator
     {
         final BigDecimal remainder = instanceValue.remainder(decimalValue);
 
+        /*
+         * We cannot use equality! As far as BigDecimal goes,
+         * "0" and "0.0" are NOT equal.
+         */
         if (remainder.compareTo(BigDecimal.ZERO) != 0)
             report.addMessage("instance is not a multiple of divisibleBy");
     }

@@ -34,7 +34,6 @@ public final class MinItemsKeywordValidator
         final JsonNode instance)
     {
         if (instance.size() < intValue)
-            report.addMessage("array instance has less than minItems "
-                + "elements");
+            report.addMessage("array instance has less than minItems elements");
     }
 }

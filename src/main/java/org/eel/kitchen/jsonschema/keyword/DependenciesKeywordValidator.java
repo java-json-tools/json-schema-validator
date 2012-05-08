@@ -59,9 +59,17 @@ public final class DependenciesKeywordValidator
     {
         final Set<String> ret = new HashSet<String>();
 
+        /*
+         * This works: for non container values, an empty iterator is
+         * returned. And we can only be called from here if the dependencies
+         * syntax is correct, so it's either an array...
+         */
         for (final JsonNode tmp: value)
             ret.add(tmp.textValue());
 
+        /*
+         * Or a string value.
+         */
         if (ret.isEmpty())
             ret.add(value.textValue());
 
