@@ -16,10 +16,7 @@
             "schema": {
                 "additionalItems": "no"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:additionalItems]: field has wrong type string, expected one of [boolean, object]"
-            ]
+            "valid": false
         }
     ],
     "additionalProperties": [
@@ -39,10 +36,7 @@
             "schema": {
                 "additionalProperties": [ 1, 2, 3 ]
             },
-            "valid": false,
-            "messages": [
-                "# [schema:additionalProperties]: field has wrong type array, expected one of [boolean, object]"
-            ]
+            "valid": false
         }
     ],
     "dependencies": [
@@ -62,10 +56,7 @@
             "schema": {
                 "dependencies": false
             },
-            "valid": false,
-            "messages": [
-                "# [schema:dependencies]: field has wrong type boolean, expected one of [object]"
-            ]
+            "valid": false
         },
         {
             "schema": {
@@ -74,11 +65,7 @@
                     "b": [ {} ]
                 }
             },
-            "valid": false,
-            "messages": [
-                "# [schema:dependencies]: field \"a\": illegal value of type integer",
-                "# [schema:dependencies]: field \"b\": array element 0 has wrong type object, expected a property name"
-            ]
+            "valid": false
         }
     ],
     "description": [
@@ -92,10 +79,7 @@
             "schema": {
                 "description": 3.24
             },
-            "valid": false,
-            "messages": [
-                "# [schema:description]: field has wrong type number, expected one of [string]"
-            ]
+            "valid": false
         }
     ],
     "disallow": [
@@ -121,29 +105,19 @@
             "schema": {
                 "disallow": false
             },
-            "valid": false,
-            "messages": [
-                "# [schema:disallow]: field has wrong type boolean, expected one of [array, string]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "disallow": "hammer"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:disallow]: unknown simple type hammer"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "disallow": [ null, "boolean", {}, []]
             },
-            "valid": false,
-            "messages": [
-                "# [schema:disallow]: array element 0: element has wrong type null (expected a simple type or a schema)",
-                "# [schema:disallow]: array element 3: element has wrong type array (expected a simple type or a schema)"
-            ]
+            "valid": false
         }
     ],
     "divisibleBy": [
@@ -157,19 +131,13 @@
             "schema": {
                 "divisibleBy": 0.0
             },
-            "valid": false,
-            "messages": [
-                "# [schema:divisibleBy]: divisor is 0"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "divisibleBy": "anything"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:divisibleBy]: field has wrong type string, expected one of [integer, number]"
-            ]
+            "valid": false
         }
     ],
     "$ref": [
@@ -189,19 +157,13 @@
             "schema": {
                 "$ref": false
             },
-            "valid": false,
-            "messages": [
-                "# [schema:$ref]: field has wrong type boolean, expected one of [string]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "$ref": "+23:"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:$ref]: not a valid URI"
-            ]
+            "valid": false
         }
     ],
     "enum": [
@@ -215,10 +177,13 @@
             "schema": {
                 "enum": 1
             },
-            "valid": false,
-            "messages": [
-                "# [schema:enum]: field has wrong type integer, expected one of [array]"
-            ]
+            "valid": false
+        },
+        {
+            "schema": {
+                "enum": [ 1, 1 ]
+            },
+            "valid": false
         }
     ],
     "exclusiveMaximum": [
@@ -234,19 +199,13 @@
                 "maximum": 3,
                 "exclusiveMaximum": "no"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:exclusiveMaximum]: field has wrong type string, expected one of [boolean]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "exclusiveMaximum": true
             },
-            "valid": false,
-            "messages": [
-                "# [schema:exclusiveMaximum]: exclusiveMaximum without maximum"
-            ]
+            "valid": false
         }
     ],
     "exclusiveMinimum": [
@@ -262,19 +221,13 @@
                 "minimum": 3,
                 "exclusiveMinimum": "no"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:exclusiveMinimum]: field has wrong type string, expected one of [boolean]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "exclusiveMinimum": true
             },
-            "valid": false,
-            "messages": [
-                "# [schema:exclusiveMinimum]: exclusiveMinimum without minimum"
-            ]
+            "valid": false
         }
     ],
     "extends": [
@@ -296,21 +249,13 @@
             "schema": {
                 "extends": 42
             },
-            "valid": false,
-            "messages": [
-                "# [schema:extends]: field has wrong type integer, expected one of [array, object]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "extends": [ 1, true, {}, "boo" ]
             },
-            "valid": false,
-            "messages": [
-                "# [schema:extends]: array element 0 has wrong type integer (expected a schema)",
-                "# [schema:extends]: array element 1 has wrong type boolean (expected a schema)",
-                "# [schema:extends]: array element 3 has wrong type string (expected a schema)"
-            ]
+            "valid": false
         }
     ],
     "id": [
@@ -330,19 +275,13 @@
             "schema": {
                 "id": false
             },
-            "valid": false,
-            "messages": [
-                "# [schema:id]: field has wrong type boolean, expected one of [string]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "id": "+23:"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:id]: not a valid URI"
-            ]
+            "valid": false
         }
     ],
     "items": [
@@ -362,20 +301,13 @@
             "schema": {
                 "items": null
             },
-            "valid": false,
-            "messages": [
-                "# [schema:items]: field has wrong type null, expected one of [array, object]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "items": [ {}, 5, true]
             },
-            "valid": false,
-            "messages": [
-                "# [schema:items]: array element 1 has wrong type integer (expected a schema)",
-                "# [schema:items]: array element 2 has wrong type boolean (expected a schema)"
-            ]
+            "valid": false
         }
     ],
     "maximum": [
@@ -395,10 +327,7 @@
             "schema": {
                 "maximum": "unbounded"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:maximum]: field has wrong type string, expected one of [integer, number]"
-            ]
+            "valid": false
         }
     ],
     "maxItems": [
@@ -412,28 +341,19 @@
             "schema": {
                 "maxItems": 12339809814981293098102938
             },
-            "valid": false,
-            "messages": [
-                "# [schema:maxItems]: value is too large"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "maxItems": -33
             },
-            "valid": false,
-            "messages": [
-                "# [schema:maxItems]: value is negative"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "maxItems": 3.1
             },
-            "valid": false,
-            "messages": [
-                "# [schema:maxItems]: field has wrong type number, expected one of [integer]"
-            ]
+            "valid": false
         }
     ],
     "maxLength": [
@@ -447,28 +367,19 @@
             "schema": {
                 "maxLength": 12339809814981293098102938
             },
-            "valid": false,
-            "messages": [
-                "# [schema:maxLength]: value is too large"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "maxLength": -33
             },
-            "valid": false,
-            "messages": [
-                "# [schema:maxLength]: value is negative"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "maxLength": 3.1
             },
-            "valid": false,
-            "messages": [
-                "# [schema:maxLength]: field has wrong type number, expected one of [integer]"
-            ]
+            "valid": false
         }
     ],
     "minimum": [
@@ -488,10 +399,7 @@
             "schema": {
                 "minimum": "unbounded"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:minimum]: field has wrong type string, expected one of [integer, number]"
-            ]
+            "valid": false
         }
     ],
     "minItems": [
@@ -505,28 +413,19 @@
             "schema": {
                 "minItems": 12339809814981293098102938
             },
-            "valid": false,
-            "messages": [
-                "# [schema:minItems]: value is too large"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "minItems": -33
             },
-            "valid": false,
-            "messages": [
-                "# [schema:minItems]: value is negative"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "minItems": 3.1
             },
-            "valid": false,
-            "messages": [
-                "# [schema:minItems]: field has wrong type number, expected one of [integer]"
-            ]
+            "valid": false
         }
     ],
     "minLength": [
@@ -540,28 +439,19 @@
             "schema": {
                 "minLength": 12339809814981293098102938
             },
-            "valid": false,
-            "messages": [
-                "# [schema:minLength]: value is too large"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "minLength": -33
             },
-            "valid": false,
-            "messages": [
-                "# [schema:minLength]: value is negative"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "minLength": 3.1
             },
-            "valid": false,
-            "messages": [
-                "# [schema:minLength]: field has wrong type number, expected one of [integer]"
-            ]
+            "valid": false
         }
     ],
     "patternProperties": [
@@ -581,20 +471,13 @@
                     "^[a-zA-Z\\d]+$": false
                 }
             },
-            "valid": false,
-            "messages": [
-                "# [schema:patternProperties]: field \"^[a-zA-Z\\d]+$\": value has wrong type boolean (expected a schema)",
-                "# [schema:patternProperties]: field \"a++\": regex is invalid"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "patternProperties": 2
             },
-            "valid": false,
-            "messages": [
-                "# [schema:patternProperties]: field has wrong type integer, expected one of [object]"
-            ]
+            "valid": false
         }
     ],
     "pattern": [
@@ -608,19 +491,13 @@
             "schema": {
                 "pattern": "f*+"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:pattern]: invalid regex f*+"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "pattern": [1, 2, 3]
             },
-            "valid": false,
-            "messages": [
-                "# [schema:pattern]: field has wrong type array, expected one of [string]"
-            ]
+            "valid": false
         }
     ],
     "properties": [
@@ -639,10 +516,7 @@
             "schema": {
                 "properties": null
             },
-            "valid": false,
-            "messages": [
-                "# [schema:properties]: field has wrong type null, expected one of [object]"
-            ]
+            "valid": false
         },
         {
             "schema": {
@@ -653,11 +527,7 @@
                     }
                 }
             },
-            "valid": false,
-            "messages": [
-                "# [schema:properties]: field \"p1\": value has wrong type integer (expected a schema)",
-                "# [schema:properties]: field \"p2\": attribute \"required\" of enclosed schema has wrong type string (expected a boolean)"
-            ]
+            "valid": false
         }
     ],
     "title": [
@@ -671,10 +541,7 @@
             "schema": {
                 "title": 42.3
             },
-            "valid": false,
-            "messages": [
-                "# [schema:title]: field has wrong type number, expected one of [string]"
-            ]
+            "valid": false
         }
     ],
     "type": [
@@ -700,29 +567,19 @@
             "schema": {
                 "type": false
             },
-            "valid": false,
-            "messages": [
-                "# [schema:type]: field has wrong type boolean, expected one of [array, string]"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "type": "hammer"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:type]: unknown simple type hammer"
-            ]
+            "valid": false
         },
         {
             "schema": {
                 "type": [ 42, "boolean", "pwet", {} ]
             },
-            "valid": false,
-            "messages": [
-                "# [schema:type]: array element 0: element has wrong type integer (expected a simple type or a schema)",
-                "# [schema:type]: array element 2: unknown simple type pwet"
-            ]
+            "valid": false
         }
     ],
     "uniqueItems": [
@@ -736,10 +593,7 @@
             "schema": {
                 "uniqueItems": "yes please"
             },
-            "valid": false,
-            "messages": [
-                "# [schema:uniqueItems]: field has wrong type string, expected one of [boolean]"
-            ]
+            "valid": false
         }
     ]
 }

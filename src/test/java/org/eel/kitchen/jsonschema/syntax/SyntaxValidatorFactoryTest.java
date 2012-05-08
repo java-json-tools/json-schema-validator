@@ -28,8 +28,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -264,20 +262,6 @@ public final class SyntaxValidatorFactoryTest
 
         report = validator.validateSchema();
 
-        if (valid) {
-            assertTrue(report.isSuccess(), "schema " + schema + " considered "
-                + "invalid");
-            assertTrue(report.getMessages().isEmpty());
-            return;
-        }
-
-        final List<String> expected = new LinkedList<String>();
-
-        for (final JsonNode message: element.get("messages"))
-            expected.add(message.textValue());
-
-        assertEquals(report.getMessages().toArray(), expected.toArray(),
-            "message list differs from expectations while validating "
-                + schema);
+        assertEquals(report.isSuccess(), valid, schema.toString());
     }
 }
