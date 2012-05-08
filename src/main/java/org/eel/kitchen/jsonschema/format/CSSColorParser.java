@@ -76,7 +76,8 @@ public class CSSColorParser
         if (start > end)
             throw new IllegalStateException();
 
-        return new Action<V>() {
+        return new Action<V>()
+        {
 
             /**
              * Runs the parser action.

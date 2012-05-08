@@ -66,6 +66,7 @@ public final class UnixEpochFormatSpecifier
 
         if (epoch.signum() == -1) {
             report.addMessage("epoch cannot be negative");
+            return;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
