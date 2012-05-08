@@ -52,7 +52,7 @@ import java.util.Set;
  */
 // FIXME: try and recurse through schemas, it can be done with a little work,
 // but it has to be triggered from _within_ validators. Ouch.
-final class SyntaxValidator
+public final class SyntaxValidator
 {
     //FIXME: make this a "LRUSet"
     private static final Set<JsonNode> done = new HashSet<JsonNode>();

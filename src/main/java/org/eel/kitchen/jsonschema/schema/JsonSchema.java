@@ -52,6 +52,12 @@ public abstract class JsonSchema
             if (ret != null)
                 return ret;
 
+            final ValidationReport report = new ValidationReport();
+            SyntaxValidator.validate(report, schemaNode);
+
+            if (!report.isSuccess())
+                return new InvalidJsonSchema(report);
+
             ret = schemaNode.isObject()
                 ? new ValidJsonSchema(parent, schemaNode)
                 : new InvalidJsonSchema("schema is not an object");
