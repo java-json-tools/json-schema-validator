@@ -3,37 +3,40 @@
 <p><b>IMPORTANT: if you report a bug, please mention what version you are
 using!</b></p>
 
-<p>Current stable version is <b>0.4.1</b>. See the
+<p>The current version is <b>0.5.0beta1</b>.</p>
+
+<p>The old, still maintained version is <b>0.4.1</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
 more details.</p>
 
 <h2>What it is</h2>
 
-<p>This is an implementation of the [JSON Schema
-specification](http://www.json-schema.org) written in pure Java. This allows
+<p>This is an implementation of the [JSON Schema specification](http://www.json-schema.org) written in pure Java. This allows
 pure server side JSON schema validation if this is what you are looking for./<p>
 
-<p>The draft serving as a reference is, at the moment, draft version 3, which
-can be found [here](http://json-schema.org/draft-03/schema).</p>
+<p>The draft serving as a reference is, at the moment, draft version 3.</p>
 
-<p>The current stable version (0.4.x) is actively maintained, and pretty much
-feature complete:</p>
+<p>The current version (0.5.x) has the following features:</p>
 
-* full draft v3 validation support, and experimental draft v4 validation
-  support;
-* full report or fail-fast report modes (ie, go deep or fail at first error);
+* full draft v3 validation;
 * arbitrary length/precision number validation;
-* validator and schema caching for performance;
 * ECMA 262 regexes (using Rhino), as required by the draft;
-* schema syntax validation, and the possibility to skip it;
+* schema caching for performance;
+* schema syntax validation (also cached);
+* full <tt>$ref</tt> support, including <tt>id</tt> resolving <i>and loop
+  detection</i>.
+
+<p>Features in 0.4.x not yet in 0.5.x:</p>
+
+* experimental draft v4 validation;
+* full report or fail-fast report modes (ie, go deep or fail at first error);
 * ability to register URI handlers for any scheme (HTTP only natively);
-* <tt>$ref</tt> support, with loop detection;
 * ability to determine the default schema version to use (draft v3 by default);
 * ability to register/unregister keywords against a specific schema version;
 * automatic schema version switching if <tt>$schema</tt> is encountered within a
   schema.
 
-<p>Work is currently underway for 0.5.</p>
+<p>Note that <tt>$ref</tt> support in 0.4.x is flaky.</p>
 
 <p>For a detailed discussion of the implementation, see
 [here](https://github.com/fge/json-schema-validator/wiki/Status). For a list of
