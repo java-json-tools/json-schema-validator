@@ -20,9 +20,8 @@ package org.eel.kitchen.jsonschema.typekeywords;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
-import org.eel.kitchen.jsonschema.main.ValidationConfig;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -36,7 +35,6 @@ public final class TypeTest
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
     private JsonNode testNode;
-    private final ValidationConfig cfg = new ValidationConfig();
 
     @BeforeClass
     public void setUp()
@@ -46,79 +44,42 @@ public final class TypeTest
     }
 
     @Test
-    public void testNoTypeKeywordMatchesAll()
-    {
-        final JsonValidator validator = new JsonValidator(cfg,
-            factory.objectNode());
-
-        ValidationReport report;
-
-        report = validator.validate(factory.arrayNode());
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
-
-        report = validator.validate(factory.booleanNode(true));
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
-
-        report = validator.validate(factory.numberNode(0));
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
-
-        report = validator.validate(factory.numberNode(0.0));
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
-
-        report = validator.validate(factory.nullNode());
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
-
-        report = validator.validate(factory.textNode(""));
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
-
-        report = validator.validate(factory.objectNode());
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
-    }
-
-    @Test
     public void testTypeAnyMatchesAll()
     {
-        final ObjectNode schema = factory.objectNode();
-        schema.put("type", "any");
+        final ObjectNode schemaNode = factory.objectNode();
+        schemaNode.put("type", "any");
 
-        final JsonValidator validator = new JsonValidator(cfg, schema);
+        final JsonSchema schema = JsonSchema.fromNode(schemaNode);
 
         ValidationReport report;
 
-        report = validator.validate(factory.arrayNode());
+        report = new ValidationReport();
+        schema.validate(report, factory.arrayNode());
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
 
-        report = validator.validate(factory.booleanNode(true));
+        report = new ValidationReport();
+        schema.validate(report, factory.booleanNode(true));
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
 
-        report = validator.validate(factory.numberNode(0));
+        report = new ValidationReport();
+        schema.validate(report, factory.numberNode(0));
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
 
-        report = validator.validate(factory.numberNode(0.0));
+        report = new ValidationReport();
+        schema.validate(report, factory.numberNode(0.0));
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
 
-        report = validator.validate(factory.nullNode());
+        report = new ValidationReport();
+        schema.validate(report, factory.nullNode());
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
 
-        report = validator.validate(factory.textNode(""));
+        report = new ValidationReport();
+        schema.validate(report, factory.textNode(""));
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
 
-        report = validator.validate(factory.objectNode());
+        report = new ValidationReport();
+        schema.validate(report, factory.objectNode());
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
     }
 
     @Test
@@ -148,19 +109,20 @@ public final class TypeTest
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);
-        final JsonNode schema = node.get("schema");
+        final JsonNode schemaNode = node.get("schema");
         final JsonNode good = node.get("good");
         final JsonNode bad = node.get("bad");
 
-        final JsonValidator validator = new JsonValidator(cfg, schema);
+        final JsonSchema schema = JsonSchema.fromNode(schemaNode);
 
-        ValidationReport report = validator.validate(good);
+        ValidationReport report;
 
-        assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
+        report = new ValidationReport();
+        schema.validate(report, good);
+        assertTrue(report.isSuccess(), good.toString());
 
-        report = validator.validate(bad);
-
-        assertFalse(report.isSuccess());
+        report = new ValidationReport();
+        schema.validate(report, bad);
+        assertFalse(report.isSuccess(), bad.toString());
     }
 }

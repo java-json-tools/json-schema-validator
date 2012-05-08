@@ -18,16 +18,13 @@
 package org.eel.kitchen.jsonschema.atomic;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
-import org.eel.kitchen.jsonschema.main.ValidationConfig;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.ValidationReport;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.testng.Assert.*;
 
@@ -63,27 +60,20 @@ public final class StringTest
     private void testOne(final String testName)
     {
         final JsonNode node = testNode.get(testName);
-        final JsonNode schema = node.get("schema");
+        final JsonNode schemaNode = node.get("schema");
         final JsonNode good = node.get("good");
         final JsonNode bad = node.get("bad");
 
-        final ValidationConfig cfg = new ValidationConfig();
-        final JsonValidator validator = new JsonValidator(cfg, schema);
+        final JsonSchema schema = JsonSchema.fromNode(schemaNode);
 
-        ValidationReport report = validator.validate(good);
+        ValidationReport report;
 
+        report = new ValidationReport();
+        schema.validate(report, good);
         assertTrue(report.isSuccess());
-        assertTrue(report.getMessages().isEmpty());
 
-        final List<String> expected = new LinkedList<String>();
-
-        for (final JsonNode element: node.get("messages"))
-            expected.add(element.textValue());
-
-        report = validator.validate(bad);
-
+        report = new ValidationReport();
+        schema.validate(report, bad);
         assertFalse(report.isSuccess());
-
-        assertEquals(report.getMessages(), expected);
     }
 }

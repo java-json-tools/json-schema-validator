@@ -18,9 +18,8 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonValidator;
-import org.eel.kitchen.jsonschema.main.ValidationConfig;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -36,7 +35,7 @@ public final class SelfValidationTest
 {
     private JsonNode draftv3;
     private JsonNode googleAPI;
-    private JsonValidator validator;
+    private JsonSchema schema;
 
     @BeforeClass
     public void setUp()
@@ -44,14 +43,15 @@ public final class SelfValidationTest
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
-        final ValidationConfig cfg = new ValidationConfig();
-        validator = new JsonValidator(cfg, draftv3);
+        schema = JsonSchema.fromNode(draftv3);
     }
 
     @Test
     public void testSchemaValidatesItself()
     {
-        final ValidationReport report = validator.validate(draftv3);
+        final ValidationReport report = new ValidationReport();
+
+        schema.validate(report, draftv3);
 
         assertTrue(report.isSuccess());
     }
@@ -64,14 +64,14 @@ public final class SelfValidationTest
 
         ValidationReport report;
         String name;
-        JsonNode schema;
+        JsonNode node;
 
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
-            schema = entry.getValue();
-            report = validator.validate(schema);
-            assertTrue(report.isSuccess(), "validation failed for schema "
-                + name);
+            node = entry.getValue();
+            report = new ValidationReport();
+            schema.validate(report, node);
+            assertTrue(report.isSuccess(), name);
         }
     }
 }
