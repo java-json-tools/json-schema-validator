@@ -55,30 +55,6 @@ public final class CollectionUtils
     }
 
     /**
-     * Like #toMap, but returns a {@link SortedMap} instead of a plain Map.
-     * Note that it returns a {@link TreeMap}, which is <b>not</b>
-     * thread-safe (we don't need it in our context anyway).
-     *
-     * @param iterator The entry iterator to build the map out of
-     * @param <K> keys type
-     * @param <V> values type
-     * @return a type-safe {@link TreeMap}
-     */
-    public static <K, V> SortedMap<K, V> toSortedMap(
-        final Iterator<Map.Entry<K, V>> iterator)
-    {
-        final SortedMap<K, V> ret = new TreeMap<K, V>();
-        Map.Entry<K, V> entry;
-
-        while (iterator.hasNext()) {
-            entry = iterator.next();
-            ret.put(entry.getKey(), entry.getValue());
-        }
-
-        return ret;
-    }
-
-    /**
      * <p>Return a "type-safe" set
      * </p>
      *

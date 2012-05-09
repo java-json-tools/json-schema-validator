@@ -59,8 +59,8 @@ public final class SelfValidationTest
     @Test
     public void testGoogleSchemas()
     {
-        final SortedMap<String, JsonNode> schemas
-            = CollectionUtils.toSortedMap(googleAPI.get("schemas").fields());
+        final Map<String, JsonNode> schemas
+            = CollectionUtils.toMap(googleAPI.get("schemas").fields());
 
         ValidationReport report;
         String name;
