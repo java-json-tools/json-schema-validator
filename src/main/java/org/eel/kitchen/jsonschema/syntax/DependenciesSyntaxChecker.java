@@ -24,7 +24,7 @@ import org.eel.kitchen.util.NodeType;
 public final class DependenciesSyntaxChecker
     implements SyntaxChecker
 {
-    private static SyntaxChecker instance
+    private static final SyntaxChecker instance
         = new DependenciesSyntaxChecker();
 
     private DependenciesSyntaxChecker()

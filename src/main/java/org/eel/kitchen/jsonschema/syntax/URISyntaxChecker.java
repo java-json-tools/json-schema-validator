@@ -23,10 +23,10 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class URISyntaxChecker
+public final class URISyntaxChecker
     implements SyntaxChecker
 {
-    protected final String keyword;
+    private final String keyword;
 
     public URISyntaxChecker(final String keyword)
     {

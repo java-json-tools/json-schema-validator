@@ -27,7 +27,6 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.SortedMap;
 
 import static org.testng.Assert.*;
 

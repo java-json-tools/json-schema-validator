@@ -33,7 +33,7 @@ import java.text.SimpleDateFormat;
  * {@link DateTimeFormatter#parseDateTime(String)}: it can handle all defined
  * formats, and catches more errors than {@link SimpleDateFormat} does.</p>
  */
-public abstract class AbstractDateFormatSpecifier
+public class AbstractDateFormatSpecifier
     extends FormatSpecifier
 {
     /**
