@@ -24,7 +24,6 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.regex.Matcher;
 
 /**
  * Implementation of IETF JSON Pointer draft, version 1
@@ -202,7 +201,6 @@ public final class JsonPointer
     {
         String cooked, raw;
         String victim = input;
-        Matcher m;
 
         while (!victim.isEmpty()) {
             /*

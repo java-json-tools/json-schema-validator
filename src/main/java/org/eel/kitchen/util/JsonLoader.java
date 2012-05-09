@@ -33,7 +33,7 @@ import java.net.URL;
  * sources as {@link JsonNode}s.
  *
  * <p>It should be noted here that the {@link ObjectMapper} used to read
- * everything has {@link * DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS}
+ * everything has {@link DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS}
  * enabled. This is to be able to deal with floating point numbers of arbitrary
  * precision. Otherwise Jackson limits itself to {@code double}, for performance
  * reasons but also because, to quote its documentation, "[the] Javascript
