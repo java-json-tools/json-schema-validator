@@ -19,55 +19,19 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.JsonLoader;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.DataProvider;
+import org.eel.kitchen.testutils.DataProviderArguments;
+import org.eel.kitchen.testutils.JsonDataProvider;
 import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.util.Iterator;
 
 import static org.testng.Assert.*;
 
 public final class MaximumKeywordValidatorTest
 {
-    private JsonNode testData;
-
-    @BeforeClass
-    public void setUp()
-        throws IOException
-    {
-        testData = JsonLoader.fromResource("/keyword/maximum.json");
-    }
-
-    @DataProvider
-    private Iterator<Object[]> getData()
-    {
-        return new Iterator<Object[]>()
-        {
-            private final Iterator<JsonNode> data = testData.iterator();
-
-            @Override
-            public boolean hasNext()
-            {
-                return data.hasNext();
-            }
-
-            @Override
-            public Object[] next()
-            {
-                return new Object[] { data.next() };
-            }
-
-            @Override
-            public void remove()
-            {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }
-
-    @Test(dataProvider = "getData")
+    @Test(
+        dataProviderClass = JsonDataProvider.class,
+        dataProvider = "getData"
+    )
+    @DataProviderArguments(fileName = "/keyword/maximum.json")
     public void testMaximumKeyword(final JsonNode node)
     {
         final JsonNode schemaNode = node.get("schema");
