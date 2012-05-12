@@ -1,0 +1,98 @@
+[
+    {
+        "schema": {
+            "properties": {
+                "p1": {},
+                "p2": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "p3": null
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "properties": {
+                "p1": {},
+                "p2": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "p1": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "^a": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "p": false
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "^a": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "a": false,
+            "a1": null,
+            "a3": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": {}
+            },
+            "patternProperties": {
+                "^a": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "a": false,
+            "a1": null,
+            "a3": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalProperties": false
+        },
+        "data": {
+            "p": false
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "additionalProperties": true
+        },
+        "data": {
+            "p": true
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalProperties": {}
+        },
+        "data": {
+            "p": true
+        },
+        "valid": true
+    }
+]

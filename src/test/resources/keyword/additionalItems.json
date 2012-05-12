@@ -1,0 +1,40 @@
+[
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3, 4 ],
+        "valid": false
+    },
+    {
+        "schema": {
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3, 4, 5],
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalItems": {}
+        },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": {},
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3, 4, 5],
+        "valid": true
+    }
+]
