@@ -59,12 +59,23 @@ import java.net.URISyntaxException;
 
 public final class JsonRef
 {
+    /**
+     * This could theoretically thrown an IllegalArgumentException. Meh.
+     */
     private static final URI EMPTY_URI = URI.create("");
 
     private static final JsonRef EMPTY = new JsonRef(EMPTY_URI);
 
+    /**
+     * The URI, as provided by the input arguments
+     */
     private final URI uri;
 
+    /**
+     * The main constructor, which is private by design
+     *
+     * @param uri Input URI
+     */
     private JsonRef(final URI uri)
     {
         this.uri = uri;
