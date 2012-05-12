@@ -31,7 +31,19 @@ public final class JsonDataProvider
     public static Iterator<Object[]> getData(final Method m)
         throws IOException
     {
-        final String resourceName = DataProviderUtils.getFileName(m);
+        if (m == null)
+            throw new IllegalArgumentException("method must not be null");
+
+        final DataProviderArguments args
+            = m.getAnnotation(DataProviderArguments.class);
+
+        if (args == null)
+            throw new IllegalArgumentException("No arguments passed");
+
+        if (args.fileName() == null)
+            throw new IllegalArgumentException("No annotation data");
+
+        final String resourceName = args.fileName();
         final JsonNode node = JsonLoader.fromResource(resourceName);
         final Iterator<JsonNode> iterator = node.iterator();
 
