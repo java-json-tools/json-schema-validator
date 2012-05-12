@@ -59,7 +59,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
             <type>jar</type>
             <scope>runtime</scope>
         </dependency>
@@ -94,7 +94,7 @@
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>libphonenumber</artifactId>
-            <version>4.5</version>
+            <version>4.8</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -104,7 +104,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>11.0.1</version>
+            <version>11.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.parboiled</groupId>
