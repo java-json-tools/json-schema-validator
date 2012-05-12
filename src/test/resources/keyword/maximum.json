@@ -1,0 +1,62 @@
+[
+    {
+        "schema": {
+            "maximum": 0
+        },
+        "data": 1,
+        "valid": false
+    },
+    {
+        "schema": {
+            "maximum": 0
+        },
+        "data": 0,
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": 0,
+            "exclusiveMaximum": true
+        },
+        "data": 0,
+        "valid": false
+    },
+    {
+        "schema": {
+            "maximum": 0,
+            "exclusiveMaximum": true
+        },
+        "data": -1,
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": 98091239809812309812312.43298
+        },
+        "data": 98091239809812309812312.432981,
+        "valid": false
+    },
+    {
+        "schema": {
+            "maximum": 98091239809812309812312.43298
+        },
+        "data": 98091239809812309812312.43298,
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": 98091239809812309812312.43298,
+            "exclusiveMaximum": true
+        },
+        "data": 98091239809812309812312.43298,
+        "valid": false
+    },
+    {
+        "schema": {
+            "maximum": 98091239809812309812312.43298,
+            "exclusiveMaximum": true
+        },
+        "data": 98091239809812309812312.43297999,
+        "valid": true
+    }
+]
