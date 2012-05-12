@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-public class AdditionalItemsKeywordValidator
+public final class AdditionalItemsKeywordValidator
     extends KeywordValidator
 {
     private boolean additionalOK;

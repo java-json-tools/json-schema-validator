@@ -26,7 +26,7 @@ import org.eel.kitchen.util.RhinoHelper;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AdditionalPropertiesKeywordValidator
+public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator
 {
     private final boolean additionalOK;
