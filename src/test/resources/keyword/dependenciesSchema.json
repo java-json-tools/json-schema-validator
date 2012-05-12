@@ -1,0 +1,78 @@
+[
+    {
+        "schema": {
+            "dependencies": {
+                "p": {
+                    "properties": {
+                        "a": {
+                            "required": true
+                        }
+                    }
+                }
+            }
+        },
+        "data": {
+            "p": null
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": {
+                    "properties": {
+                        "a": {
+                            "required": true
+                        }
+                    }
+                }
+            }
+        },
+        "data": {
+            "p": null,
+            "a": true
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": {
+                    "properties": {
+                        "a": {
+                            "required": true
+                        }
+                    }
+                },
+                "b": "c"
+            }
+        },
+        "data": {
+            "p": null,
+            "a": true,
+            "b": 1,
+            "c": 2
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": {
+                    "properties": {
+                        "a": {
+                            "required": true
+                        }
+                    }
+                },
+                "b": "c"
+            }
+        },
+        "data": {
+            "p": null,
+            "a": true,
+            "b": 1
+        },
+        "valid": false
+    }
+]

@@ -1,0 +1,65 @@
+[
+    {
+        "schema": {
+            "dependencies": {
+                "p": "q"
+            }
+        },
+        "data": {
+            "p": 1,
+            "q": 2
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": "q"
+            }
+        },
+        "data": {
+            "p": 1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": "q",
+                "r": "s"
+            }
+        },
+        "data": {
+            "p": 1,
+            "q": 2,
+            "r": 3,
+            "s": 4
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": [ "q", "r" ]
+            }
+        },
+        "data": {
+            "p": 1,
+            "q": 2
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": [ "q", "r" ]
+            }
+        },
+        "data": {
+            "p": 1,
+            "q": 2,
+            "r": 3
+        },
+        "valid": true
+    }
+]
