@@ -1,0 +1,59 @@
+[
+    {
+        "schema": {
+            "disallow": [ "integer", "string" ]
+        },
+        "data": "hello",
+        "valid": false
+    },
+    {
+        "schema": {
+            "disallow": [ "integer", "string" ]
+        },
+        "data": 91209309801928309809238091802938109823019806173269287,
+        "valid": false
+    },
+    {
+        "schema": {
+            "disallow": [ "integer", "string" ]
+        },
+        "data": 91209309801928309809238091802938109823019806173269287.1,
+        "valid": true
+    },
+    {
+        "schema": {
+            "disallow": [
+                "array",
+                {
+                    "minLength": 3
+                }
+            ]
+        },
+        "data": "hello",
+        "valid": false
+    },
+    {
+        "schema": {
+            "disallow": [
+                "array",
+                {
+                    "minLength": 3
+                }
+            ]
+        },
+        "data": [],
+        "valid": false
+    },
+    {
+        "schema": {
+            "disallow": [
+                "array",
+                {
+                    "minLength": 3
+                }
+            ]
+        },
+        "data": "xx",
+        "valid": true
+    }
+]
