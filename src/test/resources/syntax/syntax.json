@@ -1,599 +1,572 @@
-{
-    "additionalItems": [
-        {
-            "schema": {
-                "additionalItems": true
-            },
-            "valid": true
+[
+    {
+        "schema": {
+            "additionalItems": true
         },
-        {
-            "schema": {
-                "additionalItems": {}
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalItems": {}
         },
-        {
-            "schema": {
-                "additionalItems": "no"
-            },
-            "valid": false
-        }
-    ],
-    "additionalProperties": [
-        {
-            "schema": {
-                "additionalProperties": true
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalItems": "no"
         },
-        {
-            "schema": {
-                "additionalProperties": {}
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "additionalProperties": true
         },
-        {
-            "schema": {
-                "additionalProperties": [ 1, 2, 3 ]
-            },
-            "valid": false
-        }
-    ],
-    "dependencies": [
-        {
-            "schema": {
-                "dependencies": {
-                    "a": "b",
-                    "c": {
-                        "type": [ "string", "boolean" ]
-                    },
-                    "xx": [ "a", "b", "c" ]
-                }
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalProperties": {}
         },
-        {
-            "schema": {
-                "dependencies": false
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalProperties": [ 1, 2, 3]
         },
-        {
-            "schema": {
-                "dependencies": {
-                    "a": 3,
-                    "b": [ {} ]
-                }
-            },
-            "valid": false
-        }
-    ],
-    "description": [
-        {
-            "schema": {
-                "description": "hello"
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "a": "b",
+                "c": {
+                    "type": [ "string", "boolean"]
+                },
+                "xx": [ "a", "b", "c"]
+            }
         },
-        {
-            "schema": {
-                "description": 3.24
-            },
-            "valid": false
-        }
-    ],
-    "disallow": [
-        {
-            "schema": {
-                "disallow": "string"
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": false
         },
-        {
-            "schema": {
-                "disallow": "any"
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "a": 3,
+                "b": [
+                    {}
+                ]
+            }
         },
-        {
-            "schema": {
-                "disallow": [ "boolean", { "$ref": "#/schema2" } ]
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "description": "hello"
         },
-        {
-            "schema": {
-                "disallow": false
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "description": 3.24
         },
-        {
-            "schema": {
-                "disallow": "hammer"
-            },
-            "valid": false
+        "valid": false
+    },
+    {
+        "schema": {
+            "disallow": "string"
         },
-        {
-            "schema": {
-                "disallow": [ null, "boolean", {}, []]
-            },
-            "valid": false
-        }
-    ],
-    "divisibleBy": [
-        {
-            "schema": {
-                "divisibleBy": 3
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "disallow": "any"
         },
-        {
-            "schema": {
-                "divisibleBy": 0.0
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "disallow": [ "boolean", {
+                "$ref": "#/schema2"
+            }
+            ]
         },
-        {
-            "schema": {
-                "divisibleBy": "anything"
-            },
-            "valid": false
-        }
-    ],
-    "$ref": [
-        {
-            "schema": {
-                "$ref": "#"
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "disallow": false
         },
-        {
-            "schema": {
-                "$ref": "http://json-schema.org/schema/v3#/a/b"
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "disallow": "hammer"
         },
-        {
-            "schema": {
-                "$ref": false
-            },
-            "valid": false
+        "valid": false
+    },
+    {
+        "schema": {
+            "disallow": [ null, "boolean", {}, []]
         },
-        {
-            "schema": {
-                "$ref": "+23:"
-            },
-            "valid": false
-        }
-    ],
-    "enum": [
-        {
-            "schema": {
-                "enum": []
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "divisibleBy": 3
         },
-        {
-            "schema": {
-                "enum": 1
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "divisibleBy": 0.0
         },
-        {
-            "schema": {
-                "enum": [ 1, 1 ]
-            },
-            "valid": false
-        }
-    ],
-    "exclusiveMaximum": [
-        {
-            "schema": {
-                "maximum": 3,
-                "exclusiveMaximum": false
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "divisibleBy": "anything"
         },
-        {
-            "schema": {
-                "maximum": 3,
-                "exclusiveMaximum": "no"
-            },
-            "valid": false
+        "valid": false
+    },
+    {
+        "schema": {
+            "$ref": "#"
         },
-        {
-            "schema": {
-                "exclusiveMaximum": true
-            },
-            "valid": false
-        }
-    ],
-    "exclusiveMinimum": [
-        {
-            "schema": {
-                "minimum": 3,
-                "exclusiveMinimum": false
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "$ref": "http://json-schema.org/schema/v3#/a/b"
         },
-        {
-            "schema": {
-                "minimum": 3,
-                "exclusiveMinimum": "no"
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "$ref": false
         },
-        {
-            "schema": {
-                "exclusiveMinimum": true
-            },
-            "valid": false
-        }
-    ],
-    "extends": [
-        {
-            "schema": {
-                "extends": {
-                    "type": "string"
-                }
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "$ref": "+23:"
         },
-        {
-            "schema": {
-                "extends": [{"what": "ever"}, {"you": "want"}, {}]
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "enum": []
         },
-        {
-            "schema": {
-                "extends": 42
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "enum": 1
         },
-        {
-            "schema": {
-                "extends": [ 1, true, {}, "boo" ]
-            },
-            "valid": false
-        }
-    ],
-    "id": [
-        {
-            "schema": {
-                "id": "#"
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "enum": [ 1, 1]
         },
-        {
-            "schema": {
-                "id": "http://json-schema.org/schema/v3#/a/b"
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "maximum": 3,
+            "exclusiveMaximum": false
         },
-        {
-            "schema": {
-                "id": false
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": 3,
+            "exclusiveMaximum": "no"
         },
-        {
-            "schema": {
-                "id": "+23:"
-            },
-            "valid": false
-        }
-    ],
-    "items": [
-        {
-            "schema": {
-                "items": {}
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "exclusiveMaximum": true
         },
-        {
-            "schema": {
-                "items": [{}, {}]
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "minimum": 3,
+            "exclusiveMinimum": false
         },
-        {
-            "schema": {
-                "items": null
-            },
-            "valid": false
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": 3,
+            "exclusiveMinimum": "no"
         },
-        {
-            "schema": {
-                "items": [ {}, 5, true]
-            },
-            "valid": false
-        }
-    ],
-    "maximum": [
-        {
-            "schema": {
-                "maximum": 30
-            },
-            "valid": true
+        "valid": false
+    },
+    {
+        "schema": {
+            "exclusiveMinimum": true
         },
-        {
-            "schema": {
-                "maximum": -64.23114
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "maximum": "unbounded"
-            },
-            "valid": false
-        }
-    ],
-    "maxItems": [
-        {
-            "schema": {
-                "maxItems": 20
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "maxItems": 12339809814981293098102938
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "maxItems": -33
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "maxItems": 3.1
-            },
-            "valid": false
-        }
-    ],
-    "maxLength": [
-        {
-            "schema": {
-                "maxLength": 20
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "maxLength": 12339809814981293098102938
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "maxLength": -33
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "maxLength": 3.1
-            },
-            "valid": false
-        }
-    ],
-    "minimum": [
-        {
-            "schema": {
-                "minimum": 30
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "minimum": -64.23114
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "minimum": "unbounded"
-            },
-            "valid": false
-        }
-    ],
-    "minItems": [
-        {
-            "schema": {
-                "minItems": 20
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "minItems": 12339809814981293098102938
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "minItems": -33
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "minItems": 3.1
-            },
-            "valid": false
-        }
-    ],
-    "minLength": [
-        {
-            "schema": {
-                "minLength": 20
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "minLength": 12339809814981293098102938
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "minLength": -33
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "minLength": 3.1
-            },
-            "valid": false
-        }
-    ],
-    "patternProperties": [
-        {
-            "schema": {
-                "patternProperties": {
-                    "a+": {},
-                    "z/": {}
-                }
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "patternProperties": {
-                    "a++": {},
-                    "^[a-zA-Z\\d]+$": false
-                }
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "patternProperties": 2
-            },
-            "valid": false
-        }
-    ],
-    "pattern": [
-        {
-            "schema": {
-                "pattern": "a+"
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "pattern": "f*+"
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "pattern": [1, 2, 3]
-            },
-            "valid": false
-        }
-    ],
-    "properties": [
-        {
-            "schema": {
-                "properties": {
-                    "p1": {},
-                    "p2": {
-                        "required": true
-                    }
-                }
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "properties": null
-            },
-            "valid": false
-        },
-        {
-            "schema": {
-                "properties": {
-                    "p1": 3,
-                    "p2": {
-                        "required": "yes"
-                    }
-                }
-            },
-            "valid": false
-        }
-    ],
-    "title": [
-        {
-            "schema": {
-                "title": "a day in hell"
-            },
-            "valid": true
-        },
-        {
-            "schema": {
-                "title": 42.3
-            },
-            "valid": false
-        }
-    ],
-    "type": [
-        {
-            "schema": {
+        "valid": false
+    },
+    {
+        "schema": {
+            "extends": {
                 "type": "string"
-            },
-            "valid": true
+            }
         },
-        {
-            "schema": {
-                "type": "any"
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "extends": [
+                {
+                    "what": "ever"
+                },
+                {
+                    "you": "want"
+                },
+                {}
+            ]
         },
-        {
-            "schema": {
-                "type": [ "boolean", { "$ref": "#/schema2" } ]
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "extends": 42
         },
-        {
-            "schema": {
-                "type": false
-            },
-            "valid": false
+        "valid": false
+    },
+    {
+        "schema": {
+            "extends": [ 1, true, {}, "boo"]
         },
-        {
-            "schema": {
-                "type": "hammer"
-            },
-            "valid": false
+        "valid": false
+    },
+    {
+        "schema": {
+            "id": "#"
         },
-        {
-            "schema": {
-                "type": [ 42, "boolean", "pwet", {} ]
-            },
-            "valid": false
-        }
-    ],
-    "uniqueItems": [
-        {
-            "schema": {
-                "uniqueItems": true
-            },
-            "valid": true
+        "valid": true
+    },
+    {
+        "schema": {
+            "id": "http://json-schema.org/schema/v3#/a/b"
         },
-        {
-            "schema": {
-                "uniqueItems": "yes please"
-            },
-            "valid": false
-        }
-    ]
-}
+        "valid": true
+    },
+    {
+        "schema": {
+            "id": false
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "id": "+23:"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "items": {}
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": [
+                {},
+                {}
+            ]
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": null
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "items": [
+                {},
+                5,
+                true
+            ]
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maximum": 30
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": -64.23114
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": "unbounded"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxItems": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maxItems": 12339809814981293098102938
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxItems": -33
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxItems": 3.1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxLength": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maxLength": 12339809814981293098102938
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxLength": -33
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxLength": 3.1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minimum": 30
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": -64.23114
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": "unbounded"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minItems": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minItems": 12339809814981293098102938
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minItems": -33
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minItems": 3.1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minLength": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minLength": 12339809814981293098102938
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minLength": -33
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minLength": 3.1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "a+": {},
+                "z/": {}
+            }
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "a++": {},
+                "^[a-zA-Z\\d]+$": false
+            }
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "patternProperties": 2
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "pattern": "a+"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "pattern": "f*+"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "pattern": [1, 2, 3]
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "properties": {
+                "p1": {},
+                "p2": {
+                    "required": true
+                }
+            }
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "properties": null
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "properties": {
+                "p1": 3,
+                "p2": {
+                    "required": "yes"
+                }
+            }
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "title": "a day in hell"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "title": 42.3
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "type": "string"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "any"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": [ "boolean", {
+                "$ref": "#/schema2"
+            }
+            ]
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": false
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "type": "hammer"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "type": [ 42, "boolean", "pwet", {}]
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "uniqueItems": true
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "uniqueItems": "yes please"
+        },
+        "valid": false
+    }
+]
