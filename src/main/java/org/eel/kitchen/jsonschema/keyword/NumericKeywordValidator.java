@@ -38,7 +38,7 @@ public abstract class NumericKeywordValidator
         super(NodeType.INTEGER, NodeType.NUMBER);
         final JsonNode node = schema.get(keyword);
 
-        isLong = node.canConvertToLong();
+        isLong = valueIsLong(node);
         decimalValue = node.decimalValue();
         longValue = node.longValue();
     }
@@ -53,9 +53,15 @@ public abstract class NumericKeywordValidator
     public final void validate(final ValidationReport report,
         final JsonNode instance)
     {
-        if (instance.canConvertToLong() && isLong)
+        if (valueIsLong(instance) && isLong)
             validateLong(report, instance.longValue());
         else
             validateDecimal(report, instance.decimalValue());
+    }
+
+    private static boolean valueIsLong(final JsonNode node)
+    {
+        return NodeType.getNodeType(node) == NodeType.INTEGER
+            && node.canConvertToLong();
     }
 }
