@@ -3,7 +3,7 @@
 <p><b>IMPORTANT: if you report a bug, please mention what version you are
 using!</b></p>
 
-<p>The current version is <b>0.5.0beta1</b>.</p>
+<p>The current version is <b>0.5.0beta2</b>.</p>
 
 <p>The old, still maintained version is <b>0.4.1</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
