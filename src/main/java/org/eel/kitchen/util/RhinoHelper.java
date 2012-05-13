@@ -49,7 +49,7 @@ public final class RhinoHelper
      * and {@link #regMatch}
      */
     private static final String jsAsString
-        = "function regexIsValid(re) "
+        = "function regexIsValid(re)"
         + "{"
         + "    try {"
         + "         new RegExp(re);"
