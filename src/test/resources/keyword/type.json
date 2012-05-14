@@ -1,0 +1,89 @@
+[
+    {
+        "schema": {
+            "type": "string"
+        },
+        "data": "finance and marketing are the two biggest failures of the western world",
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "string"
+        },
+        "data": 31,
+        "valid": false
+    },
+    {
+        "schema": {
+            "type": [ "integer", "boolean" ]
+        },
+        "data": true,
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": [ "integer", "boolean" ]
+        },
+        "data": null,
+        "valid": false
+    },
+    {
+        "schema": {
+            "type": [
+                "number",
+                "boolean",
+                {
+                    "type": "string",
+                    "minLength": 4
+                }
+            ]
+        },
+        "data": 42329809283907240998102938019247192840,
+        "valid": true
+
+    },
+    {
+        "schema": {
+            "type": [
+                "number",
+                "boolean",
+                {
+                    "type": "string",
+                    "minLength": 4
+                }
+            ]
+        },
+        "data": "a++",
+        "valid": false
+    },
+    {
+        "schema": {
+            "type": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number",
+                    "divisibleBy": 3
+                }
+            ]
+        },
+        "data": "ilpapa@vaticano.it",
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number",
+                    "divisibleBy": 3
+                }
+            ]
+        },
+        "data": 17,
+        "valid": false
+    }
+]
