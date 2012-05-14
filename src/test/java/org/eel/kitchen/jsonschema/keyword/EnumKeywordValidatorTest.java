@@ -17,33 +17,14 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.testutils.DataProviderArguments;
-import org.eel.kitchen.testutils.JsonDataProvider;
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
+import java.io.IOException;
 
 public final class EnumKeywordValidatorTest
+    extends AbstractKeywordValidatorTest
 {
-    @Test(
-        dataProviderClass = JsonDataProvider.class,
-        dataProvider = "getData"
-    )
-    @DataProviderArguments(fileName = "/keyword/enum.json")
-    public void testEnum(final JsonNode node)
+    EnumKeywordValidatorTest()
+        throws IOException, NoSuchMethodException
     {
-        final JsonNode schemaNode = node.get("schema");
-        final JsonNode data = node.get("data");
-        final boolean valid = node.get("valid").booleanValue();
-
-        final ValidationReport report = new ValidationReport();
-        final KeywordValidator validator
-            = new EnumKeywordValidator(schemaNode);
-
-        validator.validate(report, data);
-        assertEquals(report.isSuccess(), valid, "instance " + data + " should"
-            + " have validated to " + valid + " with schema " + schemaNode);
+        super(EnumKeywordValidator.class, "enum");
     }
 }

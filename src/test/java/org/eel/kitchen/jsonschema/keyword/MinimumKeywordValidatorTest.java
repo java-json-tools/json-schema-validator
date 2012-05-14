@@ -17,35 +17,14 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.testutils.DataProviderArguments;
-import org.eel.kitchen.testutils.JsonDataProvider;
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.*;
+import java.io.IOException;
 
 public final class MinimumKeywordValidatorTest
+    extends AbstractKeywordValidatorTest
 {
-    @Test(
-        dataProviderClass = JsonDataProvider.class,
-        dataProvider = "getData"
-    )
-    @DataProviderArguments(fileName = "/keyword/minimum.json")
-    public void testMinimumKeyword(final JsonNode node)
+    MinimumKeywordValidatorTest()
+        throws IOException, NoSuchMethodException
     {
-        final JsonNode schemaNode = node.get("schema");
-        final JsonNode instance = node.get("data");
-        final boolean valid = node.get("valid").booleanValue();
-
-        final ValidationReport report = new ValidationReport();
-
-        final KeywordValidator validator
-            = new MinimumKeywordValidator(schemaNode);
-
-        validator.validateInstance(report, instance);
-
-        assertEquals(report.isSuccess(), valid, "instance " + instance
-            + " should have validated as " + valid);
+        super(MinimumKeywordValidator.class, "minimum");
     }
 }
