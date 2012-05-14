@@ -56,6 +56,5 @@ public final class IPV6FormatSpecifier
 
         if (InetAddresses.forString(ipaddr).getAddress().length != IPV6_LENGTH)
             report.addMessage("string is not a valid IPv6 address");
-
     }
 }
