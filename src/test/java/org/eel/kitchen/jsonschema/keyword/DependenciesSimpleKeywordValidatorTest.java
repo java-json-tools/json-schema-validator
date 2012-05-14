@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import java.io.IOException;
 
-public final class AdditionalItemsKeywordValidatorTest
+public final class DependenciesSimpleKeywordValidatorTest
     extends AbstractKeywordValidatorTest
 {
-    AdditionalItemsKeywordValidatorTest()
+    DependenciesSimpleKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(AdditionalItemsKeywordValidator.class, "additionalItems");
+        super(DependenciesKeywordValidator.class, "dependenciesSimple");
     }
 }

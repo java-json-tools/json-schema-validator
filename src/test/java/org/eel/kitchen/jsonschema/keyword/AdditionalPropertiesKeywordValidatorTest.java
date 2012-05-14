@@ -17,34 +17,15 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.testutils.DataProviderArguments;
-import org.eel.kitchen.testutils.JsonDataProvider;
-import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertEquals;
+import java.io.IOException;
 
 public final class AdditionalPropertiesKeywordValidatorTest
+    extends AbstractKeywordValidatorTest
 {
-    @Test(
-        dataProviderClass = JsonDataProvider.class,
-        dataProvider = "getData"
-    )
-    @DataProviderArguments(fileName = "/keyword/additionalProperties.json")
-    public void testAdditionalPropertiesKeyword(final JsonNode node)
+    AdditionalPropertiesKeywordValidatorTest()
+        throws IOException, NoSuchMethodException
     {
-        final JsonNode schemaNode = node.get("schema");
-        final JsonNode data = node.get("data");
-        final boolean valid = node.get("valid").booleanValue();
-
-        final ValidationReport report = new ValidationReport();
-        final KeywordValidator validator
-            = new AdditionalPropertiesKeywordValidator(schemaNode);
-
-        validator.validate(report, data);
-
-        assertEquals(report.isSuccess(), valid, data + " should have "
-            + "validated to " + valid);
+        super(AdditionalPropertiesKeywordValidator.class,
+            "additionalProperties");
     }
 }
