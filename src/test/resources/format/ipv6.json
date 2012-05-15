@@ -1,0 +1,18 @@
+[
+    {
+        "data": "10.121.13.3",
+        "valid": false
+    },
+    {
+        "data": "fffg::1",
+        "valid": false
+    },
+    {
+        "data": "slashdot.org",
+        "valid": false
+    },
+    {
+        "data": "ea31:aea::222",
+        "valid": true
+    }
+]
