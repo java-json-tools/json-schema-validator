@@ -27,6 +27,6 @@ public final class CSSColorFormatSpecifierTest
     CSSColorFormatSpecifierTest()
         throws IOException
     {
-        super(CSSColorFormatSpecifier.getInstance(), NodeType.STRING, "color");
+        super(CSSColorFormatSpecifier.getInstance(), "color", NodeType.STRING);
     }
 }

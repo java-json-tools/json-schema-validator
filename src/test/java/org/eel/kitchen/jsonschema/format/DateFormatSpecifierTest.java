@@ -27,6 +27,6 @@ public final class DateFormatSpecifierTest
     DateFormatSpecifierTest()
         throws IOException
     {
-        super(DateFormatSpecifier.getInstance(), NodeType.STRING, "date");
+        super(DateFormatSpecifier.getInstance(), "date", NodeType.STRING);
     }
 }

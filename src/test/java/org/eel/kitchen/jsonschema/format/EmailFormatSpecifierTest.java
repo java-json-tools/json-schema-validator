@@ -27,6 +27,6 @@ public final class EmailFormatSpecifierTest
     EmailFormatSpecifierTest()
         throws IOException
     {
-        super(EmailFormatSpecifier.getInstance(), NodeType.STRING, "email");
+        super(EmailFormatSpecifier.getInstance(), "email", NodeType.STRING);
     }
 }

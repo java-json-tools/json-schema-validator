@@ -27,6 +27,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -52,9 +53,6 @@ public abstract class AbstractFormatSpecifierTest
         ALL_PRIMITIVE_TYPES.put(NodeType.STRING, factory.textNode(""));
     }
 
-    protected static final JsonNodeFactory factory
-        = JsonNodeFactory.instance;
-
     private final Set<JsonNode> primitiveTypes = new HashSet<JsonNode>();
 
     private final FormatSpecifier specifier;
@@ -62,7 +60,8 @@ public abstract class AbstractFormatSpecifierTest
     private final JsonNode testData;
 
     AbstractFormatSpecifierTest(final FormatSpecifier specifier,
-        final NodeType forType, final String resourceName)
+        final String resourceName, final NodeType type,
+        final NodeType... types)
         throws IOException
     {
         this.specifier = specifier;
@@ -70,7 +69,7 @@ public abstract class AbstractFormatSpecifierTest
         final Map<NodeType, JsonNode> map
             = new HashMap<NodeType, JsonNode>(ALL_PRIMITIVE_TYPES);
 
-        map.remove(forType);
+        map.keySet().removeAll(EnumSet.of(type, types));
         primitiveTypes.addAll(map.values());
 
         testData = JsonLoader.fromResource("/format/" + resourceName + ".json");

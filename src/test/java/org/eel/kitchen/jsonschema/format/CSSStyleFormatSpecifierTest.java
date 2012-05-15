@@ -27,6 +27,6 @@ public final class CSSStyleFormatSpecifierTest
     CSSStyleFormatSpecifierTest()
         throws IOException
     {
-        super(CSSStyleFormatSpecifier.getInstance(), NodeType.STRING, "style");
+        super(CSSStyleFormatSpecifier.getInstance(), "style", NodeType.STRING);
     }
 }
