@@ -51,7 +51,7 @@ public final class UnixEpochFormatSpecifier
 
     private UnixEpochFormatSpecifier()
     {
-        super(NodeType.INTEGER);
+        super(NodeType.INTEGER, NodeType.NUMBER);
     }
 
     public static FormatSpecifier getInstance()
