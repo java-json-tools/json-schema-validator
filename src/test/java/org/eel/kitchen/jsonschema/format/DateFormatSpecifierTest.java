@@ -17,38 +17,16 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.eel.kitchen.util.NodeType;
 
-import static org.testng.Assert.assertEquals;
+import java.io.IOException;
 
 public final class DateFormatSpecifierTest
+    extends AbstractFormatSpecifierTest
 {
-    private static final FormatSpecifier specifier
-        = DateFormatSpecifier.getInstance();
-
-    @DataProvider
-    private Object[][] getData()
+    DateFormatSpecifierTest()
+        throws IOException
     {
-        return new Object[][] {
-            { "2012-12-02", true },
-            { "20121202", false },
-            { "2012/12/02", false },
-            { "1922-02-30", false }
-        };
-    }
-
-    @Test(dataProvider = "getData")
-    public void testSpecifier(final String input, final boolean valid)
-    {
-        final JsonNode value = JsonNodeFactory.instance.textNode(input);
-        final ValidationReport report = new ValidationReport();
-
-        specifier.checkValue(report, value);
-        assertEquals(report.isSuccess(), valid, "value " + value + " should "
-            + "have validated as " + valid);
+        super(DateFormatSpecifier.getInstance(), NodeType.STRING, "date");
     }
 }

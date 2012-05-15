@@ -1,0 +1,18 @@
+[
+    {
+        "data": "foo@bar.com",
+        "valid": true
+    },
+    {
+        "data": "foo",
+        "valid": true
+    },
+    {
+        "data": "éioaj",
+        "valid": false
+    },
+    {
+        "data": "a@",
+        "valid": false
+    }
+]

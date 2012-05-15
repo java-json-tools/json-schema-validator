@@ -17,38 +17,16 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.eel.kitchen.util.NodeType;
 
-import static org.testng.Assert.*;
+import java.io.IOException;
 
 public final class EmailFormatSpecifierTest
+    extends AbstractFormatSpecifierTest
 {
-    private static final FormatSpecifier specifier
-        = EmailFormatSpecifier.getInstance();
-
-    @DataProvider
-    private Object[][] getData()
+    EmailFormatSpecifierTest()
+        throws IOException
     {
-        return new Object[][] {
-            { "foo@bar.com", true },
-            { "foo", true },
-            { "éioaj", false },
-            { "a@", false }
-        };
-    }
-
-    @Test(dataProvider = "getData")
-    public void testSpecifier(final String input, final boolean valid)
-    {
-        final JsonNode value = JsonNodeFactory.instance.textNode(input);
-        final ValidationReport report = new ValidationReport();
-
-        specifier.checkValue(report, value);
-        assertEquals(report.isSuccess(), valid, "value " + value + " should "
-            + "have validated as " + valid);
+        super(EmailFormatSpecifier.getInstance(), NodeType.STRING, "email");
     }
 }

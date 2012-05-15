@@ -17,43 +17,16 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.eel.kitchen.util.NodeType;
 
-import static org.testng.Assert.assertEquals;
+import java.io.IOException;
 
 public final class CSSColorFormatSpecifierTest
+    extends AbstractFormatSpecifierTest
 {
-    private static final FormatSpecifier specifier
-        = CSSColorFormatSpecifier.getInstance();
-
-    @DataProvider
-    private Object[][] getData()
+    CSSColorFormatSpecifierTest()
+        throws IOException
     {
-        return new Object[][] {
-            { "red", true },
-            { "#ae3", true },
-            { "#a41a", false },
-            { "#ffffff", true },
-            { "#ga3144", false },
-            { "rgb(0, 15, 33)", true },
-            { "rgb(0, 10)", false },
-            { "rgb(-1, 10, 202)", false },
-            { "rgb(256, 230, 230)", false },
-        };
-    }
-
-    @Test(dataProvider = "getData")
-    public void testSpeficier(final String input, final boolean valid)
-    {
-        final JsonNode value = JsonNodeFactory.instance.textNode(input);
-        final ValidationReport report = new ValidationReport();
-
-        specifier.checkValue(report, value);
-        assertEquals(report.isSuccess(), valid, "value " + value + " should "
-            + "have validated as " + valid);
+        super(CSSColorFormatSpecifier.getInstance(), NodeType.STRING, "color");
     }
 }

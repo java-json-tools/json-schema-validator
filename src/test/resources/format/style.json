@@ -1,0 +1,10 @@
+[
+    {
+        "data": "color: red; background: teal",
+        "valid": true
+    },
+    {
+        "data": "hello;world;",
+        "valid": false
+    }
+]
