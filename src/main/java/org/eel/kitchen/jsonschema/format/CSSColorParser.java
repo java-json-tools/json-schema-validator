@@ -28,8 +28,8 @@ import java.util.List;
 /**
  * Parboiled grammar to match a CSS 2.1 color definitions
  *
- * The <a href="http://www.w3.org/TR/CSS2/syndata.html#color-units">W3C</a>
- * says that a color can be either of:
+ * <p>See <a href="http://www.w3.org/TR/CSS2/syndata.html#color-units">here</a>
+ * for a list of possible values.</p>
  */
 @BuildParseTree
 public class CSSColorParser

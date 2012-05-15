@@ -38,6 +38,13 @@ import org.eel.kitchen.util.NodeType;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Validator for the {@code format} keyword
+ *
+ * <p>This keyword will disappear in draft v4. All specifiers are hardcoded
+ * for now.
+ * </p>
+ */
 public final class FormatKeywordValidator
     extends KeywordValidator
 {

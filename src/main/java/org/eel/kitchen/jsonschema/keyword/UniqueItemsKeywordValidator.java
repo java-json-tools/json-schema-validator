@@ -24,6 +24,9 @@ import org.eel.kitchen.util.NodeType;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Validator for the {@code uniqueItems} keyword
+ */
 public final class UniqueItemsKeywordValidator
     extends KeywordValidator
 {
@@ -34,6 +37,7 @@ public final class UniqueItemsKeywordValidator
         super(NodeType.ARRAY);
         uniqueItems = schema.get("uniqueItems").booleanValue();
     }
+
     @Override
     protected void validate(final ValidationReport report,
         final JsonNode instance)

@@ -25,6 +25,15 @@ import org.parboiled.Rule;
 import org.parboiled.parserunners.ErrorLocatingParseRunner;
 import org.parboiled.support.ParsingResult;
 
+/**
+ * Validator for the {@code color} format specifier
+ *
+ * <p>Note: this validator limits itself to "web" color specifications,
+ * in the sense that arguments to, say, {@code rgb(x,y,
+ * z)} are constrainted to be in the range 0 to 255,
+ * for instance. Theoretically, the CSS specification allows for any integer
+ * .</p>
+ */
 public final class CSSColorFormatSpecifier
     extends FormatSpecifier
 {

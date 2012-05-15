@@ -23,15 +23,39 @@ import org.eel.kitchen.util.NodeType;
 
 import java.math.BigDecimal;
 
+/**
+ * Base class for numeric instances validators
+ *
+ * <p>Note that we separate validation in two: if both the keyword value and
+ * instance value are integers which fit into a {@code long},
+ * we use that (for performance reasons). If one of them doesn't,
+ * then we use {@link BigDecimal} instead (for accuracy reasons).
+ * </p>
+ */
 public abstract class NumericKeywordValidator
     extends KeywordValidator
 {
+    /**
+     * The keyword value as a {@link BigDecimal}
+     */
     protected final BigDecimal decimalValue;
 
+    /**
+     * The keyword value coerced as a {@code long}
+     */
     protected final long longValue;
 
+    /**
+     * Does the keyword value fits into a {@code long}?
+     */
     protected final boolean isLong;
 
+    /**
+     * Protected constructor
+     *
+     * @param keyword the keyword
+     * @param schema the schema
+     */
     protected NumericKeywordValidator(final String keyword,
         final JsonNode schema)
     {
@@ -43,12 +67,38 @@ public abstract class NumericKeywordValidator
         longValue = node.longValue();
     }
 
+    /**
+     * Method to be implemented by a numeric validator if both the keyword
+     * value and instance value fit into a {@code long}
+     *
+     * @param report the report
+     * @param instanceValue the instance to validate
+     */
     protected abstract void validateLong(final ValidationReport report,
         final long instanceValue);
 
+    /**
+     * Method to be implemented by a numeric validator if either of the
+     * keyword value or instance value do <b>not</b> fit into a {@code long}
+     *
+     * @param report the report
+     * @param instanceValue the instance to validate
+     */
     protected abstract void validateDecimal(final ValidationReport report,
         final BigDecimal instanceValue);
 
+    /**
+     * Main validation method
+     *
+     * <p>This is where the test for {@code long} is done on both the keyword
+     * value and instance value. According to the result,
+     * this method will then call either {@link #validateLong
+     * (ValidationReport, long)} or {@link #validateDecimal(ValidationReport,
+     * BigDecimal)}. </p>
+     *
+     * @param report the report
+     * @param instance the instance to validate
+     */
     @Override
     public final void validate(final ValidationReport report,
         final JsonNode instance)
@@ -59,6 +109,17 @@ public abstract class NumericKeywordValidator
             validateDecimal(report, instance.decimalValue());
     }
 
+    /**
+     * Test whether a numeric instance is a long
+     *
+     * <p>We use both a test on the instance type and Jackson's {@link
+     * JsonNode#canConvertToLong()}. The first test is needed since the
+     * latter method will also return true if the value is a decimal which
+     * integral part fits into a long, and we don't want that.</p>
+     *
+     * @param node the node to test
+     * @return true if both conditions are true
+     */
     private static boolean valueIsLong(final JsonNode node)
     {
         return NodeType.getNodeType(node) == NodeType.INTEGER

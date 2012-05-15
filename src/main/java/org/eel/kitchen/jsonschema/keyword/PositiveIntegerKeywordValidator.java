@@ -20,11 +20,24 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Base class for all keywords accepting a positive integer as an argument
+ */
 public abstract class PositiveIntegerKeywordValidator
     extends KeywordValidator
 {
+    /**
+     * Value for this keyword
+     */
     protected final int intValue;
 
+    /**
+     * Protected constructor
+     *
+     * @param keyword the schema keyword
+     * @param schema the schema
+     * @param types instance types validated by this keyword
+     */
     protected PositiveIntegerKeywordValidator(final String keyword,
         final JsonNode schema, final NodeType... types)
     {

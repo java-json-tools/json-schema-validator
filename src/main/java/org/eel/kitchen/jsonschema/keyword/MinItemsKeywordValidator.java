@@ -21,6 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Validator for the {@code minItems} keyword
+ */
 public final class MinItemsKeywordValidator
     extends PositiveIntegerKeywordValidator
 {

@@ -22,6 +22,12 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.math.BigDecimal;
 
+/**
+ * Validator for the {@code disallow} keyword
+ *
+ * <p>Note: in draft v4, the keyword will be renamed to {@code mod},
+ * but will work all the same.</p>
+ */
 public final class DivisibleByKeywordValidator
     extends NumericKeywordValidator
 {

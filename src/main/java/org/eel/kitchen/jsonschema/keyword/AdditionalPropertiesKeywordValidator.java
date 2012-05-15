@@ -26,6 +26,19 @@ import org.eel.kitchen.util.RhinoHelper;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Validator for {@code additionalProperties}
+ *
+ * <p>The rules are:</p>
+ * <ul>
+ *     <li>if {@code additionalProperties} is a schema or {@code true},
+ *     validation succeeds;</li>
+ *     <li>if it is {@code false}, then validation succeeds if and only if
+ *     all instance members are either members in {@code properties} or match
+ *     at least one regex of members in {@code patternProperties}.</li>
+ *     </li>
+ * </ul>
+ */
 public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator
 {
@@ -49,6 +62,7 @@ public final class AdditionalPropertiesKeywordValidator
             patternProperties.addAll(CollectionUtils.toSet(schema
                 .get("patternProperties").fieldNames()));
     }
+
     @Override
     public void validate(final ValidationReport report,
         final JsonNode instance)

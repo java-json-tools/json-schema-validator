@@ -24,12 +24,28 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Abstract validator for the {@code type} and {@code disallow} keywords
+ *
+ * <p>The structure of these two keywords are the same,
+ * the only difference is the validation process.</p>
+ */
 public abstract class AbstractTypeKeywordValidator
     extends KeywordValidator
 {
+    /**
+     * Shortcut for all JSON instance types
+     */
     private static final String ANY = "any";
 
+    /**
+     * Simple types found in the keyword definition
+     */
     protected final EnumSet<NodeType> typeSet = EnumSet.noneOf(NodeType.class);
+
+    /**
+     * Schemas found in the keyword definition
+     */
     protected final Set<JsonNode> schemas = new HashSet<JsonNode>();
 
     protected AbstractTypeKeywordValidator(final String keyword,
@@ -50,6 +66,17 @@ public abstract class AbstractTypeKeywordValidator
                 schemas.add(element);
     }
 
+    /**
+     * Add a simple type to {@link #typeSet}
+     *
+     * <p>There are two special cases:</p>
+     * <ul>
+     *     <li>if type is {@link #ANY}, all values are filled in;</li>
+     *     <li>if type is {@code number}, it also covers {@code integer}.</li>
+     * </ul>
+     *
+     * @param type the type as a string
+     */
     private void addSimpleType(final String type)
     {
         if (ANY.equals(type)) {

@@ -25,6 +25,11 @@ import org.eel.kitchen.util.NodeType;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Validator for the {@code extends} keyword
+ *
+ * <p>This only really triggers schema validations.</p>
+ */
 public final class ExtendsKeywordValidator
     extends KeywordValidator
 {

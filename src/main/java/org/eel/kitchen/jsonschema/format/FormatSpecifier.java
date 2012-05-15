@@ -23,15 +23,58 @@ import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
 
+/**
+ * Base class for a format specifier
+ *
+ * <p>The {@code format} keyword is part of draft v3, but gone in draft v4.
+ * Its argument is always a string, and this string is called a "specifier".
+ * The draft defines specifiers for recognizing URIs, phone numbers,
+ * different date formats, and so on -- and even CSS 2.1 colors and styles!
+ * </p>
+ *
+ * <p>This implementation covers all specifiers, the only incomplete
+ * implementation being CSS styles (the {@code style} specifier).</p>
+ *
+ * <p>The spec allows for custom specifiers to be added. The mechanism for
+ * this is not written yet, however when the day comes,
+ * this is the class you will have to {@code extend}.</p>
+ *
+ * <p>Note that JSON instances of a type different than recognized by a
+ * specifier validate successfully.</p>
+ */
 public abstract class FormatSpecifier
 {
+    /**
+     * Type of values this specifier can validate
+     */
     private final EnumSet<NodeType> typeSet;
 
+    /**
+     * Protected constructor
+     *
+     * <p>Its arguments are the node types recognized by the specifier. Only
+     * one specifier recognizes more than one type: {@code utc-millisec} (it
+     * can validate both numbers and integers).
+     * </p>
+     *
+     * @param first first type
+     * @param other other types, if any
+     */
     protected FormatSpecifier(final NodeType first, final NodeType... other)
     {
         typeSet = EnumSet.of(first, other);
     }
 
+    /**
+     * Main validation function
+     *
+     * <p>This function only checks whether the value is of a type recognized
+     * by this specifier. If so, it call {@link #checkValue(ValidationReport,
+     * JsonNode)}.</p>
+     *
+     * @param report the report to use
+     * @param value the value to validate
+     */
     public final void validate(final ValidationReport report,
         final JsonNode value)
     {
@@ -41,6 +84,15 @@ public abstract class FormatSpecifier
         checkValue(report, value);
     }
 
+    /**
+     * Abstract method implemented by all specifiers
+     *
+     * <p>It is only called if the value type is one expected by the
+     * specifier, see {@link #validate(ValidationReport, JsonNode)}.</p>
+     *
+     * @param report the report to use
+     * @param value the value to validate
+     */
     abstract void checkValue(final ValidationReport report,
         final JsonNode value);
 }

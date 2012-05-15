@@ -22,6 +22,14 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
 
+/**
+ * Validator for the {@code pattern} keyword
+ *
+ * <p>Regexes must conform to ECMA 262, so, again, this makes {@link
+ * java.util.regex} unusable</p>
+ *
+ * @see RhinoHelper
+ */
 public final class PatternKeywordValidator
     extends KeywordValidator
 {

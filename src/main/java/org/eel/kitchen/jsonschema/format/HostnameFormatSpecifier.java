@@ -28,6 +28,8 @@ import org.eel.kitchen.util.NodeType;
  * <p>Note: non FQDN hostnames are valid, and are considered as such! The
  * draft doesn't specify anywhere that the hostname should be fully
  * qualified.</p>
+ *
+ * <p>Guava's {@link InternetDomainName} is used for validation.</p>
  */
 public final class HostnameFormatSpecifier
     extends FormatSpecifier

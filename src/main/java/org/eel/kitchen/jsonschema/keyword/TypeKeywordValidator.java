@@ -22,6 +22,12 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Validator for the {@code type} keyword
+ *
+ * <p>This keyword and its counterpart ({@code disallowed}) are two of the
+ * most complex keywords.</p>
+ */
 public final class TypeKeywordValidator
     extends AbstractTypeKeywordValidator
 {

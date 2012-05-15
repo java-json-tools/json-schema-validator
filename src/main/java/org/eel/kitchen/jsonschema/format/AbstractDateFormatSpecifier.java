@@ -32,6 +32,10 @@ import java.text.SimpleDateFormat;
  * time parsing, and more specifically
  * {@link DateTimeFormatter#parseDateTime(String)}: it can handle all defined
  * formats, and catches more errors than {@link SimpleDateFormat} does.</p>
+ *
+ * <p>What's more, unlike Java's {@link SimpleDateFormat},
+ * Joda Time's {@link DateTimeFormatter} is thread-safe,
+ * which is one more reason to use it.</p>
  */
 public class AbstractDateFormatSpecifier
     extends FormatSpecifier

@@ -28,6 +28,12 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Validator for the {@code dependencies} keyword
+ *
+ * <p>This validator covers both property dependencies and schema
+ * dependencies.</p>
+ */
 public final class DependenciesKeywordValidator
     extends KeywordValidator
 {

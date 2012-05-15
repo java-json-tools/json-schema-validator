@@ -24,22 +24,57 @@ import org.eel.kitchen.util.NodeType;
 import java.util.Collections;
 import java.util.EnumSet;
 
+/**
+ * Base class for a schema keyword validator
+ *
+ * <p>Keyword validators will only ever be called if the keyword syntax is
+ * correct. This makes one less problem to handle.</p>
+ *
+ * <p>A keyword only takes effect for a certain number of JSON instance
+ * types: if the instance to validate is not among these types,
+ * validation succeeds.</p>
+ */
 public abstract class KeywordValidator
 {
+    /**
+     * What types this keyword validates
+     */
     protected final EnumSet<NodeType> instanceTypes
         = EnumSet.noneOf(NodeType.class);
 
+    /**
+     * Constructor
+     *
+     * @param types the types validated by this keyword
+     */
     protected KeywordValidator(final NodeType... types)
     {
         Collections.addAll(instanceTypes, types);
     }
 
+    /**
+     * Main validation function
+     *
+     * <p>Its only role is to check whether the instance type is recognized
+     * by this keyword. If so, it calls {@link #validate(ValidationReport,
+     * JsonNode)}.</p>
+     *
+     * @param report the report
+     * @param instance the instance to validate
+     */
     public final void validateInstance(final ValidationReport report,
         final JsonNode instance)
     {
         if (instanceTypes.contains(NodeType.getNodeType(instance)))
             validate(report,instance);
     }
+
+    /**
+     * Method which all keyword validators must implement
+     *
+     * @param report the report
+     * @param instance the instance to validate
+     */
     protected abstract void validate(final ValidationReport report,
         final JsonNode instance);
 }

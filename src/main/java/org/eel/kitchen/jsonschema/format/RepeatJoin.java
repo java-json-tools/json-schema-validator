@@ -26,7 +26,6 @@ import java.util.List;
 
 /**
  * Utilities for CSS Parboiled grammars
- *
  */
 @BuildParseTree
 public class RepeatJoin
