@@ -35,7 +35,6 @@ import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -150,14 +149,10 @@ public final class SyntaxValidator
         syntaxChecks.put("$schema", new URISyntaxChecker("$schema"));
     }
 
-    private static void addKeyword(final String keyword,
+    private static void addKeyword(final String keyword, final NodeType type,
         final NodeType... types)
     {
-        final EnumSet<NodeType> set = EnumSet.noneOf(NodeType.class);
-
-        set.addAll(Arrays.asList(types));
-
-        typeChecks.put(keyword, set);
+        typeChecks.put(keyword, EnumSet.of(type, types));
     }
 
     public static synchronized void validate(final ValidationReport report,
