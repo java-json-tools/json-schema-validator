@@ -1,0 +1,11 @@
+{
+    "extends":{
+        "$ref" : "http://json-schema.org/draft-03/schema#"
+    },
+    "properties":{
+        "indexed":{
+            "type": "boolean",
+            "default":false
+        }
+    }
+}
