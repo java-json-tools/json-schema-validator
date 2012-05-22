@@ -31,7 +31,7 @@
     },
     {
         "schema": {
-            "additionalProperties": [ 1, 2, 3]
+            "additionalProperties": [ 1, 2, 3 ]
         },
         "valid": false
     },
@@ -40,9 +40,9 @@
             "dependencies": {
                 "a": "b",
                 "c": {
-                    "type": [ "string", "boolean"]
+                    "type": [ "string", "boolean" ]
                 },
-                "xx": [ "a", "b", "c"]
+                "xx": [ "a", "b", "c" ]
             }
         },
         "valid": true
@@ -57,9 +57,7 @@
         "schema": {
             "dependencies": {
                 "a": 3,
-                "b": [
-                    {}
-                ]
+                "b": [ {} ]
             }
         },
         "valid": false
@@ -90,10 +88,7 @@
     },
     {
         "schema": {
-            "disallow": [ "boolean", {
-                "$ref": "#/schema2"
-            }
-            ]
+            "disallow": [ "boolean", { "$ref": "#/schema2" } ]
         },
         "valid": true
     },
@@ -111,7 +106,7 @@
     },
     {
         "schema": {
-            "disallow": [ null, "boolean", {}, []]
+            "disallow": [ null, "boolean", {}, [] ]
         },
         "valid": false
     },
@@ -171,7 +166,7 @@
     },
     {
         "schema": {
-            "enum": [ 1, 1]
+            "enum": [ 1, 1 ]
         },
         "valid": false
     },
@@ -245,7 +240,7 @@
     },
     {
         "schema": {
-            "extends": [ 1, true, {}, "boo"]
+            "extends": [ 1, true, {}, "boo" ]
         },
         "valid": false
     },
@@ -281,10 +276,7 @@
     },
     {
         "schema": {
-            "items": [
-                {},
-                {}
-            ]
+            "items": [ {}, {} ]
         },
         "valid": true
     },
@@ -296,11 +288,7 @@
     },
     {
         "schema": {
-            "items": [
-                {},
-                5,
-                true
-            ]
+            "items": [ {}, 5, true ]
         },
         "valid": false
     },
@@ -474,7 +462,7 @@
     },
     {
         "schema": {
-            "pattern": [1, 2, 3]
+            "pattern": [ 1, 2, 3 ]
         },
         "valid": false
     },
@@ -532,10 +520,7 @@
     },
     {
         "schema": {
-            "type": [ "boolean", {
-                "$ref": "#/schema2"
-            }
-            ]
+            "type": [ "boolean", { "$ref": "#/schema2" } ]
         },
         "valid": true
     },
@@ -553,7 +538,7 @@
     },
     {
         "schema": {
-            "type": [ 42, "boolean", "pwet", {}]
+            "type": [ 42, "boolean", "pwet", {} ]
         },
         "valid": false
     },
