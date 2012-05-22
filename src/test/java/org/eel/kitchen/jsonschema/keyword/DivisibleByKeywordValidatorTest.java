@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class DivisibleByKeywordValidatorTest
 {

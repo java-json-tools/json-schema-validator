@@ -17,17 +17,7 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.testutils.DataProviderArguments;
-import org.eel.kitchen.testutils.JsonDataProvider;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
 import java.io.IOException;
-
-import static org.testng.Assert.*;
 
 public final class DisallowKeywordValidatorTest
     extends AbstractKeywordValidatorTest
