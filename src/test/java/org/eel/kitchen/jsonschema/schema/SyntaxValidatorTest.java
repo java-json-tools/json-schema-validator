@@ -19,28 +19,56 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.testutils.DataProviderArguments;
-import org.eel.kitchen.testutils.JsonDataProvider;
+import org.eel.kitchen.util.JsonLoader;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
 public final class SyntaxValidatorTest
 {
-    @Test(
-        dataProviderClass = JsonDataProvider.class,
-        dataProvider = "getData"
-    )
-    @DataProviderArguments(fileName = "/syntax/syntax.json")
-    public void testEntry(final JsonNode element)
-    {
-        final JsonNode schema = element.get("schema");
-        final boolean valid = element.get("valid").booleanValue();
+    private JsonNode testData;
 
+    @BeforeClass
+    public void setUp()
+        throws IOException
+    {
+        testData = JsonLoader.fromResource("/syntax/syntax.json");
+    }
+
+    @DataProvider
+    public Iterator<Object[]> getData()
+    {
+        final Set<Object[]> set = new HashSet<Object[]>(testData.size());
+
+        for (final JsonNode node: testData)
+            set.add(mungeArguments(node));
+
+        return set.iterator();
+    }
+
+    private Object[] mungeArguments(final JsonNode node)
+    {
+        return new Object[] {
+            node.get("schema"),
+            node.get("valid").booleanValue()
+        };
+    }
+
+    @Test(dataProvider = "getData")
+    public void testEntry(final JsonNode schemaNode, final boolean valid)
+    {
         final ValidationReport report = new ValidationReport();
 
-        SyntaxValidator.validate(report, schema);
+        SyntaxValidator.validate(report, schemaNode);
 
-        assertEquals(report.isSuccess(), valid, schema.toString());
+        assertEquals(report.isSuccess(), valid, "syntax validation failure "
+            + "for schema " + schemaNode);
     }
 }
