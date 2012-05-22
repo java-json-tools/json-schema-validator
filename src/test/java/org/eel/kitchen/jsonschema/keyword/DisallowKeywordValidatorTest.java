@@ -25,60 +25,16 @@ import org.eel.kitchen.testutils.JsonDataProvider;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 import static org.testng.Assert.*;
 
 public final class DisallowKeywordValidatorTest
+    extends AbstractKeywordValidatorTest
 {
-    private static final JsonNodeFactory factory
-        = JsonNodeFactory.instance;
-
-    @DataProvider
-    private Object[][] getSimpleData()
+    DisallowKeywordValidatorTest()
+        throws IOException, NoSuchMethodException
     {
-        return new Object[][] {
-            { "array", factory.arrayNode() },
-            { "boolean", factory.booleanNode(true) },
-            { "number", factory.numberNode(0.1) },
-            { "number", factory.numberNode(1) },
-            { "null", factory.nullNode() },
-            { "integer", factory.numberNode(1) },
-            { "object", factory.objectNode() },
-            { "string", factory.textNode("") },
-        };
-    }
-
-    @Test(dataProvider = "getSimpleData")
-    public void testSimpleDisallow(final String type, final JsonNode node)
-    {
-        final JsonNode schemaNode = factory.objectNode().put("disallow", type);
-
-        final KeywordValidator validator
-            = new DisallowKeywordValidator(schemaNode);
-
-        final ValidationReport report = new ValidationReport();
-
-        validator.validate(report, node);
-        assertFalse(report.isSuccess());
-    }
-
-    @Test(
-        dataProviderClass = JsonDataProvider.class,
-        dataProvider = "getData"
-    )
-    @DataProviderArguments(fileName = "/keyword/disallow.json")
-    public void testDisallow(final JsonNode node)
-    {
-        final JsonNode schemaNode = node.get("schema");
-        final JsonNode data = node.get("data");
-        final boolean valid = node.get("valid").booleanValue();
-
-        final ValidationReport report = new ValidationReport();
-        final KeywordValidator validator
-            = new DisallowKeywordValidator(schemaNode);
-
-        validator.validate(report, data);
-        assertEquals(report.isSuccess(), valid, "instance " + data + " "
-            + "should have validated as " + valid + " using schema "
-            + schemaNode);
+        super(DisallowKeywordValidator.class, "disallow");
     }
 }
