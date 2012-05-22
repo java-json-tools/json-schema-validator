@@ -30,28 +30,6 @@ public final class JsonRefTest
     private final JsonNodeFactory factory = JsonNodeFactory.instance;
 
     @Test
-    public void testNonObject()
-        throws JsonSchemaException
-    {
-        JsonRef ref;
-
-        ref = JsonRef.fromNode(factory.arrayNode(), "$ref");
-        assertTrue(ref.isEmpty());
-
-        ref = JsonRef.fromNode(factory.nullNode(), "$ref");
-        assertTrue(ref.isEmpty());
-
-        ref = JsonRef.fromNode(factory.numberNode(1), "$ref");
-        assertTrue(ref.isEmpty());
-
-        ref = JsonRef.fromNode(factory.textNode("foo"), "$ref");
-        assertTrue(ref.isEmpty());
-
-        ref = JsonRef.fromNode(factory.booleanNode(false), "$ref");
-        assertTrue(ref.isEmpty());
-    }
-
-    @Test
     public void testNormalized()
         throws JsonSchemaException
     {
@@ -114,7 +92,6 @@ public final class JsonRefTest
     {
         final ObjectNode node = factory.objectNode();
 
-
         node.put("$ref", 1);
 
         try {
@@ -154,5 +131,20 @@ public final class JsonRefTest
         ref = JsonRef.fromNode(node, "f3");
         assertTrue(ref.hasFragment());
         assertEquals(ref.getFragment(), "b/c");
+    }
+
+    @Test
+    public void testEmptyFragmentVsNoFragment()
+        throws JsonSchemaException
+    {
+        final ObjectNode node = factory.objectNode();
+
+        node.put("ref1", "http://foo.bar");
+        node.put("ref2", "http://foo.bar#");
+
+        final JsonRef ref1 = JsonRef.fromNode(node, "ref1");
+        final JsonRef ref2 = JsonRef.fromNode(node, "ref2");
+
+        assertEquals(ref1, ref2);
     }
 }
