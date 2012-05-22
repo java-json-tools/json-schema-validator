@@ -62,7 +62,7 @@ public final class JsonRef
     /**
      * This could theoretically thrown an IllegalArgumentException. Meh.
      */
-    private static final URI EMPTY_URI = URI.create("");
+    private static final URI EMPTY_URI = URI.create("#");
 
     private static final JsonRef EMPTY = new JsonRef(EMPTY_URI);
 
@@ -104,7 +104,7 @@ public final class JsonRef
             throw new JsonSchemaException("invalid " + key + " entry: not a "
                 + "string");
 
-        final URI uri;
+        URI uri;
 
         try {
             uri = new URI(entry.textValue()).normalize();
@@ -112,6 +112,13 @@ public final class JsonRef
             throw new JsonSchemaException("invalid " + key + " entry: not a "
                 + "valid URI");
         }
+
+        if (uri.getFragment() == null)
+            try {
+                uri = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
+            } catch (URISyntaxException ignored) {
+                //cannot happen
+            }
 
         return new JsonRef(uri);
     }
@@ -139,7 +146,7 @@ public final class JsonRef
     public URI getLocator()
     {
         try {
-            return new URI(uri.getScheme(), uri.getSchemeSpecificPart(), null);
+            return new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
         } catch (URISyntaxException e) {
             throw new RuntimeException("WTF???", e);
         }
@@ -154,11 +161,7 @@ public final class JsonRef
      */
     public String getFragment()
     {
-        String fragment = uri.getFragment();
-        if (fragment == null)
-            fragment = "";
-
-        return fragment;
+        return uri.getFragment();
     }
 
     public boolean hasFragment()
