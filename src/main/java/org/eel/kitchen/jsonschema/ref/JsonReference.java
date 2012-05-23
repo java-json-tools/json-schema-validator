@@ -180,7 +180,7 @@ public final class JsonReference
 
             final URI locator = ref.getLocator();
 
-            ret = factory.getHandler(locator).getDocument(locator);
+            ret = factory.getDocument(locator);
 
             cache.put(ref, ret);
         }

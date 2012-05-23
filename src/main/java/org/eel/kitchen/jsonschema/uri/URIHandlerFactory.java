@@ -17,9 +17,11 @@
 
 package org.eel.kitchen.jsonschema.uri;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -91,17 +93,8 @@ public final class URIHandlerFactory
         schemeHandlers.remove(scheme);
     }
 
-    /**
-     * Get a handler for the given URI
-     *
-     * <p>The URI <b>must</b> be absolute here.</p>
-     *
-     * @param uri the URI
-     * @return the handler
-     * @throws IllegalArgumentException the URI is not absolute,
-     * or the scheme of this URI is not registered
-     */
-    public URIHandler getHandler(final URI uri)
+    public JsonNode getDocument(final URI uri)
+        throws IOException
     {
         final String scheme = uri.getScheme();
 
@@ -110,10 +103,9 @@ public final class URIHandlerFactory
                 + "supported");
 
         final URIHandler ret = schemeHandlers.get(scheme);
-
         if (ret == null)
             throw new IllegalArgumentException("unsupported scheme " + scheme);
 
-        return ret;
+        return ret.getDocument(uri);
     }
 }
