@@ -155,36 +155,38 @@ public final class SyntaxValidator
         TYPE_CHECKS.put(keyword, EnumSet.of(type, types));
     }
 
-    public static synchronized void validate(final ValidationReport report,
+    public void validate(final ValidationReport report,
         final JsonNode schema)
     {
-        if (done.contains(schema))
-            return;
+        synchronized (done) {
+            if (done.contains(schema))
+                return;
 
-        final Map<String, JsonNode> fields
-            = CollectionUtils.toMap(schema.fields());
+            final Map<String, JsonNode> fields = CollectionUtils
+                .toMap(schema.fields());
 
-        String fieldName;
-        JsonNode node;
-        EnumSet<NodeType> types;
-        SyntaxChecker checker;
-        NodeType nodeType;
+            String fieldName;
+            JsonNode node;
+            EnumSet<NodeType> types;
+            SyntaxChecker checker;
+            NodeType nodeType;
 
-        for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
-            fieldName = entry.getKey();
-            node = entry.getValue();
-            types = TYPE_CHECKS.get(fieldName);
-            nodeType = NodeType.getNodeType(node);
-            if (types != null && !types.contains(nodeType)) {
-                report.addMessage(fieldName + " is of wrong type");
-                continue;
+            for (final Map.Entry<String, JsonNode> entry : fields.entrySet()) {
+                fieldName = entry.getKey();
+                node = entry.getValue();
+                types = TYPE_CHECKS.get(fieldName);
+                nodeType = NodeType.getNodeType(node);
+                if (types != null && !types.contains(nodeType)) {
+                    report.addMessage(fieldName + " is of wrong type");
+                    continue;
+                }
+                checker = SYNTAX_CHECKS.get(fieldName);
+                if (checker != null)
+                    checker.checkValue(report, schema);
             }
-            checker = SYNTAX_CHECKS.get(fieldName);
-            if (checker != null)
-                checker.checkValue(report, schema);
-        }
 
-        if (report.isSuccess())
-            done.add(schema);
+            if (report.isSuccess())
+                done.add(schema);
+        }
     }
 }

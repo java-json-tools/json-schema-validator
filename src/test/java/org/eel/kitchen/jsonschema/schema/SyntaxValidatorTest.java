@@ -66,7 +66,8 @@ public final class SyntaxValidatorTest
     {
         final ValidationReport report = new ValidationReport();
 
-        SyntaxValidator.validate(report, schemaNode);
+        final SyntaxValidator validator = new SyntaxValidator();
+        validator.validate(report, schemaNode);
 
         assertEquals(report.isSuccess(), valid, "syntax validation failure "
             + "for schema " + schemaNode);

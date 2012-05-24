@@ -31,6 +31,9 @@ public abstract class JsonSchema
     private static final Map<JsonNode, JsonSchema> cache
         = new LRUMap<JsonNode, JsonSchema>(10, 50);
 
+    private static final SyntaxValidator syntaxValidator
+        = new SyntaxValidator();
+
     public static JsonSchema fromNode(final JsonNode parent,
         final JsonNode node)
     {
@@ -53,7 +56,7 @@ public abstract class JsonSchema
                 return ret;
 
             final ValidationReport report = new ValidationReport();
-            SyntaxValidator.validate(report, schemaNode);
+            syntaxValidator.validate(report, schemaNode);
 
             if (!report.isSuccess())
                 return new InvalidJsonSchema(report);
