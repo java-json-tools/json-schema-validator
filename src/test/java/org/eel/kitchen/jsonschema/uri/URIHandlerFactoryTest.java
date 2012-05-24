@@ -120,4 +120,17 @@ public final class URIHandlerFactoryTest
 
         verify(mock).getDocument(uri);
     }
+
+    @Test
+    public void cannotRegisterNullScheme()
+    {
+        final URIHandler mock = mock(URIHandler.class);
+
+        try {
+            factory.registerHandler(null, mock);
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "scheme is null");
+        }
+    }
 }

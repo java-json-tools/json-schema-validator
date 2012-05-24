@@ -65,6 +65,9 @@ public final class URIHandlerFactory
      */
     public void registerHandler(final String scheme, final URIHandler handler)
     {
+        if (scheme == null)
+            throw new IllegalArgumentException("scheme is null");
+
         try {
             new URI(scheme, "x", null);
         } catch (URISyntaxException ignored) {
