@@ -165,19 +165,21 @@ public final class SyntaxValidator
             = CollectionUtils.toMap(schema.fields());
 
         String fieldName;
-        JsonNode child;
+        JsonNode node;
         EnumSet<NodeType> types;
         SyntaxChecker checker;
+        NodeType nodeType;
 
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
             fieldName = entry.getKey();
-            child = entry.getValue();
+            node = entry.getValue();
             types = typeChecks.get(fieldName);
-            checker = syntaxChecks.get(fieldName);
-            if (types != null && !types.contains(NodeType.getNodeType(child))) {
+            nodeType = NodeType.getNodeType(node);
+            if (types != null && !types.contains(nodeType)) {
                 report.addMessage(fieldName + " is of wrong type");
                 continue;
             }
+            checker = syntaxChecks.get(fieldName);
             if (checker != null)
                 checker.checkValue(report, schema);
         }
