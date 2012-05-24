@@ -56,10 +56,10 @@ public final class SyntaxValidator
     //FIXME: make this a "LRUSet"
     private static final Set<JsonNode> done = new HashSet<JsonNode>();
 
-    private static final Map<String, EnumSet<NodeType>> typeChecks
+    private static final Map<String, EnumSet<NodeType>> TYPE_CHECKS
         = new HashMap<String, EnumSet<NodeType>>();
 
-    private static final Map<String, SyntaxChecker> syntaxChecks
+    private static final Map<String, SyntaxChecker> SYNTAX_CHECKS
         = new HashMap<String, SyntaxChecker>();
 
     static {
@@ -68,91 +68,91 @@ public final class SyntaxValidator
         addKeyword("additionalProperties", NodeType.BOOLEAN, NodeType.OBJECT);
 
         addKeyword("dependencies", NodeType.OBJECT);
-        syntaxChecks.put("dependencies",
+        SYNTAX_CHECKS.put("dependencies",
             DependenciesSyntaxChecker.getInstance());
 
         addKeyword("description", NodeType.STRING);
 
         addKeyword("disallow", NodeType.STRING, NodeType.ARRAY);
-        syntaxChecks.put("disallow", new TypeKeywordSyntaxChecker("disallow"));
+        SYNTAX_CHECKS.put("disallow", new TypeKeywordSyntaxChecker("disallow"));
 
         addKeyword("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
-        syntaxChecks.put("divisibleBy", DivisibleBySyntaxChecker.getInstance());
+        SYNTAX_CHECKS.put("divisibleBy", DivisibleBySyntaxChecker.getInstance());
 
         addKeyword("enum", NodeType.ARRAY);
-        syntaxChecks.put("enum", EnumSyntaxChecker.getInstance());
+        SYNTAX_CHECKS.put("enum", EnumSyntaxChecker.getInstance());
 
         addKeyword("exclusiveMinimum", NodeType.BOOLEAN);
-        syntaxChecks.put("exclusiveMinimum",
+        SYNTAX_CHECKS.put("exclusiveMinimum",
             ExclusiveMinimumSyntaxChecker.getInstance());
 
         addKeyword("exclusiveMaximum", NodeType.BOOLEAN);
-        syntaxChecks.put("exclusiveMaximum",
+        SYNTAX_CHECKS.put("exclusiveMaximum",
             ExclusiveMaximumSyntaxChecker.getInstance());
 
         addKeyword("extends", NodeType.OBJECT, NodeType.ARRAY);
-        syntaxChecks.put("extends", new ArrayChildrenSyntaxChecker("extends",
+        SYNTAX_CHECKS.put("extends", new ArrayChildrenSyntaxChecker("extends",
             NodeType.OBJECT));
 
         addKeyword("format", NodeType.STRING);
 
         addKeyword("id", NodeType.STRING);
-        syntaxChecks.put("id", new URISyntaxChecker("id"));
+        SYNTAX_CHECKS.put("id", new URISyntaxChecker("id"));
 
         addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
-        syntaxChecks.put("items", new ArrayChildrenSyntaxChecker("items",
+        SYNTAX_CHECKS.put("items", new ArrayChildrenSyntaxChecker("items",
             NodeType.OBJECT));
 
         addKeyword("maximum", NodeType.INTEGER, NodeType.NUMBER);
 
         addKeyword("maxItems", NodeType.INTEGER);
-        syntaxChecks.put("maxItems",
+        SYNTAX_CHECKS.put("maxItems",
             new PositiveIntegerSyntaxChecker("maxItems"));
 
         addKeyword("maxLength", NodeType.INTEGER);
-        syntaxChecks.put("maxLength",
+        SYNTAX_CHECKS.put("maxLength",
             new PositiveIntegerSyntaxChecker("maxLength"));
 
         addKeyword("minimum", NodeType.INTEGER, NodeType.NUMBER);
 
         addKeyword("minItems", NodeType.INTEGER);
-        syntaxChecks.put("minItems",
+        SYNTAX_CHECKS.put("minItems",
             new PositiveIntegerSyntaxChecker("minItems"));
 
         addKeyword("minLength", NodeType.INTEGER);
-        syntaxChecks.put("minLength",
+        SYNTAX_CHECKS.put("minLength",
             new PositiveIntegerSyntaxChecker("minLength"));
 
         addKeyword("pattern", NodeType.STRING);
-        syntaxChecks.put("pattern", PatternSyntaxChecker.getInstance());
+        SYNTAX_CHECKS.put("pattern", PatternSyntaxChecker.getInstance());
 
         addKeyword("patternProperties", NodeType.OBJECT);
-        syntaxChecks.put("patternProperties",
+        SYNTAX_CHECKS.put("patternProperties",
             PatternPropertiesSyntaxChecker.getInstance());
 
         addKeyword("properties", NodeType.OBJECT);
-        syntaxChecks.put("properties", PropertiesSyntaxChecker.getInstance());
+        SYNTAX_CHECKS.put("properties", PropertiesSyntaxChecker.getInstance());
 
         addKeyword("required", NodeType.BOOLEAN);
 
         addKeyword("title", NodeType.STRING);
 
         addKeyword("type", NodeType.STRING, NodeType.ARRAY);
-        syntaxChecks.put("type", new TypeKeywordSyntaxChecker("type"));
+        SYNTAX_CHECKS.put("type", new TypeKeywordSyntaxChecker("type"));
 
         addKeyword("uniqueItems", NodeType.BOOLEAN);
 
         addKeyword("$ref", NodeType.STRING);
-        syntaxChecks.put("$ref", new URISyntaxChecker("$ref"));
+        SYNTAX_CHECKS.put("$ref", new URISyntaxChecker("$ref"));
 
         addKeyword("$schema", NodeType.STRING);
-        syntaxChecks.put("$schema", new URISyntaxChecker("$schema"));
+        SYNTAX_CHECKS.put("$schema", new URISyntaxChecker("$schema"));
     }
 
     private static void addKeyword(final String keyword, final NodeType type,
         final NodeType... types)
     {
-        typeChecks.put(keyword, EnumSet.of(type, types));
+        TYPE_CHECKS.put(keyword, EnumSet.of(type, types));
     }
 
     public static synchronized void validate(final ValidationReport report,
@@ -173,13 +173,13 @@ public final class SyntaxValidator
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
             fieldName = entry.getKey();
             node = entry.getValue();
-            types = typeChecks.get(fieldName);
+            types = TYPE_CHECKS.get(fieldName);
             nodeType = NodeType.getNodeType(node);
             if (types != null && !types.contains(nodeType)) {
                 report.addMessage(fieldName + " is of wrong type");
                 continue;
             }
-            checker = syntaxChecks.get(fieldName);
+            checker = SYNTAX_CHECKS.get(fieldName);
             if (checker != null)
                 checker.checkValue(report, schema);
         }
