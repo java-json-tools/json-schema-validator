@@ -76,12 +76,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.3.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.mozilla</groupId>
             <artifactId>rhino</artifactId>
             <version>1.7R3</version>
@@ -110,6 +104,17 @@
             <groupId>org.parboiled</groupId>
             <artifactId>parboiled-java</artifactId>
             <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.3.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.9.0</version>
         </dependency>
     </dependencies>
     <licenses>
