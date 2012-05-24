@@ -11,7 +11,7 @@ import java.io.IOException;
 
 import static org.testng.Assert.*;
 
-public final class Issue7
+public final class Issue7Test
 {
     private JsonNode draftv3, schema1, schema2;
 
