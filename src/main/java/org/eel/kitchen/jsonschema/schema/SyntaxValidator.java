@@ -98,8 +98,8 @@ public final class SyntaxValidator
             ExclusiveMaximumSyntaxChecker.getInstance());
 
         addKeyword("extends", NodeType.OBJECT, NodeType.ARRAY);
-        SYNTAX_CHECKS.put("extends", new ArrayChildrenSyntaxChecker("extends",
-            NodeType.OBJECT));
+        SYNTAX_CHECKS.put("extends", new ArrayChildrenSyntaxChecker("extends")
+            .withChildrenTypes(NodeType.OBJECT));
 
         addKeyword("format", NodeType.STRING);
         SYNTAX_CHECKS.put("format", new TypeOnlySyntaxChecker("format"));
@@ -108,8 +108,8 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("id", new URISyntaxChecker("id"));
 
         addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
-        SYNTAX_CHECKS.put("items", new ArrayChildrenSyntaxChecker("items",
-            NodeType.OBJECT));
+        SYNTAX_CHECKS.put("items", new ArrayChildrenSyntaxChecker("items")
+            .withChildrenTypes(NodeType.OBJECT));
 
         addKeyword("maximum", NodeType.INTEGER, NodeType.NUMBER);
         SYNTAX_CHECKS.put("maximum", new TypeOnlySyntaxChecker("maximum"));

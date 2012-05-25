@@ -26,15 +26,20 @@ import java.util.EnumSet;
 public final class ArrayChildrenSyntaxChecker
     extends SyntaxChecker
 {
-    private final EnumSet<NodeType> allowedChildrenTypes;
+    private EnumSet<NodeType> allowedChildrenTypes;
 
     private final String keyword;
 
-    public ArrayChildrenSyntaxChecker(final String keyword, final NodeType type,
-        final NodeType... other)
+    public ArrayChildrenSyntaxChecker(final String keyword)
     {
         this.keyword = keyword;
-        allowedChildrenTypes = EnumSet.of(type, other);
+    }
+
+    public SyntaxChecker withChildrenTypes(final NodeType type,
+        final NodeType... types)
+    {
+        allowedChildrenTypes = EnumSet.of(type, types);
+        return this;
     }
 
     @Override
