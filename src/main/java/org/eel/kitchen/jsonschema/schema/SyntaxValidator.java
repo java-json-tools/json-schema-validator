@@ -31,6 +31,7 @@ import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeKeywordSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.TypeOnlySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
@@ -64,14 +65,20 @@ public final class SyntaxValidator
 
     static {
         addKeyword("additionalItems", NodeType.BOOLEAN, NodeType.OBJECT);
+        SYNTAX_CHECKS.put("additionalItems",
+            new TypeOnlySyntaxChecker("additionalItems"));
 
         addKeyword("additionalProperties", NodeType.BOOLEAN, NodeType.OBJECT);
+        SYNTAX_CHECKS.put("additionalProperties",
+            new TypeOnlySyntaxChecker("additionalProperties"));
 
         addKeyword("dependencies", NodeType.OBJECT);
         SYNTAX_CHECKS.put("dependencies",
             DependenciesSyntaxChecker.getInstance());
 
         addKeyword("description", NodeType.STRING);
+        SYNTAX_CHECKS.put("description",
+            new TypeOnlySyntaxChecker("description"));
 
         addKeyword("disallow", NodeType.STRING, NodeType.ARRAY);
         SYNTAX_CHECKS.put("disallow", new TypeKeywordSyntaxChecker("disallow"));
@@ -95,6 +102,7 @@ public final class SyntaxValidator
             NodeType.OBJECT));
 
         addKeyword("format", NodeType.STRING);
+        SYNTAX_CHECKS.put("format", new TypeOnlySyntaxChecker("format"));
 
         addKeyword("id", NodeType.STRING);
         SYNTAX_CHECKS.put("id", new URISyntaxChecker("id"));
@@ -104,6 +112,7 @@ public final class SyntaxValidator
             NodeType.OBJECT));
 
         addKeyword("maximum", NodeType.INTEGER, NodeType.NUMBER);
+        SYNTAX_CHECKS.put("maximum", new TypeOnlySyntaxChecker("maximum"));
 
         addKeyword("maxItems", NodeType.INTEGER);
         SYNTAX_CHECKS.put("maxItems",
@@ -114,6 +123,7 @@ public final class SyntaxValidator
             new PositiveIntegerSyntaxChecker("maxLength"));
 
         addKeyword("minimum", NodeType.INTEGER, NodeType.NUMBER);
+        SYNTAX_CHECKS.put("minimum", new TypeOnlySyntaxChecker("minimum"));
 
         addKeyword("minItems", NodeType.INTEGER);
         SYNTAX_CHECKS.put("minItems",
@@ -134,13 +144,17 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("properties", PropertiesSyntaxChecker.getInstance());
 
         addKeyword("required", NodeType.BOOLEAN);
+        SYNTAX_CHECKS.put("required", new TypeOnlySyntaxChecker("required"));
 
         addKeyword("title", NodeType.STRING);
+        SYNTAX_CHECKS.put("title", new TypeOnlySyntaxChecker("title"));
 
         addKeyword("type", NodeType.STRING, NodeType.ARRAY);
         SYNTAX_CHECKS.put("type", new TypeKeywordSyntaxChecker("type"));
 
         addKeyword("uniqueItems", NodeType.BOOLEAN);
+        SYNTAX_CHECKS.put("uniqueItems",
+            new TypeOnlySyntaxChecker("uniqueItems"));
 
         addKeyword("$ref", NodeType.STRING);
         SYNTAX_CHECKS.put("$ref", new URISyntaxChecker("$ref"));
