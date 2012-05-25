@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class EnumSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private static final SyntaxChecker instance = new EnumSyntaxChecker();
 
@@ -38,7 +38,7 @@ public final class EnumSyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final Set<JsonNode> values = new HashSet<JsonNode>();

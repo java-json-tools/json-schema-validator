@@ -25,7 +25,7 @@ import org.eel.kitchen.util.RhinoHelper;
 import java.util.Map;
 
 public final class PatternPropertiesSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private static final SyntaxChecker instance
         = new PatternPropertiesSyntaxChecker();
@@ -40,7 +40,7 @@ public final class PatternPropertiesSyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final JsonNode node = schema.get("patternProperties");

@@ -20,7 +20,14 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
-public interface SyntaxChecker
+public abstract class SyntaxChecker
 {
-    void checkValue(final ValidationReport report, final JsonNode schema);
+    public final void checkSyntax(final ValidationReport report,
+        final JsonNode schema)
+    {
+        checkValue(report, schema);
+    }
+
+    abstract void checkValue(final ValidationReport report,
+        final JsonNode schema);
 }

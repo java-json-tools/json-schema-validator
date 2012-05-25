@@ -24,7 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public final class URISyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private final String keyword;
 
@@ -34,7 +34,7 @@ public final class URISyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);

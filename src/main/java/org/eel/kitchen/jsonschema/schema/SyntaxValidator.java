@@ -182,7 +182,7 @@ public final class SyntaxValidator
                 }
                 checker = SYNTAX_CHECKS.get(fieldName);
                 if (checker != null)
-                    checker.checkValue(report, schema);
+                    checker.checkSyntax(report, schema);
             }
 
             if (report.isSuccess())

@@ -23,7 +23,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import java.math.BigDecimal;
 
 public final class DivisibleBySyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private static final SyntaxChecker instance
         = new DivisibleBySyntaxChecker();
@@ -38,7 +38,7 @@ public final class DivisibleBySyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final BigDecimal decimal = schema.get("divisibleBy").decimalValue();

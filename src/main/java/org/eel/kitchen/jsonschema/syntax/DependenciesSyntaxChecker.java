@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 public final class DependenciesSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private static final SyntaxChecker instance
         = new DependenciesSyntaxChecker();
@@ -37,7 +37,7 @@ public final class DependenciesSyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         for (final JsonNode value: schema.get("dependencies")) {

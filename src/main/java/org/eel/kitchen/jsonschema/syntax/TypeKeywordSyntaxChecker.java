@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 public final class TypeKeywordSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private static final String ANY = "any";
     private final String keyword;
@@ -33,7 +33,7 @@ public final class TypeKeywordSyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);

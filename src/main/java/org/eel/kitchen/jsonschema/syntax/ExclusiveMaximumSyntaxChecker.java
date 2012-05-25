@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 public final class ExclusiveMaximumSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private static final SyntaxChecker instance
         = new ExclusiveMaximumSyntaxChecker();
@@ -36,7 +36,7 @@ public final class ExclusiveMaximumSyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         if (!schema.has("maximum"))

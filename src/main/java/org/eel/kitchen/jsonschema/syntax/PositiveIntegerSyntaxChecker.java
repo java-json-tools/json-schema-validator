@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 public final class PositiveIntegerSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private final String keyword;
 
@@ -31,7 +31,7 @@ public final class PositiveIntegerSyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);

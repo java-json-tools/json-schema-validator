@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.RhinoHelper;
 
 public final class PatternSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     private static final PatternSyntaxChecker instance
         = new PatternSyntaxChecker();
@@ -37,7 +37,7 @@ public final class PatternSyntaxChecker
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         if (!RhinoHelper.regexIsValid(schema.get("pattern").textValue()))
