@@ -1,0 +1,14 @@
+[
+    {
+        "schema": {
+            "format": "whatever"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "format": false
+        },
+        "valid": false
+    }
+]
