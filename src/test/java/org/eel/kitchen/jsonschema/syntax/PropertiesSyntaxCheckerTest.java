@@ -17,33 +17,14 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
+import java.io.IOException;
 
-@ValidTypes(NodeType.OBJECT)
-public final class PropertiesSyntaxChecker
-    extends SyntaxChecker
+public final class PropertiesSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    private static final SyntaxChecker instance
-        = new PropertiesSyntaxChecker();
-
-    private PropertiesSyntaxChecker()
+    PropertiesSyntaxCheckerTest()
+        throws IOException
     {
-        super("properties");
-    }
-
-    public static SyntaxChecker getInstance()
-    {
-        return instance;
-    }
-
-    @Override
-    void checkValue(final ValidationReport report,
-        final JsonNode schema)
-    {
-        for (final JsonNode child: schema.get(keyword))
-            if (!child.isObject())
-                report.addMessage("non schema value in properties");
+        super("properties", PropertiesSyntaxChecker.getInstance());
     }
 }

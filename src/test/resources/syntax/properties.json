@@ -1,0 +1,30 @@
+[
+    {
+        "schema": {
+            "properties": {
+                "p1": {},
+                "p2": {
+                    "required": true
+                }
+            }
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "properties": null
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "properties": {
+                "p1": 3,
+                "p2": {
+                    "required": "yes"
+                }
+            }
+        },
+        "valid": false
+    }
+]

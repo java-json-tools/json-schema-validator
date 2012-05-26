@@ -129,7 +129,6 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("patternProperties",
             PatternPropertiesSyntaxChecker.getInstance());
 
-        addKeyword("properties", NodeType.OBJECT);
         SYNTAX_CHECKS.put("properties", PropertiesSyntaxChecker.getInstance());
 
         SYNTAX_CHECKS.put("required", RequiredSyntaxChecker.getInstance());
