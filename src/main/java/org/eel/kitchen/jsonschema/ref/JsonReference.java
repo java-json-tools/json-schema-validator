@@ -21,10 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.util.LRUMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.uri.URIHandlerFactory;
+import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.util.JsonPointer;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -51,7 +50,7 @@ public final class JsonReference
     /**
      * URI resolver
      */
-    private static final URIHandlerFactory factory = new URIHandlerFactory();
+    private static final URIManager manager = new URIManager();
 
     /**
      * Try and lookup a JSON object with a given {@code id} member
@@ -165,10 +164,10 @@ public final class JsonReference
      *
      * @param ref the JSON reference
      * @return the schema pointed to by that reference
-     * @throws IOException downloading failed (network problems etc)
+     * @throws JsonSchemaException downloading failed (network problems etc)
      */
     private static JsonNode resolveLocation(final JsonRef ref)
-        throws IOException
+        throws JsonSchemaException
     {
         JsonNode ret;
 
@@ -180,7 +179,7 @@ public final class JsonReference
 
             final URI locator = ref.getLocator();
 
-            ret = factory.getDocument(locator);
+            ret = manager.getContent(locator);
 
             cache.put(ref, ret);
         }
@@ -199,12 +198,12 @@ public final class JsonReference
      * @param schema the schema
      * @param node the node
      * @return the JSON instance
-     * @throws JsonSchemaException reference loop detected, or malformed ref
-     * @throws IOException downloading of a reference failed
+     * @throws JsonSchemaException reference loop detected, malformed ref, or
+     * downloading of a reference failed
      */
     public static JsonNode resolveRef(final JsonNode schema,
         final JsonNode node)
-        throws JsonSchemaException, IOException
+        throws JsonSchemaException
     {
         JsonRef locator, ref;
         JsonNode origin = schema, ret = node;
