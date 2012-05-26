@@ -72,12 +72,9 @@ public final class SyntaxValidator
         = new HashMap<String, SyntaxChecker>();
 
     static {
-        addKeyword("additionalItems", NodeType.BOOLEAN, NodeType.OBJECT);
         SYNTAX_CHECKS.put("additionalItems",
             AdditionalItemsSyntaxChecker.getInstance());
 
-            addKeyword("additionalProperties", NodeType.BOOLEAN,
-                NodeType.OBJECT);
         SYNTAX_CHECKS.put("additionalProperties",
             AdditionalPropertiesSyntaxChecker.getInstance());
 
@@ -85,7 +82,6 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("dependencies",
             DependenciesSyntaxChecker.getInstance());
 
-        addKeyword("description", NodeType.STRING);
         SYNTAX_CHECKS.put("description",
             DescriptionSyntaxChecker.getInstance());
 
@@ -112,20 +108,18 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("extends", new ArrayChildrenSyntaxChecker("extends")
             .withChildrenTypes(NodeType.OBJECT));
 
-        addKeyword("format", NodeType.STRING);
         SYNTAX_CHECKS.put("format", FormatSyntaxChecker.getInstance());
 
-            addKeyword("id", NodeType.STRING);
+        addKeyword("id", NodeType.STRING);
         SYNTAX_CHECKS.put("id", new URISyntaxChecker("id"));
 
         addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
         SYNTAX_CHECKS.put("items", new ArrayChildrenSyntaxChecker("items")
             .withChildrenTypes(NodeType.OBJECT));
 
-        addKeyword("maximum", NodeType.INTEGER, NodeType.NUMBER);
         SYNTAX_CHECKS.put("maximum", MaximumSyntaxChecker.getInstance());
 
-            addKeyword("maxItems", NodeType.INTEGER);
+        addKeyword("maxItems", NodeType.INTEGER);
         SYNTAX_CHECKS.put("maxItems",
             new PositiveIntegerSyntaxChecker("maxItems"));
 
@@ -133,7 +127,6 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("maxLength",
             new PositiveIntegerSyntaxChecker("maxLength"));
 
-        addKeyword("minimum", NodeType.INTEGER, NodeType.NUMBER);
         SYNTAX_CHECKS.put("minimum", MinimumSyntaxChecker.getInstance());
 
         addKeyword("minItems", NodeType.INTEGER);
@@ -154,16 +147,13 @@ public final class SyntaxValidator
         addKeyword("properties", NodeType.OBJECT);
         SYNTAX_CHECKS.put("properties", PropertiesSyntaxChecker.getInstance());
 
-        addKeyword("required", NodeType.BOOLEAN);
         SYNTAX_CHECKS.put("required", RequiredSyntaxChecker.getInstance());
 
-        addKeyword("title", NodeType.STRING);
         SYNTAX_CHECKS.put("title", TitleSyntaxChecker.getInstance());
 
         addKeyword("type", NodeType.STRING, NodeType.ARRAY);
         SYNTAX_CHECKS.put("type", new TypeKeywordSyntaxChecker("type"));
 
-        addKeyword("uniqueItems", NodeType.BOOLEAN);
         SYNTAX_CHECKS.put("uniqueItems",
             UniqueItemsSyntaxChecker.getInstance());
 
