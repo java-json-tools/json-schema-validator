@@ -37,6 +37,12 @@ public class URIManager
     private final Map<String, URIDownloader> downloaders
         = new HashMap<String, URIDownloader>();
 
+
+    public URIManager()
+    {
+        downloaders.put("http", HTTPURIDownloader.getInstance());
+    }
+
     public void registerDownloader(final String scheme,
         final URIDownloader downloader)
     {
