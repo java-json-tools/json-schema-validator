@@ -15,21 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.uri;
 
-/**
- * Generic exception thrown when the validation cannot proceed
- */
-public final class JsonSchemaException
-    extends Exception
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+
+public interface URIDownloader
 {
-    public JsonSchemaException(final String message)
-    {
-        super(message);
-    }
-
-    public JsonSchemaException(final String message, final Exception e)
-    {
-        super(message, e);
-    }
+    InputStream fetch(final URI source)
+        throws IOException;
 }
