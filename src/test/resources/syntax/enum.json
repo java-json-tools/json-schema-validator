@@ -1,0 +1,20 @@
+[
+    {
+        "schema": {
+            "enum": []
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "enum": 1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "enum": [ 1, 1 ]
+        },
+        "valid": false
+    }
+]

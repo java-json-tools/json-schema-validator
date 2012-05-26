@@ -89,7 +89,6 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("divisibleBy",
             DivisibleBySyntaxChecker.getInstance());
 
-        addKeyword("enum", NodeType.ARRAY);
         SYNTAX_CHECKS.put("enum", EnumSyntaxChecker.getInstance());
 
         addKeyword("exclusiveMinimum", NodeType.BOOLEAN);
