@@ -78,7 +78,6 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("additionalProperties",
             AdditionalPropertiesSyntaxChecker.getInstance());
 
-            addKeyword("dependencies", NodeType.OBJECT);
         SYNTAX_CHECKS.put("dependencies",
             DependenciesSyntaxChecker.getInstance());
 
