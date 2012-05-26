@@ -24,18 +24,18 @@ import org.eel.kitchen.util.NodeType;
 import java.util.HashSet;
 import java.util.Set;
 
-public final class TypeKeywordSyntaxChecker
+public abstract class TypeKeywordSyntaxChecker
     extends SyntaxChecker
 {
     private static final String ANY = "any";
 
-    public TypeKeywordSyntaxChecker(final String keyword)
+    protected TypeKeywordSyntaxChecker(final String keyword)
     {
         super(keyword);
     }
 
     @Override
-    void checkValue(final ValidationReport report,
+    final void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);

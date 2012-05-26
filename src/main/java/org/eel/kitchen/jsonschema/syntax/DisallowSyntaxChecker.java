@@ -17,14 +17,19 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import java.io.IOException;
-
-public final class DisallowSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+public final class DisallowSyntaxChecker
+    extends TypeKeywordSyntaxChecker
 {
-    DisallowSyntaxCheckerTest()
-        throws IOException
+    private static final SyntaxChecker instance
+        = new DisallowSyntaxChecker();
+
+    public static SyntaxChecker getInstance()
     {
-        super("disallow", DisallowSyntaxChecker.getInstance());
+        return instance;
+    }
+
+    private DisallowSyntaxChecker()
+    {
+        super("disallow");
     }
 }

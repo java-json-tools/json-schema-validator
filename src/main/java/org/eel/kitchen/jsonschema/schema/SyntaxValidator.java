@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
@@ -39,7 +40,7 @@ import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TitleSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.TypeKeywordSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.TypeSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.UniqueItemsSyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
@@ -85,7 +86,7 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("description",
             DescriptionSyntaxChecker.getInstance());
 
-        SYNTAX_CHECKS.put("disallow", new TypeKeywordSyntaxChecker("disallow"));
+        SYNTAX_CHECKS.put("disallow", DisallowSyntaxChecker.getInstance());
 
         SYNTAX_CHECKS.put("divisibleBy",
             DivisibleBySyntaxChecker.getInstance());
@@ -143,10 +144,10 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("title", TitleSyntaxChecker.getInstance());
 
         addKeyword("type", NodeType.STRING, NodeType.ARRAY);
-        SYNTAX_CHECKS.put("type", new TypeKeywordSyntaxChecker("type"));
+        SYNTAX_CHECKS.put("type", TypeSyntaxChecker.getInstance());
 
-        SYNTAX_CHECKS.put("uniqueItems",
-            UniqueItemsSyntaxChecker.getInstance());
+        SYNTAX_CHECKS.put("uniqueItems", UniqueItemsSyntaxChecker.getInstance
+            ());
 
         addKeyword("$ref", NodeType.STRING);
         SYNTAX_CHECKS.put("$ref", new URISyntaxChecker("$ref"));
