@@ -23,7 +23,6 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.ref.JsonReference;
 
-import java.io.IOException;
 import java.util.Map;
 
 public abstract class JsonSchema
@@ -41,8 +40,6 @@ public abstract class JsonSchema
 
         try {
             schemaNode = JsonReference.resolveRef(parent, node);
-        } catch (IOException e) {
-            return new InvalidJsonSchema(e.getMessage());
         } catch (JsonSchemaException e) {
             return new InvalidJsonSchema(e.getMessage());
         }
