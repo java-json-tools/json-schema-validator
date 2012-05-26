@@ -124,7 +124,6 @@ public final class SyntaxValidator
 
         SYNTAX_CHECKS.put("minLength", MinLengthSyntaxChecker.getInstance());
 
-        addKeyword("pattern", NodeType.STRING);
         SYNTAX_CHECKS.put("pattern", PatternSyntaxChecker.getInstance());
 
         addKeyword("patternProperties", NodeType.OBJECT);

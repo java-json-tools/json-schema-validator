@@ -17,33 +17,14 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
-import org.eel.kitchen.util.RhinoHelper;
+import java.io.IOException;
 
-@ValidTypes(NodeType.STRING)
-public final class PatternSyntaxChecker
-    extends SyntaxChecker
+public final class PatternSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    private static final PatternSyntaxChecker instance
-        = new PatternSyntaxChecker();
-
-    public static PatternSyntaxChecker getInstance()
+    PatternSyntaxCheckerTest()
+        throws IOException
     {
-        return instance;
-    }
-
-    private PatternSyntaxChecker()
-    {
-        super("pattern");
-    }
-
-    @Override
-    void checkValue(final ValidationReport report,
-        final JsonNode schema)
-    {
-        if (!RhinoHelper.regexIsValid(schema.get(keyword).textValue()))
-            report.addMessage("invalid regex");
+        super("pattern", PatternSyntaxChecker.getInstance());
     }
 }

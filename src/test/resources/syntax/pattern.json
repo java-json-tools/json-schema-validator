@@ -1,0 +1,20 @@
+[
+    {
+        "schema": {
+            "pattern": "a+"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "pattern": "f*+"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "pattern": [ 1, 2, 3 ]
+        },
+        "valid": false
+    }
+]

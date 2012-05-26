@@ -49,24 +49,6 @@
     },
     {
         "schema": {
-            "pattern": "a+"
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "pattern": "f*+"
-        },
-        "valid": false
-    },
-    {
-        "schema": {
-            "pattern": [ 1, 2, 3 ]
-        },
-        "valid": false
-    },
-    {
-        "schema": {
             "properties": {
                 "p1": {},
                 "p2": {
