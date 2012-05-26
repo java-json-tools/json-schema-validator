@@ -135,11 +135,10 @@ public final class SyntaxValidator
 
         SYNTAX_CHECKS.put("title", TitleSyntaxChecker.getInstance());
 
-        addKeyword("type", NodeType.STRING, NodeType.ARRAY);
         SYNTAX_CHECKS.put("type", TypeSyntaxChecker.getInstance());
 
-        SYNTAX_CHECKS.put("uniqueItems", UniqueItemsSyntaxChecker.getInstance
-            ());
+        SYNTAX_CHECKS.put("uniqueItems",
+            UniqueItemsSyntaxChecker.getInstance());
 
         addKeyword("$ref", NodeType.STRING);
         SYNTAX_CHECKS.put("$ref", DollarRefSyntaxChecker.getInstance());

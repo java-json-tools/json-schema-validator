@@ -1,37 +1,43 @@
 [
     {
         "schema": {
-            "$ref": "#"
+            "type": "string"
         },
         "valid": true
     },
     {
         "schema": {
-            "$ref": "http://json-schema.org/schema/v3#/a/b"
+            "type": "any"
         },
         "valid": true
     },
     {
         "schema": {
-            "$ref": false
+            "type": [ "boolean", { "$ref": "#/schema2" } ]
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": false
         },
         "valid": false
     },
     {
         "schema": {
-            "$ref": "+23:"
+            "type": "hammer"
         },
         "valid": false
     },
     {
         "schema": {
-            "uniqueItems": true
+            "type": [ null, "boolean", {}, [] ]
         },
-        "valid": true
+        "valid": false
     },
     {
         "schema": {
-            "uniqueItems": "yes please"
+            "type": [ "string", "string" ]
         },
         "valid": false
     }
