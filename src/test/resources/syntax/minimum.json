@@ -1,0 +1,20 @@
+[
+    {
+        "schema": {
+            "minimum": 30
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": -64.23114
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": "unbounded"
+        },
+        "valid": false
+    }
+]
