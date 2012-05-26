@@ -25,30 +25,6 @@
     },
     {
         "schema": {
-            "items": {}
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": [ {}, {} ]
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": null
-        },
-        "valid": false
-    },
-    {
-        "schema": {
-            "items": [ {}, 5, true ]
-        },
-        "valid": false
-    },
-    {
-        "schema": {
             "maximum": 30
         },
         "valid": true

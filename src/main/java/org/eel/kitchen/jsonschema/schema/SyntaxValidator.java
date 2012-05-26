@@ -107,7 +107,6 @@ public final class SyntaxValidator
 
         SYNTAX_CHECKS.put("id", IdSyntaxChecker.getInstance());
 
-        addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
         SYNTAX_CHECKS.put("items", ItemsSyntaxChecker.getInstance());
 
         SYNTAX_CHECKS.put("maximum", MaximumSyntaxChecker.getInstance());
