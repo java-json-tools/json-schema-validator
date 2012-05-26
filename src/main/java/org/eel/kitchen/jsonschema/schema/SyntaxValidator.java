@@ -49,9 +49,7 @@ import org.eel.kitchen.jsonschema.syntax.TitleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.UniqueItemsSyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
-import org.eel.kitchen.util.NodeType;
 
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -71,9 +69,6 @@ public final class SyntaxValidator
 {
     //FIXME: make this a "LRUSet"
     private static final Set<JsonNode> done = new HashSet<JsonNode>();
-
-    private static final Map<String, EnumSet<NodeType>> TYPE_CHECKS
-        = new HashMap<String, EnumSet<NodeType>>();
 
     private static final Map<String, SyntaxChecker> SYNTAX_CHECKS
         = new HashMap<String, SyntaxChecker>();
@@ -140,17 +135,9 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("uniqueItems",
             UniqueItemsSyntaxChecker.getInstance());
 
-        addKeyword("$ref", NodeType.STRING);
         SYNTAX_CHECKS.put("$ref", DollarRefSyntaxChecker.getInstance());
 
-        addKeyword("$schema", NodeType.STRING);
         SYNTAX_CHECKS.put("$schema", DollarSchemaSyntaxChecker.getInstance());
-    }
-
-    private static void addKeyword(final String keyword, final NodeType type,
-        final NodeType... types)
-    {
-        TYPE_CHECKS.put(keyword, EnumSet.of(type, types));
     }
 
     public void validate(final ValidationReport report,
@@ -160,28 +147,13 @@ public final class SyntaxValidator
             if (done.contains(schema))
                 return;
 
-            final Map<String, JsonNode> fields = CollectionUtils
-                .toMap(schema.fields());
+            final Set<String> keywords
+                = CollectionUtils.toSet(schema.fieldNames());
 
-            String fieldName;
-            JsonNode node;
-            EnumSet<NodeType> types;
-            SyntaxChecker checker;
-            NodeType nodeType;
+            keywords.retainAll(SYNTAX_CHECKS.keySet());
 
-            for (final Map.Entry<String, JsonNode> entry : fields.entrySet()) {
-                fieldName = entry.getKey();
-                node = entry.getValue();
-                types = TYPE_CHECKS.get(fieldName);
-                nodeType = NodeType.getNodeType(node);
-                if (types != null && !types.contains(nodeType)) {
-                    report.addMessage(fieldName + " is of wrong type");
-                    continue;
-                }
-                checker = SYNTAX_CHECKS.get(fieldName);
-                if (checker != null)
-                    checker.checkSyntax(report, schema);
-            }
+            for (final String keyword: keywords)
+                SYNTAX_CHECKS.get(keyword).checkSyntax(report, schema);
 
             if (report.isSuccess())
                 done.add(schema);
