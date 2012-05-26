@@ -21,14 +21,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.ArrayChildrenSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.FormatSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
@@ -98,8 +99,7 @@ public final class SyntaxValidator
             ExclusiveMaximumSyntaxChecker.getInstance());
 
         addKeyword("extends", NodeType.OBJECT, NodeType.ARRAY);
-        SYNTAX_CHECKS.put("extends",
-            new ArrayChildrenSyntaxChecker("extends", NodeType.OBJECT));
+        SYNTAX_CHECKS.put("extends", ExtendsSyntaxChecker.getInstance());
 
         SYNTAX_CHECKS.put("format", FormatSyntaxChecker.getInstance());
 
@@ -107,8 +107,7 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("id", new URISyntaxChecker("id"));
 
         addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
-        SYNTAX_CHECKS.put("items",
-            new ArrayChildrenSyntaxChecker("items", NodeType.OBJECT));
+        SYNTAX_CHECKS.put("items", ItemsSyntaxChecker.getInstance());
 
         SYNTAX_CHECKS.put("maximum", MaximumSyntaxChecker.getInstance());
 

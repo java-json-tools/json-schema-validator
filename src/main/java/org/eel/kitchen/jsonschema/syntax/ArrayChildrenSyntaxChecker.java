@@ -23,20 +23,20 @@ import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
 
-public final class ArrayChildrenSyntaxChecker
+public abstract class ArrayChildrenSyntaxChecker
     extends SyntaxChecker
 {
     private final EnumSet<NodeType> allowedChildrenTypes;
 
-    public ArrayChildrenSyntaxChecker(final String keyword, final NodeType type,
-        final NodeType... types)
+    protected ArrayChildrenSyntaxChecker(final String keyword,
+        final NodeType type, final NodeType... types)
     {
         super(keyword);
         allowedChildrenTypes = EnumSet.of(type, types);
     }
 
     @Override
-    void checkValue(final ValidationReport report,
+    final void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
