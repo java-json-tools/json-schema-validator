@@ -17,31 +17,19 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
-
-@ValidTypes(NodeType.INTEGER)
-public abstract class PositiveIntegerSyntaxChecker
-    extends SyntaxChecker
+public final class MinItemsSyntaxChecker
+    extends PositiveIntegerSyntaxChecker
 {
-    protected PositiveIntegerSyntaxChecker(final String keyword)
+    private static final SyntaxChecker instance
+        = new MinItemsSyntaxChecker();
+
+    public static SyntaxChecker getInstance()
     {
-        super(keyword);
+        return instance;
     }
 
-    @Override
-    final void checkValue(final ValidationReport report,
-        final JsonNode schema)
+    private MinItemsSyntaxChecker()
     {
-        final JsonNode node = schema.get(keyword);
-
-        if (!node.canConvertToInt()) {
-            report.addMessage("value overflow");
-            return;
-        }
-
-        if (node.intValue() < 0)
-            report.addMessage("value is negative");
+        super("minItems");
     }
 }

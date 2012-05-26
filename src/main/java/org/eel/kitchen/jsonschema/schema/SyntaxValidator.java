@@ -34,11 +34,14 @@ import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.FormatSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.IdSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.MaxItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.MaxLengthSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MaximumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.MinItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.MinLengthSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -111,23 +114,15 @@ public final class SyntaxValidator
 
         SYNTAX_CHECKS.put("maximum", MaximumSyntaxChecker.getInstance());
 
-        addKeyword("maxItems", NodeType.INTEGER);
-        SYNTAX_CHECKS.put("maxItems",
-            new PositiveIntegerSyntaxChecker("maxItems"));
+        SYNTAX_CHECKS.put("maxItems", MaxItemsSyntaxChecker.getInstance());
 
-        addKeyword("maxLength", NodeType.INTEGER);
-        SYNTAX_CHECKS.put("maxLength",
-            new PositiveIntegerSyntaxChecker("maxLength"));
+        SYNTAX_CHECKS.put("maxLength", MaxLengthSyntaxChecker.getInstance());
 
         SYNTAX_CHECKS.put("minimum", MinimumSyntaxChecker.getInstance());
 
-        addKeyword("minItems", NodeType.INTEGER);
-        SYNTAX_CHECKS.put("minItems",
-            new PositiveIntegerSyntaxChecker("minItems"));
+        SYNTAX_CHECKS.put("minItems", MinItemsSyntaxChecker.getInstance());
 
-        addKeyword("minLength", NodeType.INTEGER);
-        SYNTAX_CHECKS.put("minLength",
-            new PositiveIntegerSyntaxChecker("minLength"));
+        SYNTAX_CHECKS.put("minLength", MinLengthSyntaxChecker.getInstance());
 
         addKeyword("pattern", NodeType.STRING);
         SYNTAX_CHECKS.put("pattern", PatternSyntaxChecker.getInstance());
