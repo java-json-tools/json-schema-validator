@@ -1,0 +1,14 @@
+[
+    {
+        "schema": {
+            "title": "a day in hell"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "title": 42.3
+        },
+        "valid": false
+    }
+]
