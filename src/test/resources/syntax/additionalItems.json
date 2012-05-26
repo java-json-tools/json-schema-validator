@@ -16,5 +16,29 @@
             "additionalItems": 1
         },
         "valid": false
+    },
+    {
+        "schema": {
+            "additionalItems": 1.1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "additionalItems": []
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "additionalItems": null
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "additionalItems": ""
+        },
+        "valid": false
     }
 ]
