@@ -1,0 +1,26 @@
+[
+    {
+        "schema": {
+            "patternProperties": {
+                "a+": {},
+                "z/": {}
+            }
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "a++": {},
+                "^[a-zA-Z\\d]+$": false
+            }
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "patternProperties": 2
+        },
+        "valid": false
+    }
+]

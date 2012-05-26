@@ -20,10 +20,12 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
+import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
 
 import java.util.Map;
 
+@ValidTypes(NodeType.OBJECT)
 public final class PatternPropertiesSyntaxChecker
     extends SyntaxChecker
 {
