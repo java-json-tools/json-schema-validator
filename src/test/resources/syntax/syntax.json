@@ -25,30 +25,6 @@
     },
     {
         "schema": {
-            "id": "#"
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "id": "http://json-schema.org/schema/v3#/a/b"
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "id": false
-        },
-        "valid": false
-    },
-    {
-        "schema": {
-            "id": "+23:"
-        },
-        "valid": false
-    },
-    {
-        "schema": {
             "items": {}
         },
         "valid": true

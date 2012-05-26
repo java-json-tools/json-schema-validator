@@ -17,30 +17,14 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
+import java.io.IOException;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
-@ValidTypes(NodeType.STRING)
-public abstract class URISyntaxChecker
-    extends SyntaxChecker
+public final class IdSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    protected URISyntaxChecker(final String keyword)
+    IdSyntaxCheckerTest()
+        throws IOException
     {
-        super(keyword);
-    }
-
-    @Override
-    final void checkValue(final ValidationReport report,
-        final JsonNode schema)
-    {
-        try {
-            new URI(schema.get(keyword).textValue());
-        } catch (URISyntaxException ignored) {
-            report.addMessage("not a valid URI");
-        }
+        super("id", IdSyntaxChecker.getInstance());
     }
 }

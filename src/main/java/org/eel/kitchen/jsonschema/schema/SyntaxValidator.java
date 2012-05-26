@@ -105,7 +105,6 @@ public final class SyntaxValidator
 
         SYNTAX_CHECKS.put("format", FormatSyntaxChecker.getInstance());
 
-        addKeyword("id", NodeType.STRING);
         SYNTAX_CHECKS.put("id", IdSyntaxChecker.getInstance());
 
         addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
