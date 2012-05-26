@@ -19,16 +19,32 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * Restrict valid types for a keyword
+ *
+ * <p>You should use it if you intend to create a custom syntax checker in
+ * order to restrict what types the value for this keyword can have. If
+ * unspecified, the instance can be of any type, which may, or may not,
+ * be what you want.</p>
+ */
+
+@Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 public @interface ValidTypes
 {
+    /**
+     * List of valid JSON instance types
+     *
+     * @return the list of types as an array
+     */
     NodeType[] types();
 }
