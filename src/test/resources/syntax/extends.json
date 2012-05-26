@@ -1,0 +1,36 @@
+[
+    {
+        "schema": {
+            "extends": {
+                "type": "string"
+            }
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "extends": [
+                {
+                    "what": "ever"
+                },
+                {
+                    "you": "want"
+                },
+                {}
+            ]
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "extends": 42
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "extends": [ 1, true, {}, "boo" ]
+        },
+        "valid": false
+    }
+]

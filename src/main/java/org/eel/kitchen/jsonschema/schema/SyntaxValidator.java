@@ -98,7 +98,6 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("exclusiveMaximum",
             ExclusiveMaximumSyntaxChecker.getInstance());
 
-        addKeyword("extends", NodeType.OBJECT, NodeType.ARRAY);
         SYNTAX_CHECKS.put("extends", ExtendsSyntaxChecker.getInstance());
 
         SYNTAX_CHECKS.put("format", FormatSyntaxChecker.getInstance());
