@@ -20,16 +20,16 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
-public final class TypeOnlySyntaxChecker
+public abstract class TypeOnlySyntaxChecker
     extends SyntaxChecker
 {
-    public TypeOnlySyntaxChecker(final String keyword)
+    protected TypeOnlySyntaxChecker(final String keyword)
     {
         super(keyword);
     }
 
     @Override
-    void checkValue(final ValidationReport report, final JsonNode schema)
+    final void checkValue(final ValidationReport report, final JsonNode schema)
     {
     }
 }

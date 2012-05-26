@@ -17,14 +17,19 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import java.io.IOException;
-
-public final class AdditionalItemsSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+public final class DescriptionSyntaxChecker
+    extends TypeOnlySyntaxChecker
 {
-    AdditionalItemsSyntaxCheckerTest()
-        throws IOException
+    private static final SyntaxChecker instance
+        = new DescriptionSyntaxChecker();
+
+    public static SyntaxChecker getInstance()
     {
-        super("additionalItems", AdditionalItemsSyntaxChecker.getInstance());
+        return instance;
+    }
+
+    private DescriptionSyntaxChecker()
+    {
+        super("description");
     }
 }

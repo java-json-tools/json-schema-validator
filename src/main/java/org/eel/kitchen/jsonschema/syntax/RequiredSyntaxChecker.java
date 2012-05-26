@@ -17,14 +17,22 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import java.io.IOException;
+import org.eel.kitchen.util.NodeType;
 
-public final class AdditionalItemsSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+@ValidTypes(types = {NodeType.BOOLEAN})
+public final class RequiredSyntaxChecker
+    extends TypeOnlySyntaxChecker
 {
-    AdditionalItemsSyntaxCheckerTest()
-        throws IOException
+    private static final SyntaxChecker instance
+        = new RequiredSyntaxChecker();
+
+    public static SyntaxChecker getInstance()
     {
-        super("additionalItems", AdditionalItemsSyntaxChecker.getInstance());
+        return instance;
+    }
+
+    private RequiredSyntaxChecker()
+    {
+        super("required");
     }
 }

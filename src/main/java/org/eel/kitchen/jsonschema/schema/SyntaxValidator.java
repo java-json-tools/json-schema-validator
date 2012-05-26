@@ -19,20 +19,28 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ArrayChildrenSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.FormatSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.MaximumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.MinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.TitleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeKeywordSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.TypeOnlySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.UniqueItemsSyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -66,25 +74,28 @@ public final class SyntaxValidator
     static {
         addKeyword("additionalItems", NodeType.BOOLEAN, NodeType.OBJECT);
         SYNTAX_CHECKS.put("additionalItems",
-            new TypeOnlySyntaxChecker("additionalItems"));
+            AdditionalItemsSyntaxChecker.getInstance());
 
-        addKeyword("additionalProperties", NodeType.BOOLEAN, NodeType.OBJECT);
+            addKeyword("additionalProperties", NodeType.BOOLEAN,
+                NodeType.OBJECT);
         SYNTAX_CHECKS.put("additionalProperties",
-            new TypeOnlySyntaxChecker("additionalProperties"));
+            AdditionalPropertiesSyntaxChecker.getInstance());
 
-        addKeyword("dependencies", NodeType.OBJECT);
+            addKeyword("dependencies", NodeType.OBJECT);
         SYNTAX_CHECKS.put("dependencies",
             DependenciesSyntaxChecker.getInstance());
 
         addKeyword("description", NodeType.STRING);
         SYNTAX_CHECKS.put("description",
-            new TypeOnlySyntaxChecker("description"));
+            DescriptionSyntaxChecker.getInstance());
 
         addKeyword("disallow", NodeType.STRING, NodeType.ARRAY);
-        SYNTAX_CHECKS.put("disallow", new TypeKeywordSyntaxChecker("disallow"));
+        SYNTAX_CHECKS.put("disallow", new TypeKeywordSyntaxChecker("disallow"
+        ));
 
         addKeyword("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
-        SYNTAX_CHECKS.put("divisibleBy", DivisibleBySyntaxChecker.getInstance());
+        SYNTAX_CHECKS.put("divisibleBy", DivisibleBySyntaxChecker.getInstance
+            ());
 
         addKeyword("enum", NodeType.ARRAY);
         SYNTAX_CHECKS.put("enum", EnumSyntaxChecker.getInstance());
@@ -102,9 +113,9 @@ public final class SyntaxValidator
             .withChildrenTypes(NodeType.OBJECT));
 
         addKeyword("format", NodeType.STRING);
-        SYNTAX_CHECKS.put("format", new TypeOnlySyntaxChecker("format"));
+        SYNTAX_CHECKS.put("format", FormatSyntaxChecker.getInstance());
 
-        addKeyword("id", NodeType.STRING);
+            addKeyword("id", NodeType.STRING);
         SYNTAX_CHECKS.put("id", new URISyntaxChecker("id"));
 
         addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
@@ -112,9 +123,9 @@ public final class SyntaxValidator
             .withChildrenTypes(NodeType.OBJECT));
 
         addKeyword("maximum", NodeType.INTEGER, NodeType.NUMBER);
-        SYNTAX_CHECKS.put("maximum", new TypeOnlySyntaxChecker("maximum"));
+        SYNTAX_CHECKS.put("maximum", MaximumSyntaxChecker.getInstance());
 
-        addKeyword("maxItems", NodeType.INTEGER);
+            addKeyword("maxItems", NodeType.INTEGER);
         SYNTAX_CHECKS.put("maxItems",
             new PositiveIntegerSyntaxChecker("maxItems"));
 
@@ -123,7 +134,7 @@ public final class SyntaxValidator
             new PositiveIntegerSyntaxChecker("maxLength"));
 
         addKeyword("minimum", NodeType.INTEGER, NodeType.NUMBER);
-        SYNTAX_CHECKS.put("minimum", new TypeOnlySyntaxChecker("minimum"));
+        SYNTAX_CHECKS.put("minimum", MinimumSyntaxChecker.getInstance());
 
         addKeyword("minItems", NodeType.INTEGER);
         SYNTAX_CHECKS.put("minItems",
@@ -144,17 +155,17 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("properties", PropertiesSyntaxChecker.getInstance());
 
         addKeyword("required", NodeType.BOOLEAN);
-        SYNTAX_CHECKS.put("required", new TypeOnlySyntaxChecker("required"));
+        SYNTAX_CHECKS.put("required", RequiredSyntaxChecker.getInstance());
 
         addKeyword("title", NodeType.STRING);
-        SYNTAX_CHECKS.put("title", new TypeOnlySyntaxChecker("title"));
+        SYNTAX_CHECKS.put("title", TitleSyntaxChecker.getInstance());
 
         addKeyword("type", NodeType.STRING, NodeType.ARRAY);
         SYNTAX_CHECKS.put("type", new TypeKeywordSyntaxChecker("type"));
 
         addKeyword("uniqueItems", NodeType.BOOLEAN);
         SYNTAX_CHECKS.put("uniqueItems",
-            new TypeOnlySyntaxChecker("uniqueItems"));
+            UniqueItemsSyntaxChecker.getInstance());
 
         addKeyword("$ref", NodeType.STRING);
         SYNTAX_CHECKS.put("$ref", new URISyntaxChecker("$ref"));

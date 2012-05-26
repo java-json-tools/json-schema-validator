@@ -4,5 +4,17 @@
             "additionalItems": true
         },
         "valid": true
+    },
+    {
+        "schema": {
+            "additionalItems": {}
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalItems": 1
+        },
+        "valid": false
     }
 ]
