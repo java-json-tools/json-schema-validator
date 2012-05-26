@@ -1,0 +1,20 @@
+[
+    {
+        "schema": {
+            "maximum": 30
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": -64.23114
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": "unbounded"
+        },
+        "valid": false
+    }
+]
