@@ -25,11 +25,14 @@ import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.DollarRefSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.DollarSchemaSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.FormatSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.IdSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MinimumSyntaxChecker;
@@ -41,7 +44,6 @@ import org.eel.kitchen.jsonschema.syntax.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TitleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.UniqueItemsSyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
@@ -104,7 +106,7 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("format", FormatSyntaxChecker.getInstance());
 
         addKeyword("id", NodeType.STRING);
-        SYNTAX_CHECKS.put("id", new URISyntaxChecker("id"));
+        SYNTAX_CHECKS.put("id", IdSyntaxChecker.getInstance());
 
         addKeyword("items", NodeType.OBJECT, NodeType.ARRAY);
         SYNTAX_CHECKS.put("items", ItemsSyntaxChecker.getInstance());
@@ -150,10 +152,10 @@ public final class SyntaxValidator
             ());
 
         addKeyword("$ref", NodeType.STRING);
-        SYNTAX_CHECKS.put("$ref", new URISyntaxChecker("$ref"));
+        SYNTAX_CHECKS.put("$ref", DollarRefSyntaxChecker.getInstance());
 
         addKeyword("$schema", NodeType.STRING);
-        SYNTAX_CHECKS.put("$schema", new URISyntaxChecker("$schema"));
+        SYNTAX_CHECKS.put("$schema", DollarSchemaSyntaxChecker.getInstance());
     }
 
     private static void addKeyword(final String keyword, final NodeType type,
