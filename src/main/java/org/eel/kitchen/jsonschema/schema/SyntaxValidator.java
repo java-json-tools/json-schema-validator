@@ -18,36 +18,11 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.bundle.Keyword;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DollarRefSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DollarSchemaSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.FormatSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.IdSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MaxItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MaxLengthSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MaximumSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MinItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MinLengthSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MinimumSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.PatternSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.TitleSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.TypeSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.UniqueItemsSyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.HashMap;
@@ -68,95 +43,43 @@ import java.util.Set;
 public final class SyntaxValidator
 {
     //FIXME: make this a "LRUSet"
-    private static final Set<JsonNode> done = new HashSet<JsonNode>();
+    private final Set<JsonNode> done = new HashSet<JsonNode>();
 
-    private static final Map<String, SyntaxChecker> SYNTAX_CHECKS
+    private final Map<String, SyntaxChecker> checkers
         = new HashMap<String, SyntaxChecker>();
 
-    static {
-        SYNTAX_CHECKS.put("additionalItems",
-            AdditionalItemsSyntaxChecker.getInstance());
+    public SyntaxValidator(final KeywordBundle bundle)
+    {
+        String name;
+        SyntaxChecker checker;
 
-        SYNTAX_CHECKS.put("additionalProperties",
-            AdditionalPropertiesSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("dependencies",
-            DependenciesSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("description",
-            DescriptionSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("disallow", DisallowSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("divisibleBy",
-            DivisibleBySyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("enum", EnumSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("exclusiveMinimum",
-            ExclusiveMinimumSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("exclusiveMaximum",
-            ExclusiveMaximumSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("extends", ExtendsSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("format", FormatSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("id", IdSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("items", ItemsSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("maximum", MaximumSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("maxItems", MaxItemsSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("maxLength", MaxLengthSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("minimum", MinimumSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("minItems", MinItemsSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("minLength", MinLengthSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("pattern", PatternSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("patternProperties",
-            PatternPropertiesSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("properties", PropertiesSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("required", RequiredSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("title", TitleSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("type", TypeSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("uniqueItems",
-            UniqueItemsSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("$ref", DollarRefSyntaxChecker.getInstance());
-
-        SYNTAX_CHECKS.put("$schema", DollarSchemaSyntaxChecker.getInstance());
+        for (final Map.Entry<String, Keyword> entry: bundle) {
+            name = entry.getKey();
+            checker = entry.getValue().getSyntaxChecker();
+            if (checker != null)
+                checkers.put(name, checker);
+        }
     }
 
-    public void validate(final ValidationReport report,
+    public SyntaxValidator()
+    {
+        this(KeywordBundles.defaultBundle());
+    }
+
+    public synchronized void validate(final ValidationReport report,
         final JsonNode schema)
     {
-        synchronized (done) {
-            if (done.contains(schema))
-                return;
+        if (done.contains(schema))
+            return;
 
-            final Set<String> keywords
-                = CollectionUtils.toSet(schema.fieldNames());
+        final Set<String> keywords = CollectionUtils.toSet(schema.fieldNames());
 
-            keywords.retainAll(SYNTAX_CHECKS.keySet());
+        keywords.retainAll(checkers.keySet());
 
-            for (final String keyword: keywords)
-                SYNTAX_CHECKS.get(keyword).checkSyntax(report, schema);
+        for (final String keyword : keywords)
+            checkers.get(keyword).checkSyntax(report, schema);
 
-            if (report.isSuccess())
-                done.add(schema);
-        }
+        if (report.isSuccess())
+            done.add(schema);
     }
 }

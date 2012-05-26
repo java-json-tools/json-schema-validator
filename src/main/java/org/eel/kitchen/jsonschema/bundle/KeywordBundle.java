@@ -19,9 +19,11 @@ package org.eel.kitchen.jsonschema.bundle;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public final class KeywordBundle
+    implements Iterable<Map.Entry<String, Keyword>>
 {
     private final Map<String, Keyword> keywords
         = new HashMap<String, Keyword>();
@@ -50,5 +52,11 @@ public final class KeywordBundle
     public Map<String, Keyword> getKeywords()
     {
         return Collections.unmodifiableMap(keywords);
+    }
+
+    @Override
+    public Iterator<Map.Entry<String, Keyword>> iterator()
+    {
+        return keywords.entrySet().iterator();
     }
 }
