@@ -91,7 +91,6 @@ public final class SyntaxValidator
 
         SYNTAX_CHECKS.put("enum", EnumSyntaxChecker.getInstance());
 
-        addKeyword("exclusiveMinimum", NodeType.BOOLEAN);
         SYNTAX_CHECKS.put("exclusiveMinimum",
             ExclusiveMinimumSyntaxChecker.getInstance());
 

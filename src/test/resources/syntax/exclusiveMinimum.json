@@ -1,0 +1,22 @@
+[
+    {
+        "schema": {
+            "minimum": 3,
+            "exclusiveMinimum": false
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": 3,
+            "exclusiveMinimum": "no"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "exclusiveMinimum": true
+        },
+        "valid": false
+    }
+]

@@ -17,32 +17,14 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
+import java.io.IOException;
 
-@ValidTypes(NodeType.BOOLEAN)
-public final class ExclusiveMinimumSyntaxChecker
-    extends SyntaxChecker
+public final class ExclusiveMinimumSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    private static final SyntaxChecker instance
-        = new ExclusiveMinimumSyntaxChecker();
-
-    public static SyntaxChecker getInstance()
+    ExclusiveMinimumSyntaxCheckerTest()
+        throws IOException
     {
-        return instance;
-    }
-
-    private ExclusiveMinimumSyntaxChecker()
-    {
-        super("exclusiveMinimum");
-    }
-
-    @Override
-    void checkValue(final ValidationReport report,
-        final JsonNode schema)
-    {
-        if (!schema.has("minimum"))
-            report.addMessage("exclusiveMinimum without minimum");
+        super("exclusiveMinimum", ExclusiveMinimumSyntaxChecker.getInstance());
     }
 }
