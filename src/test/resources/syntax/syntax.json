@@ -22,17 +22,5 @@
             "$ref": "+23:"
         },
         "valid": false
-    },
-    {
-        "schema": {
-            "uniqueItems": true
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "uniqueItems": "yes please"
-        },
-        "valid": false
     }
 ]
