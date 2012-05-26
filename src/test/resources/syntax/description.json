@@ -1,0 +1,14 @@
+[
+    {
+        "schema": {
+            "description": "hello"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "description": 3.24
+        },
+        "valid": false
+    }
+]
