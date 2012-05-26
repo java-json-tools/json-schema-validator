@@ -40,11 +40,7 @@ public final class ValidationReport
     }
     public ValidationReport()
     {
-        try {
-            path = new JsonPointer("#");
-        } catch (JsonSchemaException e) {
-            throw new RuntimeException("WTF??", e);
-        }
+        path = JsonPointer.ROOT;
     }
 
     public void addMessage(final String message)
