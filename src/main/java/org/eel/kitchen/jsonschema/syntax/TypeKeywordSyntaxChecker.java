@@ -21,6 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public final class TypeKeywordSyntaxChecker
     extends SyntaxChecker
 {
@@ -42,8 +45,15 @@ public final class TypeKeywordSyntaxChecker
             return;
         }
 
-        for (final JsonNode value: node)
+        final Set<JsonNode> set = new HashSet<JsonNode>();
+
+        for (final JsonNode value: node) {
+            if (!set.add(value)) {
+                report.addMessage("items in the array must be unique");
+                return;
+            }
             validateOne(report, value);
+        }
     }
 
     private void validateOne(final ValidationReport report,
