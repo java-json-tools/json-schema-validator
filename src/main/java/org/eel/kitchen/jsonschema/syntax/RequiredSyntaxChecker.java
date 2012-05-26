@@ -21,7 +21,7 @@ import org.eel.kitchen.util.NodeType;
 
 @ValidTypes(NodeType.BOOLEAN)
 public final class RequiredSyntaxChecker
-    extends TypeOnlySyntaxChecker
+    extends SimpleSyntaxChecker
 {
     private static final SyntaxChecker instance
         = new RequiredSyntaxChecker();

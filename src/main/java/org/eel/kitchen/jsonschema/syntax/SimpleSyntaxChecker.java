@@ -20,10 +20,10 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
-public abstract class TypeOnlySyntaxChecker
+public abstract class SimpleSyntaxChecker
     extends SyntaxChecker
 {
-    protected TypeOnlySyntaxChecker(final String keyword)
+    protected SimpleSyntaxChecker(final String keyword)
     {
         super(keyword);
     }

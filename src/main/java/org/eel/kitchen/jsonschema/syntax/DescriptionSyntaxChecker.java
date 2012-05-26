@@ -21,7 +21,7 @@ import org.eel.kitchen.util.NodeType;
 
 @ValidTypes(NodeType.STRING)
 public final class DescriptionSyntaxChecker
-    extends TypeOnlySyntaxChecker
+    extends SimpleSyntaxChecker
 {
     private static final SyntaxChecker instance
         = new DescriptionSyntaxChecker();
