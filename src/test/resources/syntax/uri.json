@@ -1,0 +1,26 @@
+[
+    {
+        "schema": {
+            "uri": "#"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "uri": "http://json-schema.org/schema/v3#/a/b"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "uri": false
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "uri": "+23:"
+        },
+        "valid": false
+    }
+]
