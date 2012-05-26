@@ -1,7 +1,28 @@
 [
     {
         "schema": {
-            "dependencies": true
+            "dependencies": {
+                "a": "b",
+                "c": {
+                    "type": [ "string", "boolean" ]
+                },
+                "xx": [ "a", "b", "c" ]
+            }
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": false
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "a": 3,
+                "b": [ {} ]
+            }
         },
         "valid": false
     }

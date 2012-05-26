@@ -1,69 +1,6 @@
 [
     {
         "schema": {
-            "additionalItems": true
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "additionalItems": {}
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "additionalItems": "no"
-        },
-        "valid": false
-    },
-    {
-        "schema": {
-            "additionalProperties": true
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "additionalProperties": {}
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "additionalProperties": [ 1, 2, 3 ]
-        },
-        "valid": false
-    },
-    {
-        "schema": {
-            "dependencies": {
-                "a": "b",
-                "c": {
-                    "type": [ "string", "boolean" ]
-                },
-                "xx": [ "a", "b", "c" ]
-            }
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "dependencies": false
-        },
-        "valid": false
-    },
-    {
-        "schema": {
-            "dependencies": {
-                "a": 3,
-                "b": [ {} ]
-            }
-        },
-        "valid": false
-    },
-    {
-        "schema": {
             "description": "hello"
         },
         "valid": true
