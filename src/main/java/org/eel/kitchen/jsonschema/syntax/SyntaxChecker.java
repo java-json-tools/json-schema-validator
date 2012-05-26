@@ -44,7 +44,7 @@ public abstract class SyntaxChecker
 
         final EnumSet<NodeType> ret = EnumSet.noneOf(NodeType.class);
 
-        Collections.addAll(ret, ann.types());
+        Collections.addAll(ret, ann.value());
         return ret;
     }
 

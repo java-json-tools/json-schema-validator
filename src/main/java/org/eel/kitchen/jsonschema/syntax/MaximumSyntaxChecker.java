@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(types = {NodeType.INTEGER, NodeType.NUMBER})
+@ValidTypes({NodeType.INTEGER, NodeType.NUMBER})
 public final class MaximumSyntaxChecker
     extends TypeOnlySyntaxChecker
 {

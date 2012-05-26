@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(types = {NodeType.STRING})
+@ValidTypes(NodeType.STRING)
 public final class DescriptionSyntaxChecker
     extends TypeOnlySyntaxChecker
 {

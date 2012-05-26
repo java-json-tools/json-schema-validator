@@ -46,5 +46,5 @@ public @interface ValidTypes
      *
      * @return the list of types as an array
      */
-    NodeType[] types();
+    NodeType[] value();
 }

@@ -24,7 +24,7 @@ import org.eel.kitchen.util.NodeType;
 import java.util.HashSet;
 import java.util.Set;
 
-@ValidTypes(types = NodeType.ARRAY)
+@ValidTypes(NodeType.ARRAY)
 public final class EnumSyntaxChecker
     extends SyntaxChecker
 {
