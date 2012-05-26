@@ -95,7 +95,6 @@ public final class SyntaxValidator
         SYNTAX_CHECKS.put("exclusiveMinimum",
             ExclusiveMinimumSyntaxChecker.getInstance());
 
-        addKeyword("exclusiveMaximum", NodeType.BOOLEAN);
         SYNTAX_CHECKS.put("exclusiveMaximum",
             ExclusiveMaximumSyntaxChecker.getInstance());
 

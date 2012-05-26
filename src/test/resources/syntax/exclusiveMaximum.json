@@ -1,0 +1,22 @@
+[
+    {
+        "schema": {
+            "maximum": 3,
+            "exclusiveMaximum": false
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maximum": 3,
+            "exclusiveMaximum": "no"
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "exclusiveMaximum": true
+        },
+        "valid": false
+    }
+]

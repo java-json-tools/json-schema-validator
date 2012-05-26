@@ -17,32 +17,14 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
+import java.io.IOException;
 
-@ValidTypes(NodeType.BOOLEAN)
-public final class ExclusiveMaximumSyntaxChecker
-    extends SyntaxChecker
+public final class ExclusiveMaximumSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    private static final SyntaxChecker instance
-        = new ExclusiveMaximumSyntaxChecker();
-
-    public static SyntaxChecker getInstance()
+    ExclusiveMaximumSyntaxCheckerTest()
+        throws IOException
     {
-        return instance;
-    }
-
-    private ExclusiveMaximumSyntaxChecker()
-    {
-        super("exclusiveMaximum");
-    }
-
-    @Override
-    void checkValue(final ValidationReport report,
-        final JsonNode schema)
-    {
-        if (!schema.has("maximum"))
-            report.addMessage("exclusiveMaximum without maximum");
+        super("exclusiveMaximum", ExclusiveMaximumSyntaxChecker.getInstance());
     }
 }
