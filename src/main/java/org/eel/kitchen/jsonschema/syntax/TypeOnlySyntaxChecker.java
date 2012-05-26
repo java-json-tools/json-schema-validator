@@ -23,11 +23,9 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class TypeOnlySyntaxChecker
     extends SyntaxChecker
 {
-    private final String keyword;
-
     public TypeOnlySyntaxChecker(final String keyword)
     {
-        this.keyword = keyword;
+        super(keyword);
     }
 
     @Override

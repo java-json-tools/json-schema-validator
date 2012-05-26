@@ -32,6 +32,7 @@ public final class PatternPropertiesSyntaxChecker
 
     private PatternPropertiesSyntaxChecker()
     {
+        super("patternProperties");
     }
 
     public static SyntaxChecker getInstance()
@@ -43,10 +44,8 @@ public final class PatternPropertiesSyntaxChecker
     void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
-        final JsonNode node = schema.get("patternProperties");
-
         final Map<String, JsonNode> properties
-            = CollectionUtils.toMap(node.fields());
+            = CollectionUtils.toMap(schema.get(keyword).fields());
 
 
         for (final Map.Entry<String, JsonNode> entry: properties.entrySet()) {

@@ -26,21 +26,17 @@ import java.net.URISyntaxException;
 public final class URISyntaxChecker
     extends SyntaxChecker
 {
-    private final String keyword;
-
     public URISyntaxChecker(final String keyword)
     {
-        this.keyword = keyword;
+        super(keyword);
     }
 
     @Override
     void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
-        final JsonNode node = schema.get(keyword);
-
         try {
-            new URI(node.textValue());
+            new URI(schema.get(keyword).textValue());
         } catch (URISyntaxException ignored) {
             report.addMessage("not a valid URI");
         }

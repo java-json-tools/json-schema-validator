@@ -29,6 +29,7 @@ public final class DependenciesSyntaxChecker
 
     private DependenciesSyntaxChecker()
     {
+        super("dependencies");
     }
 
     public static SyntaxChecker getInstance()
@@ -40,7 +41,7 @@ public final class DependenciesSyntaxChecker
     void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
-        for (final JsonNode value: schema.get("dependencies")) {
+        for (final JsonNode value: schema.get(keyword)) {
             switch (NodeType.getNodeType(value)) {
                 case ARRAY:
                     for (final JsonNode element : value)

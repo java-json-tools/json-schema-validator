@@ -28,11 +28,9 @@ public final class ArrayChildrenSyntaxChecker
 {
     private EnumSet<NodeType> allowedChildrenTypes;
 
-    private final String keyword;
-
     public ArrayChildrenSyntaxChecker(final String keyword)
     {
-        this.keyword = keyword;
+        super(keyword);
     }
 
     public SyntaxChecker withChildrenTypes(final NodeType type,

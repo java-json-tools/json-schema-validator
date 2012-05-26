@@ -23,11 +23,9 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 public final class PositiveIntegerSyntaxChecker
     extends SyntaxChecker
 {
-    private final String keyword;
-
     public PositiveIntegerSyntaxChecker(final String keyword)
     {
-        this.keyword = keyword;
+        super(keyword);
     }
 
     @Override

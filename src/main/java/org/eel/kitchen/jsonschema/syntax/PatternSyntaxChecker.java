@@ -34,13 +34,14 @@ public final class PatternSyntaxChecker
 
     private PatternSyntaxChecker()
     {
+        super("pattern");
     }
 
     @Override
     void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
-        if (!RhinoHelper.regexIsValid(schema.get("pattern").textValue()))
+        if (!RhinoHelper.regexIsValid(schema.get(keyword).textValue()))
             report.addMessage("invalid regex");
     }
 }

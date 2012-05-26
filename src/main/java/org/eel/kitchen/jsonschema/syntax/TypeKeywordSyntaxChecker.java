@@ -25,11 +25,10 @@ public final class TypeKeywordSyntaxChecker
     extends SyntaxChecker
 {
     private static final String ANY = "any";
-    private final String keyword;
 
     public TypeKeywordSyntaxChecker(final String keyword)
     {
-        this.keyword = keyword;
+        super(keyword);
     }
 
     @Override

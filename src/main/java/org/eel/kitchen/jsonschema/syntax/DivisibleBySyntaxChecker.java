@@ -30,6 +30,7 @@ public final class DivisibleBySyntaxChecker
 
     private DivisibleBySyntaxChecker()
     {
+        super("divisibleBy");
     }
 
     public static SyntaxChecker getInstance()
@@ -41,7 +42,7 @@ public final class DivisibleBySyntaxChecker
     void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
-        final BigDecimal decimal = schema.get("divisibleBy").decimalValue();
+        final BigDecimal decimal = schema.get(keyword).decimalValue();
         if (BigDecimal.ZERO.compareTo(decimal) == 0)
             report.addMessage("divisibleBy is 0");
     }

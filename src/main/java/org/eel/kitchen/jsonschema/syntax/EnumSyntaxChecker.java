@@ -30,6 +30,7 @@ public final class EnumSyntaxChecker
 
     private EnumSyntaxChecker()
     {
+        super("enum");
     }
 
     public static SyntaxChecker getInstance()
@@ -43,7 +44,7 @@ public final class EnumSyntaxChecker
     {
         final Set<JsonNode> values = new HashSet<JsonNode>();
 
-        for (final JsonNode value: schema.get("enum"))
+        for (final JsonNode value: schema.get(keyword))
             if (!values.add(value)) {
                 report.addMessage("values in an enum must be unique");
                 return;

@@ -22,6 +22,13 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 public abstract class SyntaxChecker
 {
+    protected final String keyword;
+
+    protected SyntaxChecker(final String keyword)
+    {
+        this.keyword = keyword;
+    }
+
     public final void checkSyntax(final ValidationReport report,
         final JsonNode schema)
     {

@@ -33,6 +33,7 @@ public final class ExclusiveMinimumSyntaxChecker
 
     private ExclusiveMinimumSyntaxChecker()
     {
+        super("exclusiveMinimum");
     }
 
     @Override

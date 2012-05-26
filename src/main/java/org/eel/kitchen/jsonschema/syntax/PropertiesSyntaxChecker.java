@@ -28,6 +28,7 @@ public final class PropertiesSyntaxChecker
 
     private PropertiesSyntaxChecker()
     {
+        super("properties");
     }
 
     public static SyntaxChecker getInstance()
@@ -39,12 +40,8 @@ public final class PropertiesSyntaxChecker
     void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
-        final JsonNode node = schema.get("properties");
-
-        for (final JsonNode child: node) {
+        for (final JsonNode child: schema.get(keyword))
             if (!child.isObject())
                 report.addMessage("non schema value in properties");
-        }
-
     }
 }

@@ -33,6 +33,7 @@ public final class ExclusiveMaximumSyntaxChecker
 
     private ExclusiveMaximumSyntaxChecker()
     {
+        super("exclusiveMaximum");
     }
 
     @Override
