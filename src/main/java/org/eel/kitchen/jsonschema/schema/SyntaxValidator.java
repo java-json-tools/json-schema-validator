@@ -86,9 +86,8 @@ public final class SyntaxValidator
 
         SYNTAX_CHECKS.put("disallow", new TypeKeywordSyntaxChecker("disallow"));
 
-        addKeyword("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
-        SYNTAX_CHECKS.put("divisibleBy", DivisibleBySyntaxChecker.getInstance
-            ());
+        SYNTAX_CHECKS.put("divisibleBy",
+            DivisibleBySyntaxChecker.getInstance());
 
         addKeyword("enum", NodeType.ARRAY);
         SYNTAX_CHECKS.put("enum", EnumSyntaxChecker.getInstance());

@@ -1,0 +1,20 @@
+[
+    {
+        "schema": {
+            "divisibleBy": 3
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "divisibleBy": 0.0
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "divisibleBy": "anything"
+        },
+        "valid": false
+    }
+]
