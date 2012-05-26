@@ -1,0 +1,26 @@
+[
+    {
+        "schema": {
+            "minItems": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minItems": 12339809814981293098102938
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minItems": -33
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "minItems": 3.1
+        },
+        "valid": false
+    }
+]
