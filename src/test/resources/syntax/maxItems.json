@@ -1,0 +1,26 @@
+[
+    {
+        "schema": {
+            "maxItems": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "maxItems": 12339809814981293098102938
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxItems": -33
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "maxItems": 3.1
+        },
+        "valid": false
+    }
+]
