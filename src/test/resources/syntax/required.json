@@ -1,0 +1,14 @@
+[
+    {
+        "schema": {
+            "required": false
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "required": "false"
+        },
+        "valid": false
+    }
+]
