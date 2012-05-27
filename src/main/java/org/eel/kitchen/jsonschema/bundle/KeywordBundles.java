@@ -28,12 +28,9 @@ import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.IdSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MaxItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MaxLengthSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MinItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MinLengthSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -127,13 +124,15 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new PositiveIntegerSyntaxChecker("maxItems");
         keyword = KeywordBuilder.forKeyword("maxItems")
-            .withSyntaxChecker(MaxItemsSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new PositiveIntegerSyntaxChecker("maxLength");
         keyword = KeywordBuilder.forKeyword("maxLength")
-            .withSyntaxChecker(MaxLengthSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -144,13 +143,15 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new PositiveIntegerSyntaxChecker("minItems");
         keyword = KeywordBuilder.forKeyword("minItems")
-            .withSyntaxChecker(MinItemsSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new PositiveIntegerSyntaxChecker("minLength");
         keyword = KeywordBuilder.forKeyword("minLength")
-            .withSyntaxChecker(MinLengthSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
