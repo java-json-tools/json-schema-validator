@@ -24,10 +24,10 @@ import org.eel.kitchen.util.NodeType;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public abstract class URISyntaxChecker
+public class URISyntaxChecker
     extends SimpleSyntaxChecker
 {
-    protected URISyntaxChecker(final String keyword)
+    URISyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.STRING);
     }

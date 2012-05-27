@@ -22,18 +22,9 @@ import java.io.IOException;
 public final class URISyntaxCheckerTest
     extends AbstractSyntaxCheckerTest
 {
-    private static final class URITestClass
-        extends URISyntaxChecker
-    {
-        URITestClass()
-        {
-            super("uri");
-        }
-    }
-
     URISyntaxCheckerTest()
         throws IOException
     {
-        super("uri", new URITestClass());
+        super("uri", new URISyntaxChecker("uri"));
     }
 }
