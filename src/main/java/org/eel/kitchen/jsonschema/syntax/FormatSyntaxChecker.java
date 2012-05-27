@@ -21,7 +21,7 @@ import org.eel.kitchen.util.NodeType;
 
 @ValidTypes(NodeType.STRING)
 public final class FormatSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends SyntaxChecker
 {
     private static final SyntaxChecker instance = new FormatSyntaxChecker();
 

@@ -21,7 +21,7 @@ import org.eel.kitchen.util.NodeType;
 
 @ValidTypes({NodeType.INTEGER, NodeType.NUMBER})
 public final class MinimumSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends SyntaxChecker
 {
     private static final SyntaxChecker instance
         = new MinimumSyntaxChecker();

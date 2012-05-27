@@ -62,6 +62,8 @@ public abstract class SyntaxChecker
         checkValue(report, schema);
     }
 
-    abstract void checkValue(final ValidationReport report,
-        final JsonNode schema);
+    void checkValue(final ValidationReport report,
+        final JsonNode schema)
+    {
+    }
 }
