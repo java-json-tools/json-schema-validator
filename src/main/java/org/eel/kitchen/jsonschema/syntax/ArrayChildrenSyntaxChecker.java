@@ -26,13 +26,13 @@ import java.util.EnumSet;
 public abstract class ArrayChildrenSyntaxChecker
     extends SyntaxChecker
 {
-    private final EnumSet<NodeType> allowedChildrenTypes;
+    private final EnumSet<NodeType> childrenTypes;
 
     protected ArrayChildrenSyntaxChecker(final String keyword,
-        final NodeType type, final NodeType... types)
+        final EnumSet<NodeType> childrenTypes)
     {
         super(keyword);
-        allowedChildrenTypes = EnumSet.of(type, types);
+        this.childrenTypes = EnumSet.copyOf(childrenTypes);
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class ArrayChildrenSyntaxChecker
             return;
 
         for (final JsonNode value: node)
-            if (!allowedChildrenTypes.contains(NodeType.getNodeType(value)))
+            if (!childrenTypes.contains(NodeType.getNodeType(value)))
                 report.addMessage("wrong element type in array");
     }
 }

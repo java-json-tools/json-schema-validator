@@ -19,6 +19,8 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
+import java.util.EnumSet;
+
 @ValidTypes({NodeType.OBJECT, NodeType.ARRAY})
 public final class ExtendsSyntaxChecker
     extends ArrayChildrenSyntaxChecker
@@ -33,6 +35,6 @@ public final class ExtendsSyntaxChecker
 
     private ExtendsSyntaxChecker()
     {
-        super("extends", NodeType.OBJECT);
+        super("extends", EnumSet.of(NodeType.OBJECT));
     }
 }
