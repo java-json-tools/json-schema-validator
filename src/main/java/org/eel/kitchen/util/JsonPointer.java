@@ -76,16 +76,6 @@ import java.util.List;
 
 public final class JsonPointer
 {
-    public static final JsonPointer ROOT;
-
-    static {
-        try {
-            ROOT = new JsonPointer("");
-        } catch (JsonSchemaException e) {
-            throw new ExceptionInInitializerError(e);
-        }
-    }
-
     /**
      * The pointer in a raw, but JSON Pointer-escaped, string.
      */
