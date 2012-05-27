@@ -27,7 +27,7 @@ import java.net.URISyntaxException;
 public class URISyntaxChecker
     extends SimpleSyntaxChecker
 {
-    URISyntaxChecker(final String keyword)
+    public URISyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.STRING);
     }

@@ -20,13 +20,10 @@ package org.eel.kitchen.jsonschema.bundle;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DollarRefSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DollarSchemaSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.IdSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternSyntaxChecker;
@@ -35,6 +32,7 @@ import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.util.NodeType;
 
 public final class KeywordBundles
@@ -44,6 +42,7 @@ public final class KeywordBundles
     static {
         Keyword keyword;
         SyntaxChecker checker;
+
         DEFAULT_BUNDLE = new KeywordBundle();
 
         checker = new SimpleSyntaxChecker("additionalItems", NodeType.BOOLEAN,
@@ -107,8 +106,9 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new URISyntaxChecker("id");
         keyword = KeywordBuilder.forKeyword("id")
-            .withSyntaxChecker(IdSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -193,13 +193,15 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new URISyntaxChecker("$ref");
         keyword = KeywordBuilder.forKeyword("$ref")
-            .withSyntaxChecker(DollarRefSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new URISyntaxChecker("$schema");
         keyword = KeywordBuilder.forKeyword("$schema")
-            .withSyntaxChecker(DollarSchemaSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
     }
