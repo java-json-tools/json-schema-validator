@@ -32,7 +32,7 @@ public class SimpleSyntaxChecker
     protected final String keyword;
     private final EnumSet<NodeType> validTypes;
 
-    protected SimpleSyntaxChecker(final String keyword, final NodeType type,
+    public SimpleSyntaxChecker(final String keyword, final NodeType type,
         final NodeType... types)
     {
         this.keyword = keyword;

@@ -17,10 +17,7 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
-import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.AdditionalPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DescriptionSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DollarRefSyntaxChecker;
@@ -29,22 +26,19 @@ import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExtendsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.FormatSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.IdSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MaxItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MaxLengthSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MinItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.MinLengthSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.MinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PatternSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.RequiredSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.TitleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.UniqueItemsSyntaxChecker;
+import org.eel.kitchen.util.NodeType;
 
 public final class KeywordBundles
 {
@@ -52,15 +46,20 @@ public final class KeywordBundles
 
     static {
         Keyword keyword;
+        SyntaxChecker checker;
         DEFAULT_BUNDLE = new KeywordBundle();
 
+        checker = new SimpleSyntaxChecker("additionalItems", NodeType.BOOLEAN,
+            NodeType.OBJECT);
         keyword = KeywordBuilder.forKeyword("additionalItems")
-            .withSyntaxChecker(AdditionalItemsSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("additionalProperties",
+            NodeType.BOOLEAN, NodeType.OBJECT);
         keyword = KeywordBuilder.forKeyword("additionalProperties")
-            .withSyntaxChecker(AdditionalPropertiesSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -69,8 +68,9 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("description", NodeType.STRING);
         keyword = KeywordBuilder.forKeyword("description")
-            .withSyntaxChecker(DescriptionSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -104,8 +104,9 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("format", NodeType.STRING);
         keyword = KeywordBuilder.forKeyword("format")
-            .withSyntaxChecker(FormatSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -119,8 +120,10 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("maximum", NodeType.INTEGER,
+            NodeType.NUMBER);
         keyword = KeywordBuilder.forKeyword("maximum")
-            .withSyntaxChecker(MaximumSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -134,8 +137,10 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("minimum", NodeType.INTEGER,
+            NodeType.NUMBER);
         keyword = KeywordBuilder.forKeyword("minimum")
-            .withSyntaxChecker(MinimumSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -164,13 +169,15 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("required", NodeType.BOOLEAN);
         keyword = KeywordBuilder.forKeyword("required")
-            .withSyntaxChecker(RequiredSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("title", NodeType.STRING);
         keyword = KeywordBuilder.forKeyword("title")
-            .withSyntaxChecker(TitleSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -179,8 +186,9 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new SimpleSyntaxChecker("uniqueItems", NodeType.BOOLEAN);
         keyword = KeywordBuilder.forKeyword("uniqueItems")
-            .withSyntaxChecker(UniqueItemsSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
