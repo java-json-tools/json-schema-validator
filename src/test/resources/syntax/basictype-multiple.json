@@ -1,0 +1,44 @@
+[
+    {
+        "schema": {
+            "k": true
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "k": {}
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "k": 1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "k": 1.1
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "k": []
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "k": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "k": ""
+        },
+        "valid": false
+    }
+]
