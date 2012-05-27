@@ -17,30 +17,14 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.util.NodeType;
+import java.io.IOException;
 
-public class PositiveIntegerSyntaxChecker
-    extends SimpleSyntaxChecker
+public final class PositiveIntegerSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    public PositiveIntegerSyntaxChecker(final String keyword)
+    PositiveIntegerSyntaxCheckerTest()
+        throws IOException
     {
-        super(keyword, NodeType.INTEGER);
-    }
-
-    @Override
-    final void checkValue(final ValidationReport report,
-        final JsonNode schema)
-    {
-        final JsonNode node = schema.get(keyword);
-
-        if (!node.canConvertToInt()) {
-            report.addMessage("value overflow");
-            return;
-        }
-
-        if (node.intValue() < 0)
-            report.addMessage("value is negative");
+        super("positiveInteger", new PositiveIntegerSyntaxChecker("k"));
     }
 }

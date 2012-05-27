@@ -1,0 +1,32 @@
+[
+    {
+        "schema": {
+            "k": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "k": 0
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "k": 12339809814981293098102938
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "k": -33
+        },
+        "valid": false
+    },
+    {
+        "schema": {
+            "k": 3.1
+        },
+        "valid": false
+    }
+]
