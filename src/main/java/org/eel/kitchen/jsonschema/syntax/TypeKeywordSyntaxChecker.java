@@ -24,12 +24,12 @@ import org.eel.kitchen.util.NodeType;
 import java.util.HashSet;
 import java.util.Set;
 
-public abstract class TypeKeywordSyntaxChecker
+public class TypeKeywordSyntaxChecker
     extends SimpleSyntaxChecker
 {
     private static final String ANY = "any";
 
-    protected TypeKeywordSyntaxChecker(final String keyword)
+    public TypeKeywordSyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.STRING, NodeType.ARRAY);
     }

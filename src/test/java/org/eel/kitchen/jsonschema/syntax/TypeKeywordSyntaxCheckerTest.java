@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import java.io.IOException;
 
-public final class TypeSyntaxCheckerTest
+public final class TypeKeywordSyntaxCheckerTest
     extends AbstractSyntaxCheckerTest
 {
-    TypeSyntaxCheckerTest()
+    TypeKeywordSyntaxCheckerTest()
         throws IOException
     {
-        super("type", TypeSyntaxChecker.getInstance());
+        super("type-keyword", new TypeKeywordSyntaxChecker("k"));
     }
 }

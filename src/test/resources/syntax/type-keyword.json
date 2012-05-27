@@ -1,43 +1,43 @@
 [
     {
         "schema": {
-            "disallow": "string"
+            "k": "string"
         },
         "valid": true
     },
     {
         "schema": {
-            "disallow": "any"
+            "k": "any"
         },
         "valid": true
     },
     {
         "schema": {
-            "disallow": [ "boolean", { "$ref": "#/schema2" } ]
+            "k": [ "boolean", { "$ref": "#/schema2" } ]
         },
         "valid": true
     },
     {
         "schema": {
-            "disallow": false
+            "k": false
         },
         "valid": false
     },
     {
         "schema": {
-            "disallow": "hammer"
+            "k": "hammer"
         },
         "valid": false
     },
     {
         "schema": {
-            "disallow": [ null, "boolean", {}, [] ]
+            "k": [ null, "boolean", {}, [] ]
         },
         "valid": false
     },
     {
         "schema": {
-            "disallow": [ "string", "string" ]
+            "k": [ "string", "string" ]
         },
         "valid": false
     }

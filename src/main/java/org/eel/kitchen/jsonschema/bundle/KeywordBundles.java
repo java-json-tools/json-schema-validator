@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.bundle;
 
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.DisallowSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.ExclusiveMaximumSyntaxChecker;
@@ -31,7 +30,7 @@ import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.TypeSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.TypeKeywordSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.util.NodeType;
 
@@ -70,8 +69,9 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new TypeKeywordSyntaxChecker("disallow");
         keyword = KeywordBuilder.forKeyword("disallow")
-            .withSyntaxChecker(DisallowSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -182,8 +182,9 @@ public final class KeywordBundles
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new TypeKeywordSyntaxChecker("type");
         keyword = KeywordBuilder.forKeyword("type")
-            .withSyntaxChecker(TypeSyntaxChecker.getInstance())
+            .withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
