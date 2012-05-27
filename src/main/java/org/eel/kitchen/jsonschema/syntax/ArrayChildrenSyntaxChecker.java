@@ -24,7 +24,7 @@ import org.eel.kitchen.util.NodeType;
 import java.util.EnumSet;
 
 public abstract class ArrayChildrenSyntaxChecker
-    extends SyntaxChecker
+    extends AbstractSyntaxChecker
 {
     private final EnumSet<NodeType> childrenTypes;
 

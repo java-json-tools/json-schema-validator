@@ -24,7 +24,7 @@ import org.eel.kitchen.util.NodeType;
 import java.math.BigDecimal;
 
 public final class DivisibleBySyntaxChecker
-    extends SyntaxChecker
+    extends AbstractSyntaxChecker
 {
     private static final SyntaxChecker instance
         = new DivisibleBySyntaxChecker();

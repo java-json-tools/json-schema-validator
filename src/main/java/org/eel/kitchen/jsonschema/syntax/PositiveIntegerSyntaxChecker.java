@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
 public abstract class PositiveIntegerSyntaxChecker
-    extends SyntaxChecker
+    extends AbstractSyntaxChecker
 {
     protected PositiveIntegerSyntaxChecker(final String keyword)
     {

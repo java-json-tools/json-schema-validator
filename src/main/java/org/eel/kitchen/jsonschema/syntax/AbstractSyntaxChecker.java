@@ -20,29 +20,37 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
-import org.eel.kitchen.util.RhinoHelper;
 
-public final class PatternSyntaxChecker
-    extends AbstractSyntaxChecker
+import java.util.EnumSet;
+
+public abstract class AbstractSyntaxChecker
+    implements SyntaxChecker
 {
-    private static final PatternSyntaxChecker instance
-        = new PatternSyntaxChecker();
+    protected final String keyword;
+    private final EnumSet<NodeType> validTypes;
 
-    public static PatternSyntaxChecker getInstance()
+    protected AbstractSyntaxChecker(final String keyword, final NodeType type,
+        final NodeType... types)
     {
-        return instance;
-    }
-
-    private PatternSyntaxChecker()
-    {
-        super("pattern", NodeType.STRING);
+        this.keyword = keyword;
+        validTypes = EnumSet.of(type, types);
     }
 
     @Override
+    public final void checkSyntax(final ValidationReport report,
+        final JsonNode schema)
+    {
+        final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
+        if (!validTypes.contains(nodeType)) {
+            report.addMessage("keyword is of wrong type");
+            return;
+        }
+
+        checkValue(report, schema);
+    }
+
     void checkValue(final ValidationReport report,
         final JsonNode schema)
     {
-        if (!RhinoHelper.regexIsValid(schema.get(keyword).textValue()))
-            report.addMessage("invalid regex");
     }
 }
