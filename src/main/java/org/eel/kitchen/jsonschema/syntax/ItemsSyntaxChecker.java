@@ -21,7 +21,6 @@ import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
 
-@ValidTypes({NodeType.OBJECT, NodeType.ARRAY})
 public final class ItemsSyntaxChecker
     extends ArrayChildrenSyntaxChecker
 {
@@ -35,6 +34,7 @@ public final class ItemsSyntaxChecker
 
     private ItemsSyntaxChecker()
     {
-        super("items", EnumSet.of(NodeType.OBJECT));
+        super("items", EnumSet.of(NodeType.OBJECT), NodeType.OBJECT,
+            NodeType.ARRAY);
     }
 }

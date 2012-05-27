@@ -22,7 +22,6 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
 
-@ValidTypes(NodeType.STRING)
 public final class PatternSyntaxChecker
     extends SyntaxChecker
 {
@@ -36,7 +35,7 @@ public final class PatternSyntaxChecker
 
     private PatternSyntaxChecker()
     {
-        super("pattern");
+        super("pattern", NodeType.STRING);
     }
 
     @Override

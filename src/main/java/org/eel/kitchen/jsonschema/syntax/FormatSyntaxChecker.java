@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(NodeType.STRING)
 public final class FormatSyntaxChecker
     extends SyntaxChecker
 {
@@ -32,6 +31,6 @@ public final class FormatSyntaxChecker
 
     private FormatSyntaxChecker()
     {
-        super("format");
+        super("format", NodeType.STRING);
     }
 }

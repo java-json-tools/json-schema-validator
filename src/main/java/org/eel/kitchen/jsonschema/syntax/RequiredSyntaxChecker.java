@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(NodeType.BOOLEAN)
 public final class RequiredSyntaxChecker
     extends SyntaxChecker
 {
@@ -33,6 +32,6 @@ public final class RequiredSyntaxChecker
 
     private RequiredSyntaxChecker()
     {
-        super("required");
+        super("required", NodeType.BOOLEAN);
     }
 }

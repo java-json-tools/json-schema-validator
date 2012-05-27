@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(NodeType.BOOLEAN)
 public final class ExclusiveMinimumSyntaxChecker
     extends SyntaxChecker
 {
@@ -35,7 +34,7 @@ public final class ExclusiveMinimumSyntaxChecker
 
     private ExclusiveMinimumSyntaxChecker()
     {
-        super("exclusiveMinimum");
+        super("exclusiveMinimum", NodeType.BOOLEAN);
     }
 
     @Override

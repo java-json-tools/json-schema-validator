@@ -21,13 +21,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(NodeType.INTEGER)
 public abstract class PositiveIntegerSyntaxChecker
     extends SyntaxChecker
 {
     protected PositiveIntegerSyntaxChecker(final String keyword)
     {
-        super(keyword);
+        super(keyword, NodeType.INTEGER);
     }
 
     @Override

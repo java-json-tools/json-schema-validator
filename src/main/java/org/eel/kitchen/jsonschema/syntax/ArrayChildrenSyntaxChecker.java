@@ -29,9 +29,10 @@ public abstract class ArrayChildrenSyntaxChecker
     private final EnumSet<NodeType> childrenTypes;
 
     protected ArrayChildrenSyntaxChecker(final String keyword,
-        final EnumSet<NodeType> childrenTypes)
+        final EnumSet<NodeType> childrenTypes, final NodeType type,
+        final NodeType... types)
     {
-        super(keyword);
+        super(keyword, type, types);
         this.childrenTypes = EnumSet.copyOf(childrenTypes);
     }
 

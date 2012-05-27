@@ -31,7 +31,7 @@ public abstract class TypeKeywordSyntaxChecker
 
     protected TypeKeywordSyntaxChecker(final String keyword)
     {
-        super(keyword);
+        super(keyword, NodeType.STRING, NodeType.ARRAY);
     }
 
     @Override

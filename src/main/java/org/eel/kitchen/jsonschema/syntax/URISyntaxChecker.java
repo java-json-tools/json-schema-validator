@@ -24,13 +24,12 @@ import org.eel.kitchen.util.NodeType;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-@ValidTypes(NodeType.STRING)
 public abstract class URISyntaxChecker
     extends SyntaxChecker
 {
     protected URISyntaxChecker(final String keyword)
     {
-        super(keyword);
+        super(keyword, NodeType.STRING);
     }
 
     @Override

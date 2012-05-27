@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(NodeType.OBJECT)
 public final class DependenciesSyntaxChecker
     extends SyntaxChecker
 {
@@ -30,7 +29,7 @@ public final class DependenciesSyntaxChecker
 
     private DependenciesSyntaxChecker()
     {
-        super("dependencies");
+        super("dependencies", NodeType.OBJECT);
     }
 
     public static SyntaxChecker getInstance()

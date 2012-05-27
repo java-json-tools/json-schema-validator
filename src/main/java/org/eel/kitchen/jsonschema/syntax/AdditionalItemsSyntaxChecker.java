@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes({NodeType.BOOLEAN, NodeType.OBJECT})
 public final class AdditionalItemsSyntaxChecker
     extends SyntaxChecker
 {
@@ -33,6 +32,6 @@ public final class AdditionalItemsSyntaxChecker
 
     private AdditionalItemsSyntaxChecker()
     {
-        super("additionalItems");
+        super("additionalItems", NodeType.BOOLEAN, NodeType.OBJECT);
     }
 }

@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes(NodeType.STRING)
 public final class TitleSyntaxChecker
     extends SyntaxChecker
 {
@@ -32,6 +31,6 @@ public final class TitleSyntaxChecker
 
     private TitleSyntaxChecker()
     {
-        super("title");
+        super("title", NodeType.STRING);
     }
 }

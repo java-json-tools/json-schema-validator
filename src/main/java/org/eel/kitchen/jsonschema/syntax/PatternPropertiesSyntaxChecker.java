@@ -25,7 +25,6 @@ import org.eel.kitchen.util.RhinoHelper;
 
 import java.util.Map;
 
-@ValidTypes(NodeType.OBJECT)
 public final class PatternPropertiesSyntaxChecker
     extends SyntaxChecker
 {
@@ -34,7 +33,7 @@ public final class PatternPropertiesSyntaxChecker
 
     private PatternPropertiesSyntaxChecker()
     {
-        super("patternProperties");
+        super("patternProperties", NodeType.OBJECT);
     }
 
     public static SyntaxChecker getInstance()

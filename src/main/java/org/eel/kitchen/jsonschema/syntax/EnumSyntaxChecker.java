@@ -24,7 +24,6 @@ import org.eel.kitchen.util.NodeType;
 import java.util.HashSet;
 import java.util.Set;
 
-@ValidTypes(NodeType.ARRAY)
 public final class EnumSyntaxChecker
     extends SyntaxChecker
 {
@@ -32,7 +31,7 @@ public final class EnumSyntaxChecker
 
     private EnumSyntaxChecker()
     {
-        super("enum");
+        super("enum", NodeType.ARRAY);
     }
 
     public static SyntaxChecker getInstance()

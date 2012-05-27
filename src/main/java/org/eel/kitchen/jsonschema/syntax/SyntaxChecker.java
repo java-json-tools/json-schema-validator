@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.NodeType;
 
-import java.util.Collections;
 import java.util.EnumSet;
 
 public abstract class SyntaxChecker
@@ -29,23 +28,11 @@ public abstract class SyntaxChecker
     protected final String keyword;
     private final EnumSet<NodeType> validTypes;
 
-    protected SyntaxChecker(final String keyword)
+    protected SyntaxChecker(final String keyword, final NodeType type,
+        final NodeType... types)
     {
         this.keyword = keyword;
-        validTypes = getValidTypes();
-    }
-
-    private EnumSet<NodeType> getValidTypes()
-    {
-        final ValidTypes ann = getClass().getAnnotation(ValidTypes.class);
-
-        if (ann == null)
-            return null;
-
-        final EnumSet<NodeType> ret = EnumSet.noneOf(NodeType.class);
-
-        Collections.addAll(ret, ann.value());
-        return ret;
+        validTypes = EnumSet.of(type, types);
     }
 
     public final void checkSyntax(final ValidationReport report,

@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import org.eel.kitchen.util.NodeType;
 
-@ValidTypes({NodeType.INTEGER, NodeType.NUMBER})
 public final class MaximumSyntaxChecker
     extends SyntaxChecker
 {
@@ -33,6 +32,6 @@ public final class MaximumSyntaxChecker
 
     private MaximumSyntaxChecker()
     {
-        super("maximum");
+        super("maximum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }
