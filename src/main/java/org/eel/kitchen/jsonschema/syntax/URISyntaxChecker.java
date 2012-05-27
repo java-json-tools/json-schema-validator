@@ -25,7 +25,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public abstract class URISyntaxChecker
-    extends AbstractSyntaxChecker
+    extends SimpleSyntaxChecker
 {
     protected URISyntaxChecker(final String keyword)
     {

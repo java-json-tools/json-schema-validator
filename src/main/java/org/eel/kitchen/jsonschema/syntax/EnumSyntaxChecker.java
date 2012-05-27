@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public final class EnumSyntaxChecker
-    extends AbstractSyntaxChecker
+    extends SimpleSyntaxChecker
 {
     private static final SyntaxChecker instance = new EnumSyntaxChecker();
 

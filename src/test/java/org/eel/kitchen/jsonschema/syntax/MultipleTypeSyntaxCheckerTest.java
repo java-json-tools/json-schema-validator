@@ -27,7 +27,7 @@ public final class MultipleTypeSyntaxCheckerTest
     MultipleTypeSyntaxCheckerTest()
         throws IOException
     {
-        super("basictype-multiple", new BasicSyntaxChecker(NodeType.BOOLEAN,
-            NodeType.OBJECT, NodeType.NULL));
+        super("basictype-multiple", new SimpleSyntaxChecker("k",
+            NodeType.BOOLEAN, NodeType.OBJECT, NodeType.NULL));
     }
 }

@@ -26,7 +26,7 @@ import org.eel.kitchen.util.RhinoHelper;
 import java.util.Map;
 
 public final class PatternPropertiesSyntaxChecker
-    extends AbstractSyntaxChecker
+    extends SimpleSyntaxChecker
 {
     private static final SyntaxChecker instance
         = new PatternPropertiesSyntaxChecker();

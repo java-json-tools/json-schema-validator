@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.syntax;
 import org.eel.kitchen.util.NodeType;
 
 public final class TitleSyntaxChecker
-    extends AbstractSyntaxChecker
+    extends SimpleSyntaxChecker
 {
     private static final SyntaxChecker instance = new TitleSyntaxChecker();
 

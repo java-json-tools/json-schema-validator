@@ -23,13 +23,16 @@ import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
 
-public abstract class AbstractSyntaxChecker
+/**
+ * Simple type-only syntax checker
+ */
+public class SimpleSyntaxChecker
     implements SyntaxChecker
 {
     protected final String keyword;
     private final EnumSet<NodeType> validTypes;
 
-    protected AbstractSyntaxChecker(final String keyword, final NodeType type,
+    protected SimpleSyntaxChecker(final String keyword, final NodeType type,
         final NodeType... types)
     {
         this.keyword = keyword;

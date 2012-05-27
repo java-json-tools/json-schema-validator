@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public abstract class TypeKeywordSyntaxChecker
-    extends AbstractSyntaxChecker
+    extends SimpleSyntaxChecker
 {
     private static final String ANY = "any";
 

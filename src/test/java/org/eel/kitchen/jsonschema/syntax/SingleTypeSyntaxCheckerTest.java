@@ -27,6 +27,7 @@ public final class SingleTypeSyntaxCheckerTest
     SingleTypeSyntaxCheckerTest()
         throws IOException
     {
-        super("basictype-single", new BasicSyntaxChecker(NodeType.BOOLEAN));
+        super("basictype-single",
+            new SimpleSyntaxChecker("k", NodeType.BOOLEAN));
     }
 }

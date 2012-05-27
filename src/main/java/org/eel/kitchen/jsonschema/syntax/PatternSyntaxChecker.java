@@ -23,7 +23,7 @@ import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
 
 public final class PatternSyntaxChecker
-    extends AbstractSyntaxChecker
+    extends SimpleSyntaxChecker
 {
     private static final PatternSyntaxChecker instance
         = new PatternSyntaxChecker();
