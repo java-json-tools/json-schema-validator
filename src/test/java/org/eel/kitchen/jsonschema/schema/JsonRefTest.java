@@ -17,8 +17,8 @@
 
 package org.eel.kitchen.jsonschema.schema;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.testng.annotations.Test;
@@ -30,16 +30,40 @@ public final class JsonRefTest
     private final JsonNodeFactory factory = JsonNodeFactory.instance;
 
     @Test
+    public void nonStringMembersShouldBeIdentifiedAsInvalid()
+    {
+        final JsonNode node = factory.objectNode().put("$ref", 1);
+
+        try {
+            JsonRef.fromNode(node, "$ref");
+            fail("No exception thrown!");
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getMessage(), "invalid $ref entry: not a string");
+        }
+    }
+
+    @Test
+    public void NonURIStringMembersShouldBeIdentifiedAsInvalid()
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "+23:");
+
+        try {
+            JsonRef.fromNode(node, "$ref");
+            fail("No exception thrown!");
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getMessage(), "invalid $ref entry: not a valid URI");
+        }
+    }
+
+    @Test
     public void testNormalized()
         throws JsonSchemaException
     {
-        final ObjectNode node1, node2;
+        final JsonNode node1, node2;
 
-        node1 = factory.objectNode();
-        node1.put("$ref", "http://foo.bar/a/b");
+        node1 = factory.objectNode().put("$ref", "http://foo.bar/a/b");
 
-        node2 = factory.objectNode();
-        node2.put("$ref", "http://foo.bar/c/../a/./b");
+        node2 = factory.objectNode().put("$ref", "http://foo.bar/c/../a/./b");
 
         final JsonRef ref1 = JsonRef.fromNode(node1, "$ref");
         final JsonRef ref2 = JsonRef.fromNode(node2, "$ref");
@@ -50,13 +74,11 @@ public final class JsonRefTest
     public void testEquals()
         throws JsonSchemaException
     {
-        final ObjectNode node1, node2;
+        final JsonNode node1, node2;
 
-        node1 = factory.objectNode();
-        node1.put("$ref", "http://foo.bar/a/b");
+        node1 = factory.objectNode().put("$ref", "http://foo.bar/a/b");
 
-        node2 = factory.objectNode();
-        node2.put("$ref", "http://foo.bar/c/../a/./b");
+        node2 = factory.objectNode().put("$ref", "http://foo.bar/c/../a/./b");
 
         final JsonRef ref1 = JsonRef.fromNode(node1, "$ref");
         final JsonRef ref2 = JsonRef.fromNode(node2, "$ref");
@@ -72,13 +94,11 @@ public final class JsonRefTest
     public void testAbsolute()
         throws JsonSchemaException
     {
-        final ObjectNode node1, node2;
+        final JsonNode node1, node2;
 
-        node1 = factory.objectNode();
-        node1.put("$ref", "http://foo.bar/a/b");
+        node1 = factory.objectNode().put("$ref", "http://foo.bar/a/b");
 
-        node2 = factory.objectNode();
-        node2.put("$ref", "foo.bar");
+        node2 = factory.objectNode().put("$ref", "foo.bar");
 
         final JsonRef ref1 = JsonRef.fromNode(node1, "$ref");
         final JsonRef ref2 = JsonRef.fromNode(node2, "$ref");
@@ -88,39 +108,15 @@ public final class JsonRefTest
     }
 
     @Test
-    public void testInvalidRefs()
-    {
-        final ObjectNode node = factory.objectNode();
-
-        node.put("$ref", 1);
-
-        try {
-            JsonRef.fromNode(node, "$ref");
-            fail("No exception thrown!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "invalid $ref entry: not a string");
-        }
-
-        node.put("$ref", "+23:");
-
-        try {
-            JsonRef.fromNode(node, "$ref");
-            fail("No exception thrown!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "invalid $ref entry: not a valid URI");
-        }
-    }
-
-    @Test
     public void testFragments()
         throws JsonSchemaException
     {
-        final ObjectNode node = factory.objectNode();
-        JsonRef ref;
+        final JsonNode node = factory.objectNode()
+            .put("f1", "file:///a")
+            .put("f2", "file:///a#")
+            .put("f3", "file:///a#b/c");
 
-        node.put("f1", "file:///a");
-        node.put("f2", "file:///a#");
-        node.put("f3", "file:///a#b/c");
+        JsonRef ref;
 
         ref = JsonRef.fromNode(node, "f1");
         assertFalse(ref.hasFragment());
@@ -137,10 +133,9 @@ public final class JsonRefTest
     public void testEmptyFragmentVsNoFragment()
         throws JsonSchemaException
     {
-        final ObjectNode node = factory.objectNode();
-
-        node.put("ref1", "http://foo.bar");
-        node.put("ref2", "http://foo.bar#");
+        final JsonNode node = factory.objectNode()
+            .put("ref1", "http://foo.bar")
+            .put("ref2", "http://foo.bar#");
 
         final JsonRef ref1 = JsonRef.fromNode(node, "ref1");
         final JsonRef ref2 = JsonRef.fromNode(node, "ref2");
