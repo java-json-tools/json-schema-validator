@@ -108,7 +108,41 @@ public final class JsonRefTest
     }
 
     @Test
-    public void testNormalized()
+    public void equalsImplementationShouldHandleNullAndDifferentClass()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "foo");
+
+        final JsonRef ref = JsonRef.fromNode(node, "$ref");
+
+        assertFalse(ref.equals(null));
+        assertFalse(ref.equals(new Object()));
+    }
+
+    @Test
+    public void normalizedURIsShouldBeIdentifiedAsSuch()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode()
+            .put("$ref", "http://foo.bar/a/b");
+
+        final JsonRef ref1 = JsonRef.fromNode(node, "$ref");
+        assertTrue(ref1.isNormalized());
+    }
+
+    @Test
+    public void nonNormalizedURIsShouldBeIdentifiedAsSuch()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode()
+            .put("$ref", "http://foo.bar/a/b/..");
+
+        final JsonRef ref1 = JsonRef.fromNode(node, "$ref");
+        assertFalse(ref1.isNormalized());
+    }
+
+    @Test
+    public void afterURINormalizationJsonRefsShouldBeEqual()
         throws JsonSchemaException
     {
         final JsonNode node1, node2;
@@ -123,27 +157,7 @@ public final class JsonRefTest
     }
 
     @Test
-    public void testEquals()
-        throws JsonSchemaException
-    {
-        final JsonNode node1, node2;
-
-        node1 = factory.objectNode().put("$ref", "http://foo.bar/a/b");
-
-        node2 = factory.objectNode().put("$ref", "http://foo.bar/c/../a/./b");
-
-        final JsonRef ref1 = JsonRef.fromNode(node1, "$ref");
-        final JsonRef ref2 = JsonRef.fromNode(node2, "$ref");
-
-        assertFalse(ref1.equals(null));
-        assertFalse(ref1.equals(""));
-        assertTrue(ref1.equals(ref2));
-        assertTrue(ref1.equals(ref1));
-        assertTrue(ref2.equals(ref1));
-    }
-
-    @Test
-    public void testAbsolute()
+    public void absoluteRefsShouldBeIdentifiedAsSuch()
         throws JsonSchemaException
     {
         final JsonNode node1, node2;
@@ -157,6 +171,18 @@ public final class JsonRefTest
 
         assertTrue(ref1.isAbsolute());
         assertFalse(ref2.isAbsolute());
+    }
+
+    @Test
+    public void absoluteURIWithFragmentIsNotAnAbsoluteRef()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode()
+            .put("$ref", "http://foo.bar/a/b#c");
+
+        final JsonRef ref = JsonRef.fromNode(node, "$ref");
+
+        assertFalse(ref.isAbsolute());
     }
 
     @Test

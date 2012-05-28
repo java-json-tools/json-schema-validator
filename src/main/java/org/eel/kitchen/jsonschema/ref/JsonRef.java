@@ -71,6 +71,8 @@ public final class JsonRef
      */
     private final URI uri;
 
+    private final boolean normalized;
+
     /**
      * The main constructor, which is private by design
      *
@@ -78,7 +80,9 @@ public final class JsonRef
      */
     private JsonRef(final URI uri)
     {
-        this.uri = uri;
+        final URI normalize = uri.normalize();
+        this.uri = normalize;
+        normalized = uri.equals(normalize);
     }
 
     /**
@@ -107,7 +111,7 @@ public final class JsonRef
         URI uri;
 
         try {
-            uri = new URI(entry.textValue()).normalize();
+            uri = new URI(entry.textValue());
         } catch (URISyntaxException ignored) {
             throw new JsonSchemaException("invalid " + key + " entry: not a "
                 + "valid URI");
@@ -167,6 +171,11 @@ public final class JsonRef
     public boolean hasFragment()
     {
         return !getFragment().isEmpty();
+    }
+
+    public boolean isNormalized()
+    {
+        return normalized;
     }
 
     @Override
