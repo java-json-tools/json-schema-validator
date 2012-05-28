@@ -112,17 +112,12 @@ public final class JsonRef
 
         try {
             uri = new URI(entry.textValue());
+            if (uri.getFragment() == null)
+                uri = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
         } catch (URISyntaxException ignored) {
             throw new JsonSchemaException("invalid " + key + " entry: not a "
                 + "valid URI");
         }
-
-        if (uri.getFragment() == null)
-            try {
-                uri = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
-            } catch (URISyntaxException ignored) {
-                //cannot happen
-            }
 
         return new JsonRef(uri);
     }
