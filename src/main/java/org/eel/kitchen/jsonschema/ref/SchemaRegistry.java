@@ -17,25 +17,17 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.fasterxml.jackson.databind.util.LRUMap;
-
 import java.net.URI;
-import java.util.Map;
 
 class SchemaRegistry
 {
-    private static final SchemaRegistry instance
-        = new SchemaRegistry();
-
-    private final Map<URI, SchemaContainer> registry
-        = new LRUMap<URI, SchemaContainer>(15, 50);
-
-    private SchemaRegistry()
+    public void register(final URI uri, final SchemaContainer container)
     {
     }
 
-    public static SchemaRegistry getInstance()
+    public Object get(final URI uri)
     {
-        return instance;
+        //TODO: implement
+        return null;
     }
 }
