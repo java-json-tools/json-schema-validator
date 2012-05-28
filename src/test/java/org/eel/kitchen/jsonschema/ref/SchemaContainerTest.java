@@ -135,6 +135,7 @@ public final class SchemaContainerTest
         final SchemaContainer c2 = new SchemaContainer(n2);
 
         assertTrue(c1.equals(c2));
+        assertEquals(c1.hashCode(), c2.hashCode());
     }
 
     @Test
