@@ -128,12 +128,50 @@ public final class SchemaContainerTest
     public void twoContainersBuiltFromTheSameInputAreEqual()
         throws JsonSchemaException
     {
+        final JsonNode n1 = factory.objectNode().put("id", "a://b/c#");
+        final JsonNode n2 = factory.objectNode().put("id", "a://b/c#");
+
+        final SchemaContainer c1 = new SchemaContainer(n1);
+        final SchemaContainer c2 = new SchemaContainer(n2);
+
+        assertTrue(c1.equals(c2));
+    }
+
+    @Test
+    public void equalsShouldBeReflexive()
+        throws JsonSchemaException
+    {
+        node = factory.objectNode().put("id", "a://b/c#");
+
+        container = new SchemaContainer(node);
+
+        assertTrue(container.equals(container));
+    }
+
+    @Test
+    public void equalsShouldBeSymmetric()
+        throws JsonSchemaException
+    {
         node = factory.objectNode().put("id", "a://b/c#");
 
         final SchemaContainer c1 = new SchemaContainer(node);
         final SchemaContainer c2 = new SchemaContainer(node);
 
-        assertTrue(c1.equals(c2));
+        // a => b is equivalent to !a || b
+        assertTrue(!c1.equals(c2) || c2.equals(c1));
+    }
+
+    @Test
+    public void equalsShouldBeTransitive()
+        throws JsonSchemaException
+    {
+        node = factory.objectNode().put("id", "a://b/c#");
+
+        final SchemaContainer c1 = new SchemaContainer(node);
+        final SchemaContainer c2 = new SchemaContainer(node);
+        final SchemaContainer c3 = new SchemaContainer(node);
+
+        assertTrue(c1.equals(c2) && c2.equals(c3));
     }
 
     @Test
