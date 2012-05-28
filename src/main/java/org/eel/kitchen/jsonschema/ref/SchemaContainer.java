@@ -23,16 +23,21 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 public final class SchemaContainer
 {
     private final JsonNode schema;
-    private JsonRef locator;
+    private final JsonRef locator;
 
     public SchemaContainer(final JsonNode schema)
         throws JsonSchemaException
     {
         this.schema = schema;
         locator = JsonRef.fromNode(schema, "id");
+
         if (!locator.isAbsolute() && !locator.isEmpty())
             throw new JsonSchemaException("a parent schema's id must be "
                 + "absolute");
+
+        if (!locator.isNormalized())
+            throw new JsonSchemaException("a parent schema's id must be "
+                + "normalized");
     }
 
     public boolean contains(final JsonRef ref)

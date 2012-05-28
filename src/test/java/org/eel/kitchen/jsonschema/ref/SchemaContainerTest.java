@@ -119,6 +119,21 @@ public final class SchemaContainerTest
         assertFalse(container.contains(ref2));
     }
 
+    @Test
+    public void shouldRefuseToBuildWithNonNormalizedID()
+    {
+        node = factory.objectNode()
+            .put("id", "http://foo.bar/a/../b");
+
+        try {
+            new SchemaContainer(node);
+            fail("No exception thrown!");
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getMessage(), "a parent schema's id must be "
+                + "normalized");
+        }
+    }
+
     private static JsonRef createRef(final String s)
         throws JsonSchemaException
     {
