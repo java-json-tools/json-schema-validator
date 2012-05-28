@@ -26,6 +26,7 @@ import org.eel.kitchen.util.JsonPointer;
 public final class SchemaContainer
 {
     private final JsonNode schema;
+
     private final JsonRef locator;
 
     public SchemaContainer(final JsonNode schema)
@@ -47,6 +48,11 @@ public final class SchemaContainer
     JsonNode getSchema()
     {
         return schema;
+    }
+
+    public JsonRef getLocator()
+    {
+        return locator;
     }
 
     public boolean contains(final JsonRef ref)
