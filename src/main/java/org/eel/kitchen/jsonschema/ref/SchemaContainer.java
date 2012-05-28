@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
 public final class SchemaContainer
@@ -28,8 +29,8 @@ public final class SchemaContainer
     public SchemaContainer(final JsonNode schema)
         throws JsonSchemaException
     {
-        this.schema = schema;
         locator = JsonRef.fromNode(schema, "id");
+        this.schema = cleanup(schema);
 
         if (!locator.isAbsolute() && !locator.isEmpty())
             throw new JsonSchemaException("a parent schema's id must be "
@@ -45,5 +46,35 @@ public final class SchemaContainer
         final JsonRef tmp = locator.resolve(ref);
 
         return locator.getLocator().equals(tmp.getLocator());
+    }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (o == null)
+            return false;
+        if (this == o)
+            return true;
+        if (getClass() != o.getClass())
+            return false;
+
+        final SchemaContainer that = (SchemaContainer) o;
+
+        return locator.equals(that.locator)
+            && schema.equals(that.schema);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return 31 * locator.hashCode() + schema.hashCode();
+    }
+
+    private JsonNode cleanup(final JsonNode schema)
+    {
+        final ObjectNode ret = schema.deepCopy();
+
+        ret.remove("id");
+        return ret;
     }
 }

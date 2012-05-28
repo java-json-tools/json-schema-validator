@@ -27,16 +27,6 @@ import static org.testng.Assert.*;
 public final class SchemaContainerTest
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
-    private static final JsonRef EMPTY_REF;
-
-    static {
-        try {
-            EMPTY_REF = createRef("#");
-        } catch (JsonSchemaException e) {
-            throw new ExceptionInInitializerError(e);
-        }
-    }
-
     private JsonNode node;
     private SchemaContainer container;
 
@@ -132,6 +122,31 @@ public final class SchemaContainerTest
             assertEquals(e.getMessage(), "a parent schema's id must be "
                 + "normalized");
         }
+    }
+
+    @Test
+    public void twoContainersBuiltFromTheSameInputAreEqual()
+        throws JsonSchemaException
+    {
+        node = factory.objectNode().put("id", "a://b/c#");
+
+        final SchemaContainer c1 = new SchemaContainer(node);
+        final SchemaContainer c2 = new SchemaContainer(node);
+
+        assertTrue(c1.equals(c2));
+    }
+
+    @Test
+    public void noFragmentOrEmptyFragmentIsTheSame()
+        throws JsonSchemaException
+    {
+        final JsonNode n1 = factory.objectNode().put("id", "a://c");
+        final JsonNode n2 = factory.objectNode().put("id", "a://c#");
+
+        final SchemaContainer c1 = new SchemaContainer(n1);
+        final SchemaContainer c2 = new SchemaContainer(n2);
+
+        assertTrue(c1.equals(c2));
     }
 
     private static JsonRef createRef(final String s)
