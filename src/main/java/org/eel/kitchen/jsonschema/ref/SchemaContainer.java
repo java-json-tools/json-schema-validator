@@ -18,8 +18,10 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.util.JsonPointer;
 
 public final class SchemaContainer
 {
@@ -41,11 +43,35 @@ public final class SchemaContainer
                 + "normalized");
     }
 
+    // For test purposes only...
+    JsonNode getSchema()
+    {
+        return schema;
+    }
+
     public boolean contains(final JsonRef ref)
     {
         final JsonRef tmp = locator.resolve(ref);
 
         return locator.getLocator().equals(tmp.getLocator());
+    }
+
+    public JsonNode lookupFragment(final String fragment)
+        throws JsonSchemaException
+    {
+        JsonNode ret;
+
+        try {
+            ret = new JsonPointer(fragment).getPath(schema);
+        } catch (JsonSchemaException ignored) {
+            ret = lookupById(schema, fragment);
+        }
+
+        if (ret.isMissingNode())
+            throw new JsonSchemaException('"' + fragment + "\" does not match"
+                + " any path/id in schema");
+
+        return ret;
     }
 
     @Override
@@ -76,5 +102,29 @@ public final class SchemaContainer
 
         ret.remove("id");
         return ret;
+    }
+
+    private JsonNode lookupById(final JsonNode schema, final String fragment)
+    {
+        if (!schema.isObject())
+            return MissingNode.getInstance();
+
+        try {
+            final JsonRef ref = JsonRef.fromNode(schema, "id");
+            if (ref.getFragment().equals(fragment))
+                return schema;
+        } catch (JsonSchemaException ignored) {
+            // Do nothing, and go on with children
+        }
+
+        JsonNode ret;
+
+        for (final JsonNode node: schema) {
+            ret = lookupById(node, fragment);
+            if (!ret.isMissingNode())
+                return ret;
+        }
+
+        return MissingNode.getInstance();
     }
 }
