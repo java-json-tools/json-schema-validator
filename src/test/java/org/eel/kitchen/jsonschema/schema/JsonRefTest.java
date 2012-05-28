@@ -56,6 +56,58 @@ public final class JsonRefTest
     }
 
     @Test
+    public void twoJsonRefsWithSameURIAreEqualAndHaveTheSameHashCode()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "foo");
+
+        final JsonRef ref1 = JsonRef.fromNode(node, "$ref");
+        final JsonRef ref2 = JsonRef.fromNode(node, "$ref");
+
+        assertTrue(ref1.equals(ref2));
+        assertEquals(ref1.hashCode(), ref2.hashCode());
+    }
+
+    @Test
+    public void equalsImplementationShouldBeReflexive()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "foo");
+
+        final JsonRef ref = JsonRef.fromNode(node, "$ref");
+
+        assertTrue(ref.equals(ref));
+    }
+
+    @Test
+    public void equalsImplementationShouldBeSymmetric()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "foo");
+
+        final JsonRef ref1 = JsonRef.fromNode(node, "$ref");
+        final JsonRef ref2 = JsonRef.fromNode(node, "$ref");
+
+        // a => b is equal to !a || b
+        assertTrue(!ref1.equals(ref2) || ref2.equals(ref1));
+    }
+
+    @Test
+    public void equalsImplementationShouldBeTransitive()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "foo");
+
+        final JsonRef ref1 = JsonRef.fromNode(node, "$ref");
+        final JsonRef ref2 = JsonRef.fromNode(node, "$ref");
+        final JsonRef ref3 = JsonRef.fromNode(node, "$ref");
+
+        assertTrue(ref1.equals(ref2));
+        assertTrue(ref2.equals(ref3));
+        assertTrue(ref1.equals(ref3));
+    }
+
+    @Test
     public void testNormalized()
         throws JsonSchemaException
     {
