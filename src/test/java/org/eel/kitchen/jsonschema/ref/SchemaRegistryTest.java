@@ -25,7 +25,7 @@ import org.testng.annotations.Test;
 
 import java.net.URI;
 
-import static org.testng.Assert.assertSame;
+import static org.testng.Assert.*;
 
 public final class SchemaRegistryTest
 {
@@ -38,6 +38,11 @@ public final class SchemaRegistryTest
         registry = new SchemaRegistry();
     }
 
+    /*
+     * Note that we test here with whatever URI we want. But in reality,
+     * only absolute URIs will ever find their way into the registry,
+     * this is guaranteed by the callers.
+     */
     @Test
     public void testRegisteredSchemaShowsUp()
         throws JsonSchemaException
@@ -49,5 +54,33 @@ public final class SchemaRegistryTest
         registry.register(uri, container);
 
         assertSame(registry.get(uri), container);
+    }
+
+    @Test
+    public void cannotRegisterNullContainer()
+    {
+        final URI uri = URI.create("");
+
+        try {
+            registry.register(uri, null);
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "container is null");
+        }
+    }
+
+    @Test
+    public void cannotRegisterNullURI()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode();
+        final SchemaContainer container = new SchemaContainer(node);
+
+        try {
+            registry.register(null, container);
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "uri is null");
+        }
     }
 }

@@ -18,16 +18,25 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 class SchemaRegistry
 {
+    private final Map<URI, SchemaContainer> containers
+        = new HashMap<URI, SchemaContainer>();
+
     public void register(final URI uri, final SchemaContainer container)
     {
+        if (uri == null)
+            throw new IllegalArgumentException("uri is null");
+        if (container == null)
+            throw new IllegalArgumentException("container is null");
+        containers.put(uri, container);
     }
 
-    public Object get(final URI uri)
+    public SchemaContainer get(final URI uri)
     {
-        //TODO: implement
-        return null;
+        return containers.get(uri);
     }
 }
