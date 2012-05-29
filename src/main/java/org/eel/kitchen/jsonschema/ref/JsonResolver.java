@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
 import java.util.LinkedHashSet;
@@ -50,30 +51,31 @@ public final class JsonResolver
       *
       * FIXME: a context should be the argument instead of a container
       */
-    public JsonNode resolve(final SchemaContainer container,
-        final JsonNode orig)
+    public SchemaNode resolve(final SchemaNode schemaNode)
         throws JsonSchemaException
     {
         final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
-        SchemaContainer c = container;
-        JsonNode ret = orig;
+        SchemaContainer container = schemaNode.getContainer();
+        JsonNode node = schemaNode.getNode();
         JsonRef ref;
 
-        while (ret.has("$ref")) {
+        while (node.has("$ref")) {
             try {
-                ref = JsonRef.fromNode(ret, "$ref");
+                ref = JsonRef.fromNode(node, "$ref");
             } catch (JsonSchemaException ignored) {
                 // Let syntax validation handle this case
-                return ret;
+                return new SchemaNode(container, node);
             }
-            ref = c.getLocator().resolve(ref);
+            ref = container.getLocator().resolve(ref);
             if (!refs.add(ref))
                 throw new JsonSchemaException("ref loop detected");
-            if (!c.contains(ref))
-                c = new SchemaContainer(manager.getContent(ref.getLocator()));
-            ret = c.lookupFragment(ref.getFragment());
+            if (!container.contains(ref)) {
+                node = manager.getContent(ref.getLocator());
+                container = new SchemaContainer(node);
+            }
+            node = container.lookupFragment(ref.getFragment());
         }
 
-        return ret;
+        return new SchemaNode(container, node);
     }
 }
