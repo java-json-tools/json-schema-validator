@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,12 +28,41 @@ class SchemaRegistry
     private final Map<URI, SchemaContainer> containers
         = new HashMap<URI, SchemaContainer>();
 
+    /**
+     * Register a container with a given URI
+     *
+     * <p>You will normally never call this yourself. There is only one
+     * anomalous condition which throws a checked exception.</p>
+     *
+     * @param uri the URI of the container
+     * @param container the container
+     * @throws JsonSchemaException container's URI and registering URI are
+     * not the same
+     * @throws IllegalArgumentException attempt to register a null URI or
+     * container, or to register the same URI twice
+     */
     public void register(final URI uri, final SchemaContainer container)
+        throws JsonSchemaException
     {
         if (uri == null)
             throw new IllegalArgumentException("uri is null");
         if (container == null)
             throw new IllegalArgumentException("container is null");
+
+        if (containers.containsKey(uri))
+            throw new IllegalArgumentException("URI \"" + uri + "\" already "
+                + "registered");
+
+        // FIXME: namespace
+        final JsonRef ref = container.getLocator();
+        if (ref.isAbsolute()) {
+            final URI locator = ref.getLocator();
+            if (!uri.equals(locator))
+                throw new JsonSchemaException("URI mismatch: schema has "
+                    + "locator \"" + locator + "\", but tried to register as \""
+                    + uri + '"');
+        }
+
         containers.put(uri, container);
     }
 

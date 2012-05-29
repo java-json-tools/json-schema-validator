@@ -57,7 +57,25 @@ public final class SchemaRegistryTest
     }
 
     @Test
+    public void cannotRegisterTwiceWithSameURI()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode();
+        final SchemaContainer container = new SchemaContainer(node);
+        final URI uri = URI.create("");
+
+        registry.register(uri, container);
+        try {
+            registry.register(uri, container);
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "URI \"\" already registered");
+        }
+    }
+
+    @Test
     public void cannotRegisterNullContainer()
+        throws JsonSchemaException
     {
         final URI uri = URI.create("");
 
@@ -81,6 +99,23 @@ public final class SchemaRegistryTest
             fail("No exception thrown!");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "uri is null");
+        }
+    }
+
+    @Test
+    public void uriMismatchBetweenKeyAndContainerThrowsException()
+        throws JsonSchemaException
+    {
+        final URI uri = URI.create("a://b.c#");
+        final JsonNode node = factory.objectNode().put("id", "a://c.d#");
+        final SchemaContainer container = new SchemaContainer(node);
+
+        try {
+            registry.register(uri, container);
+            fail("No exception thrown!");
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getMessage(), "URI mismatch: schema has locator "
+                + "\"a://c.d#\", but tried to register as \"a://b.c#\"");
         }
     }
 }
