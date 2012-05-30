@@ -134,4 +134,24 @@ public final class JsonResolverTest
         final SchemaNode result = resolver.resolve(schemaNode);
         assertEquals(result, expected);
     }
+
+    @Test(timeOut = 5000)
+    public void LocalRefLoopIsDetected()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode()
+            .put("$ref", "#");
+
+        final SchemaContainer container = new SchemaContainer(node);
+        final SchemaNode schemaNode = new SchemaNode(container, node);
+
+        final JsonResolver resolver = new JsonResolver(manager);
+
+        try {
+            resolver.resolve(schemaNode);
+            fail("No excpetion thrown!");
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getMessage(), "ref loop detected");
+        }
+    }
 }
