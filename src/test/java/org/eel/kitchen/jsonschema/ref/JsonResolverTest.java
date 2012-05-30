@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -102,40 +101,36 @@ public final class JsonResolverTest
         assertEquals(resolved.getNode(), expected, msg);
     }
 
+    @DataProvider
+    public Iterator<Object[]> multiReferencingData()
+    {
+        final JsonNode data = testData.get("multiReferencing");
+        final Set<Object[]> set = new HashSet<Object[]>();
+        Object[] array;
 
-    @Test
-    public void resolvingIndirectLocalRefSucceeds()
+        for (final JsonNode node: data) {
+            array = new Object[] {
+                node.get("schema"),
+                node.get("expected"),
+                node.get("msg").textValue()
+            };
+            set.add(array);
+        }
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "multiReferencingData")
+    public void testMultiReferencing(final JsonNode schema,
+        final JsonNode expected, final String msg)
         throws JsonSchemaException
     {
-        final JsonNode refB = factory.objectNode().put("$ref", "#/b");
-        /*
-         * node is:
-         * {
-         *     "$ref": "#/a",
-         *     "a": {
-         *         "$ref": "#/b"
-         *     },
-         *     "b": ""
-         * }
-         *
-         * result should be: ""
-         */
-        final ObjectNode node = factory.objectNode()
-            .put("$ref", "#/a")
-            .put("b", "");
-
-        // Watch out... Unlike .put() with a second parameter other than
-        // JsonNode, this version of .put() returns the previous value!
-        node.put("a", refB);
-
         final JsonResolver resolver = new JsonResolver(manager);
+        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaNode schemaNode = new SchemaNode(container, schema);
 
-        final SchemaContainer container = new SchemaContainer(node);
-        final SchemaNode schemaNode = new SchemaNode(container, node);
-        final SchemaNode expected = new SchemaNode(container,
-            factory.textNode(""));
+        final SchemaNode resolved = resolver.resolve(schemaNode);
 
-        final SchemaNode result = resolver.resolve(schemaNode);
-        assertEquals(result, expected);
+        assertEquals(resolved.getNode(), expected, msg);
     }
 }
