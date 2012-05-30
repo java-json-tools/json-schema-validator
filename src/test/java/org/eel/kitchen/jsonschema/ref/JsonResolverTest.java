@@ -68,10 +68,9 @@ public final class JsonResolverTest
         manager = mock(URIManager.class);
     }
 
-    @DataProvider
-    public Iterator<Object[]> singleReferencingData()
+    private Iterator<Object[]> getReferencingData(final String name)
     {
-        final JsonNode data = testData.get("singleReferencing");
+        final JsonNode data = testData.get(name);
         final Set<Object[]> set = new HashSet<Object[]>();
         Object[] array;
 
@@ -85,6 +84,12 @@ public final class JsonResolverTest
         }
 
         return set.iterator();
+
+    }
+    @DataProvider
+    public Iterator<Object[]> singleReferencingData()
+    {
+        return getReferencingData("singleReferencing");
     }
 
     @Test(dataProvider = "singleReferencingData")
@@ -104,20 +109,7 @@ public final class JsonResolverTest
     @DataProvider
     public Iterator<Object[]> multiReferencingData()
     {
-        final JsonNode data = testData.get("multiReferencing");
-        final Set<Object[]> set = new HashSet<Object[]>();
-        Object[] array;
-
-        for (final JsonNode node: data) {
-            array = new Object[] {
-                node.get("schema"),
-                node.get("expected"),
-                node.get("msg").textValue()
-            };
-            set.add(array);
-        }
-
-        return set.iterator();
+        return getReferencingData("multiReferencing");
     }
 
     @Test(dataProvider = "multiReferencingData")
