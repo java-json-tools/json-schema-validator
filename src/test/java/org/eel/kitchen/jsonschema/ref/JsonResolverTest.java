@@ -18,13 +18,11 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -38,21 +36,8 @@ import static org.testng.Assert.*;
 
 public final class JsonResolverTest
 {
-    /*
-     * Tests:
-     *
-     * - no ref returns equivalent document
-     * - malformed ref returns equivalent document
-     * - local ref never calls URIManager
-     * - ref: # always loops
-     * - local ref loop is detected
-     * - cross schema loop is detected
-     * - when travelling through s1 -> s2 -> s1, getting s1 is only called once
-     */
-
-    private final JsonNodeFactory factory = JsonNodeFactory.instance;
-
     private URIManager manager;
+    private JsonResolver resolver;
     private JsonNode testData;
 
     @BeforeClass
@@ -60,12 +45,8 @@ public final class JsonResolverTest
         throws IOException
     {
         testData = JsonLoader.fromResource("/ref/jsonresolver.json");
-    }
-
-    @BeforeMethod
-    public void initManager()
-    {
         manager = mock(URIManager.class);
+        resolver = new JsonResolver(manager);
     }
 
     private Iterator<Object[]> getReferencingData(final String name)
@@ -97,7 +78,6 @@ public final class JsonResolverTest
         final JsonNode expected, final String msg)
         throws JsonSchemaException
     {
-        final JsonResolver resolver = new JsonResolver(manager);
         final SchemaContainer container = new SchemaContainer(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
 
@@ -117,7 +97,6 @@ public final class JsonResolverTest
         final JsonNode expected, final String msg)
         throws JsonSchemaException
     {
-        final JsonResolver resolver = new JsonResolver(manager);
         final SchemaContainer container = new SchemaContainer(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
 
@@ -153,8 +132,6 @@ public final class JsonResolverTest
     {
         final SchemaContainer container = new SchemaContainer(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
-
-        final JsonResolver resolver = new JsonResolver(manager);
 
         try {
             resolver.resolve(schemaNode);
