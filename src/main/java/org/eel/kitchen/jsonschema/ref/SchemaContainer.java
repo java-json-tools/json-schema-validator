@@ -44,12 +44,6 @@ public final class SchemaContainer
                 + "normalized");
     }
 
-    // For test purposes only...
-    JsonNode getSchema()
-    {
-        return schema;
-    }
-
     public JsonRef getLocator()
     {
         return locator;

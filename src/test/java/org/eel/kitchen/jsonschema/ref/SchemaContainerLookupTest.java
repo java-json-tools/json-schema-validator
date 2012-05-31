@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.JsonPointer;
@@ -40,7 +41,8 @@ public final class SchemaContainerLookupTest
     {
         final JsonNode node = JsonLoader.fromResource("/schema-lookup.json");
         container = new SchemaContainer(node);
-        schema = container.getSchema();
+        schema = node;
+        ((ObjectNode) schema).remove("id");
     }
 
     @Test
