@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
-import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -31,12 +30,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class JsonResolverTest
 {
-    private URIManager manager;
     private JsonResolver resolver;
     private JsonNode testData;
 
@@ -45,8 +42,8 @@ public final class JsonResolverTest
         throws IOException
     {
         testData = JsonLoader.fromResource("/ref/jsonresolver.json");
-        manager = mock(URIManager.class);
-        resolver = new JsonResolver(manager);
+        // FIXME: this is allowed... It shouldn't be
+        resolver = new JsonResolver(null);
     }
 
     private Iterator<Object[]> getReferencingData(final String name)
