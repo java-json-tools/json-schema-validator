@@ -19,14 +19,19 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.uri.URIManager;
+import org.eel.kitchen.util.JsonLoader;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.net.URI;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
@@ -45,8 +50,17 @@ public final class JsonResolverTest
      * - when travelling through s1 -> s2 -> s1, getting s1 is only called once
      */
 
-    private URIManager manager;
     private final JsonNodeFactory factory = JsonNodeFactory.instance;
+
+    private URIManager manager;
+    private JsonNode testData;
+
+    @BeforeClass
+    public void initializeTestData()
+        throws IOException
+    {
+        testData = JsonLoader.fromResource("/ref/jsonresolver.json");
+    }
 
     @BeforeMethod
     public void initManager()
@@ -54,85 +68,62 @@ public final class JsonResolverTest
         manager = mock(URIManager.class);
     }
 
-    @Test
-    public void noRefReturnsSelf()
+    private Iterator<Object[]> getReferencingData(final String name)
+    {
+        final JsonNode data = testData.get(name);
+        final Set<Object[]> set = new HashSet<Object[]>();
+        Object[] array;
+
+        for (final JsonNode node: data) {
+            array = new Object[] {
+                node.get("schema"),
+                node.get("expected"),
+                node.get("msg").textValue()
+            };
+            set.add(array);
+        }
+
+        return set.iterator();
+
+    }
+    @DataProvider
+    public Iterator<Object[]> singleReferencingData()
+    {
+        return getReferencingData("singleReferencing");
+    }
+
+    @Test(dataProvider = "singleReferencingData")
+    public void testSingleReferencing(final JsonNode schema,
+        final JsonNode expected, final String msg)
         throws JsonSchemaException
     {
-        final JsonNodeFactory factory = JsonNodeFactory.instance;
-        final JsonNode node = factory.objectNode();
         final JsonResolver resolver = new JsonResolver(manager);
-
-        final SchemaContainer container = new SchemaContainer(node);
-        final SchemaNode schemaNode = new SchemaNode(container, node);
+        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaNode schemaNode = new SchemaNode(container, schema);
 
         final SchemaNode resolved = resolver.resolve(schemaNode);
-        assertEquals(schemaNode, resolved);
+
+        assertEquals(resolved.getNode(), expected, msg);
     }
 
-    @Test
-    public void malformedRefReturnsSelf()
+    @DataProvider
+    public Iterator<Object[]> multiReferencingData()
+    {
+        return getReferencingData("multiReferencing");
+    }
+
+    @Test(dataProvider = "multiReferencingData")
+    public void testMultiReferencing(final JsonNode schema,
+        final JsonNode expected, final String msg)
         throws JsonSchemaException
     {
-        final JsonNode node = factory.objectNode().put("$ref", 1);
         final JsonResolver resolver = new JsonResolver(manager);
-
-        final SchemaContainer container = new SchemaContainer(node);
-        final SchemaNode schemaNode = new SchemaNode(container, node);
+        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaNode schemaNode = new SchemaNode(container, schema);
 
         final SchemaNode resolved = resolver.resolve(schemaNode);
-        assertEquals(schemaNode, resolved);
-    }
 
-    @Test
-    public void resolvingLocalRefSucceeds()
-        throws JsonSchemaException
-    {
-        final JsonNode node = factory.objectNode()
-            .put("$ref", "#/a")
-            .put("a", "b");
-        final JsonResolver resolver = new JsonResolver(manager);
-
-        final SchemaContainer container = new SchemaContainer(node);
-        final SchemaNode schemaNode = new SchemaNode(container, node);
-
-        resolver.resolve(schemaNode);
-        verify(manager, never()).getContent(any(URI.class));
-    }
-
-    @Test
-    public void resolvingIndirectLocalRefSucceeds()
-        throws JsonSchemaException
-    {
-        final JsonNode refB = factory.objectNode().put("$ref", "#/b");
-        /*
-         * node is:
-         * {
-         *     "$ref": "#/a",
-         *     "a": {
-         *         "$ref": "#/b"
-         *     },
-         *     "b": ""
-         * }
-         *
-         * result should be: ""
-         */
-        final ObjectNode node = factory.objectNode()
-            .put("$ref", "#/a")
-            .put("b", "");
-
-        // Watch out... Unlike .put() with a second parameter other than
-        // JsonNode, this version of .put() returns the previous value!
-        node.put("a", refB);
-
-        final JsonResolver resolver = new JsonResolver(manager);
-
-        final SchemaContainer container = new SchemaContainer(node);
-        final SchemaNode schemaNode = new SchemaNode(container, node);
-        final SchemaNode expected = new SchemaNode(container,
-            factory.textNode(""));
-
-        final SchemaNode result = resolver.resolve(schemaNode);
-        assertEquals(result, expected);
+        assertEquals(resolved.getNode(), expected, msg);
     }
 
     @Test(timeOut = 5000)
