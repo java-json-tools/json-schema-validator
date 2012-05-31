@@ -126,15 +126,33 @@ public final class JsonResolverTest
         assertEquals(resolved.getNode(), expected, msg);
     }
 
-    @Test(timeOut = 5000)
-    public void LocalRefLoopIsDetected()
+    @DataProvider
+    public Iterator<Object[]> loopData()
+    {
+        final JsonNode data = testData.get("loops");
+        final Set<Object[]> set = new HashSet<Object[]>();
+        Object[] array;
+
+        for (final JsonNode node: data) {
+            array = new Object[] {
+                node.get("schema"),
+                node.get("msg").textValue()
+            };
+            set.add(array);
+        }
+
+        return set.iterator();
+    }
+
+    @Test(
+        timeOut = 5000,
+        dataProvider = "loopData"
+    )
+    public void testLoopDetection(final JsonNode schema, final String msg)
         throws JsonSchemaException
     {
-        final JsonNode node = factory.objectNode()
-            .put("$ref", "#");
-
-        final SchemaContainer container = new SchemaContainer(node);
-        final SchemaNode schemaNode = new SchemaNode(container, node);
+        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaNode schemaNode = new SchemaNode(container, schema);
 
         final JsonResolver resolver = new JsonResolver(manager);
 
@@ -142,7 +160,7 @@ public final class JsonResolverTest
             resolver.resolve(schemaNode);
             fail("No excpetion thrown!");
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "ref loop detected");
+            assertEquals(e.getMessage(), "ref loop detected", msg);
         }
     }
 }

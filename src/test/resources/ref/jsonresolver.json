@@ -100,5 +100,47 @@
             "expected": "theresult",
             "msg": "id -> pointer resolution failure"
         }
+    ],
+    "loops": [
+        {
+            "schema": { "$ref": "#" },
+            "msg": "ref # loop detection failure"
+        },
+        {
+            "schema": {
+                "$ref": "#/a",
+                "a" : {
+                    "$ref": "#/b"
+                },
+                "b": {
+                    "$ref": "#"
+                }
+            },
+            "msg": "pointer loop detection failure"
+        },
+        {
+            "schema": {
+                "$ref": "#first",
+                "a" : {
+                    "id": "#first",
+                    "$ref": "#second"
+                },
+                "b": {
+                    "id": "#second",
+                    "$ref": "#"
+                }
+            },
+            "msg": "id loop detection failure"
+        },
+        {
+            "schema": {
+                "$ref": "#first",
+                "x": {
+                    "id": "#first",
+                    "$ref": "#/x"
+                }
+            },
+            "msg": "same pointer/id loop detection failure"
+        }
     ]
 }
