@@ -28,6 +28,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.mockito.Mockito.*;
@@ -35,27 +36,26 @@ import static org.testng.Assert.*;
 
 public final class JsonResolverAbsoluteURITest
 {
-    private JsonResolver resolver;
+    private static final String SELF_REFERENCING = "a://b.c#";
 
-    private JsonNode testData;
-    private  JsonNode schemas;
+    private JsonResolver resolver;
+    private Map<String, JsonNode> schemas = new HashMap<String, JsonNode>();
 
     @BeforeClass
     public void initializeResolver()
         throws IOException, JsonSchemaException
     {
-        testData = JsonLoader.fromResource("/ref/jsonresolver-absolute.json");
-        schemas = testData.get("schemas");
+        final JsonNode testData
+            = JsonLoader.fromResource("/ref/jsonresolver-absolute.json");
 
-        final Map<String, JsonNode> map
-            = CollectionUtils.toMap(schemas.fields());
+        schemas = CollectionUtils.toMap(testData.fields());
 
         final URIManager manager = mock(URIManager.class);
 
         URI uri;
         JsonNode node;
 
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+        for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             uri = URI.create(entry.getKey());
             node = entry.getValue();
             when(manager.getContent(uri)).thenReturn(node);
@@ -68,7 +68,7 @@ public final class JsonResolverAbsoluteURITest
     public void referencingAbsoluteSelfIsDetectedAsLoop()
         throws JsonSchemaException
     {
-        final JsonNode schema = schemas.elements().next();
+        final JsonNode schema = schemas.get(SELF_REFERENCING);
 
         final SchemaContainer container = new SchemaContainer(schema);
         final SchemaNode node = new SchemaNode(container, schema);
