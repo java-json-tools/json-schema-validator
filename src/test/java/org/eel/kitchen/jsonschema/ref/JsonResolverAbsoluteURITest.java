@@ -52,9 +52,14 @@ public final class JsonResolverAbsoluteURITest
 
         final URIManager manager = mock(URIManager.class);
 
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet())
-            when(manager.getContent(URI.create(entry.getKey())))
-                .thenReturn(entry.getValue());
+        URI uri;
+        JsonNode node;
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            uri = URI.create(entry.getKey());
+            node = entry.getValue();
+            when(manager.getContent(uri)).thenReturn(node);
+        }
 
         resolver = new JsonResolver(manager);
     }
