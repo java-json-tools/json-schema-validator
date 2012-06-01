@@ -98,6 +98,9 @@ public final class SchemaContainer
 
     private JsonNode cleanup(final JsonNode schema)
     {
+        if (!schema.has("id"))
+            return schema;
+
         final ObjectNode ret = schema.deepCopy();
 
         ret.remove("id");
