@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.ref;
+package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.util.JsonPointer;
 
 public final class SchemaContainer

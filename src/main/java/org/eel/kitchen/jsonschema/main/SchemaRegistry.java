@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.ref;
+package org.eel.kitchen.jsonschema.main;
 
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 
 import java.net.URI;
 import java.util.HashMap;
