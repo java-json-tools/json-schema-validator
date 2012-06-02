@@ -23,7 +23,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-class SchemaRegistry
+public final class SchemaRegistry
 {
     private final Map<URI, SchemaContainer> containers
         = new HashMap<URI, SchemaContainer>();
