@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -50,7 +49,7 @@ public final class SchemaContainerTest
         throws JsonSchemaException
     {
         final String str = "http://foo.bar/baz#";
-        final JsonRef ref = createRef(str);
+        final JsonRef ref = new JsonRef(str);
 
         node = factory.objectNode().put("id", str);
         container = new SchemaContainer(node);
@@ -64,7 +63,7 @@ public final class SchemaContainerTest
     {
         final String str1 = "http://foo.bar/baz#";
         final String str2 = "http://foo.bar/blah#";
-        final JsonRef ref = createRef(str2);
+        final JsonRef ref = new JsonRef(str2);
 
         node = factory.objectNode().put("id", str1);
         container = new SchemaContainer(node);
@@ -77,7 +76,7 @@ public final class SchemaContainerTest
         throws JsonSchemaException
     {
         final String str = "http://foo.bar/baz#";
-        final JsonRef ref = createRef("#someId");
+        final JsonRef ref = new JsonRef("#someId");
 
         node = factory.objectNode().put("id", str);
         container = new SchemaContainer(node);
@@ -90,7 +89,7 @@ public final class SchemaContainerTest
         throws JsonSchemaException
     {
         final String str = "http://foo.bar/baz#";
-        final JsonRef ref2 = createRef("baz");
+        final JsonRef ref2 = new JsonRef("baz");
 
         node = factory.objectNode().put("id", str);
         container = new SchemaContainer(node);
@@ -103,7 +102,7 @@ public final class SchemaContainerTest
         throws JsonSchemaException
     {
         final String str = "http://foo.bar/baz#";
-        final JsonRef ref2 = createRef("bar");
+        final JsonRef ref2 = new JsonRef("bar");
 
         node = factory.objectNode().put("id", str);
         container = new SchemaContainer(node);
@@ -188,12 +187,5 @@ public final class SchemaContainerTest
         final SchemaContainer c2 = new SchemaContainer(n2);
 
         assertTrue(c1.equals(c2));
-    }
-
-    private static JsonRef createRef(final String s)
-        throws JsonSchemaException
-    {
-        final JsonNode node = factory.objectNode().put("x", s);
-        return JsonRef.fromNode(node, "x");
     }
 }
