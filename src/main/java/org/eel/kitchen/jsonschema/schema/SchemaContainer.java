@@ -24,6 +24,8 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.util.JsonPointer;
 
+import java.net.URI;
+
 public final class SchemaContainer
 {
     private final JsonNode schema;
@@ -39,6 +41,10 @@ public final class SchemaContainer
         checkLocator();
     }
 
+    public SchemaContainer(final URI uri, final JsonNode node)
+    {
+        schema = cleanup(node);
+        locator = new JsonRef(uri);
     }
 
     public JsonRef getLocator()

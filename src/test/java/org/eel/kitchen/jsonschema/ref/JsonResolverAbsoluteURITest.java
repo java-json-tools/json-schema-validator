@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.SchemaRegistry;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -43,6 +44,7 @@ public final class JsonResolverAbsoluteURITest
 {
     private JsonNode testData;
     private URIManager manager;
+    private SchemaRegistry registry;
     private JsonResolver resolver;
 
     @BeforeClass
@@ -54,6 +56,7 @@ public final class JsonResolverAbsoluteURITest
         testData = JsonLoader.fromResource("/ref/jsonresolver-testdata.json");
 
         manager = mock(URIManager.class);
+        registry = new SchemaRegistry();
 
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(schemaList.fields());
@@ -68,7 +71,7 @@ public final class JsonResolverAbsoluteURITest
         }
 
         final JsonResolverBuilder builder = new JsonResolverBuilder()
-            .withManager(manager);
+            .withManager(manager).withRegistry(registry);
         resolver = builder.build();
     }
 

@@ -212,9 +212,4 @@ public final class JsonRef
     {
         return uri.toString();
     }
-
-    public static JsonRef fromURI(final URI uri)
-    {
-        return new JsonRef(uri);
-    }
 }

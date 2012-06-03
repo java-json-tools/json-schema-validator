@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
+import java.net.URI;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -74,12 +75,30 @@ public final class JsonResolver
             if (!refs.add(ref))
                 throw new JsonSchemaException("ref loop detected");
             if (!container.contains(ref)) {
-                node = manager.getContent(ref.getRootAsURI());
+                node = getContent(ref);
                 container = new SchemaContainer(node);
             }
             node = container.lookupFragment(ref.getFragment());
         }
 
         return new SchemaNode(container, node);
+    }
+
+    private JsonNode getContent(final JsonRef ref)
+        throws JsonSchemaException
+    {
+        final URI root = ref.getRootAsURI();
+        final SchemaContainer container;
+        final JsonNode ret;
+
+        synchronized (registry) {
+            container = registry.get(root);
+            if (container != null)
+                return container.lookupFragment("");
+            ret = manager.getContent(root);
+            registry.register(root, ret);
+        }
+
+        return ret;
     }
 }
