@@ -36,13 +36,9 @@ public final class SchemaContainer
         locator = JsonRef.fromNode(schema, "id");
         this.schema = cleanup(schema);
 
-        if (!locator.isAbsolute() && !locator.isEmpty())
-            throw new JsonSchemaException("a parent schema's id must be "
-                + "absolute");
+        checkLocator();
+    }
 
-        if (!locator.isNormalized())
-            throw new JsonSchemaException("a parent schema's id must be "
-                + "normalized");
     }
 
     public JsonRef getLocator()
@@ -131,4 +127,17 @@ public final class SchemaContainer
 
         return MissingNode.getInstance();
     }
+
+    private void checkLocator()
+        throws JsonSchemaException
+    {
+        if (!locator.isAbsolute() && !locator.isEmpty())
+            throw new JsonSchemaException("a parent schema's id must be "
+                + "absolute");
+
+        if (!locator.isNormalized())
+            throw new JsonSchemaException("a parent schema's id must be "
+                + "normalized");
+    }
+
 }
