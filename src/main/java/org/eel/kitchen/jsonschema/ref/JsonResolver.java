@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.SchemaRegistry;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -29,10 +30,12 @@ import java.util.Set;
 public final class JsonResolver
 {
     private final URIManager manager;
+    private final SchemaRegistry registry;
 
-    public JsonResolver(final URIManager manager)
+    public JsonResolver(final URIManager manager, final SchemaRegistry registry)
     {
         this.manager = manager;
+        this.registry = registry;
     }
 
     /*

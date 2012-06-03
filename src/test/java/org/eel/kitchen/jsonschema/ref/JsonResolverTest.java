@@ -43,8 +43,7 @@ public final class JsonResolverTest
         throws IOException
     {
         testData = JsonLoader.fromResource("/ref/jsonresolver.json");
-        // FIXME: this is allowed... It shouldn't be
-        resolver = new JsonResolver(null);
+        resolver = new JsonResolverBuilder().build();
     }
 
     private Iterator<Object[]> getReferencingData(final String name)

@@ -48,4 +48,10 @@ public class SchemaRegistry
     {
         return containers.get(uri);
     }
+
+    public void register(final URI uri, final JsonNode schema)
+        throws JsonSchemaException
+    {
+        containers.put(uri, new SchemaContainer(schema));
+    }
 }

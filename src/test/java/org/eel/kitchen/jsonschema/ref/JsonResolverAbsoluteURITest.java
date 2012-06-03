@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
@@ -40,7 +41,6 @@ import static org.testng.Assert.*;
 
 public final class JsonResolverAbsoluteURITest
 {
-    private JsonNode schemaList;
     private JsonNode testData;
     private URIManager manager;
     private JsonResolver resolver;
@@ -49,7 +49,8 @@ public final class JsonResolverAbsoluteURITest
     public void setUp()
         throws IOException, JsonSchemaException
     {
-        schemaList = JsonLoader.fromResource("/ref/jsonresolver-schemas.json");
+        final JsonNode schemaList
+            = JsonLoader.fromResource("/ref/jsonresolver-schemas.json");
         testData = JsonLoader.fromResource("/ref/jsonresolver-testdata.json");
 
         manager = mock(URIManager.class);
@@ -66,7 +67,9 @@ public final class JsonResolverAbsoluteURITest
             when(manager.getContent(uri)).thenReturn(schema);
         }
 
-        resolver = new JsonResolver(manager);
+        final JsonResolverBuilder builder = new JsonResolverBuilder()
+            .withManager(manager);
+        resolver = builder.build();
     }
 
     @DataProvider
@@ -128,5 +131,20 @@ public final class JsonResolverAbsoluteURITest
     {
         final SchemaNode ret = resolver.resolve(node);
         assertEquals(ret.getNode(), expected);
+    }
+
+    @Test
+    public void sameLocatorIsOnlyLookedUpOnce()
+        throws JsonSchemaException
+    {
+        final String locator = "schema://schema4#";
+        final URI uri = URI.create(locator);
+        final JsonNode schema = JsonNodeFactory.instance.objectNode()
+            .put("$ref", locator);
+        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaNode node = new SchemaNode(container, schema);
+
+        resolver.resolve(node);
+        verify(manager, times(1)).getContent(uri);
     }
 }

@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -77,6 +78,19 @@ public final class SchemaRegistryTest
             assertEquals(e.getMessage(), "URI \"" + uri + "\" is already "
                 + "registered");
         }
+    }
 
+    @Test
+    public void canRegisterWithURI()
+        throws JsonSchemaException
+    {
+        final String locator = "a://b.c#";
+        final URI uri = URI.create(locator);
+        final JsonNode schema = factory.objectNode()
+            .put("a", "b");
+
+        registry.register(uri, schema);
+        final SchemaContainer container = registry.get(uri);
+        assertEquals(container.lookupFragment(""), schema);
     }
 }
