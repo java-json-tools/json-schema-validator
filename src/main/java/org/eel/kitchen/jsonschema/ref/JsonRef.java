@@ -80,9 +80,17 @@ public final class JsonRef
      */
     private JsonRef(final URI uri)
     {
-        final URI normalize = uri.normalize();
-        this.uri = normalize;
+        URI normalize = uri.normalize();
         normalized = uri.equals(normalize);
+        if (normalize.getFragment() == null)
+            try {
+                normalize = new URI(normalize.getScheme(),
+                    normalize.getSchemeSpecificPart(), "");
+            } catch (URISyntaxException e) {
+                throw new RuntimeException("WTF??", e);
+            }
+
+        this.uri = normalize;
     }
 
     /**
@@ -108,12 +116,10 @@ public final class JsonRef
             throw new JsonSchemaException("invalid " + key + " entry: not a "
                 + "string");
 
-        URI uri;
+        final URI uri;
 
         try {
             uri = new URI(entry.textValue());
-            if (uri.getFragment() == null)
-                uri = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
         } catch (URISyntaxException ignored) {
             throw new JsonSchemaException("invalid " + key + " entry: not a "
                 + "valid URI");
@@ -198,5 +204,10 @@ public final class JsonRef
     public String toString()
     {
         return uri.toString();
+    }
+
+    public static JsonRef fromURI(final URI uri)
+    {
+        return new JsonRef(uri);
     }
 }
