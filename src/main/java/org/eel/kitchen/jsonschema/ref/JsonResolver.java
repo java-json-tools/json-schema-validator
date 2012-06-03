@@ -71,7 +71,7 @@ public final class JsonResolver
             if (!refs.add(ref))
                 throw new JsonSchemaException("ref loop detected");
             if (!container.contains(ref)) {
-                node = manager.getContent(ref.getLocator());
+                node = manager.getContent(ref.getRootAsURI());
                 container = new SchemaContainer(node);
             }
             node = container.lookupFragment(ref.getFragment());

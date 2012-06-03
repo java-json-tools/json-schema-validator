@@ -54,7 +54,7 @@ public final class SchemaContainer
     {
         final JsonRef tmp = locator.resolve(ref);
 
-        return locator.getLocator().equals(tmp.getLocator());
+        return locator.getRootAsURI().equals(tmp.getRootAsURI());
     }
 
     public JsonNode lookupFragment(final String fragment)

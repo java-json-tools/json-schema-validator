@@ -142,7 +142,7 @@ public final class JsonRef
      *
      * @return an URI
      */
-    public URI getLocator()
+    public URI getRootAsURI()
     {
         try {
             return new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");

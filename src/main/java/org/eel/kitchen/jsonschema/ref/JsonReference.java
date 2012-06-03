@@ -177,7 +177,7 @@ public final class JsonReference
             if (ret != null)
                 return ret;
 
-            final URI locator = ref.getLocator();
+            final URI locator = ref.getRootAsURI();
 
             ret = manager.getContent(locator);
 
