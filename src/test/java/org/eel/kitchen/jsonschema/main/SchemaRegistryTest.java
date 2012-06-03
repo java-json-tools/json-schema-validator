@@ -19,9 +19,6 @@ package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.SchemaRegistry;
-import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -40,84 +37,46 @@ public final class SchemaRegistryTest
         registry = new SchemaRegistry();
     }
 
-    /*
-     * Note that we test here with whatever URI we want. But in reality,
-     * only absolute URIs will ever find their way into the registry,
-     * this is guaranteed by the callers.
-     */
     @Test
-    public void testRegisteredSchemaShowsUp()
+    public void schemaWithValidIDIsRegistered()
         throws JsonSchemaException
     {
-        final JsonNode node = factory.objectNode();
-        final SchemaContainer container = new SchemaContainer(node);
-        final URI uri = URI.create("");
+        final String locator = "a://b.c#";
+        final JsonNode node = factory.objectNode().put("id", locator);
+        final URI uri = URI.create(locator);
 
-        registry.register(uri, container);
-
-        assertSame(registry.get(uri), container);
+        registry.register(node);
+        assertNotNull(registry.get(uri));
     }
 
     @Test
-    public void cannotRegisterTwiceWithSameURI()
+    public void nullSchemaThrowsIAE()
         throws JsonSchemaException
     {
-        final JsonNode node = factory.objectNode();
-        final SchemaContainer container = new SchemaContainer(node);
-        final URI uri = URI.create("");
-
-        registry.register(uri, container);
         try {
-            registry.register(uri, container);
+            registry.register(null);
             fail("No exception thrown!");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "URI \"\" already registered");
+            assertEquals(e.getMessage(), "schema is null");
         }
     }
 
     @Test
-    public void cannotRegisterNullContainer()
+    public void cannotRegisterSameURITwice()
         throws JsonSchemaException
     {
-        final URI uri = URI.create("");
+        final String locator = "a://b.c#";
+        final JsonNode node = factory.objectNode().put("id", locator);
+        final URI uri = URI.create(locator);
 
+        registry.register(node);
         try {
-            registry.register(uri, null);
-            fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "container is null");
-        }
-    }
-
-    @Test
-    public void cannotRegisterNullURI()
-        throws JsonSchemaException
-    {
-        final JsonNode node = factory.objectNode();
-        final SchemaContainer container = new SchemaContainer(node);
-
-        try {
-            registry.register(null, container);
-            fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "uri is null");
-        }
-    }
-
-    @Test
-    public void uriMismatchBetweenKeyAndContainerThrowsException()
-        throws JsonSchemaException
-    {
-        final URI uri = URI.create("a://b.c#");
-        final JsonNode node = factory.objectNode().put("id", "a://c.d#");
-        final SchemaContainer container = new SchemaContainer(node);
-
-        try {
-            registry.register(uri, container);
+            registry.register(node);
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "URI mismatch: schema has locator "
-                + "\"a://c.d#\", but tried to register as \"a://b.c#\"");
+            assertEquals(e.getMessage(), "URI \"" + uri + "\" is already "
+                + "registered");
         }
+
     }
 }
