@@ -6,5 +6,19 @@
         {
             "$ref": "schema://schema2#"
         }
+    ],
+    "resolve": [
+        {
+            "schema": {
+                "$ref": "schema://schema1#"
+            },
+            "expected": "bar"
+        },
+        {
+            "schema": {
+                "$ref": "schema://schema4#"
+            },
+            "expected": 31
+        }
     ]
 }

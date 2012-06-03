@@ -49,7 +49,7 @@ public final class JsonResolverAbsoluteURITest
     public void setUp()
         throws IOException, JsonSchemaException
     {
-        schemaList = JsonLoader.fromResource("/ref/jsonresolver-absolute.json");
+        schemaList = JsonLoader.fromResource("/ref/jsonresolver-schemas.json");
         testData = JsonLoader.fromResource("/ref/jsonresolver-testdata.json");
 
         manager = mock(URIManager.class);
@@ -100,4 +100,33 @@ public final class JsonResolverAbsoluteURITest
         }
     }
 
+    @DataProvider
+    private Iterator<Object[]> resolveData()
+        throws JsonSchemaException
+    {
+        final Set<Object[]> set = new HashSet<Object[]>();
+
+        SchemaContainer container;
+        SchemaNode node;
+        JsonNode schema, expected;
+
+        for (final JsonNode testNode: testData.get("resolve")) {
+            schema = testNode.get("schema");
+            container = new SchemaContainer(schema);
+            node = new SchemaNode(container, schema);
+            expected = testNode.get("expected");
+            set.add(new Object[] { node, expected });
+        }
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "resolveData")
+    public void resolveWorksAsExpected(final SchemaNode node,
+        final JsonNode expected)
+        throws JsonSchemaException
+    {
+        final SchemaNode ret = resolver.resolve(node);
+        assertEquals(ret.getNode(), expected);
+    }
 }

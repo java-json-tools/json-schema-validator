@@ -14,5 +14,12 @@
             "id": "#loop",
             "$ref": "schema://schema2#"
         }
+    },
+    "schema://schema4#": {
+        "$ref": "schema://schema5#",
+        "dst": 31
+    },
+    "schema://schema5#": {
+        "$ref": "schema://schema4#/dst"
     }
 }
