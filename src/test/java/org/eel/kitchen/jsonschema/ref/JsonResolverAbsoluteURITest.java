@@ -25,55 +25,73 @@ import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class JsonResolverAbsoluteURITest
 {
-    private static final String SELF_REFERENCING = "a://b.c#";
-
+    private JsonNode schemaList;
+    private JsonNode testData;
+    private URIManager manager;
     private JsonResolver resolver;
-    private Map<String, JsonNode> schemas = new HashMap<String, JsonNode>();
 
     @BeforeClass
-    public void initializeResolver()
+    public void setUp()
         throws IOException, JsonSchemaException
     {
-        final JsonNode testData
-            = JsonLoader.fromResource("/ref/jsonresolver-absolute.json");
+        schemaList = JsonLoader.fromResource("/ref/jsonresolver-absolute.json");
+        testData = JsonLoader.fromResource("/ref/jsonresolver-testdata.json");
 
-        schemas = CollectionUtils.toMap(testData.fields());
+        manager = mock(URIManager.class);
 
-        final URIManager manager = mock(URIManager.class);
+        final Map<String, JsonNode> map
+            = CollectionUtils.toMap(schemaList.fields());
 
         URI uri;
-        JsonNode node;
+        JsonNode schema;
 
-        for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             uri = URI.create(entry.getKey());
-            node = entry.getValue();
-            when(manager.getContent(uri)).thenReturn(node);
+            schema = entry.getValue();
+            when(manager.getContent(uri)).thenReturn(schema);
         }
 
         resolver = new JsonResolver(manager);
     }
 
-    @Test(timeOut = 5000)
-    public void referencingAbsoluteSelfIsDetectedAsLoop()
+    @DataProvider
+    private Iterator<Object[]> loopTestData()
         throws JsonSchemaException
     {
-        final JsonNode schema = schemas.get(SELF_REFERENCING);
+        final Set<Object[]> set = new HashSet<Object[]>();
 
-        final SchemaContainer container = new SchemaContainer(schema);
-        final SchemaNode node = new SchemaNode(container, schema);
+        SchemaContainer container;
+        SchemaNode node;
 
+        for (final JsonNode schema: testData.get("loops")) {
+            container = new SchemaContainer(schema);
+            node = new SchemaNode(container, schema);
+            set.add(new Object[]{ node });
+        }
+
+        return set.iterator();
+    }
+
+    @Test(
+        dataProvider = "loopTestData"
+    )
+    public void loopsAreDetected(final SchemaNode node)
+    {
         try {
             resolver.resolve(node);
             fail("No exception thrown!");
@@ -81,4 +99,5 @@ public final class JsonResolverAbsoluteURITest
             assertEquals(e.getMessage(), "ref loop detected");
         }
     }
+
 }

@@ -1,0 +1,10 @@
+{
+    "loops": [
+        {
+            "$ref": "a://b.c#"
+        },
+        {
+            "$ref": "schema://schema2#"
+        }
+    ]
+}

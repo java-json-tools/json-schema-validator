@@ -1,5 +1,18 @@
 {
     "a://b.c#": {
         "$ref": "a://b.c#"
+    },
+    "schema://schema1#": {
+        "$ref": "#/foo",
+        "foo": "bar"
+    },
+    "schema://schema2#": {
+        "$ref": "schema://schema3#loop"
+    },
+    "schema://schema3#": {
+        "sub": {
+            "id": "#loop",
+            "$ref": "schema://schema2#"
+        }
     }
 }
