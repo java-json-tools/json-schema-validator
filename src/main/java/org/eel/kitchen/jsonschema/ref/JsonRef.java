@@ -69,16 +69,21 @@ public final class JsonRef
     /**
      * The URI, as provided by the input arguments
      */
-    private final URI uri;
+    private URI uri;
 
-    private final boolean normalized;
+    private boolean normalized;
 
     /**
      * The main constructor, which is private by design
      *
      * @param uri Input URI
      */
-    private JsonRef(final URI uri)
+    public JsonRef(final URI uri)
+    {
+        process(uri);
+    }
+
+    private void process(final URI uri)
     {
         URI normalize = uri.normalize();
         normalized = uri.equals(normalize);
@@ -91,6 +96,17 @@ public final class JsonRef
             }
 
         this.uri = normalize;
+
+    }
+
+    public JsonRef(final String s)
+        throws JsonSchemaException
+    {
+        try {
+            process(new URI(s));
+        } catch (URISyntaxException e) {
+            throw new JsonSchemaException("invalid URI \"" + s + "\"", e);
+        }
     }
 
     /**
@@ -116,16 +132,7 @@ public final class JsonRef
             throw new JsonSchemaException("invalid " + key + " entry: not a "
                 + "string");
 
-        final URI uri;
-
-        try {
-            uri = new URI(entry.textValue());
-        } catch (URISyntaxException ignored) {
-            throw new JsonSchemaException("invalid " + key + " entry: not a "
-                + "valid URI");
-        }
-
-        return new JsonRef(uri);
+        return new JsonRef(entry.textValue());
     }
 
     public boolean isEmpty()

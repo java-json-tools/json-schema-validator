@@ -51,7 +51,7 @@ public final class JsonRefTest
             JsonRef.fromNode(node, "$ref");
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "invalid $ref entry: not a valid URI");
+            assertEquals(e.getMessage(), "invalid URI \"+23:\"");
         }
     }
 
