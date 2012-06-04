@@ -74,17 +74,15 @@ public final class JsonResolver
             ref = container.getLocator().resolve(ref);
             if (!refs.add(ref))
                 throw new JsonSchemaException("ref loop detected");
-            if (!container.contains(ref)) {
-                node = getContent(ref);
-                container = new SchemaContainer(node);
-            }
+            if (!container.contains(ref))
+                container = getContent(ref);
             node = container.lookupFragment(ref.getFragment());
         }
 
         return new SchemaNode(container, node);
     }
 
-    private JsonNode getContent(final JsonRef ref)
+    private SchemaContainer getContent(final JsonRef ref)
         throws JsonSchemaException
     {
         final URI uri = ref.getRootAsURI();
@@ -94,11 +92,11 @@ public final class JsonResolver
         synchronized (registry) {
             container = registry.get(uri);
             if (container != null)
-                return container.lookupFragment("");
+                return container;
             node = manager.getContent(uri);
             registry.register(uri, node);
         }
 
-        return node;
+        return new SchemaContainer(node);
     }
 }
