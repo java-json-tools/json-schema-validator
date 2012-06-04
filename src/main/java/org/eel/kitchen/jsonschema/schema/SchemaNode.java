@@ -18,16 +18,50 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SchemaNode
 {
+    private static final JsonNode EMPTY_SCHEMA
+        = JsonNodeFactory.instance.objectNode();
+
     private final SchemaContainer container;
     private final JsonNode node;
+
+    private JsonNode additionalItems = EMPTY_SCHEMA;
+
+    private final List<JsonNode> items = new ArrayList<JsonNode>();
 
     public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
         this.container = container;
         this.node = node;
+
+        setupArraySchemas();
+    }
+
+    private void setupArraySchemas()
+    {
+        JsonNode tmp;
+
+        tmp = node.path("items");
+
+        if (tmp.isObject()) {
+            additionalItems = tmp;
+            return;
+        }
+
+        if (tmp.isArray())
+            for (final JsonNode item: tmp)
+                items.add(item);
+
+        tmp = node.path("additionalItems");
+
+        if (tmp.isObject())
+            additionalItems = tmp;
     }
 
     public SchemaContainer getContainer()
@@ -60,5 +94,10 @@ public final class SchemaNode
     public int hashCode()
     {
         return 31 * container.hashCode() + node.hashCode();
+    }
+
+    public JsonNode getArraySchema(final int index)
+    {
+        return index < items.size() ? items.get(index) : additionalItems;
     }
 }
