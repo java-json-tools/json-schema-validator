@@ -1,0 +1,70 @@
+[
+    {
+        "schema": {},
+        "key": "foo",
+        "expected": [ {} ]
+    },
+    {
+        "schema": {
+            "additionalProperties": { "a": "b" }
+        },
+        "key": "foo",
+        "expected": [ { "a": "b" } ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "foo": { "a": "b" }
+            },
+            "additionalProperties": { "c": "d" }
+        },
+        "key": "foo",
+        "expected": [ { "a": "b" } ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "bar": { "a": "b" }
+            },
+            "additionalProperties": { "c": "d" }
+        },
+        "key": "foo",
+        "expected": [ { "c": "d" } ]
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "^f": { "a": "b" }
+            }
+        },
+        "key": "foo",
+        "expected": [ { "a": "b" } ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "foo": { "a": "b" }
+            },
+            "patternProperties": {
+                "^f": { "c": "d" }
+            },
+            "additionalProperties": { "e": "f" }
+        },
+        "key": "foo",
+        "expected": [ { "a": "b" }, { "c": "d" } ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "foo": { "a": "b" }
+            },
+            "patternProperties": {
+                "^f": { "c": "d" },
+                "o$": { "e": "f" }
+            },
+            "additionalProperties": { "g": "h" }
+        },
+        "key": "foo",
+        "expected": [ { "a": "b" }, { "c": "d" }, { "e": "f" } ]
+    }
+]
