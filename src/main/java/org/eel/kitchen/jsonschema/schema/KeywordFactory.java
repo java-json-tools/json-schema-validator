@@ -18,25 +18,10 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.AdditionalPropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.DependenciesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.DisallowKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.DivisibleByKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.EnumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.ExtendsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
+import org.eel.kitchen.jsonschema.bundle.Keyword;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MaxItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MaxLengthKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MaximumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MinItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MinLengthKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MinimumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.PatternKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
@@ -56,26 +41,17 @@ public final class KeywordFactory
         validators = new HashMap<String, Class<? extends KeywordValidator>>();
 
     static {
-        validators.put("additionalItems",
-            AdditionalItemsKeywordValidator.class);
-        validators.put("additionalProperties",
-            AdditionalPropertiesKeywordValidator.class);
-        validators.put("dependencies", DependenciesKeywordValidator.class);
-        validators.put("disallow", DisallowKeywordValidator.class);
-        validators.put("divisibleBy", DivisibleByKeywordValidator.class);
-        validators.put("enum", EnumKeywordValidator.class);
-        validators.put("extends", ExtendsKeywordValidator.class);
-        validators.put("format", FormatKeywordValidator.class);
-        validators.put("maximum", MaximumKeywordValidator.class);
-        validators.put("maxItems", MaxItemsKeywordValidator.class);
-        validators.put("maxLength", MaxLengthKeywordValidator.class);
-        validators.put("minimum", MinimumKeywordValidator.class);
-        validators.put("minItems", MinItemsKeywordValidator.class);
-        validators.put("minLength", MinLengthKeywordValidator.class);
-        validators.put("pattern", PatternKeywordValidator.class);
-        validators.put("properties", PropertiesKeywordValidator.class);
-        validators.put("type", TypeKeywordValidator.class);
-        validators.put("uniqueItems", UniqueItemsKeywordValidator.class);
+        final KeywordBundle bundle = KeywordBundles.defaultBundle();
+
+        String keyword;
+        Class<? extends KeywordValidator> validatorClass;
+
+        for (final Map.Entry<String, Keyword> entry: bundle) {
+            keyword = entry.getKey();
+            validatorClass = entry.getValue().getValidatorClass();
+            if (validatorClass != null)
+                validators.put(keyword, validatorClass);
+        }
     }
 
     public static KeywordFactory getInstance()

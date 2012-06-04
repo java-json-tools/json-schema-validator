@@ -17,17 +17,21 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 public class Keyword
 {
     private final String name;
     private final SyntaxChecker syntaxChecker;
+    private final Class<? extends KeywordValidator> validatorClass;
 
-    Keyword(final String name, final SyntaxChecker syntaxChecker)
+    Keyword(final String name, final SyntaxChecker syntaxChecker,
+        final Class<? extends KeywordValidator> validatorClass)
     {
         this.name = name;
         this.syntaxChecker = syntaxChecker;
+        this.validatorClass = validatorClass;
     }
 
     public String getName()
@@ -40,4 +44,8 @@ public class Keyword
         return syntaxChecker;
     }
 
+    public Class<? extends KeywordValidator> getValidatorClass()
+    {
+        return validatorClass;
+    }
 }

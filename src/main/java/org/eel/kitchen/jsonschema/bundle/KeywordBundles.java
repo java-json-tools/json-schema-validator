@@ -17,6 +17,24 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.AdditionalPropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.DependenciesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.DisallowKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.DivisibleByKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.EnumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.ExtendsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MaxItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MaxLengthKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MaximumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MinItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MinLengthKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MinimumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.PatternKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.EnumSyntaxChecker;
@@ -48,6 +66,7 @@ public final class KeywordBundles
             NodeType.OBJECT);
         keyword = KeywordBuilder.forKeyword("additionalItems")
             .withSyntaxChecker(checker)
+            .withValidatorClass(AdditionalItemsKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -55,11 +74,13 @@ public final class KeywordBundles
             NodeType.BOOLEAN, NodeType.OBJECT);
         keyword = KeywordBuilder.forKeyword("additionalProperties")
             .withSyntaxChecker(checker)
+            .withValidatorClass(AdditionalPropertiesKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         keyword = KeywordBuilder.forKeyword("dependencies")
             .withSyntaxChecker(DependenciesSyntaxChecker.getInstance())
+            .withValidatorClass(DependenciesKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -72,16 +93,19 @@ public final class KeywordBundles
         checker = new TypeKeywordSyntaxChecker("disallow");
         keyword = KeywordBuilder.forKeyword("disallow")
             .withSyntaxChecker(checker)
+            .withValidatorClass(DisallowKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         keyword = KeywordBuilder.forKeyword("divisibleBy")
             .withSyntaxChecker(DivisibleBySyntaxChecker.getInstance())
+            .withValidatorClass(DivisibleByKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         keyword = KeywordBuilder.forKeyword("enum")
             .withSyntaxChecker(EnumSyntaxChecker.getInstance())
+            .withValidatorClass(EnumKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -97,12 +121,14 @@ public final class KeywordBundles
 
         keyword = KeywordBuilder.forKeyword("extends")
             .withSyntaxChecker(ExtendsSyntaxChecker.getInstance())
+            .withValidatorClass(ExtendsKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("format", NodeType.STRING);
         keyword = KeywordBuilder.forKeyword("format")
             .withSyntaxChecker(checker)
+            .withValidatorClass(FormatKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -121,18 +147,21 @@ public final class KeywordBundles
             NodeType.NUMBER);
         keyword = KeywordBuilder.forKeyword("maximum")
             .withSyntaxChecker(checker)
+            .withValidatorClass(MaximumKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("maxItems");
         keyword = KeywordBuilder.forKeyword("maxItems")
             .withSyntaxChecker(checker)
+            .withValidatorClass(MaxItemsKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("maxLength");
         keyword = KeywordBuilder.forKeyword("maxLength")
             .withSyntaxChecker(checker)
+            .withValidatorClass(MaxLengthKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -140,23 +169,27 @@ public final class KeywordBundles
             NodeType.NUMBER);
         keyword = KeywordBuilder.forKeyword("minimum")
             .withSyntaxChecker(checker)
+            .withValidatorClass(MinimumKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("minItems");
         keyword = KeywordBuilder.forKeyword("minItems")
             .withSyntaxChecker(checker)
+            .withValidatorClass(MinItemsKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("minLength");
         keyword = KeywordBuilder.forKeyword("minLength")
             .withSyntaxChecker(checker)
+            .withValidatorClass(MinLengthKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         keyword = KeywordBuilder.forKeyword("pattern")
             .withSyntaxChecker(PatternSyntaxChecker.getInstance())
+            .withValidatorClass(PatternKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -167,6 +200,7 @@ public final class KeywordBundles
 
         keyword = KeywordBuilder.forKeyword("properties")
             .withSyntaxChecker(PropertiesSyntaxChecker.getInstance())
+            .withValidatorClass(PropertiesKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
@@ -185,12 +219,14 @@ public final class KeywordBundles
         checker = new TypeKeywordSyntaxChecker("type");
         keyword = KeywordBuilder.forKeyword("type")
             .withSyntaxChecker(checker)
+            .withValidatorClass(TypeKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("uniqueItems", NodeType.BOOLEAN);
         keyword = KeywordBuilder.forKeyword("uniqueItems")
             .withSyntaxChecker(checker)
+            .withValidatorClass(UniqueItemsKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
