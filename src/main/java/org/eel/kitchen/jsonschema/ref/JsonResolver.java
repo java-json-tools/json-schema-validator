@@ -87,18 +87,18 @@ public final class JsonResolver
     private JsonNode getContent(final JsonRef ref)
         throws JsonSchemaException
     {
-        final URI root = ref.getRootAsURI();
+        final URI uri = ref.getRootAsURI();
         final SchemaContainer container;
-        final JsonNode ret;
+        final JsonNode node;
 
         synchronized (registry) {
-            container = registry.get(root);
+            container = registry.get(uri);
             if (container != null)
                 return container.lookupFragment("");
-            ret = manager.getContent(root);
-            registry.register(root, ret);
+            node = manager.getContent(uri);
+            registry.register(uri, node);
         }
 
-        return ret;
+        return node;
     }
 }
