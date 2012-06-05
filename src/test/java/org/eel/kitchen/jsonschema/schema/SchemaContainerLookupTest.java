@@ -49,9 +49,9 @@ public final class SchemaContainerLookupTest
     public void lookingUpEmptyFragmentShouldReturnSchemaItself()
         throws JsonSchemaException
     {
-        final JsonNode node = container.lookupFragment("");
+        final SchemaNode node = container.lookupFragment("");
 
-        assertEquals(node, schema);
+        assertEquals(node.getNode(), schema);
     }
 
     @Test
@@ -60,9 +60,9 @@ public final class SchemaContainerLookupTest
     {
         // We have to choose one...
         final JsonNode expected = JsonNodeFactory.instance.objectNode();
-        final JsonNode actual = container.lookupFragment("/default");
+        final SchemaNode node = container.lookupFragment("/default");
 
-        assertEquals(actual, expected);
+        assertEquals(node.getNode(), expected);
     }
 
     @Test
@@ -71,9 +71,9 @@ public final class SchemaContainerLookupTest
     {
         final JsonPointer pointer = new JsonPointer("#/properties/properties");
         final JsonNode expected = pointer.getPath(schema);
-        final JsonNode actual = container.lookupFragment("properties");
+        final SchemaNode node = container.lookupFragment("properties");
 
-        assertEquals(actual, expected);
+        assertEquals(node.getNode(), expected);
     }
 
     @Test

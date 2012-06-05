@@ -63,6 +63,7 @@ public final class JsonResolver
         SchemaContainer container = schemaNode.getContainer();
         JsonNode node = schemaNode.getNode();
         JsonRef ref;
+        SchemaNode ret = schemaNode;
 
         while (node.has("$ref")) {
             try {
@@ -76,10 +77,11 @@ public final class JsonResolver
                 throw new JsonSchemaException("ref loop detected");
             if (!container.contains(ref))
                 container = getContent(ref);
-            node = container.lookupFragment(ref.getFragment());
+            ret = container.lookupFragment(ref.getFragment());
+            node = ret.getNode();
         }
 
-        return new SchemaNode(container, node);
+        return ret;
     }
 
     private SchemaContainer getContent(final JsonRef ref)

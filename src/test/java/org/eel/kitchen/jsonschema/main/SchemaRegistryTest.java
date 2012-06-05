@@ -91,6 +91,6 @@ public final class SchemaRegistryTest
 
         registry.register(uri, schema);
         final SchemaContainer container = registry.get(uri);
-        assertEquals(container.lookupFragment(""), schema);
+        assertEquals(container.lookupFragment("").getNode(), schema);
     }
 }

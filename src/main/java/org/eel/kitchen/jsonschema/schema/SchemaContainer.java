@@ -59,22 +59,22 @@ public final class SchemaContainer
         return locator.getRootAsURI().equals(tmp.getRootAsURI());
     }
 
-    public JsonNode lookupFragment(final String fragment)
+    public SchemaNode lookupFragment(final String fragment)
         throws JsonSchemaException
     {
-        JsonNode ret;
+        JsonNode node;
 
         try {
-            ret = new JsonPointer(fragment).getPath(schema);
+            node = new JsonPointer(fragment).getPath(schema);
         } catch (JsonSchemaException ignored) {
-            ret = lookupById(schema, fragment);
+            node = lookupById(schema, fragment);
         }
 
-        if (ret.isMissingNode())
+        if (node.isMissingNode())
             throw new JsonSchemaException('"' + fragment + "\" does not match"
                 + " any path/id in schema");
 
-        return ret;
+        return new SchemaNode(this, node);
     }
 
     @Override
