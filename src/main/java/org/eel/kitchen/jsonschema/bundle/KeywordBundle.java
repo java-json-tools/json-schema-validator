@@ -57,6 +57,6 @@ public final class KeywordBundle
     @Override
     public Iterator<Map.Entry<String, Keyword>> iterator()
     {
-        return keywords.entrySet().iterator();
+        return Collections.unmodifiableMap(keywords).entrySet().iterator();
     }
 }
