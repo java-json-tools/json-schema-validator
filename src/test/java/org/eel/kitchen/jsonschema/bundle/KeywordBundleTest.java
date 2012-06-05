@@ -41,14 +41,12 @@ public final class KeywordBundleTest
     public void addedKeywordIsRegistered()
     {
         final Keyword keyword = mock(Keyword.class);
-        when(keyword.getName()).thenReturn("keyword");
+        when(keyword.getName()).thenReturn(NAME);
 
         bundle.registerKeyword(keyword);
         final Map<String,Keyword> keywords = bundle.getKeywords();
-        assertTrue(keywords.containsKey("keyword"), "keyword has not been "
-            + "registered");
-        assertEquals(keywords.get("keyword"), keyword,
-            "wrong Keyword registered");
+        assertTrue(keywords.containsKey(NAME), "keyword not registered");
+        assertEquals(keywords.get(NAME), keyword, "wrong keyword registered");
     }
 
     @Test(dependsOnMethods = "addedKeywordIsRegistered")
@@ -57,8 +55,8 @@ public final class KeywordBundleTest
         final Keyword k1 = mock(Keyword.class);
         final Keyword k2 = mock(Keyword.class);
 
-        when(k1.getName()).thenReturn("keyword");
-        when(k2.getName()).thenReturn("keyword");
+        when(k1.getName()).thenReturn(NAME);
+        when(k2.getName()).thenReturn(NAME);
 
         bundle.registerKeyword(k1);
 
@@ -75,13 +73,13 @@ public final class KeywordBundleTest
     public void canUnregisterKeyword()
     {
         final Keyword keyword = mock(Keyword.class);
-        when(keyword.getName()).thenReturn("keyword");
+        when(keyword.getName()).thenReturn(NAME);
 
         bundle.registerKeyword(keyword);
         bundle.unregisterKeyword(NAME);
         final Map<String,Keyword> keywords = bundle.getKeywords();
 
-        assertFalse(keywords.containsKey("keyword"), "keyword has not been "
+        assertFalse(keywords.containsKey(NAME), "keyword has not been "
             + "unregistered");
     }
 }
