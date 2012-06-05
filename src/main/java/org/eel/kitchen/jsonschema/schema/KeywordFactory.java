@@ -35,14 +35,16 @@ import java.util.Set;
 
 public final class KeywordFactory
 {
-    private static final KeywordFactory instance = new KeywordFactory();
-
-    private static final Map<String, Class<? extends KeywordValidator>>
+    private final Map<String, Class<? extends KeywordValidator>>
         validators = new HashMap<String, Class<? extends KeywordValidator>>();
 
-    static {
-        final KeywordBundle bundle = KeywordBundles.defaultBundle();
+    public KeywordFactory()
+    {
+        this(KeywordBundles.defaultBundle());
+    }
 
+    public KeywordFactory(final KeywordBundle bundle)
+    {
         String keyword;
         Class<? extends KeywordValidator> validatorClass;
 
@@ -52,15 +54,6 @@ public final class KeywordFactory
             if (validatorClass != null)
                 validators.put(keyword, validatorClass);
         }
-    }
-
-    public static KeywordFactory getInstance()
-    {
-        return instance;
-    }
-
-    private KeywordFactory()
-    {
     }
 
     public Set<KeywordValidator> getValidators(final JsonNode schema)

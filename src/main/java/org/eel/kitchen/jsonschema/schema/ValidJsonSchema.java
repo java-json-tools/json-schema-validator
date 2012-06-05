@@ -39,8 +39,7 @@ final class ValidJsonSchema
     private static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
-    private static final KeywordFactory factory
-        = KeywordFactory.getInstance();
+    private static final KeywordFactory factory = new KeywordFactory();
 
     private final Set<KeywordValidator> validators;
 
