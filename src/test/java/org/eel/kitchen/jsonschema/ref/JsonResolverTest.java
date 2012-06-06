@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.SchemaRegistry;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.util.JsonLoader;
@@ -43,7 +44,7 @@ public final class JsonResolverTest
         throws IOException
     {
         testData = JsonLoader.fromResource("/ref/jsonresolver.json");
-        resolver = new JsonResolverBuilder().build();
+        resolver = new JsonResolver(new SchemaRegistry());
     }
 
     private Iterator<Object[]> getReferencingData(final String name)

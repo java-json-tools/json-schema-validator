@@ -22,20 +22,16 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
-import org.eel.kitchen.jsonschema.uri.URIManager;
 
-import java.net.URI;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 public final class JsonResolver
 {
-    private final URIManager manager;
     private final SchemaRegistry registry;
 
-    public JsonResolver(final URIManager manager, final SchemaRegistry registry)
+    public JsonResolver(final SchemaRegistry registry)
     {
-        this.manager = manager;
         this.registry = registry;
     }
 
@@ -76,29 +72,11 @@ public final class JsonResolver
             if (!refs.add(ref))
                 throw new JsonSchemaException("ref loop detected");
             if (!container.contains(ref))
-                container = getContent(ref);
+                container = registry.get(ref.getRootAsURI());
             ret = container.lookupFragment(ref.getFragment());
             node = ret.getNode();
         }
 
         return ret;
-    }
-
-    private SchemaContainer getContent(final JsonRef ref)
-        throws JsonSchemaException
-    {
-        final URI uri = ref.getRootAsURI();
-        final SchemaContainer container;
-        final JsonNode node;
-
-        synchronized (registry) {
-            container = registry.get(uri);
-            if (container != null)
-                return container;
-            node = manager.getContent(uri);
-            registry.register(uri, node);
-        }
-
-        return new SchemaContainer(node);
     }
 }

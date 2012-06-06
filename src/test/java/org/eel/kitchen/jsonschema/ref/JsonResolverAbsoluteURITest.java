@@ -70,9 +70,7 @@ public final class JsonResolverAbsoluteURITest
             when(manager.getContent(uri)).thenReturn(schema);
         }
 
-        final JsonResolverBuilder builder = new JsonResolverBuilder()
-            .withManager(manager).withRegistry(registry);
-        resolver = builder.build();
+        resolver = new JsonResolver(registry);
     }
 
     @DataProvider
