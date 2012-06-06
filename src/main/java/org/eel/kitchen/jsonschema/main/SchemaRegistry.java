@@ -60,7 +60,7 @@ public class SchemaRegistry
 
         if (container == null) {
             container = new SchemaContainer(manager.getContent(uri));
-            containers.put(container.getLocator().getRootAsURI(), container);
+            containers.put(uri, container);
         }
 
         return container;
