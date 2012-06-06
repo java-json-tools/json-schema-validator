@@ -29,7 +29,7 @@ public class SchemaRegistry
     private final Map<URI, SchemaContainer> containers
         = new HashMap<URI, SchemaContainer>();
 
-    public void register(final JsonNode node)
+    public SchemaContainer register(final JsonNode node)
         throws JsonSchemaException
     {
         if (node == null)
@@ -42,6 +42,7 @@ public class SchemaRegistry
             throw new JsonSchemaException("URI \"" + locator + "\" is "
                 + "already registered");
         containers.put(locator, container);
+        return container;
     }
 
     public SchemaContainer get(final URI uri)
@@ -49,9 +50,11 @@ public class SchemaRegistry
         return containers.get(uri);
     }
 
-    public void register(final URI uri, final JsonNode schema)
+    public SchemaContainer register(final URI uri, final JsonNode schema)
         throws JsonSchemaException
     {
-        containers.put(uri, new SchemaContainer(schema));
+        final SchemaContainer container = new SchemaContainer(schema);
+        containers.put(uri, container);
+        return container;
     }
 }
