@@ -22,6 +22,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.RhinoHelper;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,6 +68,20 @@ public final class SchemaNode
     public JsonNode getNode()
     {
         return node;
+    }
+
+    public boolean isRef()
+    {
+        final JsonNode ref = node.path("$ref");
+        if (!ref.isTextual())
+            return false;
+
+        try {
+            new URI(ref.textValue());
+            return true;
+        } catch (URISyntaxException ignored) {
+            return false;
+        }
     }
 
     public JsonNode getArraySchema(final int index)

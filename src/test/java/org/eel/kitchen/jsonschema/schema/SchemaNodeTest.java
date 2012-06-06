@@ -57,4 +57,48 @@ public final class SchemaNodeTest
         assertTrue(n2.equals(n3));
         assertTrue(n1.equals(n3));
     }
+
+    @Test
+    public void nodeWithoutDollarRefIsNotRef()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode();
+        final SchemaContainer container = new SchemaContainer(node);
+        final SchemaNode schemaNode = new SchemaNode(container, node);
+
+        assertFalse(schemaNode.isRef());
+    }
+
+    @Test
+    public void nodeWithValidDollarRefIsRef()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "#");
+        final SchemaContainer container = new SchemaContainer(node);
+        final SchemaNode schemaNode = new SchemaNode(container, node);
+
+        assertTrue(schemaNode.isRef());
+    }
+
+    @Test
+    public void nodeWithNonTextDollarRefIsNotRef()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", 1);
+        final SchemaContainer container = new SchemaContainer(node);
+        final SchemaNode schemaNode = new SchemaNode(container, node);
+
+        assertFalse(schemaNode.isRef());
+    }
+
+    @Test
+    public void nodeWithInvalidURITextNodeIsNotRef()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.objectNode().put("$ref", "+23:");
+        final SchemaContainer container = new SchemaContainer(node);
+        final SchemaNode schemaNode = new SchemaNode(container, node);
+
+        assertFalse(schemaNode.isRef());
+    }
 }
