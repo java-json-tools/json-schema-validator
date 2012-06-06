@@ -68,28 +68,6 @@ public final class SchemaNode
         return node;
     }
 
-    @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
-            return false;
-
-        final SchemaNode that = (SchemaNode) o;
-
-        return container.equals(that.container)
-            && node.equals(that.node);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return 31 * container.hashCode() + node.hashCode();
-    }
-
     public JsonNode getArraySchema(final int index)
     {
         return index < items.size() ? items.get(index) : additionalItems;
@@ -110,6 +88,28 @@ public final class SchemaNode
             ret.add(additionalProperties);
 
         return ret;
+    }
+
+    @Override
+    public boolean equals(final Object o)
+    {
+        if (this == o)
+            return true;
+        if (o == null)
+            return false;
+        if (getClass() != o.getClass())
+            return false;
+
+        final SchemaNode that = (SchemaNode) o;
+
+        return container.equals(that.container)
+            && node.equals(that.node);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return 31 * container.hashCode() + node.hashCode();
     }
 
     private void setupArraySchemas()
