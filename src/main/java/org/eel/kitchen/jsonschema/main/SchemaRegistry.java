@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
+import org.eel.kitchen.jsonschema.uri.URIManager;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -28,6 +29,13 @@ public class SchemaRegistry
 {
     private final Map<URI, SchemaContainer> containers
         = new HashMap<URI, SchemaContainer>();
+
+    private final URIManager manager;
+
+    public SchemaRegistry()
+    {
+        manager = new URIManager();
+    }
 
     public SchemaContainer register(final JsonNode node)
         throws JsonSchemaException
