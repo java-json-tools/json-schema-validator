@@ -70,6 +70,20 @@ public final class SchemaNode
         return node;
     }
 
+    /*
+     * FIXME: this particular method replicates syntax checking
+     *
+     * I see no elegant way around this. When we get to this point,
+     * we are at least guaranteed that we are a JSON instance,
+     * but that's about it. If we are an object at all,
+     * we may or may not have a "$ref" member, and if we have,
+     * there is no guarantee that "$ref" is a string, and if it is one,
+     * whether this string is a valid URI.
+     *
+     * Given the above elements, it is chosen to return true if and only if
+     * all the conditions apply, and let syntax checking handle the
+     * pathological cases.
+     */
     public boolean isRef()
     {
         final JsonNode ref = node.path("$ref");
