@@ -56,7 +56,7 @@ public final class JsonResolverAbsoluteURITest
         testData = JsonLoader.fromResource("/ref/jsonresolver-testdata.json");
 
         manager = mock(URIManager.class);
-        registry = new SchemaRegistry();
+        registry = new SchemaRegistry(manager);
 
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(schemaList.fields());

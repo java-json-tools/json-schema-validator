@@ -37,6 +37,11 @@ public class SchemaRegistry
         manager = new URIManager();
     }
 
+    public SchemaRegistry(final URIManager manager)
+    {
+        this.manager = manager;
+    }
+
     public SchemaContainer register(final JsonNode node)
         throws JsonSchemaException
     {
