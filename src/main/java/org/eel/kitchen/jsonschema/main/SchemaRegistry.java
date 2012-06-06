@@ -53,9 +53,17 @@ public class SchemaRegistry
         return container;
     }
 
-    public SchemaContainer get(final URI uri)
+    public synchronized SchemaContainer get(final URI uri)
+        throws JsonSchemaException
     {
-        return containers.get(uri);
+        SchemaContainer container = containers.get(uri);
+
+        if (container == null) {
+            container = new SchemaContainer(manager.getContent(uri));
+            containers.put(container.getLocator().getRootAsURI(), container);
+        }
+
+        return container;
     }
 
     public SchemaContainer register(final URI uri, final JsonNode schema)
