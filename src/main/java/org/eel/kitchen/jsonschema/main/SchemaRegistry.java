@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
@@ -49,12 +50,12 @@ public class SchemaRegistry
             throw new IllegalArgumentException("schema is null");
 
         final SchemaContainer container = new SchemaContainer(node);
-        final URI locator = container.getLocator().getRootAsURI();
+        final URI uri = container.getLocator().getRootAsURI();
 
-        if (containers.containsKey(locator))
-            throw new JsonSchemaException("URI \"" + locator + "\" is "
-                + "already registered");
-        containers.put(locator, container);
+        if (containers.containsKey(uri))
+            throw new JsonSchemaException("URI \"" + uri + "\" is already "
+                + "registered");
+        containers.put(uri, container);
         return container;
     }
 
@@ -65,6 +66,12 @@ public class SchemaRegistry
 
         if (container == null) {
             container = new SchemaContainer(manager.getContent(uri));
+            final JsonRef expected = new JsonRef(uri);
+            final JsonRef actual = container.getLocator();
+            if (!actual.equals(expected))
+                throw new JsonSchemaException("URI and id of downloaded "
+                    + "schema disagree (URI: " + expected + ", id: " + actual
+                    + ")");
             containers.put(uri, container);
         }
 
