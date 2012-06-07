@@ -70,12 +70,4 @@ public class SchemaRegistry
 
         return container;
     }
-
-    public SchemaContainer register(final URI uri, final JsonNode schema)
-        throws JsonSchemaException
-    {
-        final SchemaContainer container = new SchemaContainer(schema);
-        containers.put(uri, container);
-        return container;
-    }
 }
