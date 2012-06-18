@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
 import org.eel.kitchen.util.JsonPointer;
 
 import java.util.Collections;
@@ -29,6 +31,9 @@ public final class ValidationReport
     private JsonNode schema;
     private JsonPointer path;
     private final List<String> messages = new LinkedList<String>();
+
+    private final ListMultimap<JsonPointer, String> msgMap
+        = ArrayListMultimap.create();
 
     public ValidationReport asNew()
     {
@@ -54,6 +59,8 @@ public final class ValidationReport
         sb.append(path).append(": ");
         sb.append(message);
         messages.add(sb.toString());
+
+        msgMap.put(path, message);
     }
 
     public void setPath(final JsonPointer path)
@@ -84,6 +91,7 @@ public final class ValidationReport
     public void mergeWith(final ValidationReport other)
     {
         messages.addAll(other.messages);
+        msgMap.putAll(other.msgMap);
     }
 
    public List<String> getMessages()
