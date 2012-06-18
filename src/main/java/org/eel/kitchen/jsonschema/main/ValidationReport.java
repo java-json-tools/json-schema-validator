@@ -22,16 +22,17 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import org.eel.kitchen.util.JsonPointer;
 
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public final class ValidationReport
 {
     private JsonNode schema;
     private JsonPointer path;
-    private final List<String> messages = new LinkedList<String>();
-
     private final ListMultimap<JsonPointer, String> msgMap
         = ArrayListMultimap.create();
 
@@ -51,12 +52,6 @@ public final class ValidationReport
 
     public void addMessage(final String message)
     {
-        final StringBuilder sb = new StringBuilder();
-
-        sb.append(path).append(": ");
-        sb.append(message);
-        messages.add(sb.toString());
-
         msgMap.put(path, message);
     }
 
@@ -82,17 +77,36 @@ public final class ValidationReport
 
     public boolean isSuccess()
     {
-        return messages.isEmpty();
+        return msgMap.isEmpty();
     }
 
     public void mergeWith(final ValidationReport other)
     {
-        messages.addAll(other.messages);
         msgMap.putAll(other.msgMap);
     }
 
-   public List<String> getMessages()
+    public List<String> getMessages()
     {
-        return Collections.unmodifiableList(messages);
+        final Comparator<JsonPointer> comparator = new Comparator<JsonPointer>()
+        {
+            @Override
+            public int compare(final JsonPointer o1, final JsonPointer o2)
+            {
+                return o1.toString().compareTo(o2.toString());
+            }
+        };
+
+        final SortedSet<JsonPointer> paths
+            = new TreeSet<JsonPointer>(comparator);
+
+        paths.addAll(msgMap.keySet());
+
+        final List<String> ret = new ArrayList<String>(msgMap.size());
+
+        for (final JsonPointer path: paths)
+            for (final String msg: msgMap.get(path))
+                ret.add(path + ": " + msg);
+
+        return Collections.unmodifiableList(ret);
     }
 }
