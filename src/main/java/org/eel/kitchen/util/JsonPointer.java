@@ -75,6 +75,7 @@ import java.util.List;
  */
 
 public final class JsonPointer
+    implements Comparable<JsonPointer>
 {
     /**
      * The pointer in a raw, but JSON Pointer-escaped, string.
@@ -320,6 +321,12 @@ public final class JsonPointer
         }
 
         return sb.toString();
+    }
+
+    @Override
+    public int compareTo(final JsonPointer other)
+    {
+        return fullPointer.compareTo(other.fullPointer);
     }
 
     @Override

@@ -24,7 +24,6 @@ import org.eel.kitchen.util.JsonPointer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -87,19 +86,8 @@ public final class ValidationReport
 
     public List<String> getMessages()
     {
-        final Comparator<JsonPointer> comparator = new Comparator<JsonPointer>()
-        {
-            @Override
-            public int compare(final JsonPointer o1, final JsonPointer o2)
-            {
-                return o1.toString().compareTo(o2.toString());
-            }
-        };
-
         final SortedSet<JsonPointer> paths
-            = new TreeSet<JsonPointer>(comparator);
-
-        paths.addAll(msgMap.keySet());
+            = new TreeSet<JsonPointer>(msgMap.keySet());
 
         final List<String> ret = new ArrayList<String>(msgMap.size());
 
