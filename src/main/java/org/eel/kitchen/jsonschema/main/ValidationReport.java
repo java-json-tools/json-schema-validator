@@ -35,14 +35,6 @@ public final class ValidationReport
     private final ListMultimap<JsonPointer, String> msgMap
         = ArrayListMultimap.create();
 
-    public ValidationReport asNew()
-    {
-        final ValidationReport ret = new ValidationReport();
-
-        ret.path = path;
-
-        return ret;
-    }
     public ValidationReport()
     {
         try {
@@ -50,6 +42,11 @@ public final class ValidationReport
         } catch (JsonSchemaException e) {
             throw new RuntimeException("WTF??", e);
         }
+    }
+
+    public ValidationReport(final JsonPointer path)
+    {
+        this.path = path;
     }
 
     public void addMessage(final String message)

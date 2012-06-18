@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -43,7 +44,8 @@ public final class TypeKeywordValidator
         if (typeSet.contains(NodeType.getNodeType(instance)))
             return;
 
-        final ValidationReport fullReport = report.asNew();
+        final JsonPointer path = report.getPath();
+        final ValidationReport fullReport = new ValidationReport(path);
 
         fullReport.addMessage("instance does not match any allowed primitive "
             + "type");
@@ -51,7 +53,7 @@ public final class TypeKeywordValidator
         ValidationReport schemaReport;
 
         for (final JsonNode schema: schemas) {
-            schemaReport = fullReport.asNew();
+            schemaReport = new ValidationReport(path);
             JsonSchema.fromNode(report.getSchema(), schema)
                 .validate(schemaReport, instance);
             if (schemaReport.isSuccess())
