@@ -98,7 +98,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>11.0.2</version>
+            <version>12.0</version>
         </dependency>
         <dependency>
             <groupId>org.parboiled</groupId>
