@@ -49,6 +49,9 @@ public class SchemaRegistry
         if (node == null)
             throw new IllegalArgumentException("schema is null");
 
+        if (!node.has("id"))
+            throw new JsonSchemaException("schema has no locator");
+
         final SchemaContainer container = new SchemaContainer(node);
         final URI uri = container.getLocator().getRootAsURI();
 
