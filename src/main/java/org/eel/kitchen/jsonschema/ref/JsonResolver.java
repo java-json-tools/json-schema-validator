@@ -23,6 +23,8 @@ import org.eel.kitchen.jsonschema.main.SchemaRegistry;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -61,8 +63,10 @@ public final class JsonResolver
         JsonRef ref;
         SchemaNode ret = schemaNode;
 
-        while (ret.isRef()) {
+        while (true) {
             node = ret.getNode();
+            if (!nodeIsRef(node))
+                break;
             ref = JsonRef.fromNode(node, "$ref");
             ref = container.getLocator().resolve(ref);
             if (!refs.add(ref))
@@ -73,5 +77,20 @@ public final class JsonResolver
         }
 
         return ret;
+    }
+
+    private boolean nodeIsRef(final JsonNode node)
+    {
+        final JsonNode refNode = node.path("$ref");
+
+        if (!refNode.isTextual())
+            return false;
+
+        try {
+            new URI(refNode.textValue());
+            return true;
+        } catch (URISyntaxException ignored) {
+            return false;
+        }
     }
 }
