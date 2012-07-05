@@ -1,9 +1,11 @@
 {
     "loops": [
         {
+            "id": "a://b.c#",
             "$ref": "a://b.c#"
         },
         {
+            "id": "schema://schema2#",
             "$ref": "schema://schema2#"
         }
     ],
