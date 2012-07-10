@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-final class ValidJsonSchema
-    extends AbstractJsonSchema
+final class ValidJsonValidator
+    extends AbstractJsonValidator
 {
     private static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
@@ -72,7 +72,7 @@ final class ValidJsonSchema
 
     private final JsonNode parent;
 
-    ValidJsonSchema(final JsonNode parent, final JsonNode schema)
+    ValidJsonValidator(final JsonNode parent, final JsonNode schema)
     {
         this.parent = parent;
         validators = factory.getValidators(schema);
@@ -107,7 +107,7 @@ final class ValidJsonSchema
                 current = ptr.append(i);
                 context.setPath(current);
                 subSchema = arrayPath(i);
-                AbstractJsonSchema.fromNode(parent, subSchema)
+                AbstractJsonValidator.fromNode(parent, subSchema)
                     .validate(context, element);
                 i++;
             }
@@ -129,7 +129,7 @@ final class ValidJsonSchema
             current = ptr.append(key);
             context.setPath(current);
             for (final JsonNode subSchema: objectPath(key))
-                AbstractJsonSchema.fromNode(parent, subSchema).validate(context, value);
+                AbstractJsonValidator.fromNode(parent, subSchema).validate(context, value);
         }
 
         context.setSchema(oldParent);

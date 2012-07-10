@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonValidator;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.HashSet;
@@ -54,7 +54,7 @@ public final class ExtendsKeywordValidator
         final JsonNode instance)
     {
         for (final JsonNode schema: schemas)
-            AbstractJsonSchema.fromNode(context.getSchema(), schema)
+            AbstractJsonValidator.fromNode(context.getSchema(), schema)
                 .validate(context, instance);
     }
 }

@@ -25,16 +25,16 @@ import org.eel.kitchen.jsonschema.ref.JsonReference;
 
 import java.util.Map;
 
-public abstract class AbstractJsonSchema
-    implements JsonSchema
+public abstract class AbstractJsonValidator
+    implements JsonValidator
 {
-    private static final Map<JsonNode, JsonSchema> cache
-        = new LRUMap<JsonNode, JsonSchema>(10, 50);
+    private static final Map<JsonNode, JsonValidator> cache
+        = new LRUMap<JsonNode, JsonValidator>(10, 50);
 
     private static final SyntaxValidator syntaxValidator
         = new SyntaxValidator();
 
-    public static JsonSchema fromNode(final JsonNode parent,
+    public static JsonValidator fromNode(final JsonNode parent,
         final JsonNode node)
     {
         final JsonNode schemaNode;
@@ -42,10 +42,10 @@ public abstract class AbstractJsonSchema
         try {
             schemaNode = JsonReference.resolveRef(parent, node);
         } catch (JsonSchemaException e) {
-            return new InvalidJsonSchema(e.getMessage());
+            return new InvalidJsonValidator(e.getMessage());
         }
 
-        JsonSchema ret;
+        JsonValidator ret;
 
         synchronized (cache) {
             ret = cache.get(schemaNode);
@@ -57,11 +57,11 @@ public abstract class AbstractJsonSchema
             syntaxValidator.validate(context, schemaNode);
 
             if (!context.isSuccess())
-                return new InvalidJsonSchema(context);
+                return new InvalidJsonValidator(context);
 
             ret = schemaNode.isObject()
-                ? new ValidJsonSchema(parent, schemaNode)
-                : new InvalidJsonSchema("schema is not an object");
+                ? new ValidJsonValidator(parent, schemaNode)
+                : new InvalidJsonValidator("schema is not an object");
 
             cache.put(schemaNode, ret);
         }
@@ -69,7 +69,7 @@ public abstract class AbstractJsonSchema
         return ret;
     }
 
-    public static JsonSchema fromNode(final JsonNode node)
+    public static JsonValidator fromNode(final JsonNode node)
     {
         return fromNode(node, node);
     }

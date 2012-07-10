@@ -20,7 +20,24 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 
-public interface JsonSchema
+final class InvalidJsonValidator
+    extends AbstractJsonValidator
 {
-    void validate(final ValidationContext ctx, final JsonNode instance);
+    private final ValidationContext context = new ValidationContext();
+
+    InvalidJsonValidator(final String message)
+    {
+        context.addMessage(message);
+    }
+
+    InvalidJsonValidator(final ValidationContext context)
+    {
+        this.context.mergeWith(context);
+    }
+
+    @Override
+    public void validate(final ValidationContext context, final JsonNode instance)
+    {
+        context.mergeWith(this.context);
+    }
 }

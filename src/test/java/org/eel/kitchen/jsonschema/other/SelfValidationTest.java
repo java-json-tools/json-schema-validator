@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonValidator;
+import org.eel.kitchen.jsonschema.schema.JsonValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -35,7 +35,7 @@ public final class SelfValidationTest
 {
     private JsonNode draftv3;
     private JsonNode googleAPI;
-    private JsonSchema schema;
+    private JsonValidator validator;
 
     @BeforeClass
     public void setUp()
@@ -43,7 +43,7 @@ public final class SelfValidationTest
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
-        schema = AbstractJsonSchema.fromNode(draftv3);
+        validator = AbstractJsonValidator.fromNode(draftv3);
     }
 
     @Test
@@ -51,7 +51,7 @@ public final class SelfValidationTest
     {
         final ValidationContext context = new ValidationContext();
 
-        schema.validate(context, draftv3);
+        validator.validate(context, draftv3);
 
         assertTrue(context.isSuccess());
     }
@@ -70,7 +70,7 @@ public final class SelfValidationTest
             name = entry.getKey();
             node = entry.getValue();
             context = new ValidationContext();
-            schema.validate(context, node);
+            validator.validate(context, node);
             assertTrue(context.isSuccess(), name);
         }
     }

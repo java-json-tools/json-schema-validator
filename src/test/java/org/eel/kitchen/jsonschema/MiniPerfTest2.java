@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonValidator;
+import org.eel.kitchen.jsonschema.schema.JsonValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
 
@@ -39,7 +39,7 @@ public final class MiniPerfTest2
         final Map<String, JsonNode> schemas
             = CollectionUtils.toMap(googleAPI.get("schemas").fields());
 
-        final JsonSchema schema = AbstractJsonSchema.fromNode(draftv3);
+        final JsonValidator validator = AbstractJsonValidator.fromNode(draftv3);
 
         String name;
         JsonNode value;
@@ -54,7 +54,7 @@ public final class MiniPerfTest2
                 context = new ValidationContext();
                 name = entry.getKey();
                 value = entry.getValue();
-                schema.validate(context, value);
+                validator.validate(context, value);
                 if (!context.isSuccess()) {
                     System.err.println("ERROR: schema " + name + " did not "
                         + "validate (iteration " + i + ")");

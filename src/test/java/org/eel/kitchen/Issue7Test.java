@@ -2,8 +2,8 @@ package org.eel.kitchen;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonValidator;
+import org.eel.kitchen.jsonschema.schema.JsonValidator;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -29,19 +29,20 @@ public final class Issue7Test
     @Test
     public void testIssue7()
     {
-        final JsonSchema schema = AbstractJsonSchema.fromNode(draftv3);
+        final JsonValidator validator = AbstractJsonValidator.fromNode(draftv3);
         ValidationContext context;
 
         context = new ValidationContext();
-        schema.validate(context, schema1);
+        validator.validate(context, schema1);
         assertTrue(context.isSuccess());
 
-        final JsonSchema temp1schema = AbstractJsonSchema.fromNode(schema1);
+        final JsonValidator temp1schema = AbstractJsonValidator.fromNode(
+            schema1);
 
         /**
          * The bug is here: normally, validation should fail because
          * "indexed" is not a boolean. But it succeeds... The reason for this
-         * is that JsonSchema's .objectPath() returns an empty schema: it
+         * is that JsonValidator's .objectPath() returns an empty validator: it
          * shouldn't!
          */
         context = new ValidationContext();
