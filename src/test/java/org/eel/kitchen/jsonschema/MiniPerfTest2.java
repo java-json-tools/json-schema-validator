@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
@@ -38,7 +39,7 @@ public final class MiniPerfTest2
         final Map<String, JsonNode> schemas
             = CollectionUtils.toMap(googleAPI.get("schemas").fields());
 
-        final JsonSchema schema = JsonSchema.fromNode(draftv3);
+        final JsonSchema schema = AbstractJsonSchema.fromNode(draftv3);
 
         String name;
         JsonNode value;

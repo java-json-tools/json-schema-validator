@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.NodeType;
 
@@ -54,7 +54,7 @@ public final class TypeKeywordValidator
 
         for (final JsonNode schema: schemas) {
             schemaContext = new ValidationContext(path);
-            JsonSchema.fromNode(context.getSchema(), schema)
+            AbstractJsonSchema.fromNode(context.getSchema(), schema)
                 .validate(schemaContext, instance);
             if (schemaContext.isSuccess())
                 return;

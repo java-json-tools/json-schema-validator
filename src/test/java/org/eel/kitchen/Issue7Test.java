@@ -2,6 +2,7 @@ package org.eel.kitchen;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -28,14 +29,14 @@ public final class Issue7Test
     @Test
     public void testIssue7()
     {
-        final JsonSchema schema = JsonSchema.fromNode(draftv3);
+        final JsonSchema schema = AbstractJsonSchema.fromNode(draftv3);
         ValidationContext context;
 
         context = new ValidationContext();
         schema.validate(context, schema1);
         assertTrue(context.isSuccess());
 
-        final JsonSchema temp1schema = JsonSchema.fromNode(schema1);
+        final JsonSchema temp1schema = AbstractJsonSchema.fromNode(schema1);
 
         /**
          * The bug is here: normally, validation should fail because

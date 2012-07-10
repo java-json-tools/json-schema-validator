@@ -18,61 +18,9 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.util.LRUMap;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.ref.JsonReference;
 
-import java.util.Map;
-
-public abstract class JsonSchema
+public interface JsonSchema
 {
-    private static final Map<JsonNode, JsonSchema> cache
-        = new LRUMap<JsonNode, JsonSchema>(10, 50);
-
-    private static final SyntaxValidator syntaxValidator
-        = new SyntaxValidator();
-
-    public static JsonSchema fromNode(final JsonNode parent,
-        final JsonNode node)
-    {
-        final JsonNode schemaNode;
-
-        try {
-            schemaNode = JsonReference.resolveRef(parent, node);
-        } catch (JsonSchemaException e) {
-            return new InvalidJsonSchema(e.getMessage());
-        }
-
-        JsonSchema ret;
-
-        synchronized (cache) {
-            ret = cache.get(schemaNode);
-
-            if (ret != null)
-                return ret;
-
-            final ValidationContext context = new ValidationContext();
-            syntaxValidator.validate(context, schemaNode);
-
-            if (!context.isSuccess())
-                return new InvalidJsonSchema(context);
-
-            ret = schemaNode.isObject()
-                ? new ValidJsonSchema(parent, schemaNode)
-                : new InvalidJsonSchema("schema is not an object");
-
-            cache.put(schemaNode, ret);
-        }
-
-        return ret;
-    }
-
-    public static JsonSchema fromNode(final JsonNode node)
-    {
-        return fromNode(node, node);
-    }
-
-    public abstract void validate(final ValidationContext context,
-        final JsonNode instance);
+    void validate(final ValidationContext ctx, final JsonNode instance);
 }

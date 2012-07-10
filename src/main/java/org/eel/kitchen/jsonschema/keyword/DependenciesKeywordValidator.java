@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -108,7 +108,7 @@ public final class DependenciesKeywordValidator
         schemaDeps.keySet().retainAll(fields);
 
         for (final JsonNode node: schemaDeps.values())
-            JsonSchema.fromNode(context.getSchema(), node)
+            AbstractJsonSchema.fromNode(context.getSchema(), node)
                 .validate(context, instance);
     }
 }

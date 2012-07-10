@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.AbstractJsonSchema;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -55,7 +55,7 @@ public final class DisallowKeywordValidator
 
         for (final JsonNode schema: schemas) {
             tmp = new ValidationContext();
-            JsonSchema.fromNode(context.getSchema(), schema)
+            AbstractJsonSchema.fromNode(context.getSchema(), schema)
                 .validate(tmp, instance);
             if (tmp.isSuccess()) {
                 context.addMessage("instance matches a disallowed schema");

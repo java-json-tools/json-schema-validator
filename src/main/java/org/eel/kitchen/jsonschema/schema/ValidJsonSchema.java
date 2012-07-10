@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.Set;
 
 final class ValidJsonSchema
-    extends JsonSchema
+    extends AbstractJsonSchema
 {
     private static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
@@ -107,7 +107,7 @@ final class ValidJsonSchema
                 current = ptr.append(i);
                 context.setPath(current);
                 subSchema = arrayPath(i);
-                JsonSchema.fromNode(parent, subSchema)
+                AbstractJsonSchema.fromNode(parent, subSchema)
                     .validate(context, element);
                 i++;
             }
@@ -129,7 +129,7 @@ final class ValidJsonSchema
             current = ptr.append(key);
             context.setPath(current);
             for (final JsonNode subSchema: objectPath(key))
-                JsonSchema.fromNode(parent, subSchema).validate(context, value);
+                AbstractJsonSchema.fromNode(parent, subSchema).validate(context, value);
         }
 
         context.setSchema(oldParent);

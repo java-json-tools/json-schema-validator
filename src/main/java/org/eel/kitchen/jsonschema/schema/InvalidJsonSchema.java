@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 final class InvalidJsonSchema
-    extends JsonSchema
+    extends AbstractJsonSchema
 {
     private final ValidationContext context = new ValidationContext();
 
