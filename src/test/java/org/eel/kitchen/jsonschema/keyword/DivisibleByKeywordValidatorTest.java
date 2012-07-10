@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -50,12 +50,12 @@ public final class DivisibleByKeywordValidatorTest
             .put("divisibleBy", new BigDecimal(divisor));
         final JsonNode instance = factory.numberNode(new BigDecimal(data));
 
-        final ValidationReport report = new ValidationReport();
+        final ValidationContext context = new ValidationContext();
         final KeywordValidator validator
             = new DivisibleByKeywordValidator(schemaNode);
 
-        validator.validate(report, instance);
-        assertEquals(report.isSuccess(), valid, instance + " should have "
+        validator.validate(context, instance);
+        assertEquals(context.isSuccess(), valid, instance + " should have "
             + "validated as " + valid + " using schema " + schemaNode);
     }
 }

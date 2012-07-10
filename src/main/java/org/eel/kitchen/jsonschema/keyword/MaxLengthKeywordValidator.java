@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -33,10 +33,10 @@ public final class MaxLengthKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         if (instance.textValue().length() > intValue)
-            report.addMessage("string is longer than the required maximum");
+            context.addMessage("string is longer than the required maximum");
     }
 }

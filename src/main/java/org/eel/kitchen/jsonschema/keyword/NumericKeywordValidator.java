@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.math.BigDecimal;
@@ -71,20 +71,20 @@ public abstract class NumericKeywordValidator
      * Method to be implemented by a numeric validator if both the keyword
      * value and instance value fit into a {@code long}
      *
-     * @param report the report
+     * @param context the context
      * @param instanceValue the instance to validate
      */
-    protected abstract void validateLong(final ValidationReport report,
+    protected abstract void validateLong(final ValidationContext context,
         final long instanceValue);
 
     /**
      * Method to be implemented by a numeric validator if either of the
      * keyword value or instance value do <b>not</b> fit into a {@code long}
      *
-     * @param report the report
+     * @param context the context
      * @param instanceValue the instance to validate
      */
-    protected abstract void validateDecimal(final ValidationReport report,
+    protected abstract void validateDecimal(final ValidationContext context,
         final BigDecimal instanceValue);
 
     /**
@@ -93,20 +93,20 @@ public abstract class NumericKeywordValidator
      * <p>This is where the test for {@code long} is done on both the keyword
      * value and instance value. According to the result,
      * this method will then call either {@link #validateLong
-     * (ValidationReport, long)} or {@link #validateDecimal(ValidationReport,
+     * (ValidationContext, long)} or {@link #validateDecimal(ValidationContext,
      * BigDecimal)}. </p>
      *
-     * @param report the report
+     * @param context the context
      * @param instance the instance to validate
      */
     @Override
-    public final void validate(final ValidationReport report,
+    public final void validate(final ValidationContext context,
         final JsonNode instance)
     {
         if (valueIsLong(instance) && isLong)
-            validateLong(report, instance.longValue());
+            validateLong(context, instance.longValue());
         else
-            validateDecimal(report, instance.decimalValue());
+            validateDecimal(context, instance.decimalValue());
     }
 
     /**

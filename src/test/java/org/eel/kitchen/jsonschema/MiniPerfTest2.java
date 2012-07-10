@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
@@ -42,7 +42,7 @@ public final class MiniPerfTest2
 
         String name;
         JsonNode value;
-        ValidationReport report;
+        ValidationContext context;
 
         final long begin = System.currentTimeMillis();
 
@@ -50,11 +50,11 @@ public final class MiniPerfTest2
 
         for (int i = 0; i < 500; i++) {
             for (final Map.Entry<String, JsonNode> entry : schemas.entrySet()) {
-                report = new ValidationReport();
+                context = new ValidationContext();
                 name = entry.getKey();
                 value = entry.getValue();
-                schema.validate(report, value);
-                if (!report.isSuccess()) {
+                schema.validate(context, value);
+                if (!context.isSuccess()) {
                     System.err.println("ERROR: schema " + name + " did not "
                         + "validate (iteration " + i + ")");
                     System.exit(1);

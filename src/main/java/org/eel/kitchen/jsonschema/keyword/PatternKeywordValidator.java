@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
 
@@ -42,10 +42,10 @@ public final class PatternKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         if (!RhinoHelper.regMatch(regex, instance.textValue()))
-            report.addMessage("instance does not match regex");
+            context.addMessage("instance does not match regex");
     }
 }

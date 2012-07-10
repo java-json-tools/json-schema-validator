@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -49,12 +49,12 @@ public final class PropertiesKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         final Set<String> fields = CollectionUtils.toSet(instance.fieldNames());
 
         if (!fields.containsAll(required))
-            report.addMessage("missing required properties in instance");
+            context.addMessage("missing required properties in instance");
     }
 }

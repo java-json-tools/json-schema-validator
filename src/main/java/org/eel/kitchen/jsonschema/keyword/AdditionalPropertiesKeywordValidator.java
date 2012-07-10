@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
@@ -64,7 +64,7 @@ public final class AdditionalPropertiesKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         if (additionalOK)
@@ -84,6 +84,6 @@ public final class AdditionalPropertiesKeywordValidator
         fields.removeAll(tmp);
 
         if (!fields.isEmpty())
-            report.addMessage("additional properties not permitted");
+            context.addMessage("additional properties not permitted");
     }
 }

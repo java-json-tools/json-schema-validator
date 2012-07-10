@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.JsonLoader;
 import org.eel.kitchen.util.NodeType;
 import org.testng.annotations.DataProvider;
@@ -91,11 +91,11 @@ public abstract class AbstractFormatSpecifierTest
     )
     public void testNonApplicableTypes(final JsonNode data)
     {
-        final ValidationReport report = new ValidationReport();
+        final ValidationContext context = new ValidationContext();
 
-        specifier.validate(report, data);
+        specifier.validate(context, data);
 
-        assertTrue(report.isSuccess());
+        assertTrue(context.isSuccess());
     }
 
     @DataProvider
@@ -118,9 +118,9 @@ public abstract class AbstractFormatSpecifierTest
     )
     public void testSpecifier(final JsonNode data, final boolean valid)
     {
-        final ValidationReport report = new ValidationReport();
-        specifier.checkValue(report, data);
+        final ValidationContext context = new ValidationContext();
+        specifier.checkValue(context, data);
 
-        assertEquals(report.isSuccess(), valid);
+        assertEquals(context.isSuccess(), valid);
     }
 }

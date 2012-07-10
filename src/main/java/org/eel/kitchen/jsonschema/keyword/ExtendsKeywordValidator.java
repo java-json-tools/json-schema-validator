@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.NodeType;
 
@@ -50,11 +50,11 @@ public final class ExtendsKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         for (final JsonNode schema: schemas)
-            JsonSchema.fromNode(report.getSchema(), schema)
-                .validate(report, instance);
+            JsonSchema.fromNode(context.getSchema(), schema)
+                .validate(context, instance);
     }
 }

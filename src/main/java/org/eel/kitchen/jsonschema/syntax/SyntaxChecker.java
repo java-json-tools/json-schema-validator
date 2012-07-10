@@ -1,9 +1,9 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 public interface SyntaxChecker
 {
-    void checkSyntax(ValidationReport report, JsonNode schema);
+    void checkSyntax(ValidationContext context, JsonNode schema);
 }

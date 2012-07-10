@@ -32,7 +32,7 @@ import org.eel.kitchen.jsonschema.format.RegexFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.TimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.URIFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.HashMap;
@@ -76,10 +76,10 @@ public final class FormatKeywordValidator
     }
 
     @Override
-    protected void validate(final ValidationReport report,
+    protected void validate(final ValidationContext context,
         final JsonNode instance)
     {
         if (specifier != null)
-            specifier.validate(report, instance);
+            specifier.validate(context, instance);
     }
 }

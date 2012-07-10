@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -42,7 +42,7 @@ public final class SyntaxValidatorTest
     private SyntaxChecker checker1;
     private SyntaxChecker checker2;
 
-    private ValidationReport report;
+    private ValidationContext context;
 
     @BeforeMethod
     public void setUp()
@@ -58,7 +58,7 @@ public final class SyntaxValidatorTest
         checker1 = mock(SyntaxChecker.class);
         checker2 = mock(SyntaxChecker.class);
 
-        report = new ValidationReport();
+        context = new ValidationContext();
     }
 
     @Test
@@ -73,9 +73,9 @@ public final class SyntaxValidatorTest
 
         validator = new SyntaxValidator(bundle);
 
-        validator.validate(report, instance);
+        validator.validate(context, instance);
 
-        verify(checker1).checkSyntax(report, instance);
+        verify(checker1).checkSyntax(context, instance);
     }
 
     @Test
@@ -92,10 +92,10 @@ public final class SyntaxValidatorTest
 
         validator = new SyntaxValidator(bundle);
 
-        validator.validate(report, instance);
+        validator.validate(context, instance);
 
-        verify(checker1).checkSyntax(report, instance);
-        verify(checker2, never()).checkSyntax(report, instance);
+        verify(checker1).checkSyntax(context, instance);
+        verify(checker2, never()).checkSyntax(context, instance);
     }
 
     @Test
@@ -111,7 +111,7 @@ public final class SyntaxValidatorTest
 
         validator = new SyntaxValidator(bundle);
 
-        validator.validate(report, instance);
+        validator.validate(context, instance);
 
         assertTrue(true);
     }
@@ -128,9 +128,9 @@ public final class SyntaxValidatorTest
 
         validator = new SyntaxValidator(bundle);
 
-        validator.validate(report, instance);
-        validator.validate(report, instance);
+        validator.validate(context, instance);
+        validator.validate(context, instance);
 
-        verify(checker1, times(1)).checkSyntax(report, instance);
+        verify(checker1, times(1)).checkSyntax(context, instance);
     }
 }

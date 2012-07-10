@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.Collections;
@@ -56,25 +56,25 @@ public abstract class KeywordValidator
      * Main validation function
      *
      * <p>Its only role is to check whether the instance type is recognized
-     * by this keyword. If so, it calls {@link #validate(ValidationReport,
+     * by this keyword. If so, it calls {@link #validate(ValidationContext,
      * JsonNode)}.</p>
      *
-     * @param report the report
+     * @param context the context
      * @param instance the instance to validate
      */
-    public final void validateInstance(final ValidationReport report,
+    public final void validateInstance(final ValidationContext context,
         final JsonNode instance)
     {
         if (instanceTypes.contains(NodeType.getNodeType(instance)))
-            validate(report,instance);
+            validate(context,instance);
     }
 
     /**
      * Method which all keyword validators must implement
      *
-     * @param report the report
+     * @param context the context
      * @param instance the instance to validate
      */
-    protected abstract void validate(final ValidationReport report,
+    protected abstract void validate(final ValidationContext context,
         final JsonNode instance);
 }

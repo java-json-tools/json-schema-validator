@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -36,7 +36,7 @@ public abstract class AbstractSyntaxCheckerTest
     private final JsonNode testData;
     private final SyntaxChecker checker;
 
-    private ValidationReport report;
+    private ValidationContext context;
 
     protected AbstractSyntaxCheckerTest(final String keyword,
         final SyntaxChecker checker)
@@ -50,7 +50,7 @@ public abstract class AbstractSyntaxCheckerTest
     @BeforeMethod
     public void createValidator()
     {
-        report = new ValidationReport();
+        context = new ValidationContext();
     }
 
     @DataProvider
@@ -75,7 +75,7 @@ public abstract class AbstractSyntaxCheckerTest
     @Test(dataProvider = "getData")
     public void testChecker(final JsonNode node, final boolean valid)
     {
-        checker.checkSyntax(report, node);
-        assertEquals(report.isSuccess(), valid);
+        checker.checkSyntax(context, node);
+        assertEquals(context.isSuccess(), valid);
     }
 }

@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 import org.parboiled.Parboiled;
 import org.parboiled.Rule;
@@ -54,12 +54,12 @@ public final class CSSColorFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationReport report, final JsonNode value)
+    void checkValue(final ValidationContext context, final JsonNode value)
     {
         final ParsingResult<?> result
             = new ErrorLocatingParseRunner(rule).run(value.textValue());
 
         if (result.hasErrors())
-            report.addMessage("string is not a valid CSS 2.1 color");
+            context.addMessage("string is not a valid CSS 2.1 color");
     }
 }

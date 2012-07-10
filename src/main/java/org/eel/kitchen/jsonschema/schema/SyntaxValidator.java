@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.util.CollectionUtils;
 
@@ -66,7 +66,7 @@ public final class SyntaxValidator
         this(KeywordBundles.defaultBundle());
     }
 
-    public synchronized void validate(final ValidationReport report,
+    public synchronized void validate(final ValidationContext context,
         final JsonNode schema)
     {
         if (done.contains(schema))
@@ -77,9 +77,9 @@ public final class SyntaxValidator
         keywords.retainAll(checkers.keySet());
 
         for (final String keyword : keywords)
-            checkers.get(keyword).checkSyntax(report, schema);
+            checkers.get(keyword).checkSyntax(context, schema);
 
-        if (report.isSuccess())
+        if (context.isSuccess())
             done.add(schema);
     }
 }

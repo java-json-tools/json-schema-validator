@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.NodeType;
 
@@ -43,22 +43,22 @@ public final class DisallowKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         if (typeSet.contains(NodeType.getNodeType(instance))) {
-            report.addMessage("instance is of a disallowed primitive type");
+            context.addMessage("instance is of a disallowed primitive type");
             return;
         }
 
-        ValidationReport tmp;
+        ValidationContext tmp;
 
         for (final JsonNode schema: schemas) {
-            tmp = new ValidationReport();
-            JsonSchema.fromNode(report.getSchema(), schema)
+            tmp = new ValidationContext();
+            JsonSchema.fromNode(context.getSchema(), schema)
                 .validate(tmp, instance);
             if (tmp.isSuccess()) {
-                report.addMessage("instance matches a disallowed schema");
+                context.addMessage("instance matches a disallowed schema");
                 return;
             }
         }

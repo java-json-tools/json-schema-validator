@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.net.URI;
@@ -33,13 +33,13 @@ public class URISyntaxChecker
     }
 
     @Override
-    final void checkValue(final ValidationReport report,
+    final void checkValue(final ValidationContext context,
         final JsonNode schema)
     {
         try {
             new URI(schema.get(keyword).textValue());
         } catch (URISyntaxException ignored) {
-            report.addMessage("not a valid URI");
+            context.addMessage("not a valid URI");
         }
     }
 }

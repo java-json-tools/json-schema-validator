@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
@@ -84,7 +84,7 @@ public final class DependenciesKeywordValidator
 
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         final Set<String> fields = CollectionUtils.toSet(instance.fieldNames());
@@ -100,7 +100,7 @@ public final class DependenciesKeywordValidator
             fullSet.addAll(set);
 
         if (!fields.containsAll(fullSet))
-            report.addMessage("missing property dependencies");
+            context.addMessage("missing property dependencies");
 
         final Map<String, JsonNode> schemaDeps
             = new HashMap<String, JsonNode>(schemas);
@@ -108,7 +108,7 @@ public final class DependenciesKeywordValidator
         schemaDeps.keySet().retainAll(fields);
 
         for (final JsonNode node: schemaDeps.values())
-            JsonSchema.fromNode(report.getSchema(), node)
-                .validate(report, instance);
+            JsonSchema.fromNode(context.getSchema(), node)
+                .validate(context, instance);
     }
 }

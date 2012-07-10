@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -60,13 +60,13 @@ public final class AdditionalItemsKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         if (additionalOK)
             return;
 
         if (instance.size() > itemsCount)
-            report.addMessage("additional items not permitted");
+            context.addMessage("additional items not permitted");
     }
 }

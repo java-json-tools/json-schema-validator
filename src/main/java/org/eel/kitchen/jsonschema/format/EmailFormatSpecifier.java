@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import javax.mail.internet.AddressException;
@@ -47,13 +47,13 @@ public final class EmailFormatSpecifier
     }
 
     @Override
-    public void checkValue(final ValidationReport report,
+    public void checkValue(final ValidationContext context,
         final JsonNode instance)
     {
         try {
             new InternetAddress(instance.textValue());
         } catch (AddressException ignored) {
-            report.addMessage("string is not a valid email address");
+            context.addMessage("string is not a valid email address");
         }
     }
 }

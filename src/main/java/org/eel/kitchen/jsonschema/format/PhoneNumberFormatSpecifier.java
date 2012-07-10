@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -56,7 +56,7 @@ public final class PhoneNumberFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationReport report, final JsonNode value)
+    void checkValue(final ValidationContext context, final JsonNode value)
     {
         final String input = value.textValue();
 
@@ -77,7 +77,7 @@ public final class PhoneNumberFormatSpecifier
             else
                 parser.parse(input, "FR");
         } catch (NumberParseException ignored) {
-            report.addMessage("string is not a recognized phone number");
+            context.addMessage("string is not a recognized phone number");
         }
     }
 }

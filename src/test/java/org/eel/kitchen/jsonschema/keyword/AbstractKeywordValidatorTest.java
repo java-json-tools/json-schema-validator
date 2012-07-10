@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -75,11 +75,11 @@ public abstract class AbstractKeywordValidatorTest
     {
         final KeywordValidator validator = constructor.newInstance(schema);
 
-        final ValidationReport report = new ValidationReport();
+        final ValidationContext context = new ValidationContext();
 
-        validator.validate(report, data);
+        validator.validate(context, data);
 
-        assertEquals(report.isSuccess(), valid);
+        assertEquals(context.isSuccess(), valid);
 
     }
 }

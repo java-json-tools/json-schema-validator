@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
@@ -69,30 +69,30 @@ public abstract class FormatSpecifier
      * Main validation function
      *
      * <p>This function only checks whether the value is of a type recognized
-     * by this specifier. If so, it call {@link #checkValue(ValidationReport,
+     * by this specifier. If so, it call {@link #checkValue(ValidationContext,
      * JsonNode)}.</p>
      *
-     * @param report the report to use
+     * @param context the context to use
      * @param value the value to validate
      */
-    public final void validate(final ValidationReport report,
+    public final void validate(final ValidationContext context,
         final JsonNode value)
     {
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
 
-        checkValue(report, value);
+        checkValue(context, value);
     }
 
     /**
      * Abstract method implemented by all specifiers
      *
      * <p>It is only called if the value type is one expected by the
-     * specifier, see {@link #validate(ValidationReport, JsonNode)}.</p>
+     * specifier, see {@link #validate(ValidationContext, JsonNode)}.</p>
      *
-     * @param report the report to use
+     * @param context the context to use
      * @param value the value to validate
      */
-    abstract void checkValue(final ValidationReport report,
+    abstract void checkValue(final ValidationContext context,
         final JsonNode value);
 }

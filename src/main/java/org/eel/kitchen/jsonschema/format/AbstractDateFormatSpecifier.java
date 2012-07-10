@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -64,13 +64,13 @@ public class AbstractDateFormatSpecifier
     }
 
     @Override
-    public final void checkValue(final ValidationReport report,
+    public final void checkValue(final ValidationContext context,
         final JsonNode instance)
     {
         try {
             dtf.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            report.addMessage(errmsg);
+            context.addMessage(errmsg);
         }
     }
 }

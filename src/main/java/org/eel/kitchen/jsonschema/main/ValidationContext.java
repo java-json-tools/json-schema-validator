@@ -28,14 +28,14 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public final class ValidationReport
+public final class ValidationContext
 {
     private JsonNode schema;
     private JsonPointer path;
     private final ListMultimap<JsonPointer, String> msgMap
         = ArrayListMultimap.create();
 
-    public ValidationReport()
+    public ValidationContext()
     {
         try {
             path = new JsonPointer("#");
@@ -44,7 +44,7 @@ public final class ValidationReport
         }
     }
 
-    public ValidationReport(final JsonPointer path)
+    public ValidationContext(final JsonPointer path)
     {
         this.path = path;
     }
@@ -79,7 +79,7 @@ public final class ValidationReport
         return msgMap.isEmpty();
     }
 
-    public void mergeWith(final ValidationReport other)
+    public void mergeWith(final ValidationContext other)
     {
         msgMap.putAll(other.msgMap);
     }

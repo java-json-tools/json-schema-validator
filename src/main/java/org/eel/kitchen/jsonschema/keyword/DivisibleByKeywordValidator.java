@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 import java.math.BigDecimal;
 
@@ -37,15 +37,15 @@ public final class DivisibleByKeywordValidator
     }
 
     @Override
-    protected void validateLong(final ValidationReport report,
+    protected void validateLong(final ValidationContext context,
         final long instanceValue)
     {
         if (instanceValue % longValue != 0)
-            report.addMessage("instance is not a multiple of divisibleBy");
+            context.addMessage("instance is not a multiple of divisibleBy");
     }
 
     @Override
-    protected void validateDecimal(final ValidationReport report,
+    protected void validateDecimal(final ValidationContext context,
         final BigDecimal instanceValue)
     {
         final BigDecimal remainder = instanceValue.remainder(decimalValue);
@@ -55,6 +55,6 @@ public final class DivisibleByKeywordValidator
          * "0" and "0.0" are NOT equal.
          */
         if (remainder.compareTo(BigDecimal.ZERO) != 0)
-            report.addMessage("instance is not a multiple of divisibleBy");
+            context.addMessage("instance is not a multiple of divisibleBy");
     }
 }

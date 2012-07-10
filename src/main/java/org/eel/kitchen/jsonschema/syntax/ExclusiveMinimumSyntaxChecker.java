@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 public final class ExclusiveMinimumSyntaxChecker
@@ -38,10 +38,10 @@ public final class ExclusiveMinimumSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationReport report,
+    void checkValue(final ValidationContext context,
         final JsonNode schema)
     {
         if (!schema.has("minimum"))
-            report.addMessage("exclusiveMinimum without minimum");
+            context.addMessage("exclusiveMinimum without minimum");
     }
 }

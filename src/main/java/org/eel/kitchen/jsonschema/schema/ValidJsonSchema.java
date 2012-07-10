@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonPointer;
 import org.eel.kitchen.util.RhinoHelper;
@@ -81,22 +81,22 @@ final class ValidJsonSchema
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
-        final JsonNode oldParent = report.getSchema();
+        final JsonNode oldParent = context.getSchema();
 
-        report.setSchema(parent);
+        context.setSchema(parent);
 
         for (final KeywordValidator validator: validators)
-            validator.validateInstance(report, instance);
+            validator.validateInstance(context, instance);
 
-        if (!(instance.isContainerNode() || report.isSuccess())) {
-            report.setSchema(oldParent);
+        if (!(instance.isContainerNode() || context.isSuccess())) {
+            context.setSchema(oldParent);
             return;
         }
 
-        final JsonPointer ptr = report.getPath();
+        final JsonPointer ptr = context.getPath();
 
         JsonPointer current;
 
@@ -105,14 +105,14 @@ final class ValidJsonSchema
             int i = 0;
             for (final JsonNode element: instance) {
                 current = ptr.append(i);
-                report.setPath(current);
+                context.setPath(current);
                 subSchema = arrayPath(i);
                 JsonSchema.fromNode(parent, subSchema)
-                    .validate(report, element);
+                    .validate(context, element);
                 i++;
             }
-            report.setSchema(oldParent);
-            report.setPath(ptr);
+            context.setSchema(oldParent);
+            context.setPath(ptr);
             return;
         }
 
@@ -127,13 +127,13 @@ final class ValidJsonSchema
             key = entry.getKey();
             value = entry.getValue();
             current = ptr.append(key);
-            report.setPath(current);
+            context.setPath(current);
             for (final JsonNode subSchema: objectPath(key))
-                JsonSchema.fromNode(parent, subSchema).validate(report, value);
+                JsonSchema.fromNode(parent, subSchema).validate(context, value);
         }
 
-        report.setSchema(oldParent);
-        report.setPath(ptr);
+        context.setSchema(oldParent);
+        context.setPath(ptr);
     }
 
     private void setupArrayNodes(final JsonNode schema)

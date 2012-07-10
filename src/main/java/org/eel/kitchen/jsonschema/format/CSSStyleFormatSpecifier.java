@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.regex.Matcher;
@@ -60,7 +60,7 @@ public final class CSSStyleFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationReport report, final JsonNode value)
+    void checkValue(final ValidationContext context, final JsonNode value)
     {
         final String[] rules = SPLIT_PATTERN.split(value.textValue());
         Matcher matcher;
@@ -68,7 +68,7 @@ public final class CSSStyleFormatSpecifier
         for (final String rule: rules) {
             matcher = styleElement.matcher(rule);
             if (!matcher.matches()) {
-                report.addMessage("string is not a valid CSS 2.1 style");
+                context.addMessage("string is not a valid CSS 2.1 style");
                 return;
             }
         }

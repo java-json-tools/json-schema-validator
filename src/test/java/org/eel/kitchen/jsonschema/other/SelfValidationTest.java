@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
@@ -48,11 +48,11 @@ public final class SelfValidationTest
     @Test
     public void testSchemaValidatesItself()
     {
-        final ValidationReport report = new ValidationReport();
+        final ValidationContext context = new ValidationContext();
 
-        schema.validate(report, draftv3);
+        schema.validate(context, draftv3);
 
-        assertTrue(report.isSuccess());
+        assertTrue(context.isSuccess());
     }
 
     @Test
@@ -61,16 +61,16 @@ public final class SelfValidationTest
         final Map<String, JsonNode> schemas
             = CollectionUtils.toMap(googleAPI.get("schemas").fields());
 
-        ValidationReport report;
+        ValidationContext context;
         String name;
         JsonNode node;
 
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
             node = entry.getValue();
-            report = new ValidationReport();
-            schema.validate(report, node);
-            assertTrue(report.isSuccess(), name);
+            context = new ValidationContext();
+            schema.validate(context, node);
+            assertTrue(context.isSuccess(), name);
         }
     }
 }

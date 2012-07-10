@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.util.LRUMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.ref.JsonReference;
 
 import java.util.Map;
@@ -52,11 +52,11 @@ public abstract class JsonSchema
             if (ret != null)
                 return ret;
 
-            final ValidationReport report = new ValidationReport();
-            syntaxValidator.validate(report, schemaNode);
+            final ValidationContext context = new ValidationContext();
+            syntaxValidator.validate(context, schemaNode);
 
-            if (!report.isSuccess())
-                return new InvalidJsonSchema(report);
+            if (!context.isSuccess())
+                return new InvalidJsonSchema(context);
 
             ret = schemaNode.isObject()
                 ? new ValidJsonSchema(parent, schemaNode)
@@ -73,6 +73,6 @@ public abstract class JsonSchema
         return fromNode(node, node);
     }
 
-    public abstract void validate(final ValidationReport report,
+    public abstract void validate(final ValidationContext context,
         final JsonNode instance);
 }

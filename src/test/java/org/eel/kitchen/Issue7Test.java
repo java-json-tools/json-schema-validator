@@ -1,7 +1,7 @@
 package org.eel.kitchen;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -29,11 +29,11 @@ public final class Issue7Test
     public void testIssue7()
     {
         final JsonSchema schema = JsonSchema.fromNode(draftv3);
-        ValidationReport report;
+        ValidationContext context;
 
-        report = new ValidationReport();
-        schema.validate(report, schema1);
-        assertTrue(report.isSuccess());
+        context = new ValidationContext();
+        schema.validate(context, schema1);
+        assertTrue(context.isSuccess());
 
         final JsonSchema temp1schema = JsonSchema.fromNode(schema1);
 
@@ -43,8 +43,8 @@ public final class Issue7Test
          * is that JsonSchema's .objectPath() returns an empty schema: it
          * shouldn't!
          */
-        report = new ValidationReport();
-        temp1schema.validate(report, schema2);
-        assertFalse(report.isSuccess());
+        context = new ValidationContext();
+        temp1schema.validate(context, schema2);
+        assertFalse(context.isSuccess());
     }
 }

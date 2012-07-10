@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.HashSet;
@@ -40,14 +40,14 @@ public final class EnumSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationReport report,
+    void checkValue(final ValidationContext context,
         final JsonNode schema)
     {
         final Set<JsonNode> values = new HashSet<JsonNode>();
 
         for (final JsonNode value: schema.get(keyword))
             if (!values.add(value)) {
-                report.addMessage("values in an enum must be unique");
+                context.addMessage("values in an enum must be unique");
                 return;
             }
     }

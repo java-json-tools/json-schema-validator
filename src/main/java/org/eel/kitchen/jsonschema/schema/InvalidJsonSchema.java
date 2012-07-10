@@ -18,26 +18,26 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 final class InvalidJsonSchema
     extends JsonSchema
 {
-    private final ValidationReport report = new ValidationReport();
+    private final ValidationContext context = new ValidationContext();
 
     InvalidJsonSchema(final String message)
     {
-        report.addMessage(message);
+        context.addMessage(message);
     }
 
-    InvalidJsonSchema(final ValidationReport report)
+    InvalidJsonSchema(final ValidationContext context)
     {
-        this.report.mergeWith(report);
+        this.context.mergeWith(context);
     }
 
     @Override
-    public void validate(final ValidationReport report, final JsonNode instance)
+    public void validate(final ValidationContext context, final JsonNode instance)
     {
-        report.mergeWith(this.report);
+        context.mergeWith(this.context);
     }
 }

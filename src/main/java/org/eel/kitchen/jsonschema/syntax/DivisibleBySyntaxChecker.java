@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.math.BigDecimal;
@@ -40,11 +40,11 @@ public final class DivisibleBySyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationReport report,
+    void checkValue(final ValidationContext context,
         final JsonNode schema)
     {
         final BigDecimal decimal = schema.get(keyword).decimalValue();
         if (BigDecimal.ZERO.compareTo(decimal) == 0)
-            report.addMessage("divisibleBy is 0");
+            context.addMessage("divisibleBy is 0");
     }
 }

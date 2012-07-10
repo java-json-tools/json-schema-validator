@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
@@ -37,7 +37,7 @@ public abstract class ArrayChildrenSyntaxChecker
     }
 
     @Override
-    final void checkValue(final ValidationReport report,
+    final void checkValue(final ValidationContext context,
         final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
@@ -47,6 +47,6 @@ public abstract class ArrayChildrenSyntaxChecker
 
         for (final JsonNode value: node)
             if (!childrenTypes.contains(NodeType.getNodeType(value)))
-                report.addMessage("wrong element type in array");
+                context.addMessage("wrong element type in array");
     }
 }

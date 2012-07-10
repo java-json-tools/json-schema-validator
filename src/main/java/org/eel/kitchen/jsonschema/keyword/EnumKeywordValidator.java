@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -36,13 +36,13 @@ public final class EnumKeywordValidator
     }
 
     @Override
-    public void validate(final ValidationReport report,
+    public void validate(final ValidationContext context,
         final JsonNode instance)
     {
         for (final JsonNode value: values)
             if (value.equals(instance))
                 return;
 
-        report.addMessage("instance does not match any enum value");
+        context.addMessage("instance does not match any enum value");
     }
 }

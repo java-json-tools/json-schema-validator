@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
@@ -40,19 +40,19 @@ public class SimpleSyntaxChecker
     }
 
     @Override
-    public final void checkSyntax(final ValidationReport report,
+    public final void checkSyntax(final ValidationContext context,
         final JsonNode schema)
     {
         final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
         if (!validTypes.contains(nodeType)) {
-            report.addMessage("keyword is of wrong type");
+            context.addMessage("keyword is of wrong type");
             return;
         }
 
-        checkValue(report, schema);
+        checkValue(context, schema);
     }
 
-    void checkValue(final ValidationReport report,
+    void checkValue(final ValidationContext context,
         final JsonNode schema)
     {
     }

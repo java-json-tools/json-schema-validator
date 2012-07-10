@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -97,10 +97,10 @@ public final class KeywordFactory
         return new KeywordValidator(NodeType.values())
         {
             @Override
-            protected void validate(final ValidationReport report,
+            protected void validate(final ValidationContext context,
                 final JsonNode instance)
             {
-                report.addMessage("cannot build validator: "
+                context.addMessage("cannot build validator: "
                     + e.getClass().getName() + ": " + e.getMessage());
             }
         };
