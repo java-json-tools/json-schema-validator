@@ -18,15 +18,9 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 import org.eel.kitchen.util.JsonPointer;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 public final class ValidationContext
 {
@@ -41,33 +35,31 @@ public final class ValidationContext
     }
 
     private JsonNode schema;
-    private JsonPointer path;
-    private final ListMultimap<JsonPointer, String> msgMap
-        = ArrayListMultimap.create();
+    private final ValidationReport report;
 
     public ValidationContext()
     {
-        path = new JsonPointer(ROOT);
+        report = new ValidationReport(new JsonPointer(ROOT));
     }
 
     public ValidationContext(final JsonPointer path)
     {
-        this.path = path;
+        report = new ValidationReport(path);
     }
 
     public void addMessage(final String message)
     {
-        msgMap.put(path, message);
+        report.addMessage(message);
     }
 
     public void setPath(final JsonPointer path)
     {
-        this.path = path;
+        report.setPath(path);
     }
 
     public JsonPointer getPath()
     {
-        return path;
+        return report.getPath();
     }
 
     public void setSchema(final JsonNode schema)
@@ -82,25 +74,16 @@ public final class ValidationContext
 
     public boolean isSuccess()
     {
-        return msgMap.isEmpty();
+        return report.isSuccess();
     }
 
     public void mergeWith(final ValidationContext other)
     {
-        msgMap.putAll(other.msgMap);
+        report.mergeWith(other.report);
     }
 
     public List<String> getMessages()
     {
-        final SortedSet<JsonPointer> paths
-            = new TreeSet<JsonPointer>(msgMap.keySet());
-
-        final List<String> ret = new ArrayList<String>(msgMap.size());
-
-        for (final JsonPointer path: paths)
-            for (final String msg: msgMap.get(path))
-                ret.add(path + ": " + msg);
-
-        return Collections.unmodifiableList(ret);
+        return report.getMessages();
     }
 }
