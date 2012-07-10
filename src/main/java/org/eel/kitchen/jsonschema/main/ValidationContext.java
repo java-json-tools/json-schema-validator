@@ -30,6 +30,16 @@ import java.util.TreeSet;
 
 public final class ValidationContext
 {
+    private static final JsonPointer ROOT;
+
+    static {
+        try {
+            ROOT = new JsonPointer("#");
+        } catch (JsonSchemaException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
     private JsonNode schema;
     private JsonPointer path;
     private final ListMultimap<JsonPointer, String> msgMap
@@ -37,11 +47,7 @@ public final class ValidationContext
 
     public ValidationContext()
     {
-        try {
-            path = new JsonPointer("#");
-        } catch (JsonSchemaException e) {
-            throw new RuntimeException("WTF??", e);
-        }
+        path = new JsonPointer(ROOT);
     }
 
     public ValidationContext(final JsonPointer path)

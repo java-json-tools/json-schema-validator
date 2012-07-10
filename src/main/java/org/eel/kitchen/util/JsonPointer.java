@@ -105,6 +105,12 @@ public final class JsonPointer
         fullPointer = "#" + s;
     }
 
+    public JsonPointer(final JsonPointer ptr)
+    {
+        fullPointer = ptr.fullPointer;
+        elements.addAll(ptr.elements);
+    }
+
     private JsonPointer(final String fullPointer, final List<String> elements)
     {
         this.fullPointer = fullPointer;
