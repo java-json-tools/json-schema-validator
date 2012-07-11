@@ -31,7 +31,8 @@ final class InvalidJsonValidator
     }
 
     @Override
-    public void validate(final ValidationContext context, final JsonNode instance)
+    public void validate(final ValidationContext context,
+        final JsonNode instance)
     {
         context.mergeWith(this.context);
     }

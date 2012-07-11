@@ -38,8 +38,7 @@ public final class DependenciesSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         for (final JsonNode value: schema.get(keyword)) {
             switch (NodeType.getNodeType(value)) {

@@ -38,8 +38,7 @@ public final class ExclusiveMaximumSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         if (!schema.has("maximum"))
             context.addMessage("exclusiveMaximum without maximum");

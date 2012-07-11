@@ -39,8 +39,7 @@ public final class PatternSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         if (!RhinoHelper.regexIsValid(schema.get(keyword).textValue()))
             context.addMessage("invalid regex");

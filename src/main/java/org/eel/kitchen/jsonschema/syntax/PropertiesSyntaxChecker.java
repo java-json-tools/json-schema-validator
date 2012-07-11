@@ -38,8 +38,7 @@ public final class PropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         for (final JsonNode child: schema.get(keyword))
             if (!child.isObject())

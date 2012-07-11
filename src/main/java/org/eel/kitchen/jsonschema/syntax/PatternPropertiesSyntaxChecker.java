@@ -42,8 +42,7 @@ public final class PatternPropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         final Map<String, JsonNode> properties
             = CollectionUtils.toMap(schema.get(keyword).fields());

@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 
@@ -58,11 +57,6 @@ public final class SyntaxValidator
             if (checker != null)
                 checkers.put(name, checker);
         }
-    }
-
-    public SyntaxValidator()
-    {
-        this(KeywordBundles.defaultBundle());
     }
 
     public synchronized void validate(final ValidationContext context,

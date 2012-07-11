@@ -40,8 +40,7 @@ public final class EnumSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         final Set<JsonNode> values = new HashSet<JsonNode>();
 

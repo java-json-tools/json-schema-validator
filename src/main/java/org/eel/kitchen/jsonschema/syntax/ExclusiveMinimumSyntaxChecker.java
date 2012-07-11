@@ -38,8 +38,7 @@ public final class ExclusiveMinimumSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         if (!schema.has("minimum"))
             context.addMessage("exclusiveMinimum without minimum");

@@ -40,8 +40,7 @@ public final class DivisibleBySyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
         final BigDecimal decimal = schema.get(keyword).decimalValue();
         if (BigDecimal.ZERO.compareTo(decimal) == 0)
