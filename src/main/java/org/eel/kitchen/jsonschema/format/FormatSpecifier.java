@@ -29,18 +29,17 @@ import java.util.EnumSet;
  * <p>The {@code format} keyword is part of draft v3, but gone in draft v4.
  * Its argument is always a string, and this string is called a "specifier".
  * The draft defines specifiers for recognizing URIs, phone numbers,
- * different date formats, and so on -- and even CSS 2.1 colors and styles!
+ * different date formats, and so on -- and even CSS 2.1 colors and styles
+ * (not supported).
  * </p>
  *
- * <p>This implementation covers all specifiers, the only incomplete
- * implementation being CSS styles (the {@code style} specifier).</p>
- *
- * <p>The spec allows for custom specifiers to be added. The mechanism for
- * this is not written yet, however when the day comes,
- * this is the class you will have to {@code extend}.</p>
+ * <p>The spec allows for custom specifiers to be added. This implementation,
+ * however, does not support it.</p>
  *
  * <p>Note that JSON instances of a type different than recognized by a
- * specifier validate successfully.</p>
+ * specifier validate successfully (ie, a numeric instance will always
+ * validate for a {@code regex} format specifier since this specifier can
+ * only validate text nodes).</p>
  */
 public abstract class FormatSpecifier
 {
