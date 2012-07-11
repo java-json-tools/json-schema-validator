@@ -19,8 +19,9 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.validator.AbstractJsonValidator;
-import org.eel.kitchen.util.JsonPointer;
+import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.util.NodeType;
 
 /**
@@ -44,23 +45,25 @@ public final class TypeKeywordValidator
         if (typeSet.contains(NodeType.getNodeType(instance)))
             return;
 
-        final JsonPointer path = context.getPath();
-        final ValidationContext fullContext = new ValidationContext(path);
+        final SchemaContainer container = context.getContainer();
+        final JsonSchemaFactory factory = context.getFactory();
 
-        fullContext.addMessage("instance does not match any allowed primitive "
-            + "type");
+        final ValidationContext ctx = new ValidationContext(context);
 
-        ValidationContext schemaContext;
+        ctx.addMessage("instance does not match any allowed primitive type");
+
+        JsonSchema subSchema;
+        ValidationContext tmp;
 
         for (final JsonNode schema: schemas) {
-            schemaContext = new ValidationContext(path);
-            AbstractJsonValidator.fromNode(context.getSchema(), schema)
-                .validate(schemaContext, instance);
-            if (schemaContext.isSuccess())
+            tmp = new ValidationContext(ctx);
+            subSchema = factory.create(container, schema);
+            subSchema.validate(tmp, instance);
+            if (tmp.isSuccess())
                 return;
-            fullContext.mergeWith(schemaContext);
+            ctx.mergeWith(tmp);
         }
 
-        context.mergeWith(fullContext);
+        context.mergeWith(ctx);
     }
 }

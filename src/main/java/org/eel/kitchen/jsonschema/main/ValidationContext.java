@@ -51,6 +51,15 @@ public final class ValidationContext
         report = new ValidationReport(path);
     }
 
+    public ValidationContext(final ValidationContext other)
+    {
+        container = other.container;
+        factory = other.factory;
+        schema = other.schema;
+        report = new ValidationReport(new JsonPointer(ROOT));
+        report.setPath(other.getPath());
+    }
+
     public void addMessage(final String message)
     {
         report.addMessage(message);

@@ -19,7 +19,9 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.validator.AbstractJsonValidator;
+import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -107,8 +109,13 @@ public final class DependenciesKeywordValidator
 
         schemaDeps.keySet().retainAll(fields);
 
-        for (final JsonNode node: schemaDeps.values())
-            AbstractJsonValidator.fromNode(context.getSchema(), node)
-                .validate(context, instance);
+        final SchemaContainer container = context.getContainer();
+        final JsonSchemaFactory factory = context.getFactory();
+        JsonSchema subSchema;
+
+        for (final JsonNode node: schemaDeps.values()) {
+            subSchema = factory.create(container, node);
+            subSchema.validate(context, instance);
+        }
     }
 }
