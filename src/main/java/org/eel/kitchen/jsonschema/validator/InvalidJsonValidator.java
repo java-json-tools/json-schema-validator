@@ -21,14 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 
 final class InvalidJsonValidator
-    extends AbstractJsonValidator
+    implements JsonValidator
 {
     private final ValidationContext context = new ValidationContext();
-
-    InvalidJsonValidator(final String message)
-    {
-        context.addMessage(message);
-    }
 
     InvalidJsonValidator(final ValidationContext context)
     {
