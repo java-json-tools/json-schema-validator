@@ -100,17 +100,4 @@ public final class SchemaRegistryTest
                 + "disagree (URI: "  + uri + ", id: a://b.c#)" );
         }
     }
-
-    @Test
-    public void registeringNodeWithoutIDFails()
-    {
-        final JsonNode node = factory.objectNode();
-
-        try {
-            registry.register(node);
-            fail("No exception thronw!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "schema has no locator");
-        }
-    }
 }
