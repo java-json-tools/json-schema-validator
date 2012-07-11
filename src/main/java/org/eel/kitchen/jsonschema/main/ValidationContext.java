@@ -53,8 +53,7 @@ public final class ValidationContext
     {
         container = other.container;
         factory = other.factory;
-        report = new ValidationReport(new JsonPointer(ROOT));
-        report.setPath(other.getPath());
+        report = new ValidationReport(other.report.getPath());
     }
 
     public void addMessage(final String message)
