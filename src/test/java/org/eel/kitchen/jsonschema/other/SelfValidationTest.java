@@ -17,47 +17,62 @@
 
 package org.eel.kitchen.jsonschema.other;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.schema.JsonSchema;
+import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.util.CollectionUtils;
+import org.eel.kitchen.util.JsonLoader;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+import java.util.Map;
+
+import static org.testng.Assert.*;
+
 public final class SelfValidationTest
 {
-//    private JsonNode draftv3;
-//    private JsonNode googleAPI;
-//    private JsonValidator validator;
-//
-//    @BeforeClass
-//    public void setUp()
-//        throws IOException
-//    {
-//        draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
-//        googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
-//        validator = AbstractJsonValidator.fromNode(draftv3);
-//    }
-//
-//    @Test
-//    public void testSchemaValidatesItself()
-//    {
-//        final ValidationContext context = new ValidationContext();
-//
-//        validator.validate(context, draftv3);
-//
-//        assertTrue(context.isSuccess());
-//    }
-//
-//    @Test
-//    public void testGoogleSchemas()
-//    {
-//        final Map<String, JsonNode> schemas
-//            = CollectionUtils.toMap(googleAPI.get("schemas").fields());
-//
-//        ValidationContext context;
-//        String name;
-//        JsonNode node;
-//
-//        for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
-//            name = entry.getKey();
-//            node = entry.getValue();
-//            context = new ValidationContext();
-//            validator.validate(context, node);
-//            assertTrue(context.isSuccess(), name);
-//        }
-//    }
+    private JsonNode draftv3;
+    private JsonNode googleAPI;
+    private JsonSchema schema;
+
+    @BeforeClass
+    public void setUp()
+        throws IOException
+    {
+        draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
+        googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
+        final JsonSchemaFactory factory = new JsonSchemaFactory();
+        schema = factory.create(draftv3);
+    }
+
+    @Test
+    public void testSchemaValidatesItself()
+    {
+        final ValidationContext context = new ValidationContext();
+
+        schema.validate(context, draftv3);
+
+        assertTrue(context.isSuccess());
+    }
+
+    @Test
+    public void testGoogleSchemas()
+    {
+        final Map<String, JsonNode> schemas
+            = CollectionUtils.toMap(googleAPI.get("schemas").fields());
+
+        ValidationContext context;
+        String name;
+        JsonNode node;
+
+        for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
+            name = entry.getKey();
+            node = entry.getValue();
+            context = new ValidationContext();
+            schema.validate(context, node);
+            assertTrue(context.isSuccess(), name);
+        }
+    }
 }
