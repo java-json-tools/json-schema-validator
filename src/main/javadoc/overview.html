@@ -19,6 +19,25 @@
 A JSON Schema validator implementation in Java which aims for correctness and
 performance, in that order
 
-<b>TODO</b>
+<h2>Sample usage</h2>
+
+<ul>
+    <li>create a {@link org.eel.kitchen.jsonschema.schema.JsonSchemaFactory};
+    </li>
+    <li>create a {@link org.eel.kitchen.jsonschema.schema.JsonSchema} using
+        that factory;
+    </li>
+    <li>for each instance you wish to validate:
+    <ul>
+        <li>create a {@link org.eel.kitchen.jsonschema.main.ValidationContext};
+        </li>
+        <li>validate using the created schema.</li>
+    </ul>
+    </li>
+</ul>
+
+<p><b>NOTE:</b> the API is very likely to change in the future! It will be
+    stabilized once version 0.5.0 is reached.</p>
+
 </body>
 </html>
