@@ -18,8 +18,6 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.format.CSSColorFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.CSSStyleFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateTimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.EmailFormatSpecifier;
@@ -57,8 +55,6 @@ public final class FormatKeywordValidator
         specifiers.put("time", TimeFormatSpecifier.getInstance());
         specifiers.put("utc-millisec", UnixEpochFormatSpecifier.getInstance());
         specifiers.put("regex", RegexFormatSpecifier.getInstance());
-        specifiers.put("color", CSSColorFormatSpecifier.getInstance());
-        specifiers.put("style", CSSStyleFormatSpecifier.getInstance());
         specifiers.put("phone", PhoneNumberFormatSpecifier.getInstance());
         specifiers.put("uri", URIFormatSpecifier.getInstance());
         specifiers.put("email", EmailFormatSpecifier.getInstance());
