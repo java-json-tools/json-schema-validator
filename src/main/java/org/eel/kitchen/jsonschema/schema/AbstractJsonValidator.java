@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.util.LRUMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.ref.JsonReference;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
 import java.util.Map;
 
