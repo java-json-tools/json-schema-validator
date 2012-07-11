@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.util.JsonPointer;
 
 import java.util.List;
@@ -34,6 +36,8 @@ public final class ValidationContext
         }
     }
 
+    private SchemaContainer container;
+    private JsonSchemaFactory factory;
     private JsonNode schema;
     private final ValidationReport report;
 
@@ -85,5 +89,25 @@ public final class ValidationContext
     public List<String> getMessages()
     {
         return report.getMessages();
+    }
+
+    public void setFactory(final JsonSchemaFactory factory)
+    {
+        this.factory = factory;
+    }
+
+    public JsonSchemaFactory getFactory()
+    {
+        return factory;
+    }
+
+    public SchemaContainer getContainer()
+    {
+        return container;
+    }
+
+    public void setContainer(final SchemaContainer container)
+    {
+        this.container = container;
     }
 }
