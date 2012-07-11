@@ -73,7 +73,4 @@ public abstract class AbstractJsonValidator
     {
         return fromNode(node, node);
     }
-
-    public abstract void validate(final ValidationContext context,
-        final JsonNode instance);
 }
