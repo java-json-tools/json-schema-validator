@@ -39,9 +39,10 @@ import java.util.Map;
 /**
  * Validator for the {@code format} keyword
  *
- * <p>This keyword will disappear in draft v4. All specifiers are hardcoded
- * for now.
- * </p>
+ * <p>This keyword is scheduled for disappearance in draft v4. However,
+ * some people have raised concerns about this.</p>
+ *
+ * @see org.eel.kitchen.jsonschema.format
  */
 public final class FormatKeywordValidator
     extends KeywordValidator

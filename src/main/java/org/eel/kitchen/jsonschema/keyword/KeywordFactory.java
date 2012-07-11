@@ -20,8 +20,8 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 
@@ -32,16 +32,29 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Factory to provide a set of {@link KeywordValidator} instances for a given
+ * schema
+ *
+ * <p>This class is only called once the schemas has been deemed valid,
+ * that is, after the following items all stand true:</p>
+ *
+ * <ul>
+ *     <li>the JSON document is not a JSON reference (ie, if it was,
+ *     it has been resolved successfully);</li>
+ *     <li>it is syntactically valid (see {@link SyntaxValidator}.</li>
+ * </ul>
+ */
 public final class KeywordFactory
 {
     private final Map<String, Class<? extends KeywordValidator>>
         validators = new HashMap<String, Class<? extends KeywordValidator>>();
 
-    public KeywordFactory()
-    {
-        this(KeywordBundles.defaultBundle());
-    }
-
+    /**
+     * The only constructor
+     *
+     * @param bundle The keyword bundle to use
+     */
     public KeywordFactory(final KeywordBundle bundle)
     {
         String keyword;
@@ -55,6 +68,12 @@ public final class KeywordFactory
         }
     }
 
+    /**
+     * Return the set of validators for a particular schema
+     *
+     * @param schema the schema as a {@link JsonNode}
+     * @return the set of validators
+     */
     public Set<KeywordValidator> getValidators(final JsonNode schema)
     {
         final Set<KeywordValidator> ret = new HashSet<KeywordValidator>();

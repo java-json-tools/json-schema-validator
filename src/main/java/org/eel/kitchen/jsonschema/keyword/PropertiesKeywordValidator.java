@@ -29,8 +29,7 @@ import java.util.Set;
 /**
  * Validator for the {@code properties} keyword
  *
- * <p>The only thing this validator tests is {@code required} in subschemas
- * .</p>
+ * <p>The only thing this validator tests is {@code required} in subschemas.</p>
  */
 public final class PropertiesKeywordValidator
     extends KeywordValidator

@@ -59,6 +59,9 @@ public abstract class KeywordValidator
      * by this keyword. If so, it calls {@link #validate(ValidationContext,
      * JsonNode)}.</p>
      *
+     * <p>In the opposite scenario, it means this keyword cannot validate
+     * this particular instance: it is therefore considered valid.</p>
+     *
      * @param context the context
      * @param instance the instance to validate
      */
@@ -66,7 +69,7 @@ public abstract class KeywordValidator
         final JsonNode instance)
     {
         if (instanceTypes.contains(NodeType.getNodeType(instance)))
-            validate(context,instance);
+            validate(context, instance);
     }
 
     /**

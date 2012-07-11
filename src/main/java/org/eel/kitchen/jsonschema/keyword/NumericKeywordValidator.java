@@ -26,11 +26,15 @@ import java.math.BigDecimal;
 /**
  * Base class for numeric instances validators
  *
- * <p>Note that we separate validation in two: if both the keyword value and
+ * <p>We separate validation in two: if both the keyword value and
  * instance value are integers which fit into a {@code long},
  * we use that (for performance reasons). If one of them doesn't,
  * then we use {@link BigDecimal} instead (for accuracy reasons).
  * </p>
+ *
+ * <p>This means that extending this validator will require you to implement
+ * two methods: {@link #validateLong(ValidationContext, long)} and
+ * {@link #validateDecimal(ValidationContext, BigDecimal)}.</p>
  */
 public abstract class NumericKeywordValidator
     extends KeywordValidator
@@ -72,7 +76,7 @@ public abstract class NumericKeywordValidator
      * value and instance value fit into a {@code long}
      *
      * @param context the context
-     * @param instanceValue the instance to validate
+     * @param instanceValue the instance value to validate as a {@code long}
      */
     protected abstract void validateLong(final ValidationContext context,
         final long instanceValue);
@@ -82,7 +86,7 @@ public abstract class NumericKeywordValidator
      * keyword value or instance value do <b>not</b> fit into a {@code long}
      *
      * @param context the context
-     * @param instanceValue the instance to validate
+     * @param instanceValue the instance to validate as a {@link BigDecimal}
      */
     protected abstract void validateDecimal(final ValidationContext context,
         final BigDecimal instanceValue);
@@ -94,7 +98,7 @@ public abstract class NumericKeywordValidator
      * value and instance value. According to the result,
      * this method will then call either {@link #validateLong
      * (ValidationContext, long)} or {@link #validateDecimal(ValidationContext,
-     * BigDecimal)}. </p>
+     * BigDecimal)}.</p>
      *
      * @param context the context
      * @param instance the instance to validate

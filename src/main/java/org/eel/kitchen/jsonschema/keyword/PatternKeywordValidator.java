@@ -26,7 +26,7 @@ import org.eel.kitchen.util.RhinoHelper;
  * Validator for the {@code pattern} keyword
  *
  * <p>Regexes must conform to ECMA 262, so, again, this makes {@link
- * java.util.regex} unusable</p>
+ * java.util.regex} unusable.</p>
  *
  * @see RhinoHelper
  */
