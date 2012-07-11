@@ -17,17 +17,31 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * Keyword bundle used for syntax and keyword validation
+ *
+ * <p>Instances of this class are used as parameters to both
+ * {@link SyntaxValidator} and {@link KeywordFactory} instances.</p>
+ */
 public final class KeywordBundle
     implements Iterable<Map.Entry<String, Keyword>>
 {
     private final Map<String, Keyword> keywords
         = new HashMap<String, Keyword>();
 
+    /**
+     * Package-private method to generate a full copy of this bundle
+     *
+     * @return an identical copy of this bundle
+     */
     KeywordBundle copy()
     {
         final KeywordBundle ret = new KeywordBundle();
@@ -35,6 +49,19 @@ public final class KeywordBundle
         return ret;
     }
 
+    /**
+     * Register a keyword for this bundle
+     *
+     * <p>Note that it is NOT allowed to register the same keyword twice. If
+     * you must do so, you must call {@link #unregisterKeyword(String)} first.
+     * </p>
+     *
+     * @see KeywordBuilder
+     * @see Keyword
+     *
+     * @param keyword the keyword to register
+     * @throws IllegalArgumentException a keyword by that name already exists
+     */
     public void registerKeyword(final Keyword keyword)
     {
         final String name = keyword.getName();
@@ -44,16 +71,33 @@ public final class KeywordBundle
         keywords.put(name, keyword);
     }
 
+    /**
+     * Unregister a keyword
+     *
+     * @param name the name of the keyword to unregister
+     */
     public void unregisterKeyword(final String name)
     {
         keywords.remove(name);
     }
 
+    /**
+     * Get an unmodifiable version of this bundle's registered keyword
+     *
+     * @return a map of keywords
+     */
     public Map<String, Keyword> getKeywords()
     {
         return Collections.unmodifiableMap(keywords);
     }
 
+    /**
+     * Iterator over an unmodifiable copy of registered keywords
+     *
+     * <p>Also used to implement {@link Iterable}</p>
+     *
+     * @return the iterator
+     */
     @Override
     public Iterator<Map.Entry<String, Keyword>> iterator()
     {

@@ -52,6 +52,12 @@ import org.eel.kitchen.jsonschema.syntax.TypeKeywordSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
 import org.eel.kitchen.util.NodeType;
 
+/**
+ * Utility class to distribute default keyword bundles.
+ *
+ * <p>Right now, it only distributes a draft v3 keyword bundle, via the
+ * {@link #defaultBundle()} method.</p>
+ */
 public final class KeywordBundles
 {
     private static final KeywordBundle DEFAULT_BUNDLE;
@@ -243,6 +249,11 @@ public final class KeywordBundles
         DEFAULT_BUNDLE.registerKeyword(keyword);
     }
 
+    /**
+     * The standard draft v3 keyword bundle
+     *
+     * @return a {@link KeywordBundle}
+     */
     public static KeywordBundle defaultBundle()
     {
         return DEFAULT_BUNDLE.copy();

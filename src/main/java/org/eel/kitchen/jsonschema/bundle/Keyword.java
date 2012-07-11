@@ -20,7 +20,15 @@ package org.eel.kitchen.jsonschema.bundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
-public class Keyword
+/**
+ * Class used to build a new keyword
+ *
+ * <p>You will never use this class directly, but a {@link KeywordBuilder}
+ * instead. As a matter of fact, this class has no public constructor.</p>
+ *
+ * @see KeywordBuilder
+ */
+public final class Keyword
 {
     private final String name;
     private final SyntaxChecker syntaxChecker;
