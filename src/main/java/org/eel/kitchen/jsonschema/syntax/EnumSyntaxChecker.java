@@ -49,5 +49,8 @@ public final class EnumSyntaxChecker
                 context.addMessage("values in an enum must be unique");
                 return;
             }
+
+        if (values.isEmpty())
+            context.addMessage("an enum array must have at least one element");
     }
 }

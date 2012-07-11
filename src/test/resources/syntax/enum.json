@@ -3,7 +3,7 @@
         "schema": {
             "enum": []
         },
-        "valid": true
+        "valid": false
     },
     {
         "schema": {
@@ -16,5 +16,11 @@
             "enum": [ 1, 1 ]
         },
         "valid": false
+    },
+    {
+        "schema": {
+            "enum": [ true, null, {}, 32, 32.0, "32" ]
+        },
+        "valid": true
     }
 ]
