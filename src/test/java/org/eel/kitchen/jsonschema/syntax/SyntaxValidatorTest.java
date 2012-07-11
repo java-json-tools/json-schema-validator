@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
+import org.eel.kitchen.jsonschema.bundle.KeywordBuilder;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.testng.annotations.BeforeMethod;
@@ -48,14 +49,13 @@ public final class SyntaxValidatorTest
     {
         bundle = new KeywordBundle();
 
-        k1 = mock(Keyword.class);
-        when(k1.getName()).thenReturn("k1");
-
-        k2 = mock(Keyword.class);
-        when(k2.getName()).thenReturn("k2");
-
         checker1 = mock(SyntaxChecker.class);
+        k1 = KeywordBuilder.forKeyword("k1").withSyntaxChecker(checker1)
+            .build();
+
         checker2 = mock(SyntaxChecker.class);
+        k2 = KeywordBuilder.forKeyword("k2").withSyntaxChecker(checker2)
+            .build();
 
         context = new ValidationContext();
     }
@@ -65,8 +65,6 @@ public final class SyntaxValidatorTest
     {
         final JsonNode instance = factory.objectNode()
             .put("k1", "");
-
-        when(k1.getSyntaxChecker()).thenReturn(checker1);
 
         bundle.registerKeyword(k1);
 
@@ -83,9 +81,6 @@ public final class SyntaxValidatorTest
         final JsonNode instance = factory.objectNode()
             .put("k1", "");
 
-        when(k1.getSyntaxChecker()).thenReturn(checker1);
-        when(k2.getSyntaxChecker()).thenReturn(checker2);
-
         bundle.registerKeyword(k1);
         bundle.registerKeyword(k2);
 
@@ -100,13 +95,12 @@ public final class SyntaxValidatorTest
     @Test
     public void shouldIgnoreKeywordsWithNoSyntaxChecker()
     {
-        final JsonNode instance = factory.objectNode()
-            .put("k1", "");
+        final JsonNode instance = factory.objectNode().put("k1", "");
 
-        //This is the default, no need to specify it
-        //when(k1.getSyntaxChecker()).thenReturn(null);
+        // No syntax checker
+        final Keyword k = KeywordBuilder.forKeyword("k1").build();
 
-        bundle.registerKeyword(k1);
+        bundle.registerKeyword(k);
 
         validator = new SyntaxValidator(bundle);
 
@@ -118,10 +112,7 @@ public final class SyntaxValidatorTest
     @Test
     public void shouldNotValidateSameSchemaAgain()
     {
-        final JsonNode instance = factory.objectNode()
-            .put("k1", "");
-
-        when(k1.getSyntaxChecker()).thenReturn(checker1);
+        final JsonNode instance = factory.objectNode().put("k1", "");
 
         bundle.registerKeyword(k1);
 
