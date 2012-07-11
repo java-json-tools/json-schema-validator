@@ -52,8 +52,7 @@ public class SimpleSyntaxChecker
         checkValue(context, schema);
     }
 
-    void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    void checkValue(final ValidationContext context, final JsonNode schema)
     {
     }
 }
