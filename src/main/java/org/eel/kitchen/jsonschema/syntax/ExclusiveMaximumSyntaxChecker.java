@@ -18,8 +18,9 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
+
+import java.util.List;
 
 public final class ExclusiveMaximumSyntaxChecker
     extends SimpleSyntaxChecker
@@ -38,9 +39,9 @@ public final class ExclusiveMaximumSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context, final JsonNode schema)
+    void checkValue(final List<String> messages, final JsonNode schema)
     {
         if (!schema.has("maximum"))
-            context.addMessage("exclusiveMaximum without maximum");
+            messages.add("exclusiveMaximum without maximum");
     }
 }

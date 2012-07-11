@@ -62,6 +62,11 @@ public final class ValidationContext
         report.addMessage(message);
     }
 
+    public void addMessages(final List<String> messages)
+    {
+        report.addMessages(messages);
+    }
+
     public void setPath(final JsonPointer path)
     {
         report.setPath(path);

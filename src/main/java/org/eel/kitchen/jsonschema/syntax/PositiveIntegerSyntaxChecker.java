@@ -18,8 +18,9 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
+
+import java.util.List;
 
 public class PositiveIntegerSyntaxChecker
     extends SimpleSyntaxChecker
@@ -30,17 +31,16 @@ public class PositiveIntegerSyntaxChecker
     }
 
     @Override
-    final void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    final void checkValue(final List<String> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
 
         if (!node.canConvertToInt()) {
-            context.addMessage("value overflow");
+            messages.add("value overflow");
             return;
         }
 
         if (node.intValue() < 0)
-            context.addMessage("value is negative");
+            messages.add("value is negative");
     }
 }

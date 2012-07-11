@@ -18,11 +18,11 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
 
+import java.util.List;
 import java.util.Map;
 
 public final class PatternPropertiesSyntaxChecker
@@ -42,7 +42,7 @@ public final class PatternPropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationContext context, final JsonNode schema)
+    void checkValue(final List<String> messages, final JsonNode schema)
     {
         final Map<String, JsonNode> properties
             = CollectionUtils.toMap(schema.get(keyword).fields());
@@ -50,11 +50,11 @@ public final class PatternPropertiesSyntaxChecker
 
         for (final Map.Entry<String, JsonNode> entry: properties.entrySet()) {
             if (!RhinoHelper.regexIsValid(entry.getKey())) {
-                context.addMessage("invalid regex");
+                messages.add("invalid regex");
                 continue;
             }
             if (!entry.getValue().isObject())
-                context.addMessage("value is not a schema");
+                messages.add("value is not a schema");
         }
     }
 }

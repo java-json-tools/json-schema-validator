@@ -27,6 +27,8 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public final class JsonValidatorFactory
@@ -54,11 +56,11 @@ public final class JsonValidatorFactory
         @Override
         public JsonValidator load(final JsonNode key)
         {
-            final ValidationContext ctx = new ValidationContext();
-            syntaxValidator.validate(ctx, key);
+            final List<String> messages = new ArrayList<String>();
+            syntaxValidator.validate(messages, key);
 
-            if (!ctx.isSuccess())
-                return new InvalidJsonValidator(ctx);
+            if (!messages.isEmpty())
+                return new InvalidJsonValidator(messages);
 
             final Set<KeywordValidator> validators
                 = keywordFactory.getValidators(key);

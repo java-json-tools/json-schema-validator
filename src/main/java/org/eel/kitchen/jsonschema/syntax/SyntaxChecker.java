@@ -1,9 +1,10 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
+
+import java.util.List;
 
 public interface SyntaxChecker
 {
-    void checkSyntax(ValidationContext context, JsonNode schema);
+    void checkSyntax(List<String> messages, JsonNode schema);
 }

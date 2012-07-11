@@ -22,9 +22,11 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBuilder;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
@@ -42,7 +44,7 @@ public final class SyntaxValidatorTest
     private SyntaxChecker checker1;
     private SyntaxChecker checker2;
 
-    private ValidationContext context;
+    private List<String> messages;
 
     @BeforeMethod
     public void setUp()
@@ -57,7 +59,7 @@ public final class SyntaxValidatorTest
         k2 = KeywordBuilder.forKeyword("k2").withSyntaxChecker(checker2)
             .build();
 
-        context = new ValidationContext();
+        messages = new ArrayList<String>();
     }
 
     @Test
@@ -70,9 +72,9 @@ public final class SyntaxValidatorTest
 
         validator = new SyntaxValidator(bundle);
 
-        validator.validate(context, instance);
+        validator.validate(messages, instance);
 
-        verify(checker1).checkSyntax(context, instance);
+        verify(checker1).checkSyntax(messages, instance);
     }
 
     @Test
@@ -86,10 +88,10 @@ public final class SyntaxValidatorTest
 
         validator = new SyntaxValidator(bundle);
 
-        validator.validate(context, instance);
+        validator.validate(messages, instance);
 
-        verify(checker1).checkSyntax(context, instance);
-        verify(checker2, never()).checkSyntax(context, instance);
+        verify(checker1).checkSyntax(messages, instance);
+        verify(checker2, never()).checkSyntax(messages, instance);
     }
 
     @Test
@@ -104,7 +106,7 @@ public final class SyntaxValidatorTest
 
         validator = new SyntaxValidator(bundle);
 
-        validator.validate(context, instance);
+        validator.validate(messages, instance);
 
         assertTrue(true);
     }

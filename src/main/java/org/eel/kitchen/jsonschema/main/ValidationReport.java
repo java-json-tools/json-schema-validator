@@ -53,6 +53,11 @@ public final class ValidationReport
         msgMap.put(path, message);
     }
 
+    public void addMessages(final List<String> messages)
+    {
+        msgMap.putAll(path, messages);
+    }
+
     public boolean isSuccess()
     {
         return msgMap.isEmpty();

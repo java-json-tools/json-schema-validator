@@ -18,10 +18,10 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class TypeKeywordSyntaxChecker
@@ -35,13 +35,12 @@ public class TypeKeywordSyntaxChecker
     }
 
     @Override
-    final void checkValue(final ValidationContext context,
-        final JsonNode schema)
+    final void checkValue(final List<String> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
 
         if (!node.isArray()) {
-            validateOne(context, node);
+            validateOne(messages, node);
             return;
         }
 
@@ -49,21 +48,20 @@ public class TypeKeywordSyntaxChecker
 
         for (final JsonNode value: node) {
             if (!set.add(value)) {
-                context.addMessage("items in the array must be unique");
+                messages.add("items in the array must be unique");
                 return;
             }
-            validateOne(context, value);
+            validateOne(messages, value);
         }
     }
 
-    private void validateOne(final ValidationContext context,
-        final JsonNode value)
+    private void validateOne(final List<String> messages, final JsonNode value)
     {
         if (value.isObject())
             return;
 
         if (!value.isTextual()) {
-            context.addMessage("value has wrong type");
+            messages.add("value has wrong type");
             return;
         }
 
@@ -73,6 +71,6 @@ public class TypeKeywordSyntaxChecker
             return;
 
         if (NodeType.fromName(s) == null)
-            context.addMessage("unknown simple type");
+            messages.add("unknown simple type");
     }
 }

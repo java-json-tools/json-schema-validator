@@ -20,10 +20,10 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -55,13 +55,13 @@ public final class SyntaxValidator
         }
     }
 
-    public void validate(final ValidationContext context, final JsonNode schema)
+    public void validate(final List<String> messages, final JsonNode schema)
     {
         final Set<String> keywords = CollectionUtils.toSet(schema.fieldNames());
 
         keywords.retainAll(checkers.keySet());
 
         for (final String keyword : keywords)
-            checkers.get(keyword).checkSyntax(context, schema);
+            checkers.get(keyword).checkSyntax(messages, schema);
     }
 }

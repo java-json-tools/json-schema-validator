@@ -20,20 +20,23 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 final class InvalidJsonValidator
     implements JsonValidator
 {
-    private final ValidationContext context = new ValidationContext();
+    private final List<String> messages = new ArrayList<String>();
 
-    InvalidJsonValidator(final ValidationContext context)
+    InvalidJsonValidator(final List<String> messages)
     {
-        this.context.mergeWith(context);
+        messages.addAll(messages);
     }
 
     @Override
     public void validate(final ValidationContext context,
         final JsonNode instance)
     {
-        context.mergeWith(this.context);
+        context.addMessages(messages);
     }
 }
