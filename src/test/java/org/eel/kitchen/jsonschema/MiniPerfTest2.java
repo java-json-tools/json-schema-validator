@@ -17,59 +17,51 @@
 
 package org.eel.kitchen.jsonschema;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.validator.AbstractJsonValidator;
-import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.util.CollectionUtils;
-import org.eel.kitchen.util.JsonLoader;
-
 import java.io.IOException;
-import java.util.Map;
 
 public final class MiniPerfTest2
 {
     public static void main(final String... args)
         throws IOException
     {
-        final JsonNode draftv3
-            = JsonLoader.fromResource("/schema-draftv3.json");
-        final JsonNode googleAPI
-            = JsonLoader.fromResource("/other/google-json-api.json");
-        final Map<String, JsonNode> schemas
-            = CollectionUtils.toMap(googleAPI.get("schemas").fields());
-
-        final JsonValidator validator = AbstractJsonValidator.fromNode(draftv3);
-
-        String name;
-        JsonNode value;
-        ValidationContext context;
-
-        final long begin = System.currentTimeMillis();
-
-        long current;
-
-        for (int i = 0; i < 500; i++) {
-            for (final Map.Entry<String, JsonNode> entry : schemas.entrySet()) {
-                context = new ValidationContext();
-                name = entry.getKey();
-                value = entry.getValue();
-                validator.validate(context, value);
-                if (!context.isSuccess()) {
-                    System.err.println("ERROR: schema " + name + " did not "
-                        + "validate (iteration " + i + ")");
-                    System.exit(1);
-                }
-            }
-            if (i % 20 == 0) {
-                current = System.currentTimeMillis();
-                System.out.println(String.format("Iteration %d (in %d ms)", i,
-                    current - begin));
-            }
-        }
-
-        final long end = System.currentTimeMillis();
-        System.out.println("END -- time in ms: " + (end - begin));
+//        final JsonNode draftv3
+//            = JsonLoader.fromResource("/schema-draftv3.json");
+//        final JsonNode googleAPI
+//            = JsonLoader.fromResource("/other/google-json-api.json");
+//        final Map<String, JsonNode> schemas
+//            = CollectionUtils.toMap(googleAPI.get("schemas").fields());
+//
+//        final JsonValidator validator = AbstractJsonValidator.fromNode(draftv3);
+//
+//        String name;
+//        JsonNode value;
+//        ValidationContext context;
+//
+//        final long begin = System.currentTimeMillis();
+//
+//        long current;
+//
+//        for (int i = 0; i < 500; i++) {
+//            for (final Map.Entry<String, JsonNode> entry : schemas.entrySet()) {
+//                context = new ValidationContext();
+//                name = entry.getKey();
+//                value = entry.getValue();
+//                validator.validate(context, value);
+//                if (!context.isSuccess()) {
+//                    System.err.println("ERROR: schema " + name + " did not "
+//                        + "validate (iteration " + i + ")");
+//                    System.exit(1);
+//                }
+//            }
+//            if (i % 20 == 0) {
+//                current = System.currentTimeMillis();
+//                System.out.println(String.format("Iteration %d (in %d ms)", i,
+//                    current - begin));
+//            }
+//        }
+//
+//        final long end = System.currentTimeMillis();
+//        System.out.println("END -- time in ms: " + (end - begin));
         System.exit(0);
     }
 }
