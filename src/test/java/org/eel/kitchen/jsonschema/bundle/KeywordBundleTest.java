@@ -22,7 +22,6 @@ import org.testng.annotations.Test;
 
 import java.util.Map;
 
-import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class KeywordBundleTest
@@ -40,8 +39,7 @@ public final class KeywordBundleTest
     @Test
     public void addedKeywordIsRegistered()
     {
-        final Keyword keyword = mock(Keyword.class);
-        when(keyword.getName()).thenReturn(NAME);
+        final Keyword keyword = KeywordBuilder.forKeyword(NAME).build();
 
         bundle.registerKeyword(keyword);
         final Map<String,Keyword> keywords = bundle.getKeywords();
@@ -52,11 +50,8 @@ public final class KeywordBundleTest
     @Test(dependsOnMethods = "addedKeywordIsRegistered")
     public void cannotRegisterSameKeywordTwice()
     {
-        final Keyword k1 = mock(Keyword.class);
-        final Keyword k2 = mock(Keyword.class);
-
-        when(k1.getName()).thenReturn(NAME);
-        when(k2.getName()).thenReturn(NAME);
+        final Keyword k1 = KeywordBuilder.forKeyword(NAME).build();
+        final Keyword k2 = KeywordBuilder.forKeyword(NAME).build();
 
         bundle.registerKeyword(k1);
 
@@ -72,8 +67,7 @@ public final class KeywordBundleTest
     @Test(dependsOnMethods = "addedKeywordIsRegistered")
     public void canUnregisterKeyword()
     {
-        final Keyword keyword = mock(Keyword.class);
-        when(keyword.getName()).thenReturn(NAME);
+        final Keyword keyword = KeywordBuilder.forKeyword(NAME).build();
 
         bundle.registerKeyword(keyword);
         bundle.unregisterKeyword(NAME);
