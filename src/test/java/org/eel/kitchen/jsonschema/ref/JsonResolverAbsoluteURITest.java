@@ -44,7 +44,6 @@ public final class JsonResolverAbsoluteURITest
 {
     private JsonNode testData;
     private URIManager manager;
-    private SchemaRegistry registry;
     private JsonResolver resolver;
 
     @BeforeClass
@@ -56,7 +55,7 @@ public final class JsonResolverAbsoluteURITest
         testData = JsonLoader.fromResource("/ref/jsonresolver-testdata.json");
 
         manager = mock(URIManager.class);
-        registry = new SchemaRegistry(manager);
+        final SchemaRegistry registry = new SchemaRegistry(manager);
 
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(schemaList.fields());
