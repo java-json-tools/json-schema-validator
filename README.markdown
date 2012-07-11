@@ -18,7 +18,8 @@ pure server side JSON schema validation if this is what you are looking for./<p>
 
 <p>The current version (0.5.x) has the following features:</p>
 
-* full draft v3 validation;
+* full draft v3 validation (except for the <tt>color</tt> and <tt>style</tt>
+  format specifiers, which nobody uses anyway, right?);
 * arbitrary length/precision number validation;
 * ECMA 262 regexes (using Rhino), as required by the draft;
 * schema caching for performance;
