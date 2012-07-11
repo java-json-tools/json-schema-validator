@@ -2,8 +2,8 @@ package org.eel.kitchen;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.AbstractJsonValidator;
-import org.eel.kitchen.jsonschema.schema.JsonValidator;
+import org.eel.kitchen.jsonschema.validator.AbstractJsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;

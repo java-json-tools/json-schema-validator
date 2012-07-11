@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.schema.AbstractJsonValidator;
-import org.eel.kitchen.jsonschema.schema.JsonValidator;
+import org.eel.kitchen.jsonschema.validator.AbstractJsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.util.CollectionUtils;
 import org.eel.kitchen.util.JsonLoader;
 

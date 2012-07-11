@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.schema;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;

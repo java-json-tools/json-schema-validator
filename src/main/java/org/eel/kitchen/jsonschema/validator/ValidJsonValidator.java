@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.schema;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -108,7 +108,7 @@ final class ValidJsonValidator
                 current = ptr.append(i);
                 context.setPath(current);
                 subSchema = arrayPath(i);
-                AbstractJsonValidator.fromNode(parent, subSchema)
+                fromNode(parent, subSchema)
                     .validate(context, element);
                 i++;
             }
@@ -130,7 +130,7 @@ final class ValidJsonValidator
             current = ptr.append(key);
             context.setPath(current);
             for (final JsonNode subSchema: objectPath(key))
-                AbstractJsonValidator.fromNode(parent, subSchema).validate(context, value);
+                fromNode(parent, subSchema).validate(context, value);
         }
 
         context.setSchema(oldParent);
