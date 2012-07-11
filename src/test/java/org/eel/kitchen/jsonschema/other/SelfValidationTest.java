@@ -36,6 +36,7 @@ public final class SelfValidationTest
     private JsonNode draftv3;
     private JsonNode googleAPI;
     private JsonSchema schema;
+    private final JsonSchemaFactory factory = new JsonSchemaFactory();
 
     @BeforeClass
     public void setUp()
@@ -43,14 +44,13 @@ public final class SelfValidationTest
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
-        final JsonSchemaFactory factory = new JsonSchemaFactory();
         schema = factory.create(draftv3);
     }
 
     @Test
     public void testSchemaValidatesItself()
     {
-        final ValidationContext context = new ValidationContext();
+        final ValidationContext context = factory.newContext();
 
         schema.validate(context, draftv3);
 
@@ -70,7 +70,7 @@ public final class SelfValidationTest
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
             node = entry.getValue();
-            context = new ValidationContext();
+            context = factory.newContext();
             schema.validate(context, node);
             assertTrue(context.isSuccess(), name);
         }

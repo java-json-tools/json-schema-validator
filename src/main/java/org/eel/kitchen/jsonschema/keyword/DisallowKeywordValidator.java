@@ -60,7 +60,7 @@ public final class DisallowKeywordValidator
         ValidationContext tmp;
 
         for (final JsonNode schema: schemas) {
-            tmp = new ValidationContext(context);
+            tmp = context.copy();
             subSchema = factory.create(container, schema);
             subSchema.validate(tmp, instance);
             if (tmp.isSuccess()) {

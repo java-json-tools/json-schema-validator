@@ -33,13 +33,13 @@ public final class Issue7Test
         ValidationContext context;
         JsonSchema schema;
 
-        context = new ValidationContext();
+        context = factory.newContext();
         schema = factory.create(draftv3);
 
         schema.validate(context, schema1);
         assertTrue(context.isSuccess());
 
-        context = new ValidationContext();
+        context = factory.newContext();
         schema = factory.create(schema1);
 
         schema.validate(context, schema2);

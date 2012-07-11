@@ -80,9 +80,9 @@ public abstract class AbstractKeywordValidatorTest
 
         final SchemaContainer container = new SchemaContainer(schema);
         final JsonSchemaFactory factory = new JsonSchemaFactory();
-        final ValidationContext context = new ValidationContext();
+        final ValidationContext context = factory.newContext();
+
         context.setContainer(container);
-        context.setFactory(factory);
 
         validator.validate(context, data);
 

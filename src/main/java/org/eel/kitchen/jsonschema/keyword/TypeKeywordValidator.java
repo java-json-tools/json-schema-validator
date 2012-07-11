@@ -48,7 +48,7 @@ public final class TypeKeywordValidator
         final SchemaContainer container = context.getContainer();
         final JsonSchemaFactory factory = context.getFactory();
 
-        final ValidationContext ctx = new ValidationContext(context);
+        final ValidationContext ctx = context.copy();
 
         ctx.addMessage("instance does not match any allowed primitive type");
 
@@ -56,7 +56,7 @@ public final class TypeKeywordValidator
         ValidationContext tmp;
 
         for (final JsonNode schema: schemas) {
-            tmp = new ValidationContext(ctx);
+            tmp = ctx.copy();
             subSchema = factory.create(container, schema);
             subSchema.validate(tmp, instance);
             if (tmp.isSuccess())

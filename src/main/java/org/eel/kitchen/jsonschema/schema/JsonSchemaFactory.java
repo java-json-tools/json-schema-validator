@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.ref.JsonResolver;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorFactory;
 
@@ -78,6 +79,11 @@ public final class JsonSchemaFactory
         }
 
         return new ValidJsonSchema(this, container, realNode);
+    }
+
+    public ValidationContext newContext()
+    {
+        return new ValidationContext(this);
     }
 
     JsonValidatorFactory getValidatorFactory()

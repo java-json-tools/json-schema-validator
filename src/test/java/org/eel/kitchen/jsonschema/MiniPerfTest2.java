@@ -52,7 +52,7 @@ public final class MiniPerfTest2
 
         for (int i = 0; i < 500; i++) {
             for (final Map.Entry<String, JsonNode> entry : schemas.entrySet()) {
-                context = new ValidationContext();
+                context = factory.newContext();
                 name = entry.getKey();
                 value = entry.getValue();
                 schema.validate(context, value);

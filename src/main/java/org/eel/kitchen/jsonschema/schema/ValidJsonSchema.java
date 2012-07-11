@@ -46,7 +46,6 @@ public final class ValidJsonSchema
     @Override
     public void validate(final ValidationContext ctx, final JsonNode instance)
     {
-        ctx.setFactory(factory);
         ctx.setContainer(container);
 
         validator.validate(ctx, instance);

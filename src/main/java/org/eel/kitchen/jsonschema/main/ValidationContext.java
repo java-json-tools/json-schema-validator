@@ -36,24 +36,32 @@ public final class ValidationContext
     }
 
     private SchemaContainer container;
-    private JsonSchemaFactory factory;
+    private final JsonSchemaFactory factory;
     private final ValidationReport report;
 
     public ValidationContext()
     {
+        factory = new JsonSchemaFactory();
         report = new ValidationReport(new JsonPointer(ROOT));
     }
 
-    public ValidationContext(final JsonPointer path)
+    public ValidationContext(final JsonSchemaFactory factory)
     {
+        this.factory = factory;
+        report = new ValidationReport(new JsonPointer(ROOT));
+    }
+
+    private ValidationContext(final JsonSchemaFactory factory,
+        final SchemaContainer container, final JsonPointer path)
+    {
+        this.factory = factory;
+        this.container = container;
         report = new ValidationReport(path);
     }
 
-    public ValidationContext(final ValidationContext other)
+    public ValidationContext copy()
     {
-        container = other.container;
-        factory = other.factory;
-        report = new ValidationReport(other.report.getPath());
+        return new ValidationContext(factory, container, getPath());
     }
 
     public void addMessage(final String message)
@@ -89,11 +97,6 @@ public final class ValidationContext
     public List<String> getMessages()
     {
         return report.getMessages();
-    }
-
-    public void setFactory(final JsonSchemaFactory factory)
-    {
-        this.factory = factory;
     }
 
     public JsonSchemaFactory getFactory()
