@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.util.JsonPointer;
@@ -38,7 +37,6 @@ public final class ValidationContext
 
     private SchemaContainer container;
     private JsonSchemaFactory factory;
-    private JsonNode schema;
     private final ValidationReport report;
 
     public ValidationContext()
@@ -55,7 +53,6 @@ public final class ValidationContext
     {
         container = other.container;
         factory = other.factory;
-        schema = other.schema;
         report = new ValidationReport(new JsonPointer(ROOT));
         report.setPath(other.getPath());
     }
@@ -73,16 +70,6 @@ public final class ValidationContext
     public JsonPointer getPath()
     {
         return report.getPath();
-    }
-
-    public void setSchema(final JsonNode schema)
-    {
-        this.schema = schema;
-    }
-
-    public JsonNode getSchema()
-    {
-        return schema;
     }
 
     public boolean isSuccess()
