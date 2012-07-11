@@ -23,7 +23,6 @@ public final class Issue7Test
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         schema1 = JsonLoader.fromResource("/schema1.json");
         schema2 = JsonLoader.fromResource("/schema2.json");
-
     }
 
     @Test
@@ -40,8 +39,8 @@ public final class Issue7Test
         schema.validate(context, schema1);
         assertTrue(context.isSuccess());
 
-        schema = factory.create(schema1);
         context = new ValidationContext();
+        schema = factory.create(schema1);
 
         schema.validate(context, schema2);
         assertFalse(context.isSuccess());
