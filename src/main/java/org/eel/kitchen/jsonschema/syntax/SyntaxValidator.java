@@ -24,7 +24,6 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.CollectionUtils;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,9 +39,6 @@ import java.util.Set;
 // but it has to be triggered from _within_ validators. Ouch.
 public final class SyntaxValidator
 {
-    //FIXME: make this a "LRUSet"
-    private final Set<JsonNode> done = new HashSet<JsonNode>();
-
     private final Map<String, SyntaxChecker> checkers
         = new HashMap<String, SyntaxChecker>();
 
@@ -59,20 +55,13 @@ public final class SyntaxValidator
         }
     }
 
-    public synchronized void validate(final ValidationContext context,
-        final JsonNode schema)
+    public void validate(final ValidationContext context, final JsonNode schema)
     {
-        if (done.contains(schema))
-            return;
-
         final Set<String> keywords = CollectionUtils.toSet(schema.fieldNames());
 
         keywords.retainAll(checkers.keySet());
 
         for (final String keyword : keywords)
             checkers.get(keyword).checkSyntax(context, schema);
-
-        if (context.isSuccess())
-            done.add(schema);
     }
 }

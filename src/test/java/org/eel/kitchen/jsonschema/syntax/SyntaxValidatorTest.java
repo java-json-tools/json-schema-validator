@@ -108,19 +108,4 @@ public final class SyntaxValidatorTest
 
         assertTrue(true);
     }
-
-    @Test
-    public void shouldNotValidateSameSchemaAgain()
-    {
-        final JsonNode instance = factory.objectNode().put("k1", "");
-
-        bundle.registerKeyword(k1);
-
-        validator = new SyntaxValidator(bundle);
-
-        validator.validate(context, instance);
-        validator.validate(context, instance);
-
-        verify(checker1, times(1)).checkSyntax(context, instance);
-    }
 }
