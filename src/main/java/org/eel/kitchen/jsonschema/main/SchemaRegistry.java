@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
@@ -69,12 +68,6 @@ public class SchemaRegistry
 
         if (container == null) {
             container = new SchemaContainer(manager.getContent(uri));
-            final JsonRef expected = new JsonRef(uri);
-            final JsonRef actual = container.getLocator();
-            if (!actual.equals(expected))
-                throw new JsonSchemaException("URI and id of downloaded "
-                    + "schema disagree (URI: " + expected + ", id: " + actual
-                    + ")");
             containers.put(uri, container);
         }
 

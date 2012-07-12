@@ -19,13 +19,11 @@ package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.net.URI;
 
-import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class SchemaRegistryTest
@@ -78,26 +76,6 @@ public final class SchemaRegistryTest
         } catch (JsonSchemaException e) {
             assertEquals(e.getMessage(), "URI \"" + uri + "\" is already "
                 + "registered");
-        }
-    }
-
-    @Test
-    public void disagreementBetweenURIAndIDThrowsException()
-        throws JsonSchemaException
-    {
-        final JsonNode node = factory.objectNode().put("id", "a://b.c#");
-        final URI uri = URI.create("d://e.f#");
-        final URIManager manager = mock(URIManager.class);
-        when(manager.getContent(uri)).thenReturn(node);
-
-        final SchemaRegistry registry = new SchemaRegistry(manager);
-
-        try {
-            registry.get(uri);
-            fail("No exception thrown!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "URI and id of downloaded schema "
-                + "disagree (URI: "  + uri + ", id: a://b.c#)" );
         }
     }
 }
