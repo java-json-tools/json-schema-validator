@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
@@ -72,5 +73,14 @@ public class SchemaRegistry
         }
 
         return container;
+    }
+
+    public synchronized void put(final URI uri, final JsonNode node)
+        throws JsonSchemaException
+    {
+        if (!new JsonRef(uri).isAbsolute())
+            throw new JsonSchemaException("URI " + uri + " is not a valid "
+                + "JSON Schema locator");
+        containers.put(uri, new SchemaContainer(uri, node));
     }
 }
