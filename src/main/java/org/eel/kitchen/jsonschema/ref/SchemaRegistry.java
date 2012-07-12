@@ -28,7 +28,7 @@ import org.eel.kitchen.jsonschema.uri.URIManager;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
-public class SchemaRegistry
+public final class SchemaRegistry
 {
     private final LoadingCache<URI, SchemaContainer> cache;
 
