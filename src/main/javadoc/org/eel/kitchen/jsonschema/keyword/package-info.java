@@ -27,7 +27,9 @@
  * <p>Not only this, but if you do, be sure to pair it with a
  * {@link org.eel.kitchen.jsonschema.syntax.SyntaxChecker}. The principle is
  * that the syntax checker checks that the keyword has a correct shape,
- * which means the keyword validator does not have to check for this.
+ * which means the keyword validator does not have to check for this. This
+ * considerably simplifies the constructor (you only have to do minimal type
+ * checking, if any).
  * </p>
  *
  * <p>{@link org.eel.kitchen.jsonschema.keyword.KeywordValidator} proper is

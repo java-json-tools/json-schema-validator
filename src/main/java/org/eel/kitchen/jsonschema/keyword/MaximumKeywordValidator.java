@@ -34,6 +34,13 @@ public final class MaximumKeywordValidator
 {
     private final boolean exclusive;
 
+    public MaximumKeywordValidator(final JsonNode schema)
+    {
+        super("maximum", schema);
+        /* You have to love Jackson! */
+        exclusive = schema.path("exclusiveMaximum").asBoolean(false);
+    }
+
     @Override
     protected void validateLong(final ValidationContext context,
         final long instanceValue)
@@ -68,11 +75,5 @@ public final class MaximumKeywordValidator
         if (exclusive)
             context.addMessage("instance is not strictly lower than the "
                 + "required maximum");
-    }
-
-    public MaximumKeywordValidator(final JsonNode schema)
-    {
-        super("maximum", schema);
-        exclusive = schema.path("exclusiveMaximum").asBoolean(false);
     }
 }

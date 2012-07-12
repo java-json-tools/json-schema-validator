@@ -47,6 +47,11 @@ import java.util.Map;
 public final class FormatKeywordValidator
     extends KeywordValidator
 {
+    /**
+     * Static final map of all format specifiers. We choose to not allow to
+     * add new specifiers, even though it is theoretically possible (MAY in
+     * the draft).
+     */
     private static final Map<String, FormatSpecifier> specifiers
         = new HashMap<String, FormatSpecifier>();
 

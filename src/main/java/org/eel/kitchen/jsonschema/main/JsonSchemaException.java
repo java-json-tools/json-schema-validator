@@ -17,8 +17,20 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+
 /**
- * Generic exception thrown when the validation cannot proceed
+ * Generic exception thrown when the validation cannot proceed normally
+ *
+ * <p>This exception is actually never thrown by "client" methods:
+ * internally, they are used to build schemas/validators which always fails.
+ * This can happen, for instance, if:</p>
+ *
+ * <ul>
+ *     <li>{@code $ref} resolution fails,</li>
+ *     <li>a {@link KeywordValidator} cannot be built,</li>
+ *     <li>other</li>
+ * </ul>
  */
 public final class JsonSchemaException
     extends Exception

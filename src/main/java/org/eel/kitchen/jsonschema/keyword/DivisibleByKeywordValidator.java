@@ -52,7 +52,8 @@ public final class DivisibleByKeywordValidator
 
         /*
          * We cannot use equality! As far as BigDecimal goes,
-         * "0" and "0.0" are NOT equal.
+         * "0" and "0.0" are NOT equal. But .compareTo() returns the correct
+         * result.
          */
         if (remainder.compareTo(BigDecimal.ZERO) != 0)
             context.addMessage("instance is not a multiple of divisibleBy");

@@ -42,6 +42,16 @@ public final class ExtendsKeywordValidator
         super(NodeType.values());
         final JsonNode node = schema.get("extends");
 
+        /*
+         * Again, the fact that syntax validation has ensured our schema's
+         * correctness helps greatly: the keyword value is either an object
+         * or an array of objects.
+         *
+         * If this is an array, just cycle through its elements and stuff
+         * them in our schema set. It should be noted that the draft DOES NOT
+         * require that elements in the array must be unique,
+         * but we swallow duplicates this way.
+         */
         if (node.isObject()) {
             schemas.add(node);
             return;

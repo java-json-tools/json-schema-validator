@@ -39,9 +39,15 @@ import java.util.Set;
 public final class DependenciesKeywordValidator
     extends KeywordValidator
 {
+    /**
+     * Map of simple dependencies (ie, property dependencies)
+     */
     private final Map<String, Set<String>> simple
         = new HashMap<String, Set<String>>();
 
+    /**
+     * Map of schema dependencies
+     */
     private final Map<String, JsonNode> schemas
         = new HashMap<String, JsonNode>();
 
@@ -53,6 +59,16 @@ public final class DependenciesKeywordValidator
 
         String key;
         JsonNode value;
+
+        /*
+         * Walk through the list of fields:
+         *
+         * - if we encounter an object, this is a schema dependency;
+         * - otherwise this is a simple dependency.
+         *
+         * Remember that we went through syntax validation first,
+         * so we are guaranteed about the correctness of the schema.
+         */
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
             key = entry.getKey();
             value = entry.getValue();
@@ -63,6 +79,12 @@ public final class DependenciesKeywordValidator
         }
     }
 
+    /**
+     * Compute a simple dependency
+     *
+     * @param value the value of the object's member
+     * @return a set of property names
+     */
     private Set<String> simpleDepdency(final JsonNode value)
     {
         final Set<String> ret = new HashSet<String>();
@@ -89,26 +111,50 @@ public final class DependenciesKeywordValidator
     public void validate(final ValidationContext context,
         final JsonNode instance)
     {
+        /*
+         * Grab the set of property names from the instance
+         */
         final Set<String> fields = CollectionUtils.toSet(instance.fieldNames());
 
+        /*
+         * Simple dependencies: make a copy of the simple dependency map,
+         * and only retain what's actually in the instance
+         */
         final Map<String, Set<String>> simpleDeps
             = new HashMap<String, Set<String>>(simple);
 
         simpleDeps.keySet().retainAll(fields);
 
+        /*
+         * We don't bother about determining single property dependencies,
+         * we just swallow all found simple dependencies in a single set...
+         */
         final Set<String> fullSet = new HashSet<String>();
 
         for (final Set<String> set: simpleDeps.values())
             fullSet.addAll(set);
 
+        /*
+         * ... And check that the instance contains them all.
+         */
         if (!fields.containsAll(fullSet))
             context.addMessage("missing property dependencies");
 
+        /*
+         * Schema dependencies: the principle is the same,
+         * make a copy of the schemas map and only retain whatever properties
+         * are present in the instance.
+         */
         final Map<String, JsonNode> schemaDeps
             = new HashMap<String, JsonNode>(schemas);
 
         schemaDeps.keySet().retainAll(fields);
 
+        /*
+         * In this case however, we need to generate other schemas,
+         * so we have to grab the schema factory and current context (schema
+         * container) in order to generate new schemas
+         */
         final SchemaContainer container = context.getContainer();
         final JsonSchemaFactory factory = context.getFactory();
         JsonSchema subSchema;

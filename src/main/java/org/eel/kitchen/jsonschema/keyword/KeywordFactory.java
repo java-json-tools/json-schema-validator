@@ -42,11 +42,14 @@ import java.util.Set;
  * <ul>
  *     <li>the JSON document is not a JSON reference (ie, if it was,
  *     it has been resolved successfully);</li>
- *     <li>it is syntactically valid (see {@link SyntaxValidator}.</li>
+ *     <li>it is syntactically valid (see {@link SyntaxValidator}).</li>
  * </ul>
  */
 public final class KeywordFactory
 {
+    /**
+     * Our existing set of keyword validators
+     */
     private final Map<String, Class<? extends KeywordValidator>>
         validators = new HashMap<String, Class<? extends KeywordValidator>>();
 
@@ -88,8 +91,24 @@ public final class KeywordFactory
         return ret;
     }
 
-    private KeywordValidator buildValidator(final Class<? extends KeywordValidator> c,
-        final JsonNode schema)
+    /**
+     * Build one validator
+     *
+     * <p>This is done by reflection. Remember that the contract is to have a
+     * constructor which takes a {@link JsonNode} as an argument.
+     * </p>
+     *
+     * <p>If instantiation fails for whatever reason,
+     * an "invalid validator" is returned which always fails</p>
+     *
+     * @see #invalidValidator(Exception)
+     *
+     * @param c the keyword validator class
+     * @param schema the schema
+     * @return the instantiated keyword validator
+     */
+    private KeywordValidator buildValidator(
+        final Class<? extends KeywordValidator> c, final JsonNode schema)
     {
         final Constructor<? extends KeywordValidator> constructor;
 
@@ -110,6 +129,12 @@ public final class KeywordFactory
         }
     }
 
+    /**
+     * Build an invalid validator in the event of instantiation failure
+     *
+     * @param e the exception raised by the instantiation attempt
+     * @return a keyword validator which always fails
+     */
     private KeywordValidator invalidValidator(final Exception e)
     {
         return new KeywordValidator(NodeType.values())

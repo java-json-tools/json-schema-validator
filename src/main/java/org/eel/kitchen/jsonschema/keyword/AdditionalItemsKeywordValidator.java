@@ -33,7 +33,7 @@ import org.eel.kitchen.util.NodeType;
  *     <li>if {@code items} is an array of schemas (tuple validation)
  *     and {@code additionalItems} is {@code false}, validation succeeds if
  *     and only if the number of elements in the array instance is less than
- *     or equal to the number of schemas in {@code items};
+ *     or equal to the number of schemas in {@code items}.
  *     </li>
  * </ul>
  */
