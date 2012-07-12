@@ -28,8 +28,9 @@ import java.net.URI;
 
 public final class SchemaContainer
 {
-    private final JsonNode schema;
+    private static final URI EMPTY_LOCATOR = URI.create("#");
 
+    private final JsonNode schema;
     private final JsonRef locator;
 
     public SchemaContainer(final JsonNode schema)
@@ -45,6 +46,11 @@ public final class SchemaContainer
     {
         schema = cleanup(node);
         locator = new JsonRef(uri);
+    }
+
+    public static SchemaContainer anonymousSchema(final JsonNode node)
+    {
+        return new SchemaContainer(EMPTY_LOCATOR, cleanup(node));
     }
 
     public JsonRef getLocator()
@@ -99,7 +105,7 @@ public final class SchemaContainer
         return 31 * locator.hashCode() + schema.hashCode();
     }
 
-    private JsonNode cleanup(final JsonNode schema)
+    private static JsonNode cleanup(final JsonNode schema)
     {
         if (!schema.has("id"))
             return schema;

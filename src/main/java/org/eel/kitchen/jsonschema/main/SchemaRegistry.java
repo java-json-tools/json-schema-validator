@@ -28,8 +28,6 @@ import java.util.Map;
 
 public class SchemaRegistry
 {
-    private static final URI EMPTY_URI = URI.create("#");
-
     private final Map<URI, SchemaContainer> containers
         = new HashMap<URI, SchemaContainer>();
 
@@ -52,7 +50,7 @@ public class SchemaRegistry
             throw new IllegalArgumentException("schema is null");
 
         if (!node.has("id"))
-            return new SchemaContainer(EMPTY_URI, node);
+            return SchemaContainer.anonymousSchema(node);
 
         final SchemaContainer container = new SchemaContainer(node);
         final URI uri = container.getLocator().getRootAsURI();
