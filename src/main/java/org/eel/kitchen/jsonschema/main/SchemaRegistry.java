@@ -37,7 +37,7 @@ public class SchemaRegistry
 
     public SchemaRegistry()
     {
-        manager = new URIManager();
+        this(new URIManager());
     }
 
     public SchemaRegistry(final URIManager manager)
