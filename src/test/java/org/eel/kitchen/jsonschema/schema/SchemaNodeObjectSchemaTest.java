@@ -70,7 +70,8 @@ public final class SchemaNodeObjectSchemaTest
     {
         final String errmsg = "object schema lookup failure (schema: "
             + schema + ", key: " + key + ")";
-        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaContainer container
+            = SchemaContainer.anonymousSchema(schema);
         final SchemaNode node = new SchemaNode(container, schema);
 
         final Set<JsonNode> actual = node.getObjectSchemas(key);
