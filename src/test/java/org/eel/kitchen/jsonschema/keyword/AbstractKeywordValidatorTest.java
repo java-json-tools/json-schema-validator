@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -78,11 +77,8 @@ public abstract class AbstractKeywordValidatorTest
     {
         final KeywordValidator validator = constructor.newInstance(schema);
 
-        final SchemaContainer container = new SchemaContainer(schema);
         final JsonSchemaFactory factory = new JsonSchemaFactory();
         final ValidationContext context = factory.newContext();
-
-        context.setContainer(container);
 
         validator.validate(context, data);
 

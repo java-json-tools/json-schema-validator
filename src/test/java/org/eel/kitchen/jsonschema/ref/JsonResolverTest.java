@@ -37,6 +37,7 @@ import static org.testng.Assert.*;
 public final class JsonResolverTest
 {
     private JsonResolver resolver;
+    private SchemaRegistry registry;
     private JsonNode testData;
 
     @BeforeClass
@@ -44,7 +45,8 @@ public final class JsonResolverTest
         throws IOException
     {
         testData = JsonLoader.fromResource("/ref/jsonresolver.json");
-        resolver = new JsonResolver(new SchemaRegistry());
+        registry = new SchemaRegistry();
+        resolver = new JsonResolver(registry);
     }
 
     private Iterator<Object[]> getReferencingData(final String name)
@@ -76,7 +78,7 @@ public final class JsonResolverTest
         final JsonNode expected, final String msg)
         throws JsonSchemaException
     {
-        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaContainer container = registry.register(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
 
         final SchemaNode resolved = resolver.resolve(schemaNode);
@@ -95,7 +97,7 @@ public final class JsonResolverTest
         final JsonNode expected, final String msg)
         throws JsonSchemaException
     {
-        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaContainer container = registry.register(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
 
         final SchemaNode resolved = resolver.resolve(schemaNode);
@@ -128,7 +130,7 @@ public final class JsonResolverTest
     public void testLoopDetection(final JsonNode schema, final String msg)
         throws JsonSchemaException
     {
-        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaContainer container = registry.register(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
 
         try {
