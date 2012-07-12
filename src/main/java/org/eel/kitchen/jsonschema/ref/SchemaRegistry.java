@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
@@ -67,7 +67,7 @@ public class SchemaRegistry
         return container;
     }
 
-    public SchemaContainer get(final URI uri)
+    SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
         try {
