@@ -18,20 +18,19 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
 import java.net.URI;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class SchemaRegistry
 {
-    private final Map<URI, SchemaContainer> containers
-        = new HashMap<URI, SchemaContainer>();
-
-    private final URIManager manager;
+    private final LoadingCache<URI, SchemaContainer> cache;
 
     public SchemaRegistry()
     {
@@ -40,7 +39,16 @@ public class SchemaRegistry
 
     public SchemaRegistry(final URIManager manager)
     {
-        this.manager = manager;
+        cache = CacheBuilder.newBuilder().maximumSize(100)
+            .build(new CacheLoader<URI, SchemaContainer>()
+            {
+                @Override
+                public SchemaContainer load(final URI key)
+                    throws JsonSchemaException
+                {
+                    return new SchemaContainer(key, manager.getContent(key));
+                }
+            });
     }
 
     public SchemaContainer register(final JsonNode node)
@@ -49,38 +57,32 @@ public class SchemaRegistry
         if (node == null)
             throw new IllegalArgumentException("schema is null");
 
-        if (!node.has("id"))
+        if (!node.path("id").isTextual())
             return SchemaContainer.anonymousSchema(node);
 
-        final SchemaContainer container = new SchemaContainer(node);
-        final URI uri = container.getLocator().getRootAsURI();
+        final URI uri = JsonRef.fromNode(node, "id").getRootAsURI();
+        final SchemaContainer container = new SchemaContainer(uri, node);
 
-        if (containers.containsKey(uri))
-            throw new JsonSchemaException("URI \"" + uri + "\" is already "
-                + "registered");
-        containers.put(uri, container);
+        cache.put(uri, container);
         return container;
     }
 
-    public synchronized SchemaContainer get(final URI uri)
+    public SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
-        SchemaContainer container = containers.get(uri);
-
-        if (container == null) {
-            container = new SchemaContainer(manager.getContent(uri));
-            containers.put(uri, container);
+        try {
+            return cache.get(uri);
+        } catch (ExecutionException e) {
+            throw new JsonSchemaException(e.getCause().getMessage());
         }
-
-        return container;
     }
 
-    public synchronized void put(final URI uri, final JsonNode node)
+    public void put(final URI uri, final JsonNode node)
         throws JsonSchemaException
     {
         if (!new JsonRef(uri).isAbsolute())
             throw new JsonSchemaException("URI " + uri + " is not a valid "
                 + "JSON Schema locator");
-        containers.put(uri, new SchemaContainer(uri, node));
+        cache.put(uri, new SchemaContainer(uri, node));
     }
 }

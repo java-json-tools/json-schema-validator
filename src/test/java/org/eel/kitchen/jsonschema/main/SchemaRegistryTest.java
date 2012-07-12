@@ -60,22 +60,4 @@ public final class SchemaRegistryTest
             assertEquals(e.getMessage(), "schema is null");
         }
     }
-
-    @Test
-    public void cannotRegisterSameURITwice()
-        throws JsonSchemaException
-    {
-        final String locator = "a://b.c#";
-        final JsonNode node = factory.objectNode().put("id", locator);
-        final URI uri = URI.create(locator);
-
-        registry.register(node);
-        try {
-            registry.register(node);
-            fail("No exception thrown!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "URI \"" + uri + "\" is already "
-                + "registered");
-        }
-    }
 }
