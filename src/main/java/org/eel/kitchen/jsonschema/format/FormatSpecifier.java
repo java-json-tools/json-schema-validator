@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
@@ -69,10 +68,10 @@ public abstract class FormatSpecifier
      * Main validation function
      *
      * <p>This function only checks whether the value is of a type recognized
-     * by this specifier. If so, it call {@link #checkValue(ValidationContext,
-     * JsonNode)}.</p>
+     * by this specifier. If so, it call {@link #checkValue(List, JsonNode)}.
+     * </p>
      *
-     * @param context the context to use
+     * @param messages the list of messages to fill
      * @param value the value to validate
      */
     public final void validate(final List<String> messages,
@@ -88,9 +87,9 @@ public abstract class FormatSpecifier
      * Abstract method implemented by all specifiers
      *
      * <p>It is only called if the value type is one expected by the
-     * specifier, see {@link #validate(ValidationContext, JsonNode)}.</p>
+     * specifier, see {@link #validate(List, JsonNode)}.</p>
      *
-     * @param context the context to use
+     * @param messages the list of messages to fill
      * @param value the value to validate
      */
     abstract void checkValue(final List<String> messages, final JsonNode value);
