@@ -17,45 +17,14 @@
 
 package org.eel.kitchen.jsonschema.keyword;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.math.BigDecimal;
-
-import static org.testng.Assert.*;
+import java.io.IOException;
 
 public final class DivisibleByKeywordValidatorTest
+    extends AbstractKeywordValidatorTest
 {
-    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
-
-    @DataProvider
-    private Object[][] getData()
+    DivisibleByKeywordValidatorTest()
+        throws IOException, NoSuchMethodException
     {
-        return new Object[][] {
-            { "1", "3", true },
-            { "1.1", "3", false },
-            { "9812938091283098", "9812938091283098", true },
-            { "9812938091283098.1", "9812938091283098.11", false },
-        };
-    }
-
-    @Test(dataProvider = "getData")
-    public void testDivisibleBy(final String divisor, final String data,
-        final boolean valid)
-    {
-        final JsonNode schemaNode = factory.objectNode()
-            .put("divisibleBy", new BigDecimal(divisor));
-        final JsonNode instance = factory.numberNode(new BigDecimal(data));
-
-        final ValidationContext context = new ValidationContext();
-        final KeywordValidator validator
-            = new DivisibleByKeywordValidator(schemaNode);
-
-        validator.validate(context, instance);
-        assertEquals(context.isSuccess(), valid, instance + " should have "
-            + "validated as " + valid + " using schema " + schemaNode);
+        super(DivisibleByKeywordValidator.class, "divisibleBy");
     }
 }

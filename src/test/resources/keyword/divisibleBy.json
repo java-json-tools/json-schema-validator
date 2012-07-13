@@ -1,0 +1,30 @@
+[
+    {
+        "schema": {
+            "divisibleBy": 1
+        },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "schema": {
+            "divisibleBy": 1.1
+        },
+        "data": 3,
+        "valid": false
+    },
+    {
+        "schema": {
+            "divisibleBy": 9812938091283098
+        },
+        "data": 9812938091283098,
+        "valid": true
+    },
+    {
+        "schema": {
+            "divisibleBy": 9812938091283098.1
+        },
+        "data": 9812938091283098.11,
+        "valid": false
+    }
+]
