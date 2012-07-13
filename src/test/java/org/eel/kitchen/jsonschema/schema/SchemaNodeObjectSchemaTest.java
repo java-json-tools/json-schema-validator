@@ -18,9 +18,9 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.util.CollectionUtils;
-import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.jsonschema.JsonSchemaException;
+import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

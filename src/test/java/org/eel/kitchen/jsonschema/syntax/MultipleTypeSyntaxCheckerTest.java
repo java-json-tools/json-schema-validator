@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.io.IOException;
 

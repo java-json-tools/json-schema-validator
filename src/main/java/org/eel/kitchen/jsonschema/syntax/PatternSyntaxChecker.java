@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.util.NodeType;
-import org.eel.kitchen.util.RhinoHelper;
+import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.List;
 

@@ -18,11 +18,11 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.ref.JsonResolver;
+import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorFactory;
 
 public final class JsonSchemaFactory

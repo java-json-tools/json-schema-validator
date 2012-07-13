@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 import java.util.List;

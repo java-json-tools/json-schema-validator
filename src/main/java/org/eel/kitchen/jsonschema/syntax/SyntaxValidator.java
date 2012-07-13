@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.CollectionUtils;
 
 import java.util.HashMap;
 import java.util.List;

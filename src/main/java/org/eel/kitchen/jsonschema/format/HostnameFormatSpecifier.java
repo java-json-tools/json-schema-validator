@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InternetDomainName;
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 

@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.format.DateFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateTimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.EmailFormatSpecifier;
@@ -30,8 +31,7 @@ import org.eel.kitchen.jsonschema.format.RegexFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.TimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.URIFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.ArrayList;
 import java.util.HashMap;

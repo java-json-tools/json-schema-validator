@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
  * Base class for all keywords accepting a positive integer as an argument

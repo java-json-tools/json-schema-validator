@@ -50,7 +50,7 @@ import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeKeywordSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.URISyntaxChecker;
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
  * Utility class to distribute default keyword bundles.

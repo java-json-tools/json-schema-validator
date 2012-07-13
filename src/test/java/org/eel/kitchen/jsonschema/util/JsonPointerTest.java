@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.util;
+package org.eel.kitchen.jsonschema.util;
 
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;

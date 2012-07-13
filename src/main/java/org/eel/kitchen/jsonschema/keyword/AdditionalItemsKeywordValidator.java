@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.util.NodeType;
+import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
  * Validator for the {@code additionalItems} keyword

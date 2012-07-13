@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.uri;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.JsonSchemaException;
 
 import java.io.IOException;
 import java.io.InputStream;

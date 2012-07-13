@@ -20,9 +20,9 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.util.JsonPointer;
+import org.eel.kitchen.jsonschema.util.JsonPointer;
 
 import java.net.URI;
 

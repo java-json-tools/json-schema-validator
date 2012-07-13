@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.util.CollectionUtils;
-import org.eel.kitchen.util.RhinoHelper;
+import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -18,10 +18,10 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JsonPointer;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.util.CollectionUtils;
-import org.eel.kitchen.util.JsonPointer;
 
 import java.util.Set;
 

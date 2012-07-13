@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.uri;
 
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

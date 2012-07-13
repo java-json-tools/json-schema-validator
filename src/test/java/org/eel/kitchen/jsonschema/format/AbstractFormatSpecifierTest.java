@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.util.JsonLoader;
+import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

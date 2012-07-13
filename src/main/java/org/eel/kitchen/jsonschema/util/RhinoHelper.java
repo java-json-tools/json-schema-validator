@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.util;
+package org.eel.kitchen.jsonschema.util;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
