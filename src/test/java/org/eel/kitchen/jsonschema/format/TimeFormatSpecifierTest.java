@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class TimeFormatSpecifierTest
@@ -27,6 +25,6 @@ public final class TimeFormatSpecifierTest
     TimeFormatSpecifierTest()
         throws IOException
     {
-        super(TimeFormatSpecifier.getInstance(), "time", NodeType.STRING);
+        super(TimeFormatSpecifier.getInstance(), "time");
     }
 }

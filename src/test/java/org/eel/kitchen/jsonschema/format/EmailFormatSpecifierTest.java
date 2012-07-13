@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class EmailFormatSpecifierTest
@@ -27,6 +25,6 @@ public final class EmailFormatSpecifierTest
     EmailFormatSpecifierTest()
         throws IOException
     {
-        super(EmailFormatSpecifier.getInstance(), "email", NodeType.STRING);
+        super(EmailFormatSpecifier.getInstance(), "email");
     }
 }

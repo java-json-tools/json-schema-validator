@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class PhoneNumberFormatSpecifierTest
@@ -27,7 +25,6 @@ public final class PhoneNumberFormatSpecifierTest
     PhoneNumberFormatSpecifierTest()
         throws IOException
     {
-        super(PhoneNumberFormatSpecifier.getInstance(), "phone",
-            NodeType.STRING);
+        super(PhoneNumberFormatSpecifier.getInstance(), "phone");
     }
 }

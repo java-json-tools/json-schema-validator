@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class DateFormatSpecifierTest
@@ -27,6 +25,6 @@ public final class DateFormatSpecifierTest
     DateFormatSpecifierTest()
         throws IOException
     {
-        super(DateFormatSpecifier.getInstance(), "date", NodeType.STRING);
+        super(DateFormatSpecifier.getInstance(), "date");
     }
 }

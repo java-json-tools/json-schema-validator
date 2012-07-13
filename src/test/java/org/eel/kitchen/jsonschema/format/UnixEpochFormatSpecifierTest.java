@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class UnixEpochFormatSpecifierTest
@@ -27,7 +25,6 @@ public final class UnixEpochFormatSpecifierTest
     UnixEpochFormatSpecifierTest()
         throws IOException
     {
-        super(UnixEpochFormatSpecifier.getInstance(), "utc-millisec",
-            NodeType.INTEGER, NodeType.NUMBER);
+        super(UnixEpochFormatSpecifier.getInstance(), "utc-millisec");
     }
 }

@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class URIFormatSpecifierTest
@@ -27,6 +25,6 @@ public final class URIFormatSpecifierTest
     URIFormatSpecifierTest()
         throws IOException
     {
-        super(URIFormatSpecifier.getInstance(), "uri", NodeType.STRING);
+        super(URIFormatSpecifier.getInstance(), "uri");
     }
 }

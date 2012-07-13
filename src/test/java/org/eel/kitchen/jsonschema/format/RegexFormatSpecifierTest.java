@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class RegexFormatSpecifierTest
@@ -27,6 +25,6 @@ public final class RegexFormatSpecifierTest
     RegexFormatSpecifierTest()
         throws IOException
     {
-        super(RegexFormatSpecifier.getInstance(), "regex", NodeType.STRING);
+        super(RegexFormatSpecifier.getInstance(), "regex");
     }
 }

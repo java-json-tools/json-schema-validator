@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class IPV6FormatSpecifierTest
@@ -27,6 +25,6 @@ public final class IPV6FormatSpecifierTest
     IPV6FormatSpecifierTest()
         throws IOException
     {
-        super(IPV6FormatSpecifier.getInstance(), "ipv6", NodeType.STRING);
+        super(IPV6FormatSpecifier.getInstance(), "ipv6");
     }
 }

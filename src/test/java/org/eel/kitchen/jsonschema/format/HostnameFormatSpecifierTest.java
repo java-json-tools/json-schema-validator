@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class HostnameFormatSpecifierTest
@@ -27,7 +25,6 @@ public final class HostnameFormatSpecifierTest
     HostnameFormatSpecifierTest()
         throws IOException
     {
-        super(HostnameFormatSpecifier.getInstance(), "hostname",
-            NodeType.STRING);
+        super(HostnameFormatSpecifier.getInstance(), "hostname");
     }
 }

@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import org.eel.kitchen.util.NodeType;
-
 import java.io.IOException;
 
 public final class IPV4FormatSpecifierTest
@@ -27,6 +25,6 @@ public final class IPV4FormatSpecifierTest
     IPV4FormatSpecifierTest()
         throws IOException
     {
-        super(IPV4FormatSpecifier.getInstance(), "ip-address", NodeType.STRING);
+        super(IPV4FormatSpecifier.getInstance(), "ip-address");
     }
 }
