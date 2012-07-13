@@ -45,6 +45,10 @@ public final class ValidJsonSchema
     @Override
     public void validate(final ValidationContext ctx, final JsonNode instance)
     {
+        /*
+         * FIXME! This is only really necessary a few times in the validation
+          * process, unfortunately we do it each and every time :/
+         */
         ctx.setContainer(container);
 
         validator.validate(ctx, instance);
