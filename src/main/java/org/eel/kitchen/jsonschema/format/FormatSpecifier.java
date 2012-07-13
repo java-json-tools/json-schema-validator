@@ -22,6 +22,7 @@ import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Base class for a format specifier
@@ -74,13 +75,13 @@ public abstract class FormatSpecifier
      * @param context the context to use
      * @param value the value to validate
      */
-    public final void validate(final ValidationContext context,
+    public final void validate(final List<String> messages,
         final JsonNode value)
     {
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
 
-        checkValue(context, value);
+        checkValue(messages, value);
     }
 
     /**
@@ -92,6 +93,5 @@ public abstract class FormatSpecifier
      * @param context the context to use
      * @param value the value to validate
      */
-    abstract void checkValue(final ValidationContext context,
-        final JsonNode value);
+    abstract void checkValue(final List<String> messages, final JsonNode value);
 }

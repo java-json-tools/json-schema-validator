@@ -18,14 +18,15 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import static org.testng.Assert.*;
@@ -65,9 +66,9 @@ public abstract class AbstractFormatSpecifierTest
     )
     public void testSpecifier(final JsonNode data, final boolean valid)
     {
-        final ValidationContext context = new ValidationContext();
-        specifier.checkValue(context, data);
+        final List<String> messages = new ArrayList<String>();
+        specifier.checkValue(messages, data);
 
-        assertEquals(context.isSuccess(), valid);
+        assertEquals(messages.isEmpty(), valid);
     }
 }

@@ -19,13 +19,14 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -39,7 +40,7 @@ public final class FormatSpecifierBasicTest
      */
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
-    private ValidationContext ctx;
+    private List<String> messages;
     private FormatSpecifier specifier;
 
     private static class CustomFormatSpecifier
@@ -52,7 +53,7 @@ public final class FormatSpecifierBasicTest
         }
 
         @Override
-        void checkValue(final ValidationContext context, final JsonNode value)
+        void checkValue(final List<String> messages, final JsonNode value)
         {
         }
     }
@@ -60,7 +61,7 @@ public final class FormatSpecifierBasicTest
     @BeforeMethod
     public void ctxInit()
     {
-        ctx = new ValidationContext();
+        messages = new ArrayList<String>();
         specifier = spy(new CustomFormatSpecifier());
     }
 
@@ -77,8 +78,8 @@ public final class FormatSpecifierBasicTest
     @Test(dataProvider = "coveredInstances")
     public void checkValueIsCalledOnCoveredInstances(final JsonNode instance)
     {
-        specifier.validate(ctx, instance);
-        verify(specifier, times(1)).checkValue(ctx, instance);
+        specifier.validate(messages, instance);
+        verify(specifier, times(1)).checkValue(messages, instance);
     }
 
     @DataProvider
@@ -95,7 +96,7 @@ public final class FormatSpecifierBasicTest
     @Test(dataProvider = "ignoredInstances")
     public void checkValueIsNotCalledOnIgnoredInstances(final JsonNode instance)
     {
-        specifier.validate(ctx, instance);
-        verify(specifier, never()).checkValue(ctx, instance);
+        specifier.validate(messages, instance);
+        verify(specifier, never()).checkValue(messages, instance);
     }
 }

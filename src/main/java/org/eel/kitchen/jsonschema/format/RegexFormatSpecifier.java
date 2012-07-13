@@ -18,9 +18,10 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 import org.eel.kitchen.util.RhinoHelper;
+
+import java.util.List;
 
 /**
  * Validator for the {@code regex} format specification
@@ -47,9 +48,9 @@ public final class RegexFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationContext context, final JsonNode value)
+    void checkValue(final List<String> messages, final JsonNode value)
     {
         if (!RhinoHelper.regexIsValid(value.textValue()))
-            context.addMessage("string is not a valid regular expression");
+            messages.add("string is not a valid regular expression");
     }
 }

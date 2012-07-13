@@ -33,7 +33,9 @@ import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,7 +83,11 @@ public final class FormatKeywordValidator
     protected void validate(final ValidationContext context,
         final JsonNode instance)
     {
-        if (specifier != null)
-            specifier.validate(context, instance);
+        if (specifier == null)
+            return;
+
+        final List<String> messages = new ArrayList<String>();
+        specifier.validate(messages, instance);
+        context.addMessages(messages);
     }
 }

@@ -18,10 +18,10 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.util.NodeType;
 
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  * Validator for the {@code utc-millisec} format specification
@@ -60,18 +60,18 @@ public final class UnixEpochFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationContext context, final JsonNode value)
+    void checkValue(final List<String> messages, final JsonNode value)
     {
         BigInteger epoch = value.bigIntegerValue();
 
         if (epoch.signum() == -1) {
-            context.addMessage("epoch cannot be negative");
+            messages.add("epoch cannot be negative");
             return;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
         if (epoch.bitLength() > EPOCH_BITLENGTH)
-            context.addMessage("epoch time would overflow");
+            messages.add("epoch time would overflow");
     }
 }

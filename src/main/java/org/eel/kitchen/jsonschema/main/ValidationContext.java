@@ -39,12 +39,6 @@ public final class ValidationContext
     private final JsonSchemaFactory factory;
     private final ValidationReport report;
 
-    public ValidationContext()
-    {
-        factory = new JsonSchemaFactory();
-        report = new ValidationReport(new JsonPointer(ROOT));
-    }
-
     public ValidationContext(final JsonSchemaFactory factory)
     {
         this.factory = factory;
