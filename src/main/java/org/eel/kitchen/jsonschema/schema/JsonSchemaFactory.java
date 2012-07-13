@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.ref.JsonResolver;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
+import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorFactory;
 
 public final class JsonSchemaFactory
@@ -86,8 +87,8 @@ public final class JsonSchemaFactory
         return new ValidationContext(this);
     }
 
-    JsonValidatorFactory getValidatorFactory()
+    JsonValidator buildValidator(final JsonNode node)
     {
-        return validatorFactory;
+        return validatorFactory.fromNode(node);
     }
 }

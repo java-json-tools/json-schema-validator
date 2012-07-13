@@ -37,8 +37,7 @@ public final class ValidJsonSchema
         final SchemaContainer container, final SchemaNode schemaNode)
     {
         this.factory = factory;
-        validator = factory.getValidatorFactory()
-            .fromNode(schemaNode.getNode());
+        validator = factory.buildValidator(schemaNode.getNode());
         this.container = container;
         this.schemaNode = schemaNode;
     }
