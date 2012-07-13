@@ -30,7 +30,7 @@ import java.util.List;
 
 import static org.mockito.Mockito.*;
 
-public final class FormatSpecifierBasicTest
+public final class BasicFormatSpecifierTest
 {
     /*
      * Here we create a basic FormatSpecifier covering a certain type set,
