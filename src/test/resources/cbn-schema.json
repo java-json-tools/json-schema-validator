@@ -1,0 +1,17 @@
+{
+	"title": "myTitle",
+	"type": "object",
+	"description": "simple object",
+	"properties": {
+		"name": {
+			"description": "the description",
+			"type": "string",
+			"required": true
+		},
+		"attributes": {
+			"description": "item attributes",
+			"type": "array",
+			"enum": [ "val1", "val2", "val3" ]
+		}
+	}
+}

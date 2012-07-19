@@ -1,0 +1,6 @@
+{
+	"properties": {
+		"name": "somethin_somethin",
+		"attributes":["val1","val_inexistent"]
+	}
+}
