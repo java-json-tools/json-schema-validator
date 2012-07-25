@@ -19,10 +19,9 @@ package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 
-import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -85,7 +84,7 @@ public final class JsonPointer
     /**
      * The list of individual elements in the pointer.
      */
-    private final List<String> elements = new LinkedList<String>();
+    private final List<String> elements;
 
     /**
      * Constructor
@@ -100,7 +99,12 @@ public final class JsonPointer
         throws JsonSchemaException
     {
         final String s = input == null ? "" : input.replaceFirst("^#", "");
-        process(s);
+
+        final ImmutableList.Builder<String> builder
+            = ImmutableList.builder();
+        process(s, builder);
+
+        elements = builder.build();
 
         fullPointer = "#" + s;
     }
@@ -108,13 +112,13 @@ public final class JsonPointer
     public JsonPointer(final JsonPointer ptr)
     {
         fullPointer = ptr.fullPointer;
-        elements.addAll(ptr.elements);
+        elements = ptr.elements;
     }
 
     private JsonPointer(final String fullPointer, final List<String> elements)
     {
         this.fullPointer = fullPointer;
-        this.elements.addAll(elements);
+        this.elements = elements;
     }
 
     /**
@@ -124,7 +128,7 @@ public final class JsonPointer
      */
     public List<String> getElements()
     {
-        return Collections.unmodifiableList(elements);
+        return elements;
     }
 
     /**
@@ -135,8 +139,8 @@ public final class JsonPointer
      */
     public JsonPointer append(final String element)
     {
-        final List<String> newElements = new LinkedList<String>(elements);
-        elements.add(element);
+        final List<String> newElements = ImmutableList.<String>builder()
+            .addAll(elements).add(element).build();
 
         return new JsonPointer(fullPointer + "/" + refTokenEncode(element),
             newElements);
@@ -190,10 +194,13 @@ public final class JsonPointer
      * <p>We read the string sequentially, a slash, then a reference token,
      * then a slash, etc. Bail out if the string is malformed.</p>
      *
+     *
      * @param input Input string, guaranteed not to be JSON encoded
+     * @param builder the list builder
      * @throws JsonSchemaException the input is not a valid JSON Pointer
      */
-    private void process(final String input)
+    private void process(final String input,
+        final ImmutableList.Builder<String> builder)
         throws JsonSchemaException
     {
         String cooked, raw;
@@ -217,17 +224,17 @@ public final class JsonPointer
              * Decode it, push it in the elements list
              */
             raw = refTokenDecode(cooked);
-            elements.add(raw);
+            builder.add(raw);
         }
     }
 
     /**
      * Grab a (cooked) reference token from an input string
      *
-     * <p>This method is only called from {@link #process(String)},
-     * after a delimiter ({@code /}) has been swallowed up. The input string
-     * is therefore guaranteed to start with a reference token,
-     * which may be empty.
+     * <p>This method is only called from
+     * {@link #process(String, ImmutableList.Builder)}, after a delimiter
+     * ({@code /}) has been swallowed up. The input string is therefore
+     * guaranteed to start with a reference token, which may be empty.
      * </p>
      *
      * @param input the input string
@@ -269,7 +276,7 @@ public final class JsonPointer
      * <p>This means unescaping all slashes and carets. This function MUST
      * be called with a valid cooked reference token.</p>
      *
-     * <p>It is called from {@link #process(String)},
+     * <p>It is called from {@link #process(String, ImmutableList.Builder)},
      * in order to push a token into {@link #elements}.</p>
      *
      * @param cooked the cooked token
