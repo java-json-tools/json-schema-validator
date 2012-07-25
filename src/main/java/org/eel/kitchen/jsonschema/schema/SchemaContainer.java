@@ -146,10 +146,6 @@ public final class SchemaContainer
         if (!locator.isAbsolute() && !locator.isEmpty())
             throw new JsonSchemaException("a parent schema's id must be "
                 + "absolute");
-
-        if (!locator.isNormalized())
-            throw new JsonSchemaException("a parent schema's id must be "
-                + "normalized");
     }
 
 }

@@ -71,8 +71,6 @@ public final class JsonRef
      */
     private URI uri;
 
-    private boolean normalized;
-
     /**
      * The main constructor, which is private by design
      *
@@ -85,17 +83,16 @@ public final class JsonRef
 
     private void process(final URI uri)
     {
-        URI normalize = uri.normalize();
-        normalized = uri.equals(normalize);
-        if (normalize.getFragment() == null)
+        URI normalized = uri.normalize();
+        if (normalized.getFragment() == null)
             try {
-                normalize = new URI(normalize.getScheme(),
-                    normalize.getSchemeSpecificPart(), "");
+                normalized = new URI(normalized.getScheme(),
+                    normalized.getSchemeSpecificPart(), "");
             } catch (URISyntaxException e) {
                 throw new RuntimeException("WTF??", e);
             }
 
-        this.uri = normalize;
+        this.uri = normalized;
 
     }
 
@@ -179,11 +176,6 @@ public final class JsonRef
     public boolean hasFragment()
     {
         return !getFragment().isEmpty();
-    }
-
-    public boolean isNormalized()
-    {
-        return normalized;
     }
 
     @Override

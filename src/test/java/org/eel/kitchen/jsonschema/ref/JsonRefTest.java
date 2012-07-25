@@ -110,22 +110,6 @@ public final class JsonRefTest
     }
 
     @Test
-    public void normalizedURIsShouldBeIdentifiedAsSuch()
-        throws JsonSchemaException
-    {
-        final JsonRef ref1 = new JsonRef("http://foo.bar/a/b");
-        assertTrue(ref1.isNormalized());
-    }
-
-    @Test
-    public void nonNormalizedURIsShouldBeIdentifiedAsSuch()
-        throws JsonSchemaException
-    {
-        final JsonRef ref1 = new JsonRef("http://foo.bar/a/b/..");
-        assertFalse(ref1.isNormalized());
-    }
-
-    @Test
     public void afterURINormalizationJsonRefsShouldBeEqual()
         throws JsonSchemaException
     {
