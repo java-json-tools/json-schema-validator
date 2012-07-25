@@ -1,0 +1,22 @@
+[
+    [
+        {
+            "property" : "colour",
+            "value": "red"
+        },
+        {
+            "property": "screenwidth",
+            "value": 1024
+        }
+    ],
+    [
+        {
+            "property": "screenwidth",
+            "value": 1024
+        },
+        {
+            "property" : "colour",
+            "value": "red"
+        }
+    ]
+]

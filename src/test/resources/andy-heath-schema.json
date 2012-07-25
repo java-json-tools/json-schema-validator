@@ -1,0 +1,50 @@
+{
+    "description": "The outermost schema -- must be an array, with possible elements (items) described by enclosed subschemas",
+    "type": "array",
+    "items": {
+        "type": [
+            { "$ref": "#/colour" },
+            { "$ref": "#/screenwidth" }
+        ]
+    },
+    "base": {
+        "description": "All array members share this common subschema, factorize it away",
+        "type": "object",
+        "properties": {
+            "property": {
+                "required": true
+            },
+            "condition": {
+                "type": "boolean"
+            },
+            "value": {
+                "required": true
+            }
+        }
+    },
+    "colour": {
+        "description": "Other than the base, this one restricts \"property\" to a single value via \"enum\", and \"value\" to be a string",
+        "extends": { "$ref": "#/base" },
+        "properties": {
+            "property": {
+                "enum": [ "colour" ]
+            },
+            "value": {
+                "type": "string",
+                "description": "maybe add an \"enum\" here with possible color values -- unless you rely on \"format\": \"color\" as defined by draft v3? Nobody has ever implemented _that_ correctly, except me at some point, and I have decided against it -- forget it"
+            }
+        }
+    },
+    "screenwidth": {
+        "description": "Other than the base, this one restricts \"property\" to a single value via \"enum\", and \"value\" to be an integer",
+        "extends": { "$ref": "#/base" },
+        "properties": {
+            "property": {
+                "enum": [ "screenwidth" ]
+            },
+            "value": {
+                "type": "integer"
+            }
+        }
+    }
+}
