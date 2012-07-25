@@ -27,8 +27,6 @@
                         <link>http://docs.oracle.com/javase/6/docs/api</link>
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
-                        <link>http://www.decodified.com/parboiled/api/core</link>
-                        <link>http://www.decodified.com/parboiled/api/java</link>
                     </links>
                 </configuration>
                 <executions>
