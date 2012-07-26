@@ -42,7 +42,7 @@ public final class KeywordBundleTest
         final Keyword keyword = KeywordBuilder.forKeyword(NAME).build();
 
         bundle.registerKeyword(keyword);
-        final Map<String,Keyword> keywords = bundle.getKeywords();
+        final Map<String, Keyword> keywords = bundle.getKeywords();
         assertTrue(keywords.containsKey(NAME), "keyword not registered");
         assertEquals(keywords.get(NAME), keyword, "wrong keyword registered");
     }
@@ -71,7 +71,7 @@ public final class KeywordBundleTest
 
         bundle.registerKeyword(keyword);
         bundle.unregisterKeyword(NAME);
-        final Map<String,Keyword> keywords = bundle.getKeywords();
+        final Map<String, Keyword> keywords = bundle.getKeywords();
 
         assertFalse(keywords.containsKey(NAME), "keyword has not been "
             + "unregistered");
