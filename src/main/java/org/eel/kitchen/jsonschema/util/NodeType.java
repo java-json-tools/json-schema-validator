@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.util;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.google.common.base.Preconditions;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -124,8 +125,7 @@ public enum NodeType
         final JsonToken token = node.asToken();
         final NodeType ret = reverseMap.get(token);
 
-        if (ret == null)
-            throw new IllegalArgumentException("unhandled token type " + token);
+        Preconditions.checkNotNull(ret, "unhandled token type " + token);
 
         return ret;
     }
