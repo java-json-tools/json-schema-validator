@@ -18,11 +18,10 @@
 package org.eel.kitchen.jsonschema;
 
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import org.eel.kitchen.jsonschema.util.JsonPointer;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -73,12 +72,13 @@ public final class ValidationReport
         final SortedSet<JsonPointer> paths
             = new TreeSet<JsonPointer>(msgMap.keySet());
 
-        final List<String> ret = new ArrayList<String>(msgMap.size());
+        final ImmutableList.Builder<String> builder = ImmutableList.builder();
 
         for (final JsonPointer path: paths)
-            for (final String msg: msgMap.get(path))
-                ret.add(path + ": " + msg);
+            for (final String msg: msgMap.get(path)) {
+                builder.add(path + ": " + msg);
+            }
 
-        return Collections.unmodifiableList(ret);
+        return builder.build();
     }
 }

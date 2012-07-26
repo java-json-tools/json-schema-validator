@@ -17,10 +17,10 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -88,7 +88,7 @@ public final class KeywordBundle
      */
     public Map<String, Keyword> getKeywords()
     {
-        return Collections.unmodifiableMap(keywords);
+        return ImmutableMap.copyOf(keywords);
     }
 
     /**
@@ -101,6 +101,6 @@ public final class KeywordBundle
     @Override
     public Iterator<Map.Entry<String, Keyword>> iterator()
     {
-        return Collections.unmodifiableMap(keywords).entrySet().iterator();
+        return ImmutableMap.copyOf(keywords).entrySet().iterator();
     }
 }
