@@ -21,9 +21,9 @@ import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -67,8 +67,7 @@ public enum NodeType
      */
     private final String name;
 
-    private static final Map<String, NodeType> nameMap
-        = new HashMap<String, NodeType>();
+    private static final Map<String, NodeType> nameMap;
 
     /**
      * Mapping of {@link JsonToken} back to node types (used in
@@ -87,8 +86,13 @@ public enum NodeType
         reverseMap.put(JsonToken.START_OBJECT, OBJECT);
         reverseMap.put(JsonToken.VALUE_STRING, STRING);
 
+        final ImmutableMap.Builder<String, NodeType> builder
+            = ImmutableMap.builder();
+
         for (final NodeType type: NodeType.values())
-            nameMap.put(type.name, type);
+            builder.put(type.name, type);
+
+        nameMap = builder.build();
     }
 
     NodeType(final String name)
