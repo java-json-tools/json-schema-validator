@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
@@ -70,6 +71,7 @@ public final class KeywordBuilder
 
     private KeywordBuilder(final String keyword)
     {
+        Preconditions.checkNotNull(keyword, "keyword name must not be null");
         this.keyword = keyword;
     }
 

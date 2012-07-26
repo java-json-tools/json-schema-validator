@@ -37,6 +37,17 @@ public final class KeywordBundleTest
     }
 
     @Test
+    public void cannotBuildKeywordWithNullName()
+    {
+        try {
+            KeywordBuilder.forKeyword(null);
+            fail("No exception thrown!");
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), "keyword name must not be null");
+        }
+    }
+
+    @Test
     public void addedKeywordIsRegistered()
     {
         final Keyword keyword = KeywordBuilder.forKeyword(NAME).build();
