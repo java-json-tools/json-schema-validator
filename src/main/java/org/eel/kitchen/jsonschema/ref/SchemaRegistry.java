@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -54,8 +55,7 @@ public final class SchemaRegistry
     public SchemaContainer register(final JsonNode node)
         throws JsonSchemaException
     {
-        if (node == null)
-            throw new IllegalArgumentException("schema is null");
+        Preconditions.checkNotNull(node, "cannot register null schema");
 
         if (!node.path("id").isTextual())
             return SchemaContainer.anonymousSchema(node);

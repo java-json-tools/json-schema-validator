@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.uri;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 
 import java.io.IOException;
@@ -46,11 +47,8 @@ public class URIManager
     public void registerDownloader(final String scheme,
         final URIDownloader downloader)
     {
-        if (scheme == null)
-            throw new IllegalArgumentException("scheme is null");
-
-        if (scheme.isEmpty())
-            throw new IllegalArgumentException("scheme is empty");
+        Preconditions.checkNotNull(scheme, "scheme is null");
+        Preconditions.checkArgument(!scheme.isEmpty(), "scheme is empty");
 
         try {
             new URI(scheme, "x", "y");
@@ -59,9 +57,8 @@ public class URIManager
                 + "\"");
         }
 
-        if (downloaders.containsKey(scheme))
-            throw new IllegalArgumentException("scheme \"" + scheme + "\" "
-                + "already registered");
+        Preconditions.checkArgument(!downloaders.containsKey(scheme),
+            "scheme \"" + scheme + "\" already registered");
 
         downloaders.put(scheme, downloader);
     }
@@ -69,11 +66,8 @@ public class URIManager
     public JsonNode getContent(final URI uri)
         throws JsonSchemaException
     {
-        if (uri == null)
-            throw new IllegalArgumentException("null URI");
-
-        if (!uri.isAbsolute())
-            throw new IllegalArgumentException("URI is not absolute");
+        Preconditions.checkNotNull(uri, "null URI");
+        Preconditions.checkArgument(uri.isAbsolute(), "URI is not absolute");
 
         final String scheme = uri.getScheme();
 

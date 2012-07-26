@@ -63,7 +63,7 @@ public final class URIManagerTest
         try {
             manager.registerDownloader(null, mock);
             fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             assertEquals(e.getMessage(), "scheme is null");
         }
     }
@@ -110,7 +110,7 @@ public final class URIManagerTest
         try {
             manager.getContent(null);
             fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
+        } catch (NullPointerException e) {
             assertEquals(e.getMessage(), "null URI");
         }
     }

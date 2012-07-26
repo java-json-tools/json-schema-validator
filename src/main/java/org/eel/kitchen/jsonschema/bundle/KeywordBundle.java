@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -65,9 +66,8 @@ public final class KeywordBundle
     public void registerKeyword(final Keyword keyword)
     {
         final String name = keyword.getName();
-        if (keywords.containsKey(name))
-            throw new IllegalArgumentException("keyword \"" + name + "\" "
-                + "already registered");
+        Preconditions.checkArgument(!keywords.containsKey(name),
+            "keyword \"" + name + "\" already registered");
         keywords.put(name, keyword);
     }
 
