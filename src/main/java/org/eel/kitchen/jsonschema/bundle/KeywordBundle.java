@@ -57,7 +57,7 @@ public final class KeywordBundle
      * you must do so, you must call {@link #unregisterKeyword(String)} first.
      * </p>
      *
-     * @see KeywordBuilder
+     * @see Keyword.Builder
      * @see Keyword
      *
      * @param keyword the keyword to register

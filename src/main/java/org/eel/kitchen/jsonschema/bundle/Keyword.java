@@ -17,16 +17,17 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 /**
  * Class used to build a new keyword
  *
- * <p>You will never use this class directly, but a {@link KeywordBuilder}
+ * <p>You will never use this class directly, but a {@link Keyword.Builder}
  * instead. As a matter of fact, this class has no public constructor.</p>
  *
- * @see KeywordBuilder
+ * @see Keyword.Builder
  */
 public final class Keyword
 {
@@ -55,5 +56,67 @@ public final class Keyword
     public Class<? extends KeywordValidator> getValidatorClass()
     {
         return validatorClass;
+    }
+
+    public static final class Builder
+    {
+        private final String keyword;
+        private SyntaxChecker syntaxChecker;
+        private Class<? extends KeywordValidator> validatorClass;
+
+        private Builder(final String keyword)
+        {
+            Preconditions.checkNotNull(keyword, "keyword name must not be null");
+            this.keyword = keyword;
+        }
+
+        /**
+         * The one and only static factory method to build an instance
+         *
+         * @param keyword the keyword to use
+         * @return the newly created instance
+         */
+        public static Builder forKeyword(final String keyword)
+        {
+            return new Builder(keyword);
+        }
+
+        /**
+         * Add a syntax checker to this keyword
+         *
+         * @param syntaxChecker the syntax checker, already instantiated
+         * @return this
+         */
+        public Builder withSyntaxChecker(final SyntaxChecker syntaxChecker)
+        {
+            this.syntaxChecker = syntaxChecker;
+            return this;
+        }
+
+        /**
+         * Add the keyword validator class
+         *
+         * <p>We add the class, not an instance, since the generated object is
+         * dependent on the schema being passed.</p>
+         *
+         * @param validatorClass the class
+         * @return this
+         */
+        public Builder withValidatorClass(
+            final Class<? extends KeywordValidator> validatorClass)
+        {
+            this.validatorClass = validatorClass;
+            return this;
+        }
+
+        /**
+         * Build the {@link Keyword}
+         *
+         * @return the keyword
+         */
+        public Keyword build()
+        {
+            return new Keyword(keyword, syntaxChecker, validatorClass);
+        }
     }
 }

@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
-import org.eel.kitchen.jsonschema.bundle.KeywordBuilder;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -52,11 +51,11 @@ public final class SyntaxValidatorTest
         bundle = new KeywordBundle();
 
         checker1 = mock(SyntaxChecker.class);
-        k1 = KeywordBuilder.forKeyword("k1").withSyntaxChecker(checker1)
+        k1 = Keyword.Builder.forKeyword("k1").withSyntaxChecker(checker1)
             .build();
 
         checker2 = mock(SyntaxChecker.class);
-        k2 = KeywordBuilder.forKeyword("k2").withSyntaxChecker(checker2)
+        k2 = Keyword.Builder.forKeyword("k2").withSyntaxChecker(checker2)
             .build();
 
         messages = new ArrayList<String>();
@@ -100,7 +99,7 @@ public final class SyntaxValidatorTest
         final JsonNode instance = factory.objectNode().put("k1", "");
 
         // No syntax checker
-        final Keyword k = KeywordBuilder.forKeyword("k1").build();
+        final Keyword k = Keyword.Builder.forKeyword("k1").build();
 
         bundle.registerKeyword(k);
 

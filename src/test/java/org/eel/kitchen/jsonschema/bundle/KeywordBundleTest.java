@@ -40,7 +40,7 @@ public final class KeywordBundleTest
     public void cannotBuildKeywordWithNullName()
     {
         try {
-            KeywordBuilder.forKeyword(null);
+            Keyword.Builder.forKeyword(null);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(), "keyword name must not be null");
@@ -50,7 +50,7 @@ public final class KeywordBundleTest
     @Test
     public void addedKeywordIsRegistered()
     {
-        final Keyword keyword = KeywordBuilder.forKeyword(NAME).build();
+        final Keyword keyword = Keyword.Builder.forKeyword(NAME).build();
 
         bundle.registerKeyword(keyword);
         final Map<String, Keyword> keywords = bundle.getKeywords();
@@ -61,8 +61,8 @@ public final class KeywordBundleTest
     @Test(dependsOnMethods = "addedKeywordIsRegistered")
     public void cannotRegisterSameKeywordTwice()
     {
-        final Keyword k1 = KeywordBuilder.forKeyword(NAME).build();
-        final Keyword k2 = KeywordBuilder.forKeyword(NAME).build();
+        final Keyword k1 = Keyword.Builder.forKeyword(NAME).build();
+        final Keyword k2 = Keyword.Builder.forKeyword(NAME).build();
 
         bundle.registerKeyword(k1);
 
@@ -78,7 +78,7 @@ public final class KeywordBundleTest
     @Test(dependsOnMethods = "addedKeywordIsRegistered")
     public void canUnregisterKeyword()
     {
-        final Keyword keyword = KeywordBuilder.forKeyword(NAME).build();
+        final Keyword keyword = Keyword.Builder.forKeyword(NAME).build();
 
         bundle.registerKeyword(keyword);
         bundle.unregisterKeyword(NAME);

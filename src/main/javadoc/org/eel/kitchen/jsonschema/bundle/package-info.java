@@ -24,7 +24,7 @@
  * <p>In the future, you will be able to generate a
  * {@link org.eel.kitchen.jsonschema.bundle.KeywordBundle} of yours,
  * add one or more {@link org.eel.kitchen.jsonschema.bundle.Keyword} to it
- * (using a {@link org.eel.kitchen.jsonschema.bundle.KeywordBuilder}),
+ * (using a {@link org.eel.kitchen.jsonschema.bundle.Keyword#Builder}),
  * and pass it as an argument to a
  * {@link org.eel.kitchen.jsonschema.schema.JsonSchemaFactory}.</p>
  *
