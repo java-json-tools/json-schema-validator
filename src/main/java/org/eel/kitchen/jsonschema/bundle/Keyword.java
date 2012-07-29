@@ -35,12 +35,11 @@ public final class Keyword
     private final SyntaxChecker syntaxChecker;
     private final Class<? extends KeywordValidator> validatorClass;
 
-    Keyword(final String name, final SyntaxChecker syntaxChecker,
-        final Class<? extends KeywordValidator> validatorClass)
+    private Keyword(final Builder builder)
     {
-        this.name = name;
-        this.syntaxChecker = syntaxChecker;
-        this.validatorClass = validatorClass;
+        name = builder.keyword;
+        syntaxChecker = builder.syntaxChecker;
+        validatorClass = builder.validatorClass;
     }
 
     public String getName()
@@ -116,7 +115,7 @@ public final class Keyword
          */
         public Keyword build()
         {
-            return new Keyword(keyword, syntaxChecker, validatorClass);
+            return new Keyword(this);
         }
     }
 }
