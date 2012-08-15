@@ -17,13 +17,15 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * Specialized format validator for date/time checking
@@ -46,12 +48,12 @@ public class AbstractDateFormatSpecifier
     private final String errmsg;
 
     /**
-     * The {@link DateTimeFormatter} to use
+     * The {@link DateTimeFormatter}s to use
      */
-    private final DateTimeFormatter dtf;
+    private final List<DateTimeFormatter> formats = new ArrayList<DateTimeFormatter>();
 
     /**
-     * Constructor
+     * Constructor for just one format.
      *
      * @param fmt The date format
      * @param desc the description of the date format
@@ -59,16 +61,42 @@ public class AbstractDateFormatSpecifier
     protected AbstractDateFormatSpecifier(final String fmt, final String desc)
     {
         super(NodeType.STRING);
-        dtf = DateTimeFormat.forPattern(fmt);
+        formats.add(DateTimeFormat.forPattern(fmt));
         errmsg = String.format("string is not a valid %s", desc);
     }
-
+    
+    /**
+     * Constructor for many formats, sharing a common description
+     *
+     * @param fmt The date formats
+     * @param desc the description of the date formats
+     */
+    protected AbstractDateFormatSpecifier(final List<String> fmts, final String desc)
+    {
+        super(NodeType.STRING);
+        for (String fmt : fmts){
+            formats.add(DateTimeFormat.forPattern(fmt));
+        }
+        errmsg = String.format("string is not a valid %s", desc);
+    }
+    
     @Override
     final void checkValue(final List<String> messages, final JsonNode instance)
     {
-        try {
-            dtf.parseDateTime(instance.textValue());
-        } catch (IllegalArgumentException ignored) {
+        boolean hadSuccess = false;
+        
+        // If any of the supplied formats match, allow the data through.
+        for (DateTimeFormatter dtf : formats){
+            try {
+                dtf.parseDateTime(instance.textValue());
+                hadSuccess = true;
+                break;
+            } catch (IllegalArgumentException ignored) {
+                // Ignore.
+            }
+        }
+        
+        if (!hadSuccess){
             messages.add(errmsg);
         }
     }
