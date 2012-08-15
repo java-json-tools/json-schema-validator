@@ -17,8 +17,6 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import java.util.Arrays;
-
 /**
  * Validator for the {@code date-time} format specification
  */
@@ -35,8 +33,6 @@ public final class DateTimeFormatSpecifier
 
     private DateTimeFormatSpecifier()
     {
-        // Note that these are the formatting values for JodaTime's ISODateTimeFormat.dateTime and dateTimeNoMillis
-        // A nice future improvement would be to make this a default that can be overridden via a properties file.
-        super(Arrays.asList("yyyy-MM-dd'T'HH:mm:ss.SSSZ","yyyy-MM-dd'T'HH:mm:ssZ"), "ISO 8601 date");
+        super("yyyy-MM-dd'T'HH:mm:ssZ", "ISO 8601 date");
     }
 }
