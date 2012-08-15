@@ -19,18 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.format.DateFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.DateTimeFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.EmailFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.FormatSpecifier;
-import org.eel.kitchen.jsonschema.format.HostnameFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.IPV4FormatSpecifier;
-import org.eel.kitchen.jsonschema.format.IPV6FormatSpecifier;
-import org.eel.kitchen.jsonschema.format.PhoneNumberFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.RegexFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.TimeFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.URIFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
+import org.eel.kitchen.jsonschema.format.*;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.ArrayList;
@@ -69,6 +58,9 @@ public final class FormatKeywordValidator
         specifiers.put("ip-address", IPV4FormatSpecifier.getInstance());
         specifiers.put("ipv6", IPV6FormatSpecifier.getInstance());
         specifiers.put("host-name", HostnameFormatSpecifier.getInstance());
+        
+        // Here is one special specifier for date-time with milliseconds
+        specifiers.put("date-time-ms", DateTimeMillisecFormatSpecifier.getInstance());
     }
 
     private final FormatSpecifier specifier;
