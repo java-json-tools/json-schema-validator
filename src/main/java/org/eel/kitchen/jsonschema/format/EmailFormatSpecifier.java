@@ -27,9 +27,10 @@ import java.util.List;
 /**
  * Validator for the {@code email} format specification.
  *
- * <p>Note: email addresses with no domain part ARE valid emails,
- * and are recognized as such. The draft does not say anywhere that the email
- * should have a domain part!</p>
+ * <p>Note: even though, stricto sensu, email addresses with no domain part
+ * ARE valid, for practical reasons, this implementation chooses to mark
+ * these emails as invalid,</p>
+ *
  */
 public final class EmailFormatSpecifier
     extends FormatSpecifier
@@ -50,7 +51,7 @@ public final class EmailFormatSpecifier
     void checkValue(final List<String> messages, final JsonNode instance)
     {
         try {
-            new InternetAddress(instance.textValue());
+            new InternetAddress(instance.textValue(), true);
         } catch (AddressException ignored) {
             messages.add("string is not a valid email address");
         }

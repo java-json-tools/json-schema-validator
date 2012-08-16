@@ -26,9 +26,10 @@ import java.util.List;
 /**
  * Validator for the {@code host-name} format specification
  *
- * <p>Note: non FQDN hostnames are valid, and are considered as such! The
- * draft doesn't specify anywhere that the hostname should be fully
- * qualified.</p>
+ * <p>Note: even though non FQDN hostnames are valid stricto sensu,
+ * this implementation considers non fully-qualified hostnames as invalid.
+ * While this contradicts the RFC, this is more in line with user expectations.
+ * </p>
  *
  * <p>Guava's {@link InternetDomainName} is used for validation.</p>
  */
@@ -51,7 +52,11 @@ public final class HostnameFormatSpecifier
     @Override
     void checkValue(final List<String> messages, final JsonNode value)
     {
-        if (!InternetDomainName.isValid(value.textValue()))
+        try {
+            if (!InternetDomainName.from(value.textValue()).hasParent())
+                messages.add("string is not a valid hostname");
+        } catch (IllegalArgumentException ignored) {
             messages.add("string is not a valid hostname");
+        }
     }
 }

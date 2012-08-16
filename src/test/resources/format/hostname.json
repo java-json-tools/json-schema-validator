@@ -1,7 +1,7 @@
 [
     {
         "data": "foo",
-        "valid": true
+        "valid": false
     },
     {
         "data": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.net",
