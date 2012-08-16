@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.format.DateFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateTimeFormatSpecifier;
+import org.eel.kitchen.jsonschema.format.DateTimeMillisecFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.EmailFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.FormatSpecifier;
 import org.eel.kitchen.jsonschema.format.HostnameFormatSpecifier;
@@ -44,9 +45,14 @@ import java.util.Map;
  * <p>This keyword is scheduled for disappearance in draft v4. However,
  * some people have raised concerns about this.</p>
  *
- * <p>All format specifiers fom draft v3 are supported except {@code style}
+ * <p>All format specifiers from draft v3 are supported except {@code style}
  * and {@code color} (which validate an entire CSS 2.1 style and color
  * respectively!).</p>
+ * 
+ * <p>There is support here for one custom specifier: {@code date-time-ms}. The v3 draft
+ * specifies that {@code date-time} should match the pattern {@code YYYY-MM-DDThh:mm:ssZ}.
+ * {@code date-time-ms} extends that to a format supporting milliseconds: 
+ * {@code YYYY-MM-DDThh:mm:ss.SSSZ}.</p>
  *
  * @see org.eel.kitchen.jsonschema.format
  */
@@ -75,6 +81,9 @@ public final class FormatKeywordValidator
         builder.put("ip-address", IPV4FormatSpecifier.getInstance());
         builder.put("ipv6", IPV6FormatSpecifier.getInstance());
         builder.put("host-name", HostnameFormatSpecifier.getInstance());
+
+        // Here is one special specifier for date-time with milliseconds
+        builder.put("date-time-ms", DateTimeMillisecFormatSpecifier.getInstance());
 
         specifiers = builder.build();
     }
