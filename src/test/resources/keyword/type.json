@@ -87,20 +87,20 @@
         "valid": false
     },
     {
-    	"schema": {
-		    "type":[
-		    	{
-		    		"type":"string",
-		    		"format":"date-time"
-		    	},
-		    	{
-		    		"type":"string",
-		    		"maxLength":0
-		    	},
-		    	"null"
-		    ]
-		},
-		"data": "",
+        "schema": {
+            "type":[
+                {
+                    "type":"string",
+                    "format":"date-time"
+                },
+                {
+                    "type":"string",
+                    "maxLength":0
+                },
+                "null"
+            ]
+        },
+        "data": "",
         "valid": true
-	}
+    }
 ]
