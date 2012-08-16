@@ -3,6 +3,12 @@
 <p><b>IMPORTANT: if you report a bug, please mention what version you are
 using!</b></p>
 
+<p><b>IMPORTANT 2: the current development version, 0.5.x, makes no guarantees
+as to the user API stability as long as it is labeled beta</b>. JSON Schema
+usage is still a novelty, and it is quite a difficult task to foresee users'
+needs. I make the API evolve according to my own feelings,
+but those are _my_ feelings.</p>
+
 <p>The current version is <b>0.5.0beta3</b>.</p>
 
 <p>The old, still maintained version is <b>0.4.1</b>. See the
@@ -11,8 +17,10 @@ more details.</p>
 
 <h2>What it is</h2>
 
-<p>This is an implementation of the [JSON Schema specification](http://www.json-schema.org) written in pure Java. This allows
-pure server side JSON schema validation if this is what you are looking for./<p>
+<p>This is an implementation of the
+[JSON Schema specification](http://www.json-schema.org) written in pure Java.
+This allows pure server side JSON schema validation if this is what you are
+looking for./<p>
 
 <p>The draft serving as a reference is, at the moment, draft version 3.</p>
 
