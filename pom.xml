@@ -153,6 +153,12 @@
             </roles>
         </developer>
     </developers>
+    <contributors>
+        <contributor>
+            <name>Corey Sciuto</name>
+            <email>corey.sciuto@gmail.com</email>
+        </contributor>
+    </contributors>
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
