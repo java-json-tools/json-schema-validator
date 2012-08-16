@@ -76,6 +76,9 @@ public final class FormatKeywordValidator
         builder.put("ipv6", IPV6FormatSpecifier.getInstance());
         builder.put("host-name", HostnameFormatSpecifier.getInstance());
 
+        // Here is one special specifier for date-time with milliseconds
+        builder.put("date-time-ms", DateTimeMillisecFormatSpecifier.getInstance());
+
         specifiers = builder.build();
     }
 
