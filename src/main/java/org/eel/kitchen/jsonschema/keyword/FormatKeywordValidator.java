@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2012, Corey Sciuto <corey.sciuto@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -49,10 +50,10 @@ import java.util.Map;
  * and {@code color} (which validate an entire CSS 2.1 style and color
  * respectively!).</p>
  *
- * <p>There is support here for one custom specifier: {@code date-time-ms}. The v3 draft
- * specifies that {@code date-time} should match the pattern {@code YYYY-MM-DDThh:mm:ssZ}.
- * {@code date-time-ms} extends that to a format supporting milliseconds:
- * {@code YYYY-MM-DDThh:mm:ss.SSSZ}.</p>
+ * <p>There is support here for one custom specifier: {@code date-time-ms}. The
+ * v3 draft specifies that {@code date-time} should match the pattern
+ * {@code YYYY-MM-DDThh:mm:ssZ}.  {@code date-time-ms} extends that to a format
+ * supporting milliseconds: {@code YYYY-MM-DDThh:mm:ss.SSSZ}.</p>
  *
  * @see org.eel.kitchen.jsonschema.format
  */
@@ -70,6 +71,9 @@ public final class FormatKeywordValidator
         final ImmutableMap.Builder<String, FormatSpecifier> builder
             = new ImmutableMap.Builder<String, FormatSpecifier>();
 
+        /*
+         * Draft v3 format specifiers
+         */
         builder.put("date-time", DateTimeFormatSpecifier.getInstance());
         builder.put("date", DateFormatSpecifier.getInstance());
         builder.put("time", TimeFormatSpecifier.getInstance());
@@ -82,7 +86,9 @@ public final class FormatKeywordValidator
         builder.put("ipv6", IPV6FormatSpecifier.getInstance());
         builder.put("host-name", HostnameFormatSpecifier.getInstance());
 
-        // Here is one special specifier for date-time with milliseconds
+        /*
+         * Custom format specifiers
+         */
         builder.put("date-time-ms", DateTimeMillisecFormatSpecifier.getInstance());
 
         specifiers = builder.build();
