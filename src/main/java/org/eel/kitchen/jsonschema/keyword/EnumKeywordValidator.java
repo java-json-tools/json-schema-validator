@@ -18,8 +18,11 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.util.NodeType;
+
+import java.util.Set;
 
 /**
  * Validator for the {@code enum} keyword
@@ -27,22 +30,19 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 public final class EnumKeywordValidator
     extends KeywordValidator
 {
-    private final JsonNode values;
+    private final Set<JsonNode> enumValues;
 
     public EnumKeywordValidator(final JsonNode schema)
     {
         super(NodeType.values());
-        values = schema.get("enum");
+        enumValues = ImmutableSet.copyOf(schema.get("enum"));
     }
 
     @Override
     public void validate(final ValidationContext context,
         final JsonNode instance)
     {
-        for (final JsonNode value: values)
-            if (value.equals(instance))
-                return;
-
-        context.addMessage("instance does not match any enum value");
+        if (!enumValues.contains(instance))
+            context.addMessage("instance does not match any enum value");
     }
 }

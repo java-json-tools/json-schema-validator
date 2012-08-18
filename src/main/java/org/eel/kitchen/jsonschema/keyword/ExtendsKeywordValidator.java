@@ -18,13 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -35,12 +35,14 @@ import java.util.Set;
 public final class ExtendsKeywordValidator
     extends KeywordValidator
 {
-    private final Set<JsonNode> schemas = new HashSet<JsonNode>();
+    private final Set<JsonNode> schemas;
 
     public ExtendsKeywordValidator(final JsonNode schema)
     {
         super(NodeType.values());
         final JsonNode node = schema.get("extends");
+        final ImmutableSet.Builder<JsonNode> builder
+            = new ImmutableSet.Builder<JsonNode>();
 
         /*
          * Again, the fact that syntax validation has ensured our schema's
@@ -52,13 +54,13 @@ public final class ExtendsKeywordValidator
          * require that elements in the array must be unique,
          * but we swallow duplicates this way.
          */
-        if (node.isObject()) {
-            schemas.add(node);
-            return;
-        }
 
-        for (final JsonNode element: node)
-            schemas.add(element);
+        if (node.isObject())
+            builder.add(node);
+        else
+            builder.addAll(node);
+
+        schemas = builder.build();
     }
 
     @Override

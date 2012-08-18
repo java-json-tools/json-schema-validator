@@ -18,6 +18,9 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.SetMultimap;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
@@ -42,20 +45,24 @@ public final class DependenciesKeywordValidator
     /**
      * Map of simple dependencies (ie, property dependencies)
      */
-    private final Map<String, Set<String>> simple
-        = new HashMap<String, Set<String>>();
+    private final SetMultimap<String, String> simple;
 
     /**
      * Map of schema dependencies
      */
-    private final Map<String, JsonNode> schemas
-        = new HashMap<String, JsonNode>();
+    private final Map<String, JsonNode> schemas;
 
     public DependenciesKeywordValidator(final JsonNode schema)
     {
         super(NodeType.OBJECT);
         final Map<String, JsonNode> fields
             = CollectionUtils.toMap(schema.get("dependencies").fields());
+
+        final ImmutableMap.Builder<String, JsonNode> schemaBuilder
+            = new ImmutableMap.Builder<String, JsonNode>();
+
+        final ImmutableSetMultimap.Builder<String, String> simpleBuilder
+            = new ImmutableSetMultimap.Builder<String, String>();
 
         String key;
         JsonNode value;
@@ -72,40 +79,20 @@ public final class DependenciesKeywordValidator
         for (final Map.Entry<String, JsonNode> entry: fields.entrySet()) {
             key = entry.getKey();
             value = entry.getValue();
-            if (value.isObject())
-                schemas.put(key, value);
-            else
-                simple.put(key, simpleDepdency(value));
+            if (value.isObject()) { // schema dependency
+                schemaBuilder.put(key, value);
+                continue;
+            }
+            if (value.size() == 0) // single property dependency
+                simpleBuilder.put(key, value.textValue());
+            else // multiple property dependency
+                for (final JsonNode element: value)
+                    simpleBuilder.put(key, element.textValue());
         }
+
+        schemas = schemaBuilder.build();
+        simple = simpleBuilder.build();
     }
-
-    /**
-     * Compute a simple dependency
-     *
-     * @param value the value of the object's member
-     * @return a set of property names
-     */
-    private Set<String> simpleDepdency(final JsonNode value)
-    {
-        final Set<String> ret = new HashSet<String>();
-
-        /*
-         * This works: for non container values, an empty iterator is
-         * returned. And we can only be called from here if the dependencies
-         * syntax is correct, so it's either an array...
-         */
-        for (final JsonNode tmp: value)
-            ret.add(tmp.textValue());
-
-        /*
-         * Or a string value.
-         */
-        if (ret.isEmpty())
-            ret.add(value.textValue());
-
-        return ret;
-    }
-
 
     @Override
     public void validate(final ValidationContext context,
@@ -117,33 +104,22 @@ public final class DependenciesKeywordValidator
         final Set<String> fields = CollectionUtils.toSet(instance.fieldNames());
 
         /*
-         * Simple dependencies: make a copy of the simple dependency map,
-         * and only retain what's actually in the instance
+         * Simple dependencies: calculate the needed fields according to
+         * available instance fields. SetMultimap's .get() method returns an
+         * empty collection if a key does not exist,
+         * which allows the following code.
          */
-        final Map<String, Set<String>> simpleDeps
-            = new HashMap<String, Set<String>>(simple);
+        final Set<String> neededFields = new HashSet<String>();
 
-        simpleDeps.keySet().retainAll(fields);
+        for (final String field: fields)
+            neededFields.addAll(simple.get(field));
 
-        /*
-         * We don't bother about determining single property dependencies,
-         * we just swallow all found simple dependencies in a single set...
-         */
-        final Set<String> fullSet = new HashSet<String>();
-
-        for (final Set<String> set: simpleDeps.values())
-            fullSet.addAll(set);
-
-        /*
-         * ... And check that the instance contains them all.
-         */
-        if (!fields.containsAll(fullSet))
+        if (!fields.containsAll(neededFields))
             context.addMessage("missing property dependencies");
 
         /*
-         * Schema dependencies: the principle is the same,
-         * make a copy of the schemas map and only retain whatever properties
-         * are present in the instance.
+         * Schema dependencies: make a copy of the schemas map and only retain
+         * whatever properties are present in the instance.
          */
         final Map<String, JsonNode> schemaDeps
             = new HashMap<String, JsonNode>(schemas);

@@ -18,11 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.util.CollectionUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -43,24 +45,31 @@ public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator
 {
     private final boolean additionalOK;
-    private final Set<String> properties = new HashSet<String>();
-    private final Set<String> patternProperties = new HashSet<String>();
+    private final Set<String> properties;
+    private final Set<String> patternProperties;
 
     public AdditionalPropertiesKeywordValidator(final JsonNode schema)
     {
         super(NodeType.OBJECT);
         additionalOK = schema.get("additionalProperties").asBoolean(true);
 
-        if (additionalOK)
+        if (additionalOK) {
+            properties = Collections.emptySet();
+            patternProperties = Collections.emptySet();
             return;
+        }
 
+        ImmutableSet.Builder<String> builder;
+
+        builder = new ImmutableSet.Builder<String>();
         if (schema.has("properties"))
-            properties.addAll(CollectionUtils.toSet(schema.get("properties")
-                .fieldNames()));
+            builder.addAll(schema.get("properties").fieldNames());
+        properties = builder.build();
 
+        builder = new ImmutableSet.Builder<String>();
         if (schema.has("patternProperties"))
-            patternProperties.addAll(CollectionUtils.toSet(schema
-                .get("patternProperties").fieldNames()));
+            builder.addAll(schema.get("patternProperties").fieldNames());
+        patternProperties = builder.build();
     }
 
     @Override

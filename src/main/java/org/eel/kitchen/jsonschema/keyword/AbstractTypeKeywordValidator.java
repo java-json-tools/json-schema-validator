@@ -18,10 +18,11 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.util.Collections;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -46,7 +47,7 @@ public abstract class AbstractTypeKeywordValidator
     /**
      * Schemas found in the keyword definition
      */
-    protected final Set<JsonNode> schemas = new HashSet<JsonNode>();
+    protected final Set<JsonNode> schemas;
 
     protected AbstractTypeKeywordValidator(final String keyword,
         final JsonNode schema)
@@ -56,14 +57,20 @@ public abstract class AbstractTypeKeywordValidator
 
         if (node.isTextual()) {
             addSimpleType(node.textValue());
+            schemas = Collections.emptySet();
             return;
         }
+
+        final ImmutableSet.Builder<JsonNode> builder
+            = new ImmutableSet.Builder<JsonNode>();
 
         for (final JsonNode element: node)
             if (element.isTextual())
                 addSimpleType(element.textValue());
             else
-                schemas.add(element);
+                builder.add(element);
+
+        schemas = builder.build();
     }
 
     /**

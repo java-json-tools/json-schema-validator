@@ -18,11 +18,11 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.util.CollectionUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,17 +34,22 @@ import java.util.Set;
 public final class PropertiesKeywordValidator
     extends KeywordValidator
 {
-    private final Set<String> required = new HashSet<String>();
+    private final Set<String> required;
 
     public PropertiesKeywordValidator(final JsonNode schema)
     {
         super(NodeType.OBJECT);
+
         final Map<String, JsonNode> map
             = CollectionUtils.toMap(schema.get("properties").fields());
+        final ImmutableSet.Builder<String> builder
+            = new ImmutableSet.Builder<String>();
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
             if (entry.getValue().path("required").asBoolean(false))
-                required.add(entry.getKey());
+                builder.add(entry.getKey());
+
+        required = builder.build();
     }
 
     @Override
