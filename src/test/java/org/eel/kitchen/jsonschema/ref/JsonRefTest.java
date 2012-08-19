@@ -38,14 +38,14 @@ public final class JsonRefTest
     public void initializeBaseRef()
         throws JsonSchemaException
     {
-        baseRef = new JsonRef("http://foo.bar/baz#");
+        baseRef = JsonRef.fromString("http://foo.bar/baz#");
     }
 
     @Test
     public void NonURIStringsShouldBeIdentifiedAsInvalid()
     {
         try {
-            new JsonRef("+23:");
+            JsonRef.fromString("+23:");
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             assertEquals(e.getMessage(), "invalid URI: +23:");
@@ -57,8 +57,8 @@ public final class JsonRefTest
         throws JsonSchemaException
     {
         final URI uri = URI.create("foo");
-        final JsonRef ref1 = new JsonRef(uri);
-        final JsonRef ref2 = new JsonRef("foo");
+        final JsonRef ref1 = JsonRef.fromURI(uri);
+        final JsonRef ref2 = JsonRef.fromString("foo");
 
         assertTrue(ref1.equals(ref2));
         assertEquals(ref1.hashCode(), ref2.hashCode());
@@ -71,8 +71,8 @@ public final class JsonRefTest
         final String s1 = "http://foo.bar/a/b";
         final String s2 = "http://foo.bar/c/../a/./b";
 
-        final JsonRef ref1 = new JsonRef(s1);
-        final JsonRef ref2 = new JsonRef(s2);
+        final JsonRef ref1 = JsonRef.fromString(s1);
+        final JsonRef ref2 = JsonRef.fromString(s2);
         assertEquals(ref1, ref2);
     }
 
@@ -83,8 +83,8 @@ public final class JsonRefTest
         final String s1 = "http://foo.bar/a/b";
         final String s2 = "foo.bar";
 
-        final JsonRef ref1 = new JsonRef(s1);
-        final JsonRef ref2 = new JsonRef(s2);
+        final JsonRef ref1 = JsonRef.fromString(s1);
+        final JsonRef ref2 = JsonRef.fromString(s2);
 
         assertTrue(ref1.isAbsolute());
         assertFalse(ref2.isAbsolute());
@@ -94,7 +94,7 @@ public final class JsonRefTest
     public void absoluteURIWithFragmentIsNotAnAbsoluteRef()
         throws JsonSchemaException
     {
-        final JsonRef ref = new JsonRef("http://foo.bar/a/b#c");
+        final JsonRef ref = JsonRef.fromString("http://foo.bar/a/b#c");
 
         assertFalse(ref.isAbsolute());
     }
@@ -105,13 +105,13 @@ public final class JsonRefTest
     {
         JsonRef ref;
 
-        ref = new JsonRef("file:///a");
+        ref = JsonRef.fromString("file:///a");
         assertFalse(ref.hasFragment());
 
-        ref = new JsonRef("file:///a#");
+        ref = JsonRef.fromString("file:///a#");
         assertFalse(ref.hasFragment());
 
-        ref = new JsonRef("file:///a#b/c");
+        ref = JsonRef.fromString("file:///a#b/c");
         assertTrue(ref.hasFragment());
         assertEquals(ref.getFragment().toString(), "#b/c");
     }
@@ -120,8 +120,8 @@ public final class JsonRefTest
     public void emptyOrNoFragmentIsTheSame()
         throws JsonSchemaException
     {
-        final JsonRef ref1 = new JsonRef("http://foo.bar");
-        final JsonRef ref2 = new JsonRef("http://foo.bar#");
+        final JsonRef ref1 = JsonRef.fromString("http://foo.bar");
+        final JsonRef ref2 = JsonRef.fromString("http://foo.bar#");
 
         assertEquals(ref1, ref2);
     }
@@ -147,7 +147,7 @@ public final class JsonRefTest
         final boolean contained)
         throws JsonSchemaException
     {
-        final JsonRef tmp = new JsonRef(input);
+        final JsonRef tmp = JsonRef.fromString(input);
         final JsonRef resolved = baseRef.resolve(tmp);
 
         assertEquals(baseRef.contains(resolved), contained);

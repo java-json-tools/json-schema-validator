@@ -35,8 +35,9 @@ public final class SchemaContainer
     public SchemaContainer(final JsonNode schema)
         throws JsonSchemaException
     {
-        locator = JacksonUtils.nodeIsRef(schema.get("id"))
-            ? new JsonRef(schema.get("id").textValue())
+        final JsonNode idNode = schema.get("id");
+        locator = JacksonUtils.nodeIsRef(idNode)
+            ? JsonRef.fromString(idNode.textValue())
             : JsonRef.emptyRef();
         this.schema = cleanup(schema);
 
@@ -46,7 +47,7 @@ public final class SchemaContainer
     public SchemaContainer(final URI uri, final JsonNode node)
     {
         schema = cleanup(node);
-        locator = new JsonRef(uri);
+        locator = JsonRef.fromURI(uri);
     }
 
     public static SchemaContainer anonymousSchema(final JsonNode node)

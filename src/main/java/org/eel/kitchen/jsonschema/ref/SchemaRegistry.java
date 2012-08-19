@@ -60,7 +60,7 @@ public final class SchemaRegistry
 
         final JsonNode idNode = node.path("id");
         final JsonRef ref = JacksonUtils.nodeIsRef(idNode)
-            ? new JsonRef(idNode.textValue())
+            ? JsonRef.fromString(idNode.textValue())
             : JsonRef.emptyRef();
 
         if (ref.isEmpty())
@@ -86,7 +86,7 @@ public final class SchemaRegistry
     public void put(final URI uri, final JsonNode node)
         throws JsonSchemaException
     {
-        if (!new JsonRef(uri).isAbsolute())
+        if (!JsonRef.fromURI(uri).isAbsolute())
             throw new JsonSchemaException("URI " + uri + " is not a valid "
                 + "JSON Schema locator");
         cache.put(uri, new SchemaContainer(uri, node));

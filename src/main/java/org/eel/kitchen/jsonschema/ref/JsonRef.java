@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
+import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 
 import java.net.URI;
@@ -63,6 +64,8 @@ public final class JsonRef
      */
     private static final URI EMPTY_URI = URI.create("#");
 
+    private static final URI NULL_URI = URI.create("");
+
     private static final JsonRef EMPTY = new JsonRef(EMPTY_URI);
 
     /**
@@ -78,23 +81,42 @@ public final class JsonRef
      *
      * @param uri Input URI
      */
-    public JsonRef(final URI uri)
+    private JsonRef(final URI uri)
     {
-        final URI tmp = uri.normalize();
-
         try {
-            locator = new URI(tmp.getScheme(), tmp.getSchemeSpecificPart(), "");
-            this.uri = tmp.getFragment() == null ? locator : tmp;
+            locator = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
+            this.uri = uri.getFragment() == null ? locator : uri;
             fragment = JsonFragment.fromFragment(uri.getFragment());
         } catch (URISyntaxException e) {
             throw new RuntimeException("WTF??", e);
         }
     }
 
-    public JsonRef(final String s)
+    public static JsonRef fromURI(final URI uri)
+    {
+        Preconditions.checkNotNull(uri, "uri must not be null");
+
+        final URI normalized = uri.normalize();
+
+        if (EMPTY_URI.equals(normalized) || NULL_URI.equals(normalized))
+            return EMPTY;
+
+        return new JsonRef(normalized);
+    }
+
+    public static JsonRef fromString(final String s)
         throws JsonSchemaException
     {
-        this(fromString(s));
+        Preconditions.checkNotNull(s, "string must not be null");
+
+        if (s.isEmpty() || "#".equals(s))
+            return EMPTY;
+
+        try {
+            return fromURI(new URI(s));
+        } catch (URISyntaxException e) {
+            throw new JsonSchemaException("invalid URI: " + s, e);
+        }
     }
 
     public static JsonRef emptyRef()
@@ -102,19 +124,9 @@ public final class JsonRef
         return EMPTY;
     }
 
-    private static URI fromString(final String input)
-        throws JsonSchemaException
-    {
-        try {
-            return new URI(input);
-        } catch (URISyntaxException e) {
-            throw new JsonSchemaException("invalid URI: " + input, e);
-        }
-    }
-
     public boolean isEmpty()
     {
-        return uri.equals(EMPTY_URI);
+        return this == EMPTY;
     }
 
     public boolean isAbsolute()

@@ -21,9 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -58,7 +57,7 @@ public final class JsonResolver
     {
         final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
 
-        JsonNode node;
+        JsonNode node, refNode;
         JsonRef ref;
         JsonFragment fragment;
         JsonRef source;
@@ -68,10 +67,11 @@ public final class JsonResolver
 
         while (true) {
             node = ret.getNode();
-            if (!nodeIsRef(node))
+            refNode = node.path("$ref");
+            if (!JacksonUtils.nodeIsRef(refNode))
                 break;
             source = container.getLocator();
-            ref = new JsonRef(node.get("$ref").textValue());
+            ref = JsonRef.fromString(refNode.textValue());
             ref = source.resolve(ref);
             if (!refs.add(ref))
                 throw new JsonSchemaException("ref loop detected");
@@ -83,20 +83,5 @@ public final class JsonResolver
         }
 
         return ret;
-    }
-
-    private static boolean nodeIsRef(final JsonNode node)
-    {
-        final JsonNode refNode = node.path("$ref");
-
-        if (!refNode.isTextual())
-            return false;
-
-        try {
-            new URI(refNode.textValue());
-            return true;
-        } catch (URISyntaxException ignored) {
-            return false;
-        }
     }
 }
