@@ -57,23 +57,6 @@ public final class JacksonUtils
 
         return ret;
     }
-    /**
-     * <p>Return a "type-safe" set
-     * </p>
-     *
-     * @param iterator the iterator to build the set out of
-     * @param <T> elements type
-     * @return a type-safe {@link HashSet}
-     */
-    public static <T> Set<T> toSet(final Iterator<T> iterator)
-    {
-        final Set<T> ret = new HashSet<T>();
-
-        while (iterator.hasNext())
-            ret.add(iterator.next());
-
-        return ret;
-    }
 
     public static Set<String> fieldNames(final JsonNode node)
     {
