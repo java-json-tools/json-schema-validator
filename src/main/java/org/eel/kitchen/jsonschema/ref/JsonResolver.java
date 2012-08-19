@@ -83,7 +83,7 @@ public final class JsonResolver
         return ret;
     }
 
-    private boolean nodeIsRef(final JsonNode node)
+    private static boolean nodeIsRef(final JsonNode node)
     {
         final JsonNode refNode = node.path("$ref");
 

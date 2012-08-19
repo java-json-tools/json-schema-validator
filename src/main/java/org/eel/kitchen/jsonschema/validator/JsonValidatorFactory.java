@@ -37,7 +37,7 @@ public final class JsonValidatorFactory
     public JsonValidatorFactory(final KeywordBundle bundle)
     {
         cache = CacheBuilder.newBuilder()
-            .maximumSize(100).build(new ValidatorBuilder(bundle));
+            .maximumSize(100L).build(new ValidatorBuilder(bundle));
     }
 
     private static class ValidatorBuilder

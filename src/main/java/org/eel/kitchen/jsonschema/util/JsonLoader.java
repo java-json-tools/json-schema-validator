@@ -61,6 +61,10 @@ public final class JsonLoader
      */
     private static final Class<JsonLoader> myself = JsonLoader.class;
 
+    private JsonLoader()
+    {
+    }
+
     /**
      * Read a {@link JsonNode} from a resource path. Explicitly throws an
      * {@link IOException} if the resource is null, instead of letting a

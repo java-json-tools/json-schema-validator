@@ -28,6 +28,10 @@ import java.util.Map;
 
 public final class MiniPerfTest2
 {
+    private MiniPerfTest2()
+    {
+    }
+
     public static void main(final String... args)
         throws IOException, JsonSchemaException
     {
@@ -58,7 +62,7 @@ public final class MiniPerfTest2
                 schema.validate(context, report, value);
                 if (!report.isSuccess()) {
                     System.err.println("ERROR: schema " + name + " did not "
-                        + "validate (iteration " + i + ")");
+                        + "validate (iteration " + i + ')');
                     System.exit(1);
                 }
             }

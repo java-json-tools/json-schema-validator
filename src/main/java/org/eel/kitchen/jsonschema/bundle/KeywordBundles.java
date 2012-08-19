@@ -62,6 +62,10 @@ public final class KeywordBundles
 {
     private static final KeywordBundle DEFAULT_BUNDLE;
 
+    private KeywordBundles()
+    {
+    }
+
     static {
         Keyword keyword;
         SyntaxChecker checker;

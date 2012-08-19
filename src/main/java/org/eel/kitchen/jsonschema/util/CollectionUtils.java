@@ -31,6 +31,10 @@ import java.util.Set;
 
 public final class CollectionUtils
 {
+    private CollectionUtils()
+    {
+    }
+
     /**
      * <p>Generics equivalent of commons-collections' IteratorUtils.toMap()</p>
      *

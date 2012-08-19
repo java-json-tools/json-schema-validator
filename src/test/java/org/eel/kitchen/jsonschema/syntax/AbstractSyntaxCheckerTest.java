@@ -65,7 +65,7 @@ public abstract class AbstractSyntaxCheckerTest
         return set.iterator();
     }
 
-    private Object[] mungeArguments(final JsonNode node)
+    private static Object[] mungeArguments(final JsonNode node)
     {
         return new Object[] {
             node.get("schema"),

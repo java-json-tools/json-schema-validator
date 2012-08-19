@@ -69,7 +69,7 @@ public final class SchemaNodeObjectSchemaTest
         throws JsonSchemaException
     {
         final String errmsg = "object schema lookup failure (schema: "
-            + schema + ", key: " + key + ")";
+            + schema + ", key: " + key + ')';
         final SchemaContainer container
             = SchemaContainer.anonymousSchema(schema);
         final SchemaNode node = new SchemaNode(container, schema);

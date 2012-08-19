@@ -58,7 +58,7 @@ public abstract class KeywordValidator
      *
      * <p>Its only role is to check whether the instance type is recognized
      * by this keyword. If so, it calls {@link #validate(ValidationContext,
-     * JsonNode)}.</p>
+     * ValidationReport, JsonNode)}.</p>
      *
      * <p>In the opposite scenario, it means this keyword cannot validate
      * this particular instance: it is therefore considered valid.</p>

@@ -31,7 +31,7 @@ public final class IdFragment
     }
 
     @Override
-    public JsonNode resolve(JsonNode node)
+    public JsonNode resolve(final JsonNode node)
     {
         /*
          * Non object instances are not worth being considered

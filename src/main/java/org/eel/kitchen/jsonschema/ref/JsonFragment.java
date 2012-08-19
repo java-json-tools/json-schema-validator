@@ -26,7 +26,7 @@ public abstract class JsonFragment
     private static final JsonFragment EMPTY = new JsonFragment()
     {
         @Override
-        public JsonNode resolve(JsonNode node)
+        public JsonNode resolve(final JsonNode node)
         {
             return node;
         }

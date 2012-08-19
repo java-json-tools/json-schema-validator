@@ -40,7 +40,7 @@ public final class SchemaRegistry
 
     public SchemaRegistry(final URIManager manager)
     {
-        cache = CacheBuilder.newBuilder().maximumSize(100)
+        cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(new CacheLoader<URI, SchemaContainer>()
             {
                 @Override

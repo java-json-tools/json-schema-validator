@@ -39,7 +39,6 @@ public final class JsonFragmentTest
         throws IOException
     {
         schema = JsonLoader.fromResource("/schema-lookup.json");
-        System.out.println("foo");
     }
 
     @DataProvider

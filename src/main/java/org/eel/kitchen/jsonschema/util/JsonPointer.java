@@ -102,13 +102,12 @@ public final class JsonPointer
     {
         final String s = input == null ? "" : input.replaceFirst("^#", "");
 
-        final ImmutableList.Builder<String> builder
-            = ImmutableList.builder();
+        final ImmutableList.Builder<String> builder = ImmutableList.builder();
         process(s, builder);
 
         elements = builder.build();
 
-        fullPointer = "#" + s;
+        fullPointer = '#' + s;
     }
 
     private JsonPointer(final String fullPointer, final List<String> elements)
@@ -138,7 +137,7 @@ public final class JsonPointer
         final List<String> newElements = ImmutableList.<String>builder()
             .addAll(elements).add(element).build();
 
-        return new JsonPointer(fullPointer + "/" + refTokenEncode(element),
+        return new JsonPointer(fullPointer + '/' + refTokenEncode(element),
             newElements);
     }
 
@@ -196,7 +195,7 @@ public final class JsonPointer
      * @param builder the list builder
      * @throws JsonSchemaException the input is not a valid JSON Pointer
      */
-    private void process(final String input,
+    private static void process(final String input,
         final ImmutableList.Builder<String> builder)
         throws JsonSchemaException
     {
@@ -238,7 +237,7 @@ public final class JsonPointer
      * @return the cooked reference token
      * @throws JsonSchemaException the string is malformed
      */
-    private String getNextRefToken(final String input)
+    private static String getNextRefToken(final String input)
         throws JsonSchemaException
     {
         final StringBuilder sb = new StringBuilder();

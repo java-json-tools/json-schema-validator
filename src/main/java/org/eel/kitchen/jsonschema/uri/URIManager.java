@@ -54,7 +54,7 @@ public class URIManager
             new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
             throw new IllegalArgumentException("illegal scheme \"" + scheme
-                + "\"");
+                + '"');
         }
 
         Preconditions.checkArgument(!downloaders.containsKey(scheme),
@@ -75,7 +75,7 @@ public class URIManager
 
         if (downloader == null)
             throw new JsonSchemaException("cannot handle scheme \"" + scheme
-                + "\"");
+                + '"');
 
         final InputStream in;
 
@@ -83,14 +83,14 @@ public class URIManager
             in = downloader.fetch(uri);
         } catch (IOException e) {
             throw new JsonSchemaException("cannot fetch content from URI \""
-                + uri + "\"", e);
+                + uri + '"', e);
         }
 
         try {
             return mapper.readTree(in);
         } catch (IOException e) {
             throw new JsonSchemaException("cannot read content from URI \""
-                + uri + "\"", e);
+                + uri + '"', e);
         }
     }
 }

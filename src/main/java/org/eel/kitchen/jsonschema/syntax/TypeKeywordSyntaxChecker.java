@@ -55,7 +55,8 @@ public class TypeKeywordSyntaxChecker
         }
     }
 
-    private void validateOne(final List<String> messages, final JsonNode value)
+    private static void validateOne(final List<String> messages,
+        final JsonNode value)
     {
         if (value.isObject())
             return;

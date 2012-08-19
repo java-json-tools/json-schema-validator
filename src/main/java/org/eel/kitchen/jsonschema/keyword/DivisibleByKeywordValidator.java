@@ -40,7 +40,7 @@ public final class DivisibleByKeywordValidator
     protected void validateLong(final ValidationReport report,
         final long instanceValue)
     {
-        if (instanceValue % longValue != 0)
+        if (instanceValue % longValue != 0L)
             report.addMessage("instance is not a multiple of divisibleBy");
     }
 

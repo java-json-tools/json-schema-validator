@@ -108,7 +108,7 @@ public final class KeywordFactory
      * @param schema the schema
      * @return the instantiated keyword validator
      */
-    private KeywordValidator buildValidator(
+    private static KeywordValidator buildValidator(
         final Class<? extends KeywordValidator> c, final JsonNode schema)
     {
         final Constructor<? extends KeywordValidator> constructor;
@@ -136,7 +136,7 @@ public final class KeywordFactory
      * @param e the exception raised by the instantiation attempt
      * @return a keyword validator which always fails
      */
-    private KeywordValidator invalidValidator(final Exception e)
+    private static KeywordValidator invalidValidator(final Exception e)
     {
         return new KeywordValidator(NodeType.values())
         {

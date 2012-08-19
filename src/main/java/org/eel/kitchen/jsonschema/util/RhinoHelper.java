@@ -50,19 +50,19 @@ public final class RhinoHelper
      */
     private static final String jsAsString
         = "function regexIsValid(re)"
-        + "{"
+        + '{'
         + "    try {"
         + "         new RegExp(re);"
         + "         return true;"
         + "    } catch (e) {"
         + "        return false;"
         + "    }"
-        + "}"
+        + '}'
         + ""
         + "function regMatch(re, input)"
-        + "{"
+        + '{'
         + "    return new RegExp(re).test(input);"
-        + "}";
+        + '}';
 
     /**
      * Script context to use
@@ -83,6 +83,10 @@ public final class RhinoHelper
      * Reference to Javascript function for regex matching
      */
     private static final Function regMatch;
+
+    private RhinoHelper()
+    {
+    }
 
     static {
         ctx = Context.enter();
