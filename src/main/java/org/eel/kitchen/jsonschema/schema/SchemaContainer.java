@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.net.URI;
 
@@ -34,7 +35,9 @@ public final class SchemaContainer
     public SchemaContainer(final JsonNode schema)
         throws JsonSchemaException
     {
-        locator = JsonRef.fromNode(schema, "id");
+        locator = JacksonUtils.nodeIsRef(schema.get("id"))
+            ? new JsonRef(schema.get("id").textValue())
+            : JsonRef.emptyRef();
         this.schema = cleanup(schema);
 
         checkLocator();
@@ -59,6 +62,13 @@ public final class SchemaContainer
     public JsonNode getSchema()
     {
         return schema;
+    }
+
+    public boolean contains(final JsonRef ref)
+    {
+        final JsonRef tmp = locator.resolve(ref);
+
+        return locator.getRootAsURI().equals(tmp.getRootAsURI());
     }
 
     @Override

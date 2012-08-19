@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 
 import java.net.URI;
@@ -98,6 +97,11 @@ public final class JsonRef
         this(fromString(s));
     }
 
+    public static JsonRef emptyRef()
+    {
+        return EMPTY;
+    }
+
     private static URI fromString(final String input)
         throws JsonSchemaException
     {
@@ -106,32 +110,6 @@ public final class JsonRef
         } catch (URISyntaxException e) {
             throw new JsonSchemaException("invalid URI: " + input, e);
         }
-    }
-
-    /**
-     * Build a JSON Reference.
-     *
-     * <p>Note that in the event where there is no member by the requested
-     * name, an empty JSON Reference is returned.</p>
-     *
-     * @param node the JSON instance to extract the reference from
-     * @param key the member to extract the reference from
-     * @return the reference
-     * @throws JsonSchemaException the key is malformed (not a string,
-     * or not an URI)
-     */
-    public static JsonRef fromNode(final JsonNode node, final String key)
-        throws JsonSchemaException
-    {
-        final JsonNode entry = node.path(key);
-        if (entry.isMissingNode())
-            return EMPTY;
-
-        if (!entry.isTextual())
-            throw new JsonSchemaException("invalid " + key + " entry: not a "
-                + "string");
-
-        return new JsonRef(entry.textValue());
     }
 
     public boolean isEmpty()

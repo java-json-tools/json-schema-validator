@@ -19,6 +19,8 @@ package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -68,5 +70,18 @@ public final class JacksonUtils
             ret.add(iterator.next());
 
         return ret;
+    }
+
+    public static boolean nodeIsRef(final JsonNode node)
+    {
+        if (!node.isTextual())
+            return false;
+
+        try {
+            new URI(node.textValue());
+            return true;
+        } catch (URISyntaxException ignored) {
+            return false;
+        }
     }
 }

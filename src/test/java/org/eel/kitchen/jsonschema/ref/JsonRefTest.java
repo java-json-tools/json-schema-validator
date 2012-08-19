@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
@@ -40,19 +39,6 @@ public final class JsonRefTest
         throws JsonSchemaException
     {
         baseRef = new JsonRef("http://foo.bar/baz#");
-    }
-
-    @Test
-    public void nonStringMembersShouldBeIdentifiedAsInvalid()
-    {
-        final JsonNode node = factory.objectNode().put("$ref", 1);
-
-        try {
-            JsonRef.fromNode(node, "$ref");
-            fail("No exception thrown!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "invalid $ref entry: not a string");
-        }
     }
 
     @Test
