@@ -61,6 +61,7 @@ public final class JsonResolver
         JsonNode node;
         JsonRef ref;
         JsonFragment fragment;
+        JsonRef source;
 
         SchemaContainer container = schemaNode.getContainer();
         SchemaNode ret = schemaNode;
@@ -69,11 +70,12 @@ public final class JsonResolver
             node = ret.getNode();
             if (!nodeIsRef(node))
                 break;
-            ref = JsonRef.fromNode(node, "$ref");
-            ref = container.getLocator().resolve(ref);
+            source = container.getLocator();
+            ref = new JsonRef(node.get("$ref").textValue());
+            ref = source.resolve(ref);
             if (!refs.add(ref))
                 throw new JsonSchemaException("ref loop detected");
-            if (!container.contains(ref))
+            if (!source.contains(ref))
                 container = registry.get(ref.getRootAsURI());
             fragment = ref.getFragment();
             node = fragment.resolve(container.getSchema());

@@ -176,6 +176,11 @@ public final class JsonRef
         return !fragment.isEmpty();
     }
 
+    public boolean contains(final JsonRef other)
+    {
+        return locator.equals(other.locator);
+    }
+
     @Override
     public int hashCode()
     {

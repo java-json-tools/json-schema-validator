@@ -19,16 +19,28 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.net.URI;
+import java.util.Iterator;
 
 import static org.testng.Assert.*;
 
 public final class JsonRefTest
 {
     private final JsonNodeFactory factory = JsonNodeFactory.instance;
+    private JsonRef baseRef;
+
+    @BeforeClass
+    public void initializeBaseRef()
+        throws JsonSchemaException
+    {
+        baseRef = new JsonRef("http://foo.bar/baz#");
+    }
 
     @Test
     public void nonStringMembersShouldBeIdentifiedAsInvalid()
@@ -126,5 +138,32 @@ public final class JsonRefTest
         final JsonRef ref2 = new JsonRef("http://foo.bar#");
 
         assertEquals(ref1, ref2);
+    }
+
+    @DataProvider
+    public Iterator<Object[]> getData()
+    {
+        final ImmutableSet.Builder<Object[]> builder
+            = new ImmutableSet.Builder<Object[]>();
+
+        builder.add(new Object[] { "http://foo.bar/blah#", false });
+        builder.add(new Object[] { "http://foo.bar/baz#pwet", true });
+        builder.add(new Object[] { "http://foo.bar/baz?a=b", false });
+        builder.add(new Object[] { "#/a/b/c", true });
+        builder.add(new Object[] { "a/b/v", false });
+        builder.add(new Object[] { "baz", true });
+
+        return builder.build().iterator();
+    }
+
+    @Test(dataProvider = "getData")
+    public void testReferenceContains(final String input,
+        final boolean contained)
+        throws JsonSchemaException
+    {
+        final JsonRef tmp = new JsonRef(input);
+        final JsonRef resolved = baseRef.resolve(tmp);
+
+        assertEquals(baseRef.contains(resolved), contained);
     }
 }

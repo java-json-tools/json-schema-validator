@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -42,72 +41,6 @@ public final class SchemaContainerTest
             assertEquals(e.getMessage(), "a parent schema's id must be "
                 + "absolute");
         }
-    }
-
-    @Test
-    public void shouldCorrectlyIdentifyContainedAbsoluteRef()
-        throws JsonSchemaException
-    {
-        final String str = "http://foo.bar/baz#";
-        final JsonRef ref = new JsonRef(str);
-
-        node = factory.objectNode().put("id", str);
-        container = new SchemaContainer(node);
-
-        assertTrue(container.contains(ref));
-    }
-
-    @Test
-    public void shouldCorrectlyIdentifyNonContainedAbsoluteRef()
-        throws JsonSchemaException
-    {
-        final String str1 = "http://foo.bar/baz#";
-        final String str2 = "http://foo.bar/blah#";
-        final JsonRef ref = new JsonRef(str2);
-
-        node = factory.objectNode().put("id", str1);
-        container = new SchemaContainer(node);
-
-        assertFalse(container.contains(ref));
-    }
-
-    @Test
-    public void shouldCorrectlyIdentifyFragmentOnlyRef()
-        throws JsonSchemaException
-    {
-        final String str = "http://foo.bar/baz#";
-        final JsonRef ref = new JsonRef("#someId");
-
-        node = factory.objectNode().put("id", str);
-        container = new SchemaContainer(node);
-
-        assertTrue(container.contains(ref));
-    }
-
-    @Test
-    public void shouldCorrectlyIdentifyContainedRelativeRefs()
-        throws JsonSchemaException
-    {
-        final String str = "http://foo.bar/baz#";
-        final JsonRef ref2 = new JsonRef("baz");
-
-        node = factory.objectNode().put("id", str);
-        container = new SchemaContainer(node);
-
-        assertTrue(container.contains(ref2));
-    }
-
-    @Test
-    public void shouldCorrectlyIdentifyNonContainedRelativeRefs()
-        throws JsonSchemaException
-    {
-        final String str = "http://foo.bar/baz#";
-        final JsonRef ref2 = new JsonRef("bar");
-
-        node = factory.objectNode().put("id", str);
-        container = new SchemaContainer(node);
-
-        assertFalse(container.contains(ref2));
     }
 
     @Test
