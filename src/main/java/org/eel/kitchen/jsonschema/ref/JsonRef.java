@@ -69,7 +69,10 @@ public final class JsonRef
     /**
      * The URI, as provided by the input arguments
      */
-    private URI uri;
+    private final URI uri;
+
+    private final URI locator;
+    private final JsonFragment fragment;
 
     /**
      * The main constructor, which is private by design
@@ -78,31 +81,30 @@ public final class JsonRef
      */
     public JsonRef(final URI uri)
     {
-        process(uri);
-    }
+        final URI tmp = uri.normalize();
 
-    private void process(final URI uri)
-    {
-        URI normalized = uri.normalize();
-        if (normalized.getFragment() == null)
-            try {
-                normalized = new URI(normalized.getScheme(),
-                    normalized.getSchemeSpecificPart(), "");
-            } catch (URISyntaxException e) {
-                throw new RuntimeException("WTF??", e);
-            }
-
-        this.uri = normalized;
-
+        try {
+            locator = new URI(tmp.getScheme(), tmp.getSchemeSpecificPart(), "");
+            this.uri = tmp.getFragment() == null ? locator : tmp;
+            fragment = JsonFragment.fromFragment(uri.getFragment());
+        } catch (URISyntaxException e) {
+            throw new RuntimeException("WTF??", e);
+        }
     }
 
     public JsonRef(final String s)
         throws JsonSchemaException
     {
+        this(fromString(s));
+    }
+
+    private static URI fromString(final String input)
+        throws JsonSchemaException
+    {
         try {
-            process(new URI(s));
+            return new URI(input);
         } catch (URISyntaxException e) {
-            throw new JsonSchemaException("invalid URI \"" + s + "\"", e);
+            throw new JsonSchemaException("invalid URI: " + input, e);
         }
     }
 
@@ -154,11 +156,7 @@ public final class JsonRef
      */
     public URI getRootAsURI()
     {
-        try {
-            return new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
-        } catch (URISyntaxException e) {
-            throw new RuntimeException("WTF???", e);
-        }
+        return locator;
     }
 
     /**
@@ -168,14 +166,14 @@ public final class JsonRef
      *
      * @return the fragment
      */
-    public String getFragment()
+    public JsonFragment getFragment()
     {
-        return uri.getFragment();
+        return fragment;
     }
 
     public boolean hasFragment()
     {
-        return !getFragment().isEmpty();
+        return !fragment.isEmpty();
     }
 
     @Override

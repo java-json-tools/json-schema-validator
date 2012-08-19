@@ -30,6 +30,12 @@ public abstract class JsonFragment
         {
             return node;
         }
+
+        @Override
+        public String toString()
+        {
+            return "#";
+        }
     };
 
     public static JsonFragment fromFragment(final String fragment)
@@ -46,4 +52,10 @@ public abstract class JsonFragment
     }
 
     public abstract JsonNode resolve(final JsonNode node);
+
+    public final boolean isEmpty()
+    {
+        // This works: we always return EMPTY with a null fragment
+        return this == EMPTY;
+    }
 }

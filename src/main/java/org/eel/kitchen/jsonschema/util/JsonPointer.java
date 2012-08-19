@@ -105,14 +105,12 @@ public final class JsonPointer
     public JsonPointer(final String input)
         throws JsonSchemaException
     {
-        final String s = input == null ? "" : input.replaceFirst("^#", "");
-
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
-        process(s, builder);
+        process(input, builder);
 
         elements = builder.build();
 
-        fullPointer = '#' + s;
+        fullPointer = '#' + input;
     }
 
     private JsonPointer(final String fullPointer, final List<String> elements)

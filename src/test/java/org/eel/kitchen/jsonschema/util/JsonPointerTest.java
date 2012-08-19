@@ -31,8 +31,8 @@ public final class JsonPointerTest
     public void testEqualsBasics()
         throws JsonSchemaException
     {
-        final JsonPointer p1 = new JsonPointer("#/");
-        final JsonPointer p2 = new JsonPointer("#/");
+        final JsonPointer p1 = new JsonPointer("/");
+        final JsonPointer p2 = new JsonPointer("/");
 
         assertTrue(p1.equals(p1));
         assertTrue(p1.equals(p2));
@@ -45,38 +45,12 @@ public final class JsonPointerTest
     public void testHashCode()
         throws JsonSchemaException
     {
-        final JsonPointer p1 = new JsonPointer("#/");
-        final JsonPointer p2 = new JsonPointer("#/");
+        final JsonPointer p1 = new JsonPointer("/");
+        final JsonPointer p2 = new JsonPointer("/");
 
         final String s = "#/";
         assertTrue(p1.hashCode() == p2.hashCode());
         assertTrue(p1.hashCode() == s.hashCode());
-        assertFalse(p1.equals(s));
-    }
-
-    @Test
-    public void testInitialHashDoesNotMatter()
-        throws JsonSchemaException
-    {
-        final JsonPointer p1 = new JsonPointer("#/a/b");
-        final JsonPointer p2 = new JsonPointer("/a/b");
-
-        assertEquals(p1, p2);
-        assertEquals(p1.toString(), p2.toString());
-    }
-
-    @Test
-    public void testToString()
-        throws JsonSchemaException
-    {
-        final String s1 = "#/a/b";
-        final String s2 = "/a/b";
-
-        final JsonPointer p1 = new JsonPointer(s1);
-        final JsonPointer p2 = new JsonPointer(s2);
-
-        assertEquals(s1, p1.toString());
-        assertEquals(s1, p2.toString());
     }
 
     @Test
@@ -86,7 +60,7 @@ public final class JsonPointerTest
         final String[] array = { "a^", "^a", "a^a", "^" };
         final List<String> expected = Arrays.asList(array);
 
-        final JsonPointer v2 = new JsonPointer("#/a^^/^^a/a^^a/^^");
+        final JsonPointer v2 = new JsonPointer("/a^^/^^a/a^^a/^^");
         final List<String> actual = v2.getElements();
 
         assertEquals(actual, expected);
@@ -99,7 +73,7 @@ public final class JsonPointerTest
         final String[] array = { "a/", "/a", "a/a", "/" };
         final List<String> expected = Arrays.asList(array);
 
-        final JsonPointer v2 = new JsonPointer("#/a^//^/a/a^/a/^/");
+        final JsonPointer v2 = new JsonPointer("/a^//^/a/a^/a/^/");
         final List<String> actual = v2.getElements();
 
         assertEquals(actual, expected);
@@ -109,7 +83,7 @@ public final class JsonPointerTest
     public void testMissingSlash()
     {
         try {
-            new JsonPointer("#a");
+            new JsonPointer("a");
             fail("No exception thrown!");
         } catch (JsonSchemaException ignored) {
             assertTrue(true);
@@ -120,14 +94,14 @@ public final class JsonPointerTest
     public void testIllegalEscape()
     {
         try {
-            new JsonPointer("#/^a");
+            new JsonPointer("/^a");
             fail("No exception thrown!");
         } catch (JsonSchemaException ignored) {
             assertTrue(true);
         }
 
         try {
-            new JsonPointer("#/^");
+            new JsonPointer("/^");
             fail("No exception thrown!");
         } catch (JsonSchemaException ignored) {
             assertTrue(true);

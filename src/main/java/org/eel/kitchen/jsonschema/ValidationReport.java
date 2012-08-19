@@ -35,7 +35,7 @@ public final class ValidationReport
     public ValidationReport()
     {
         try {
-            path = new JsonPointer("#");
+            path = new JsonPointer("");
         } catch (JsonSchemaException e) {
             // cannot happen
             throw new RuntimeException("WTF??");

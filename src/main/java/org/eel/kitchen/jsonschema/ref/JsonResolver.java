@@ -75,7 +75,7 @@ public final class JsonResolver
                 throw new JsonSchemaException("ref loop detected");
             if (!container.contains(ref))
                 container = registry.get(ref.getRootAsURI());
-            fragment = JsonFragment.fromFragment(ref.getFragment());
+            fragment = ref.getFragment();
             node = fragment.resolve(container.getSchema());
             ret = new SchemaNode(container, node);
         }

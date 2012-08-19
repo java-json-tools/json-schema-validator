@@ -50,7 +50,7 @@ public final class JsonRefTest
             new JsonRef("+23:");
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "invalid URI \"+23:\"");
+            assertEquals(e.getMessage(), "invalid URI: +23:");
         }
     }
 
@@ -158,7 +158,7 @@ public final class JsonRefTest
 
         ref = new JsonRef("file:///a#b/c");
         assertTrue(ref.hasFragment());
-        assertEquals(ref.getFragment(), "b/c");
+        assertEquals(ref.getFragment().toString(), "#b/c");
     }
 
     @Test

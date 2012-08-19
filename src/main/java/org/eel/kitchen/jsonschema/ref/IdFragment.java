@@ -65,4 +65,10 @@ public final class IdFragment
 
         return MissingNode.getInstance();
     }
+
+    @Override
+    public String toString()
+    {
+        return '#' + id;
+    }
 }
