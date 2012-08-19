@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonFragment;
@@ -78,6 +79,10 @@ public final class JsonPointer
     extends JsonFragment
     implements Comparable<JsonPointer>
 {
+    private static final CharMatcher SPECIAL = CharMatcher.anyOf("^/");
+    private static final CharMatcher SLASH = CharMatcher.is('/');
+    private static final CharMatcher CARET = CharMatcher.is('^');
+
     /**
      * The pointer in a raw, but JSON Pointer-escaped, string.
      */
@@ -248,15 +253,15 @@ public final class JsonPointer
 
         for (final char c: array) {
             if (inEscape) {
-                if (!(c == '^' || c == '/'))
+                if (!SPECIAL.matches(c))
                     throw new JsonSchemaException("illegal JSON Pointer");
                 sb.append(c);
                 inEscape = false;
                 continue;
             }
-            if (c == '/')
+            if (SLASH.matches(c))
                 break;
-            if (c == '^')
+            if (CARET.matches(c))
                 inEscape = true;
             sb.append(c);
         }
@@ -293,7 +298,7 @@ public final class JsonPointer
         boolean inEscape = false;
 
         for (final char c : array) {
-            if (c == '^' && !inEscape) {
+            if (CARET.matches(c) && !inEscape) {
                 inEscape = true;
                 continue;
             }
@@ -324,7 +329,7 @@ public final class JsonPointer
         final char[] array = raw.toCharArray();
 
         for (final char c: array) {
-            if (c == '/' || c == '^')
+            if (SPECIAL.matches(c))
                 sb.append('^');
             sb.append(c);
         }
