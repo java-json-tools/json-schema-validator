@@ -36,7 +36,7 @@ public final class SchemaContainer
         throws JsonSchemaException
     {
         final JsonNode idNode = schema.get("id");
-        locator = JacksonUtils.nodeIsRef(idNode)
+        locator = JacksonUtils.nodeIsURI(idNode)
             ? JsonRef.fromString(idNode.textValue())
             : JsonRef.emptyRef();
         this.schema = cleanup(schema);

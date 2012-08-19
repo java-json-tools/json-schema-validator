@@ -59,7 +59,7 @@ public final class SchemaRegistry
         Preconditions.checkNotNull(node, "cannot register null schema");
 
         final JsonNode idNode = node.path("id");
-        final JsonRef ref = JacksonUtils.nodeIsRef(idNode)
+        final JsonRef ref = JacksonUtils.nodeIsURI(idNode)
             ? JsonRef.fromString(idNode.textValue())
             : JsonRef.emptyRef();
 

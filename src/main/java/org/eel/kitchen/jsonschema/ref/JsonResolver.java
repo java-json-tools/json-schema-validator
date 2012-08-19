@@ -68,7 +68,7 @@ public final class JsonResolver
         while (true) {
             node = ret.getNode();
             refNode = node.path("$ref");
-            if (!JacksonUtils.nodeIsRef(refNode))
+            if (!JacksonUtils.nodeIsURI(refNode))
                 break;
             source = container.getLocator();
             ref = JsonRef.fromString(refNode.textValue());

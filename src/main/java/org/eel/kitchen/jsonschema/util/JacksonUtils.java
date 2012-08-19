@@ -37,12 +37,11 @@ public final class JacksonUtils
     {
     }
 
-
     /**
-     * Return a map out of an object node's entries
+     * Return a map out of an object instance
      *
      * @param node the node
-     * @return a mutable map out of this object node's entries
+     * @return a mutable map made of the instance's entries
      */
     public static Map<String, JsonNode> nodeToMap(final JsonNode node)
     {
@@ -60,6 +59,12 @@ public final class JacksonUtils
         return ret;
     }
 
+    /**
+     * Return a set of field names in an object instance
+     *
+     * @param node the node
+     * @return a mutable set of the instance's keys
+     */
     public static Set<String> fieldNames(final JsonNode node)
     {
         final Set<String> ret = new HashSet<String>(node.size());
@@ -72,7 +77,13 @@ public final class JacksonUtils
         return ret;
     }
 
-    public static boolean nodeIsRef(final JsonNode node)
+    /**
+     * Tell whether the target node is a valid URI
+     *
+     * @param node the node to test
+     * @return true iif node is a text node and its value is a valid URI
+     */
+    public static boolean nodeIsURI(final JsonNode node)
     {
         if (!node.isTextual())
             return false;
