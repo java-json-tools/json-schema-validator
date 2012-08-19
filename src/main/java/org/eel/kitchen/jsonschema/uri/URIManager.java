@@ -32,12 +32,11 @@ import java.util.Map;
 
 public class URIManager
 {
-    private final ObjectMapper mapper = new ObjectMapper()
+    private static final ObjectMapper mapper = new ObjectMapper()
         .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 
     private final Map<String, URIDownloader> downloaders
         = new HashMap<String, URIDownloader>();
-
 
     public URIManager()
     {
