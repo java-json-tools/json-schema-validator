@@ -58,4 +58,7 @@ public abstract class JsonFragment
         // This works: we always return EMPTY with a null fragment
         return this == EMPTY;
     }
+
+    @Override
+    public abstract String toString();
 }
