@@ -18,6 +18,9 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.google.common.base.Preconditions;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 
 import java.net.URI;
@@ -59,14 +62,25 @@ import java.net.URISyntaxException;
 
 public final class JsonRef
 {
-    /**
-     * This could theoretically thrown an IllegalArgumentException. Meh.
-     */
-    private static final URI EMPTY_URI = URI.create("#");
+    private static final JsonRef EMPTY;
+    private static final LoadingCache<URI, JsonRef> cache;
 
-    private static final URI NULL_URI = URI.create("");
-
-    private static final JsonRef EMPTY = new JsonRef(EMPTY_URI);
+    static {
+        cache = CacheBuilder.newBuilder().maximumSize(15L)
+            .build(new CacheLoader<URI, JsonRef>()
+            {
+                @Override
+                public JsonRef load(final URI key)
+                    throws Exception
+                {
+                    return new JsonRef(key);
+                }
+            });
+        final URI emptyURI = URI.create("#");
+        EMPTY = new JsonRef(emptyURI);
+        cache.put(emptyURI, EMPTY);
+        cache.put(URI.create(""), EMPTY);
+    }
 
     /**
      * The URI, as provided by the input arguments
@@ -96,12 +110,7 @@ public final class JsonRef
     {
         Preconditions.checkNotNull(uri, "uri must not be null");
 
-        final URI normalized = uri.normalize();
-
-        if (EMPTY_URI.equals(normalized) || NULL_URI.equals(normalized))
-            return EMPTY;
-
-        return new JsonRef(normalized);
+        return cache.getUnchecked(uri.normalize());
     }
 
     public static JsonRef fromString(final String s)
@@ -131,7 +140,7 @@ public final class JsonRef
 
     public boolean isAbsolute()
     {
-        return uri.isAbsolute() && !hasFragment();
+        return uri.isAbsolute() && fragment.isEmpty();
     }
 
     public JsonRef resolve(final JsonRef other)
@@ -159,11 +168,6 @@ public final class JsonRef
     public JsonFragment getFragment()
     {
         return fragment;
-    }
-
-    public boolean hasFragment()
-    {
-        return !fragment.isEmpty();
     }
 
     public boolean contains(final JsonRef other)

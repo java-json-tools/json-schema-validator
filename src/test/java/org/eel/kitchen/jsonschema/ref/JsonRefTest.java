@@ -104,16 +104,20 @@ public final class JsonRefTest
         throws JsonSchemaException
     {
         JsonRef ref;
+        JsonFragment fragment;
 
         ref = JsonRef.fromString("file:///a");
-        assertFalse(ref.hasFragment());
+        fragment = ref.getFragment();
+        assertTrue(fragment.isEmpty());
 
         ref = JsonRef.fromString("file:///a#");
-        assertFalse(ref.hasFragment());
+        fragment = ref.getFragment();
+        assertTrue(fragment.isEmpty());
 
         ref = JsonRef.fromString("file:///a#b/c");
-        assertTrue(ref.hasFragment());
-        assertEquals(ref.getFragment().toString(), "#b/c");
+        fragment = ref.getFragment();
+        assertFalse(fragment.isEmpty());
+        assertEquals(fragment.toString(), "#b/c");
     }
 
     @Test
