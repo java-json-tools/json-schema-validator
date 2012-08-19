@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -39,20 +40,24 @@ import java.util.Set;
 // but it has to be triggered from _within_ validators. Ouch.
 public final class SyntaxValidator
 {
-    private final Map<String, SyntaxChecker> checkers
-        = new HashMap<String, SyntaxChecker>();
+    private final Map<String, SyntaxChecker> checkers;
 
     public SyntaxValidator(final KeywordBundle bundle)
     {
         String name;
         SyntaxChecker checker;
 
+        final Map<String, SyntaxChecker> map
+            = new HashMap<String, SyntaxChecker>();
+
         for (final Map.Entry<String, Keyword> entry: bundle) {
             name = entry.getKey();
             checker = entry.getValue().getSyntaxChecker();
             if (checker != null)
-                checkers.put(name, checker);
+                map.put(name, checker);
         }
+
+        checkers = ImmutableMap.copyOf(map);
     }
 
     public void validate(final List<String> messages, final JsonNode schema)
