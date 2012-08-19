@@ -67,49 +67,6 @@ public final class JsonRefTest
     }
 
     @Test
-    public void equalsImplementationShouldBeReflexive()
-        throws JsonSchemaException
-    {
-        final JsonRef ref = new JsonRef("foo");
-
-        assertTrue(ref.equals(ref));
-    }
-
-    @Test
-    public void equalsImplementationShouldBeSymmetric()
-        throws JsonSchemaException
-    {
-        final JsonRef ref1 = new JsonRef("foo");
-        final JsonRef ref2 = new JsonRef("foo");
-
-        // a => b is equal to !a || b
-        assertTrue(!ref1.equals(ref2) || ref2.equals(ref1));
-    }
-
-    @Test
-    public void equalsImplementationShouldBeTransitive()
-        throws JsonSchemaException
-    {
-        final JsonRef ref1 = new JsonRef("foo");
-        final JsonRef ref2 = new JsonRef("foo");
-        final JsonRef ref3 = new JsonRef("foo");
-
-        assertTrue(ref1.equals(ref2));
-        assertTrue(ref2.equals(ref3));
-        assertTrue(ref1.equals(ref3));
-    }
-
-    @Test
-    public void equalsImplementationShouldHandleNullAndDifferentClass()
-        throws JsonSchemaException
-    {
-        final JsonRef ref = new JsonRef("foo");
-
-        assertFalse(ref.equals(null));
-        assertFalse(ref.equals(new Object()));
-    }
-
-    @Test
     public void afterURINormalizationJsonRefsShouldBeEqual()
         throws JsonSchemaException
     {
