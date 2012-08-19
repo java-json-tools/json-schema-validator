@@ -22,37 +22,78 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 
 public final class SchemaContainer
 {
+    private static final Logger logger
+        = LoggerFactory.getLogger(SchemaContainer.class);
+
     private static final URI EMPTY_LOCATOR = URI.create("#");
 
     private final JsonNode schema;
     private final JsonRef locator;
 
+    /**
+     * Return a new container based on a schema
+     *
+     * <p>Note that if the {@code id} node exists and is an URI,
+     * but not absolute, an {@link #anonymousSchema(JsonNode)} will be
+     * returned.</p>
+     *
+     * @param schema the schema
+     */
     public SchemaContainer(final JsonNode schema)
-        throws JsonSchemaException
     {
         final JsonNode idNode = schema.get("id");
-        locator = JacksonUtils.nodeIsURI(idNode)
-            ? JsonRef.fromString(idNode.textValue())
-            : JsonRef.emptyRef();
-        this.schema = cleanup(schema);
+        JsonRef ref = JsonRef.emptyRef();
 
-        checkLocator();
+        if (JacksonUtils.nodeIsURI(idNode))
+            try {
+                ref = JsonRef.fromString(idNode.textValue());
+            } catch (JsonSchemaException e) { // cannot happen
+                throw new RuntimeException("WTF??", e);
+            }
+
+        if (!ref.isAbsolute()) {
+            logger.warn("schema locator (" + ref + ") is not absolute! " +
+                "Returning an anonymous schema");
+            ref = JsonRef.emptyRef();
+        }
+
+        locator = ref;
+        this.schema = cleanup(schema);
     }
 
+    /**
+     * Return a new container based on an URI and a schema
+     *
+     * <p>Note that if the provided URI is not absolute, an
+     * {@link #anonymousSchema(JsonNode)} is returned.</p>
+     *
+     * @param uri the URI
+     * @param node the schema
+     */
     public SchemaContainer(final URI uri, final JsonNode node)
     {
+        JsonRef ref = JsonRef.fromURI(uri);
+
+        if (!ref.isAbsolute()) {
+            logger.warn("schema locator (" + ref + ") is not absolute! " +
+                "Returning an anonymous schema");
+            ref = JsonRef.emptyRef();
+        }
+
+        locator = ref;
         schema = cleanup(node);
-        locator = JsonRef.fromURI(uri);
     }
 
     public static SchemaContainer anonymousSchema(final JsonNode node)
     {
-        return new SchemaContainer(EMPTY_LOCATOR, cleanup(node));
+        return new SchemaContainer(EMPTY_LOCATOR, node);
     }
 
     public JsonRef getLocator()
@@ -96,13 +137,5 @@ public final class SchemaContainer
 
         ret.remove("id");
         return ret;
-    }
-
-    private void checkLocator()
-        throws JsonSchemaException
-    {
-        if (!locator.isAbsolute() && !locator.isEmpty())
-            throw new JsonSchemaException("a parent schema's id must be "
-                + "absolute");
     }
 }

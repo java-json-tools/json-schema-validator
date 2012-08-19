@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
@@ -31,16 +32,12 @@ public final class SchemaContainerTest
     private SchemaContainer container;
 
     @Test
-    public void shouldConsiderRelativeIdAsInvalid()
+    public void shouldConsiderRelativeIdAsAnonymousSchema()
+        throws JsonSchemaException
     {
         node = factory.objectNode().put("id", "foo");
-        try {
-            container = new SchemaContainer(node);
-            fail("No exception thrown!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "a parent schema's id must be "
-                + "absolute");
-        }
+        container = new SchemaContainer(node);
+        assertSame(container.getLocator(), JsonRef.emptyRef());
     }
 
     @Test
