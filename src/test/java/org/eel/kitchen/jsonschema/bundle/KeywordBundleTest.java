@@ -52,10 +52,17 @@ public final class KeywordBundleTest
     {
         final Keyword keyword = Keyword.Builder.forKeyword(NAME).build();
 
+        boolean found = false;
+
         bundle.registerKeyword(keyword);
-        final Map<String, Keyword> keywords = bundle.getKeywords();
-        assertTrue(keywords.containsKey(NAME), "keyword not registered");
-        assertEquals(keywords.get(NAME), keyword, "wrong keyword registered");
+
+        for (final Map.Entry<String, Keyword> entry: bundle) {
+            if (!NAME.equals(entry.getKey()))
+                continue;
+            found = true;
+            assertSame(entry.getValue(), keyword, "wrong keyword registered");
+        }
+        assertTrue(found, "keyword not registered");
     }
 
     @Test(dependsOnMethods = "addedKeywordIsRegistered")
@@ -80,11 +87,16 @@ public final class KeywordBundleTest
     {
         final Keyword keyword = Keyword.Builder.forKeyword(NAME).build();
 
+        boolean found = false;
+
         bundle.registerKeyword(keyword);
         bundle.unregisterKeyword(NAME);
-        final Map<String, Keyword> keywords = bundle.getKeywords();
+        for (final Map.Entry<String, Keyword> entry: bundle)
+            if (NAME.equals(entry.getKey())) {
+                found = true;
+                break;
+            }
 
-        assertFalse(keywords.containsKey(NAME), "keyword has not been "
-            + "unregistered");
+        assertFalse(found, "keyword has not been unregistered");
     }
 }

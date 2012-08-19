@@ -82,16 +82,6 @@ public final class KeywordBundle
     }
 
     /**
-     * Get an unmodifiable version of this bundle's registered keyword
-     *
-     * @return a map of keywords
-     */
-    public Map<String, Keyword> getKeywords()
-    {
-        return ImmutableMap.copyOf(keywords);
-    }
-
-    /**
      * Iterator over an unmodifiable copy of registered keywords
      *
      * <p>Also used to implement {@link Iterable}</p>
