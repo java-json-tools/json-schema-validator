@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
@@ -51,8 +52,7 @@ public final class KeywordFactory
     /**
      * Our existing set of keyword validators
      */
-    private final Map<String, Class<? extends KeywordValidator>>
-        validators = new HashMap<String, Class<? extends KeywordValidator>>();
+    private final Map<String, Class<? extends KeywordValidator>> validators;
 
     /**
      * The only constructor
@@ -64,12 +64,17 @@ public final class KeywordFactory
         String keyword;
         Class<? extends KeywordValidator> validatorClass;
 
+        final Map<String, Class<? extends KeywordValidator>> map
+            = new HashMap<String, Class<? extends KeywordValidator>>();
+
         for (final Map.Entry<String, Keyword> entry: bundle) {
             keyword = entry.getKey();
             validatorClass = entry.getValue().getValidatorClass();
             if (validatorClass != null)
-                validators.put(keyword, validatorClass);
+                map.put(keyword, validatorClass);
         }
+
+        validators = ImmutableMap.copyOf(map);
     }
 
     /**
