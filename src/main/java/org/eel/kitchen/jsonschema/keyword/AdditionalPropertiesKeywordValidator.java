@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
@@ -80,7 +80,7 @@ public final class AdditionalPropertiesKeywordValidator
         if (additionalOK)
             return;
 
-        final Set<String> fields = CollectionUtils.toSet(instance.fieldNames());
+        final Set<String> fields = JacksonUtils.fieldNames(instance);
 
         fields.removeAll(properties);
 

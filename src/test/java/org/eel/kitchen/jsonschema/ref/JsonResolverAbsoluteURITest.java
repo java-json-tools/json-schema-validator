@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -52,7 +52,7 @@ public final class JsonResolverAbsoluteURITest
         final JsonNode schemaList
             = JsonLoader.fromResource("/ref/jsonresolver-schemas.json");
         final Map<String, JsonNode> map
-            = CollectionUtils.toMap(schemaList.fields());
+            = JacksonUtils.nodeToMap(schemaList);
 
         URI uri;
         JsonNode schema;

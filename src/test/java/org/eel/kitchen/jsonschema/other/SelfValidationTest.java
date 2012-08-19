@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -63,7 +63,7 @@ public final class SelfValidationTest
     public void testGoogleSchemas()
     {
         final Map<String, JsonNode> schemas
-            = CollectionUtils.toMap(googleAPI.get("schemas").fields());
+            = JacksonUtils.nodeToMap(googleAPI.get("schemas"));
 
         ValidationContext context;
         ValidationReport report;

@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.jsonschema.util;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -24,30 +26,30 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * <p>Utilities to provide simple generics equivalents to some of Apache's
- * commons-collection package (which still doesn't use generics as of 2011!)
- * </p>
+ * <p>A small set of utility methods over Jackson.</p>
  */
 
-public final class CollectionUtils
+public final class JacksonUtils
 {
-    private CollectionUtils()
+    private JacksonUtils()
     {
     }
 
-    /**
-     * <p>Generics equivalent of commons-collections' IteratorUtils.toMap()</p>
-     *
-     * @param iterator The entry iterator to build the map out of
-     * @param <K> keys type
-     * @param <V> values type
-     * @return a type-safe {@link HashMap}
-     */
-    public static <K, V> Map<K, V> toMap(final Iterator<Map.Entry<K, V>> iterator)
-    {
-        final Map<K, V> ret = new HashMap<K , V>();
-        Map.Entry<K, V> entry;
 
+    /**
+     * Return a map out of an object node's entries
+     *
+     * @param node the node
+     * @return a mutable map out of this object node's entries
+     */
+    public static Map<String, JsonNode> nodeToMap(final JsonNode node)
+    {
+        final Map<String, JsonNode> ret
+            = new HashMap<String, JsonNode>(node.size());
+
+        final Iterator<Map.Entry<String, JsonNode>> iterator = node.fields();
+
+        Map.Entry<String, JsonNode> entry;
         while (iterator.hasNext()) {
             entry = iterator.next();
             ret.put(entry.getKey(), entry.getValue());
@@ -55,7 +57,6 @@ public final class CollectionUtils
 
         return ret;
     }
-
     /**
      * <p>Return a "type-safe" set
      * </p>
@@ -67,6 +68,18 @@ public final class CollectionUtils
     public static <T> Set<T> toSet(final Iterator<T> iterator)
     {
         final Set<T> ret = new HashSet<T>();
+
+        while (iterator.hasNext())
+            ret.add(iterator.next());
+
+        return ret;
+    }
+
+    public static Set<String> fieldNames(final JsonNode node)
+    {
+        final Set<String> ret = new HashSet<String>(node.size());
+
+        final Iterator<String> iterator = node.fieldNames();
 
         while (iterator.hasNext())
             ret.add(iterator.next());

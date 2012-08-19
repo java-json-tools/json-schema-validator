@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
@@ -45,7 +45,7 @@ public final class PatternPropertiesSyntaxChecker
     void checkValue(final List<String> messages, final JsonNode schema)
     {
         final Map<String, JsonNode> properties
-            = CollectionUtils.toMap(schema.get(keyword).fields());
+            = JacksonUtils.nodeToMap(schema.get(keyword));
 
 
         for (final Map.Entry<String, JsonNode> entry: properties.entrySet()) {

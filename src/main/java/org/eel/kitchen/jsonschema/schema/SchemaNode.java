@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.ArrayList;
@@ -145,11 +145,11 @@ public final class SchemaNode
         tmp = node.path("properties");
 
         if (tmp.isObject())
-            properties.putAll(CollectionUtils.toMap(tmp.fields()));
+            properties.putAll(JacksonUtils.nodeToMap(tmp));
 
         tmp = node.path("patternProperties");
 
         if (tmp.isObject())
-            patternProperties.putAll(CollectionUtils.toMap(tmp.fields()));
+            patternProperties.putAll(JacksonUtils.nodeToMap(tmp));
     }
 }

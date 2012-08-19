@@ -23,7 +23,7 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.lang.reflect.Constructor;
@@ -82,7 +82,7 @@ public final class KeywordFactory
     {
         final Set<KeywordValidator> ret = new HashSet<KeywordValidator>();
 
-        final Set<String> set = CollectionUtils.toSet(schema.fieldNames());
+        final Set<String> set = JacksonUtils.fieldNames(schema);
 
         set.retainAll(validators.keySet());
 

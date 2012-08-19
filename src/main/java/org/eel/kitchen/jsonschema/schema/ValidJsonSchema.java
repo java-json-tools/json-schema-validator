@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonPointer;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 
@@ -92,7 +92,7 @@ public final class ValidJsonSchema
         final ValidationReport report, final JsonNode instance)
     {
         final Set<String> fieldNames
-            = CollectionUtils.toSet(instance.fieldNames());
+            = JacksonUtils.fieldNames(instance);
         final JsonPointer cwd = report.getPath();
 
         Set<JsonNode> nodeSet;

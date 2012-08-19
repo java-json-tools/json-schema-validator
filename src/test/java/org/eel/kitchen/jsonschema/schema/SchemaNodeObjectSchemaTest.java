@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -55,7 +55,7 @@ public final class SchemaNodeObjectSchemaTest
 
         for (final JsonNode node: testData) {
             schema = node.get("schema");
-            expected = CollectionUtils.toSet(node.get("expected").elements());
+            expected = ImmutableSet.copyOf(node.get("expected"));
             key = node.get("key").textValue();
             set.add(new Object[] { schema, key, expected });
         }
@@ -76,6 +76,6 @@ public final class SchemaNodeObjectSchemaTest
 
         final Set<JsonNode> actual = node.getObjectSchemas(key);
 
-        assertEquals(actual, expected, errmsg);
+        assertEqualsNoOrder(actual.toArray(), expected.toArray(), errmsg);
     }
 }

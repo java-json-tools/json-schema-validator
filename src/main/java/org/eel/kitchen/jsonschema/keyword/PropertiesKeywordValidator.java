@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Map;
@@ -42,7 +42,7 @@ public final class PropertiesKeywordValidator
         super(NodeType.OBJECT);
 
         final Map<String, JsonNode> map
-            = CollectionUtils.toMap(schema.get("properties").fields());
+            = JacksonUtils.nodeToMap(schema.get("properties"));
         final ImmutableSet.Builder<String> builder
             = new ImmutableSet.Builder<String>();
 
@@ -57,7 +57,7 @@ public final class PropertiesKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final Set<String> fields = CollectionUtils.toSet(instance.fieldNames());
+        final Set<String> fields = JacksonUtils.fieldNames(instance);
 
         if (!fields.containsAll(required))
             report.addMessage("missing required properties in instance");

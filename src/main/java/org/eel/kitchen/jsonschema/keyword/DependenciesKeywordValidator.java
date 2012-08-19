@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
-import org.eel.kitchen.jsonschema.util.CollectionUtils;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public final class DependenciesKeywordValidator
     {
         super(NodeType.OBJECT);
         final Map<String, JsonNode> fields
-            = CollectionUtils.toMap(schema.get("dependencies").fields());
+            = JacksonUtils.nodeToMap(schema.get("dependencies"));
 
         final ImmutableMap.Builder<String, JsonNode> schemaBuilder
             = new ImmutableMap.Builder<String, JsonNode>();
@@ -102,7 +102,7 @@ public final class DependenciesKeywordValidator
         /*
          * Grab the set of property names from the instance
          */
-        final Set<String> fields = CollectionUtils.toSet(instance.fieldNames());
+        final Set<String> fields = JacksonUtils.fieldNames(instance);
 
         /*
          * Simple dependencies: calculate the needed fields according to
