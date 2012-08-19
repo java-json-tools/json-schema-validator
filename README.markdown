@@ -1,7 +1,8 @@
 <h2>Read me first</h2>
 
 <p><b>IMPORTANT: if you report a bug, please mention what version you are
-using!</b></p>
+using! Please note that Versions lower than 0.4.x are not supported
+anymore.</b></p>
 
 <p><b>IMPORTANT 2: the current development version, 0.5.x, makes no guarantees
 as to the user API stability as long as it is labeled beta</b>. JSON Schema
@@ -35,6 +36,10 @@ looking for./<p>
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving <i>and loop
   detection</i>;
 * <b>thread safe validators</b> (0.4.x validation is not thread safe).
+
+It is also, and by very far, the
+[fastest JSON Schema validation library in
+existence](https://github.com/fge/json-schema-validator/wiki/Performance).
 
 <p>Features in 0.4.x which are not yet in 0.5.x (some of these are of
 questionable use anyway):</p>
