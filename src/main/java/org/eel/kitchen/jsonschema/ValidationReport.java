@@ -32,6 +32,15 @@ public final class ValidationReport
     private final ListMultimap<JsonPointer, String> msgMap
         = ArrayListMultimap.create();
 
+    public ValidationReport()
+    {
+        try {
+            this.path = new JsonPointer("#");
+        } catch (JsonSchemaException e) {
+            // cannot happen
+            throw new RuntimeException("WTF??");
+        }
+    }
     public ValidationReport(final JsonPointer path)
     {
         this.path = path;
@@ -65,6 +74,11 @@ public final class ValidationReport
     public void mergeWith(final ValidationReport other)
     {
         msgMap.putAll(other.msgMap);
+    }
+
+    public ValidationReport copy()
+    {
+        return new ValidationReport(path);
     }
 
     public List<String> getMessages()

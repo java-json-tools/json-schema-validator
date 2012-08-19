@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
@@ -79,10 +80,11 @@ public abstract class AbstractKeywordValidatorTest
 
         final JsonSchemaFactory factory = new JsonSchemaFactory();
         final ValidationContext context = factory.newContext();
+        final ValidationReport report = new ValidationReport();
 
-        validator.validate(context, data);
+        validator.validate(context, report, data);
 
-        assertEquals(context.isSuccess(), valid);
+        assertEquals(report.isSuccess(), valid);
 
     }
 }

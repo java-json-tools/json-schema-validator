@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 
 final class InvalidJsonSchema
     implements JsonSchema
@@ -29,9 +30,11 @@ final class InvalidJsonSchema
     {
         this.message = message;
     }
+
     @Override
-    public void validate(final ValidationContext ctx, final JsonNode instance)
+    public void validate(final ValidationContext ctx,
+        final ValidationReport report, final JsonNode instance)
     {
-        ctx.addMessage(message);
+        report.addMessage(message);
     }
 }

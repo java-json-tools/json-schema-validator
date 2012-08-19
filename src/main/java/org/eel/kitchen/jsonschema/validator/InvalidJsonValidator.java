@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,8 @@ final class InvalidJsonValidator
 
     @Override
     public void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
-        context.addMessages(messages);
+        report.addMessages(messages);
     }
 }

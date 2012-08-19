@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.math.BigDecimal;
@@ -33,8 +34,8 @@ import java.math.BigDecimal;
  * </p>
  *
  * <p>This means that extending this validator will require you to implement
- * two methods: {@link #validateLong(ValidationContext, long)} and
- * {@link #validateDecimal(ValidationContext, BigDecimal)}.</p>
+ * two methods: {@link #validateLong(ValidationReport, long)} and
+ * {@link #validateDecimal(ValidationReport, BigDecimal)}.</p>
  */
 public abstract class NumericKeywordValidator
     extends KeywordValidator
@@ -75,20 +76,20 @@ public abstract class NumericKeywordValidator
      * Method to be implemented by a numeric validator if both the keyword
      * value and instance value fit into a {@code long}
      *
-     * @param context the context
+     * @param report the validation report
      * @param instanceValue the instance value to validate as a {@code long}
      */
-    protected abstract void validateLong(final ValidationContext context,
+    protected abstract void validateLong(final ValidationReport report,
         final long instanceValue);
 
     /**
      * Method to be implemented by a numeric validator if either of the
      * keyword value or instance value do <b>not</b> fit into a {@code long}
      *
-     * @param context the context
+     * @param report the validation report
      * @param instanceValue the instance to validate as a {@link BigDecimal}
      */
-    protected abstract void validateDecimal(final ValidationContext context,
+    protected abstract void validateDecimal(final ValidationReport report,
         final BigDecimal instanceValue);
 
     /**
@@ -96,21 +97,21 @@ public abstract class NumericKeywordValidator
      *
      * <p>This is where the test for {@code long} is done on both the keyword
      * value and instance value. According to the result,
-     * this method will then call either {@link #validateLong
-     * (ValidationContext, long)} or {@link #validateDecimal(ValidationContext,
-     * BigDecimal)}.</p>
+     * this method will then call either {@link #validateLong(ValidationReport,
+     * long)} or {@link #validateDecimal(ValidationReport, BigDecimal)}.</p>
      *
      * @param context the context
+     * @param report the validation report
      * @param instance the instance to validate
      */
     @Override
     public final void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         if (valueIsLong(instance) && isLong)
-            validateLong(context, instance.longValue());
+            validateLong(report, instance.longValue());
         else
-            validateDecimal(context, instance.decimalValue());
+            validateDecimal(report, instance.decimalValue());
     }
 
     /**

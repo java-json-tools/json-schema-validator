@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
@@ -34,9 +35,9 @@ public final class MaxItemsKeywordValidator
 
     @Override
     public void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         if (instance.size() > intValue)
-            context.addMessage("array has more than maxItems elements");
+            report.addMessage("array has more than maxItems elements");
     }
 }

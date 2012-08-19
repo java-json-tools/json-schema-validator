@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
@@ -96,7 +97,7 @@ public final class DependenciesKeywordValidator
 
     @Override
     public void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         /*
          * Grab the set of property names from the instance
@@ -115,7 +116,7 @@ public final class DependenciesKeywordValidator
             neededFields.addAll(simple.get(field));
 
         if (!fields.containsAll(neededFields))
-            context.addMessage("missing property dependencies");
+            report.addMessage("missing property dependencies");
 
         /*
          * Schema dependencies: make a copy of the schemas map and only retain
@@ -137,7 +138,7 @@ public final class DependenciesKeywordValidator
 
         for (final JsonNode node: schemaDeps.values()) {
             subSchema = factory.create(container, node);
-            subSchema.validate(context, instance);
+            subSchema.validate(context, report, instance);
         }
     }
 }

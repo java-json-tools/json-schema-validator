@@ -44,6 +44,7 @@ public final class MiniPerfTest2
         String name;
         JsonNode value;
         ValidationContext context;
+        ValidationReport report;
 
         long current;
         final long begin = System.currentTimeMillis();
@@ -51,10 +52,11 @@ public final class MiniPerfTest2
         for (int i = 0; i < 500; i++) {
             for (final Map.Entry<String, JsonNode> entry : schemas.entrySet()) {
                 context = factory.newContext();
+                report = new ValidationReport();
                 name = entry.getKey();
                 value = entry.getValue();
-                schema.validate(context, value);
-                if (!context.isSuccess()) {
+                schema.validate(context, report, value);
+                if (!report.isSuccess()) {
                     System.err.println("ERROR: schema " + name + " did not "
                         + "validate (iteration " + i + ")");
                     System.exit(1);

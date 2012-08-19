@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 
 import java.math.BigDecimal;
 
@@ -41,24 +41,24 @@ public final class MinimumKeywordValidator
     }
 
     @Override
-    protected void validateLong(final ValidationContext context,
+    protected void validateLong(final ValidationReport report,
         final long instanceValue)
     {
         if (instanceValue > longValue)
             return;
 
         if (instanceValue < longValue) {
-            context.addMessage("instance is lower than the required minimum");
+            report.addMessage("instance is lower than the required minimum");
             return;
         }
 
         if (exclusive)
-            context.addMessage("instance is not strictly greater than the"
+            report.addMessage("instance is not strictly greater than the"
                 + " required minimum");
     }
 
     @Override
-    protected void validateDecimal(final ValidationContext context,
+    protected void validateDecimal(final ValidationReport report,
         final BigDecimal instanceValue)
     {
         final int cmp = instanceValue.compareTo(decimalValue);
@@ -67,13 +67,12 @@ public final class MinimumKeywordValidator
             return;
 
         if (cmp < 0) {
-            context.addMessage("instance is lower than the required minimum");
+            report.addMessage("instance is lower than the required minimum");
             return;
         }
 
         if (exclusive)
-            context.addMessage("instance is not strictly greater than the"
+            report.addMessage("instance is not strictly greater than the"
                 + " required minimum");
-
     }
 }

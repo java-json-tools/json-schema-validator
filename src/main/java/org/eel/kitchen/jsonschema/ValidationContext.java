@@ -19,78 +19,15 @@ package org.eel.kitchen.jsonschema;
 
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
-import org.eel.kitchen.jsonschema.util.JsonPointer;
-
-import java.util.List;
 
 public final class ValidationContext
 {
-    private static final JsonPointer ROOT;
-
-    static {
-        try {
-            ROOT = new JsonPointer("#");
-        } catch (JsonSchemaException e) {
-            throw new ExceptionInInitializerError(e);
-        }
-    }
-
     private SchemaContainer container;
     private final JsonSchemaFactory factory;
-    private final ValidationReport report;
 
     public ValidationContext(final JsonSchemaFactory factory)
     {
         this.factory = factory;
-        report = new ValidationReport(new JsonPointer(ROOT));
-    }
-
-    private ValidationContext(final JsonSchemaFactory factory,
-        final SchemaContainer container, final JsonPointer path)
-    {
-        this.factory = factory;
-        this.container = container;
-        report = new ValidationReport(path);
-    }
-
-    public ValidationContext copy()
-    {
-        return new ValidationContext(factory, container, getPath());
-    }
-
-    public void addMessage(final String message)
-    {
-        report.addMessage(message);
-    }
-
-    public void addMessages(final List<String> messages)
-    {
-        report.addMessages(messages);
-    }
-
-    public void setPath(final JsonPointer path)
-    {
-        report.setPath(path);
-    }
-
-    public JsonPointer getPath()
-    {
-        return report.getPath();
-    }
-
-    public boolean isSuccess()
-    {
-        return report.isSuccess();
-    }
-
-    public void mergeWith(final ValidationContext other)
-    {
-        report.mergeWith(other.report);
-    }
-
-    public List<String> getMessages()
-    {
-        return report.getMessages();
     }
 
     public JsonSchemaFactory getFactory()

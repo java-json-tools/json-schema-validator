@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;
@@ -44,12 +45,14 @@ public final class BasicKeywordValidatorTest
     private final JsonSchemaFactory schemaFactory = new JsonSchemaFactory();
 
     private ValidationContext context;
+    private ValidationReport report;
     private KeywordValidator validator;
 
     @BeforeMethod
     public void initContext()
     {
         context = schemaFactory.newContext();
+        report = new ValidationReport();
         validator = spy(new BasicKeywordValidator());
     }
 
@@ -63,7 +66,7 @@ public final class BasicKeywordValidatorTest
 
         @Override
         protected void validate(final ValidationContext context,
-            final JsonNode instance)
+            final ValidationReport report, final JsonNode instance)
         {
         }
     }
@@ -81,8 +84,8 @@ public final class BasicKeywordValidatorTest
     @Test(dataProvider = "coveredInstances")
     public void validateIsCalledOnCoveredInstances(final JsonNode instance)
     {
-        validator.validateInstance(context, instance);
-        verify(validator, times(1)).validate(context, instance);
+        validator.validateInstance(context, report, instance);
+        verify(validator, times(1)).validate(context, report, instance);
     }
 
     @DataProvider
@@ -99,7 +102,7 @@ public final class BasicKeywordValidatorTest
     @Test(dataProvider = "ignoredInstances")
     public void validateIsNotCalledOnIgnoredInstances(final JsonNode instance)
     {
-        validator.validateInstance(context, instance);
-        verify(validator, never()).validate(context, instance);
+        validator.validateInstance(context, report, instance);
+        verify(validator, never()).validate(context, report, instance);
     }
 }

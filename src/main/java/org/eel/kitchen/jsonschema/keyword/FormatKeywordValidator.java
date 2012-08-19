@@ -21,6 +21,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.format.DateFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateTimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateTimeMillisecFormatSpecifier;
@@ -104,13 +105,13 @@ public final class FormatKeywordValidator
 
     @Override
     protected void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         if (specifier == null)
             return;
 
         final List<String> messages = new ArrayList<String>();
         specifier.validate(messages, instance);
-        context.addMessages(messages);
+        report.addMessages(messages);
     }
 }

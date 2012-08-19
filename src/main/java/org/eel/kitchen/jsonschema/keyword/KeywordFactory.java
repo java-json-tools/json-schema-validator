@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -141,9 +142,9 @@ public final class KeywordFactory
         {
             @Override
             protected void validate(final ValidationContext context,
-                final JsonNode instance)
+                final ValidationReport report, final JsonNode instance)
             {
-                context.addMessage("cannot build validator: "
+                report.addMessage("cannot build validator: "
                     + e.getClass().getName() + ": " + e.getMessage());
             }
         };

@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Collections;
@@ -63,21 +64,23 @@ public abstract class KeywordValidator
      * this particular instance: it is therefore considered valid.</p>
      *
      * @param context the context
+     * @param report the validation report
      * @param instance the instance to validate
      */
     public final void validateInstance(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         if (instanceTypes.contains(NodeType.getNodeType(instance)))
-            validate(context, instance);
+            validate(context, report, instance);
     }
 
     /**
      * Method which all keyword validators must implement
      *
      * @param context the context
+     * @param report the validation report
      * @param instance the instance to validate
      */
     protected abstract void validate(final ValidationContext context,
-        final JsonNode instance);
+        final ValidationReport report, final JsonNode instance);
 }

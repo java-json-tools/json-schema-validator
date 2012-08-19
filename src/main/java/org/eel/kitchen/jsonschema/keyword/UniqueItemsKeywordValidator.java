@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public final class UniqueItemsKeywordValidator
 
     @Override
     protected void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         if (!uniqueItems)
             return;
@@ -49,7 +50,7 @@ public final class UniqueItemsKeywordValidator
 
         for (final JsonNode element: instance)
             if (!set.add(element)) {
-                context.addMessage("elements in array must be unique");
+                report.addMessage("elements in array must be unique");
                 return;
             }
     }

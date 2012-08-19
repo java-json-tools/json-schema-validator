@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
@@ -40,30 +41,31 @@ public final class TypeKeywordValidator
 
     @Override
     public void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         if (typeSet.contains(NodeType.getNodeType(instance)))
             return;
 
+        final ValidationReport subReport = report.copy();
+
+        subReport.addMessage("instance does not match any allowed primitive " +
+            "type");
+
         final SchemaContainer container = context.getContainer();
         final JsonSchemaFactory factory = context.getFactory();
 
-        final ValidationContext ctx = context.copy();
-
-        ctx.addMessage("instance does not match any allowed primitive type");
-
         JsonSchema subSchema;
-        ValidationContext tmp;
+        ValidationReport subSchemaReport;
 
         for (final JsonNode schema: schemas) {
-            tmp = ctx.copy();
+            subSchemaReport = report.copy();
             subSchema = factory.create(container, schema);
-            subSchema.validate(tmp, instance);
-            if (tmp.isSuccess())
+            subSchema.validate(context, subSchemaReport, instance);
+            if (subSchemaReport.isSuccess())
                 return;
-            ctx.mergeWith(tmp);
+            subReport.mergeWith(subSchemaReport);
         }
 
-        context.mergeWith(ctx);
+        report.mergeWith(subReport);
     }
 }

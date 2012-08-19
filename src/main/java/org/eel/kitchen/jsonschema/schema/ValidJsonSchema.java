@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.util.CollectionUtils;
 import org.eel.kitchen.jsonschema.util.JsonPointer;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
@@ -43,7 +44,8 @@ public final class ValidJsonSchema
     }
 
     @Override
-    public void validate(final ValidationContext ctx, final JsonNode instance)
+    public void validate(final ValidationContext ctx,
+    final ValidationReport report, final JsonNode instance)
     {
         /*
          * FIXME! This is only really necessary a few times in the validation
@@ -51,47 +53,47 @@ public final class ValidJsonSchema
          */
         ctx.setContainer(container);
 
-        validator.validate(ctx, instance);
+        validator.validate(ctx, report, instance);
 
-        if (!ctx.isSuccess())
+        if (!report.isSuccess())
             return;
 
         if (!instance.isContainerNode())
             return;
 
         if (instance.isArray())
-            validateArray(ctx, instance);
+            validateArray(ctx, report, instance);
         else
-            validateObject(ctx, instance);
+            validateObject(ctx, report, instance);
     }
 
     private void validateArray(final ValidationContext ctx,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         JsonNode node;
         JsonSchema subSchema;
-        final JsonPointer cwd = ctx.getPath();
+        final JsonPointer cwd = report.getPath();
         JsonPointer ptr;
         int idx = 0;
 
         for (final JsonNode element: instance) {
             node = schemaNode.getArraySchema(idx);
             ptr = cwd.append(idx);
-            ctx.setPath(ptr);
+            report.setPath(ptr);
             subSchema = factory.create(container, node);
-            subSchema.validate(ctx, element);
+            subSchema.validate(ctx, report, element);
             idx++;
         }
 
-        ctx.setPath(cwd);
+        report.setPath(cwd);
     }
 
     private void validateObject(final ValidationContext ctx,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         final Set<String> fieldNames
             = CollectionUtils.toSet(instance.fieldNames());
-        final JsonPointer cwd = ctx.getPath();
+        final JsonPointer cwd = report.getPath();
 
         Set<JsonNode> nodeSet;
         JsonSchema subSchema;
@@ -102,13 +104,13 @@ public final class ValidJsonSchema
             element = instance.get(field);
             nodeSet = schemaNode.getObjectSchemas(field);
             ptr = cwd.append(field);
-            ctx.setPath(ptr);
+            report.setPath(ptr);
             for (final JsonNode node: nodeSet) {
                 subSchema = factory.create(container, node);
-                subSchema.validate(ctx, element);
+                subSchema.validate(ctx, report, element);
             }
         }
 
-        ctx.setPath(cwd);
+        report.setPath(cwd);
     }
 }

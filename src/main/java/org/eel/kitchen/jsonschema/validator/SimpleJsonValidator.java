@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 
 import java.util.HashSet;
@@ -36,9 +37,10 @@ final class SimpleJsonValidator
     }
 
     @Override
-    public void validate(final ValidationContext ctx, final JsonNode instance)
+    public void validate(final ValidationContext ctx,
+        final ValidationReport report, final JsonNode instance)
     {
         for (final KeywordValidator v: validators)
-            v.validateInstance(ctx, instance);
+            v.validateInstance(ctx, report, instance);
     }
 }

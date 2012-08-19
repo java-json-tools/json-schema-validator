@@ -19,8 +19,10 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 
 public interface JsonSchema
 {
-    void validate(final ValidationContext ctx, final JsonNode instance);
+    void validate(final ValidationContext ctx,
+        final ValidationReport report, final JsonNode instance);
 }

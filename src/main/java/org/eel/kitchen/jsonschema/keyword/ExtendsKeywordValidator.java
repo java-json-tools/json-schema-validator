@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.JsonSchema;
 import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
@@ -65,7 +66,7 @@ public final class ExtendsKeywordValidator
 
     @Override
     public void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         final SchemaContainer container = context.getContainer();
         final JsonSchemaFactory factory = context.getFactory();
@@ -73,7 +74,7 @@ public final class ExtendsKeywordValidator
 
         for (final JsonNode schema: schemas) {
             subSchema = factory.create(container, schema);
-            subSchema.validate(context, instance);
+            subSchema.validate(context, report, instance);
         }
     }
 }

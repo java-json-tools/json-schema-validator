@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.ValidationContext;
+import org.eel.kitchen.jsonschema.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
@@ -34,10 +35,10 @@ public final class MinLengthKeywordValidator
 
     @Override
     public void validate(final ValidationContext context,
-        final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         if (instance.textValue().length() < intValue)
-            context.addMessage("string is shorter than the minimum required " +
+            report.addMessage("string is shorter than the minimum required " +
                 "length");
     }
 }
