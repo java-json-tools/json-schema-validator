@@ -18,11 +18,9 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.util.JsonPointer;
 
 import java.net.URI;
 
@@ -58,29 +56,16 @@ public final class SchemaContainer
         return locator;
     }
 
+    public JsonNode getSchema()
+    {
+        return schema;
+    }
+
     public boolean contains(final JsonRef ref)
     {
         final JsonRef tmp = locator.resolve(ref);
 
         return locator.getRootAsURI().equals(tmp.getRootAsURI());
-    }
-
-    public SchemaNode lookupFragment(final String fragment)
-        throws JsonSchemaException
-    {
-        JsonNode node;
-
-        try {
-            node = new JsonPointer(fragment).resolve(schema);
-        } catch (JsonSchemaException ignored) {
-            node = lookupById(schema, fragment);
-        }
-
-        if (node.isMissingNode())
-            throw new JsonSchemaException('"' + fragment + "\" does not match"
-                + " any path/id in schema");
-
-        return new SchemaNode(this, node);
     }
 
     @Override
@@ -116,30 +101,6 @@ public final class SchemaContainer
         return ret;
     }
 
-    private JsonNode lookupById(final JsonNode schema, final String fragment)
-    {
-        if (!schema.isObject())
-            return MissingNode.getInstance();
-
-        try {
-            final JsonRef ref = JsonRef.fromNode(schema, "id");
-            if (ref.getFragment().equals(fragment))
-                return schema;
-        } catch (JsonSchemaException ignored) {
-            // Do nothing, and go on with children
-        }
-
-        JsonNode ret;
-
-        for (final JsonNode node: schema) {
-            ret = lookupById(node, fragment);
-            if (!ret.isMissingNode())
-                return ret;
-        }
-
-        return MissingNode.getInstance();
-    }
-
     private void checkLocator()
         throws JsonSchemaException
     {
@@ -147,5 +108,4 @@ public final class SchemaContainer
             throw new JsonSchemaException("a parent schema's id must be "
                 + "absolute");
     }
-
 }

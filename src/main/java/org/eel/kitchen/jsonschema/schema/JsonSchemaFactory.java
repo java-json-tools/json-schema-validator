@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ValidationContext;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
+import org.eel.kitchen.jsonschema.ref.JsonFragment;
 import org.eel.kitchen.jsonschema.ref.JsonResolver;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
@@ -47,12 +48,16 @@ public final class JsonSchemaFactory
 
     public JsonSchema create(final JsonNode node, final String path)
     {
+        final JsonFragment fragment = JsonFragment.fromFragment(path);
+
+        final JsonNode resolved;
         final SchemaContainer container;
         final SchemaNode schemaNode;
 
         try {
             container = registry.register(node);
-            schemaNode = container.lookupFragment(path);
+            resolved = fragment.resolve(node);
+            schemaNode = new SchemaNode(container, resolved);
         } catch (JsonSchemaException e) {
             return new InvalidJsonSchema(e.getMessage());
         }

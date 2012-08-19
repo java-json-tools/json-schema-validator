@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonFragment;
 
 import java.util.List;
 
@@ -74,6 +75,7 @@ import java.util.List;
  */
 
 public final class JsonPointer
+    extends JsonFragment
     implements Comparable<JsonPointer>
 {
     /**
@@ -160,6 +162,7 @@ public final class JsonPointer
      * @param node the node to resolve against
      * @return the result document, which may be a {@link MissingNode}
      */
+    @Override
     public JsonNode resolve(final JsonNode node)
     {
         JsonNode ret = node;

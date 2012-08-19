@@ -21,6 +21,7 @@
 		},
 
 		"patternProperties" : {
+		    "id": "foobar",
 			"type" : "object",
 			"additionalProperties" : {"$ref" : "#"},
 			"default" : {}

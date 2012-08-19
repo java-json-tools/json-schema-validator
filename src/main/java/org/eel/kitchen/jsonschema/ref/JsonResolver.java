@@ -57,9 +57,12 @@ public final class JsonResolver
         throws JsonSchemaException
     {
         final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
-        SchemaContainer container = schemaNode.getContainer();
+
         JsonNode node;
         JsonRef ref;
+        JsonFragment fragment;
+
+        SchemaContainer container = schemaNode.getContainer();
         SchemaNode ret = schemaNode;
 
         while (true) {
@@ -72,7 +75,9 @@ public final class JsonResolver
                 throw new JsonSchemaException("ref loop detected");
             if (!container.contains(ref))
                 container = registry.get(ref.getRootAsURI());
-            ret = container.lookupFragment(ref.getFragment());
+            fragment = JsonFragment.fromFragment(ref.getFragment());
+            node = fragment.resolve(container.getSchema());
+            ret = new SchemaNode(container, node);
         }
 
         return ret;
