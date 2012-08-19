@@ -160,7 +160,7 @@ public final class JsonPointer
      * @param node the node to resolve against
      * @return the result document, which may be a {@link MissingNode}
      */
-    public JsonNode getPath(final JsonNode node)
+    public JsonNode resolve(final JsonNode node)
     {
         JsonNode ret = node;
 

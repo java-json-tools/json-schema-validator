@@ -68,7 +68,7 @@ public final class SchemaContainerLookupTest
         throws JsonSchemaException
     {
         final JsonPointer pointer = new JsonPointer("#/properties/properties");
-        final JsonNode expected = pointer.getPath(schema);
+        final JsonNode expected = pointer.resolve(schema);
         final SchemaNode node = container.lookupFragment("properties");
 
         assertEquals(node.getNode(), expected);

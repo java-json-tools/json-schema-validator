@@ -71,7 +71,7 @@ public final class SchemaContainer
         JsonNode node;
 
         try {
-            node = new JsonPointer(fragment).getPath(schema);
+            node = new JsonPointer(fragment).resolve(schema);
         } catch (JsonSchemaException ignored) {
             node = lookupById(schema, fragment);
         }
