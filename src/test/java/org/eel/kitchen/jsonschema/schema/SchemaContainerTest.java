@@ -125,43 +125,6 @@ public final class SchemaContainerTest
     }
 
     @Test
-    public void equalsShouldBeReflexive()
-        throws JsonSchemaException
-    {
-        node = factory.objectNode().put("id", "a://b/c#");
-
-        container = new SchemaContainer(node);
-
-        assertTrue(container.equals(container));
-    }
-
-    @Test
-    public void equalsShouldBeSymmetric()
-        throws JsonSchemaException
-    {
-        node = factory.objectNode().put("id", "a://b/c#");
-
-        final SchemaContainer c1 = new SchemaContainer(node);
-        final SchemaContainer c2 = new SchemaContainer(node);
-
-        // a => b is equivalent to !a || b
-        assertTrue(!c1.equals(c2) || c2.equals(c1));
-    }
-
-    @Test
-    public void equalsShouldBeTransitive()
-        throws JsonSchemaException
-    {
-        node = factory.objectNode().put("id", "a://b/c#");
-
-        final SchemaContainer c1 = new SchemaContainer(node);
-        final SchemaContainer c2 = new SchemaContainer(node);
-        final SchemaContainer c3 = new SchemaContainer(node);
-
-        assertTrue(c1.equals(c2) && c2.equals(c3));
-    }
-
-    @Test
     public void noFragmentOrEmptyFragmentIsTheSame()
         throws JsonSchemaException
     {
