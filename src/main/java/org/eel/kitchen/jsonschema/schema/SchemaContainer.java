@@ -65,13 +65,6 @@ public final class SchemaContainer
         return schema;
     }
 
-    public boolean contains(final JsonRef ref)
-    {
-        final JsonRef tmp = locator.resolve(ref);
-
-        return locator.getRootAsURI().equals(tmp.getRootAsURI());
-    }
-
     @Override
     public boolean equals(final Object o)
     {
