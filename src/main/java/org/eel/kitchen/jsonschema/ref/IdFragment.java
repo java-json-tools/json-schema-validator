@@ -20,12 +20,12 @@ package org.eel.kitchen.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 
-public final class IdFragment
+final class IdFragment
     extends JsonFragment
 {
     private final String id;
 
-    public IdFragment(final String id)
+    IdFragment(final String id)
     {
         this.id = id;
     }
