@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (c) 2011, Francis Galiegue <fgaliegue@gmail.com>
+  ~ Copyright (c) 2011-2012, Francis Galiegue <fgaliegue@gmail.com>
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the Lesser GNU General Public License as
@@ -19,25 +19,95 @@
 A JSON Schema validator implementation in Java which aims for correctness and
 performance, in that order
 
-<h2>Sample usage</h2>
+<h1>Why</h1>
 
-<ul>
-    <li>create a {@link org.eel.kitchen.jsonschema.schema.JsonSchemaFactory};
-    </li>
-    <li>create a {@link org.eel.kitchen.jsonschema.schema.JsonSchema} using
-        that factory;
-    </li>
-    <li>for each instance you wish to validate:
-    <ul>
-        <li>create a {@link org.eel.kitchen.jsonschema.ValidationContext};
-        </li>
-        <li>validate using the created schema.</li>
-    </ul>
-    </li>
-</ul>
+<p>This implementation is meant to be purely server-side if Java is your
+    language of choice. You may, or may not, use it in your Java Web
+    application, the library has no dependencies at all on anything Web-related.
+</p>
 
-<p><b>NOTE:</b> the API is very likely to change in the future! It will be
-    stabilized once version 0.5.0 is reached.</p>
+<p>The two main characteristics of this library are its correctness with
+    regards to the schema specification, and its raw speed. Correctness in
+    that, for instance, it uses ECMA 262 for regexes and can validate
+    numeric instances of arbitrary length and/or precision. No other
+    existing JSON Schema implementation can do both of the latter points, and
+    I can pretty much guarantee that no other library is faster than this one.
+    If you find a counter example, I'd be glad to hear of it!
+</p>
+
+<h1>Sample usage</h1>
+
+<h2>Create a {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory}</h2>
+
+<p>You cannot instantiate one directly, you have to go through its
+    included <tt>Builder</tt> class for that. This is by design: it allows to
+    freeze the schema generation context. Sample code:
+</p>
+
+<pre>
+    final JsonSchemaFactory.Builder builder = new JsonSchemaFactory.Builder();
+
+    // You can customize the context, see below
+
+    final JsonSchemaFactory schemaFactory = builder.build();
+
+    // Shortcut to create a factory with the default settings:
+
+    final JsonSchemaFactory schemaFactory
+        = new JsonSchemaFactory.Builder().build();
+</pre>
+
+<p>You can customize your factory, albeit only in a limited way currently. See
+    {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory} for details.
+</p>
+
+<h2>Register/create a schema</h2>
+
+<p>The class for this is {@link org.eel.kitchen.jsonschema.main.JsonSchema}.
+    This is a three step process.
+</p>
+
+<p>First of all, you need to grab your JSON Schema as a
+    {@link com.fasterxml.jackson.databind.JsonNode}. For this, you may want to
+    have a look at the {@link org.eel.kitchen.jsonschema.util.JsonLoader} class.
+    Then, you need to register this schema. This will create a
+    {@link org.eel.kitchen.jsonschema.main.SchemaContainer} object.
+    Finally, create a schema out of this container.</p>
+
+<p>The sample code below shows how to create a validating schema out of
+    the current v3 schema draft, bundled in this library (<b>NOTE</b>:
+    {@link java.io.IOException} not accounted for):</p>
+
+<pre>
+    final JsonNode rawSchema = JsonLoader.fromResource("/schema-draftv3.json");
+
+    final SchemaContainer container = factory.registerSchema(rawSchema);
+
+    final JsonSchema schema = factory.createSchema(container);
+</pre>
+
+<h2>Validate your data</h2>
+
+<p>Currently, you must load the data to be validated as a
+    {@link com.fasterxml.jackson.databind.JsonNode}. Here again, the
+    {@link org.eel.kitchen.jsonschema.util.JsonLoader} class may help you.
+</p>
+
+<p>One {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance may
+    validate as many JSON documents as you want, in parallel: this class is
+    inherently thread safe. Sample code:
+</p>
+
+<pre>
+    // Here, instance is the data to validate
+
+    final ValidationReport report = schema.validate(instance);
+
+    // Validation is a success if the report is empty: test it as follows
+
+    System.out.printf("Validation %s\n", report.isSuccess() ? "succeeded"
+        : "failed");
+</pre>
 
 </body>
 </html>
