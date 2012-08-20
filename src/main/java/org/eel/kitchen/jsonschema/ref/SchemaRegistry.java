@@ -22,8 +22,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.eel.kitchen.jsonschema.JsonSchemaException;
-import org.eel.kitchen.jsonschema.schema.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
@@ -73,7 +73,7 @@ public final class SchemaRegistry
         return container;
     }
 
-    SchemaContainer get(final URI uri)
+    public SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
         try {

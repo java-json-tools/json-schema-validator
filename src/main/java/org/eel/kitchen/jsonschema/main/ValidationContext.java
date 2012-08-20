@@ -15,15 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema;
-
-import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.schema.SchemaContainer;
+package org.eel.kitchen.jsonschema.main;
 
 public final class ValidationContext
 {
     private SchemaContainer container;
     private final JsonSchemaFactory factory;
+
+    public ValidationContext(final SchemaContainer container)
+    {
+        this.container = container;
+        factory = null;
+    }
 
     public ValidationContext(final JsonSchemaFactory factory)
     {

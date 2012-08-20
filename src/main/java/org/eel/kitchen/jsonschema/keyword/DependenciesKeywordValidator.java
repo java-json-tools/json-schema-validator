@@ -21,11 +21,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
-import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
-import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.schema.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.SchemaNode;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -134,11 +136,16 @@ public final class DependenciesKeywordValidator
          */
         final SchemaContainer container = context.getContainer();
         final JsonSchemaFactory factory = context.getFactory();
-        JsonSchema subSchema;
 
-        for (final JsonNode node: schemaDeps.values()) {
-            subSchema = factory.create(container, node);
-            subSchema.validate(context, report, instance);
+        SchemaNode subNode;
+        JsonValidator validator;
+
+        for (final JsonNode subSchema: schemaDeps.values()) {
+            subNode = new SchemaNode(container, subSchema);
+            validator = new RefResolverJsonValidator(factory, subNode);
+            while (validator.validate(context, report, instance))
+                validator = validator.next();
+            context.setContainer(container);
         }
     }
 }

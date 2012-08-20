@@ -21,7 +21,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import org.eel.kitchen.jsonschema.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
 import java.net.URI;
 import java.net.URISyntaxException;

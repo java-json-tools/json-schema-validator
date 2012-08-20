@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.schema;
+package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.ValidationReport;
 
-public interface JsonSchema
+public interface JsonValidator
 {
-    void validate(final ValidationContext ctx,
+    boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance);
+
+    JsonValidator next();
 }

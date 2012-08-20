@@ -18,11 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
-import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.schema.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.JsonValidator;
+import org.eel.kitchen.jsonschema.main.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.SchemaNode;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
@@ -46,26 +48,30 @@ public final class TypeKeywordValidator
         if (typeSet.contains(NodeType.getNodeType(instance)))
             return;
 
-        final ValidationReport subReport = report.copy();
+        final ValidationReport typeReport = report.copy();
 
-        subReport.addMessage("instance does not match any allowed primitive " +
-            "type");
+        typeReport.addMessage("instance does not match any allowed primitive "
+            + "type");
 
         final SchemaContainer container = context.getContainer();
         final JsonSchemaFactory factory = context.getFactory();
 
-        JsonSchema subSchema;
-        ValidationReport subSchemaReport;
+        ValidationReport tempReport;
+        SchemaNode subNode;
+        JsonValidator validator;
 
         for (final JsonNode schema: schemas) {
-            subSchemaReport = report.copy();
-            subSchema = factory.create(container, schema);
-            subSchema.validate(context, subSchemaReport, instance);
-            if (subSchemaReport.isSuccess())
+            tempReport = report.copy();
+            subNode = new SchemaNode(container, schema);
+            validator = new RefResolverJsonValidator(factory, subNode);
+            while (validator.validate(context, tempReport, instance))
+                validator = validator.next();
+            context.setContainer(container);
+            if (tempReport.isSuccess())
                 return;
-            subReport.mergeWith(subSchemaReport);
+            typeReport.mergeWith(tempReport);
         }
 
-        report.mergeWith(subReport);
+        report.mergeWith(typeReport);
     }
 }

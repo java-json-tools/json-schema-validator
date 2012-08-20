@@ -18,10 +18,11 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.JsonSchemaException;
-import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -37,6 +38,9 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
+    private static final JsonSchemaFactory factory
+        = new JsonSchemaFactory.Builder().build();
+
     private final JsonNode testData;
     private final Constructor<? extends KeywordValidator> constructor;
 
@@ -77,14 +81,12 @@ public abstract class AbstractKeywordValidatorTest
         InstantiationException, JsonSchemaException
     {
         final KeywordValidator validator = constructor.newInstance(schema);
-
-        final JsonSchemaFactory factory = new JsonSchemaFactory();
-        final ValidationContext context = factory.newContext();
         final ValidationReport report = new ValidationReport();
 
+        final ValidationContext context = new ValidationContext(factory);
+        context.setContainer(new SchemaContainer(schema));
         validator.validate(context, report, data);
 
         assertEquals(report.isSuccess(), valid);
-
     }
 }

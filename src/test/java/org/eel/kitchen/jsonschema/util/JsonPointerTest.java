@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.util;
 
-import org.eel.kitchen.jsonschema.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;

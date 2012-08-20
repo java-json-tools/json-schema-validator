@@ -15,11 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.schema;
+package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public final class SchemaContainer
      */
     public SchemaContainer(final JsonNode schema)
     {
-        final JsonNode idNode = schema.get("id");
+        final JsonNode idNode = schema.path("id");
         JsonRef ref = JsonRef.emptyRef();
 
         if (JacksonUtils.nodeIsURI(idNode))

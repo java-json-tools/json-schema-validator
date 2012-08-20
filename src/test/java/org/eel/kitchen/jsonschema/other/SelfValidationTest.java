@@ -18,10 +18,11 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
-import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.JsonSchema;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -37,24 +38,25 @@ public final class SelfValidationTest
     private JsonNode draftv3;
     private JsonNode googleAPI;
     private JsonSchema schema;
-    private final JsonSchemaFactory factory = new JsonSchemaFactory();
+    private final JsonSchemaFactory factory
+        = new JsonSchemaFactory.Builder().build();
 
     @BeforeClass
     public void setUp()
-        throws IOException
+        throws IOException, JsonSchemaException
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
         googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
-        schema = factory.create(draftv3);
+
+        final SchemaContainer container = factory.registerSchema(draftv3);
+        schema = factory.createSchema(container);
     }
 
     @Test
     public void testSchemaValidatesItself()
     {
-        final ValidationContext context = factory.newContext();
-        final ValidationReport report = new ValidationReport();
 
-        schema.validate(context, report, draftv3);
+        final ValidationReport report = schema.validate(draftv3);
 
         assertTrue(report.isSuccess());
     }
@@ -65,7 +67,6 @@ public final class SelfValidationTest
         final Map<String, JsonNode> schemas
             = JacksonUtils.nodeToMap(googleAPI.get("schemas"));
 
-        ValidationContext context;
         ValidationReport report;
         String name;
         JsonNode node;
@@ -73,9 +74,7 @@ public final class SelfValidationTest
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
             node = entry.getValue();
-            context = factory.newContext();
-            report = new ValidationReport();
-            schema.validate(context, report, node);
+            report = schema.validate(node);
             assertTrue(report.isSuccess(), name);
         }
     }

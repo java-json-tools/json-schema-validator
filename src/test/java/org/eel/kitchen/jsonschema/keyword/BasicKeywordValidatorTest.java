@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.ValidationReport;
-import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -42,7 +42,8 @@ public final class BasicKeywordValidatorTest
      */
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
-    private final JsonSchemaFactory schemaFactory = new JsonSchemaFactory();
+    private final JsonSchemaFactory schemaFactory
+        = new JsonSchemaFactory.Builder().build();
 
     private ValidationContext context;
     private ValidationReport report;
@@ -51,7 +52,7 @@ public final class BasicKeywordValidatorTest
     @BeforeMethod
     public void initContext()
     {
-        context = schemaFactory.newContext();
+        context = new ValidationContext(schemaFactory);
         report = new ValidationReport();
         validator = spy(new BasicKeywordValidator());
     }

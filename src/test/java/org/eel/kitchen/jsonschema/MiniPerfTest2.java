@@ -18,8 +18,11 @@
 package org.eel.kitchen.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.schema.JsonSchema;
-import org.eel.kitchen.jsonschema.schema.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.JsonSchema;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 
@@ -42,12 +45,13 @@ public final class MiniPerfTest2
         final Map<String, JsonNode> schemas
             = JacksonUtils.nodeToMap(googleAPI.get("schemas"));
 
-        final JsonSchemaFactory factory = new JsonSchemaFactory();
-        final JsonSchema schema = factory.create(draftv3);
+        final JsonSchemaFactory factory
+            = new JsonSchemaFactory.Builder().build();
+        final SchemaContainer container = factory.registerSchema(draftv3);
+        final JsonSchema schema = factory.createSchema(container);
 
         String name;
         JsonNode value;
-        ValidationContext context;
         ValidationReport report;
 
         long current;
@@ -55,11 +59,9 @@ public final class MiniPerfTest2
 
         for (int i = 0; i < 500; i++) {
             for (final Map.Entry<String, JsonNode> entry : schemas.entrySet()) {
-                context = factory.newContext();
-                report = new ValidationReport();
                 name = entry.getKey();
                 value = entry.getValue();
-                schema.validate(context, report, value);
+                report = schema.validate(value);
                 if (!report.isSuccess()) {
                     System.err.println("ERROR: schema " + name + " did not "
                         + "validate (iteration " + i + ')');

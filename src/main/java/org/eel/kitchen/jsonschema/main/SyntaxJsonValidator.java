@@ -15,26 +15,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.schema;
+package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ValidationContext;
-import org.eel.kitchen.jsonschema.ValidationReport;
 
-final class InvalidJsonSchema
-    implements JsonSchema
+import java.util.ArrayList;
+import java.util.List;
+
+final class SyntaxJsonValidator
+    implements JsonValidator
 {
-    private final String message;
+    private final JsonSchemaFactory factory;
+    private final SchemaNode schemaNode;
 
-    InvalidJsonSchema(final String message)
+    SyntaxJsonValidator(final JsonSchemaFactory factory,
+        final SchemaNode schemaNode)
     {
-        this.message = message;
+        this.factory = factory;
+        this.schemaNode = schemaNode;
     }
 
     @Override
-    public void validate(final ValidationContext ctx,
+    public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        report.addMessage(message);
+        final List<String> messages = new ArrayList<String>();
+        final JsonNode node = schemaNode.getNode();
+
+        factory.validateSyntax(messages, node);
+
+        return messages.isEmpty();
+    }
+
+    @Override
+    public JsonValidator next()
+    {
+        return new InstanceJsonValidator(factory, schemaNode);
     }
 }

@@ -15,29 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.validator;
+package org.eel.kitchen.jsonschema.main;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-final class InvalidJsonValidator
-    implements JsonValidator
+final class ValidatorFactory
 {
-    private final List<String> messages = new ArrayList<String>();
+    private final KeywordFactory keywordFactory;
+    private final SyntaxValidator syntaxValidator;
 
-    InvalidJsonValidator(final List<String> messages)
+    ValidatorFactory(final KeywordBundle bundle)
     {
-        messages.addAll(messages);
+        keywordFactory = new KeywordFactory(bundle);
+        syntaxValidator = new SyntaxValidator(bundle);
     }
 
-    @Override
-    public void validate(final ValidationContext context,
-        final ValidationReport report, final JsonNode instance)
+    KeywordFactory getKeywordFactory()
     {
-        report.addMessages(messages);
+        return keywordFactory;
+    }
+
+    SyntaxValidator getSyntaxValidator()
+    {
+        return syntaxValidator;
     }
 }
