@@ -62,6 +62,9 @@ import java.net.URISyntaxException;
 
 public final class JsonRef
 {
+    private static final URI HASHONLY_URI = URI.create("#");
+    private static final URI EMPTY_URI = URI.create("");
+
     private static final JsonRef EMPTY;
     private static final LoadingCache<URI, JsonRef> cache;
 
@@ -76,10 +79,7 @@ public final class JsonRef
                     return new JsonRef(key);
                 }
             });
-        final URI emptyURI = URI.create("#");
-        EMPTY = new JsonRef(emptyURI);
-        cache.put(emptyURI, EMPTY);
-        cache.put(URI.create(""), EMPTY);
+        EMPTY = new JsonRef(EMPTY_URI);
     }
 
     /**
@@ -109,6 +109,9 @@ public final class JsonRef
     public static JsonRef fromURI(final URI uri)
     {
         Preconditions.checkNotNull(uri, "uri must not be null");
+
+        if (EMPTY_URI.equals(uri) || HASHONLY_URI.equals(uri))
+            return EMPTY;
 
         return cache.getUnchecked(uri.normalize());
     }
