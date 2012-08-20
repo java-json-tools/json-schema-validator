@@ -15,41 +15,55 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.SchemaNode;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
-final class SyntaxJsonValidator
+final class InstanceJsonValidator
     implements JsonValidator
 {
     private final JsonSchemaFactory factory;
     private final SchemaNode schemaNode;
 
-    SyntaxJsonValidator(final JsonSchemaFactory factory,
+    private final Set<KeywordValidator> validators;
+
+    private NodeType instanceType;
+
+    InstanceJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
         this.factory = factory;
         this.schemaNode = schemaNode;
+        validators = factory.getValidators(schemaNode.getNode());
     }
 
     @Override
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final List<String> messages = new ArrayList<String>();
-        final JsonNode node = schemaNode.getNode();
+        for (final KeywordValidator validator: validators)
+            validator.validateInstance(context, report, instance);
 
-        factory.validateSyntax(messages, node);
+        if (!instance.isContainerNode())
+            return false;
 
-        return messages.isEmpty();
+        instanceType = NodeType.getNodeType(instance);
+        return true;
     }
 
     @Override
     public JsonValidator next()
     {
-        return new InstanceJsonValidator(factory, schemaNode);
+        return instanceType == NodeType.ARRAY
+            ? new ArrayJsonValidator(factory, schemaNode)
+            : new ObjectJsonValidator(factory, schemaNode);
     }
 }

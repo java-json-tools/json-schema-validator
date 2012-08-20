@@ -15,17 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableList;
-import org.eel.kitchen.jsonschema.util.JsonPointer;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.SchemaNode;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
 import java.util.Collections;
 import java.util.List;
 
-public final class ArrayJsonValidator
+final class ArrayJsonValidator
     implements JsonValidator
 {
     private static final JsonNode EMPTY_SCHEMA
@@ -37,7 +42,7 @@ public final class ArrayJsonValidator
 
     private final List<JsonNode> items;
 
-    public ArrayJsonValidator(final JsonSchemaFactory factory,
+    ArrayJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
         this.factory = factory;

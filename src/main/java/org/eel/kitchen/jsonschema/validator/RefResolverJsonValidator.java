@@ -15,9 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.SchemaNode;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;

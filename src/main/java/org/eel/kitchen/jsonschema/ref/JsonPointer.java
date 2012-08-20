@@ -15,14 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.util;
+package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.ref.JsonFragment;
 
 import java.util.List;
 
@@ -100,7 +99,7 @@ public final class JsonPointer
      * therefore both are accepted</p>
      *
      * @param input The input string, guaranteed not to be JSON encoded
-     * @throws JsonSchemaException Illegal JSON Pointer
+     * @throws org.eel.kitchen.jsonschema.main.JsonSchemaException Illegal JSON Pointer
      */
     public JsonPointer(final String input)
         throws JsonSchemaException

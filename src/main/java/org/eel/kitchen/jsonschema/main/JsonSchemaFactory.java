@@ -80,7 +80,7 @@ public final class JsonSchemaFactory
         return new JsonSchema(this, new SchemaNode(container, schema));
     }
 
-    void validateSyntax(final List<String> messages, final JsonNode node)
+    public void validateSyntax(final List<String> messages, final JsonNode node)
     {
         synchronized (validated) {
             if (validated.contains(node))
@@ -91,12 +91,12 @@ public final class JsonSchemaFactory
         }
     }
 
-    Set<KeywordValidator> getValidators(final JsonNode node)
+    public Set<KeywordValidator> getValidators(final JsonNode node)
     {
         return cache.getUnchecked(node);
     }
 
-    SchemaRegistry getRegistry()
+    public SchemaRegistry getRegistry()
     {
         return registry;
     }

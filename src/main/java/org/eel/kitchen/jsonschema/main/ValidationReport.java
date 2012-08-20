@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.main;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
-import org.eel.kitchen.jsonschema.util.JsonPointer;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
 import java.util.List;
 import java.util.SortedSet;

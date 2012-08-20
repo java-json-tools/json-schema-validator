@@ -15,13 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.main.SchemaNode;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
-import org.eel.kitchen.jsonschema.util.JsonPointer;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.Collections;
@@ -29,7 +34,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public final class ObjectJsonValidator
+final class ObjectJsonValidator
     implements JsonValidator
 {
     private static final JsonNode EMPTY_SCHEMA
@@ -41,7 +46,7 @@ public final class ObjectJsonValidator
     private final Map<String, JsonNode> properties;
     private final Map<String, JsonNode> patternProperties;
 
-    public ObjectJsonValidator(final JsonSchemaFactory factory,
+    ObjectJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
         this.factory = factory;

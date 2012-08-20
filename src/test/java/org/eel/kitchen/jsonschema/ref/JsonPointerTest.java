@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.util;
+package org.eel.kitchen.jsonschema.ref;
 
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.testng.annotations.Test;
 
