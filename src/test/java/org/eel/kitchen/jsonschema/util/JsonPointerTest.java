@@ -28,32 +28,6 @@ import static org.testng.Assert.*;
 public final class JsonPointerTest
 {
     @Test
-    public void testEqualsBasics()
-        throws JsonSchemaException
-    {
-        final JsonPointer p1 = new JsonPointer("/");
-        final JsonPointer p2 = new JsonPointer("/");
-
-        assertTrue(p1.equals(p1));
-        assertTrue(p1.equals(p2));
-
-        assertFalse(p1.equals(null));
-        assertFalse(p1.equals(new Object()));
-    }
-
-    @Test
-    public void testHashCode()
-        throws JsonSchemaException
-    {
-        final JsonPointer p1 = new JsonPointer("/");
-        final JsonPointer p2 = new JsonPointer("/");
-
-        final String s = "#/";
-        assertTrue(p1.hashCode() == p2.hashCode());
-        assertTrue(p1.hashCode() == s.hashCode());
-    }
-
-    @Test
     public void testCaretEscape()
         throws JsonSchemaException
     {
