@@ -32,7 +32,6 @@ public final class ArrayJsonValidator
         = JsonNodeFactory.instance.objectNode();
 
     private final JsonSchemaFactory factory;
-    private final SchemaNode schemaNode;
 
     private JsonNode additionalItems = EMPTY_SCHEMA;
 
@@ -42,7 +41,6 @@ public final class ArrayJsonValidator
         final SchemaNode schemaNode)
     {
         this.factory = factory;
-        this.schemaNode = schemaNode;
 
         final JsonNode schema = schemaNode.getNode();
 

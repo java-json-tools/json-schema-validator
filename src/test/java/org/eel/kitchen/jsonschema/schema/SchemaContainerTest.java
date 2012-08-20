@@ -29,15 +29,13 @@ import static org.testng.Assert.*;
 public final class SchemaContainerTest
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
-    private JsonNode node;
-    private SchemaContainer container;
 
     @Test
     public void shouldConsiderRelativeIdAsAnonymousSchema()
         throws JsonSchemaException
     {
-        node = factory.objectNode().put("id", "foo");
-        container = new SchemaContainer(node);
+        final JsonNode node = factory.objectNode().put("id", "foo");
+        final SchemaContainer container = new SchemaContainer(node);
         assertSame(container.getLocator(), JsonRef.emptyRef());
     }
 

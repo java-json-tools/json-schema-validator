@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.testng.annotations.BeforeClass;
@@ -31,7 +30,6 @@ import static org.testng.Assert.*;
 
 public final class JsonRefTest
 {
-    private final JsonNodeFactory factory = JsonNodeFactory.instance;
     private JsonRef baseRef;
 
     @BeforeClass

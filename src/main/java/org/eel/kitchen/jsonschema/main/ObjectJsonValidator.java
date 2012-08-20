@@ -36,7 +36,6 @@ public final class ObjectJsonValidator
         = JsonNodeFactory.instance.objectNode();
 
     private final JsonSchemaFactory factory;
-    private final SchemaNode schemaNode;
 
     private final JsonNode additionalProperties;
     private final Map<String, JsonNode> properties;
@@ -46,7 +45,6 @@ public final class ObjectJsonValidator
         final SchemaNode schemaNode)
     {
         this.factory = factory;
-        this.schemaNode = schemaNode;
 
         final JsonNode schema = schemaNode.getNode();
 

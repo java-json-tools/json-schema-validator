@@ -34,14 +34,6 @@ public final class JsonSchema
         context.setContainer(schemaNode.getContainer());
     }
 
-    public JsonSchema(final JsonSchemaFactory factory,
-        final ValidationContext context, final SchemaNode schemaNode)
-    {
-        this.factory = factory;
-        this.context = context;
-        this.schemaNode = schemaNode;
-    }
-
     public ValidationReport validate(final JsonNode instance)
     {
         final ValidationReport report = new ValidationReport();
