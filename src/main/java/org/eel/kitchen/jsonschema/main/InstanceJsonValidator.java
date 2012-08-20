@@ -29,6 +29,8 @@ public class InstanceJsonValidator
     private final JsonSchemaFactory factory;
     private final SchemaNode schemaNode;
 
+    private final Set<KeywordValidator> validators;
+
     private NodeType instanceType;
 
     public InstanceJsonValidator(final JsonSchemaFactory factory,
@@ -36,20 +38,21 @@ public class InstanceJsonValidator
     {
         this.factory = factory;
         this.schemaNode = schemaNode;
+        validators = factory.getValidators(schemaNode.getNode());
     }
 
     @Override
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final Set<KeywordValidator> validators
-            = factory.getValidators(schemaNode.getNode());
-
         for (final KeywordValidator validator: validators)
             validator.validateInstance(context, report, instance);
 
+        if (!instance.isContainerNode())
+            return false;
+
         instanceType = NodeType.getNodeType(instance);
-        return instance.isContainerNode();
+        return true;
     }
 
     @Override

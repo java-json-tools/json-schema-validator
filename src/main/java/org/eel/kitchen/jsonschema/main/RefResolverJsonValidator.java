@@ -22,7 +22,6 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
-import java.net.URI;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -30,6 +29,8 @@ public final class RefResolverJsonValidator
     implements JsonValidator
 {
     private final JsonSchemaFactory factory;
+
+    private final SchemaRegistry registry;
     private final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
 
     private SchemaNode schemaNode;
@@ -40,25 +41,31 @@ public final class RefResolverJsonValidator
     {
         this.factory = factory;
         this.schemaNode = schemaNode;
+        registry = factory.getRegistry();
     }
 
     @Override
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final SchemaRegistry registry = factory.getRegistry();
-
         JsonNode node = schemaNode.getNode();
-        SchemaContainer container = schemaNode.getContainer();
-
         final JsonNode refNode = node.path("$ref");
         isRef = JacksonUtils.nodeIsURI(refNode);
 
         if (!isRef)
             return true;
 
+        SchemaContainer container = schemaNode.getContainer();
+
         final JsonRef origin = container.getLocator();
-        JsonRef ref = JsonRef.fromURI(URI.create(refNode.textValue()));
+        JsonRef ref;
+        try {
+            ref = JsonRef.fromString(refNode.textValue());
+        } catch (JsonSchemaException e) {
+            // should not happen
+            throw new RuntimeException("WTF??", e);
+        }
+
         ref = origin.resolve(ref);
 
         if (!origin.contains(ref))

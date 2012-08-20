@@ -18,44 +18,16 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
-import org.eel.kitchen.jsonschema.util.RhinoHelper;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public final class SchemaNode
 {
-    private static final JsonNode EMPTY_SCHEMA
-        = JsonNodeFactory.instance.objectNode();
-
     private final SchemaContainer container;
     private final JsonNode node;
-
-    private JsonNode additionalItems = EMPTY_SCHEMA;
-
-    private final List<JsonNode> items = new ArrayList<JsonNode>();
-
-    private JsonNode additionalProperties = EMPTY_SCHEMA;
-
-    private final Map<String, JsonNode> properties
-        = new HashMap<String, JsonNode>();
-
-    private final Map<String, JsonNode> patternProperties
-        = new HashMap<String, JsonNode>();
 
     public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
         this.container = container;
         this.node = node;
-
-        setupArraySchemas();
-        setupObjectSchemas();
     }
 
     public SchemaContainer getContainer()
@@ -66,28 +38,6 @@ public final class SchemaNode
     public JsonNode getNode()
     {
         return node;
-    }
-
-    public JsonNode getArraySchema(final int index)
-    {
-        return index < items.size() ? items.get(index) : additionalItems;
-    }
-
-    public Set<JsonNode> getObjectSchemas(final String key)
-    {
-        final Set<JsonNode> ret = new HashSet<JsonNode>();
-
-        if (properties.containsKey(key))
-            ret.add(properties.get(key));
-
-        for (final String regex: patternProperties.keySet())
-            if (RhinoHelper.regMatch(regex, key))
-                ret.add(patternProperties.get(regex));
-
-        if (ret.isEmpty())
-            ret.add(additionalProperties);
-
-        return ret;
     }
 
     @Override
@@ -110,46 +60,5 @@ public final class SchemaNode
     public int hashCode()
     {
         return 31 * container.hashCode() + node.hashCode();
-    }
-
-    private void setupArraySchemas()
-    {
-        JsonNode tmp;
-
-        tmp = node.path("items");
-
-        if (tmp.isObject()) {
-            additionalItems = tmp;
-            return;
-        }
-
-        if (tmp.isArray())
-            for (final JsonNode item: tmp)
-                items.add(item);
-
-        tmp = node.path("additionalItems");
-
-        if (tmp.isObject())
-            additionalItems = tmp;
-    }
-
-    private void setupObjectSchemas()
-    {
-        JsonNode tmp;
-
-        tmp = node.path("additionalProperties");
-
-        if (tmp.isObject())
-            additionalProperties = tmp;
-
-        tmp = node.path("properties");
-
-        if (tmp.isObject())
-            properties.putAll(JacksonUtils.nodeToMap(tmp));
-
-        tmp = node.path("patternProperties");
-
-        if (tmp.isObject())
-            patternProperties.putAll(JacksonUtils.nodeToMap(tmp));
     }
 }
