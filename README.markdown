@@ -3,7 +3,7 @@
 <p>The license of this project is LGPLv3 or later. See file
 src/main/resources/LICENSE for the full text.</p>
 
-<p>The current version is <b>0.5.0</b>. See the
+<p>The current version is <b>0.5.1</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
 more details. The old, still maintained version is <b>0.4.1</b>. 
 
