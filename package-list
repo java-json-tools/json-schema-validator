@@ -1,0 +1,9 @@
+org.eel.kitchen.jsonschema.bundle
+org.eel.kitchen.jsonschema.format
+org.eel.kitchen.jsonschema.keyword
+org.eel.kitchen.jsonschema.main
+org.eel.kitchen.jsonschema.ref
+org.eel.kitchen.jsonschema.syntax
+org.eel.kitchen.jsonschema.uri
+org.eel.kitchen.jsonschema.util
+org.eel.kitchen.jsonschema.validator
