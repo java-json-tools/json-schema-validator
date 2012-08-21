@@ -123,7 +123,7 @@ public final class URIManagerTest
             manager.getContent(URI.create(""));
             fail("No exception thrown!");
         } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "URI is not absolute");
+            assertEquals(e.getMessage(), "requested URI () is not absolute");
         }
     }
 
@@ -135,7 +135,8 @@ public final class URIManagerTest
         try {
             manager.getContent(URI.create("bar://baz"));
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "cannot handle scheme \"bar\"");
+            assertEquals(e.getMessage(), "cannot handle scheme \"bar\" "
+                + "(requested URI: bar://baz)");
         }
     }
 
@@ -171,8 +172,7 @@ public final class URIManagerTest
         try {
             manager.getContent(URI.create("foo://bar"));
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "cannot read content from URI "
-                + "\"foo://bar\"");
+            assertEquals(e.getMessage(), "URI \"foo://bar\" is not valid JSON");
         }
 
     }

@@ -111,15 +111,16 @@ public class URIManager
         throws JsonSchemaException
     {
         Preconditions.checkNotNull(uri, "null URI");
-        Preconditions.checkArgument(uri.isAbsolute(), "URI is not absolute");
+        Preconditions.checkArgument(uri.isAbsolute(), "requested URI (" + uri
+            + ") is not absolute");
 
         final String scheme = uri.getScheme();
 
         final URIDownloader downloader = downloaders.get(scheme);
 
         if (downloader == null)
-            throw new JsonSchemaException("cannot handle scheme \"" + scheme
-                + '"');
+            throw new JsonSchemaException("cannot handle scheme \"" +  scheme
+                + "\" (requested URI: " + uri + ')');
 
         final InputStream in;
 
@@ -133,8 +134,8 @@ public class URIManager
         try {
             return mapper.readTree(in);
         } catch (IOException e) {
-            throw new JsonSchemaException("cannot read content from URI \""
-                + uri + '"', e);
+            throw new JsonSchemaException("URI \"" + uri
+                + "\" is not valid JSON", e);
         }
     }
 }
