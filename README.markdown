@@ -3,7 +3,7 @@
 <p>The license of this project is LGPLv3 or later. See file
 src/main/resources/LICENSE for the full text.</p>
 
-<p>The current version is <b>0.5.1</b>. See the
+<p>The current version is <b>0.5.2</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
 more details. The old, still maintained version is <b>0.4.1</b>. 
 
@@ -13,24 +13,25 @@ samples.</p>
 
 <h2>What it is</h2>
 
-<p>This is an implementation of the
-[JSON Schema specification](http://www.json-schema.org) written in pure Java.
+<p>This is an implementation of the [JSON Schema
+specification](http://json-schema.github.com/json-schema/) written in pure Java.
 This allows pure server side JSON schema validation if this is what you are
-looking for./<p>
+looking for.<p>
 
-<p>The current version (0.5.x) has the following features:</p>
+<p>This implementation has the following features:</p>
 
 * full draft v3 validation (except for the <tt>color</tt> and <tt>style</tt>
   format specifiers...);
 * arbitrary length/precision number validation;
 * ECMA 262 regexes (using Rhino);
-* schema caching for performance;
-* schema syntax validation;
-* full <tt>$ref</tt> support, including <tt>id</tt> resolving <i>and loop
-  detection</i>;
-* <b>thread safe validators</b> (0.4.x validation is not thread safe);
-* ability to register URI handlers for any scheme (HTTP only natively);
-* ability to register/unregister keywords.
+* full <tt>$ref</tt> support, including <tt>id</tt> resolving and loop
+  detection;
+* thread safe validators;
+* ability to register/unregister URI handlers for arbitrary URI schemes
+  (natively supported: <tt>http</tt>, <tt>ftp</tt>, <tt>file</tt> and
+  <tt>jar</tt>);
+* ability to register/unregister keywords;
+* [very fast](https://github.com/fge/json-schema-validator/wiki/Performance).
 
 <h2>Relevant documents</h2>
 
