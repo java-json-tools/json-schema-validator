@@ -10,7 +10,7 @@ usage is still a novelty, and it is quite a difficult task to foresee users'
 needs. I make the API evolve according to my own feelings,
 but those are _my_ feelings.</p>
 
-<p>The current version is <b>0.5.0beta3</b>.</p>
+<p>The current version is <b>0.5.0beta4</b>.</p>
 
 <p>The old, still maintained version is <b>0.4.1</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
