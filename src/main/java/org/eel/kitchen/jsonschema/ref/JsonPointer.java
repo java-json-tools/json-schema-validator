@@ -99,7 +99,7 @@ public final class JsonPointer
      * therefore both are accepted</p>
      *
      * @param input The input string, guaranteed not to be JSON encoded
-     * @throws org.eel.kitchen.jsonschema.main.JsonSchemaException Illegal JSON Pointer
+     * @throws JsonSchemaException Illegal JSON Pointer
      */
     public JsonPointer(final String input)
         throws JsonSchemaException
@@ -157,12 +157,6 @@ public final class JsonPointer
         return append(Integer.toString(index));
     }
 
-    /**
-     * Resolve this JSON Pointer against a JSON instance
-     *
-     * @param node the node to resolve against
-     * @return the result document, which may be a {@link MissingNode}
-     */
     @Override
     public JsonNode resolve(final JsonNode node)
     {

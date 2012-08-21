@@ -18,10 +18,25 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
+/**
+ * Abstract class for fragment resolution
+ *
+ * <p>In a JSON Reference, a fragment can either be a JSON Pointer or a schema
+ * id. In both cases, when found, the fragment must be resolve with regards to
+ * the schema. This is what this class, and its two implementations, are for.
+ * </p>
+ *
+ * @see IdFragment
+ * @see JsonPointer
+ */
 public abstract class JsonFragment
 {
+    /**
+     * Special case fragment (empty)
+     */
     private static final JsonFragment EMPTY = new JsonFragment()
     {
         @Override
@@ -37,6 +52,15 @@ public abstract class JsonFragment
         }
     };
 
+    /**
+     * The only static factory method to obtain a fragment
+     *
+     * <p>Depending on the situation, this method will either return a
+     * {@link JsonPointer}, an {@link IdFragment} or {@link #EMPTY}.</p>
+     *
+     * @param fragment the fragment as a string
+     * @return the fragment
+     */
     public static JsonFragment fromFragment(final String fragment)
     {
         if (fragment == null || fragment.isEmpty())
@@ -50,8 +74,21 @@ public abstract class JsonFragment
         }
     }
 
+    /**
+     * Resolve this fragment against a given node
+     *
+     * @param node the node
+     * @return the result node ({@link MissingNode} if the fragment is not
+     * found)
+     */
     public abstract JsonNode resolve(final JsonNode node);
 
+    /**
+     * Tell whether this fragment is empty
+     *
+     * @see JsonRef#isAbsolute()
+     * @return true if it is {@link #EMPTY}
+     */
     public final boolean isEmpty()
     {
         // This works: we always return EMPTY with a null fragment

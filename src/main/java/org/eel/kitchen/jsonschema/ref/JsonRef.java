@@ -29,8 +29,8 @@ import java.net.URISyntaxException;
 /**
  * Representation of a JSON Reference
  *
- * <p><a href="http://tools.ietf
- * .org/html/draft-pbryan-zyp-json-ref-02">JSON Reference</a>,
+ * <p><a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02">
+ *     JSON Reference</a>,
  * currently a draft, is a way to address a JSON instance of whatever type.</p>
  *
  * <p>To quote the draft, "A JSON Reference is a JSON object, which contains
