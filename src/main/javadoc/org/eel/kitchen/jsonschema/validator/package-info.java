@@ -39,4 +39,4 @@
  * </ul>
  *
  */
-package org.eel.kitchen.jsonschema.validator.;
+package org.eel.kitchen.jsonschema.validator;
