@@ -27,7 +27,7 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Set;
 
-final class InstanceJsonValidator
+public final class InstanceJsonValidator
     implements JsonValidator
 {
     private final JsonSchemaFactory factory;

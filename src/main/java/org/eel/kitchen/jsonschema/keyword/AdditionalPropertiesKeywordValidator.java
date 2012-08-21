@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
+import org.eel.kitchen.jsonschema.validator.ObjectJsonValidator;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -32,15 +33,20 @@ import java.util.Set;
 /**
  * Validator for {@code additionalProperties}
  *
+ * <p>Note that this keyword only handles validation at the instance level: it
+ * does not validate children.</p>
+ *
  * <p>The rules are:</p>
  * <ul>
  *     <li>if {@code additionalProperties} is a schema or {@code true},
  *     validation succeeds;</li>
  *     <li>if it is {@code false}, then validation succeeds if and only if
  *     all instance members are either members in {@code properties} or match
- *     at least one regex of members in {@code patternProperties}.</li>
+ *     at least one regex of {@code patternProperties}.</li>
  *     </li>
  * </ul>
+ *
+ * @see ObjectJsonValidator
  */
 public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator

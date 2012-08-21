@@ -24,10 +24,38 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 /**
  * Class used to build a new keyword
  *
- * <p>You will never use this class directly, but a {@link Keyword.Builder}
- * instead. As a matter of fact, this class has no public constructor.</p>
+ * <p>The process is as follows:</p>
+ *
+ * <ul>
+ *     <li>choose the name of the new keyword;</li>
+ *     <li>create a {@link SyntaxChecker} for this keyword;</li>
+ *     <li>create a {@link KeywordValidator};</li>
+ *     <li>create the keyword.</li>
+ * </ul>
+ *
+ * <p>Sample code:</p>
+ *
+ * <pre>
+ *     final SyntaxChecker checker = ....;
+ *     final Class&lt;? extends KeywordValidator&gt; validatorClass;
+ *
+ *     final Keyword myKeyword = Keyword.Builder.forName("mykeyword")
+ *         .withSyntaxChecker(checker).withValidatorClass(validatorClass)
+ *         .build();
+ *
+ *     // then register it into a bundle
+ * </pre>
+ *
+ * <p>It is perfectly legal to register a keyword with only a syntax checker, or
+ * only a keyword validator. An example is {@code $schema}, which must be a
+ * valid URI (therefore it has a syntax checker) but does not play any role
+ * in instance validation (therefore it has no keyword validator).</p>
+ * <p>This class is thread safe and immutable.</p>
  *
  * @see Keyword.Builder
+ * @see SyntaxChecker
+ * @see KeywordValidator
+ * @see KeywordBundle
  */
 public final class Keyword
 {
@@ -57,12 +85,21 @@ public final class Keyword
         return validatorClass;
     }
 
+    /**
+     * Builder class for a new keyword
+     */
     public static final class Builder
     {
         private final String keyword;
         private SyntaxChecker syntaxChecker;
         private Class<? extends KeywordValidator> validatorClass;
 
+        /**
+         * The only constructor, private by design
+         *
+         * @param keyword the keyword name
+         * @throws NullPointerException the keyword name is null (illegal)
+         */
         private Builder(final String keyword)
         {
             Preconditions.checkNotNull(keyword, "keyword name must not be null");

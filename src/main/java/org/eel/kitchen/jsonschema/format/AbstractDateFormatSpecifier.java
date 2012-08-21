@@ -28,14 +28,12 @@ import java.util.List;
 /**
  * Specialized format validator for date/time checking
  *
- * <p><a href="http://joda-time.sourceforge.net/">Joda</a> is used for date and
- * time parsing, and more specifically
- * {@link DateTimeFormatter#parseDateTime(String)}: it can handle all defined
- * formats, and catches more errors than {@link SimpleDateFormat} does.</p>
+ * <p><a href="http://joda-time.sourceforge.net/">Joda Time</a> is used for
+ * date and time parsing: it can handle all defined formats, and catches more
+ * errors than the standard JDK's {@link SimpleDateFormat} does.</p>
  *
- * <p>What's more, unlike Java's {@link SimpleDateFormat},
- * Joda Time's {@link DateTimeFormatter} is thread-safe,
- * which is one more reason to use it.</p>
+ * <p>What's more, unlike {@link SimpleDateFormat}, Joda Time's
+ * {@link DateTimeFormatter} is thread-safe!</p>
  */
 public class AbstractDateFormatSpecifier
     extends FormatSpecifier

@@ -26,25 +26,24 @@ import java.util.List;
 /**
  * Base class for a format specifier
  *
- * <p>The {@code format} keyword is part of draft v3, but gone in draft v4.
- * Its argument is always a string, and this string is called a "specifier".
- * The draft defines specifiers for recognizing URIs, phone numbers,
- * different date formats, and so on -- and even CSS 2.1 colors and styles
- * (not supported).
- * </p>
+ * <p>The {@code format} keyword always takes a string as an argument, and this
+ * string is called a "specifier". The draft defines specifiers for recognizing
+ * URIs, phone numbers, different date formats, and so on -- and even CSS 2.1
+ * colors and styles(not supported).</p>
+ *
+ * <p>One important thing to remember is that a specifier will only validate a
+ * given subset of JSON instance types (for instance, {@code uri} only validates
+ * string instances). In the event that the instane type is not of the
+ * validated types, validation <i>succeeds</i>.</p>
  *
  * <p>The spec allows for custom specifiers to be added. This implementation,
  * however, does not support it.</p>
  *
- * <p>Note that JSON instances of a type different than recognized by a
- * specifier validate successfully (ie, a numeric instance will always
- * validate for a {@code regex} format specifier since this specifier can
- * only validate text nodes).</p>
  */
 public abstract class FormatSpecifier
 {
     /**
-     * Type of values this specifier can validate
+     * JSON instance types which this specifier can validate
      */
     private final EnumSet<NodeType> typeSet;
 

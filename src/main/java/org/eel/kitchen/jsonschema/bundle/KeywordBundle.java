@@ -19,18 +19,30 @@ package org.eel.kitchen.jsonschema.bundle;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
-import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 /**
- * Keyword bundle used for syntax and keyword validation
+ * A keyword bundle
  *
- * <p>Instances of this class are used as parameters to both
- * {@link SyntaxValidator} and {@link KeywordFactory} instances.</p>
+ * <p>You can either create a new, completely empty, keyword bunle,
+ * or use one of the default bundles and extend it. For instance:</p>
+ *
+ * <pre>
+ *     final KeywordBundle bundle = KeywordBundles.defaultBundle();
+ *
+ *     final Keyword k1 = ...;
+ *     final Keyword k2 = ...;
+ *
+ *     bundle.registerKeyword(k1);
+ *     bundle.registerKeyword(k2);
+ * </pre>
+ *
+ * @see Keyword
+ * @see JsonSchemaFactory
  */
 public final class KeywordBundle
     implements Iterable<Map.Entry<String, Keyword>>

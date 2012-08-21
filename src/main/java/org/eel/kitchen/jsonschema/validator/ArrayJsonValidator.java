@@ -30,7 +30,7 @@ import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import java.util.Collections;
 import java.util.List;
 
-final class ArrayJsonValidator
+public final class ArrayJsonValidator
     implements JsonValidator
 {
     private static final JsonNode EMPTY_SCHEMA

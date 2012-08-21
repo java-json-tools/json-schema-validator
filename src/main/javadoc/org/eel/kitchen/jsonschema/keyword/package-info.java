@@ -32,15 +32,43 @@
  * checking, if any).
  * </p>
  *
- * <p>{@link org.eel.kitchen.jsonschema.keyword.KeywordValidator} proper is
- * not an interface, but an abstract class. You will therefore extend it to
- * make your own keyword validator, but you may also use some other abstract
- * classes which may be better suited for you:
- * </p>
+ * <p>To create a new validator, you may either extend {@link
+ * org.eel.kitchen.jsonschema.keyword.KeywordValidator} or one of these two
+ * specific subclasses:</p>
  *
  * <ul>
- *     <li>{@link org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator},</li>
- *     <li>{@link org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator}.</li>
+ *     <li>{@link org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator}
+ *     (used for numeric instance validation),</li>
+ *     <li>{@link org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator}
+ *     (used for keywords which take a positive integer as an argument).</li>
  * </ul>
+ *
+ * <p>Here is an example for a proposed {@code minProperties} keyword. This
+ * keyword validates that an object instance has a minimum number of members.
+ * Its argument is a positive integer, we therefore extend
+ * {@link org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator}
+ * directly instead of {@link
+ * org.eel.kitchen.jsonschema.keyword.KeywordValidator}:
+ * </p>
+ *
+ * <code>
+ *     public final class MinPropertiesKeywordValidator
+ *         extends PositiveIntegerKeywordValidator
+ *     {
+ *         public MinPropertiesKeywordValidator(final JsonNode schema)
+ *         {
+ *             super("minProperties", schema, NodeType.OBJECT);
+ *         }
+ *
+ *         @Override
+ *         public void validate(final ValidationContext context,
+ *             final ValidationReport report, final JsonNode instance)
+ *         {
+ *             if (instance.size() < intValue)
+ *                report.addMessage("object instance has less than "
+ *                + "minPropertieselements");
+ *         }
+ *     }
+ * </code>
  */
 package org.eel.kitchen.jsonschema.keyword;

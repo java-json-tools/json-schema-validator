@@ -21,14 +21,16 @@
  * <p>All format specifiers (section 5.23 of draft v3) are supported,
  * except for {@code style} and {@code color}.</p>
  *
- * <p>In theory, draft v3 also allows further format specifiers to be
- * registered, however this implementation does not support it.</p>
+ * <p>It should be noted that this implementation differs from the draft in
+ * one subtle, but important way: strictly speaking, an email and a hostname
+ * may have no domain pa t at all. However, this implementation chooses to
+ * require that they have by default.</p>
  *
- * <p>It should be noted that the specification is very clear that the
- * different specifiers refer to existing RFCs. In particular, for
- * {@code email} and {@code hostname}, this means that an email may not have
- * a right hand part at all, and that a hostname needs not be an FQDN. This
- * implementation strictly conforms to the specification!
- * </p>
+ * <p>This implementation also adds a custom format specifier,
+ * {@code date-time-ms}: this is the same as ISO 8601's {@code date-time},
+ * with added milliseconds.</p>
+ *
+ * <p>Note: in theory, draft v3 also allows further format specifiers to be
+ * registered, however this implementation does not support it currently.</p>
  */
 package org.eel.kitchen.jsonschema.format;

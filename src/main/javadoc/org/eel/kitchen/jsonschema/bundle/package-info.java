@@ -16,17 +16,14 @@
  */
 
 /**
- * Keyword bundles and keyword
+ * Schema keywords and keyword bundles
  *
- * <p>All classes in this package are, for now, not available to the "public".
+ * <p>This package contains all necessary classes to build validators for
+ * your own keywords or even an entire set of customized keywords entirely.
  * </p>
  *
- * <p>In the future, you will be able to generate a
- * {@link org.eel.kitchen.jsonschema.bundle.KeywordBundle} of yours,
- * add one or more {@link org.eel.kitchen.jsonschema.bundle.Keyword} to it
- * (using a {@link org.eel.kitchen.jsonschema.bundle.Keyword#Builder}),
- * and pass it as an argument to a
- * {@link org.eel.kitchen.jsonschema.schema.JsonSchemaFactory}.</p>
+ * <p>This is useful, for instance, if you have an idea for a new keyword
+ * and want to experiment with it. See the relevant classes for sample code.</p>
  *
  */
 package org.eel.kitchen.jsonschema.bundle;

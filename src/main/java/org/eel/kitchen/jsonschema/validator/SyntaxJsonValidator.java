@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import java.util.ArrayList;
 import java.util.List;
 
-final class SyntaxJsonValidator
+public final class SyntaxJsonValidator
     implements JsonValidator
 {
     private final JsonSchemaFactory factory;

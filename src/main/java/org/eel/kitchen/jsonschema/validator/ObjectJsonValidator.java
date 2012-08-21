@@ -34,7 +34,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-final class ObjectJsonValidator
+public final class ObjectJsonValidator
     implements JsonValidator
 {
     private static final JsonNode EMPTY_SCHEMA

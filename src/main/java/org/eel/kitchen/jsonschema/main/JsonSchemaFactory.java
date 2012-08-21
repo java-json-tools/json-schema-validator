@@ -108,10 +108,14 @@ public final class JsonSchemaFactory
 
         public Builder()
         {
-            bundle = KeywordBundles.defaultBundle();
-            uriManager = new URIManager();
+            this(KeywordBundles.defaultBundle());
         }
 
+        public Builder(final KeywordBundle bundle)
+        {
+            this.bundle = bundle;
+            uriManager = new URIManager();
+        }
         public Builder addURIDownloader(final String scheme,
             final URIDownloader downloader)
         {
