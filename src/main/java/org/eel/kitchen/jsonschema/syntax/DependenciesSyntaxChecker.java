@@ -22,6 +22,9 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 
+/**
+ * Syntax checker for the {@code dependencies} keyword
+ */
 public final class DependenciesSyntaxChecker
     extends SimpleSyntaxChecker
 {

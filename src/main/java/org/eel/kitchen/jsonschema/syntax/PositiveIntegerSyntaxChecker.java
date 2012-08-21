@@ -22,6 +22,14 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 
+/**
+ * Syntax validator for keywords having a positive integer value as an argument
+ *
+ * <p>Note that this is Java, which means there is the limit that such
+ * arguments cannot be greater than {@link Integer#MAX_VALUE}. While not
+ * strictly conformant with the specification, this implementation enforces
+ * this.</p>
+ */
 public class PositiveIntegerSyntaxChecker
     extends SimpleSyntaxChecker
 {

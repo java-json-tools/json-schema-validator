@@ -25,6 +25,9 @@ import org.eel.kitchen.jsonschema.util.RhinoHelper;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Syntax validator for the {@code patternProperties} keyword
+ */
 public final class PatternPropertiesSyntaxChecker
     extends SimpleSyntaxChecker
 {
@@ -46,7 +49,6 @@ public final class PatternPropertiesSyntaxChecker
     {
         final Map<String, JsonNode> properties
             = JacksonUtils.nodeToMap(schema.get(keyword));
-
 
         for (final Map.Entry<String, JsonNode> entry: properties.entrySet()) {
             if (!RhinoHelper.regexIsValid(entry.getKey())) {

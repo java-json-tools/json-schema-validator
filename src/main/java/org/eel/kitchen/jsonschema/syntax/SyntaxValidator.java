@@ -36,12 +36,18 @@ import java.util.Set;
  * through schemas is not as simple as it sounds, we cannot just blindly
  * recurse through object instances (consider {@code enum}).</p>
  */
-// FIXME: try and recurse through schemas, it can be done with a little work,
-// but it has to be triggered from _within_ validators. Ouch.
 public final class SyntaxValidator
 {
+    /**
+     * List of registered checkers
+     */
     private final Map<String, SyntaxChecker> checkers;
 
+    /**
+     * Constructor
+     *
+     * @param bundle the keyword bundle
+     */
     public SyntaxValidator(final KeywordBundle bundle)
     {
         String name;
@@ -60,6 +66,12 @@ public final class SyntaxValidator
         checkers = ImmutableMap.copyOf(map);
     }
 
+    /**
+     * Validate one schema
+     *
+     * @param messages the list of messages to fill in the event of a failure
+     * @param schema the schema to analyze
+     */
     public void validate(final List<String> messages, final JsonNode schema)
     {
         final Set<String> keywords = JacksonUtils.fieldNames(schema);

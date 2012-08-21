@@ -23,6 +23,11 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * Syntax checker for the {@code divisibleBy} keyword
+ *
+ * <p>Note: in draft v4, this will be renamed to {@code mod}.</p>
+ */
 public final class DivisibleBySyntaxChecker
     extends SimpleSyntaxChecker
 {

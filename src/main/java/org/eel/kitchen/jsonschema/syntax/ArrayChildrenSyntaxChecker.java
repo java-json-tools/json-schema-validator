@@ -23,6 +23,13 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * Dedicated syntax validator checker for keywords having arrays as arguments
+ *
+ * <p>This class checks that the element is an array, and that all elements
+ * of this array are of a given set of types.
+ * </p>
+ */
 public class ArrayChildrenSyntaxChecker
     extends SimpleSyntaxChecker
 {

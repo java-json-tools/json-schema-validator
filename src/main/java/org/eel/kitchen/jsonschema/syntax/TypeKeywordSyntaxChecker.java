@@ -24,6 +24,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Dedicated syntax checker for {@code type} and {@code disallow}
+ *
+ * <p>These keywords are monsters. Only {@code dependencies} comes close in
+ * terms of complexity.</p>
+ */
 public class TypeKeywordSyntaxChecker
     extends SimpleSyntaxChecker
 {

@@ -23,6 +23,9 @@ import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.List;
 
+/**
+ * Syntax validator for the {@code pattern} keyword
+ */
 public final class PatternSyntaxChecker
     extends SimpleSyntaxChecker
 {

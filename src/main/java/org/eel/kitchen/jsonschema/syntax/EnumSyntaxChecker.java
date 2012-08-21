@@ -24,6 +24,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Syntax validator for the {@code enum} keyword
+ */
 public final class EnumSyntaxChecker
     extends SimpleSyntaxChecker
 {

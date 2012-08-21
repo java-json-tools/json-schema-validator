@@ -22,6 +22,9 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 
+/**
+ * Syntax validator for the {@code exclusiveMinimum} keyword
+ */
 public final class ExclusiveMinimumSyntaxChecker
     extends SimpleSyntaxChecker
 {

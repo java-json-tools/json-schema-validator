@@ -21,6 +21,9 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
+/**
+ * Syntax validator for the {@code items} keyword
+ */
 public final class ItemsSyntaxChecker
     extends ArrayChildrenSyntaxChecker
 {
