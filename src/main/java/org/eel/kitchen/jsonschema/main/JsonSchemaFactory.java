@@ -249,7 +249,7 @@ public final class JsonSchemaFactory
         /**
          * No arg constructor
          *
-         * <p>This calls {@link Builder#Builder(KeywordBundle)} with
+         * <p>This calls the main constructor with
          * {@link KeywordBundles#defaultBundle()} as an argument.</p>
          */
         public Builder()

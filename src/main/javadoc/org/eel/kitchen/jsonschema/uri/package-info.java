@@ -29,6 +29,6 @@
  *     {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#addURIDownloader(String, org.eel.kitchen.jsonschema.uri.URIDownloader)}.</li>
  * </ul>
  */
-package org.eel.kitchen.jsonschema.util;
+package org.eel.kitchen.jsonschema.uri;
 
 import java.lang.String;

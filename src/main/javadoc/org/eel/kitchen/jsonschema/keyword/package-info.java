@@ -51,7 +51,7 @@
  * org.eel.kitchen.jsonschema.keyword.KeywordValidator}:
  * </p>
  *
- * <code>
+ * <pre>
  *     public final class MinPropertiesKeywordValidator
  *         extends PositiveIntegerKeywordValidator
  *     {
@@ -60,15 +60,15 @@
  *             super("minProperties", schema, NodeType.OBJECT);
  *         }
  *
- *         @Override
+ *         \@Override
  *         public void validate(final ValidationContext context,
  *             final ValidationReport report, final JsonNode instance)
  *         {
  *             if (instance.size() < intValue)
  *                report.addMessage("object instance has less than "
- *                + "minPropertieselements");
+ *                + "minProperties elements");
  *         }
  *     }
- * </code>
+ * </pre>
  */
 package org.eel.kitchen.jsonschema.keyword;

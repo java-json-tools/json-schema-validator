@@ -32,7 +32,8 @@
  * </p>
  *
  * <p>The {@link org.eel.kitchen.jsonschema.util.NodeType} enum is a critical
- * part of the code. Its ability to determine the type of a {@link JsonNode} is
+ * part of the code. Its ability to determine the type of a
+ * {@link com.fasterxml.jackson.databind.JsonNode} is
  * an essential part of the validation process.</p>
  *
  * <p>Finally, the {@link org.eel.kitchen.jsonschema.util.JacksonUtils} class
