@@ -21,10 +21,30 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
+/**
+ * Interface implemented by all core validators
+ */
 public interface JsonValidator
 {
+    /**
+     * Validate the instance, and tell whether validation should continue
+     *
+     * @param context the validation context
+     * @param report the validation report
+     * @param instance the instance to validate
+     * @return true if validation should proceed
+     */
     boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance);
 
+    /**
+     * Return the next validator in the chain
+     *
+     * <p>This will be called iif
+     * {@link #validate(ValidationContext, ValidationReport, JsonNode)}
+     * returns {@code true}.</p>
+     *
+     * @return a validator
+     */
     JsonValidator next();
 }

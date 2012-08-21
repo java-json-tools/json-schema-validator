@@ -30,13 +30,28 @@ import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * First validator in the validation chain
+ *
+ * <p>This validator is in charge of resolving JSON References. In most cases,
+ * it will not do anything since most schemas are not JSON References.</p>
+ *
+ * <p>This is also the class which detects ref loops.</p>
+ *
+ * <p>Its {@link #next()} method always returns a {@link SyntaxJsonValidator}.
+ * </p>
+ */
 public final class RefResolverJsonValidator
     implements JsonValidator
 {
+    /**
+     * The schema factory
+     */
     private final JsonSchemaFactory factory;
 
-    private final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
-
+    /**
+     * The schema node
+     */
     private SchemaNode schemaNode;
 
     public RefResolverJsonValidator(final JsonSchemaFactory factory,
@@ -70,6 +85,15 @@ public final class RefResolverJsonValidator
         return new SyntaxJsonValidator(factory, schemaNode);
     }
 
+    /**
+     * Resolve references
+     *
+     * @param context the validation context
+     * @param node the schema node
+     * @return the resolved node
+     * @throws JsonSchemaException invalid reference, loop detected, or could
+     * not get content
+     */
     private JsonNode resolve(final ValidationContext context,
         final JsonNode node)
         throws JsonSchemaException
@@ -79,6 +103,8 @@ public final class RefResolverJsonValidator
         final JsonRef source = container.getLocator();
         final JsonRef ref = JsonRef.fromString(node.get("$ref").textValue());
         final JsonRef target = source.resolve(ref);
+        final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
+
 
         if (!refs.add(target))
             throw new JsonSchemaException("$ref problem: ref loop detected: "
@@ -93,7 +119,7 @@ public final class RefResolverJsonValidator
             = target.getFragment().resolve(container.getSchema());
 
         if (ret.isMissingNode())
-            throw new JsonSchemaException("$ref problem: dangling JSON pointer"
+            throw new JsonSchemaException("$ref problem: dangling JSON ref "
                 + target);
 
         if (!ret.isObject())

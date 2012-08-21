@@ -34,6 +34,26 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Validator called for object instance children
+ *
+ * <p>Unlike what happens with arrays, a same child/value instance of an object
+ * may have to satisfy more than one schema. For a given property name, the list
+ * of schemas is constructed as follows:</p>
+ *
+ * <ul>
+ *     <li>if the property name has an exact match in {@code properties},
+ *     the corresponding schema is added to the list;</li>
+ *     <li>for all regexes in {@code patternProperties}, if the property name
+ *     matches the regex, the corresponding schema is added to the list;</li>
+ *     <li>if, at this point, the list is empty, then the contents of
+ *     {@code additionalProperties} is added to the list (an empty schema if
+ *     {@code additionalProperties} is either {@code true} or nonexistent).</li>
+ * </ul>
+ *
+ * <p>Its {@link #next()} method should <b>never</b> be called (it throws an
+ * {@link IllegalStateException} if it is).</p>
+ */
 public final class ObjectJsonValidator
     implements JsonValidator
 {

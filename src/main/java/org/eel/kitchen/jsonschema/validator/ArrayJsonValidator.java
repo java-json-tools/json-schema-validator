@@ -30,6 +30,22 @@ import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Validator called for array instance children
+ *
+ * <p>Array chidren must obey one schema, depending on the values of
+ * {@code items} and {@code additionalItems}. No {@code items} is equivalent
+ * to an empty array.</p>
+ *
+ * <p>Array indices start at 0. For a given index:</p>
+ *
+ * <ul>
+ *     <li>if there is a schema at this index in {@code items}, there is a
+ *     match;</li>
+ *     <li>otherwise, {@code additionalItems} is considered (if {@code true} or
+ *     nonexistent, then an empty schema).</li>
+ * </ul>
+ */
 public final class ArrayJsonValidator
     implements JsonValidator
 {

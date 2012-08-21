@@ -21,8 +21,18 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+/**
+ * URI downloader for a given scheme
+ */
 public interface URIDownloader
 {
+    /**
+     * Fetch the content at a given URI
+     *
+     * @param source the URI
+     * @return an {@link InputStream}
+     * @throws IOException unable to fetch
+     */
     InputStream fetch(final URI source)
         throws IOException;
 }

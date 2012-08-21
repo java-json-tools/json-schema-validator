@@ -26,6 +26,15 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Second validator in the validation chain
+ *
+ * <p>This validator checks the schema syntax (as its name implies).
+ * Validation stops if the schema is deemed invalid.</p>
+ *
+ * <p>Its {@link #next()} method always returns an
+ * {@link InstanceJsonValidator}.</p>
+ */
 public final class SyntaxJsonValidator
     implements JsonValidator
 {

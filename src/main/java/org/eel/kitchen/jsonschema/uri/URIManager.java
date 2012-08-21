@@ -21,7 +21,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
+import org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,11 +33,36 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class to fetch JSON documents
+ *
+ * <p>This uses a map of {@link URIDownloader} instances to fetch the contents
+ * of a URI as an {@link InputStream}, then tries and turns this content into
+ * JSON using an {@link ObjectMapper}.</p>
+ *
+ * <p>Normally, you will never use this class directly.</p>
+ *
+ * @see SchemaRegistry
+ * @see JsonLoader
+ */
 public class URIManager
 {
+    /**
+     * Our object mapper
+     *
+     * <p>Note that it uses {@link
+     * DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS} to deserialize,
+     * for accuracy reasons.</p>
+     *
+     * @see NumericKeywordValidator
+     */
     private static final ObjectMapper mapper = new ObjectMapper()
         .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 
+    /**
+     * Map of downloaders (schemes as keys, {@link URIDownloader} instances
+     * as values)
+     */
     private final Map<String, URIDownloader> downloaders
         = new HashMap<String, URIDownloader>();
 
@@ -43,6 +71,15 @@ public class URIManager
         downloaders.put("http", HTTPURIDownloader.getInstance());
     }
 
+    /**
+     * Register a new downloader for a given URI scheme
+     *
+     * @param scheme the scheme
+     * @param downloader the {@link URIDownloader} instance
+     * @throws NullPointerException scheme is null
+     * @throws IllegalArgumentException scheme is empty, or is already
+     * registered
+     */
     public void registerDownloader(final String scheme,
         final URIDownloader downloader)
     {
@@ -62,6 +99,14 @@ public class URIManager
         downloaders.put(scheme, downloader);
     }
 
+    /**
+     * Get the content at a given URI as a {@link JsonNode}
+     *
+     * @param uri the URI
+     * @return the content
+     * @throws JsonSchemaException scheme is not registered, failed to get
+     * content, or content is not JSON
+     */
     public JsonNode getContent(final URI uri)
         throws JsonSchemaException
     {

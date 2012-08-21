@@ -47,14 +47,8 @@ public final class JsonLoader
     /**
      * The mapper which does everything behind the scenes...
      */
-    private static final ObjectMapper mapper = new ObjectMapper();
-
-    static {
-        /*
-         * NECESSARY! Otherwise Jackson will limit itself to doubles!
-         */
-        mapper.enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
-    }
+    private static final ObjectMapper mapper = new ObjectMapper()
+        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
 
     /**
      * A shortcut: myself as a {@link Class} object.

@@ -27,6 +27,17 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Set;
 
+/**
+ * Third validator in the validation chain
+ *
+ * <p>This is the first validator which actually checks the validated instance.
+ * Validation stops if the instance is not a container instance (ie, an array or
+ * an object).</p>
+ *
+ * <p>Its {@link #next()} method will return either of an
+ * {@link ArrayJsonValidator} or an {@link ObjectJsonValidator} depending on the
+ * instance type.</p>
+ */
 public final class InstanceJsonValidator
     implements JsonValidator
 {

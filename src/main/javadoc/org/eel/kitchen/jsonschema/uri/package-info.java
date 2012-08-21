@@ -15,34 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.uri;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-
 /**
- * Simple URI downloader for the {@code http} scheme
+ * JSON document downloaders
+ *
+ * <p>You will normally not use any of these classes directly. {@code http}
+ * is for the moment the only scheme supported natively. You can expand the
+ * set of supported schemes by:</p>
+ *
+ * <ul>
+ *     <li>implementing {@link org.eel.kitchen.jsonschema.uri.URIDownloader},
+ *     </li>
+ *     <li>registering this new downloader using
+ *     {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#addURIDownloader(String, org.eel.kitchen.jsonschema.uri.URIDownloader)}.</li>
+ * </ul>
  */
-public final class HTTPURIDownloader
-    implements URIDownloader
-{
-    private static final URIDownloader instance
-        = new HTTPURIDownloader();
+package org.eel.kitchen.jsonschema.util;
 
-    private HTTPURIDownloader()
-    {
-    }
-
-    public static URIDownloader getInstance()
-    {
-        return instance;
-    }
-
-    @Override
-    public InputStream fetch(final URI source)
-        throws IOException
-    {
-        return source.toURL().openStream();
-    }
-}
+import java.lang.String;
