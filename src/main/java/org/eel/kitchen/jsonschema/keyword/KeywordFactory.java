@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
@@ -39,7 +40,7 @@ import java.util.Set;
  * schema
  *
  * <p>This class is only called once the schemas has been deemed valid,
- * that is, after the following items all stand true:</p>
+ * that is, after the following is true:</p>
  *
  * <ul>
  *     <li>the JSON document is not a JSON reference (ie, if it was,
@@ -94,7 +95,7 @@ public final class KeywordFactory
         for (final String keyword: set)
             ret.add(buildValidator(validators.get(keyword), schema));
 
-        return ret;
+        return ImmutableSet.copyOf(ret);
     }
 
     /**
@@ -104,8 +105,8 @@ public final class KeywordFactory
      * constructor which takes a {@link JsonNode} as an argument.
      * </p>
      *
-     * <p>If instantiation fails for whatever reason,
-     * an "invalid validator" is returned which always fails</p>
+     * <p>If instantiation fails for whatever reason, an "invalid validator" is
+     * returned which always fails.</p>
      *
      * @see #invalidValidator(Exception)
      *

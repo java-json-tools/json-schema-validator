@@ -17,6 +17,17 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+/**
+ * A validation context
+ *
+ * <p>This object is passed along the validation process. At any point in
+ * the validation process, it contains the current context and the
+ * underlying factory.</p>
+ *
+ * <p>The latter is necessary since four keywords may have to spawn other
+ * validators: {@code type}, {@code disallow}, {@code dependencies} and
+ * {@code extends}.</p>
+ */
 public final class ValidationContext
 {
     private SchemaContainer container;

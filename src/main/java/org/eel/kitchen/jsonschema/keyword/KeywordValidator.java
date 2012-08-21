@@ -20,6 +20,8 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Collections;
@@ -28,12 +30,26 @@ import java.util.EnumSet;
 /**
  * Base class for a schema keyword validator
  *
- * <p>Keyword validators will only ever be called if the keyword syntax is
- * correct. This makes one less problem to handle.</p>
+ * <p>In the processing order, a keyword validator is only called after the
+ * schema has been deemed syntactically valid: this is why it is practically
+ * a requirement that if you create a new validating keyword, you pair it with
+ * a {@link SyntaxChecker}. The constructor will be all the more simple as a
+ * result.</p>
  *
  * <p>A keyword only takes effect for a certain number of JSON instance
  * types: if the instance to validate is not among these types,
  * validation succeeds.</p>
+ *
+ * <p>Two other abstract classes exist which you may want to extend instead
+ * of this one, depending on your needs:</p>
+ *
+ * <ul>
+ *     <li>{@link NumericKeywordValidator}, for validating numeric
+ *     instances;</li>
+ *     <li>{@link PositiveIntegerKeywordValidator}, for keywords accepting
+ *     only a positive integer as an argument (to be paired with
+ *     {@link PositiveIntegerSyntaxChecker}.</li>
+ * </ul>
  */
 public abstract class KeywordValidator
 {
@@ -59,9 +75,6 @@ public abstract class KeywordValidator
      * <p>Its only role is to check whether the instance type is recognized
      * by this keyword. If so, it calls {@link #validate(ValidationContext,
      * ValidationReport, JsonNode)}.</p>
-     *
-     * <p>In the opposite scenario, it means this keyword cannot validate
-     * this particular instance: it is therefore considered valid.</p>
      *
      * @param context the context
      * @param report the validation report

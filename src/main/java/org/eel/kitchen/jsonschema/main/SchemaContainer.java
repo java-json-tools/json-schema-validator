@@ -26,11 +26,23 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 
+/**
+ * A JSON Schema container
+ *
+ * <p>This embodies the schema itself, as a {@link JsonNode},
+ * and its locator, as a {@link JsonRef}.</p>
+ *
+ * <p>Note that the schema passed as an argument will be stripped off its
+ * {@code id} field, if it has one.</p>
+ */
 public final class SchemaContainer
 {
     private static final Logger logger
         = LoggerFactory.getLogger(SchemaContainer.class);
 
+    /**
+     * Locator for an anonymous schema
+     */
     private static final URI EMPTY_LOCATOR = URI.create("#");
 
     private final JsonNode schema;
@@ -90,16 +102,32 @@ public final class SchemaContainer
         schema = cleanup(node);
     }
 
+    /**
+     * Create an anonymous schema
+     *
+     * @param node the schema as a {@link JsonNode}
+     * @return a container
+     */
     public static SchemaContainer anonymousSchema(final JsonNode node)
     {
         return new SchemaContainer(EMPTY_LOCATOR, node);
     }
 
+    /**
+     * Get this container's locator
+     *
+     * @return the locator
+     */
     public JsonRef getLocator()
     {
         return locator;
     }
 
+    /**
+     * Get this container's underlying schema
+     *
+     * @return the underlying {@link JsonNode}
+     */
     public JsonNode getSchema()
     {
         return schema;
@@ -127,6 +155,12 @@ public final class SchemaContainer
         return 31 * locator.hashCode() + schema.hashCode();
     }
 
+    /**
+     * Strip an object instance off its {@code id} member, if any
+     *
+     * @param schema the victim
+     * @return the copy
+     */
     private static JsonNode cleanup(final JsonNode schema)
     {
         if (!schema.has("id"))

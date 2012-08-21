@@ -30,7 +30,12 @@ import java.util.Set;
 /**
  * Validator for the {@code properties} keyword
  *
- * <p>The only thing this validator tests is {@code required} in subschemas.</p>
+ * <p>Again, it should be reminded that this only handles validation at the
+ * instance level: this keyword will not validate children nodes.</p>
+ *
+ * <p>The particular item being validated is {@code required} in subschemas:
+ * if this keyword is present, it means that the object instance must have a
+ * property by that name.</p>
  */
 public final class PropertiesKeywordValidator
     extends KeywordValidator

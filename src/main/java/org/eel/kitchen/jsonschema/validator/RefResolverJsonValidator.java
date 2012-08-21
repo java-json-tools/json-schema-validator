@@ -25,7 +25,6 @@ import org.eel.kitchen.jsonschema.main.SchemaNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.util.LinkedHashSet;
@@ -36,7 +35,6 @@ public final class RefResolverJsonValidator
 {
     private final JsonSchemaFactory factory;
 
-    private final SchemaRegistry registry;
     private final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
 
     private SchemaNode schemaNode;
@@ -46,7 +44,6 @@ public final class RefResolverJsonValidator
     {
         this.factory = factory;
         this.schemaNode = schemaNode;
-        registry = factory.getRegistry();
     }
 
     @Override
@@ -88,7 +85,7 @@ public final class RefResolverJsonValidator
                 + refs);
 
         if (!source.contains(target)) {
-            container = registry.get(target.getRootAsURI());
+            container = factory.getSchema(target.getRootAsURI());
             context.setContainer(container);
         }
 

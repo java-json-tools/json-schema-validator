@@ -19,6 +19,12 @@ package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * A schema node
+ *
+ * <p>This embodies the parent schema, as a {@link SchemaContainer},
+ * and the schema node itself, as a {@link JsonNode}.</p>
+ */
 public final class SchemaNode
 {
     private final SchemaContainer container;

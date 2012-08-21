@@ -21,13 +21,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
 
+/**
+ * The main validation class
+ *
+ * <p>This class is thread-safe: you can validate as many inputs as you
+ * want with one instance.</p>
+ *
+ * <p>In order to build an instance, you need to go through a
+ * {@link JsonSchemaFactory}.</p>
+ */
 public final class JsonSchema
 {
     private final JsonSchemaFactory factory;
     private final SchemaNode schemaNode;
     private final ValidationContext context;
 
-    public JsonSchema(final JsonSchemaFactory factory,
+    JsonSchema(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
         this.factory = factory;
