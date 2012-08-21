@@ -142,9 +142,9 @@
         </license>
     </licenses>
     <scm>
-        <url>git@github.com:fge/json-schema-validator</url>
-        <connection>scm:git:git@github.com:fge/json-schema-validator</connection>
-        <developerConnection>scm:git:git@github.com:fge/json-schema-validator</developerConnection>
+        <url>/home/fge/tmp/mvn</url>
+        <connection>scm:git:/home/fge/tmp/mvn</connection>
+        <developerConnection>scm:git:/home/fge/tmp/mvn</developerConnection>
     </scm>
     <developers>
         <developer>
