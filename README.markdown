@@ -7,15 +7,10 @@ src/main/resources/LICENSE for the full text.</p>
 using! Please note that versions lower than 0.4.x are not supported
 anymore.</b></p>
 
-<p><b>IMPORTANT 2: the current development version, 0.5.x, makes no guarantees
-as to the user API stability as long as it is labeled beta</b>. However, it is
-pretty much stable as of 0.5.0beta4.</p>
-
-<p>The current version is <b>0.5.0beta5</b>.</p>
-
-<p>The old, still maintained version is <b>0.4.1</b>. See the
+<p>The current version is <b>0.5.0beta5</b>. The major feature of this version
+is a stabilized user API. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
-more details.</p>
+more details. The old, still maintained version is <b>0.4.1</b>. 
 
 <h2>What it is</h2>
 
@@ -29,19 +24,18 @@ looking for./<p>
 <p>The current version (0.5.x) has the following features:</p>
 
 * full draft v3 validation (except for the <tt>color</tt> and <tt>style</tt>
-  format specifiers, which nobody uses anyway, right?);
+  format specifiers...);
 * arbitrary length/precision number validation;
-* ECMA 262 regexes (using Rhino), as required by the draft;
+* ECMA 262 regexes (using Rhino);
 * schema caching for performance;
-* schema syntax validation (also cached);
+* schema syntax validation;
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving <i>and loop
   detection</i>;
 * <b>thread safe validators</b> (0.4.x validation is not thread safe);
 * ability to register URI handlers for any scheme (HTTP only natively);
 * ability to register/unregister keywords.
 
-It is also, and by very far, the [fastest JSON Schema validation library in
-existence](https://github.com/fge/json-schema-validator/wiki/Performance).
+<h2>More...</h2>
 
 <p>For a detailed discussion of the implementation, see
 [here](https://github.com/fge/json-schema-validator/wiki/Status). For a list of
