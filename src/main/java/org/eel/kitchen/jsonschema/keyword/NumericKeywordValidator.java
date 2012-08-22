@@ -53,7 +53,7 @@ public abstract class NumericKeywordValidator
     /**
      * Does the keyword value fits into a {@code long}?
      */
-    protected final boolean isLong;
+    private final boolean isLong;
 
     /**
      * Protected constructor

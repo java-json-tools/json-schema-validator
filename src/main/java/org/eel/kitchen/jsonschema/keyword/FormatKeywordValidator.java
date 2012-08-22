@@ -20,8 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.format.DateFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateTimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.DateTimeMillisecFormatSpecifier;
@@ -35,6 +33,8 @@ import org.eel.kitchen.jsonschema.format.RegexFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.TimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.URIFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
+import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.ArrayList;

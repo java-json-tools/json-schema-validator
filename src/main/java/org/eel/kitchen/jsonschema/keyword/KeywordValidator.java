@@ -56,7 +56,7 @@ public abstract class KeywordValidator
     /**
      * What types this keyword validates
      */
-    protected final EnumSet<NodeType> instanceTypes
+    private final EnumSet<NodeType> instanceTypes
         = EnumSet.noneOf(NodeType.class);
 
     /**

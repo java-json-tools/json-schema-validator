@@ -33,7 +33,7 @@ public final class URISyntaxChecker
     }
 
     @Override
-    final void checkValue(final List<String> messages, final JsonNode schema)
+    void checkValue(final List<String> messages, final JsonNode schema)
     {
         try {
             new URI(schema.get(keyword).textValue());
