@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.main.SchemaNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -35,7 +34,7 @@ public abstract class JsonValidator
     // FIXME: schemaNode cannot be made final only because of
     // RefResolverJsonValidator :/
     protected final JsonSchemaFactory factory;
-    protected SchemaNode schemaNode;
+    protected final SchemaNode schemaNode;
 
     protected JsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)

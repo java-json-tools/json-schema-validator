@@ -31,6 +31,7 @@ import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 import java.net.URI;
 import java.util.HashSet;

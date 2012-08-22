@@ -15,20 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
 
 /**
  * A schema node
  *
- * <p>This embodies the parent schema, as a {@link SchemaContainer},
- * and the schema node itself, as a {@link JsonNode}.</p>
+ * <p>This embodies the parent schema, as a {@link SchemaContainer},and the
+ * schema itself, as a {@link JsonNode}.</p>
  */
 public final class SchemaNode
 {
-    private final SchemaContainer container;
-    private final JsonNode node;
+    private SchemaContainer container;
+    private JsonNode node;
 
     public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
@@ -44,6 +45,16 @@ public final class SchemaNode
     public JsonNode getNode()
     {
         return node;
+    }
+
+    void setContainer(final SchemaContainer container)
+    {
+        this.container = container;
+    }
+
+    void setNode(final JsonNode node)
+    {
+        this.node = node;
     }
 
     @Override

@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 /**
  * The main validation class
