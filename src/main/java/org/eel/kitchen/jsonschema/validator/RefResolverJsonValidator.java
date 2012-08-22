@@ -65,11 +65,13 @@ public final class RefResolverJsonValidator
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
+        final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
+
         JsonNode node = schemaNode.getNode();
 
         while (JacksonUtils.nodeIsURI(node.path("$ref")))
             try {
-                node = resolve(context, node);
+                node = resolve(context, node, refs);
             } catch (JsonSchemaException e) {
                 report.addMessage(e.getMessage());
                 return false;
@@ -95,7 +97,7 @@ public final class RefResolverJsonValidator
      * not get content
      */
     private JsonNode resolve(final ValidationContext context,
-        final JsonNode node)
+        final JsonNode node, final Set<JsonRef> refs)
         throws JsonSchemaException
     {
         SchemaContainer container = context.getContainer();
@@ -103,7 +105,6 @@ public final class RefResolverJsonValidator
         final JsonRef source = container.getLocator();
         final JsonRef ref = JsonRef.fromString(node.get("$ref").textValue());
         final JsonRef target = source.resolve(ref);
-        final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
 
 
         if (!refs.add(target))
