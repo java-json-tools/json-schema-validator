@@ -18,9 +18,6 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.google.common.base.Preconditions;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
 import java.net.URI;
@@ -65,22 +62,7 @@ public final class JsonRef
     private static final URI HASHONLY_URI = URI.create("#");
     private static final URI EMPTY_URI = URI.create("");
 
-    private static final JsonRef EMPTY;
-    private static final LoadingCache<URI, JsonRef> cache;
-
-    static {
-        cache = CacheBuilder.newBuilder().maximumSize(15L)
-            .build(new CacheLoader<URI, JsonRef>()
-            {
-                @Override
-                public JsonRef load(final URI key)
-                    throws Exception
-                {
-                    return new JsonRef(key);
-                }
-            });
-        EMPTY = new JsonRef(EMPTY_URI);
-    }
+    private static final JsonRef EMPTY = new JsonRef(EMPTY_URI);
 
     /**
      * The URI, as provided by the input arguments
@@ -108,21 +90,20 @@ public final class JsonRef
 
     public static JsonRef fromURI(final URI uri)
     {
-        Preconditions.checkNotNull(uri, "uri must not be null");
+        Preconditions.checkNotNull(uri, "URI must not be null");
 
-        if (EMPTY_URI.equals(uri) || HASHONLY_URI.equals(uri))
+        final URI normalized = uri.normalize();
+
+        if (HASHONLY_URI.equals(normalized) || EMPTY_URI.equals(normalized))
             return EMPTY;
 
-        return cache.getUnchecked(uri.normalize());
+        return new JsonRef(normalized);
     }
 
     public static JsonRef fromString(final String s)
         throws JsonSchemaException
     {
         Preconditions.checkNotNull(s, "string must not be null");
-
-        if (s.isEmpty() || "#".equals(s))
-            return EMPTY;
 
         try {
             return fromURI(new URI(s));
@@ -134,11 +115,6 @@ public final class JsonRef
     public static JsonRef emptyRef()
     {
         return EMPTY;
-    }
-
-    public boolean isEmpty()
-    {
-        return this == EMPTY;
     }
 
     public boolean isAbsolute()
