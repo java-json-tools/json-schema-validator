@@ -52,22 +52,28 @@ public final class SchemaContainer
      * Return a new container based on a schema
      *
      * <p>Note that if the {@code id} node exists and is an URI,
-     * but not absolute, an {@link #anonymousSchema(JsonNode)} will be
-     * returned.</p>
+     * but not absolute, an anonymous schema will be returned.
+     * </p>
      *
      * @param schema the schema
      */
     public SchemaContainer(final JsonNode schema)
     {
         final JsonNode idNode = schema.path("id");
-        JsonRef ref = JsonRef.emptyRef();
 
-        if (JacksonUtils.nodeIsURI(idNode))
-            try {
-                ref = JsonRef.fromString(idNode.textValue());
-            } catch (JsonSchemaException e) { // cannot happen
-                throw new RuntimeException("WTF??", e);
-            }
+        if (!JacksonUtils.nodeIsURI(idNode)) {
+            locator = JsonRef.emptyRef();
+            this.schema = schema;
+            return;
+        }
+
+        JsonRef ref;
+
+        try {
+            ref = JsonRef.fromString(idNode.textValue());
+        } catch (JsonSchemaException e) { // cannot happen
+            throw new RuntimeException("WTF??", e);
+        }
 
         if (!ref.isAbsolute()) {
             logger.warn("schema locator (" + ref + ") is not absolute! " +
@@ -83,7 +89,7 @@ public final class SchemaContainer
      * Return a new container based on an URI and a schema
      *
      * <p>Note that if the provided URI is not absolute, an
-     * {@link #anonymousSchema(JsonNode)} is returned.</p>
+     * anonymous schema is returned.</p>
      *
      * @param uri the URI
      * @param node the schema
@@ -100,17 +106,6 @@ public final class SchemaContainer
 
         locator = ref;
         schema = cleanup(node);
-    }
-
-    /**
-     * Create an anonymous schema
-     *
-     * @param node the schema as a {@link JsonNode}
-     * @return a container
-     */
-    public static SchemaContainer anonymousSchema(final JsonNode node)
-    {
-        return new SchemaContainer(EMPTY_LOCATOR, node);
     }
 
     /**

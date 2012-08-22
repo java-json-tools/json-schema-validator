@@ -24,7 +24,6 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
@@ -57,18 +56,13 @@ public final class SchemaRegistry
     {
         Preconditions.checkNotNull(node, "cannot register null schema");
 
-        final JsonNode idNode = node.path("id");
-        final JsonRef ref = JacksonUtils.nodeIsURI(idNode)
-            ? JsonRef.fromString(idNode.textValue())
-            : JsonRef.emptyRef();
+        final SchemaContainer container = new SchemaContainer(node);
 
-        if (ref.isEmpty())
-            return SchemaContainer.anonymousSchema(node);
+        final JsonRef ref = container.getLocator();
 
-        final URI uri = ref.getRootAsURI();
-        final SchemaContainer container = new SchemaContainer(uri, node);
+        if (ref.isAbsolute())
+            cache.put(ref.getRootAsURI(), container);
 
-        cache.put(uri, container);
         return container;
     }
 
