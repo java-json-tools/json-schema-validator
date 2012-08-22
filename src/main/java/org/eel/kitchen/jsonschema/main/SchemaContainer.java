@@ -94,7 +94,7 @@ public final class SchemaContainer
      * @param uri the URI
      * @param node the schema
      */
-    public SchemaContainer(final URI uri, final JsonNode node)
+    SchemaContainer(final URI uri, final JsonNode node)
     {
         JsonRef ref = JsonRef.fromURI(uri);
 

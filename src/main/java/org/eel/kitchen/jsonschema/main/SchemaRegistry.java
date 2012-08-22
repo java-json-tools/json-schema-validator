@@ -75,13 +75,4 @@ public final class SchemaRegistry
             throw new JsonSchemaException(e.getCause().getMessage());
         }
     }
-
-    public void put(final URI uri, final JsonNode node)
-        throws JsonSchemaException
-    {
-        if (!JsonRef.fromURI(uri).isAbsolute())
-            throw new JsonSchemaException("URI " + uri + " is not a valid "
-                + "JSON Schema locator");
-        cache.put(uri, new SchemaContainer(uri, node));
-    }
 }
