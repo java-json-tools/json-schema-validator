@@ -208,6 +208,11 @@ public final class JsonSchemaFactory
      */
     public void validateSyntax(final List<String> messages, final JsonNode node)
     {
+        if (!node.isObject()) {
+            messages.add("not a JSON Schema (not an object)");
+            return;
+        }
+
         synchronized (validated) {
             if (validated.contains(node))
                 return;

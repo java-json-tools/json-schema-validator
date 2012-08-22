@@ -123,10 +123,6 @@ public final class RefResolverJsonValidator
             throw new JsonSchemaException("$ref problem: dangling JSON ref "
                 + target);
 
-        if (!ret.isObject())
-            throw new JsonSchemaException("$ref problem: JSON document is not" +
-                " a schema (not an object)");
-
         return ret;
     }
 }

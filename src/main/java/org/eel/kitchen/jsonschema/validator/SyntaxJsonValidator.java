@@ -56,6 +56,7 @@ public final class SyntaxJsonValidator
         final JsonNode node = schemaNode.getNode();
 
         factory.validateSyntax(messages, node);
+        report.addMessages(messages);
 
         return messages.isEmpty();
     }

@@ -25,10 +25,9 @@ import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.SchemaNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.*;
 
 public final class JsonValidatorTest
 {
@@ -42,25 +41,39 @@ public final class JsonValidatorTest
     private ValidationReport report;
     private JsonValidator validator;
 
-    @BeforeMethod
-    public void setupContext()
+    private void setupContext(final JsonNode node)
+        throws JsonSchemaException
     {
         report = new ValidationReport();
+        container = schemaFactory.registerSchema(node);
+        schemaNode = new SchemaNode(container, node);
         context = new ValidationContext(schemaFactory);
+        context.setContainer(container);
     }
 
     @Test
-    public void refFailureShouldStopAtFirstStep()
+    public void refFailureShouldStopValidation()
         throws JsonSchemaException
     {
         final JsonNode node = factory.objectNode().put("$ref", "#");
 
-        container = schemaFactory.registerSchema(node);
-        schemaNode = new SchemaNode(container, node);
-        context.setContainer(container);
+        setupContext(node);
         validator = new RefResolverJsonValidator(schemaFactory, schemaNode);
 
         assertFalse(validator.validate(context, report, factory.nullNode()));
+        assertFalse(report.isSuccess());
+    }
+
+    @Test
+    public void syntaxFailureShouldStopValidation()
+        throws JsonSchemaException
+    {
+        final JsonNode node = factory.nullNode();
+
+        setupContext(node);
+        validator = new SyntaxJsonValidator(schemaFactory, schemaNode);
+
+        assertFalse(validator.validate(context, report, node));
         assertFalse(report.isSuccess());
     }
 }
