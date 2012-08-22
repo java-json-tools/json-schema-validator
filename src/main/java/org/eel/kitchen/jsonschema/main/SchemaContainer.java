@@ -20,9 +20,6 @@ package org.eel.kitchen.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 
@@ -37,9 +34,6 @@ import java.net.URI;
  */
 public final class SchemaContainer
 {
-    private static final Logger logger
-        = LoggerFactory.getLogger(SchemaContainer.class);
-
     /**
      * Locator for an anonymous schema
      */
@@ -59,27 +53,18 @@ public final class SchemaContainer
      */
     public SchemaContainer(final JsonNode schema)
     {
-        final JsonNode idNode = schema.path("id");
+        JsonRef ref;
 
-        if (!JacksonUtils.nodeIsURI(idNode)) {
+        try {
+            ref = JsonRef.fromNode(schema.path("id"));
+        } catch (JsonSchemaException ignored) {
             locator = JsonRef.emptyRef();
             this.schema = schema;
             return;
         }
 
-        JsonRef ref;
-
-        try {
-            ref = JsonRef.fromString(idNode.textValue());
-        } catch (JsonSchemaException e) { // cannot happen
-            throw new RuntimeException("WTF??", e);
-        }
-
-        if (!ref.isAbsolute()) {
-            logger.warn("schema locator (" + ref + ") is not absolute! " +
-                "Returning an anonymous schema");
+        if (!ref.isAbsolute())
             ref = JsonRef.emptyRef();
-        }
 
         locator = ref;
         this.schema = cleanup(schema);

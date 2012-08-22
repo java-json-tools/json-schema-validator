@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
@@ -112,6 +113,13 @@ public final class JsonRef
         }
     }
 
+    public static JsonRef fromNode(final JsonNode node)
+        throws JsonSchemaException
+    {
+        Preconditions.checkNotNull(node, "node must not be null");
+
+        return node.isTextual() ? fromString(node.textValue()) : EMPTY;
+    }
     public static JsonRef emptyRef()
     {
         return EMPTY;
