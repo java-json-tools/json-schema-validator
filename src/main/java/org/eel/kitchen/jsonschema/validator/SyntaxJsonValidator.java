@@ -36,16 +36,12 @@ import java.util.List;
  * {@link InstanceJsonValidator}.</p>
  */
 public final class SyntaxJsonValidator
-    implements JsonValidator
+    extends JsonValidator
 {
-    private final JsonSchemaFactory factory;
-    private final SchemaNode schemaNode;
-
     SyntaxJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
-        this.factory = factory;
-        this.schemaNode = schemaNode;
+        super(factory, schemaNode);
     }
 
     @Override

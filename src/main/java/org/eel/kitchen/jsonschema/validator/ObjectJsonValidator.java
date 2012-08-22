@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
@@ -55,13 +54,8 @@ import java.util.Set;
  * {@link IllegalStateException} if it is).</p>
  */
 public final class ObjectJsonValidator
-    implements JsonValidator
+    extends JsonValidator
 {
-    private static final JsonNode EMPTY_SCHEMA
-        = JsonNodeFactory.instance.objectNode();
-
-    private final JsonSchemaFactory factory;
-
     private final JsonNode additionalProperties;
     private final Map<String, JsonNode> properties;
     private final Map<String, JsonNode> patternProperties;
@@ -69,7 +63,7 @@ public final class ObjectJsonValidator
     ObjectJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
-        this.factory = factory;
+        super(factory, schemaNode);
 
         final JsonNode schema = schemaNode.getNode();
 

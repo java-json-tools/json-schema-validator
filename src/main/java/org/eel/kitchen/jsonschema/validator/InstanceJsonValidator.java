@@ -39,11 +39,8 @@ import java.util.Set;
  * instance type.</p>
  */
 public final class InstanceJsonValidator
-    implements JsonValidator
+    extends JsonValidator
 {
-    private final JsonSchemaFactory factory;
-    private final SchemaNode schemaNode;
-
     private final Set<KeywordValidator> validators;
 
     private NodeType instanceType;
@@ -51,8 +48,7 @@ public final class InstanceJsonValidator
     InstanceJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
-        this.factory = factory;
-        this.schemaNode = schemaNode;
+        super(factory, schemaNode);
         validators = factory.getValidators(schemaNode.getNode());
     }
 

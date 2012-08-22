@@ -41,23 +41,13 @@ import java.util.Set;
  * </p>
  */
 public final class RefResolverJsonValidator
-    implements JsonValidator
+    extends JsonValidator
 {
-    /**
-     * The schema factory
-     */
-    private final JsonSchemaFactory factory;
-
-    /**
-     * The schema node
-     */
-    private SchemaNode schemaNode;
 
     public RefResolverJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
-        this.factory = factory;
-        this.schemaNode = schemaNode;
+        super(factory, schemaNode);
     }
 
     @Override

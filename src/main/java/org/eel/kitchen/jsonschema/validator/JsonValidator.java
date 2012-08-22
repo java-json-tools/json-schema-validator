@@ -18,14 +18,32 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.SchemaNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 /**
  * Interface implemented by all core validators
  */
-public interface JsonValidator
+public abstract class JsonValidator
 {
+    protected static final JsonNode EMPTY_SCHEMA
+        = JsonNodeFactory.instance.objectNode();
+
+    // FIXME: schemaNode cannot be made final only because of
+    // RefResolverJsonValidator :/
+    protected final JsonSchemaFactory factory;
+    protected SchemaNode schemaNode;
+
+    protected JsonValidator(final JsonSchemaFactory factory,
+        final SchemaNode schemaNode)
+    {
+        this.factory = factory;
+        this.schemaNode = schemaNode;
+    }
+
     /**
      * Validate the instance, and tell whether validation should continue
      *
@@ -34,7 +52,7 @@ public interface JsonValidator
      * @param instance the instance to validate
      * @return true if validation should proceed
      */
-    boolean validate(final ValidationContext context,
+    public abstract boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance);
 
     /**
@@ -46,5 +64,5 @@ public interface JsonValidator
      *
      * @return a validator
      */
-    JsonValidator next();
+    public abstract JsonValidator next();
 }

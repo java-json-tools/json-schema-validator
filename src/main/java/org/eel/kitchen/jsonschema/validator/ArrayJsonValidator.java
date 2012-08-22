@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
@@ -47,21 +46,16 @@ import java.util.List;
  * </ul>
  */
 public final class ArrayJsonValidator
-    implements JsonValidator
+    extends JsonValidator
 {
-    private static final JsonNode EMPTY_SCHEMA
-        = JsonNodeFactory.instance.objectNode();
-
-    private final JsonSchemaFactory factory;
-
-    private JsonNode additionalItems = EMPTY_SCHEMA;
+    private final JsonNode additionalItems;
 
     private final List<JsonNode> items;
 
     ArrayJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
     {
-        this.factory = factory;
+        super(factory, schemaNode);
 
         final JsonNode schema = schemaNode.getNode();
 
@@ -78,8 +72,7 @@ public final class ArrayJsonValidator
 
         node = schema.path("additionalItems");
 
-        if (node.isObject())
-            additionalItems = node;
+        additionalItems = node.isObject() ? node : EMPTY_SCHEMA;
     }
 
     @Override
