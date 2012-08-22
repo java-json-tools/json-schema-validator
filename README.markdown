@@ -11,7 +11,7 @@ anymore.</b></p>
 as to the user API stability as long as it is labeled beta</b>. However, it is
 pretty much stable as of 0.5.0beta4.</p>
 
-<p>The current version is <b>0.5.0beta4</b>.</p>
+<p>The current version is <b>0.5.0beta5</b>.</p>
 
 <p>The old, still maintained version is <b>0.4.1</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
