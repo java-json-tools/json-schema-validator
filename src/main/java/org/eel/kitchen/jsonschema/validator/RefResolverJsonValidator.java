@@ -65,10 +65,24 @@ public final class RefResolverJsonValidator
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
+        /*
+         * This set will store all ABSOLUTE JSON references we encounter
+         * during ref resolution. If there is an attempt to store an already
+         * existing reference, this means a ref loop.
+         *
+         * We want to preserve insertion order, therefore we have to use a
+         * LinkedHashSet.
+         */
         final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
 
         JsonNode node = schemaNode.getNode();
 
+        /*
+         * As long as we have a URI in our current node, we need to resolve it.
+         * The resolve() method will throw a JsonSchemaException if resolution
+         * fails for whatever reason, which is an error condition: validation
+         * shoud then stop.
+         */
         while (JacksonUtils.nodeIsURI(node.path("$ref")))
             try {
                 node = resolve(context, node, refs);
@@ -102,23 +116,50 @@ public final class RefResolverJsonValidator
     {
         SchemaContainer container = context.getContainer();
 
+        /*
+         * Calculate the target reference:
+         *
+         * - grab the locator from the current container (source);
+         * - grab the reference from the current node (ref);
+         * - calculate the full target reference by resolving ref against
+         *   source.
+         */
         final JsonRef source = container.getLocator();
         final JsonRef ref = JsonRef.fromString(node.get("$ref").textValue());
         final JsonRef target = source.resolve(ref);
 
-
+        /*
+         * If we have already seen that reference, this is a ref loop.
+         */
         if (!refs.add(target))
             throw new JsonSchemaException("$ref problem: ref loop detected: "
                 + refs);
 
+        /*
+         * If the source JSON Reference does not contain the target,
+         * we need to switch containers; grab the new one and update the
+         * validation context appropriately.
+         *
+         * Note that getting the new container may FAIL: in this case,
+         * factory.getSchema() will throw an exception which will be handled
+         * by the caller.
+         */
         if (!source.contains(target)) {
             container = factory.getSchema(target.getRootAsURI());
             context.setContainer(container);
         }
 
+        /*
+         * Now, calculate the result node by resolving the target's fragment
+         * against the container schema.
+         */
         final JsonNode ret
             = target.getFragment().resolve(container.getSchema());
 
+        /*
+         * If the fragment does not resolve anywhere, we have a dangling
+         * pointer: this is an error condition.
+         */
         if (ret.isMissingNode())
             throw new JsonSchemaException("$ref problem: dangling JSON ref "
                 + target);
