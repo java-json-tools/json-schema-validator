@@ -203,6 +203,9 @@ public final class JsonSchemaFactory
      *
      * <p>You should not use it in theory. I can dream ;)</p>
      *
+     * <p>Note that it is also at this level that non schemas (ie, JSON
+     * documents which are not objects) are detected.</p>
+     *
      * @param messages list of messages to fill
      * @param node the schema to validate
      */

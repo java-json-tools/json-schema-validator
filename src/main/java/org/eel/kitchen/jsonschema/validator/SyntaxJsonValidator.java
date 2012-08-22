@@ -55,9 +55,18 @@ public final class SyntaxJsonValidator
         final List<String> messages = new ArrayList<String>();
         final JsonNode node = schemaNode.getNode();
 
+        /*
+         * Note that the JsonNode we have grabbed may not be a JSON Object!
+         * This is the role of the .validateSyntax() method of our factory to
+         * detect that.
+         */
         factory.validateSyntax(messages, node);
         report.addMessages(messages);
 
+        /*
+         * We continue if and only if syntax validation succeeded, that is, the
+         * list of syntax validation messages is empty.
+         */
         return messages.isEmpty();
     }
 
