@@ -26,17 +26,20 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
 public final class SelfValidationTest
 {
     private JsonNode draftv3;
-    private JsonNode googleAPI;
     private JsonSchema schema;
     private final JsonSchemaFactory factory
         = new JsonSchemaFactory.Builder().build();
@@ -46,7 +49,6 @@ public final class SelfValidationTest
         throws IOException, JsonSchemaException
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
-        googleAPI = JsonLoader.fromResource("/other/google-json-api.json");
 
         final SchemaContainer container = factory.registerSchema(draftv3);
         schema = factory.createSchema(container);
@@ -61,21 +63,29 @@ public final class SelfValidationTest
         assertTrue(report.isSuccess());
     }
 
-    @Test
-    public void testGoogleSchemas()
+    @DataProvider
+    public Iterator<Object[]> getGoogleSchemas()
+        throws IOException
     {
+        final JsonNode googleAPI
+            = JsonLoader.fromResource("/other/google-json-api.json");
         final Map<String, JsonNode> schemas
             = JacksonUtils.nodeToMap(googleAPI.get("schemas"));
 
-        ValidationReport report;
-        String name;
-        JsonNode node;
+        final Set<Object[]> set = new HashSet<Object[]>();
 
-        for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
-            name = entry.getKey();
-            node = entry.getValue();
-            report = schema.validate(node);
-            assertTrue(report.isSuccess(), name);
-        }
+        for (final Map.Entry<String, JsonNode> entry: schemas.entrySet())
+            set.add(new Object[] { entry.getKey(), entry.getValue() });
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "getGoogleSchemas")
+    public void testGoogleSchemas(final String name, final JsonNode node)
+    {
+        final ValidationReport report = schema.validate(node);
+
+        assertTrue(report.isSuccess(), "Google schema " + name + " failed to "
+            + "validate");
     }
 }
