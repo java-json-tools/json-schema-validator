@@ -1,5 +1,8 @@
 <h2>Read me first</h2>
 
+<p>The license of this project is LGPLv3 or later. See file
+src/main/resources/LICENSE for the full text.</p>
+
 <p><b>IMPORTANT: if you report a bug, please mention what version you are
 using! Please note that versions lower than 0.4.x are not supported
 anymore.</b></p>
