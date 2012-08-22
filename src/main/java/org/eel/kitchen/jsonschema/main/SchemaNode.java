@@ -58,8 +58,7 @@ public final class SchemaNode
 
         final SchemaNode that = (SchemaNode) o;
 
-        return container.equals(that.container)
-            && node.equals(that.node);
+        return container.equals(that.container) && node.equals(that.node);
     }
 
     @Override

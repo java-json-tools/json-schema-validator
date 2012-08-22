@@ -96,15 +96,7 @@ public final class SchemaContainer
      */
     SchemaContainer(final URI uri, final JsonNode node)
     {
-        JsonRef ref = JsonRef.fromURI(uri);
-
-        if (!ref.isAbsolute()) {
-            logger.warn("schema locator (" + ref + ") is not absolute! " +
-                "Returning an anonymous schema");
-            ref = JsonRef.emptyRef();
-        }
-
-        locator = ref;
+        locator = JsonRef.fromURI(uri);
         schema = cleanup(node);
     }
 

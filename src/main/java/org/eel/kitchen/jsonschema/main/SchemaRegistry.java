@@ -32,12 +32,7 @@ public final class SchemaRegistry
 {
     private final LoadingCache<URI, SchemaContainer> cache;
 
-    public SchemaRegistry()
-    {
-        this(new URIManager());
-    }
-
-    public SchemaRegistry(final URIManager manager)
+    SchemaRegistry(final URIManager manager)
     {
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(new CacheLoader<URI, SchemaContainer>()
