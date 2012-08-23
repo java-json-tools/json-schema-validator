@@ -130,4 +130,10 @@ public abstract class NumericKeywordValidator
         return NodeType.getNodeType(node) == NodeType.INTEGER
             && node.canConvertToLong();
     }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " + decimalValue;
+    }
 }
