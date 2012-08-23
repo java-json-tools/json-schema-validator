@@ -129,7 +129,7 @@ and sets a namespace:</p>
     });
 
     final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-        .addDownloader(fileDownloader)
+        .addDownloader("file", fileDownloader)
         .setNamespace("file:///some/where/on/disk").build();
 </pre>
 
