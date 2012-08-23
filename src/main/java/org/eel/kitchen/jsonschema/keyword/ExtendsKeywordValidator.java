@@ -84,4 +84,10 @@ public final class ExtendsKeywordValidator
             context.setContainer(container);
         }
     }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " + schemas.size() + " schema(s)";
+    }
 }

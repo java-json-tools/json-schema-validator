@@ -46,4 +46,17 @@ public final class EnumKeywordValidator
         if (!enumValues.contains(instance))
             report.addMessage("instance does not match any enum value");
     }
+
+    @Override
+    public String toString()
+    {
+        /*
+         * Enum values may be arbitrarily complex: we therefore choose to only
+         * print the number of possible values instead of each possible value.
+         *
+         * By virtue of syntax validation, we also know that enumValues will
+         * never be empty.
+         */
+        return keyword + ": " + enumValues.size() + " possible value(s)";
+    }
 }

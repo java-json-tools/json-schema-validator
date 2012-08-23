@@ -95,12 +95,15 @@ public final class FormatKeywordValidator
         specifiers = builder.build();
     }
 
+    // The format attribute, as defined by the spec
+    private final String fmtattr;
     private final FormatSpecifier specifier;
 
     public FormatKeywordValidator(final JsonNode schema)
     {
         super("format", NodeType.values());
-        specifier = specifiers.get(schema.get(keyword).textValue());
+        fmtattr = schema.get(keyword).textValue();
+        specifier = specifiers.get(fmtattr);
     }
 
     @Override
@@ -113,5 +116,11 @@ public final class FormatKeywordValidator
         final List<String> messages = new ArrayList<String>();
         specifier.validate(messages, instance);
         report.addMessages(messages);
+    }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " + fmtattr;
     }
 }
