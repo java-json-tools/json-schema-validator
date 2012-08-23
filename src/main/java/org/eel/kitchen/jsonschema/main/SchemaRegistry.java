@@ -28,12 +28,17 @@ import org.eel.kitchen.jsonschema.uri.URIManager;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * As its name says, a schema registry
+ */
 public final class SchemaRegistry
 {
+    private final URI namespace;
     private final LoadingCache<URI, SchemaContainer> cache;
 
-    SchemaRegistry(final URIManager manager)
+    SchemaRegistry(final URIManager manager, final URI namespace)
     {
+        this.namespace = namespace.normalize();
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(new CacheLoader<URI, SchemaContainer>()
             {
@@ -44,6 +49,11 @@ public final class SchemaRegistry
                     return new SchemaContainer(key, manager.getContent(key));
                 }
             });
+    }
+
+    SchemaRegistry(final URIManager manager)
+    {
+        this(manager, URI.create(""));
     }
 
     public SchemaContainer register(final JsonNode node)
@@ -65,7 +75,7 @@ public final class SchemaRegistry
         throws JsonSchemaException
     {
         try {
-            return cache.get(uri);
+            return cache.get(namespace.resolve(uri).normalize());
         } catch (ExecutionException e) {
             throw new JsonSchemaException(e.getCause().getMessage());
         }
