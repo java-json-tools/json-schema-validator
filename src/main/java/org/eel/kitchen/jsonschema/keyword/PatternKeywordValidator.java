@@ -49,4 +49,10 @@ public final class PatternKeywordValidator
         if (!RhinoHelper.regMatch(regex, instance.textValue()))
             report.addMessage("instance does not match regex");
     }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " + regex;
+    }
 }

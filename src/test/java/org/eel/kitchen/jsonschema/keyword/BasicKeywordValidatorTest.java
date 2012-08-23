@@ -70,6 +70,12 @@ public final class BasicKeywordValidatorTest
             final ValidationReport report, final JsonNode instance)
         {
         }
+
+        @Override
+        public String toString()
+        {
+            return "KeywordValidator mock";
+        }
     }
 
     @DataProvider

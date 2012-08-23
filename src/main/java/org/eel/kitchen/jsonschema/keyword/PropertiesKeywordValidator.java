@@ -67,4 +67,11 @@ public final class PropertiesKeywordValidator
         if (!fields.containsAll(required))
             report.addMessage("missing required properties in instance");
     }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " +
+            (required.isEmpty() ? "none" : required.size()) + " required";
+    }
 }

@@ -104,8 +104,5 @@ public abstract class KeywordValidator
         final ValidationReport report, final JsonNode instance);
 
     @Override
-    public String toString()
-    {
-        return keyword + " was too lazy to implement .toString()";
-    }
+    public abstract String toString();
 }

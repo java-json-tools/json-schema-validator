@@ -44,4 +44,10 @@ public abstract class PositiveIntegerKeywordValidator
         super(keyword, types);
         intValue = schema.get(keyword).intValue();
     }
+
+    @Override
+    public final String toString()
+    {
+        return keyword + ": " + intValue;
+    }
 }

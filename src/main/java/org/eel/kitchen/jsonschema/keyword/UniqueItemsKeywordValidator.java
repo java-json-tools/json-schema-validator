@@ -54,4 +54,10 @@ public final class UniqueItemsKeywordValidator
                 return;
             }
     }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " + uniqueItems;
+    }
 }
