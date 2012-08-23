@@ -51,11 +51,6 @@ public final class SchemaRegistry
             });
     }
 
-    SchemaRegistry(final URIManager manager)
-    {
-        this(manager, URI.create(""));
-    }
-
     public SchemaContainer register(final JsonNode node)
         throws JsonSchemaException
     {

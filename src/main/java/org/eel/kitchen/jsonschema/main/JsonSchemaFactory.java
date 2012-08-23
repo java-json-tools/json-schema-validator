@@ -90,7 +90,7 @@ public final class JsonSchemaFactory
     {
         syntaxValidator = new SyntaxValidator(builder.bundle);
         keywordFactory = new KeywordFactory(builder.bundle);
-        registry = new SchemaRegistry(builder.uriManager);
+        registry = new SchemaRegistry(builder.uriManager, builder.namespace);
 
         final CacheLoader<JsonNode, Set<KeywordValidator>> loader
             = new CacheLoader<JsonNode, Set<KeywordValidator>>()
@@ -256,6 +256,11 @@ public final class JsonSchemaFactory
         private final URIManager uriManager;
 
         /**
+         * The namespace
+         */
+        private URI namespace = URI.create("");
+
+        /**
          * No arg constructor
          *
          * <p>This calls the main constructor with
@@ -304,6 +309,22 @@ public final class JsonSchemaFactory
         public Builder addKeyword(final Keyword keyword)
         {
             bundle.registerKeyword(keyword);
+            return this;
+        }
+
+        /**
+         * Set the schema registry's namespace
+         *
+         * @see SchemaRegistry
+         *
+         * @param namespace the namespace, as a string
+         * @return the builder
+         * @throws IllegalArgumentException invalid URI (see {@link
+         * URI#create(String)})
+         */
+        public Builder setNamespace(final String namespace)
+        {
+            this.namespace = URI.create(namespace);
             return this;
         }
 
