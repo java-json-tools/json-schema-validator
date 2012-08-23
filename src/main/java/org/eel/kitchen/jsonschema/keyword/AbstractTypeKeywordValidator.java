@@ -96,4 +96,18 @@ public abstract class AbstractTypeKeywordValidator
         if (tmp == NodeType.NUMBER)
             typeSet.add(NodeType.INTEGER);
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder(keyword)
+            .append(": primitive types ");
+
+        sb.append(typeSet.isEmpty() ? "(none)" : typeSet);
+
+        if (!schemas.isEmpty())
+            sb.append(", schemas: ").append(schemas.size());
+
+        return sb.toString();
+    }
 }
