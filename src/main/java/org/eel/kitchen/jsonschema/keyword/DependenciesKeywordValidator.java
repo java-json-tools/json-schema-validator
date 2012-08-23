@@ -18,18 +18,19 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
-import org.eel.kitchen.jsonschema.validator.SchemaNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -45,6 +46,7 @@ import java.util.Set;
 public final class DependenciesKeywordValidator
     extends KeywordValidator
 {
+    private static Joiner DEP_JOINER = Joiner.on("; ").skipNulls();
     /**
      * Map of simple dependencies (ie, property dependencies)
      */
@@ -147,5 +149,28 @@ public final class DependenciesKeywordValidator
                 validator = validator.next();
             context.setContainer(container);
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder(keyword).append(": ");
+
+        if (simple.isEmpty() && schemas.isEmpty())
+            return sb.append("none??").toString();
+
+        DEP_JOINER.appendTo(sb, simple.isEmpty() ? null : simple,
+            schemasToString());
+
+        return sb.toString();
+    }
+
+    private String schemasToString()
+    {
+        if (schemas.isEmpty())
+            return null;
+
+        return new StringBuilder("further schema validations for properties ")
+            .append(schemas.keySet()).toString();
     }
 }
