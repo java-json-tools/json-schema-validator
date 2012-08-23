@@ -52,7 +52,7 @@ public abstract class AbstractTypeKeywordValidator
     protected AbstractTypeKeywordValidator(final String keyword,
         final JsonNode schema)
     {
-        super(NodeType.values());
+        super(keyword, NodeType.values());
         final JsonNode node = schema.get(keyword);
 
         if (node.isTextual()) {

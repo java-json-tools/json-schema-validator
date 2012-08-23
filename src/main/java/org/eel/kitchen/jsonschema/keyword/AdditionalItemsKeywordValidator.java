@@ -52,8 +52,8 @@ public final class AdditionalItemsKeywordValidator
 
     public AdditionalItemsKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.ARRAY);
-        additionalOK = schema.get("additionalItems").asBoolean(true);
+        super("additionalItems", NodeType.ARRAY);
+        additionalOK = schema.get(keyword).asBoolean(true);
 
         if (additionalOK)
             return;

@@ -54,6 +54,11 @@ import java.util.EnumSet;
 public abstract class KeywordValidator
 {
     /**
+     * The keyword
+     */
+    protected final String keyword;
+
+    /**
      * What types this keyword validates
      */
     private final EnumSet<NodeType> instanceTypes
@@ -64,8 +69,9 @@ public abstract class KeywordValidator
      *
      * @param types the types validated by this keyword
      */
-    protected KeywordValidator(final NodeType... types)
+    protected KeywordValidator(final String keyword, final NodeType... types)
     {
+        this.keyword = keyword;
         Collections.addAll(instanceTypes, types);
     }
 
@@ -96,4 +102,10 @@ public abstract class KeywordValidator
      */
     protected abstract void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance);
+
+    @Override
+    public String toString()
+    {
+        return keyword + " was too lazy to implement .toString()";
+    }
 }

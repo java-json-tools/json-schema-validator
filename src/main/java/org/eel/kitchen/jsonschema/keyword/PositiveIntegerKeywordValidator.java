@@ -41,7 +41,7 @@ public abstract class PositiveIntegerKeywordValidator
     protected PositiveIntegerKeywordValidator(final String keyword,
         final JsonNode schema, final NodeType... types)
     {
-        super(types);
+        super(keyword, types);
         intValue = schema.get(keyword).intValue();
     }
 }

@@ -57,8 +57,8 @@ public final class AdditionalPropertiesKeywordValidator
 
     public AdditionalPropertiesKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.OBJECT);
-        additionalOK = schema.get("additionalProperties").asBoolean(true);
+        super("additionalProperties", NodeType.OBJECT);
+        additionalOK = schema.get(keyword).asBoolean(true);
 
         if (additionalOK) {
             properties = Collections.emptySet();

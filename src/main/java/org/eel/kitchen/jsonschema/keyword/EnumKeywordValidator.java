@@ -35,8 +35,8 @@ public final class EnumKeywordValidator
 
     public EnumKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.values());
-        enumValues = ImmutableSet.copyOf(schema.get("enum"));
+        super("enum", NodeType.values());
+        enumValues = ImmutableSet.copyOf(schema.get(keyword));
     }
 
     @Override

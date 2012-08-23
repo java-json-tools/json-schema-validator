@@ -62,7 +62,7 @@ public final class BasicKeywordValidatorTest
     {
         BasicKeywordValidator()
         {
-            super(NodeType.INTEGER, NodeType.NUMBER, NodeType.STRING);
+            super("foo", NodeType.INTEGER, NodeType.NUMBER, NodeType.STRING);
         }
 
         @Override

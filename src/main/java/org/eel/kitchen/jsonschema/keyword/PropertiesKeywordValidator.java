@@ -44,10 +44,10 @@ public final class PropertiesKeywordValidator
 
     public PropertiesKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.OBJECT);
+        super("properties", NodeType.OBJECT);
 
         final Map<String, JsonNode> map
-            = JacksonUtils.nodeToMap(schema.get("properties"));
+            = JacksonUtils.nodeToMap(schema.get(keyword));
         final ImmutableSet.Builder<String> builder
             = new ImmutableSet.Builder<String>();
 

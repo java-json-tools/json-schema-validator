@@ -38,8 +38,8 @@ public final class PatternKeywordValidator
 
     public PatternKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.STRING);
-        regex = schema.get("pattern").textValue();
+        super("pattern", NodeType.STRING);
+        regex = schema.get(keyword).textValue();
     }
 
     @Override

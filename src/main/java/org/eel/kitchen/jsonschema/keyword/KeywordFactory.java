@@ -108,7 +108,7 @@ public final class KeywordFactory
      * <p>If instantiation fails for whatever reason, an "invalid validator" is
      * returned which always fails.</p>
      *
-     * @see #invalidValidator(Exception)
+     * @see #invalidValidator(Class, Exception)
      *
      * @param c the keyword validator class
      * @param schema the schema
@@ -122,17 +122,17 @@ public final class KeywordFactory
         try {
             constructor = c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException e) {
-            return invalidValidator(e);
+            return invalidValidator(c, e);
         }
 
         try {
             return constructor.newInstance(schema);
         } catch (InstantiationException e) {
-            return invalidValidator(e);
+            return invalidValidator(c, e);
         } catch (IllegalAccessException e) {
-            return invalidValidator(e);
+            return invalidValidator(c, e);
         } catch (InvocationTargetException e) {
-            return invalidValidator(e);
+            return invalidValidator(c, e);
         }
     }
 
@@ -142,9 +142,12 @@ public final class KeywordFactory
      * @param e the exception raised by the instantiation attempt
      * @return a keyword validator which always fails
      */
-    private static KeywordValidator invalidValidator(final Exception e)
+    private static KeywordValidator invalidValidator(
+        final Class<? extends KeywordValidator> c, final Exception e)
     {
-        return new KeywordValidator(NodeType.values())
+        final String className = c.getClass().getName();
+
+        return new KeywordValidator(className, NodeType.values())
         {
             @Override
             protected void validate(final ValidationContext context,
@@ -152,6 +155,12 @@ public final class KeywordFactory
             {
                 report.addMessage("cannot build validator: "
                     + e.getClass().getName() + ": " + e.getMessage());
+            }
+
+            @Override
+            public String toString()
+            {
+                return className;
             }
         };
     }

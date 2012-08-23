@@ -57,7 +57,7 @@ public final class DependenciesKeywordValidator
 
     public DependenciesKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.OBJECT);
+        super("dependencies", NodeType.OBJECT);
         final Map<String, JsonNode> fields
             = JacksonUtils.nodeToMap(schema.get("dependencies"));
 

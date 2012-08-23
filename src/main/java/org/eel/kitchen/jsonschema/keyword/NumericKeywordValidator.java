@@ -64,7 +64,7 @@ public abstract class NumericKeywordValidator
     protected NumericKeywordValidator(final String keyword,
         final JsonNode schema)
     {
-        super(NodeType.INTEGER, NodeType.NUMBER);
+        super(keyword, NodeType.INTEGER, NodeType.NUMBER);
         final JsonNode node = schema.get(keyword);
 
         isLong = valueIsLong(node);

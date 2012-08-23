@@ -99,8 +99,8 @@ public final class FormatKeywordValidator
 
     public FormatKeywordValidator(final JsonNode schema)
     {
-        super(NodeType.values());
-        specifier = specifiers.get(schema.get("format").textValue());
+        super("format", NodeType.values());
+        specifier = specifiers.get(schema.get(keyword).textValue());
     }
 
     @Override
