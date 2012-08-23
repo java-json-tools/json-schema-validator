@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -28,6 +29,7 @@ import org.eel.kitchen.jsonschema.validator.ObjectJsonValidator;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -51,6 +53,7 @@ import java.util.Set;
 public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator
 {
+    private final Joiner TOSTRING_JOINER = Joiner.on("; or ");
     private final boolean additionalOK;
     private final Set<String> properties;
     private final Set<String> patternProperties;
@@ -101,5 +104,34 @@ public final class AdditionalPropertiesKeywordValidator
 
         if (!fields.isEmpty())
             report.addMessage("additional properties not permitted");
+    }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder(keyword + ": ");
+
+        if (additionalOK)
+            return sb.append("allowed").toString();
+
+        sb.append("none");
+
+        if (properties.isEmpty() && patternProperties.isEmpty())
+            return sb.toString();
+
+        sb.append(", unless: ");
+
+        final Set<String> further = new LinkedHashSet<String>();
+
+        if (!properties.isEmpty())
+            further.add(" one property is any of: " + properties);
+
+        if (!patternProperties.isEmpty())
+            further.add(" a property matches any regex among: "
+                + patternProperties);
+
+        sb.append(TOSTRING_JOINER.join(further));
+
+        return sb.toString();
     }
 }

@@ -76,4 +76,17 @@ public final class AdditionalItemsKeywordValidator
         if (instance.size() > itemsCount)
             report.addMessage("additional items not permitted");
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder(keyword).append(": ");
+
+        if (additionalOK)
+            sb.append("no constraints");
+        else
+            sb.append(itemsCount).append(" max");
+
+        return sb.toString();
+    }
 }
