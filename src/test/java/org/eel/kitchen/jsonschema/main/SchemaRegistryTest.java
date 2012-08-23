@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -28,6 +29,7 @@ import java.io.InputStream;
 import java.net.URI;
 
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.assertEquals;
 
 public final class SchemaRegistryTest
 {
@@ -35,6 +37,7 @@ public final class SchemaRegistryTest
     public void namespacesAreRespected()
         throws IOException, JsonSchemaException
     {
+        final URI fullPath = URI.create("foo:///baz");
         final URIManager manager = new URIManager();
         final URIDownloader downloader = spy(new URIDownloader()
         {
@@ -42,7 +45,7 @@ public final class SchemaRegistryTest
             public InputStream fetch(URI source)
                 throws IOException
             {
-                if (!"/baz".equals(source.getSchemeSpecificPart()))
+                if (!fullPath.equals(source))
                     throw new IOException();
                 return new ByteArrayInputStream(JsonNodeFactory.instance
                     .objectNode().toString().getBytes());
@@ -57,7 +60,21 @@ public final class SchemaRegistryTest
         final URI uri = URI.create("../baz");
         registry.get(uri);
         verify(downloader).fetch(rootns.resolve(uri));
-
     }
 
+    @Test
+    public void URIsAreNormalizedBehindTheScenes()
+        throws JsonSchemaException
+    {
+        final JsonNode schema = JsonNodeFactory.instance.objectNode()
+            .put("id", "http://toto/a/../b");
+
+        final SchemaRegistry registry = new SchemaRegistry(new URIManager(),
+            URI.create("#"));
+
+        final SchemaContainer container = registry.register(schema);
+
+        assertEquals(container.getLocator().getRootAsURI(),
+            URI.create("http://toto/b#"));
+    }
 }
