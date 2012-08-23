@@ -13,7 +13,7 @@
   ~
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
+-->
 <html>
 <body>
 A JSON Schema validator implementation in Java which aims for correctness and
@@ -22,26 +22,24 @@ performance, in that order
 <h1>Why</h1>
 
 <p>This implementation is meant to be purely server-side if Java is your
-    language of choice. You may, or may not, use it in your Java Web
-    application, the library has no dependencies at all on anything Web-related.
-</p>
+language of choice. You may, or may not, use it in your Java Web application,
+the library has no dependencies at all on anything Web-related.</p>
 
-<p>The two main characteristics of this library are its correctness with
-    regards to the schema specification, and its raw speed. Correctness in
-    that, for instance, it uses ECMA 262 for regexes and can validate
-    numeric instances of arbitrary length and/or precision. No other
-    existing JSON Schema implementation can do both of the latter points, and
-    I can pretty much guarantee that no other library is faster than this one.
-    If you find a counter example, I'd be glad to hear of it!
-</p>
+<p>The two main characteristics of this library are its correctness with regards
+to the schema specification, and its raw speed. Correctness in that, for
+instance, it uses ECMA 262 for regexes and can validate numeric instances of
+arbitrary length and/or precision. No other existing JSON Schema implementation
+can do both of the latter points, and I can pretty much guarantee that no other
+library is faster than this one.  If you find a counter example, I'd be glad to
+hear of it!</p>
 
 <h1>Sample usage</h1>
 
 <h2>Create a {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory}</h2>
 
-<p>You cannot instantiate one directly, you have to go through its
-    included <tt>Builder</tt> class for that. This is by design: it allows to
-    freeze the schema generation context. Sample code:
+<p>You cannot instantiate one directly, you have to go through its included
+<tt>Builder</tt> class for that. This is by design: it allows to freeze the
+schema generation context. Sample code:
 </p>
 
 <pre>
@@ -57,26 +55,23 @@ performance, in that order
         = new JsonSchemaFactory.Builder().build();
 </pre>
 
-<p>You can customize your factory, albeit only in a limited way currently. See
-    {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory} for details.
-</p>
+<p>You can customize your factory, as shown below.</p>
 
 <h2>Register/create a schema</h2>
 
 <p>The class for this is {@link org.eel.kitchen.jsonschema.main.JsonSchema}.
-    This is a three step process.
-</p>
+This is a three step process.</p>
 
-<p>First of all, you need to grab your JSON Schema as a
-    {@link com.fasterxml.jackson.databind.JsonNode}. For this, you may want to
-    have a look at the {@link org.eel.kitchen.jsonschema.util.JsonLoader} class.
-    Then, you need to register this schema. This will create a
-    {@link org.eel.kitchen.jsonschema.main.SchemaContainer} object.
-    Finally, create a schema out of this container.</p>
+<p>First of all, you need to grab your JSON Schema as a {@link
+com.fasterxml.jackson.databind.JsonNode}. For this, you may want to have a look
+at the {@link org.eel.kitchen.jsonschema.util.JsonLoader} class.  Then, you need
+to register this schema. This will create a {@link
+org.eel.kitchen.jsonschema.main.SchemaContainer} object.  Finally, create a
+schema out of this container.</p>
 
-<p>The sample code below shows how to create a validating schema out of
-    the current v3 schema draft, bundled in this library (<b>NOTE</b>:
-    {@link java.io.IOException} not accounted for):</p>
+<p>The sample code below shows how to create a validating schema out of the
+current v3 schema draft, bundled in this library (<b>NOTE</b>: {@link
+java.io.IOException} not accounted for):</p>
 
 <pre>
     final JsonNode rawSchema = JsonLoader.fromResource("/schema-draftv3.json");
@@ -88,15 +83,13 @@ performance, in that order
 
 <h2>Validate your data</h2>
 
-<p>Currently, you must load the data to be validated as a
-    {@link com.fasterxml.jackson.databind.JsonNode}. Here again, the
-    {@link org.eel.kitchen.jsonschema.util.JsonLoader} class may help you.
-</p>
+<p>Currently, you must load the data to be validated as a {@link
+com.fasterxml.jackson.databind.JsonNode}. Here again, the {@link
+org.eel.kitchen.jsonschema.util.JsonLoader} class may help you.</p>
 
-<p>One {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance may
-    validate as many JSON documents as you want, in parallel: this class is
-    inherently thread safe. Sample code:
-</p>
+<p>One {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance may validate
+as many JSON documents as you want, in parallel: this class is inherently thread
+safe. Sample code:</p>
 
 <pre>
     // Here, instance is the data to validate
@@ -109,5 +102,62 @@ performance, in that order
         : "failed");
 </pre>
 
+<h1>Customizing your schema factory</h1>
+
+<p>First note that all customization is achieved via the associated builder:
+once a factory is created, it cannot be modified.</p>
+
+<h2>URIs and namespaces</h2>
+
+<p>Only HTTP is supported natively as a URI scheme. You can however add custom
+downloaders for other schemes. You can set a namespace to your factory: if you
+do so, all URIs encountered in the validation process will be resolved against
+that namespace.</p>
+
+<p>Here is an example which adds a custom downloader for <tt>file:///</tt> URIs,
+and sets a namespace:</p>
+
+<pre>
+    final URIDownloader fileDownloader = new URIDownloader(
+    {
+        \@Override
+        public InputStream fetch(final URI source)
+            throws IOException
+        {
+            return source.toURL().openStream();
+        }
+    });
+
+    final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        .addDownloader(fileDownloader)
+        .setNamespace("file:///some/where/on/disk").build();
+</pre>
+
+<h2>Adding custom keywords</h2>
+
+<p>For this, you need three elements:</p>
+
+<ul>
+    <li>the name for your new keyword;</li>
+    <li>a {@link org.eel.kitchen.jsonschema.syntax.SyntaxChecker} instance;</li>
+    <li>a {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator}.</li>
+</ul>
+
+<p>The keyword validator needs to have one constructor taking a JsonNode as an
+argument (keyword validators are built by reflection). You can then add the
+keyword to your factory like this:
+</p>
+
+<pre>
+    final SyntaxChecker mySyntaxChecker = ...;
+
+    final Keyword myKeyword = Keyword.Builder.forName("mykeyword")
+        .withSyntaxChecker(mySyntaxChecker)
+        .withValidatorClass(MyKeywordValidator.class)
+        .build();
+
+    final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        .addKeyword(myKeyword).build();
+</pre>
 </body>
 </html>
