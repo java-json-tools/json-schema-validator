@@ -26,9 +26,11 @@
  *     <li>implementing {@link org.eel.kitchen.jsonschema.uri.URIDownloader},
  *     </li>
  *     <li>registering this new downloader using
- *     {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#addURIDownloader(String, org.eel.kitchen.jsonschema.uri.URIDownloader)}.</li>
+ *     {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#registerScheme(String, URIDownloader)}.
  * </ul>
  */
 package org.eel.kitchen.jsonschema.uri;
+
+import org.eel.kitchen.jsonschema.uri.URIDownloader;
 
 import java.lang.String;

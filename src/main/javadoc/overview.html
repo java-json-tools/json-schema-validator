@@ -39,23 +39,21 @@ hear of it!</p>
 
 <p>You cannot instantiate one directly, you have to go through its included
 <tt>Builder</tt> class for that. This is by design: it allows to freeze the
-schema generation context. Sample code:
-</p>
+schema generation context. Here is the most simple way of building a factory
+using default settings:</p>
 
 <pre>
-    final JsonSchemaFactory.Builder builder = new JsonSchemaFactory.Builder();
-
-    // You can customize the context, see below
-
-    final JsonSchemaFactory schemaFactory = builder.build();
-
-    // Shortcut to create a factory with the default settings:
-
-    final JsonSchemaFactory schemaFactory
-        = new JsonSchemaFactory.Builder().build();
+    final JsonSchemaFactory factory = new JsonSchemaFactory.Builder().build();
 </pre>
 
-<p>You can customize your factory, as shown below.</p>
+<p>You can customize your factory in many ways:</p>
+
+<ul>
+    <li>registering/unregistering keywords;</li>
+    <li>registering/unregistering URI schemes.</li>
+</ul>
+
+<p>See below, and refer to the javadoc for more details.</p>
 
 <h2>Register/create a schema</h2>
 
@@ -64,9 +62,9 @@ This is a three step process.</p>
 
 <p>First of all, you need to grab your JSON Schema as a {@link
 com.fasterxml.jackson.databind.JsonNode}. For this, you may want to have a look
-at the {@link org.eel.kitchen.jsonschema.util.JsonLoader} class.  Then, you need
+at the {@link org.eel.kitchen.jsonschema.util.JsonLoader} class. Then, you need
 to register this schema. This will create a {@link
-org.eel.kitchen.jsonschema.main.SchemaContainer} object.  Finally, create a
+org.eel.kitchen.jsonschema.main.SchemaContainer} object. Finally, create a
 schema out of this container.</p>
 
 <p>The sample code below shows how to create a validating schema out of the
@@ -109,28 +107,20 @@ once a factory is created, it cannot be modified.</p>
 
 <h2>URIs and namespaces</h2>
 
-<p>Only HTTP is supported natively as a URI scheme. You can however add custom
-downloaders for other schemes. You can set a namespace to your factory: if you
-do so, all URIs encountered in the validation process will be resolved against
-that namespace.</p>
+<p>When resolving JSON References, relative URIs may be encountered. In
+this case, they should be resolved against the parent schema's location. But
+it can happen that the parent schema's location is empty: in this case,
+the URI will not resolve.</p>
 
-<p>Here is an example which adds a custom downloader for <tt>file:///</tt> URIs,
-and sets a namespace:</p>
+<p>This implementation adds the ability to set a default namespace: relative
+URIs will then be resolved with regards to that namespace. This can be useful
+if, for instance, you do local only validation and all your schemas are on the
+local filesystem, and refer to one another in a relative way. You can do:</p>
 
 <pre>
-    final URIDownloader fileDownloader = new URIDownloader(
-    {
-        \@Override
-        public InputStream fetch(final URI source)
-            throws IOException
-        {
-            return source.toURL().openStream();
-        }
-    });
-
+    // Note the ending /, it is necessary!
     final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-        .addDownloader("file", fileDownloader)
-        .setNamespace("file:///some/where/on/disk").build();
+        .setNamespace("file:///path/to/base/directory/").build();
 </pre>
 
 <h2>Adding custom keywords</h2>
@@ -149,8 +139,6 @@ keyword to your factory like this:
 </p>
 
 <pre>
-    final SyntaxChecker mySyntaxChecker = ...;
-
     final Keyword myKeyword = Keyword.Builder.forName("mykeyword")
         .withSyntaxChecker(mySyntaxChecker)
         .withValidatorClass(MyKeywordValidator.class)
@@ -159,5 +147,34 @@ keyword to your factory like this:
     final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
         .addKeyword(myKeyword).build();
 </pre>
+
+<h2>Registering/unregistering URI schemes</h2>
+
+<p>A JSON Schema locator is a URI, and this URI can be of any scheme. This
+implementation has native support for <tt>http</tt>, <tt>ftp</tt>,
+<tt>file</tt> and <tt>jar</tt>.</p>
+
+<p>You can, if you wish, either override the existing supported schemes, or add
+support for a new scheme, by implementing
+{@link org.eel.kitchen.jsonschema.uri.URIDownloader} and register it in your
+factory, like this:</p>
+
+<pre>
+    final URIDownloader myDownloader = new URIDownloader()
+    {
+        \@Override
+        public InputStream fetch(final URI source)
+        {
+            // your code here
+        }
+    };
+
+    // Example of registering a new scheme and unregistering another one
+    final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        .registerScheme("myscheme", myDownloader)
+        .unregisterScheme("ftp")
+        .build();
+</pre>
+
 </body>
 </html>
