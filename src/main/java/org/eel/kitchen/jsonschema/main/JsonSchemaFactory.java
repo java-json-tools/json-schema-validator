@@ -283,7 +283,10 @@ public final class JsonSchemaFactory
         }
 
         /**
-         * Add a {@link URIDownloader} for a given URI scheme
+         * Register a {@link URIDownloader} for a given scheme
+         *
+         * @deprecated use {@link #registerScheme(String, URIDownloader)}
+         * instead
          *
          * @param scheme the URI scheme
          * @param downloader the downloader
@@ -294,7 +297,34 @@ public final class JsonSchemaFactory
         public Builder addURIDownloader(final String scheme,
             final URIDownloader downloader)
         {
+            return registerScheme(scheme, downloader);
+        }
+
+        /**
+         * Register a {@link URIDownloader} for a given scheme
+         *
+         * @param scheme the URI scheme
+         * @param downloader the downloader
+         * @return the builder
+         * @throws NullPointerException scheme is null
+         * @throws IllegalArgumentException illegal scheme
+         */
+        public Builder registerScheme(final String scheme,
+            final URIDownloader downloader)
+        {
             uriManager.registerScheme(scheme, downloader);
+            return this;
+        }
+
+        /**
+         * Unregister a scheme
+         *
+         * @param scheme the scheme to desupport
+         * @return the builder
+         */
+        public Builder unregisterScheme(final String scheme)
+        {
+            uriManager.unregisterScheme(scheme);
             return this;
         }
 
