@@ -23,7 +23,6 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -46,11 +45,7 @@ import java.util.Map;
  * @see JsonSchemaFactory
  */
 public final class KeywordBundle
-    implements Iterable<Map.Entry<String, Keyword>>
 {
-    private final Map<String, Keyword> keywords
-        = new HashMap<String, Keyword>();
-
     private final Map<String, SyntaxChecker> syntaxCheckers
         = new HashMap<String, SyntaxChecker>();
 
@@ -65,7 +60,6 @@ public final class KeywordBundle
     KeywordBundle copy()
     {
         final KeywordBundle ret = new KeywordBundle();
-        ret.keywords.putAll(keywords);
         ret.syntaxCheckers.putAll(syntaxCheckers);
         ret.validators.putAll(validators);
         return ret;
@@ -88,7 +82,6 @@ public final class KeywordBundle
     {
         final String name = keyword.getName();
 
-        keywords.put(name, keyword);
         final SyntaxChecker checker = keyword.getSyntaxChecker();
         syntaxCheckers.remove(name);
         if (checker != null)
@@ -108,7 +101,6 @@ public final class KeywordBundle
      */
     public void unregisterKeyword(final String name)
     {
-        keywords.remove(name);
         syntaxCheckers.remove(name);
         validators.remove(name);
     }
@@ -121,18 +113,5 @@ public final class KeywordBundle
     public Map<String, Class<? extends KeywordValidator>> getValidators()
     {
         return ImmutableMap.copyOf(validators);
-    }
-
-    /**
-     * Iterator over an unmodifiable copy of registered keywords
-     *
-     * <p>Also used to implement {@link Iterable}</p>
-     *
-     * @return the iterator
-     */
-    @Override
-    public Iterator<Map.Entry<String, Keyword>> iterator()
-    {
-        return ImmutableMap.copyOf(keywords).entrySet().iterator();
     }
 }

@@ -17,25 +17,12 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
-import java.util.Map;
 
 import static org.testng.Assert.*;
 
 public final class KeywordBundleTest
 {
-    private static final String NAME = "keyword";
-
-    private KeywordBundle bundle;
-
-    @BeforeMethod
-    public void createBundle()
-    {
-        bundle = new KeywordBundle();
-    }
-
     @Test
     public void cannotBuildKeywordWithNullName()
     {
@@ -45,41 +32,5 @@ public final class KeywordBundleTest
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(), "keyword name must not be null");
         }
-    }
-
-    @Test
-    public void addedKeywordIsRegistered()
-    {
-        final Keyword keyword = Keyword.Builder.forKeyword(NAME).build();
-
-        boolean found = false;
-
-        bundle.registerKeyword(keyword);
-
-        for (final Map.Entry<String, Keyword> entry: bundle) {
-            if (!NAME.equals(entry.getKey()))
-                continue;
-            found = true;
-            assertSame(entry.getValue(), keyword, "wrong keyword registered");
-        }
-        assertTrue(found, "keyword not registered");
-    }
-
-    @Test(dependsOnMethods = "addedKeywordIsRegistered")
-    public void canUnregisterKeyword()
-    {
-        final Keyword keyword = Keyword.Builder.forKeyword(NAME).build();
-
-        boolean found = false;
-
-        bundle.registerKeyword(keyword);
-        bundle.unregisterKeyword(NAME);
-        for (final Map.Entry<String, Keyword> entry: bundle)
-            if (NAME.equals(entry.getKey())) {
-                found = true;
-                break;
-            }
-
-        assertFalse(found, "keyword has not been unregistered");
     }
 }
