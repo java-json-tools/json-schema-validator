@@ -20,17 +20,24 @@ package org.eel.kitchen.jsonschema.uri;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 
 /**
- * Simple URI downloader for the {@code http} scheme
+ * Default URI downloader
+ *
+ * <p>{@link URL}'s API doc guarantees that an implementation can handle the
+ * following schemes: http, https, ftp, file and jar.</p>
+ *
+ * <p>We choose however not to provide https for certificate handling reasons,
+ * which is a pain to get right.</p>
  */
-public final class HTTPURIDownloader
+public final class DefaultURIDownloader
     implements URIDownloader
 {
     private static final URIDownloader instance
-        = new HTTPURIDownloader();
+        = new DefaultURIDownloader();
 
-    private HTTPURIDownloader()
+    private DefaultURIDownloader()
     {
     }
 

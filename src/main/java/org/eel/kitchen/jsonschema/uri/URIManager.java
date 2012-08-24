@@ -68,7 +68,10 @@ public class URIManager
 
     public URIManager()
     {
-        downloaders.put("http", HTTPURIDownloader.getInstance());
+        downloaders.put("http", DefaultURIDownloader.getInstance());
+        downloaders.put("ftp", DefaultURIDownloader.getInstance());
+        downloaders.put("file", DefaultURIDownloader.getInstance());
+        downloaders.put("jar", DefaultURIDownloader.getInstance());
     }
 
     /**
