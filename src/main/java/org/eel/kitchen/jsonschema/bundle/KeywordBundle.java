@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.bundle;
 
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -49,6 +50,9 @@ public final class KeywordBundle
     private final Map<String, Keyword> keywords
         = new HashMap<String, Keyword>();
 
+    private final Map<String, SyntaxChecker> syntaxCheckers
+        = new HashMap<String, SyntaxChecker>();
+
     /**
      * Package-private method to generate a full copy of this bundle
      *
@@ -58,6 +62,7 @@ public final class KeywordBundle
     {
         final KeywordBundle ret = new KeywordBundle();
         ret.keywords.putAll(keywords);
+        ret.syntaxCheckers.putAll(syntaxCheckers);
         return ret;
     }
 
@@ -77,7 +82,11 @@ public final class KeywordBundle
     public void registerKeyword(final Keyword keyword)
     {
         final String name = keyword.getName();
+        final SyntaxChecker checker = keyword.getSyntaxChecker();
+
         keywords.put(name, keyword);
+        if (checker != null)
+            syntaxCheckers.put(name, checker);
     }
 
     /**
@@ -88,6 +97,12 @@ public final class KeywordBundle
     public void unregisterKeyword(final String name)
     {
         keywords.remove(name);
+        syntaxCheckers.remove(name);
+    }
+
+    public Map<String, SyntaxChecker> getSyntaxCheckers()
+    {
+        return ImmutableMap.copyOf(syntaxCheckers);
     }
 
     /**

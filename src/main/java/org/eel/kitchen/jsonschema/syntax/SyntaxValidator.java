@@ -19,11 +19,9 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
-import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,20 +48,7 @@ public final class SyntaxValidator
      */
     public SyntaxValidator(final KeywordBundle bundle)
     {
-        String name;
-        SyntaxChecker checker;
-
-        final Map<String, SyntaxChecker> map
-            = new HashMap<String, SyntaxChecker>();
-
-        for (final Map.Entry<String, Keyword> entry: bundle) {
-            name = entry.getKey();
-            checker = entry.getValue().getSyntaxChecker();
-            if (checker != null)
-                map.put(name, checker);
-        }
-
-        checkers = ImmutableMap.copyOf(map);
+        checkers = ImmutableMap.copyOf(bundle.getSyntaxCheckers());
     }
 
     /**
