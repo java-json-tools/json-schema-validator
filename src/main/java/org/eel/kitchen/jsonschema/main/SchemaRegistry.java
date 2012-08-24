@@ -29,13 +29,32 @@ import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
 /**
- * As its name says, a schema registry
+ * A JSON Schema registry
+ *
+ * <p>All schema registering and downloading is done through this class.</p>
+ *
+ * <p>Note that if the id of a schema is not absolute (that is, the URI itself
+ * is absolute and it has no fragment part, or an empty fragment), then the
+ * whole schema will be considered anonymous.</p>
  */
 public final class SchemaRegistry
 {
+    /**
+     * The default namespace
+     */
     private final URI namespace;
+
+    /**
+     * Schema cache
+     */
     private final LoadingCache<URI, SchemaContainer> cache;
 
+    /**
+     * Constructor
+     *
+     * @param manager the URI manager to use
+     * @param namespace this registry's namespace
+     */
     SchemaRegistry(final URIManager manager, final URI namespace)
     {
         this.namespace = namespace.normalize();
@@ -51,12 +70,19 @@ public final class SchemaRegistry
             });
     }
 
-    public SchemaContainer register(final JsonNode node)
+    /**
+     * Register a schema
+     *
+     * @param schema the schema to register
+     * @return a schema container
+     * @throws JsonSchemaException schema is malformed
+     */
+    public SchemaContainer register(final JsonNode schema)
         throws JsonSchemaException
     {
-        Preconditions.checkNotNull(node, "cannot register null schema");
+        Preconditions.checkNotNull(schema, "cannot register null schema");
 
-        final SchemaContainer container = new SchemaContainer(node);
+        final SchemaContainer container = new SchemaContainer(schema);
 
         final JsonRef ref = container.getLocator();
 
@@ -66,6 +92,16 @@ public final class SchemaRegistry
         return container;
     }
 
+    /**
+     * Get a schema container from the given URI
+     *
+     * <p>Note that if the URI is relative, it will be resolved against this
+     * registry's namespace, if any.</p>
+     *
+     * @param uri the URI
+     * @return a schema container
+     * @throws JsonSchemaException impossible to get content at this URI
+     */
     public SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
