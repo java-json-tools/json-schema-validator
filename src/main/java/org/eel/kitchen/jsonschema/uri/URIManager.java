@@ -96,9 +96,6 @@ public class URIManager
                 + '"');
         }
 
-        Preconditions.checkArgument(!downloaders.containsKey(scheme),
-            "scheme \"" + scheme + "\" already registered");
-
         downloaders.put(scheme, downloader);
     }
 

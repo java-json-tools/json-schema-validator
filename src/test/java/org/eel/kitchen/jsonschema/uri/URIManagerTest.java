@@ -91,19 +91,6 @@ public final class URIManagerTest
     }
 
     @Test
-    public void shouldNotBeAbleToRegisterASchemeMoreThanOnce()
-    {
-        manager.registerDownloader("foo", mock);
-
-        try {
-            manager.registerDownloader("foo", mock);
-            fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "scheme \"foo\" already registered");
-        }
-    }
-
-    @Test
     public void shouldHandleNullURI()
         throws JsonSchemaException
     {
