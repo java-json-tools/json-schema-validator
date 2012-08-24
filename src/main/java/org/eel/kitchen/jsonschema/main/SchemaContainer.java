@@ -34,11 +34,6 @@ import java.net.URI;
  */
 public final class SchemaContainer
 {
-    /**
-     * Locator for an anonymous schema
-     */
-    private static final URI EMPTY_LOCATOR = URI.create("#");
-
     private final JsonNode schema;
     private final JsonRef locator;
 

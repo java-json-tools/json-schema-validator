@@ -46,7 +46,7 @@ import java.util.Set;
 public final class DependenciesKeywordValidator
     extends KeywordValidator
 {
-    private static Joiner DEP_JOINER = Joiner.on("; ").skipNulls();
+    private static final Joiner DEP_JOINER = Joiner.on("; ").skipNulls();
     /**
      * Map of simple dependencies (ie, property dependencies)
      */

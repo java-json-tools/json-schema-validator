@@ -34,7 +34,6 @@ public final class JsonValidatorTest
     private static final JsonSchemaFactory schemaFactory
         = new JsonSchemaFactory.Builder().build();
 
-    private SchemaContainer container;
     private SchemaNode schemaNode;
     private ValidationContext context;
     private ValidationReport report;
@@ -43,9 +42,9 @@ public final class JsonValidatorTest
     private void setupContext(final JsonNode node)
         throws JsonSchemaException
     {
-        report = new ValidationReport();
-        container = schemaFactory.registerSchema(node);
+        final SchemaContainer container = schemaFactory.registerSchema(node);
         schemaNode = new SchemaNode(container, node);
+        report = new ValidationReport();
         context = new ValidationContext(schemaFactory);
         context.setContainer(container);
     }

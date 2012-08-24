@@ -42,7 +42,7 @@ public final class SchemaRegistryTest
         final URIDownloader downloader = spy(new URIDownloader()
         {
             @Override
-            public InputStream fetch(URI source)
+            public InputStream fetch(final URI source)
                 throws IOException
             {
                 if (!fullPath.equals(source))
