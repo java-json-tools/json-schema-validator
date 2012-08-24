@@ -68,15 +68,15 @@ public final class KeywordBundle
     /**
      * Register a keyword for this bundle
      *
-     * <p>Note that it is NOT allowed to register the same keyword twice. If
-     * you must do so, you must call {@link #unregisterKeyword(String)} first.
+     * <p>Note that if a keyword by the same name already exists,
+     * its syntax validator and keyword validator will be reset to the new
+     * values (and unregistered if any of these is {@code null}).
      * </p>
      *
      * @see Keyword.Builder
      * @see Keyword
      *
      * @param keyword the keyword to register
-     * @throws IllegalArgumentException a keyword by that name already exists
      */
     public void registerKeyword(final Keyword keyword)
     {
