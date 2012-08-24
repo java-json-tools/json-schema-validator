@@ -120,6 +120,7 @@ public final class JsonRef
 
         return node.isTextual() ? fromString(node.textValue()) : EMPTY;
     }
+
     public static JsonRef emptyRef()
     {
         return EMPTY;

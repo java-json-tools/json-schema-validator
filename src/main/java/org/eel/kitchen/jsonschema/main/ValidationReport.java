@@ -169,9 +169,8 @@ public final class ValidationReport
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
 
         for (final JsonPointer path: paths)
-            for (final String msg: msgMap.get(path)) {
+            for (final String msg: msgMap.get(path))
                 builder.add(path + ": " + msg);
-            }
 
         return builder.build();
     }
