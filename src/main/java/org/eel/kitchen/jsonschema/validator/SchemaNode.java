@@ -56,25 +56,4 @@ public final class SchemaNode
     {
         this.node = node;
     }
-
-    @Override
-    public boolean equals(final Object o)
-    {
-        if (this == o)
-            return true;
-        if (o == null)
-            return false;
-        if (getClass() != o.getClass())
-            return false;
-
-        final SchemaNode that = (SchemaNode) o;
-
-        return container.equals(that.container) && node.equals(that.node);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return 31 * container.hashCode() + node.hashCode();
-    }
 }
