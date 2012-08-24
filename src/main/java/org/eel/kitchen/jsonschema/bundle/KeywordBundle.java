@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 
@@ -78,8 +77,6 @@ public final class KeywordBundle
     public void registerKeyword(final Keyword keyword)
     {
         final String name = keyword.getName();
-        Preconditions.checkArgument(!keywords.containsKey(name),
-            "keyword \"" + name + "\" already registered");
         keywords.put(name, keyword);
     }
 

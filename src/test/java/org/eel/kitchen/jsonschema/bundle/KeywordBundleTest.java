@@ -66,23 +66,6 @@ public final class KeywordBundleTest
     }
 
     @Test(dependsOnMethods = "addedKeywordIsRegistered")
-    public void cannotRegisterSameKeywordTwice()
-    {
-        final Keyword k1 = Keyword.Builder.forKeyword(NAME).build();
-        final Keyword k2 = Keyword.Builder.forKeyword(NAME).build();
-
-        bundle.registerKeyword(k1);
-
-        try {
-            bundle.registerKeyword(k2);
-            fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "keyword \"keyword\" already "
-                + "registered");
-        }
-    }
-
-    @Test(dependsOnMethods = "addedKeywordIsRegistered")
     public void canUnregisterKeyword()
     {
         final Keyword keyword = Keyword.Builder.forKeyword(NAME).build();
