@@ -51,7 +51,7 @@ public final class SchemaRegistryTest
                     .objectNode().toString().getBytes());
             }
         });
-        manager.registerDownloader("foo", downloader);
+        manager.registerScheme("foo", downloader);
 
         final URI rootns = URI.create("foo:///bar/../bar/");
 

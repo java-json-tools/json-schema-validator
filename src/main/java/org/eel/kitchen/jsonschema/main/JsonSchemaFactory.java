@@ -294,7 +294,7 @@ public final class JsonSchemaFactory
         public Builder addURIDownloader(final String scheme,
             final URIDownloader downloader)
         {
-            uriManager.registerDownloader(scheme, downloader);
+            uriManager.registerScheme(scheme, downloader);
             return this;
         }
 

@@ -50,18 +50,39 @@ public final class URIManagerTest
 
         when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
 
-        manager.registerDownloader("foo", mock);
+        manager.registerScheme("foo", mock);
 
         manager.getContent(URI.create("foo://bar"));
 
         assertTrue(true);
     }
 
+    @Test(dependsOnMethods = "shouldBeAbleToRegisterScheme")
+    public void shouldBeAbleToUnregisterScheme()
+        throws IOException, JsonSchemaException
+    {
+        final InputStream sampleStream
+            = new ByteArrayInputStream("{}".getBytes());
+
+        when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
+
+        manager.registerScheme("foo", mock);
+        manager.getContent(URI.create("foo://bar"));
+
+        manager.unregisterScheme("foo");
+        try {
+            manager.getContent(URI.create("foo://bar"));
+            fail("No exception thrown!");
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getMessage(), "cannot handle scheme \"foo\""
+                + " (requested URI: foo://bar)");
+        }
+    }
     @Test
     public void shouldNotBeAbleToRegisterNullScheme()
     {
         try {
-            manager.registerDownloader(null, mock);
+            manager.registerScheme(null, mock);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(), "scheme is null");
@@ -72,7 +93,7 @@ public final class URIManagerTest
     public void shouldNotBeAbleToRegisterEmptyScheme()
     {
         try {
-            manager.registerDownloader("", mock);
+            manager.registerScheme("", mock);
             fail("No exception thrown!");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "scheme is empty");
@@ -83,7 +104,7 @@ public final class URIManagerTest
     public void shouldNotBeAbleToRegisterAnIllegalScheme()
     {
         try {
-            manager.registerDownloader("+23", mock);
+            manager.registerScheme("+23", mock);
             fail("No exception thrown!");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "illegal scheme \"+23\"");
@@ -117,7 +138,7 @@ public final class URIManagerTest
     @Test
     public void unhandledSchemeShouldBeReportedAsSuch()
     {
-        manager.registerDownloader("foo", mock);
+        manager.registerScheme("foo", mock);
 
         try {
             manager.getContent(URI.create("bar://baz"));
@@ -134,7 +155,7 @@ public final class URIManagerTest
         final Exception foo = new IOException("foo");
         when(mock.fetch(any(URI.class))).thenThrow(foo);
 
-        manager.registerDownloader("foo", mock);
+        manager.registerScheme("foo", mock);
 
         try {
             manager.getContent(URI.create("foo://bar"));
@@ -154,7 +175,7 @@ public final class URIManagerTest
 
         when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
 
-        manager.registerDownloader("foo", mock);
+        manager.registerScheme("foo", mock);
 
         try {
             manager.getContent(URI.create("foo://bar"));

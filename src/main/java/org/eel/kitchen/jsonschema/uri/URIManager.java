@@ -83,7 +83,7 @@ public class URIManager
      * @throws IllegalArgumentException scheme is empty, or is already
      * registered
      */
-    public void registerDownloader(final String scheme,
+    public void registerScheme(final String scheme,
         final URIDownloader downloader)
     {
         Preconditions.checkNotNull(scheme, "scheme is null");
@@ -97,6 +97,18 @@ public class URIManager
         }
 
         downloaders.put(scheme, downloader);
+    }
+
+    /**
+     * Unregister a downloader for a given scheme
+     *
+     * @param scheme the scheme
+     * @throws NullPointerException scheme is null
+     */
+    public void unregisterScheme(final String scheme)
+    {
+        Preconditions.checkNotNull(scheme, "scheme is null");
+        downloaders.remove(scheme);
     }
 
     /**
