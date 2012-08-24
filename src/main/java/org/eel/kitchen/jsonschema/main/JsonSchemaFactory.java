@@ -285,24 +285,6 @@ public final class JsonSchemaFactory
         /**
          * Register a {@link URIDownloader} for a given scheme
          *
-         * @deprecated use {@link #registerScheme(String, URIDownloader)}
-         * instead
-         *
-         * @param scheme the URI scheme
-         * @param downloader the downloader
-         * @return the builder
-         * @throws NullPointerException scheme is null
-         * @throws IllegalArgumentException illegal scheme
-         */
-        public Builder addURIDownloader(final String scheme,
-            final URIDownloader downloader)
-        {
-            return registerScheme(scheme, downloader);
-        }
-
-        /**
-         * Register a {@link URIDownloader} for a given scheme
-         *
          * @param scheme the URI scheme
          * @param downloader the downloader
          * @return the builder
@@ -336,9 +318,21 @@ public final class JsonSchemaFactory
          * @param keyword the keyword to add
          * @return the builder
          */
-        public Builder addKeyword(final Keyword keyword)
+        public Builder registerKeyword(final Keyword keyword)
         {
             bundle.registerKeyword(keyword);
+            return this;
+        }
+
+        /**
+         * Unregister a schema keyword
+         *
+         * @param name the name of the keyword to unregister
+         * @return the builder
+         */
+        public Builder unregisterKeyword(final String name)
+        {
+            bundle.unregisterKeyword(name);
             return this;
         }
 
