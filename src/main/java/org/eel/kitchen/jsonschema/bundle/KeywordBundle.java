@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.bundle;
 
 import com.google.common.collect.ImmutableMap;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
@@ -53,6 +54,9 @@ public final class KeywordBundle
     private final Map<String, SyntaxChecker> syntaxCheckers
         = new HashMap<String, SyntaxChecker>();
 
+    private final Map<String, Class<? extends KeywordValidator>> validators
+        = new HashMap<String, Class<? extends KeywordValidator>>();
+
     /**
      * Package-private method to generate a full copy of this bundle
      *
@@ -63,6 +67,7 @@ public final class KeywordBundle
         final KeywordBundle ret = new KeywordBundle();
         ret.keywords.putAll(keywords);
         ret.syntaxCheckers.putAll(syntaxCheckers);
+        ret.validators.putAll(validators);
         return ret;
     }
 
@@ -83,10 +88,14 @@ public final class KeywordBundle
     {
         final String name = keyword.getName();
         final SyntaxChecker checker = keyword.getSyntaxChecker();
+        final Class<? extends KeywordValidator> validatorClass
+            = keyword.getValidatorClass();
 
         keywords.put(name, keyword);
         if (checker != null)
             syntaxCheckers.put(name, checker);
+        if (validatorClass != null)
+            validators.put(name, validatorClass);
     }
 
     /**
@@ -98,11 +107,17 @@ public final class KeywordBundle
     {
         keywords.remove(name);
         syntaxCheckers.remove(name);
+        validators.remove(name);
     }
 
     public Map<String, SyntaxChecker> getSyntaxCheckers()
     {
         return ImmutableMap.copyOf(syntaxCheckers);
+    }
+
+    public Map<String, Class<? extends KeywordValidator>> getValidators()
+    {
+        return ImmutableMap.copyOf(validators);
     }
 
     /**

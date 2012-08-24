@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -30,7 +29,6 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -62,20 +60,7 @@ public final class KeywordFactory
      */
     public KeywordFactory(final KeywordBundle bundle)
     {
-        String keyword;
-        Class<? extends KeywordValidator> validatorClass;
-
-        final Map<String, Class<? extends KeywordValidator>> map
-            = new HashMap<String, Class<? extends KeywordValidator>>();
-
-        for (final Map.Entry<String, Keyword> entry: bundle) {
-            keyword = entry.getKey();
-            validatorClass = entry.getValue().getValidatorClass();
-            if (validatorClass != null)
-                map.put(keyword, validatorClass);
-        }
-
-        validators = ImmutableMap.copyOf(map);
+        validators = ImmutableMap.copyOf(bundle.getValidators());
     }
 
     /**
