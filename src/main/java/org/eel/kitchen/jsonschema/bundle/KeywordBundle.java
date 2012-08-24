@@ -87,13 +87,16 @@ public final class KeywordBundle
     public void registerKeyword(final Keyword keyword)
     {
         final String name = keyword.getName();
-        final SyntaxChecker checker = keyword.getSyntaxChecker();
-        final Class<? extends KeywordValidator> validatorClass
-            = keyword.getValidatorClass();
 
         keywords.put(name, keyword);
+        final SyntaxChecker checker = keyword.getSyntaxChecker();
+        syntaxCheckers.remove(name);
         if (checker != null)
             syntaxCheckers.put(name, checker);
+
+        final Class<? extends KeywordValidator> validatorClass
+            = keyword.getValidatorClass();
+        validators.remove(name);
         if (validatorClass != null)
             validators.put(name, validatorClass);
     }
