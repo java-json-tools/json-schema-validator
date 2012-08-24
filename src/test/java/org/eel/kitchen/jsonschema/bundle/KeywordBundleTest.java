@@ -17,12 +17,18 @@
 
 package org.eel.kitchen.jsonschema.bundle;
 
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.testng.annotations.Test;
 
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class KeywordBundleTest
 {
+    private static final String KEYWORD = "keyword";
+    private final KeywordBundle bundle = new KeywordBundle();
+
     @Test
     public void cannotBuildKeywordWithNullName()
     {
@@ -32,5 +38,61 @@ public final class KeywordBundleTest
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(), "keyword name must not be null");
         }
+    }
+
+    @Test
+    public void emptyKeywordDoesNotShowInAnyMap()
+    {
+        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD).build();
+
+        bundle.registerKeyword(keyword);
+
+        assertFalse(bundle.getSyntaxCheckers().containsKey(KEYWORD));
+        assertFalse(bundle.getValidators().containsKey(KEYWORD));
+    }
+
+    @Test
+    public void keywordWithSyntaxCheckerOnlyDoesNotShowUpInValidators()
+    {
+        final SyntaxChecker checker = mock(SyntaxChecker.class);
+        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD)
+            .withSyntaxChecker(checker).build();
+
+        bundle.registerKeyword(keyword);
+
+        assertSame(bundle.getSyntaxCheckers().get(KEYWORD), checker);
+        assertFalse(bundle.getValidators().containsKey(KEYWORD));
+    }
+
+    @Test(dependsOnMethods = "keywordWithSyntaxCheckerOnlyDoesNotShowUpInValidators")
+    public void keywordWithValidatorOnlyDoesNotShowUpInSyntaxCheckers()
+    {
+        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD)
+            .withValidatorClass(KeywordValidator.class).build();
+
+        bundle.registerKeyword(keyword);
+
+        assertFalse(bundle.getSyntaxCheckers().containsKey(KEYWORD));
+        assertSame(bundle.getValidators().get(KEYWORD), KeywordValidator.class);
+    }
+
+    @Test
+    public void keywordIsCorrectlyUnregistered()
+    {
+        final SyntaxChecker checker = mock(SyntaxChecker.class);
+        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD)
+            .withSyntaxChecker(checker)
+            .withValidatorClass(KeywordValidator.class)
+            .build();
+
+        bundle.registerKeyword(keyword);
+
+        assertSame(bundle.getSyntaxCheckers().get(KEYWORD), checker);
+        assertSame(bundle.getValidators().get(KEYWORD), KeywordValidator.class);
+
+        bundle.unregisterKeyword(KEYWORD);
+
+        assertFalse(bundle.getSyntaxCheckers().containsKey(KEYWORD));
+        assertFalse(bundle.getValidators().containsKey(KEYWORD));
     }
 }
