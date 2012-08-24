@@ -172,7 +172,8 @@ public final class URIManagerTest
         try {
             manager.getContent(URI.create("foo://bar"));
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "URI \"foo://bar\" is not valid JSON");
+            assertEquals(e.getMessage(), "content fetched from URI "
+                +"\"foo://bar\" is not valid JSON");
         }
 
     }

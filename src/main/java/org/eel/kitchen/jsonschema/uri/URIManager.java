@@ -134,7 +134,7 @@ public class URIManager
         try {
             return mapper.readTree(in);
         } catch (IOException e) {
-            throw new JsonSchemaException("URI \"" + uri
+            throw new JsonSchemaException("content fetched from URI \"" + uri
                 + "\" is not valid JSON", e);
         }
     }
