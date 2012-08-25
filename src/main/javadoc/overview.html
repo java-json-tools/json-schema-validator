@@ -222,7 +222,7 @@ like this:</p>
 org.eel.kitchen.jsonschema.validator}. All instances of {@link
 org.eel.kitchen.jsonschema.main.JsonSchema} go through this process. As
 mentioned in the introduction, some parts of this process are cached, and don't
-need to be computed again.</p>
+need to be computed again. These will be mentioned below.</p>
 
 <h2><tt>$ref</tt> resolution</h2>
 
@@ -304,6 +304,27 @@ the instance children.</p>
 <p>It should be noted that while array instance children only have to match
 exactly one schema, object instance children may have to match several of them,
 which does nothing to simplify matters...</p>
+
+<h2>A particular note about <tt>type</tt>, <tt>disallow</tt>,
+<tt>dependencies</tt> and <tt>extends</tt></h2>
+
+<p>Those four schema keywords have the unfortunate property that they can
+<i>also</i> restart the validation process from their own:</p>
+
+<ul>
+    <li><tt>type</tt> and <tt>disallow</tt> can bear schemas in their array
+    representations; validation should consider those schemas;</li>
+    <li>similarly, <tt>dependencies</tt> can link one property in an object
+    instance to another schema, then the whole instance must also validate
+    against that schema -- and you may have several occurrences of that;</li>
+    <li><tt>extends</tt>, in a similar vein, unconditionally constrains the
+    instance to obey the schema(s) it mentions.</li>
+</ul>
+
+<p>Those four schema keywords are an implementor's worst nightmare. Remember
+that the validation process starts from <tt>$ref</tt> resolution: each of these
+keywords, should they have schema dependencies of some sort, have to start the
+whole validation process <i>from scratch</i>.</p>
 
 </body>
 </html>
