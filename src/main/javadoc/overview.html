@@ -14,24 +14,38 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <body>
 A JSON Schema validator implementation in Java which aims for correctness and
 performance, in that order
 
-<h1>Why</h1>
+<h1>What this is</h1>
+
+<h2>Motivation</h2>
 
 <p>This implementation is meant to be purely server-side if Java is your
-language of choice. You may, or may not, use it in your Java Web application,
-the library has no dependencies at all on anything Web-related.</p>
+language of choice. You may, <b>or may not</b>, use it in your Java Web
+application; this library has no dependencies on anything Web-related.</p>
 
-<p>The two main characteristics of this library are its correctness with regards
-to the schema specification, and its raw speed. Correctness in that, for
-instance, it uses ECMA 262 for regexes and can validate numeric instances of
-arbitrary length and/or precision. No other existing JSON Schema implementation
-can do both of the latter points, and I can pretty much guarantee that no other
-library is faster than this one.  If you find a counter example, I'd be glad to
-hear of it!</p>
+<h2>Strong points</h2>
+
+<p>This library has three main characteristics which make it stand apart from
+other existing implementations. While some other libraries also bear one or two
+of the below characteristics, none can pretend to all three of them:</p>
+
+<ul>
+    <li><b>Correctness</b>&nbsp;It is currently the only library in existence to
+    accurately validate numeric JSON instances of arbitraty length/precision; it
+    also accurately uses an ECMA 262 regular expression engine to validate
+    patterns (JavaScript libraries all do, of course, but then the JavaScript
+    standard requires it);</li>
+    <li><b>Raw speed</b>&nbsp;Downloaded schemas are cached, syntax validation
+    results are cached, validators are cached. All of them can therefore be
+    reused each time you have to validate data against a same schema.</li>
+    <li><b>Fully thread safe</b>&nbsp;All schema object instances are immutable,
+    therefore thread safe. You can use the same instance in several threads in
+    parallel and validate as much data as you want.</li>
+</ul>
 
 <h1>Sample usage</h1>
 
@@ -43,6 +57,7 @@ schema generation context. Here is the most simple way of building a factory
 using default settings:</p>
 
 <pre>
+    // Build a schema factory with default settings
     final JsonSchemaFactory factory = new JsonSchemaFactory.Builder().build();
 </pre>
 
@@ -58,18 +73,21 @@ using default settings:</p>
 <h2>Register/create a schema</h2>
 
 <p>The class for this is {@link org.eel.kitchen.jsonschema.main.JsonSchema}.
-This is a three step process.</p>
+This is a three step process:</p>
 
-<p>First of all, you need to grab your JSON Schema as a {@link
-com.fasterxml.jackson.databind.JsonNode}. For this, you may want to have a look
-at the {@link org.eel.kitchen.jsonschema.util.JsonLoader} class. Then, you need
-to register this schema. This will create a {@link
-org.eel.kitchen.jsonschema.main.SchemaContainer} object. Finally, create a
-schema out of this container.</p>
+<ul>
+    <li>you need to get hold of your JSON Schema as a {@link
+    com.fasterxml.jackson.databind.JsonNode} (here, the {@link
+    org.eel.kitchen.jsonschema.util.JsonLoader} will probably be useful);</li>
+    <li>you need to register this schema to the factory: this will create a
+    {@link org.eel.kitchen.jsonschema.main.SchemaContainer};</li>
+    <li>then you can create your {@link
+    org.eel.kitchen.jsonschema.main.JsonSchema} instance.</li>
+</ul>
 
-<p>The sample code below shows how to create a validating schema out of the
-current v3 schema draft, bundled in this library (<b>NOTE</b>: {@link
-java.io.IOException} not accounted for):</p>
+<p>The sample code below shows how to create a {@link
+org.eel.kitchen.jsonschema.main.JsonSchema} from the v3 schema draft, bundled in
+this library (<b>NOTE</b>: {@link java.io.IOException} not accounted for):</p>
 
 <pre>
     final JsonNode rawSchema = JsonLoader.fromResource("/schema-draftv3.json");
@@ -105,17 +123,21 @@ safe. Sample code:</p>
 <p>First note that all customization is achieved via the associated builder:
 once a factory is created, it cannot be modified.</p>
 
-<h2>URIs and namespaces</h2>
+<h2>Adding a default URI namespace</h2>
 
-<p>When resolving JSON References, relative URIs may be encountered. In
-this case, they should be resolved against the parent schema's location. But
-it can happen that the parent schema's location is empty: in this case,
-the URI will not resolve.</p>
+<p>When resolving JSON References, relative URIs may be encountered. In this
+case, they should be resolved against the parent schema's location. But it can
+happen that the parent schema's location is empty: in this case, the URI will
+not resolve. As a matter of fact, the class in charge of getting a JSON document
+from an URI, {@link org.eel.kitchen.jsonschema.uri.URIManager}, will refuse to
+get content from a relative URI.</p>
 
-<p>This implementation adds the ability to set a default namespace: relative
-URIs will then be resolved with regards to that namespace. This can be useful
-if, for instance, you do local only validation and all your schemas are on the
-local filesystem, and refer to one another in a relative way. You can do:</p>
+<p>To work around this problem, you have the ability to set a default namespace:
+relative URIs will then be resolved with regards to that namespace. This can be
+useful if, for instance, you perform offline validation.</p>
+
+<p>One possible scenario is to have a set of schemas on the local filesystem,
+and schemas refer to one another in a relative way. You can do:</p>
 
 <pre>
     // Note the ending /, it is necessary!
@@ -123,7 +145,7 @@ local filesystem, and refer to one another in a relative way. You can do:</p>
         .setNamespace("file:///path/to/base/directory/").build();
 </pre>
 
-<h2>Adding custom keywords</h2>
+<h2>Registering/unregistering keywords</h2>
 
 <p>For this, you need three elements:</p>
 
@@ -134,9 +156,9 @@ local filesystem, and refer to one another in a relative way. You can do:</p>
 </ul>
 
 <p>The keyword validator needs to have one constructor taking a JsonNode as an
-argument (keyword validators are built by reflection). You can then add the
-keyword to your factory like this:
-</p>
+argument (<b>keyword validators are built by reflection</b> -- this is what
+allows them to be cached). You can then register the keyword to your factory
+like this:</p>
 
 <pre>
     final Keyword myKeyword = Keyword.Builder.forName("mykeyword")
@@ -144,25 +166,35 @@ keyword to your factory like this:
         .withValidatorClass(MyKeywordValidator.class)
         .build();
 
-    final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-        .addKeyword(myKeyword).build();
+    final JsonSchemaFactory.Builder builder = new JsonSchemaFactory.Builder();
+
+    // Register your own keyword, and unregister "format"
+    builder.registerKeyword(myKeyword).unregisterKeyword("format");
+
+    // Build the factory
+    final JsonSchemaFactory factory = builder.build();
 </pre>
+
+<p>See the links above for further documentation.</p>
 
 <h2>Registering/unregistering URI schemes</h2>
 
 <p>A JSON Schema locator is a URI, and this URI can be of any scheme. This
-implementation has native support for <tt>http</tt>, <tt>ftp</tt>,
-<tt>file</tt> and <tt>jar</tt>.</p>
+implementation has native support for the following schemes, which are
+guaranteed to be implemented by any Java implementation: <tt>http</tt>,
+<tt>ftp</tt>, <tt>file</tt> and <tt>jar</tt>. While <tt>https</tt> is also
+guaranteed to be implemented, this implementation chooses not to offer support
+for it, because of certificate matters, which can be quite cumbersome.</p>
 
 <p>You can, if you wish, either override the existing supported schemes, or add
-support for a new scheme, by implementing
-{@link org.eel.kitchen.jsonschema.uri.URIDownloader} and register it in your
-factory, like this:</p>
+support for a new scheme, by implementing {@link
+org.eel.kitchen.jsonschema.uri.URIDownloader} and register it in your factory,
+like this:</p>
 
 <pre>
     final URIDownloader myDownloader = new URIDownloader()
     {
-        \@Override
+        &#64;Override
         public InputStream fetch(final URI source)
         {
             // your code here
@@ -175,6 +207,103 @@ factory, like this:</p>
         .unregisterScheme("ftp")
         .build();
 </pre>
+
+<h1>The core stuff: the validation process</h1>
+
+<p>The validation process is a three step process:</p>
+
+<ul>
+    <li><tt>$ref</tt> resolution;</li>
+    <li>schema syntax validation;</li>
+    <li>instance validation (ie, validate your data).</li>
+</ul>
+
+<p>The core package for the validation process is {@link
+org.eel.kitchen.jsonschema.validator}. All instances of {@link
+org.eel.kitchen.jsonschema.main.JsonSchema} go through this process. As
+mentioned in the introduction, some parts of this process are cached, and don't
+need to be computed again.</p>
+
+<h2><tt>$ref</tt> resolution</h2>
+
+<p>This is a critically important part of the validation process. You may
+encounter, during validation, what is called a <a
+href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02">JSON
+Reference</a>. A JSON Reference is a JSON Object with one member named
+<tt>$ref</tt>, and the value of this member is a text value which embodies a
+URI. Implementations are required to follow JSON References until an actual
+final content is reached (and this content may, or may not, be a valid JSON
+Schema).</p>
+
+<p>Now, more food for thought. Consider this schema:</p>
+
+<pre>
+    {
+        "$ref": "some://where/else",
+        "minimum": 3
+    }
+</pre>
+
+<p>This is <b>still</b> a JSON Reference. Other schema keywords, such as
+<tt>minimum</tt> in this example, should be <b>ignored</b>. And this is what
+this implementation does.</p>
+
+<p>The core class implementing JSON Reference resolution is {@link
+org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator}.</p>
+
+<h2>Schema syntax checking</h2>
+
+<p>This is an equally important part of the validation process. One thing to
+note about the previous step is that it will only check that JSON Reference
+resolution ultimately leads to a JSON document, whatever that document is. Which
+means it may not even be a JSON Object, therefore not a JSON Schema. This basic
+check is done at that level.</p>
+
+<p>The syntax validation process starts with a {@link
+org.eel.kitchen.jsonschema.validator.SyntaxJsonValidator}. This validators calls
+upon a {@link org.eel.kitchen.jsonschema.syntax.SyntaxValidator} instance, which
+checks that all keywords are syntactically correct using a series of {@link
+org.eel.kitchen.jsonschema.syntax.SyntaxChecker} objects.</p>
+
+<p>The role of {@link org.eel.kitchen.jsonschema.syntax.SyntaxChecker} objects
+in particular is very important: for a given keyword, a syntax checker ensures
+that the value of this keyword is well formed. This is what allows the next step
+in the process to be easier to implement.</p>
+
+<p>Finally, please note that the results of syntax validation are cached: a
+schema which has already been validated will not be validated again.</p>
+
+<h2>Instance (aka data) validation</h2>
+
+<p>This is the part which actually matters to end users: ensure that their data
+is valid.</p>
+
+<p>The process begins with an instance of {@link
+org.eel.kitchen.jsonschema.validator.InstanceJsonValidator}. It will query, via
+the factory, a set of {@link
+org.eel.kitchen.jsonschema.keyword.KeywordValidator} instances. All of these
+keyword validators will then be called in turn to validate the data.</p>
+
+<p>Here also, the results of computing a set of keyword validators from a given
+schema is cached.</p>
+
+<h2>Object/array instance validation</h2>
+
+<p>There is one more step to validation. The step above will only have validated
+that the current "path" in the JSON instance will have been validated. However,
+in the event where the instance is a so-called <i>container instance</i>, that
+is it has children nodes, which is the case of objects and array, then a further
+validation step is issued so that all children get validated.</p>
+
+<p>The two classes responsible for this, {@link
+org.eel.kitchen.jsonschema.validator.ArrayJsonValidator} and {@link
+org.eel.kitchen.jsonschema.validator.ObjectJsonValidator}, take responsibility
+from this point and will restart the validation process from scratch for each of
+the instance children.</p>
+
+<p>It should be noted that while array instance children only have to match
+exactly one schema, object instance children may have to match several of them,
+which does nothing to simplify matters...</p>
 
 </body>
 </html>

@@ -43,7 +43,7 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  *         .withSyntaxChecker(checker).withValidatorClass(validatorClass)
  *         .build();
  *
- *     // register it into a bundle
+ *     // register it into a KeywordBundle, see link below
  *     bundle.registerKeyword(myKeyword);
  * </pre>
  *
