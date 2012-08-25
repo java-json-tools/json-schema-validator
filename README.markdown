@@ -19,8 +19,6 @@ more details. The old, still maintained version is <b>0.4.1</b>.
 This allows pure server side JSON schema validation if this is what you are
 looking for./<p>
 
-<p>The draft serving as a reference is, at the moment, draft version 3.</p>
-
 <p>The current version (0.5.x) has the following features:</p>
 
 * full draft v3 validation (except for the <tt>color</tt> and <tt>style</tt>
@@ -34,6 +32,19 @@ looking for./<p>
 * <b>thread safe validators</b> (0.4.x validation is not thread safe);
 * ability to register URI handlers for any scheme (HTTP only natively);
 * ability to register/unregister keywords.
+
+<h2>Relevant documents</h2>
+
+<p>Currently, JSON Schema is not an official RFC. In fact, the existing draft is
+obsolete -- but it is used on the Internet nonetheless. This implementation is
+based on the following drafts:</p>
+
+* JSON Schema Internet draft, version 3
+  ([link](http://tools.ietf.org/html/draft-zyp-json-schema-03));
+* JSON Reference Internet draft, version 2
+  ([link](http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02));
+* JSON Pointer Internet draft, version 3
+  ([link](http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-03)).
 
 <h2>More...</h2>
 
