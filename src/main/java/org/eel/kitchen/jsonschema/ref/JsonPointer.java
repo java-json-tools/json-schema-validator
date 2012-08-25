@@ -95,9 +95,6 @@ public final class JsonPointer
     /**
      * Constructor
      *
-     * <p>FIXME: unclear whether we should only accept #-prefixed inputs,
-     * therefore both are accepted</p>
-     *
      * @param input The input string, guaranteed not to be JSON encoded
      * @throws JsonSchemaException Illegal JSON Pointer
      */
@@ -109,7 +106,7 @@ public final class JsonPointer
 
         elements = builder.build();
 
-        fullPointer = '#' + input;
+        fullPointer = input;
     }
 
     private JsonPointer(final String fullPointer, final List<String> elements)
