@@ -180,7 +180,7 @@ public final class JsonPointer
              * Skip the /
              */
             if (!victim.startsWith("/"))
-                throw new JsonSchemaException("Illegal JSON Pointer");
+                throw illegalPointer("reference token not preceeded by '/'");
             victim = victim.substring(1);
 
             /*
@@ -230,7 +230,9 @@ public final class JsonPointer
         for (final char c: array) {
             if (inEscape) {
                 if (!ESCAPED.matches(c))
-                    throw new JsonSchemaException("illegal JSON Pointer");
+                    throw illegalPointer("bad escape sequence: ~ should be " +
+                        "followed by one of " + ESCAPE_REPLACEMENT_MAP.keySet()
+                        + ", but was followed by '" + c + '\'');
                 sb.append(c);
                 inEscape = false;
                 continue;
@@ -243,7 +245,8 @@ public final class JsonPointer
         }
 
         if (inEscape)
-            throw new JsonSchemaException("illegal JSON Pointer");
+            throw illegalPointer("bad escape sequence: ~ not followed by any " +
+                "token");
         return sb.toString();
     }
 
@@ -316,6 +319,11 @@ public final class JsonPointer
                 sb.append(c);
 
         return sb.toString();
+    }
+
+    private static JsonSchemaException illegalPointer(final String message)
+    {
+        return new JsonSchemaException("illegal JSON Pointer: " + message);
     }
 
     @Override

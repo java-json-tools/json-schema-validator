@@ -102,32 +102,37 @@ public final class JsonPointerTest
     {
         final Set<Object[]> set = new HashSet<Object[]>();
 
-        String input, message;
+        String input, errmsg, message;
 
         input = "x";
+        errmsg = "illegal JSON Pointer: reference token not preceeded by '/'";
         message = "pointer not starting with / should be illegal";
-        set.add(new Object[] { input, message });
+        set.add(new Object[] { input, errmsg, message });
 
         input = "/~";
+        errmsg = "illegal JSON Pointer: bad escape sequence: ~ not followed " +
+            "by any token";
         message = "~ without any following character should be illegal";
-        set.add(new Object[] { input, message });
+        set.add(new Object[] { input, errmsg, message });
 
         input = "/~x";
+        errmsg = "illegal JSON Pointer: bad escape sequence: ~ should be " +
+            "followed by one of [0, 1], but was followed by 'x'";
         message = "~ not followed by 0 or 1 should be illegal";
-        set.add(new Object[] { input, message });
+        set.add(new Object[] { input, errmsg, message });
 
         return set.iterator();
     }
 
     @Test(dataProvider = "getIllegalPointerData")
     public void illegalJSONPointerMustBeDetectedAsSuch(final String input,
-        final String message)
+        final String errmsg, final String message)
     {
         try {
             new JsonPointer(input);
             fail(message);
-        } catch (JsonSchemaException ignored) {
-            assertTrue(true);
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getMessage(), errmsg);
         }
     }
 }
