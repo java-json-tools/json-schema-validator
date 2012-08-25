@@ -170,7 +170,6 @@ public final class DependenciesKeywordValidator
         if (schemas.isEmpty())
             return null;
 
-        return new StringBuilder("further schema validations for properties ")
-            .append(schemas.keySet()).toString();
+        return "further schema validations for properties " + schemas.keySet();
     }
 }
