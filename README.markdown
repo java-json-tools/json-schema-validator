@@ -12,6 +12,10 @@ is a stabilized user API. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
 more details. The old, still maintained version is <b>0.4.1</b>. 
 
+<p>If you want to jump straight into action, you can see the Javadoc online
+[here](http://fge.github.com/json-schema-validator/), which contains code
+samples.</p>
+
 <h2>What it is</h2>
 
 <p>This is an implementation of the
