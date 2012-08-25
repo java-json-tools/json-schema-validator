@@ -114,7 +114,7 @@ public final class JsonPointer
      */
     public JsonPointer append(final String element)
     {
-        final List<String> newElements = ImmutableList.<String>builder()
+        final List<String> newElements = new ImmutableList.Builder<String>()
             .addAll(elements).add(element).build();
 
         return new JsonPointer(fullPointer + '/' + refTokenEncode(element),
