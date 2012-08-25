@@ -55,10 +55,6 @@ public final class JsonFragmentTest
          */
         expected = schema;
 
-        input = null;
-        errmsg = "null fragment does not resolve to self";
-        builder.add(new Object[] { input, expected, errmsg });
-
         input = "";
         errmsg = "empty fragment does not resolve to self";
         builder.add(new Object[] { input, expected, errmsg });

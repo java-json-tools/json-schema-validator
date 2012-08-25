@@ -83,7 +83,7 @@ public final class JsonRef
         try {
             locator = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
             this.uri = uri.getFragment() == null ? locator : uri;
-            fragment = JsonFragment.fromFragment(uri.getFragment());
+            fragment = JsonFragment.fromFragment(this.uri.getFragment());
         } catch (URISyntaxException e) {
             throw new RuntimeException("WTF??", e);
         }

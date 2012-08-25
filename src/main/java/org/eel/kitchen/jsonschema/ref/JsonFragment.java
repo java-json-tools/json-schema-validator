@@ -63,7 +63,7 @@ public abstract class JsonFragment
      */
     public static JsonFragment fromFragment(final String fragment)
     {
-        if (fragment == null || fragment.isEmpty())
+        if (fragment.isEmpty())
             return EMPTY;
 
         try {
