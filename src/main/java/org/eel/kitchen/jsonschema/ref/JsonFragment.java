@@ -48,7 +48,7 @@ public abstract class JsonFragment
         @Override
         public String toString()
         {
-            return "#";
+            return "";
         }
     };
 
