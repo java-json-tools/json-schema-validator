@@ -20,57 +20,40 @@ package org.eel.kitchen.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
 import java.util.List;
 
 /**
- * Implementation of IETF JSON Pointer draft, version 1
+ * Implementation of IETF JSON Pointer draft, version 3
  *
- * <p><a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-01.txt">
- * JSON Pointer</a> is a draft standard defining a way to address paths within
- * JSON documents. Paths apply to container objects, ie arrays or nodes. For
- * objects, path elements are property names. For arrays, they are the index in
- * the array.</p>
+ * <p><a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-03.txt">
+ * JSON Pointer</a> is an IETF draft defining a way to address paths within JSON
+ * documents. Paths apply to container objects, ie arrays or nodes. For objects,
+ * path elements are property names. For arrays, they are the index in the
+ * array (starting from 0).</p>
  *
  * <p>The general syntax is {@code #/path/elements/here}. A path element is
  * referred to as a "reference token" in the specification.</p>
  *
- * <p>JSON Pointers are <b>always</b> absolute: it is perfectly legal, for
- * instance, to have properties named {@code .} and {@code ..} in a JSON
- * object.</p>
- *
- * <p>Even {@code /} is a valid property name. For this reason,
- * the caret ({@code ^}) has been chosen as an escape character, but only if
- * followed by itself or {@code /}. Therefore:
- * <ul>
- *     <li>{@code ^/} becomes {@code /},</li>
- *     <li>{@code ^^} becomes {@code ^},</li>
- *     <li>{@code ^&lt;anythingelse&gt;} is illegal.</li>
- * </ul>
- *
- * <p>There are two pending traps with JSON Pointer which one must be aware of:
- * </p>
+ * <p>The difficulty with JSON Pointer is that any JSON String is valid as an
+ * object's property name. These are all valid:</p>
  *
  * <ul>
- *     <li><p>The initial input string <b>MAY be JSON escaped</b> (FIXME:
- *     pointer to spec)</p>; it means that, for instance,
- *     {@code "#\/"} and {@code "#/"} are the same string, since the first
- *     version is "merely" the JSON escaped version of the first.</li>
- *     <li><p>The empty string is a <b>valid</b> property name in a JSON
- *     object, which means {@code #} and {@code #/} are different. The second
- *     refers to property {@code ""} inside an object while the first refers
- *     to the JSON document itself. Implied: implementations must handle
- *     the case where the document is <i>not</i> an object (leading to a
- *     "dangling" JSON Pointer).
- *     </p></li>
+ *     <li>{@code ""} -- the empty string;</li>
+ *     <li>{@code "/"};</li>
+ *     <li>{@code "0"};</li>
+ *     <li>{@code "-1"};</li>
+ *     <li>{@code "."}, {@code ".."}, {@code "../.."}.</li>
  * </ul>
  *
- * <p>Fortunately, Jackson makes both points easy to handle.</p>
+ * <p>The latter example is the reason why a JSON Pointer is <b>always</b>
+ * absolute.</p>
  *
- * <p>Final note: please note that all instances of this class are
- * <b>immutable</b>.</p>
+ * <p>All instances of this class are immutable (therefore thread safe).</p>
  *
  */
 
@@ -78,9 +61,17 @@ public final class JsonPointer
     extends JsonFragment
     implements Comparable<JsonPointer>
 {
-    private static final CharMatcher SPECIAL = CharMatcher.anyOf("^/");
     private static final CharMatcher SLASH = CharMatcher.is('/');
-    private static final CharMatcher CARET = CharMatcher.is('^');
+    private static final CharMatcher ESCAPE_CHAR = CharMatcher.is('~');
+
+    private static final BiMap<Character, Character> ESCAPE_REPLACEMENT_MAP
+        = new ImmutableBiMap.Builder<Character, Character>()
+            .put('0', '~')
+            .put('1', '/')
+            .build();
+
+    private static final CharMatcher ESCAPED = CharMatcher.anyOf("01");
+    private static final CharMatcher SPECIAL = CharMatcher.anyOf("~/");
 
     /**
      * The pointer in a raw, but JSON Pointer-escaped, string.
@@ -102,7 +93,7 @@ public final class JsonPointer
         throws JsonSchemaException
     {
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
-        process(input, builder);
+        decode(input, builder);
 
         elements = builder.build();
 
@@ -113,16 +104,6 @@ public final class JsonPointer
     {
         this.fullPointer = fullPointer;
         this.elements = elements;
-    }
-
-    /**
-     * Return the reference tokens of this JSON Pointer, in order.
-     *
-     * @return a {@link List}
-     */
-    public List<String> getElements()
-    {
-        return elements;
     }
 
     /**
@@ -178,17 +159,16 @@ public final class JsonPointer
     }
 
     /**
-     * Initialize the object -- FIXME: misnamed
+     * Initialize the object
      *
      * <p>We read the string sequentially, a slash, then a reference token,
      * then a slash, etc. Bail out if the string is malformed.</p>
      *
-     *
-     * @param input Input string, guaranteed not to be JSON encoded
+     * @param input Input string, guaranteed not to be JSON/URI encoded
      * @param builder the list builder
      * @throws JsonSchemaException the input is not a valid JSON Pointer
      */
-    private static void process(final String input,
+    private static void decode(final String input,
         final ImmutableList.Builder<String> builder)
         throws JsonSchemaException
     {
@@ -221,7 +201,7 @@ public final class JsonPointer
      * Grab a (cooked) reference token from an input string
      *
      * <p>This method is only called from
-     * {@link #process(String, ImmutableList.Builder)}, after a delimiter
+     * {@link #decode(String, ImmutableList.Builder)}, after a delimiter
      * ({@code /}) has been swallowed up. The input string is therefore
      * guaranteed to start with a reference token, which may be empty.
      * </p>
@@ -237,11 +217,19 @@ public final class JsonPointer
 
         final char[] array = input.toCharArray();
 
+        /*
+         * If we encounter a /, this is the end of the current token.
+         *
+         * If we encounter a ~, ensure that what follows is either 0 or 1.
+         *
+         * If we encounter any other character, append it.
+         */
+
         boolean inEscape = false;
 
         for (final char c: array) {
             if (inEscape) {
-                if (!SPECIAL.matches(c))
+                if (!ESCAPED.matches(c))
                     throw new JsonSchemaException("illegal JSON Pointer");
                 sb.append(c);
                 inEscape = false;
@@ -249,7 +237,7 @@ public final class JsonPointer
             }
             if (SLASH.matches(c))
                 break;
-            if (CARET.matches(c))
+            if (ESCAPE_CHAR.matches(c))
                 inEscape = true;
             sb.append(c);
         }
@@ -262,11 +250,11 @@ public final class JsonPointer
     /**
      * Turn a cooked reference token into a raw reference token
      *
-     * <p>This means unescaping all slashes and carets. This function MUST
-     * be called with a valid cooked reference token.</p>
+     * <p>This means we replace all occurrences of {@code ~0} with {@code ~},
+     * and all occurrences of {@code ~1} with {@code /}.</p>
      *
-     * <p>It is called from {@link #process(String, ImmutableList.Builder)},
-     * in order to push a token into {@link #elements}.</p>
+     * <p>It is called from {@link #decode}, in order to push a token into
+     * {@link #elements}.</p>
      *
      * @param cooked the cooked token
      * @return the raw token
@@ -276,22 +264,26 @@ public final class JsonPointer
         final StringBuilder sb = new StringBuilder(cooked.length());
 
         /*
-         * Unescape the ^ and / if any. Elements are guaranteed to be well
-         * formed (ie, ^ can only be followed by ^ or /),
-         * we can therefore just skip all ^ we encounter unconditionally.
+         * Replace all occurrences of "~0" with "~", and all occurrences of
+         * "~1" with "/".
+         *
+         * The input is guaranteed to be well formed.
          */
 
         final char[] array = cooked.toCharArray();
 
         boolean inEscape = false;
 
-        for (final char c : array) {
-            if (CARET.matches(c) && !inEscape) {
+        for (final char c: array) {
+            if (ESCAPE_CHAR.matches(c)) {
                 inEscape = true;
                 continue;
             }
-            inEscape = false;
-            sb.append(c);
+            if (inEscape) {
+                sb.append(ESCAPE_REPLACEMENT_MAP.get(c));
+                inEscape = false;
+            } else
+                sb.append(c);
         }
 
         return sb.toString();
@@ -312,15 +304,16 @@ public final class JsonPointer
         final StringBuilder sb = new StringBuilder(raw.length());
 
         /*
-         * Simple enough: insert a ^ in front of any ^ or /
+         * Replace all occurrences of "~" with "~0" and all occurrences of "/"
+         * with "~1".
          */
         final char[] array = raw.toCharArray();
 
-        for (final char c: array) {
+        for (final char c: array)
             if (SPECIAL.matches(c))
-                sb.append('^');
-            sb.append(c);
-        }
+                sb.append('~').append(ESCAPE_REPLACEMENT_MAP.inverse().get(c));
+            else
+                sb.append(c);
 
         return sb.toString();
     }

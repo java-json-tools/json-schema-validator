@@ -17,68 +17,83 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-import java.util.List;
+import java.io.IOException;
+import java.net.URI;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
 public final class JsonPointerTest
 {
-    @Test
-    public void testCaretEscape()
+    private JsonNode document, pointerData, uriData;
+
+    @BeforeClass
+    public void setUp()
+        throws IOException
+    {
+        final JsonNode node = JsonLoader.fromResource("/ref/jsonpointer.json");
+        document = node.get("document");
+        pointerData = node.get("pointers");
+        uriData = node.get("uris");
+    }
+
+    private static Iterator<Object[]> nodeToDataProvider(final JsonNode node)
+    {
+        final Map<String, JsonNode> map = JacksonUtils.nodeToMap(node);
+
+        final Set<Object[]> set = new HashSet<Object[]>();
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet())
+            set.add(new Object[] { entry.getKey(), entry.getValue() });
+
+        return set.iterator();
+    }
+
+    @DataProvider
+    public Iterator<Object[]> getPointerData()
+    {
+        return nodeToDataProvider(pointerData);
+    }
+
+    @Test(dataProvider = "getPointerData")
+    public void pointersResolveCorrectly(final String input,
+        final JsonNode expected)
         throws JsonSchemaException
     {
-        final String[] array = { "a^", "^a", "a^a", "^" };
-        final List<String> expected = Arrays.asList(array);
+        final JsonPointer ptr = new JsonPointer(input);
+        final JsonNode actual = ptr.resolve(document);
 
-        final JsonPointer v2 = new JsonPointer("/a^^/^^a/a^^a/^^");
-        final List<String> actual = v2.getElements();
-
-        assertEquals(actual, expected);
+        assertEquals(actual, expected, "failed to resolve JSON Pointer "
+            + input);
     }
 
-    @Test
-    public void testSlashEscape()
+    @DataProvider
+    public Iterator<Object[]> getURIData()
+    {
+        return nodeToDataProvider(uriData);
+    }
+
+    @Test(dataProvider = "getURIData")
+    public void URIEncodedPointersResolveCorrectly(final String input,
+        final JsonNode expected)
         throws JsonSchemaException
     {
-        final String[] array = { "a/", "/a", "a/a", "/" };
-        final List<String> expected = Arrays.asList(array);
+        final JsonPointer ptr
+            = new JsonPointer(URI.create(input).getFragment());
+        final JsonNode actual = ptr.resolve(document);
 
-        final JsonPointer v2 = new JsonPointer("/a^//^/a/a^/a/^/");
-        final List<String> actual = v2.getElements();
-
-        assertEquals(actual, expected);
-    }
-
-    @Test
-    public void testMissingSlash()
-    {
-        try {
-            new JsonPointer("a");
-            fail("No exception thrown!");
-        } catch (JsonSchemaException ignored) {
-            assertTrue(true);
-        }
-    }
-
-    @Test
-    public void testIllegalEscape()
-    {
-        try {
-            new JsonPointer("/^a");
-            fail("No exception thrown!");
-        } catch (JsonSchemaException ignored) {
-            assertTrue(true);
-        }
-
-        try {
-            new JsonPointer("/^");
-            fail("No exception thrown!");
-        } catch (JsonSchemaException ignored) {
-            assertTrue(true);
-        }
+        assertEquals(actual, expected, "failed to resolve URI encoded JSON "
+            + "Pointer " + input);
     }
 }

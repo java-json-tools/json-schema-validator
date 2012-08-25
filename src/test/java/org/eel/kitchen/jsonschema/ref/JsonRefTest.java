@@ -115,7 +115,7 @@ public final class JsonRefTest
         ref = JsonRef.fromString("file:///a#b/c");
         fragment = ref.getFragment();
         assertFalse(fragment.isEmpty());
-        assertEquals(fragment.toString(), "#b/c");
+        assertEquals(fragment.toString(), "b/c");
     }
 
     @Test
