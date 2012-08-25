@@ -144,6 +144,8 @@ public class URIManager
         }
 
         try {
+            // Note: ObjectMapper's .readTree() closes the InputStream after it
+            // is done with it!
             return mapper.readTree(in);
         } catch (IOException e) {
             throw new JsonSchemaException("content fetched from URI \"" + uri
