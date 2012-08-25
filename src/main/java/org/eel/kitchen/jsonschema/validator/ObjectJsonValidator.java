@@ -91,7 +91,7 @@ public final class ObjectJsonValidator
             validateOne(context, report, entry);
 
         report.setPath(pwd);
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;
     }
 
     @Override

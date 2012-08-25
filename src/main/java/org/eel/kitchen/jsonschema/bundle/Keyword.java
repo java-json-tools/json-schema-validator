@@ -39,11 +39,12 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  *     final SyntaxChecker checker = ...;
  *     final Class&lt;? extends KeywordValidator&gt; validatorClass = ...;
  *
- *     final Keyword myKeyword = Keyword.Builder.forName("mykeyword")
+ *     final Keyword myKeyword = Keyword.Builder.forKeyword("mykeyword")
  *         .withSyntaxChecker(checker).withValidatorClass(validatorClass)
  *         .build();
  *
- *     // then register it into a bundle
+ *     // register it into a bundle
+ *     bundle.registerKeyword(myKeyword);
  * </pre>
  *
  * <p>It is perfectly legal to register a keyword with only a syntax checker, or

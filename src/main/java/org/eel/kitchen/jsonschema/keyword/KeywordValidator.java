@@ -44,11 +44,11 @@ import java.util.EnumSet;
  * of this one, depending on your needs:</p>
  *
  * <ul>
- *     <li>{@link NumericKeywordValidator}, for validating numeric
- *     instances;</li>
+ *     <li>{@link NumericKeywordValidator}, for validating numeric instances;
+ *     </li>
  *     <li>{@link PositiveIntegerKeywordValidator}, for keywords accepting
- *     only a positive integer as an argument (to be paired with
- *     {@link PositiveIntegerSyntaxChecker}.</li>
+ *     only a positive integer as an argument (to be paired with {@link
+ *     PositiveIntegerSyntaxChecker}).</li>
  * </ul>
  */
 public abstract class KeywordValidator

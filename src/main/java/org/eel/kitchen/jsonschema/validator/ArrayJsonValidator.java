@@ -31,9 +31,9 @@ import java.util.List;
 /**
  * Validator called for array instance children
  *
- * <p>Array chidren must obey one schema, depending on the values of
- * {@code items} and {@code additionalItems}. No {@code items} is equivalent
- * to an empty array.</p>
+ * <p>Array children must obey one schema, depending on the values of the
+ * {@code items} and {@code additionalItems} schema keywords. No {@code items}
+ * is equivalent to an empty array.</p>
  *
  * <p>Array indices start at 0. For a given index:</p>
  *
@@ -61,7 +61,9 @@ public final class ArrayJsonValidator
 
         final JsonNode schema = schemaNode.getNode();
 
-        JsonNode node = schema.path("items");
+        JsonNode node;
+
+        node = schema.path("items");
 
         if (node.isObject()) {
             additionalItems = node;
