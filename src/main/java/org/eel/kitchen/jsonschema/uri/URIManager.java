@@ -21,9 +21,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
@@ -65,6 +67,17 @@ public class URIManager
      */
     private final Map<String, URIDownloader> downloaders
         = new HashMap<String, URIDownloader>();
+
+    /**
+     * Map for URI redirections
+     *
+     * <p>This map will be used if you wish for an absolute URI to be redirected
+     * to another URI of your choice, which must also be absolute.</p>
+     *
+     * <p>Note that this map requires URIs to be <i>exact</i>. Currently, you
+     * cannot, for example, redirect a whole namespace this way.</p>
+     */
+    private final Map<URI, URI> URIRedirections = Maps.newHashMap();
 
     public URIManager()
     {
@@ -112,6 +125,45 @@ public class URIManager
     }
 
     /**
+     * Add a URI rediction
+     *
+     * <p>The typical use case for this is if you have a local copy of a schema
+     * whose id is normally unreachable. You can transform all references to
+     * this schema's URI to another URI which is reachable by your application.
+     * </p>
+     *
+     * <p>Note that the given strings will be considered as JSON References, and
+     * that both arguments must be valid absolute JSON References. For the
+     * recall, there is more to it than URIs being absolute: their fragment part
+     * must also be empty or null.</p>
+     *
+     * @param from the original URI
+     * @param to an URI which is reachable
+     * @throws IllegalArgumentException either of {@code from} or {@code to} are
+     * invalid URIs, or are not absolute JSON References
+     */
+    public void addRedirection(final String from, final String to)
+    {
+        final URI sourceURI, destURI;
+
+        try {
+            sourceURI = JsonRef.fromString(from).getRootAsURI();
+        } catch (JsonSchemaException ignored) {
+            throw new IllegalArgumentException("source URI " + from + " is not"
+                + " an absolute JSON Reference");
+        }
+
+        try {
+            destURI = JsonRef.fromString(to).getRootAsURI();
+        } catch (JsonSchemaException ignored) {
+            throw new IllegalArgumentException("destination URI " + to
+                + " is not an absolute JSON Reference");
+        }
+
+        URIRedirections.put(sourceURI, destURI);
+    }
+
+    /**
      * Get the content at a given URI as a {@link JsonNode}
      *
      * @param uri the URI
@@ -126,21 +178,24 @@ public class URIManager
         Preconditions.checkArgument(uri.isAbsolute(), "requested URI (" + uri
             + ") is not absolute");
 
-        final String scheme = uri.getScheme();
+        final URI target = URIRedirections.containsKey(uri)
+            ? URIRedirections.get(uri) : uri;
+
+        final String scheme = target.getScheme();
 
         final URIDownloader downloader = downloaders.get(scheme);
 
         if (downloader == null)
             throw new JsonSchemaException("cannot handle scheme \"" +  scheme
-                + "\" (requested URI: " + uri + ')');
+                + "\" (requested URI: " + target + ')');
 
         final InputStream in;
 
         try {
-            in = downloader.fetch(uri);
+            in = downloader.fetch(target);
         } catch (IOException e) {
             throw new JsonSchemaException("cannot fetch content from URI \""
-                + uri + '"', e);
+                + target + '"', e);
         }
 
         try {
@@ -148,7 +203,7 @@ public class URIManager
             // is done with it!
             return mapper.readTree(in);
         } catch (IOException e) {
-            throw new JsonSchemaException("content fetched from URI \"" + uri
+            throw new JsonSchemaException("content fetched from URI \"" + target
                 + "\" is not valid JSON", e);
         }
     }

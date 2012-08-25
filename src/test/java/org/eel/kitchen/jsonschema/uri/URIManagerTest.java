@@ -17,7 +17,10 @@
 
 package org.eel.kitchen.jsonschema.uri;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -183,6 +186,60 @@ public final class URIManagerTest
             assertEquals(e.getMessage(), "content fetched from URI "
                 +"\"foo://bar\" is not valid JSON");
         }
+    }
 
+    @Test
+    public void URIRedirectionIsFollowed()
+        throws IOException, JsonSchemaException
+    {
+        /*
+         * The content we return
+         */
+        final JsonNode expected = JsonNodeFactory.instance.objectNode()
+            .put("hello", "world");
+        final InputStream sampleStream
+            = new ByteArrayInputStream(expected.toString().getBytes());
+
+        /*
+         * We need to build both the source URI and destination URI. As they are
+         * both transformed to valid JSON References internally, we also build
+         * JsonRef-compatible URIs (ie, with a fragment, even empty).
+         *
+         * The user, however, may supply URIs which are not JsonRef-compatible.
+         */
+        final String from = "http://some.site/schema.json";
+        final String to = "foo://real/location.json";
+        manager.addRedirection(from, to);
+
+        final URI source = JsonRef.fromString(from).getRootAsURI();
+        final URI target = JsonRef.fromString(to).getRootAsURI();
+
+        /*
+         * Build another mock for the original source URI protocol, make it
+         * return the same thing as the target URI. Register both downloaders.
+         */
+        final URIDownloader httpMock = mock(URIDownloader.class);
+        when(httpMock.fetch(source)).thenReturn(sampleStream);
+        manager.registerScheme("http", httpMock);
+
+        when(mock.fetch(target)).thenReturn(sampleStream);
+        manager.registerScheme("foo", mock);
+
+        /*
+         * Get the original source...
+         */
+        final JsonNode actual = manager.getContent(source);
+
+        /*
+         * And verify that it has been downloaded from the target, not the
+         * source
+         */
+        verify(httpMock, never()).fetch(any(URI.class));
+        verify(mock).fetch(target);
+
+        /*
+         * Finally, ensure the correctness of the downloaded content.
+         */
+        assertEquals(actual, expected);
     }
 }
