@@ -18,21 +18,21 @@
 /**
  * Schema syntax validation package
  *
- * <p>The main class in this package is
- * {@link org.eel.kitchen.jsonschema.syntax.SyntaxValidator}.</p>
+ * <p>The main class in this package is {@link
+ * org.eel.kitchen.jsonschema.syntax.SyntaxValidator}.</p>
  *
  * <p>Syntax validation has a critically important role in the validation
  * process. An invalid schema will always <i>fail</i> to invalidate a JSON
  * instance.</p>
  *
- * <p>For this implementation in particular, it also helps to ensure that
- * the {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator}
- * associated with the schema keyword does not need to preoccupy about its
- * arguments being well-formed -- they will be since the syntax validator
- * has verified that they are.</p>
+ * <p>For this implementation in particular, it also helps to ensure that the
+ * {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator} associated with
+ * the schema keyword does not need to preoccupy about its arguments being
+ * well-formed -- they will be since the syntax validator has verified that they
+ * are.</p>
  *
- * <p>Unlike keyword validators, syntax validators are not built by
- * reflection. It is therefore your responsibility to instantiate it and
- * only then register it.</p>
+ * <p>Unlike keyword validators, syntax validators are not built by reflection.
+ * It is therefore your responsibility to instantiate it and only then register
+ * it.</p>
  */
 package org.eel.kitchen.jsonschema.syntax;

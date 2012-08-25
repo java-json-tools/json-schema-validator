@@ -23,8 +23,8 @@
  *
  * <p>It should be noted that this implementation differs from the draft in
  * one subtle, but important way: strictly speaking, an email and a hostname
- * may have no domain pa t at all. However, this implementation chooses to
- * require that they have by default.</p>
+ * may have no domain part at all. However, this implementation chooses to
+ * require that they have one by default.</p>
  *
  * <p>This implementation also adds a custom format specifier,
  * {@code date-time-ms}: this is the same as ISO 8601's {@code date-time},

@@ -22,8 +22,8 @@
  * inputs:</p>
  *
  * <ul>
- *     <li>start by creating a
- *     {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory},</li>
+ *     <li>start by creating a {@link
+ *     org.eel.kitchen.jsonschema.main.JsonSchemaFactory},</li>
  *     <li>customize it if need be (by adding new keywords,
  *     removing existing ones, etc),</li>
  *     <li>register a schema,</li>
@@ -31,8 +31,8 @@
  *     <li>validate your inputs.</li>
  * </ul>
  *
- * <p>A single {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance
- * can validate as many inputs as required. What is more,
- * it is fully thread safe.</p>
+ * <p>A single {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance can
+ * validate as many inputs as required. What is more, it is fully thread
+ * safe.</p>
  */
 package org.eel.kitchen.jsonschema.main;

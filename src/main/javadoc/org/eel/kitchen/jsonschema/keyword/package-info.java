@@ -18,19 +18,17 @@
 /**
  * Schema validation core elements: keyword validators
  *
- * <p>All keyword validators are built via reflection,
- * since they are dependent on the schema being passed as an argument.
- * Therefore, if you create a keyword validator of yours,
- * you <b>must</b> provide a constructor with a single argument of type
- * {@link com.fasterxml.jackson.databind.JsonNode}.</p>
+ * <p>All keyword validators are built via reflection, since they are dependent
+ * on the schema being passed as an argument.  Therefore, if you create a
+ * keyword validator of yours, you <b>must</b> provide a constructor with a
+ * single argument of type {@link com.fasterxml.jackson.databind.JsonNode}.</p>
  *
- * <p>Not only this, but if you do, be sure to pair it with a
- * {@link org.eel.kitchen.jsonschema.syntax.SyntaxChecker}. The principle is
- * that the syntax checker checks that the keyword has a correct shape,
- * which means the keyword validator does not have to check for this. This
- * considerably simplifies the constructor (you only have to do minimal type
- * checking, if any).
- * </p>
+ * <p>Not only this, but if you do, be sure to pair it with a {@link
+ * org.eel.kitchen.jsonschema.syntax.SyntaxChecker}. The principle is that the
+ * syntax checker checks that the keyword has a correct shape, which means the
+ * keyword validator does not have to check for this. This considerably
+ * simplifies the constructor (you only have to do minimal type checking, if
+ * any).</p>
  *
  * <p>To create a new validator, you may either extend {@link
  * org.eel.kitchen.jsonschema.keyword.KeywordValidator} or one of these two
@@ -45,10 +43,9 @@
  *
  * <p>Here is an example for a proposed {@code minProperties} keyword. This
  * keyword validates that an object instance has a minimum number of members.
- * Its argument is a positive integer, we therefore extend
- * {@link org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator}
- * directly instead of {@link
- * org.eel.kitchen.jsonschema.keyword.KeywordValidator}:
+ * Its argument is a positive integer, we therefore extend {@link
+ * org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator} directly
+ * instead of {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator}:
  * </p>
  *
  * <pre>

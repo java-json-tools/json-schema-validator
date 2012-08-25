@@ -18,9 +18,9 @@
 /**
  * Schema keywords and keyword bundles
  *
- * <p>This package contains all necessary classes to build validators for
- * your own keywords or even an entire set of customized keywords entirely.
- * </p>
+ * <p>Classes in this package allow you to build your own keywords and add them
+ * to an existing keyword bundle. You can then supply this bundle to your
+ * schema factory.</p>
  *
  * <p>This is useful, for instance, if you have an idea for a new keyword
  * and want to experiment with it. See the relevant classes for sample code.</p>

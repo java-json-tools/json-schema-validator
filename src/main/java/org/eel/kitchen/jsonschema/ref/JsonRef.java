@@ -113,7 +113,7 @@ public final class JsonRef
     /**
      * Build a JSON Reference from a URI
      *
-     * @see JsonRef(URI)
+     * @see #JsonRef(URI)
      *
      * @param uri the provided URI
      * @return the JSON Reference

@@ -42,6 +42,7 @@ import java.util.Map;
  * </pre>
  *
  * @see Keyword
+ * @see KeywordBundles
  * @see JsonSchemaFactory
  */
 public final class KeywordBundle

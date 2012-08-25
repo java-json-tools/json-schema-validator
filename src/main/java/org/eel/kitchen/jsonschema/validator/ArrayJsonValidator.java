@@ -43,6 +43,9 @@ import java.util.List;
  *     <li>otherwise, {@code additionalItems} is considered (if {@code true} or
  *     nonexistent, then an empty schema).</li>
  * </ul>
+ *
+ * <p>Its {@link #next()} method should <b>never</b> be called (it throws an
+ * {@link IllegalStateException} if it is).</p>
  */
 public final class ArrayJsonValidator
     extends JsonValidator
@@ -102,7 +105,7 @@ public final class ArrayJsonValidator
     @Override
     public JsonValidator next()
     {
-        return null;
+        throw new IllegalStateException("I should not have been called");
     }
 
     private SchemaNode getSchemaNode(final SchemaContainer container,

@@ -36,8 +36,8 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  * <p>Sample code:</p>
  *
  * <pre>
- *     final SyntaxChecker checker = ....;
- *     final Class&lt;? extends KeywordValidator&gt; validatorClass;
+ *     final SyntaxChecker checker = ...;
+ *     final Class&lt;? extends KeywordValidator&gt; validatorClass = ...;
  *
  *     final Keyword myKeyword = Keyword.Builder.forName("mykeyword")
  *         .withSyntaxChecker(checker).withValidatorClass(validatorClass)
@@ -50,6 +50,7 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  * only a keyword validator. An example is {@code $schema}, which must be a
  * valid URI (therefore it has a syntax checker) but does not play any role
  * in instance validation (therefore it has no keyword validator).</p>
+ *
  * <p>This class is thread safe and immutable.</p>
  *
  * @see Keyword.Builder

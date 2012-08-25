@@ -21,11 +21,10 @@
  * <p>The main package which reprensents a JSON Reference is
  * {@link org.eel.kitchen.jsonschema.ref.JsonRef}.</p>
  *
- * <p>Fragments play a particularly important role in JSON References,
- * as such there is a dedicated
- * {@link org.eel.kitchen.jsonschema.ref.JsonFragment} class to help
- * resolve a fragment into a JSON document. It has two implementations:
- * {@link org.eel.kitchen.jsonschema.ref.JsonPointer} and
+ * <p>Fragments play a particularly important role in JSON References, as such
+ * there is a dedicated {@link org.eel.kitchen.jsonschema.ref.JsonFragment}
+ * class to help resolve a fragment into a JSON document. It has two
+ * implementations: {@link org.eel.kitchen.jsonschema.ref.JsonPointer} and
  * {@link org.eel.kitchen.jsonschema.ref.IdFragment}.</p>
  *
  */
