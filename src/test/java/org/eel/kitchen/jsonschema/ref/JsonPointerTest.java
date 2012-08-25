@@ -96,4 +96,38 @@ public final class JsonPointerTest
         assertEquals(actual, expected, "failed to resolve URI encoded JSON "
             + "Pointer " + input);
     }
+
+    @DataProvider
+    public Iterator<Object[]> getIllegalPointerData()
+    {
+        final Set<Object[]> set = new HashSet<Object[]>();
+
+        String input, message;
+
+        input = "x";
+        message = "pointer not starting with / should be illegal";
+        set.add(new Object[] { input, message });
+
+        input = "/~";
+        message = "~ without any following character should be illegal";
+        set.add(new Object[] { input, message });
+
+        input = "/~x";
+        message = "~ not followed by 0 or 1 should be illegal";
+        set.add(new Object[] { input, message });
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "getIllegalPointerData")
+    public void illegalJSONPointerMustBeDetectedAsSuch(final String input,
+        final String message)
+    {
+        try {
+            new JsonPointer(input);
+            fail(message);
+        } catch (JsonSchemaException ignored) {
+            assertTrue(true);
+        }
+    }
 }
