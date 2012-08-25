@@ -60,21 +60,42 @@ import java.net.URISyntaxException;
 
 public final class JsonRef
 {
+    /**
+     * URI with only an empty fragment part
+     */
     private static final URI HASHONLY_URI = URI.create("#");
+
+    /**
+     * Empty URI
+     */
     private static final URI EMPTY_URI = URI.create("");
 
+    /**
+     * An empty JSON Reference
+     */
     private static final JsonRef EMPTY = new JsonRef(EMPTY_URI);
 
     /**
-     * The URI, as provided by the input arguments
+     * The URI, as provided by the input, with an appended empty fragment if
+     * no fragment was provided
      */
     private final URI uri;
 
+    /**
+     * The locator for this fragment
+     */
     private final URI locator;
+
+    /**
+     * The fragment of this JSON Reference
+     */
     private final JsonFragment fragment;
 
     /**
      * The main constructor, which is private by design
+     *
+     * <p>If the provided URI has no fragment, then an empty one is appended.
+     * </p>
      *
      * @param uri Input URI
      */
@@ -89,6 +110,15 @@ public final class JsonRef
         }
     }
 
+    /**
+     * Build a JSON Reference from a URI
+     *
+     * @see JsonRef(URI)
+     *
+     * @param uri the provided URI
+     * @return the JSON Reference
+     * @throws NullPointerException the provided URI is null
+     */
     public static JsonRef fromURI(final URI uri)
     {
         Preconditions.checkNotNull(uri, "URI must not be null");
@@ -101,6 +131,14 @@ public final class JsonRef
         return new JsonRef(normalized);
     }
 
+    /**
+     * Build a JSON Reference from a string input
+     *
+     * @param s the string
+     * @return the reference
+     * @throws JsonSchemaException string is not a valid URI
+     * @throws NullPointerException provided string is null
+     */
     public static JsonRef fromString(final String s)
         throws JsonSchemaException
     {
@@ -113,6 +151,18 @@ public final class JsonRef
         }
     }
 
+    /**
+     * Build a JSON Reference from a {@link JsonNode}
+     *
+     * <p>If the node is not textual, this returns an empty reference.
+     * Otherwise, it calls {@link #fromString(String)} with this node's text
+     * value.</p>
+     *
+     * @param node the node
+     * @return the reference
+     * @throws JsonSchemaException see {@link #fromString(String)}
+     * @throws NullPointerException provided node is null
+     */
     public static JsonRef fromNode(final JsonNode node)
         throws JsonSchemaException
     {
@@ -121,23 +171,47 @@ public final class JsonRef
         return node.isTextual() ? fromString(node.textValue()) : EMPTY;
     }
 
+    /**
+     * Return an empty reference
+     *
+     * <p>An empty reference is a reference which only has an empty fragment.
+     * </p>
+     *
+     * @return see above
+     */
     public static JsonRef emptyRef()
     {
         return EMPTY;
     }
 
+    /**
+     * Tell whether this reference is an absolute reference
+     *
+     * <p>A JSON Reference is considered absolute iif the underlying URI is
+     * itself absolute <b>and</b> it has an empty, or no, fragment part.</p>
+     *
+     * @return see above
+     */
     public boolean isAbsolute()
     {
         return uri.isAbsolute() && fragment.isEmpty();
     }
 
+    /**
+     * Resolve this reference against another reference
+     *
+     * @param other the reference to resolve
+     * @return a new reference
+     */
     public JsonRef resolve(final JsonRef other)
     {
         return new JsonRef(uri.resolve(other.uri));
     }
 
     /**
-     * Return the absolute part of the underlying URI, without the fragment
+     * Return this JSON Reference's locator
+     *
+     * <p>The locator of a fragment is the URI with an empty fragment.</p>
      *
      * @return an URI
      */
@@ -147,9 +221,7 @@ public final class JsonRef
     }
 
     /**
-     * Return this ref's fragment part as a string
-     *
-     * <p>If there is no fragment, an empty string is returned.</p>
+     * Return this JSON Reference's fragment
      *
      * @return the fragment
      */
@@ -158,6 +230,15 @@ public final class JsonRef
         return fragment;
     }
 
+    /**
+     * Tell whether the current JSON Reference contains another
+     *
+     * <p>This is considered true iif both references have the same locator,
+     * in other words, if they differ only by their fragment part.</p>
+     *
+     * @param other the other reference
+     * @return see above
+     */
     public boolean contains(final JsonRef other)
     {
         return locator.equals(other.locator);
