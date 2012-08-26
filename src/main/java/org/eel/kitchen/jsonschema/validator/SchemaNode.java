@@ -54,12 +54,13 @@ public final class SchemaNode
 
         final SchemaNode other = (SchemaNode) obj;
 
-        return container.equals(other.container) && node.equals(other.node);
+        return container.getLocator().equals(other.container.getLocator())
+            && node.equals(other.node);
     }
 
     @Override
     public int hashCode()
     {
-        return 31 * container.hashCode() + node.hashCode();
+        return 31 * container.getLocator().hashCode() + node.hashCode();
     }
 }

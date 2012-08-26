@@ -100,28 +100,6 @@ public final class SchemaContainer
         return schema;
     }
 
-    @Override
-    public boolean equals(final Object o)
-    {
-        if (o == null)
-            return false;
-        if (this == o)
-            return true;
-        if (getClass() != o.getClass())
-            return false;
-
-        final SchemaContainer that = (SchemaContainer) o;
-
-        return locator.equals(that.locator)
-            && schema.equals(that.schema);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return 31 * locator.hashCode() + schema.hashCode();
-    }
-
     /**
      * Strip an object instance off its {@code id} member, if any
      *
