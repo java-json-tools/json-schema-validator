@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
-import org.eel.kitchen.jsonschema.validator.SchemaNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -57,13 +56,11 @@ public final class TypeKeywordValidator
         final JsonSchemaFactory factory = context.getFactory();
 
         ValidationReport tempReport;
-        SchemaNode subNode;
         JsonValidator validator;
 
         for (final JsonNode schema: schemas) {
             tempReport = report.copy();
-            subNode = new SchemaNode(container, schema);
-            validator = new RefResolverJsonValidator(factory, subNode);
+            validator = new RefResolverJsonValidator(factory, schema);
             while (validator.validate(context, tempReport, instance))
                 validator = validator.next();
             context.setContainer(container);

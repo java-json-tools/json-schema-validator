@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
-import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 /**
  * The main validation class
@@ -34,23 +33,26 @@ import org.eel.kitchen.jsonschema.validator.SchemaNode;
 public final class JsonSchema
 {
     private final JsonSchemaFactory factory;
-    private final SchemaNode schemaNode;
+    private final SchemaContainer container;
+    private final JsonNode schema;
 
-    JsonSchema(final JsonSchemaFactory factory, final SchemaNode schemaNode)
+    JsonSchema(final JsonSchemaFactory factory, final SchemaContainer container,
+        final JsonNode schema)
     {
         this.factory = factory;
-        this.schemaNode = schemaNode;
+        this.container = container;
+        this.schema = schema;
     }
 
     public ValidationReport validate(final JsonNode instance)
     {
         final ValidationContext context = new ValidationContext(factory);
-        context.setContainer(schemaNode.getContainer());
+        context.setContainer(container);
 
         final ValidationReport report = new ValidationReport();
 
         JsonValidator validator
-            = new RefResolverJsonValidator(factory, schemaNode);
+            = new RefResolverJsonValidator(factory, schema);
 
         while (validator.validate(context, report, instance))
             validator = validator.next();

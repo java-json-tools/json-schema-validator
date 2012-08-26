@@ -60,11 +60,9 @@ public final class ObjectJsonValidator
     private final Map<String, JsonNode> patternProperties;
 
     ObjectJsonValidator(final JsonSchemaFactory factory,
-        final SchemaNode schemaNode)
+        final JsonNode schema)
     {
-        super(factory, schemaNode);
-
-        final JsonNode schema = schemaNode.getNode();
+        super(factory, schema);
 
         JsonNode node;
 
@@ -110,15 +108,14 @@ public final class ObjectJsonValidator
         final Set<JsonNode> subSchemas = getSchemas(key);
 
         JsonValidator validator;
-        SchemaNode subNode;
 
         report.setPath(ptr);
 
         for (final JsonNode subSchema: subSchemas) {
-            subNode = new SchemaNode(container, subSchema);
-            validator = new RefResolverJsonValidator(factory, subNode);
+            validator = new RefResolverJsonValidator(factory, subSchema);
             while (validator.validate(context, report, value))
                 validator = validator.next();
+            context.setContainer(container);
         }
     }
 

@@ -30,7 +30,6 @@ import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
-import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -139,12 +138,10 @@ public final class DependenciesKeywordValidator
         final SchemaContainer container = context.getContainer();
         final JsonSchemaFactory factory = context.getFactory();
 
-        SchemaNode subNode;
         JsonValidator validator;
 
         for (final JsonNode subSchema: schemaDeps.values()) {
-            subNode = new SchemaNode(container, subSchema);
-            validator = new RefResolverJsonValidator(factory, subNode);
+            validator = new RefResolverJsonValidator(factory, subSchema);
             while (validator.validate(context, report, instance))
                 validator = validator.next();
             context.setContainer(container);

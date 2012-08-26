@@ -42,12 +42,13 @@ import java.util.Set;
 public final class RefResolverJsonValidator
     extends JsonValidator
 {
-    private SchemaNode targetSchemaNode;
+    private JsonNode targetSchema;
 
     public RefResolverJsonValidator(final JsonSchemaFactory factory,
-        final SchemaNode schemaNode)
+        final JsonNode schema)
     {
-        super(factory, schemaNode);
+        super(factory, schema);
+        targetSchema = schema;
     }
 
     @Override
@@ -69,7 +70,6 @@ public final class RefResolverJsonValidator
          * their initial values.
          */
         SchemaContainer targetContainer = context.getContainer();
-        JsonNode targetNode = schemaNode.getNode();
 
         /*
          * All elements below are set during the ref resolution process.
@@ -83,7 +83,7 @@ public final class RefResolverJsonValidator
              * or there exists one but it is not a text node (syntax validation
              * will catch that).
              */
-            refNode = targetNode.path("$ref");
+            refNode = targetSchema.path("$ref");
             if (!refNode.isTextual())
                 break;
             /*
@@ -125,21 +125,20 @@ public final class RefResolverJsonValidator
              * Finally, compute the next node in the process. If it is missing,
              * we have a dangling JSON Pointer: this is an error condition.
              */
-            targetNode = target.getFragment()
+            targetSchema = target.getFragment()
                 .resolve(targetContainer.getSchema());
-            if (targetNode.isMissingNode()) {
+            if (targetSchema.isMissingNode()) {
                 report.addMessage("dangling JSON Ref: " + target);
                 return false;
             }
         }
 
-        targetSchemaNode = new SchemaNode(targetContainer, targetNode);
         return true;
     }
 
     @Override
     public JsonValidator next()
     {
-        return new SyntaxJsonValidator(factory, targetSchemaNode);
+        return new SyntaxJsonValidator(factory, targetSchema);
     }
 }

@@ -34,7 +34,6 @@ public final class JsonValidatorTest
     private static final JsonSchemaFactory schemaFactory
         = new JsonSchemaFactory.Builder().build();
 
-    private SchemaNode schemaNode;
     private ValidationContext context;
     private ValidationReport report;
     private JsonValidator validator;
@@ -43,7 +42,6 @@ public final class JsonValidatorTest
         throws JsonSchemaException
     {
         final SchemaContainer container = schemaFactory.registerSchema(node);
-        schemaNode = new SchemaNode(container, node);
         report = new ValidationReport();
         context = new ValidationContext(schemaFactory);
         context.setContainer(container);
@@ -56,7 +54,7 @@ public final class JsonValidatorTest
         final JsonNode node = factory.objectNode().put("$ref", "#");
 
         setupContext(node);
-        validator = new RefResolverJsonValidator(schemaFactory, schemaNode);
+        validator = new RefResolverJsonValidator(schemaFactory, node);
 
         assertFalse(validator.validate(context, report, factory.nullNode()));
         assertFalse(report.isSuccess());
@@ -69,7 +67,7 @@ public final class JsonValidatorTest
         final JsonNode node = factory.nullNode();
 
         setupContext(node);
-        validator = new SyntaxJsonValidator(schemaFactory, schemaNode);
+        validator = new SyntaxJsonValidator(schemaFactory, node);
 
         assertFalse(validator.validate(context, report, node));
         assertFalse(report.isSuccess());

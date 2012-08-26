@@ -32,7 +32,6 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 import java.net.URI;
 import java.util.HashSet;
@@ -197,7 +196,7 @@ public final class JsonSchemaFactory
     public JsonSchema createSchema(final SchemaContainer container,
         final JsonNode schema)
     {
-        return new JsonSchema(this, new SchemaNode(container, schema));
+        return new JsonSchema(this, container, schema);
     }
 
     /**

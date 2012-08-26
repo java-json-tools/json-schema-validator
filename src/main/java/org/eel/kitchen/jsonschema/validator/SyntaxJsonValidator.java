@@ -38,9 +38,9 @@ public final class SyntaxJsonValidator
     extends JsonValidator
 {
     SyntaxJsonValidator(final JsonSchemaFactory factory,
-        final SchemaNode schemaNode)
+        final JsonNode schema)
     {
-        super(factory, schemaNode);
+        super(factory, schema);
     }
 
     @Override
@@ -48,14 +48,13 @@ public final class SyntaxJsonValidator
         final ValidationReport report, final JsonNode instance)
     {
         final List<String> messages = new ArrayList<String>();
-        final JsonNode node = schemaNode.getNode();
 
         /*
          * Note that the JsonNode we have grabbed may not be a JSON Object!
          * This is the role of the .validateSyntax() method of our factory to
          * detect that.
          */
-        factory.validateSyntax(messages, node);
+        factory.validateSyntax(messages, schema);
         report.addMessages(messages);
 
         /*
@@ -68,6 +67,6 @@ public final class SyntaxJsonValidator
     @Override
     public JsonValidator next()
     {
-        return new InstanceJsonValidator(factory, schemaNode);
+        return new InstanceJsonValidator(factory, schema);
     }
 }

@@ -55,11 +55,9 @@ public final class ArrayJsonValidator
     private final List<JsonNode> items;
 
     ArrayJsonValidator(final JsonSchemaFactory factory,
-        final SchemaNode schemaNode)
+        final JsonNode schema)
     {
-        super(factory, schemaNode);
-
-        final JsonNode schema = schemaNode.getNode();
+        super(factory, schema);
 
         JsonNode node;
 
@@ -86,12 +84,12 @@ public final class ArrayJsonValidator
         final SchemaContainer container = context.getContainer();
         final JsonPointer pwd = report.getPath();
 
-        SchemaNode subSchema;
+        JsonNode subSchema;
         JsonNode element;
         JsonValidator validator;
 
         for (int i = 0; i < instance.size(); i++) {
-            subSchema = getSchemaNode(container, i);
+            subSchema = getSchema(i);
             element = instance.get(i);
             report.setPath(pwd.append(i));
             validator = new RefResolverJsonValidator(factory, subSchema);
@@ -110,12 +108,8 @@ public final class ArrayJsonValidator
         throw new IllegalStateException("I should not have been called");
     }
 
-    private SchemaNode getSchemaNode(final SchemaContainer container,
-        final int index)
+    private JsonNode getSchema(final int index)
     {
-        final JsonNode node = index >= items.size() ? additionalItems
-            : items.get(index);
-
-        return new SchemaNode(container, node);
+        return index >= items.size() ? additionalItems : items.get(index);
     }
 }

@@ -32,13 +32,13 @@ public abstract class JsonValidator
         = JsonNodeFactory.instance.objectNode();
 
     protected final JsonSchemaFactory factory;
-    protected final SchemaNode schemaNode;
+    protected final JsonNode schema;
 
     protected JsonValidator(final JsonSchemaFactory factory,
-        final SchemaNode schemaNode)
+        final JsonNode schema)
     {
         this.factory = factory;
-        this.schemaNode = schemaNode;
+        this.schema = schema;
     }
 
     /**

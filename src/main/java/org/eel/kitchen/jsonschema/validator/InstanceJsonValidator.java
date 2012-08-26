@@ -45,10 +45,10 @@ public final class InstanceJsonValidator
     private NodeType instanceType;
 
     InstanceJsonValidator(final JsonSchemaFactory factory,
-        final SchemaNode schemaNode)
+        final JsonNode schema)
     {
-        super(factory, schemaNode);
-        validators = factory.getValidators(schemaNode.getNode());
+        super(factory, schema);
+        validators = factory.getValidators(schema);
     }
 
     @Override
@@ -69,7 +69,7 @@ public final class InstanceJsonValidator
     public JsonValidator next()
     {
         return instanceType == NodeType.ARRAY
-            ? new ArrayJsonValidator(factory, schemaNode)
-            : new ObjectJsonValidator(factory, schemaNode);
+            ? new ArrayJsonValidator(factory, schema)
+            : new ObjectJsonValidator(factory, schema);
     }
 }
