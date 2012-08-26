@@ -117,9 +117,10 @@ final class ObjectValidator
         if (properties.containsKey(key))
             ret.add(properties.get(key));
 
-        for (final String regex: patternProperties.keySet())
-            if (RhinoHelper.regMatch(regex, key))
-                ret.add(patternProperties.get(regex));
+        for (final Map.Entry<String, JsonNode> entry:
+            patternProperties.entrySet())
+            if (RhinoHelper.regMatch(entry.getKey(), key))
+                ret.add(entry.getValue());
 
         if (ret.isEmpty())
             ret.add(additionalProperties);

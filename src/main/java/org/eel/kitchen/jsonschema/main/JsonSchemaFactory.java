@@ -153,7 +153,7 @@ public final class JsonSchemaFactory
      * @param schema the subschema
      * @return a {@link JsonSchema} instance
      */
-    public JsonSchema createSchema(final SchemaContainer container,
+    private JsonSchema createSchema(final SchemaContainer container,
         final JsonNode schema)
     {
         return new JsonSchema(cache, container, schema);

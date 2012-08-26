@@ -27,14 +27,12 @@ abstract class ContainerValidator
         = JsonNodeFactory.instance.objectNode();
 
     protected final JsonValidatorCache cache;
-    protected final SchemaNode schemaNode;
     protected final JsonNode schema;
 
     protected ContainerValidator(final JsonValidatorCache cache,
         final SchemaNode schemaNode)
     {
         this.cache = cache;
-        this.schemaNode = schemaNode;
         schema = schemaNode.getNode();
     }
 }

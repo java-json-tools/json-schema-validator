@@ -75,10 +75,8 @@ public final class SchemaRegistry
      *
      * @param schema the schema to register
      * @return a schema container
-     * @throws JsonSchemaException schema is malformed
      */
     public SchemaContainer register(final JsonNode schema)
-        throws JsonSchemaException
     {
         Preconditions.checkNotNull(schema, "cannot register null schema");
 
