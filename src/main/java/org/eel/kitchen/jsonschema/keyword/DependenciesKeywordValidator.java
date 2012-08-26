@@ -108,32 +108,38 @@ public final class DependenciesKeywordValidator
         final Set<String> fields = JacksonUtils.fieldNames(instance);
 
         /*
-         * Simple dependencies: calculate the needed fields according to
-         * available instance fields. SetMultimap's .get() method returns an
-         * empty collection if a key does not exist,
-         * which allows the following code.
+         * Simple dependencies: first try and see if it applies at all to this
+         * instance. If yes, check that the needed properties are present.
          */
-        final Set<String> neededFields = new HashSet<String>();
+        final Set<String> fieldDeps = new HashSet<String>(fields);
+        fieldDeps.retainAll(simple.keySet());
+        if (!fieldDeps.isEmpty()) {
+            final Set<String> neededFields = new HashSet<String>();
 
-        for (final String field: fields)
-            neededFields.addAll(simple.get(field));
+            for (final String field: fieldDeps)
+                neededFields.addAll(simple.get(field));
 
-        if (!fields.containsAll(neededFields))
-            report.addMessage("missing property dependencies");
-
+            if (!fields.containsAll(neededFields))
+                report.addMessage("missing property dependencies");
+        }
         /*
          * Schema dependencies: make a copy of the schemas map and only retain
          * whatever properties are present in the instance.
+         *
+         * If no schema dependencies, just return.
          */
         final Map<String, JsonNode> schemaDeps
             = new HashMap<String, JsonNode>(schemas);
 
         schemaDeps.keySet().retainAll(fields);
 
+        if (schemaDeps.isEmpty())
+            return;
+
         /*
-         * In this case however, we need to generate other schemas,
-         * so we have to grab the schema factory and current context (schema
-         * container) in order to generate new schemas
+         * In this case, we need to generate other schemas, so we have to grab
+         * the validator cache and current context (schema container) in order
+         * to generate new schemas.
          */
         final SchemaContainer orig = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
