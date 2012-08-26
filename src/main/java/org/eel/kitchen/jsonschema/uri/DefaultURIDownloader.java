@@ -30,6 +30,8 @@ import java.net.URL;
  *
  * <p>We choose however not to provide https for certificate handling reasons,
  * which is a pain to get right.</p>
+ *
+ * @see URL#openStream()
  */
 public final class DefaultURIDownloader
     implements URIDownloader

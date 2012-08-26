@@ -57,7 +57,7 @@
  *             super("minProperties", schema, NodeType.OBJECT);
  *         }
  *
- *         \@Override
+ *         &#64;Override
  *         public void validateInstance(final ValidationContext context,
  *             final ValidationReport report, final JsonNode instance)
  *         {

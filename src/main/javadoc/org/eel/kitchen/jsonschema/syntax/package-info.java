@@ -34,5 +34,32 @@
  * <p>Unlike keyword validators, syntax validators are not built by reflection.
  * It is therefore your responsibility to instantiate it and only then register
  * it.</p>
+ *
+ * <p>Here is an example code for a hypothetic {@code foo} keyword which must
+ * have a string as an argument, and this string must be at least 5 characters
+ * long:</p>
+ *
+ * <pre>
+ *  public final class SyntaxCheckerImpl
+ *      implements SyntaxChecker
+ *  {
+ *      &#64;Override
+ *      public void checkSyntax(final List&lt;String&gt; messages,
+ *          final JsonNode schema)
+ *      {
+ *          final JsonNode node = schema.get("foo");
+ *          if (!node.isTextual()) {
+ *              messages.add("field is not a string");
+ *              return;
+ *          }
+ *
+ *          if (node.textValue().length() < 5)
+ *              messages.add("field has insufficient length");
+ *      }
+ *  }
+ * </pre>
+ *
+ * <p>For more information, see {@link
+ * org.eel.kitchen.jsonschema.syntax.SyntaxChecker}.</p>
  */
 package org.eel.kitchen.jsonschema.syntax;
