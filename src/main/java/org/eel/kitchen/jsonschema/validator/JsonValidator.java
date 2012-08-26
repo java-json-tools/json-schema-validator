@@ -31,8 +31,6 @@ public abstract class JsonValidator
     protected static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
-    // FIXME: schemaNode cannot be made final only because of
-    // RefResolverJsonValidator :/
     protected final JsonSchemaFactory factory;
     protected final SchemaNode schemaNode;
 
