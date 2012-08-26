@@ -35,6 +35,9 @@ import java.util.TreeSet;
  */
 public final class ValidationReport
 {
+    private static final ValidationMessage.Builder DEFAULT_MESSAGE
+        = new ValidationMessage.Builder(ValidationDomain.UNKNOWN)
+            .setKeyword("(not set)");
     /**
      * Root JSON Pointer (ie, {@code #})
      */
@@ -51,7 +54,7 @@ public final class ValidationReport
     /**
      * Message list
      */
-    private final ListMultimap<JsonPointer, String> msgMap
+    private final ListMultimap<JsonPointer, ValidationMessage> msgMap
         = ArrayListMultimap.create();
 
     /**
@@ -104,7 +107,7 @@ public final class ValidationReport
      */
     public void addMessage(final String message)
     {
-        msgMap.put(path, message);
+        msgMap.put(path, DEFAULT_MESSAGE.setMessage(message).build());
     }
 
     /**
@@ -114,7 +117,8 @@ public final class ValidationReport
      */
     public void addMessages(final List<String> messages)
     {
-        msgMap.putAll(path, messages);
+        for (final String message: messages)
+            msgMap.put(path, DEFAULT_MESSAGE.setMessage(message).build());
     }
 
     /**
@@ -169,8 +173,8 @@ public final class ValidationReport
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
 
         for (final JsonPointer path: paths)
-            for (final String msg: msgMap.get(path))
-                builder.add(path + ": " + msg);
+            for (final ValidationMessage msg: msgMap.get(path))
+                builder.add(path + ": " + msg.getMessage());
 
         return builder.build();
     }
