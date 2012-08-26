@@ -19,25 +19,16 @@ package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
-import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.validator.JsonResolverCache;
+import org.eel.kitchen.jsonschema.validator.JsonValidationContext;
 
 import java.net.URI;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Factory to build JSON Schema validating instances
@@ -54,27 +45,6 @@ import java.util.Set;
  */
 public final class JsonSchemaFactory
 {
-    /**
-     * Set of already validated schemas
-     *
-     * <p>FIXME: unbounded</p>
-     */
-    private final Set<JsonNode> validated = new HashSet<JsonNode>();
-
-    /**
-     * Cache for keyword validators
-     */
-    private final LoadingCache<JsonNode, Set<KeywordValidator>> cache;
-
-    /**
-     * Syntax validator
-     */
-    private final SyntaxValidator syntaxValidator;
-
-    /**
-     * Keyword factory
-     */
-    private final KeywordFactory keywordFactory;
 
     /**
      * Schema registry
@@ -82,9 +52,9 @@ public final class JsonSchemaFactory
     private final SchemaRegistry registry;
 
     /**
-     * Json Reference cache
+     * JsonValidator context
      */
-    private final JsonResolverCache resolverCache;
+    private final JsonValidationContext validationContext;
 
     /**
      * Constructor, private by design
@@ -94,22 +64,8 @@ public final class JsonSchemaFactory
      */
     private JsonSchemaFactory(final Builder builder)
     {
-        syntaxValidator = new SyntaxValidator(builder.bundle);
-        keywordFactory = new KeywordFactory(builder.bundle);
         registry = new SchemaRegistry(builder.uriManager, builder.namespace);
-        resolverCache = new JsonResolverCache(registry);
-
-        final CacheLoader<JsonNode, Set<KeywordValidator>> loader
-            = new CacheLoader<JsonNode, Set<KeywordValidator>>()
-        {
-            @Override
-            public Set<KeywordValidator> load(final JsonNode key)
-            {
-                return keywordFactory.getValidators(key);
-            }
-        };
-
-        cache = CacheBuilder.newBuilder().maximumSize(100L).build(loader);
+        validationContext = new JsonValidationContext(builder.bundle, registry);
     }
 
     /**
@@ -206,50 +162,9 @@ public final class JsonSchemaFactory
         return new JsonSchema(this, container, schema);
     }
 
-    public JsonResolverCache getResolverCache()
+    public JsonValidationContext getValidationContext()
     {
-        return resolverCache;
-    }
-
-    /**
-     * Piggyback method called by validators to check a schema syntax
-     *
-     * <p>You should not use it in theory. I can dream ;)</p>
-     *
-     * <p>Note that it is also at this level that non schemas (ie, JSON
-     * documents which are not objects) are detected.</p>
-     *
-     * @param messages list of messages to fill
-     * @param node the schema to validate
-     */
-    public void validateSyntax(final List<String> messages, final JsonNode node)
-    {
-        if (!node.isObject()) {
-            messages.add("not a JSON Schema (not an object)");
-            return;
-        }
-
-        synchronized (validated) {
-            if (validated.contains(node))
-                return;
-            syntaxValidator.validate(messages, node);
-            if (messages.isEmpty())
-                validated.add(node);
-        }
-    }
-
-    /**
-     * Piggyback method called by validators to obtain a keyword validator
-     * set for a schema
-     *
-     * <p>You should not use it in theory. I can dream ;)</p>
-     *
-     * @param node the schema
-     * @return a set of {@link KeywordValidator}
-     */
-    public Set<KeywordValidator> getValidators(final JsonNode node)
-    {
-        return cache.getUnchecked(node);
+        return validationContext;
     }
 
     /**

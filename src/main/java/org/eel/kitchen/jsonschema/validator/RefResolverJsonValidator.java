@@ -58,7 +58,7 @@ public final class RefResolverJsonValidator
 
         try {
             final SchemaNode targetNode
-                = factory.getResolverCache().get(schemaNode);
+                = validationContext.resolve(schemaNode);
             context.setContainer(targetNode.getContainer());
             targetSchema = targetNode.getNode();
             return true;

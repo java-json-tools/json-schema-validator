@@ -55,7 +55,7 @@ public final class SchemaRegistry
      * @param manager the URI manager to use
      * @param namespace this registry's namespace
      */
-    SchemaRegistry(final URIManager manager, final URI namespace)
+    public SchemaRegistry(final URIManager manager, final URI namespace)
     {
         this.namespace = namespace.normalize();
         cache = CacheBuilder.newBuilder().maximumSize(100L)

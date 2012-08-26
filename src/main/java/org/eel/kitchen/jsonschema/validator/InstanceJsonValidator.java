@@ -48,7 +48,7 @@ public final class InstanceJsonValidator
         final JsonNode schema)
     {
         super(factory, schema);
-        validators = factory.getValidators(schema);
+        validators = validationContext.getValidators(schema);
     }
 
     @Override

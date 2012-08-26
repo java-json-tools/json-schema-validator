@@ -54,7 +54,7 @@ public final class SyntaxJsonValidator
          * This is the role of the .validateSyntax() method of our factory to
          * detect that.
          */
-        factory.validateSyntax(messages, schema);
+        validationContext.validateSyntax(messages, schema);
         report.addMessages(messages);
 
         /*
