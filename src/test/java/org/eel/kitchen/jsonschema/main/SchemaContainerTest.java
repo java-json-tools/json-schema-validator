@@ -47,8 +47,8 @@ public final class SchemaContainerTest
         final SchemaContainer c1 = new SchemaContainer(n1);
         final SchemaContainer c2 = new SchemaContainer(n2);
 
-        assertEquals(c1.getLocator(), c2.getLocator());
-        assertEquals(c1.getSchema(), c2.getSchema());
+        assertTrue(c1.equals(c2));
+        assertEquals(c1.hashCode(), c2.hashCode());
     }
 
     @Test
@@ -61,7 +61,6 @@ public final class SchemaContainerTest
         final SchemaContainer c1 = new SchemaContainer(n1);
         final SchemaContainer c2 = new SchemaContainer(n2);
 
-        assertEquals(c1.getLocator(), c2.getLocator());
-        assertEquals(c1.getSchema(), c2.getSchema());
+        assertTrue(c1.equals(c2));
     }
 }
