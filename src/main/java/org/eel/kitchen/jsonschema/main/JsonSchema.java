@@ -19,7 +19,8 @@ package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 /**
  * The main validation class
@@ -32,30 +33,28 @@ import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
  */
 public final class JsonSchema
 {
-    private final JsonSchemaFactory factory;
+    private final JsonValidatorCache cache;
     private final SchemaContainer container;
-    private final JsonNode schema;
+    private final SchemaNode schemaNode;
 
-    JsonSchema(final JsonSchemaFactory factory, final SchemaContainer container,
+    JsonSchema(final JsonValidatorCache cache, final SchemaContainer container,
         final JsonNode schema)
     {
-        this.factory = factory;
+        this.cache = cache;
         this.container = container;
-        this.schema = schema;
+        schemaNode = new SchemaNode(container, schema);
     }
 
     public ValidationReport validate(final JsonNode instance)
     {
-        final ValidationContext context = new ValidationContext(factory);
+        final ValidationContext context = new ValidationContext(cache);
         context.setContainer(container);
 
         final ValidationReport report = new ValidationReport();
 
-        JsonValidator validator
-            = new RefResolverJsonValidator(factory, schema);
+        final JsonValidator validator = cache.getValidator(schemaNode);
 
-        while (validator.validate(context, report, instance))
-            validator = validator.next();
+        validator.validate(context, report, instance);
 
         return report;
     }

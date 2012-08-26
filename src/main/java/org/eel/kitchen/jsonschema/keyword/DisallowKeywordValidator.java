@@ -18,13 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 /**
  * Validator for the {@code disallow} keyword
@@ -55,19 +55,19 @@ public final class DisallowKeywordValidator
             return;
         }
 
-        final SchemaContainer container = context.getContainer();
-        final JsonSchemaFactory factory = context.getFactory();
+        final SchemaContainer orig = context.getContainer();
+        final JsonValidatorCache cache = context.getValidatorCache();
 
         ValidationReport subReport;
         JsonValidator validator;
+        SchemaNode subNode;
 
         for (final JsonNode schema: schemas) {
-            validator = new RefResolverJsonValidator(factory, schema);
+            subNode = new SchemaNode(orig, schema);
+            validator = cache.getValidator(subNode);
             subReport = report.copy();
-            while (validator.validate(context, subReport, instance)) {
-                validator = validator.next();
-            }
-            context.setContainer(container);
+            validator.validate(context, subReport, instance);
+            context.setContainer(orig);
             if (subReport.isSuccess()) {
                 report.addMessage("instance matches a disallowed schema");
                 return;

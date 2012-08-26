@@ -57,7 +57,6 @@ public final class SelfValidationTest
     @Test(invocationCount = 20, threadPoolSize = 4)
     public void testSchemaValidatesItself()
     {
-
         final ValidationReport report = schema.validate(draftv3);
 
         assertTrue(report.isSuccess());

@@ -20,23 +20,23 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 
-final class SchemaNode
+public final class SchemaNode
 {
     private final SchemaContainer container;
     private final JsonNode node;
 
-    SchemaNode(final SchemaContainer container, final JsonNode node)
+    public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
         this.container = container;
         this.node = node;
     }
 
-    SchemaContainer getContainer()
+    public SchemaContainer getContainer()
     {
         return container;
     }
 
-    JsonNode getNode()
+    public JsonNode getNode()
     {
         return node;
     }

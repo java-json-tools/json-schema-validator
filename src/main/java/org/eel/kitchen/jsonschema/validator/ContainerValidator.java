@@ -15,12 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Core validation process
- *
- * <p>You will normally never use these classes directly. They are spawned  by
- * {@link org.eel.kitchen.jsonschema.main.JsonSchema} instances to proceed to
- * the validation itself.</p>
- *
- */
 package org.eel.kitchen.jsonschema.validator;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+
+abstract class ContainerValidator
+    implements JsonValidator
+{
+    protected static final JsonNode EMPTY_SCHEMA
+        = JsonNodeFactory.instance.objectNode();
+
+    protected final JsonValidatorCache cache;
+    protected final SchemaNode schemaNode;
+    protected final JsonNode schema;
+
+    protected ContainerValidator(final JsonValidatorCache cache,
+        final SchemaNode schemaNode)
+    {
+        this.cache = cache;
+        this.schemaNode = schemaNode;
+        schema = schemaNode.getNode();
+    }
+}

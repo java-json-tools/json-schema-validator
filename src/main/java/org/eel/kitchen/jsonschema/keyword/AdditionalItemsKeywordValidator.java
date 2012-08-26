@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.validator.ArrayJsonValidator;
 
 /**
  * Validator for the {@code additionalItems} keyword
@@ -41,8 +40,6 @@ import org.eel.kitchen.jsonschema.validator.ArrayJsonValidator;
  *     or equal to the number of schemas in {@code items}.
  *     </li>
  * </ul>
- *
- * @see ArrayJsonValidator
  */
 public final class AdditionalItemsKeywordValidator
     extends KeywordValidator

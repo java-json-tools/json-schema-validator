@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -52,17 +51,16 @@ import java.util.Set;
  * <p>Its {@link #next()} method should <b>never</b> be called (it throws an
  * {@link IllegalStateException} if it is).</p>
  */
-public final class ObjectJsonValidator
-    extends JsonValidator
+final class ObjectValidator
+    extends ContainerValidator
 {
     private final JsonNode additionalProperties;
     private final Map<String, JsonNode> properties;
     private final Map<String, JsonNode> patternProperties;
 
-    ObjectJsonValidator(final JsonSchemaFactory factory,
-        final JsonNode schema)
+    ObjectValidator(final JsonValidatorCache cache, final SchemaNode schemaNode)
     {
-        super(factory, schema);
+        super(cache, schemaNode);
 
         JsonNode node;
 
@@ -103,19 +101,20 @@ public final class ObjectJsonValidator
     {
         final String key = entry.getKey();
         final JsonNode value = entry.getValue();
-        final SchemaContainer container = context.getContainer();
+        final SchemaContainer orig = context.getContainer();
         final JsonPointer ptr = report.getPath().append(key);
         final Set<JsonNode> subSchemas = getSchemas(key);
 
         JsonValidator validator;
+        SchemaNode subNode;
 
         report.setPath(ptr);
 
         for (final JsonNode subSchema: subSchemas) {
-            validator = new RefResolverJsonValidator(factory, subSchema);
-            while (validator.validate(context, report, value))
-                validator = validator.next();
-            context.setContainer(container);
+            subNode = new SchemaNode(orig, subSchema);
+            validator = cache.getValidator(subNode);
+            validator.validate(context, report, value);
+            context.setContainer(orig);
         }
     }
 

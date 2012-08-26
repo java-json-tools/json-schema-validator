@@ -18,13 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 /**
  * Validator for the {@code type} keyword
@@ -52,18 +52,19 @@ public final class TypeKeywordValidator
         typeReport.addMessage("instance does not match any allowed primitive "
             + "type");
 
-        final SchemaContainer container = context.getContainer();
-        final JsonSchemaFactory factory = context.getFactory();
+        final SchemaContainer orig = context.getContainer();
+        final JsonValidatorCache cache = context.getValidatorCache();
 
         ValidationReport tempReport;
         JsonValidator validator;
+        SchemaNode schemaNode;
 
         for (final JsonNode schema: schemas) {
             tempReport = report.copy();
-            validator = new RefResolverJsonValidator(factory, schema);
-            while (validator.validate(context, tempReport, instance))
-                validator = validator.next();
-            context.setContainer(container);
+            schemaNode = new SchemaNode(orig, schema);
+            validator = cache.getValidator(schemaNode);
+            validator.validate(context, tempReport, instance);
+            context.setContainer(orig);
             if (tempReport.isSuccess())
                 return;
             typeReport.mergeWith(tempReport);

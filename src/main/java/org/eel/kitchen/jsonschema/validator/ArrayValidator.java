@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableList;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
@@ -47,17 +46,16 @@ import java.util.List;
  * <p>Its {@link #next()} method should <b>never</b> be called (it throws an
  * {@link IllegalStateException} if it is).</p>
  */
-public final class ArrayJsonValidator
-    extends JsonValidator
+final class ArrayValidator
+    extends ContainerValidator
 {
     private final JsonNode additionalItems;
 
     private final List<JsonNode> items;
 
-    ArrayJsonValidator(final JsonSchemaFactory factory,
-        final JsonNode schema)
+    ArrayValidator(final JsonValidatorCache cache, final SchemaNode schemaNode)
     {
-        super(factory, schema);
+        super(cache, schemaNode);
 
         JsonNode node;
 
@@ -81,21 +79,20 @@ public final class ArrayJsonValidator
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final SchemaContainer container = context.getContainer();
+        final SchemaContainer orig = context.getContainer();
         final JsonPointer pwd = report.getPath();
 
-        JsonNode subSchema;
         JsonNode element;
         JsonValidator validator;
+        SchemaNode subNode;
 
         for (int i = 0; i < instance.size(); i++) {
-            subSchema = getSchema(i);
+            subNode = new SchemaNode(orig, getSchema(i));
             element = instance.get(i);
             report.setPath(pwd.append(i));
-            validator = new RefResolverJsonValidator(factory, subSchema);
-            while (validator.validate(context, report, element))
-                validator = validator.next();
-            context.setContainer(container);
+            validator = cache.getValidator(subNode);
+            validator.validate(context, report, element);
+            context.setContainer(orig);
         }
 
         report.setPath(pwd);

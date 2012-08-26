@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+
 /**
  * A validation context
  *
@@ -31,22 +33,16 @@ package org.eel.kitchen.jsonschema.main;
 public final class ValidationContext
 {
     private SchemaContainer container;
-    private final JsonSchemaFactory factory;
+    private final JsonValidatorCache cache;
 
-    public ValidationContext(final SchemaContainer container)
+    public ValidationContext(final JsonValidatorCache cache)
     {
-        this.container = container;
-        factory = null;
+        this.cache = cache;
     }
 
-    public ValidationContext(final JsonSchemaFactory factory)
+    public JsonValidatorCache getValidatorCache()
     {
-        this.factory = factory;
-    }
-
-    public JsonSchemaFactory getFactory()
-    {
-        return factory;
+        return cache;
     }
 
     public SchemaContainer getContainer()

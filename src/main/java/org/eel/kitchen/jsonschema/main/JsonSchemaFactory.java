@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.validator.JsonValidationContext;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 import java.net.URI;
 
@@ -51,10 +51,7 @@ public final class JsonSchemaFactory
      */
     private final SchemaRegistry registry;
 
-    /**
-     * JsonValidator context
-     */
-    private final JsonValidationContext validationContext;
+    private final JsonValidatorCache cache;
 
     /**
      * Constructor, private by design
@@ -65,7 +62,7 @@ public final class JsonSchemaFactory
     private JsonSchemaFactory(final Builder builder)
     {
         registry = new SchemaRegistry(builder.uriManager, builder.namespace);
-        validationContext = new JsonValidationContext(builder.bundle, registry);
+        cache = new JsonValidatorCache(builder.bundle, registry);
     }
 
     /**
@@ -159,14 +156,13 @@ public final class JsonSchemaFactory
     public JsonSchema createSchema(final SchemaContainer container,
         final JsonNode schema)
     {
-        return new JsonSchema(this, container, schema);
+        return new JsonSchema(cache, container, schema);
     }
 
-    public JsonValidationContext getValidationContext()
+    public JsonValidatorCache getValidatorCache()
     {
-        return validationContext;
+        return cache;
     }
-
     /**
      * Builder class for a {@link JsonSchemaFactory}
      */

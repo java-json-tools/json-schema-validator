@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -40,6 +41,7 @@ public abstract class AbstractKeywordValidatorTest
 {
     private static final JsonSchemaFactory factory
         = new JsonSchemaFactory.Builder().build();
+    private static final JsonValidatorCache cache = factory.getValidatorCache();
 
     private final JsonNode testData;
     private final Constructor<? extends KeywordValidator> constructor;
@@ -83,7 +85,7 @@ public abstract class AbstractKeywordValidatorTest
         final KeywordValidator validator = constructor.newInstance(schema);
         final ValidationReport report = new ValidationReport();
 
-        final ValidationContext context = new ValidationContext(factory);
+        final ValidationContext context = new ValidationContext(cache);
         context.setContainer(new SchemaContainer(schema));
         validator.validate(context, report, data);
 

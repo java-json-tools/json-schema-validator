@@ -19,13 +19,13 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 import java.util.Set;
 
@@ -69,17 +69,17 @@ public final class ExtendsKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final SchemaContainer container = context.getContainer();
-        final JsonSchemaFactory factory = context.getFactory();
+        final SchemaContainer orig = context.getContainer();
+        final JsonValidatorCache cache = context.getValidatorCache();
 
         JsonValidator validator;
+        SchemaNode schemaNode;
 
         for (final JsonNode schema: schemas) {
-            validator = new RefResolverJsonValidator(factory, schema);
-            while (validator.validate(context, report, instance)) {
-                validator = validator.next();
-            }
-            context.setContainer(container);
+            schemaNode = new SchemaNode(orig, schema);
+            validator = cache.getValidator(schemaNode);
+            validator.validate(context, report, instance);
+            context.setContainer(orig);
         }
     }
 

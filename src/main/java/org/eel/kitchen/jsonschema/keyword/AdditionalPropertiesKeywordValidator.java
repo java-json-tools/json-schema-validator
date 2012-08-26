@@ -25,7 +25,6 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
-import org.eel.kitchen.jsonschema.validator.ObjectJsonValidator;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -48,7 +47,6 @@ import java.util.Set;
  *     </li>
  * </ul>
  *
- * @see ObjectJsonValidator
  */
 public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator

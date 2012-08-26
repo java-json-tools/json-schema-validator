@@ -18,58 +18,56 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Set;
 
-/**
- * Third validator in the validation chain
- *
- * <p>This is the first validator which actually checks the validated instance.
- * Validation stops if the instance is not a container instance (ie, an array or
- * an object).</p>
- *
- * <p>Its {@link #next()} method will return either of an
- * {@link ArrayJsonValidator} or an {@link ObjectJsonValidator} depending on the
- * instance type.</p>
- */
-public final class InstanceJsonValidator
-    extends JsonValidator
+public final class InstanceValidator
+    implements JsonValidator
 {
+    private final JsonValidatorCache cache;
+    private final SchemaNode schemaNode;
     private final Set<KeywordValidator> validators;
 
-    private NodeType instanceType;
-
-    InstanceJsonValidator(final JsonSchemaFactory factory,
-        final JsonNode schema)
+    public InstanceValidator(final JsonValidatorCache cache,
+        final SchemaNode schemaNode, final Set<KeywordValidator> validators)
     {
-        super(factory, schema);
-        validators = validationContext.getValidators(schema);
+        this.validators = ImmutableSet.copyOf(validators);
+        this.schemaNode = schemaNode;
+        this.cache = cache;
     }
 
     @Override
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        for (final KeywordValidator validator: validators)
+        final SchemaContainer orig = context.getContainer();
+
+        for (final KeywordValidator validator: validators) {
+            context.setContainer(schemaNode.getContainer());
             validator.validateInstance(context, report, instance);
+        }
+
+        context.setContainer(orig);
 
         if (!instance.isContainerNode())
             return false;
 
-        instanceType = NodeType.getNodeType(instance);
-        return true;
+        final JsonValidator validator = instance.isArray()
+            ? new ArrayValidator(cache, schemaNode)
+            : new ObjectValidator(cache, schemaNode);
+
+        validator.validate(context, report, instance);
+        return false;
     }
 
     @Override
     public JsonValidator next()
     {
-        return instanceType == NodeType.ARRAY
-            ? new ArrayJsonValidator(factory, schema)
-            : new ObjectJsonValidator(factory, schema);
+        throw new IllegalStateException("I should not have been called");
     }
 }

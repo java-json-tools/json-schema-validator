@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -42,9 +43,6 @@ public final class BasicKeywordValidatorTest
      */
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
-    private final JsonSchemaFactory schemaFactory
-        = new JsonSchemaFactory.Builder().build();
-
     private ValidationContext context;
     private ValidationReport report;
     private KeywordValidator validator;
@@ -52,7 +50,10 @@ public final class BasicKeywordValidatorTest
     @BeforeMethod
     public void initContext()
     {
-        context = new ValidationContext(schemaFactory);
+        final JsonSchemaFactory schemaFactory
+            = new JsonSchemaFactory.Builder().build();
+        final JsonValidatorCache cache = schemaFactory.getValidatorCache();
+        context = new ValidationContext(cache);
         report = new ValidationReport();
         validator = spy(new BasicKeywordValidator());
     }

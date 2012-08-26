@@ -22,14 +22,14 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -135,16 +135,17 @@ public final class DependenciesKeywordValidator
          * so we have to grab the schema factory and current context (schema
          * container) in order to generate new schemas
          */
-        final SchemaContainer container = context.getContainer();
-        final JsonSchemaFactory factory = context.getFactory();
+        final SchemaContainer orig = context.getContainer();
+        final JsonValidatorCache cache = context.getValidatorCache();
 
         JsonValidator validator;
+        SchemaNode schemaNode;
 
         for (final JsonNode subSchema: schemaDeps.values()) {
-            validator = new RefResolverJsonValidator(factory, subSchema);
-            while (validator.validate(context, report, instance))
-                validator = validator.next();
-            context.setContainer(container);
+            schemaNode = new SchemaNode(orig, subSchema);
+            validator = cache.getValidator(schemaNode);
+            validator.validate(context, report, instance);
+            context.setContainer(orig);
         }
     }
 

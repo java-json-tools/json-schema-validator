@@ -63,7 +63,7 @@ public final class SyntaxValidator
 
         keywords.retainAll(checkers.keySet());
 
-        for (final String keyword : keywords)
+        for (final String keyword: keywords)
             checkers.get(keyword).checkSyntax(messages, schema);
     }
 }
