@@ -42,6 +42,7 @@ import java.util.Set;
 public final class RefResolverJsonValidator
     extends JsonValidator
 {
+    private SchemaNode targetSchemaNode;
 
     public RefResolverJsonValidator(final JsonSchemaFactory factory,
         final SchemaNode schemaNode)
@@ -67,8 +68,8 @@ public final class RefResolverJsonValidator
          * These two elements might change during ref resolving. Set them to
          * their initial values.
          */
-        SchemaContainer container = context.getContainer();
-        JsonNode node = schemaNode.getNode();
+        SchemaContainer targetContainer = context.getContainer();
+        JsonNode targetNode = schemaNode.getNode();
 
         /*
          * All elements below are set during the ref resolution process.
@@ -82,7 +83,7 @@ public final class RefResolverJsonValidator
              * or there exists one but it is not a text node (syntax validation
              * will catch that).
              */
-            refNode = node.path("$ref");
+            refNode = targetNode.path("$ref");
             if (!refNode.isTextual())
                 break;
             /*
@@ -99,7 +100,7 @@ public final class RefResolverJsonValidator
              * Compute the target ref. Try and insert it into the set of refs
              * already seen: if it has been already seen, there is a ref loop.
              */
-            source = container.getLocator();
+            source = targetContainer.getLocator();
             target = source.resolve(ref);
             if (!refs.add(target)) {
                 report.addMessage("ref loop detected: " + refs);
@@ -113,9 +114,8 @@ public final class RefResolverJsonValidator
              */
             if (!source.contains(target)) {
                 try {
-                    container = factory.getSchema(target.getRootAsURI());
-                    context.setContainer(container);
-                    schemaNode.setContainer(container);
+                    targetContainer = factory.getSchema(target.getRootAsURI());
+                    context.setContainer(targetContainer);
                 } catch (JsonSchemaException e) {
                     report.addMessage(e.getMessage());
                     return false;
@@ -125,20 +125,21 @@ public final class RefResolverJsonValidator
              * Finally, compute the next node in the process. If it is missing,
              * we have a dangling JSON Pointer: this is an error condition.
              */
-            node = target.getFragment().resolve(container.getSchema());
-            if (node.isMissingNode()) {
+            targetNode = target.getFragment()
+                .resolve(targetContainer.getSchema());
+            if (targetNode.isMissingNode()) {
                 report.addMessage("dangling JSON Ref: " + target);
                 return false;
             }
-            schemaNode.setNode(node);
         }
 
+        targetSchemaNode = new SchemaNode(targetContainer, targetNode);
         return true;
     }
 
     @Override
     public JsonValidator next()
     {
-        return new SyntaxJsonValidator(factory, schemaNode);
+        return new SyntaxJsonValidator(factory, targetSchemaNode);
     }
 }

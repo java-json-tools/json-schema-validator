@@ -35,19 +35,18 @@ public final class JsonSchema
 {
     private final JsonSchemaFactory factory;
     private final SchemaNode schemaNode;
-    private final ValidationContext context;
 
-    JsonSchema(final JsonSchemaFactory factory,
-        final SchemaNode schemaNode)
+    JsonSchema(final JsonSchemaFactory factory, final SchemaNode schemaNode)
     {
         this.factory = factory;
         this.schemaNode = schemaNode;
-        context = new ValidationContext(factory);
-        context.setContainer(schemaNode.getContainer());
     }
 
     public ValidationReport validate(final JsonNode instance)
     {
+        final ValidationContext context = new ValidationContext(factory);
+        context.setContainer(schemaNode.getContainer());
+
         final ValidationReport report = new ValidationReport();
 
         JsonValidator validator

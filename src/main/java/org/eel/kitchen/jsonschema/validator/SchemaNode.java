@@ -28,8 +28,8 @@ import org.eel.kitchen.jsonschema.main.SchemaContainer;
  */
 public final class SchemaNode
 {
-    private SchemaContainer container;
-    private JsonNode node;
+    private final SchemaContainer container;
+    private final JsonNode node;
 
     public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
@@ -45,15 +45,5 @@ public final class SchemaNode
     public JsonNode getNode()
     {
         return node;
-    }
-
-    void setContainer(final SchemaContainer container)
-    {
-        this.container = container;
-    }
-
-    void setNode(final JsonNode node)
-    {
-        this.node = node;
     }
 }
