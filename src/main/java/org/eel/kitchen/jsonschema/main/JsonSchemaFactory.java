@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -349,6 +350,30 @@ public final class JsonSchemaFactory
         public Builder setNamespace(final String namespace)
         {
             this.namespace = URI.create(namespace);
+            return this;
+        }
+
+        /**
+         * Add an URI redirection
+         *
+         * <p>This allows you to add an alias for a schema location so that it
+         * point to another of your choice. It may be useful if you have to
+         * resolve absolute JSON References normally unreachable, but you have
+         * a copy of this schema locally.</p>
+         *
+         * <p>Note that both URIs must be absolute.</p>
+         *
+         * @see JsonRef
+         *
+         * @param from the source URI, as a string
+         * @param to the target URI, as a string
+         * @return the builder
+         * @throws IllegalArgumentException either of the arguments is an
+         * invalid URI, or it is not an absolute JSON Reference
+         */
+        public Builder addRedirection(final String from, final String to)
+        {
+            uriManager.addRedirection(from, to);
             return this;
         }
 

@@ -145,6 +145,24 @@ and schemas refer to one another in a relative way. You can do:</p>
         .setNamespace("file:///path/to/base/directory/").build();
 </pre>
 
+<h2>Adding URI redirections</h2>
+
+<p>If you use schemas which reference other schemas via URIs you know will not
+be reachable at runtime, this mechanism allows you to tell the validation
+process to redirect all references to these URIs to other URIs you know you can
+resolve locally. For instance:</p>
+
+<pre>
+    // Reference to external schema, and the local version of it
+    final String from = "http://external.site/the/schema.json";
+    final String to = "file:///path/to/local-copy.json";
+
+    final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        .addRedirection(from, to).build();
+</pre>
+
+<p>You can, of course, add more than one redirection.</p>
+
 <h2>Registering/unregistering keywords</h2>
 
 <p>For this, you need three elements:</p>
