@@ -54,7 +54,7 @@ public final class SelfValidationTest
         schema = factory.createSchema(container);
     }
 
-    @Test
+    @Test(invocationCount = 20, threadPoolSize = 4)
     public void testSchemaValidatesItself()
     {
 
@@ -80,7 +80,11 @@ public final class SelfValidationTest
         return set.iterator();
     }
 
-    @Test(dataProvider = "getGoogleSchemas")
+    @Test(
+        dataProvider = "getGoogleSchemas",
+        invocationCount = 20,
+        threadPoolSize = 4
+    )
     public void testGoogleSchemas(final String name, final JsonNode node)
     {
         final ValidationReport report = schema.validate(node);
