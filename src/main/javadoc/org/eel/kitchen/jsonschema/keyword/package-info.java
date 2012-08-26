@@ -58,7 +58,7 @@
  *         }
  *
  *         \@Override
- *         public void validate(final ValidationContext context,
+ *         public void validateInstance(final ValidationContext context,
  *             final ValidationReport report, final JsonNode instance)
  *         {
  *             if (instance.size() < intValue)
