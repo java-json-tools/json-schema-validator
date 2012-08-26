@@ -43,8 +43,6 @@ import java.util.List;
  *     nonexistent, then an empty schema).</li>
  * </ul>
  *
- * <p>Its {@link #next()} method should <b>never</b> be called (it throws an
- * {@link IllegalStateException} if it is).</p>
  */
 final class ArrayValidator
     extends ContainerValidator
@@ -97,12 +95,6 @@ final class ArrayValidator
 
         report.setPath(pwd);
         return false;
-    }
-
-    @Override
-    public JsonValidator next()
-    {
-        throw new IllegalStateException("I should not have been called");
     }
 
     private JsonNode getSchema(final int index)

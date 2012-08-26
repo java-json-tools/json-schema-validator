@@ -64,10 +64,4 @@ public final class InstanceValidator
         validator.validate(context, report, instance);
         return false;
     }
-
-    @Override
-    public JsonValidator next()
-    {
-        throw new IllegalStateException("I should not have been called");
-    }
 }

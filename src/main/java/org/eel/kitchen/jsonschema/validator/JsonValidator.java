@@ -33,15 +33,4 @@ public interface JsonValidator
      */
     boolean validate(ValidationContext context, ValidationReport report,
         JsonNode instance);
-
-    /**
-     * Return the next validator in the chain
-     *
-     * <p>This will be called iif
-     * {@link #validate(ValidationContext, ValidationReport, JsonNode)}
-     * returns {@code true}.</p>
-     *
-     * @return a validator
-     */
-    JsonValidator next();
 }

@@ -48,8 +48,6 @@ import java.util.Set;
  *     {@code additionalProperties} is either {@code true} or nonexistent).</li>
  * </ul>
  *
- * <p>Its {@link #next()} method should <b>never</b> be called (it throws an
- * {@link IllegalStateException} if it is).</p>
  */
 final class ObjectValidator
     extends ContainerValidator
@@ -88,12 +86,6 @@ final class ObjectValidator
 
         report.setPath(pwd);
         return false;
-    }
-
-    @Override
-    public JsonValidator next()
-    {
-        throw new IllegalStateException("I should not have been called");
     }
 
     private void validateOne(final ValidationContext context,

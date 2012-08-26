@@ -113,11 +113,5 @@ public final class JsonValidatorCache
             report.addMessages(messages);
             return false;
         }
-
-        @Override
-        public JsonValidator next()
-        {
-            throw new IllegalStateException("I should not have been called");
-        }
     }
 }
