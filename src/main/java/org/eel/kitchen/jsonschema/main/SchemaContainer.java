@@ -26,8 +26,8 @@ import java.net.URI;
 /**
  * A JSON Schema container
  *
- * <p>This embodies the schema itself, as a {@link JsonNode},
- * and its locator, as a {@link JsonRef}.</p>
+ * <p>This embodies the schema itself, as a {@link JsonNode}, and its locator,
+ * as a {@link JsonRef}.</p>
  *
  * <p>Note that the schema passed as an argument will be stripped off its
  * {@code id} field, if it has one.</p>

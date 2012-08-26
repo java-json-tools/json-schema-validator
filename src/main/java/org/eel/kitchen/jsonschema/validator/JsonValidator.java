@@ -21,10 +21,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
+/**
+ * Interface which all JSON validators must implement
+ */
 public interface JsonValidator
 {
     /**
      * Validate the instance, and tell whether validation should continue
+     *
+     * <p>Note: the return value is currently unused.</p>
      *
      * @param context the validation context
      * @param report the validation report

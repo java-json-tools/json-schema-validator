@@ -26,6 +26,16 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.util.Set;
 
+/**
+ * The main validator
+ *
+ * <p>Such a validator is only called when the schema syntax has been verified
+ * to be correct. It is also responsible to instantiate an {@link
+ * ArrayValidator} or {@link ObjectValidator} if necessary.</p>
+ *
+ * @see JsonValidatorCache#getValidator(SchemaNode)
+ * @see KeywordValidator
+ */
 final class InstanceValidator
     implements JsonValidator
 {
@@ -33,6 +43,13 @@ final class InstanceValidator
     private final SchemaNode schemaNode;
     private final Set<KeywordValidator> validators;
 
+    /**
+     * Constructor, package private
+     *
+     * @param cache the JSON validator cache
+     * @param schemaNode the schema node
+     * @param validators the set of keyword validators
+     */
     InstanceValidator(final JsonValidatorCache cache,
         final SchemaNode schemaNode, final Set<KeywordValidator> validators)
     {

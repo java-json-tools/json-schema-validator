@@ -42,6 +42,8 @@ import java.net.URI;
  * validators to speed up validation (quite a bit).</p>
  *
  * <p>This class is thread safe.</p>
+ *
+ * @see JsonSchema
  */
 public final class JsonSchemaFactory
 {

@@ -35,6 +35,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Cache for JSON validators
+ *
+ * <p>This class plays a critically important role in the performance of the
+ * whole validation process, since it is the class responsible for instantiating
+ * validators and caching them for future reuse.</p>
+ *
+ * <p>As it uses a {@link LoadingCache}, it is totally thread safe and also
+ * very efficient.</p>
+ *
+ * <p>Another critically important class for speed is {@link SchemaNode}, since
+ * the cache uses them as keys.</p>
+ *
+ * @see SchemaNode
+ */
 public final class JsonValidatorCache
 {
     private final LoadingCache<SchemaNode, JsonValidator> cache;
@@ -43,6 +58,15 @@ public final class JsonValidatorCache
     private final SyntaxValidator syntaxValidator;
     private final KeywordFactory keywordFactory;
 
+    /**
+     * Constructor
+     *
+     * <p>Instantiate the syntax validator, the keyword factory, the JSON ref
+     * resolver and the validator cache.</p>
+     *
+     * @param bundle
+     * @param registry
+     */
     public JsonValidatorCache(final KeywordBundle bundle,
         final SchemaRegistry registry)
     {
@@ -59,6 +83,18 @@ public final class JsonValidatorCache
         return cache.getUnchecked(schemaNode);
     }
 
+    /**
+     * The cache loader function
+     *
+     * <p>The implemented {@link CacheLoader#load(Object)} method is the
+     * critical part. It will try and check if ref resolution succeeds, if so it
+     * checks the schema syntax, and finally it returns a validator.</p>
+     *
+     * <p>If any of the preliminary checks fail, it returns a {@link
+     * FailingValidator}, else it returns an {@link InstanceValidator}.</p>
+     *
+     * @return the loader function
+     */
     private CacheLoader<SchemaNode, JsonValidator> cacheLoader()
     {
         final JsonValidatorCache myself = this;
@@ -92,6 +128,12 @@ public final class JsonValidatorCache
         };
     }
 
+    /**
+     * Class instantiated when a schema node fails to pass ref resolution or
+     * syntax checking
+     *
+     * @see #cacheLoader()
+     */
     private static final class FailingValidator
         implements JsonValidator
     {

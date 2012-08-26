@@ -23,9 +23,16 @@ import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
+import java.net.URI;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+/**
+ * Class responsible for JSON Reference resolution
+ *
+ * <p>One instance of such class is created for each instance of {@link
+ * JsonValidatorCache}.</p>
+ */
 final class JsonResolver
 {
     private final SchemaRegistry registry;
@@ -35,6 +42,16 @@ final class JsonResolver
         this.registry = registry;
     }
 
+    /**
+     * Resolve a schema node to the target schema node
+     *
+     * @see SchemaRegistry#get(URI)
+     *
+     * @param schemaNode the original schema node
+     * @return the computed schema node
+     * @throws JsonSchemaException ref resolution failure (dangling ref, ref
+     * loop, etc)
+     */
     SchemaNode resolve(final SchemaNode schemaNode)
         throws JsonSchemaException
     {
@@ -102,7 +119,7 @@ final class JsonResolver
              */
             node = target.getFragment().resolve(container.getSchema());
             if (node.isMissingNode())
-                throw new JsonSchemaException("Dangling JSON Reference "
+                throw new JsonSchemaException("dangling JSON Reference "
                     + target);
         }
 

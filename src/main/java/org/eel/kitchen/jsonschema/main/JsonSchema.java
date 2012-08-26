@@ -45,6 +45,12 @@ public final class JsonSchema
         schemaNode = new SchemaNode(container, schema);
     }
 
+    /**
+     * The main validation function
+     *
+     * @param instance the JSON document to validate
+     * @return a {@link ValidationReport}
+     */
     public ValidationReport validate(final JsonNode instance)
     {
         final ValidationContext context = new ValidationContext(cache);

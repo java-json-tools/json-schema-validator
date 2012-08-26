@@ -20,6 +20,21 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 
+/**
+ * Representation of a schema node
+ *
+ * <p>A schema node is the actual schema (as a {@link JsonNode} and the schema
+ * context (as a {@link SchemaContainer}).</p>
+ *
+ * <p>This class has a critical performance role, as it is used as keys to the
+ * validator cache. It is therefore important that it have very efficient
+ * implementations of {@link Object#equals(Object)} and {@link
+ * Object#hashCode()}.</p>
+ *
+ * <p>This class is thread safe and immutable.</p>
+ *
+ * @see JsonValidatorCache
+ */
 public final class SchemaNode
 {
     private final SchemaContainer container;

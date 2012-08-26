@@ -237,10 +237,10 @@ like this:</p>
 </ul>
 
 <p>The core package for the validation process is {@link
-org.eel.kitchen.jsonschema.validator}. All instances of {@link
-org.eel.kitchen.jsonschema.main.JsonSchema} go through this process. As
-mentioned in the introduction, some parts of this process are cached, and don't
-need to be computed again. These will be mentioned below.</p>
+org.eel.kitchen.jsonschema.validator}, and in particular {@link
+org.eel.kitchen.jsonschema.validator.JsonValidatorCache}. This class is
+instantiated by a schema factory and uses a {@link
+com.google.common.cache.LoadingCache} to store already computed validators.</p>
 
 <h2><tt>$ref</tt> resolution</h2>
 
@@ -266,9 +266,6 @@ Schema).</p>
 <tt>minimum</tt> in this example, should be <b>ignored</b>. And this is what
 this implementation does.</p>
 
-<p>The core class implementing JSON Reference resolution is {@link
-org.eel.kitchen.jsonschema.validator.RefResolverJsonValidator}.</p>
-
 <h2>Schema syntax checking</h2>
 
 <p>This is an equally important part of the validation process. One thing to
@@ -277,10 +274,9 @@ resolution ultimately leads to a JSON document, whatever that document is. Which
 means it may not even be a JSON Object, therefore not a JSON Schema. This basic
 check is done at that level.</p>
 
-<p>The syntax validation process starts with a {@link
-org.eel.kitchen.jsonschema.validator.SyntaxJsonValidator}. This validators calls
-upon a {@link org.eel.kitchen.jsonschema.syntax.SyntaxValidator} instance, which
-checks that all keywords are syntactically correct using a series of {@link
+<p>The syntax validation process implies a {@link
+org.eel.kitchen.jsonschema.syntax.SyntaxValidator} instance, which checks that
+all keywords are syntactically correct using a series of {@link
 org.eel.kitchen.jsonschema.syntax.SyntaxChecker} objects.</p>
 
 <p>The role of {@link org.eel.kitchen.jsonschema.syntax.SyntaxChecker} objects
@@ -288,22 +284,16 @@ in particular is very important: for a given keyword, a syntax checker ensures
 that the value of this keyword is well formed. This is what allows the next step
 in the process to be easier to implement.</p>
 
-<p>Finally, please note that the results of syntax validation are cached: a
-schema which has already been validated will not be validated again.</p>
-
 <h2>Instance (aka data) validation</h2>
 
 <p>This is the part which actually matters to end users: ensure that their data
 is valid.</p>
 
 <p>The process begins with an instance of {@link
-org.eel.kitchen.jsonschema.validator.InstanceJsonValidator}. It will query, via
-the factory, a set of {@link
-org.eel.kitchen.jsonschema.keyword.KeywordValidator} instances. All of these
-keyword validators will then be called in turn to validate the data.</p>
-
-<p>Here also, the results of computing a set of keyword validators from a given
-schema is cached.</p>
+org.eel.kitchen.jsonschema.validator.InstanceValidator}. It will query, via the
+factory, a set of {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator}
+instances. All of these keyword validators will then be called in turn to
+validate the data.</p>
 
 <h2>Object/array instance validation</h2>
 
@@ -314,8 +304,8 @@ is it has children nodes, which is the case of objects and array, then a further
 validation step is issued so that all children get validated.</p>
 
 <p>The two classes responsible for this, {@link
-org.eel.kitchen.jsonschema.validator.ArrayJsonValidator} and {@link
-org.eel.kitchen.jsonschema.validator.ObjectJsonValidator}, take responsibility
+org.eel.kitchen.jsonschema.validator.ArrayValidator} and {@link
+org.eel.kitchen.jsonschema.validator.ObjectValidator}, take responsibility
 from this point and will restart the validation process from scratch for each of
 the instance children.</p>
 

@@ -36,6 +36,8 @@ import java.util.concurrent.ExecutionException;
  * <p>Note that if the id of a schema is not absolute (that is, the URI itself
  * is absolute and it has no fragment part, or an empty fragment), then the
  * whole schema will be considered anonymous.</p>
+ *
+ * <p>This class is thread safe.</p>
  */
 public final class SchemaRegistry
 {

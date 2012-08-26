@@ -32,8 +32,7 @@ import com.fasterxml.jackson.databind.node.MissingNode;
  * should have unique values in a same schema! This implementation therefore
  * returns the first schema found with the given id, and you should <b>not</b>
  * rely on the order in which keys are looked up etc (there is no order
- * defined in the keys of a JSON Object!).
- * </p>
+ * defined in the keys of a JSON Object!).</p>
  */
 final class IdFragment
     extends JsonFragment
