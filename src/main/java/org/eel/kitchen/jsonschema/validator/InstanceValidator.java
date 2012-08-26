@@ -26,14 +26,14 @@ import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.util.Set;
 
-public final class InstanceValidator
+final class InstanceValidator
     implements JsonValidator
 {
     private final JsonValidatorCache cache;
     private final SchemaNode schemaNode;
     private final Set<KeywordValidator> validators;
 
-    public InstanceValidator(final JsonValidatorCache cache,
+    InstanceValidator(final JsonValidatorCache cache,
         final SchemaNode schemaNode, final Set<KeywordValidator> validators)
     {
         this.validators = ImmutableSet.copyOf(validators);
