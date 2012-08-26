@@ -3,12 +3,7 @@
 <p>The license of this project is LGPLv3 or later. See file
 src/main/resources/LICENSE for the full text.</p>
 
-<p><b>IMPORTANT: if you report a bug, please mention what version you are
-using! Please note that versions lower than 0.4.x are not supported
-anymore.</b></p>
-
-<p>The current version is <b>0.5.0beta5</b>. The major feature of this version
-is a stabilized user API. See the
+<p>The current version is <b>0.5.0</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
 more details. The old, still maintained version is <b>0.4.1</b>. 
 
