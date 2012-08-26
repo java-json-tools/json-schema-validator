@@ -32,6 +32,7 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
+import org.eel.kitchen.jsonschema.validator.JsonResolverCache;
 
 import java.net.URI;
 import java.util.HashSet;
@@ -81,6 +82,11 @@ public final class JsonSchemaFactory
     private final SchemaRegistry registry;
 
     /**
+     * Json Reference cache
+     */
+    private final JsonResolverCache resolverCache;
+
+    /**
      * Constructor, private by design
      *
      * @see JsonSchemaFactory.Builder
@@ -91,6 +97,7 @@ public final class JsonSchemaFactory
         syntaxValidator = new SyntaxValidator(builder.bundle);
         keywordFactory = new KeywordFactory(builder.bundle);
         registry = new SchemaRegistry(builder.uriManager, builder.namespace);
+        resolverCache = new JsonResolverCache(registry);
 
         final CacheLoader<JsonNode, Set<KeywordValidator>> loader
             = new CacheLoader<JsonNode, Set<KeywordValidator>>()
@@ -197,6 +204,11 @@ public final class JsonSchemaFactory
         final JsonNode schema)
     {
         return new JsonSchema(this, container, schema);
+    }
+
+    public JsonResolverCache getResolverCache()
+    {
+        return resolverCache;
     }
 
     /**

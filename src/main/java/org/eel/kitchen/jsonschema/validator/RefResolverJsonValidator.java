@@ -20,13 +20,8 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
-
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 /**
  * First validator in the validation chain
@@ -55,85 +50,22 @@ public final class RefResolverJsonValidator
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        /*
-         * This set will store all ABSOLUTE JSON references we encounter
-         * during ref resolution. If there is an attempt to store an already
-         * existing reference, this means a ref loop.
-         *
-         * We want to preserve insertion order, therefore we have to use a
-         * LinkedHashSet.
-         */
-        final Set<JsonRef> refs = new LinkedHashSet<JsonRef>();
+        if (!schema.has("$ref"))
+            return true;
 
-        /*
-         * These two elements might change during ref resolving. Set them to
-         * their initial values.
-         */
-        SchemaContainer targetContainer = context.getContainer();
+        final SchemaNode schemaNode
+            = new SchemaNode(context.getContainer(), schema);
 
-        /*
-         * All elements below are set during the ref resolution process.
-         */
-        JsonRef source, ref, target;
-        JsonNode refNode;
-
-        while (true) {
-            /*
-             * We break out immediately if either there is no $ref node,
-             * or there exists one but it is not a text node (syntax validation
-             * will catch that).
-             */
-            refNode = targetSchema.path("$ref");
-            if (!refNode.isTextual())
-                break;
-            /*
-             * Similarly, the constructor will fail at this point iif the text
-             * value of the node is not an URI: break, we want this caught by
-             * syntax validation.
-             */
-            try {
-                ref = JsonRef.fromString(refNode.textValue());
-            } catch (JsonSchemaException ignored) {
-                break;
-            }
-            /*
-             * Compute the target ref. Try and insert it into the set of refs
-             * already seen: if it has been already seen, there is a ref loop.
-             */
-            source = targetContainer.getLocator();
-            target = source.resolve(ref);
-            if (!refs.add(target)) {
-                report.addMessage("ref loop detected: " + refs);
-                return false;
-            }
-            /*
-             * Should we change schema context? We should if the source ref (the
-             * one in the current container) does not contain the target ref. In
-             * this case, get the new container from our schema registry. If we
-             * cannot do that, this is an error condition, bail out.
-             */
-            if (!source.contains(target)) {
-                try {
-                    targetContainer = factory.getSchema(target.getRootAsURI());
-                    context.setContainer(targetContainer);
-                } catch (JsonSchemaException e) {
-                    report.addMessage(e.getMessage());
-                    return false;
-                }
-            }
-            /*
-             * Finally, compute the next node in the process. If it is missing,
-             * we have a dangling JSON Pointer: this is an error condition.
-             */
-            targetSchema = target.getFragment()
-                .resolve(targetContainer.getSchema());
-            if (targetSchema.isMissingNode()) {
-                report.addMessage("dangling JSON Ref: " + target);
-                return false;
-            }
+        try {
+            final SchemaNode targetNode
+                = factory.getResolverCache().get(schemaNode);
+            context.setContainer(targetNode.getContainer());
+            targetSchema = targetNode.getNode();
+            return true;
+        } catch (JsonSchemaException e) {
+            report.addMessage(e.getMessage());
+            return false;
         }
-
-        return true;
     }
 
     @Override
