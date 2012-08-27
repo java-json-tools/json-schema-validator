@@ -18,13 +18,15 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,7 +43,7 @@ public final class ValidationMessage
         domain = builder.domain;
         keyword = builder.keyword;
         message = builder.message;
-        info = ImmutableMap.copyOf(builder.info);
+        info = ImmutableMap.copyOf(JacksonUtils.nodeToMap(builder.info));
     }
 
     public static Builder defaultBuilder()
@@ -72,8 +74,7 @@ public final class ValidationMessage
         private final ValidationDomain domain;
         private String keyword;
         private String message;
-        private final Map<String, JsonNode> info
-            = new HashMap<String, JsonNode>();
+        private final ObjectNode info = factory.objectNode();
 
         public Builder(final ValidationDomain domain)
         {
@@ -99,9 +100,26 @@ public final class ValidationMessage
             return this;
         }
 
+        public <T> Builder info(final String key, final T value)
+        {
+            info.put(key, value.toString());
+            return this;
+        }
+
+        public <T> Builder info(final String key, final Collection<T> values)
+        {
+            final ArrayNode node = factory.arrayNode();
+
+            for (final T value: values)
+                node.add(value.toString());
+
+            info.put(key, node);
+            return this;
+        }
+
         public Builder clearInfo()
         {
-            info.clear();
+            info.removeAll();
             return this;
         }
 
@@ -109,8 +127,7 @@ public final class ValidationMessage
         {
             Preconditions.checkNotNull(keyword, "keyword is null");
             Preconditions.checkNotNull(message, "message is null");
-            for (final String reserved: RESERVED)
-                info.remove(reserved);
+            info.remove(RESERVED);
 
             return new ValidationMessage(this);
         }
