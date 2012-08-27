@@ -94,19 +94,19 @@ public final class ValidationMessage
             return this;
         }
 
-        public Builder info(final String key, final JsonNode value)
+        public Builder addInfo(final String key, final JsonNode value)
         {
             info.put(key, value);
             return this;
         }
 
-        public <T> Builder info(final String key, final T value)
+        public <T> Builder addInfo(final String key, final T value)
         {
             info.put(key, value.toString());
             return this;
         }
 
-        public <T> Builder info(final String key, final Collection<T> values)
+        public <T> Builder addInfo(final String key, final Collection<T> values)
         {
             final ArrayNode node = factory.arrayNode();
 
