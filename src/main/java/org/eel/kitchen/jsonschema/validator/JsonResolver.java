@@ -18,9 +18,12 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
 import java.net.URI;
@@ -35,6 +38,7 @@ import java.util.Set;
  */
 final class JsonResolver
 {
+    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
     private final SchemaRegistry registry;
 
     JsonResolver(final SchemaRegistry registry)
@@ -55,6 +59,9 @@ final class JsonResolver
     SchemaNode resolve(final SchemaNode schemaNode)
         throws JsonSchemaException
     {
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
+            .setKeyword("$ref");
         /*
          * These two elements might change during ref resolving. Set them to
          * their initial values.
@@ -103,8 +110,10 @@ final class JsonResolver
              */
             source = container.getLocator();
             target = source.resolve(ref);
-            if (!refs.add(target))
-                throw new JsonSchemaException("ref loop detected: " + refs);
+            if (!refs.add(target)) {
+                msg.setMessage("ref loop detected").addInfo("path", refs);
+                throw new JsonSchemaException(msg.build());
+            }
             /*
              * Should we change schema context? We should if the source ref (the
              * one in the current container) does not contain the target ref. In
@@ -118,9 +127,11 @@ final class JsonResolver
              * we have a dangling JSON Pointer: this is an error condition.
              */
             node = target.getFragment().resolve(container.getSchema());
-            if (node.isMissingNode())
-                throw new JsonSchemaException("dangling JSON Reference "
-                    + target);
+            if (node.isMissingNode()) {
+                msg.setMessage("dangling JSON Reference")
+                    .addInfo("ref", target);
+                throw new JsonSchemaException(msg.build());
+            }
         }
 
         return new SchemaNode(container, node);

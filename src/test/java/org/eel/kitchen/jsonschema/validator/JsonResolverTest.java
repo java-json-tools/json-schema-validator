@@ -18,18 +18,21 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.net.URI;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class JsonResolverTest
 {
@@ -39,6 +42,7 @@ public final class JsonResolverTest
     private JsonResolver resolver;
     private SchemaContainer container;
     private  SchemaNode schemaNode;
+    private ValidationMessage msg;
 
     @BeforeMethod
     public void initRegistry()
@@ -59,7 +63,10 @@ public final class JsonResolverTest
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "ref loop detected: [#]");
+            msg = e.getValidationMessage();
+            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            assertEquals(msg.getMessage(), "ref loop detected");
+            assertEquals(msg.getInfo("path"), factory.arrayNode().add("#"));
         }
     }
 
@@ -68,15 +75,19 @@ public final class JsonResolverTest
     {
         JsonNode node;
         final ObjectNode schema = factory.objectNode();
+        final ArrayNode path = factory.arrayNode();
 
         node = factory.objectNode().put("$ref", "#/b");
         schema.put("a", node);
+        path.add("#/b");
 
         node = factory.objectNode().put("$ref", "#/c");
         schema.put("b", node);
+        path.add("#/c");
 
         node = factory.objectNode().put("$ref", "#/a");
         schema.put("c", node);
+        path.add("#/a");
 
         container = new SchemaContainer(schema);
         schemaNode = new SchemaNode(container, schema.get("a"));
@@ -84,7 +95,10 @@ public final class JsonResolverTest
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "ref loop detected: [#/b, #/c, #/a]");
+            msg = e.getValidationMessage();
+            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            assertEquals(msg.getMessage(), "ref loop detected");
+            assertEquals(msg.getInfo("path"), path);
         }
     }
 
@@ -99,7 +113,10 @@ public final class JsonResolverTest
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "dangling JSON Reference #foo");
+            msg = e.getValidationMessage();
+            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            assertEquals(msg.getMessage(), "dangling JSON Reference");
+            assertEquals(msg.getInfo("ref"), factory.textNode("#foo"));
         }
     }
 
@@ -121,13 +138,17 @@ public final class JsonResolverTest
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "dangling JSON Reference #/c");
+            msg = e.getValidationMessage();
+            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            assertEquals(msg.getMessage(), "dangling JSON Reference");
+            assertEquals(msg.getInfo("ref"), factory.textNode("#/c"));
         }
     }
 
     @Test
     public void crossContextRefLoopIsDetected()
     {
+        final ArrayNode path = factory.arrayNode();
         JsonNode node;
 
         final String location1 = "http://foo.bar/helloword";
@@ -135,6 +156,8 @@ public final class JsonResolverTest
 
         final String ref1 = location2 + "/x";
         final String ref2 = location1 + "#/a";
+        path.add(ref1);
+        path.add(ref2);
 
         final ObjectNode schema1 = factory.objectNode();
         schema1.put("id", location1);
@@ -156,8 +179,10 @@ public final class JsonResolverTest
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "ref loop detected: ["
-                + ref1 + ", " + ref2 + ']');
+            msg = e.getValidationMessage();
+            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            assertEquals(msg.getMessage(), "ref loop detected");
+            assertEquals(msg.getInfo("path"), path);
         }
     }
 
@@ -192,7 +217,17 @@ public final class JsonResolverTest
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "dangling JSON Reference " + ref2);
+            msg = e.getValidationMessage();
+            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            assertEquals(msg.getMessage(), "dangling JSON Reference");
+            assertEquals(msg.getInfo("ref"), factory.textNode(ref2));
         }
+    }
+
+    private static void verifyMessageParams(final ValidationMessage message,
+        final ValidationDomain domain, final String keyword)
+    {
+        assertSame(message.getDomain(), domain);
+        assertEquals(message.getKeyword(), keyword);
     }
 }
