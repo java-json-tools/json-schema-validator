@@ -1,11 +1,13 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 
 import java.util.List;
 
 /**
- * Interface implemented by all syntax checkers
+ * Abstract class extended by all syntax checkers
  *
  * <p>There exists one syntax checker per supported schema keyword. For the
  * recall, their role is to ensure the keyword values are well formed, so as to
@@ -18,13 +20,15 @@ import java.util.List;
  * @see PositiveIntegerSyntaxChecker
  * @see ArrayChildrenSyntaxChecker
  */
-public interface SyntaxChecker
+public abstract class SyntaxChecker
 {
+    protected final ValidationMessage.Builder msg
+        = new ValidationMessage.Builder(ValidationDomain.SYNTAX);
     /**
      * Check the syntax for this keyword
      *
      * @param messages message list to fill in the event of a failure
      * @param schema schema to analyze
      */
-    void checkSyntax(List<String> messages, JsonNode schema);
+    abstract void checkSyntax(List<String> messages, JsonNode schema);
 }

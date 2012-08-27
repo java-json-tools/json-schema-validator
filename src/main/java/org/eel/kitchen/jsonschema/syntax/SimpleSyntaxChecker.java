@@ -27,7 +27,7 @@ import java.util.List;
  * Simple type-only syntax checker
  */
 public class SimpleSyntaxChecker
-    implements SyntaxChecker
+    extends SyntaxChecker
 {
     protected final String keyword;
     private final EnumSet<NodeType> validTypes;
@@ -37,6 +37,7 @@ public class SimpleSyntaxChecker
     {
         this.keyword = keyword;
         validTypes = EnumSet.of(type, types);
+        msg.setKeyword(keyword);
     }
 
     @Override
