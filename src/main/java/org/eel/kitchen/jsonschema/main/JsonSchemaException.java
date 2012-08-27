@@ -23,13 +23,47 @@ package org.eel.kitchen.jsonschema.main;
 public final class JsonSchemaException
     extends Exception
 {
+    private final ValidationMessage validationMessage;
+
     public JsonSchemaException(final String message)
     {
         super(message);
+        validationMessage = ValidationMessage.defaultBuilder()
+            .setMessage(message).build();
     }
 
     public JsonSchemaException(final String message, final Exception e)
     {
         super(message, e);
+        validationMessage = ValidationMessage.defaultBuilder()
+            .setMessage(message).build();
+    }
+
+    public JsonSchemaException(final ValidationMessage validationMessage)
+    {
+        this.validationMessage = validationMessage;
+    }
+
+    public ValidationMessage getValidationMessage()
+    {
+        return validationMessage;
+    }
+
+    @Override
+    public String getMessage()
+    {
+        return validationMessage.getMessage();
+    }
+
+    @Override
+    public String getLocalizedMessage()
+    {
+        return validationMessage.getMessage();
+    }
+
+    @Override
+    public String toString()
+    {
+        return getClass().getName() + ": " + validationMessage.getMessage();
     }
 }

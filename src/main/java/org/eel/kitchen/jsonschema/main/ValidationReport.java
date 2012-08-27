@@ -35,9 +35,9 @@ import java.util.TreeSet;
  */
 public final class ValidationReport
 {
-    private static final ValidationMessage.Builder DEFAULT_MESSAGE
-        = new ValidationMessage.Builder(ValidationDomain.UNKNOWN)
-            .setKeyword("(not set)");
+    private static final ValidationMessage.Builder DEFAULT
+        = ValidationMessage.defaultBuilder();
+
     /**
      * Root JSON Pointer (ie, {@code #})
      */
@@ -107,7 +107,7 @@ public final class ValidationReport
      */
     public void addMessage(final String message)
     {
-        msgMap.put(path, DEFAULT_MESSAGE.setMessage(message).build());
+        msgMap.put(path, DEFAULT.setMessage(message).build());
     }
 
     /**
@@ -118,7 +118,7 @@ public final class ValidationReport
     public void addMessages(final List<String> messages)
     {
         for (final String message: messages)
-            msgMap.put(path, DEFAULT_MESSAGE.setMessage(message).build());
+            msgMap.put(path, DEFAULT.setMessage(message).build());
     }
 
     /**

@@ -31,7 +31,6 @@ import java.util.Set;
 public final class ValidationMessage
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
-
     private final ValidationDomain domain;
     private final String keyword;
     private final String message;
@@ -43,6 +42,11 @@ public final class ValidationMessage
         keyword = builder.keyword;
         message = builder.message;
         info = ImmutableMap.copyOf(builder.info);
+    }
+
+    public static Builder defaultBuilder()
+    {
+        return new Builder(ValidationDomain.UNKNOWN).setKeyword("(not set)");
     }
 
     public JsonNode toJsonNode()
