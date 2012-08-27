@@ -64,9 +64,12 @@ public class TypeKeywordSyntaxChecker
     private static void validateOne(final List<String> messages,
         final JsonNode value)
     {
+        // Cannot happen in the event of single property validation (will
+        // always be a string)
         if (value.isObject())
             return;
 
+        // See above
         if (!value.isTextual()) {
             messages.add("value has wrong type");
             return;
