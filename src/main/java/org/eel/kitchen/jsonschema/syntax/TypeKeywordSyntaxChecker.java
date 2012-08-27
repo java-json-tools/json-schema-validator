@@ -18,8 +18,10 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,7 +43,8 @@ public class TypeKeywordSyntaxChecker
     }
 
     @Override
-    final void checkValue(final List<String> messages, final JsonNode schema)
+    final void checkValue(final List<ValidationMessage> messages,
+        final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
 
@@ -54,14 +57,16 @@ public class TypeKeywordSyntaxChecker
 
         for (final JsonNode value: node) {
             if (!set.add(value)) {
-                messages.add("items in the array must be unique");
+                msg.setMessage("duplicate value found in array (the spec " +
+                    "forbids that)");
+                messages.add(msg.build());
                 return;
             }
             validateOne(messages, value);
         }
     }
 
-    private static void validateOne(final List<String> messages,
+    private void validateOne(final List<ValidationMessage> messages,
         final JsonNode value)
     {
         // Cannot happen in the event of single property validation (will
@@ -69,18 +74,30 @@ public class TypeKeywordSyntaxChecker
         if (value.isObject())
             return;
 
+        // Clear information here, other undesired error information may leak
+        // otherwise (?)
+        msg.clearInfo();
+
         // See above
         if (!value.isTextual()) {
-            messages.add("value has wrong type");
+            msg.addInfo("elementType", NodeType.getNodeType(value))
+                .setMessage("array element is neither a primitive type nor " +
+                "a schema (neither a string nor an object)");
+            messages.add(msg.build());
             return;
         }
 
+        // Now we can actually check that the string is a valid primitive type
         final String s = value.textValue();
 
         if (ANY.equals(s))
             return;
 
-        if (NodeType.fromName(s) == null)
-            messages.add("unknown simple type");
+        if (NodeType.fromName(s) != null)
+            return;
+
+        msg.addInfo("validValues", EnumSet.allOf(NodeType.class))
+            .addInfo("found", s).setMessage("unknow simple type");
+        messages.add(msg.build());
     }
 }

@@ -22,16 +22,17 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -113,7 +114,7 @@ public final class JsonValidatorCache
                         return new FailingValidator(e.getMessage());
                     }
 
-                final List<String> messages = new ArrayList<String>();
+                final List<ValidationMessage> messages = Lists.newArrayList();
 
                 syntaxValidator.validate(messages, realNode.getNode());
 
@@ -137,14 +138,18 @@ public final class JsonValidatorCache
     private static final class FailingValidator
         implements JsonValidator
     {
-        private final List<String> messages;
+        private final ValidationMessage.Builder defaultBuilder
+            = ValidationMessage.defaultBuilder();
+
+        private final List<ValidationMessage> messages;
 
         private FailingValidator(final String message)
         {
-            messages = ImmutableList.of(message);
+            messages = ImmutableList.of(defaultBuilder.setMessage(message)
+                .build());
         }
 
-        private FailingValidator(final List<String> messages)
+        private FailingValidator(final List<ValidationMessage> messages)
         {
             this.messages = ImmutableList.copyOf(messages);
         }

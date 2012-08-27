@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
@@ -45,18 +46,31 @@ public final class PatternPropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode schema)
+    void checkValue(final List<ValidationMessage> messages,
+        final JsonNode schema)
     {
         final Map<String, JsonNode> properties
             = JacksonUtils.nodeToMap(schema.get(keyword));
 
+        String key;
+        JsonNode value;
+
         for (final Map.Entry<String, JsonNode> entry: properties.entrySet()) {
+            key = entry.getKey();
+            value = entry.getValue();
+            msg.addInfo("key", key);
             if (!RhinoHelper.regexIsValid(entry.getKey())) {
-                messages.add("invalid regex");
+                msg.setMessage("key is not a valid ECMA 262 regex");
+                messages.add(msg.build());
+                // No need to continue: even if we were to continue and check
+                // the value, the latter would never be picked up anyway.
                 continue;
             }
-            if (!entry.getValue().isObject())
-                messages.add("value is not a schema");
+            if (value.isObject())
+                continue;
+            msg.setMessage("associated value is not a JSON Schema (not an " +
+                "object");
+            messages.add(msg.build());
         }
     }
 }

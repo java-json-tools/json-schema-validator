@@ -18,9 +18,12 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Syntax checker for the {@code dependencies} keyword
@@ -42,21 +45,83 @@ public final class DependenciesSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode schema)
+    void checkValue(final List<ValidationMessage> messages,
+        final JsonNode schema)
     {
-        for (final JsonNode value: schema.get(keyword)) {
-            switch (NodeType.getNodeType(value)) {
-                case ARRAY:
-                    for (final JsonNode element : value)
-                        if (!element.isTextual())
-                            messages.add("array element is not a string");
-                    // Fall through
-                case OBJECT:
-                case STRING:
-                    break;
-                default:
-                    messages.add("dependencies element has wrong type");
+        /*
+         * At that point, we know this is an array. Build a map out of it and
+         * call an internal validation method on each map entry -- see below.
+         */
+        final Map<String, JsonNode> map
+            = JacksonUtils.nodeToMap(schema.get(keyword));
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet())
+            analyzeDependency(entry, messages);
+    }
+
+    /**
+     * Analyze one entry in a {@code dependency} object entry
+     *
+     * @param entry the JSON object entry (as a {@link Map.Entry})
+     * @param messages the validation message list
+     */
+    private void analyzeDependency(final Map.Entry<String, JsonNode> entry,
+        final List<ValidationMessage> messages)
+    {
+        /**
+         * The key is the propery name in the map entry, the value is this
+         * property's value.
+         */
+        final String key = entry.getKey();
+        final JsonNode value = entry.getValue();
+
+        /*
+         * A text value or object value alone means a single property dependency
+         * or a schema dependency, respectively. These are all valid values
+         * at this level, let them through.
+         */
+        if (value.isTextual() || value.isObject())
+            return;
+
+        /*
+         * Add information to the message about the property key name.
+         */
+        msg.clearInfo().addInfo("property", key);
+
+        /*
+         * From now on, the only valid value type is an array. If it is not,
+         * complain.
+         */
+        if (!value.isArray()) {
+            msg.addInfo("expected", "array")
+                .addInfo("actual", NodeType.getNodeType(value))
+                .setMessage("dependency value has incorrect type");
+            messages.add(msg.build());
+            return;
+        }
+
+        /*
+         * If it _is_ an array (the only possible scenario at that point), all
+         * members in this array MUST be potential property names, ie JSON
+         * strings. If one isn't, record all of:
+         *
+         *  - the key name in dependencites;
+         *  - the value type encountered;
+         *  - the error message;
+         *  - the index in the array.
+         */
+        int idx = 0;
+        NodeType type;
+
+        for (final JsonNode element: value) {
+            type = NodeType.getNodeType(element);
+            if (NodeType.STRING != type) {
+                msg.addInfo("index", idx).addInfo("elementType", type)
+                    .setMessage("array dependency value has wrong type, "
+                        + "expected a property name (ie, a string)");
+                messages.add(msg.build());
             }
+            idx++;
         }
     }
 }

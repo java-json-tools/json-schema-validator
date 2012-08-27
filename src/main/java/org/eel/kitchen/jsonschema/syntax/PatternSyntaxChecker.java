@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
@@ -43,9 +44,16 @@ public final class PatternSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode schema)
+    void checkValue(final List<ValidationMessage> messages,
+        final JsonNode schema)
     {
-        if (!RhinoHelper.regexIsValid(schema.get(keyword).textValue()))
-            messages.add("invalid regex");
+        final String value = schema.get(keyword).textValue();
+        if (RhinoHelper.regexIsValid(value))
+            return;
+
+        msg.setMessage("value is not a valid ECMA 262 regex")
+            .addInfo("value", value);
+
+        messages.add(msg.build());
     }
 }

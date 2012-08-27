@@ -30,5 +30,6 @@ public abstract class SyntaxChecker
      * @param messages message list to fill in the event of a failure
      * @param schema schema to analyze
      */
-    abstract void checkSyntax(List<String> messages, JsonNode schema);
+    abstract void checkSyntax(List<ValidationMessage> messages,
+        JsonNode schema);
 }

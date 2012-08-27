@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -37,7 +38,7 @@ public abstract class AbstractSyntaxCheckerTest
     private final JsonNode testData;
     private final SyntaxChecker checker;
 
-    private List<String> messages;
+    private List<ValidationMessage> messages;
 
     protected AbstractSyntaxCheckerTest(final String keyword,
         final SyntaxChecker checker)
@@ -51,7 +52,7 @@ public abstract class AbstractSyntaxCheckerTest
     @BeforeMethod
     public void createValidator()
     {
-        messages = new ArrayList<String>();
+        messages = new ArrayList<ValidationMessage>();
     }
 
     @DataProvider

@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.HashSet;
@@ -43,17 +44,34 @@ public final class EnumSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode schema)
+    void checkValue(final List<ValidationMessage> messages,
+        final JsonNode schema)
     {
+        final JsonNode enumNode = schema.get(keyword);
+
+        if (enumNode.size() == 0) {
+            msg.setMessage("an enum array must have at least one element");
+            messages.add(msg.build());
+            return;
+        }
+
+        /*
+         * NOTE: we choose NOT to display the culprit element. The (admittedly
+         * convoluted) reason is that said element, as per enum rules,
+         * may be an arbitrary JSON document -- ie, as large as you can fathom.
+         *
+         * TODO: we may do with displaying the index in the array, that's better
+         * than nothing...
+         */
         final Set<JsonNode> values = new HashSet<JsonNode>();
 
-        for (final JsonNode value: schema.get(keyword))
-            if (!values.add(value)) {
-                messages.add("values in an enum must be unique");
-                return;
-            }
+        for (final JsonNode value: enumNode) {
+            if (values.add(value))
+                continue;
+            msg.setMessage("elements in the array are not unique");
+            messages.add(msg.build());
+            return;
+        }
 
-        if (values.isEmpty())
-            messages.add("an enum array must have at least one element");
     }
 }

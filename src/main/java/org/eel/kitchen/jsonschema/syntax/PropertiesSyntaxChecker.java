@@ -18,9 +18,12 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Syntax validator for the {@code properties} keyword
@@ -42,10 +45,33 @@ public final class PropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode schema)
+    void checkValue(final List<ValidationMessage> messages,
+        final JsonNode schema)
     {
-        for (final JsonNode child: schema.get(keyword))
-            if (!child.isObject())
-                messages.add("non schema value in properties");
+        final Map<String, JsonNode> map
+            = JacksonUtils.nodeToMap(schema.get(keyword));
+
+        NodeType type;
+        JsonNode value;
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            msg.addInfo("key", entry.getKey());
+            value = entry.getValue();
+            type = NodeType.getNodeType(entry.getValue());
+            if (!value.isObject()) {
+                msg.setMessage("value is not a JSON Schema (not an object)")
+                    .addInfo("valueType", type);
+                messages.add(msg.build());
+                continue;
+            }
+            if (!value.has("required"))
+                continue;
+            type = NodeType.getNodeType(value.get("required"));
+            if (type == NodeType.BOOLEAN)
+                continue;
+            msg.setMessage("\"required\" attribute in schema is not a boolean")
+                .addInfo("actualType", type);
+            messages.add(msg.build());
+        }
     }
 }

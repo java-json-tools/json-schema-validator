@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -98,6 +99,16 @@ public final class ValidationReport
     public void setPath(final JsonPointer path)
     {
         this.path = path;
+    }
+
+    public void addMessage(final ValidationMessage message)
+    {
+        msgMap.put(path, message);
+    }
+
+    public void addMessages(final Collection<ValidationMessage> messages)
+    {
+        msgMap.putAll(path, messages);
     }
 
     /**

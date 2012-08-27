@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -43,7 +44,7 @@ public final class SyntaxValidatorTest
     private SyntaxChecker checker1;
     private SyntaxChecker checker2;
 
-    private List<String> messages;
+    private List<ValidationMessage> messages;
 
     @BeforeMethod
     public void setUp()
@@ -58,7 +59,7 @@ public final class SyntaxValidatorTest
         k2 = Keyword.Builder.forKeyword("k2").withSyntaxChecker(checker2)
             .build();
 
-        messages = new ArrayList<String>();
+        messages = new ArrayList<ValidationMessage>();
     }
 
     @Test

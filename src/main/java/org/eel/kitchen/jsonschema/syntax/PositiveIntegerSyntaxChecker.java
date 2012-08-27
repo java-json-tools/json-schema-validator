@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
@@ -39,16 +40,22 @@ public class PositiveIntegerSyntaxChecker
     }
 
     @Override
-    final void checkValue(final List<String> messages, final JsonNode schema)
+    final void checkValue(final List<ValidationMessage> messages,
+        final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
+        msg.addInfo("value", node);
 
         if (!node.canConvertToInt()) {
-            messages.add("value overflow");
+            msg.setMessage("integer value is too large");
+            messages.add(msg.build());
             return;
         }
 
-        if (node.intValue() < 0)
-            messages.add("value is negative");
+        if (node.intValue() >= 0)
+            return;
+
+        messages.add(msg.setMessage("value must be strictly greater than 0")
+            .build());
     }
 }
