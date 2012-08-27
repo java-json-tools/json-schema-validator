@@ -51,6 +51,26 @@ public final class ValidationMessage
         return new Builder(ValidationDomain.UNKNOWN).setKeyword("(not set)");
     }
 
+    public ValidationDomain getDomain()
+    {
+        return domain;
+    }
+
+    public String getKeyword()
+    {
+        return keyword;
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public JsonNode getInfo(final String key)
+    {
+        return info.get(key);
+    }
+
     public JsonNode toJsonNode()
     {
         final ObjectNode ret = factory.objectNode()
@@ -59,11 +79,6 @@ public final class ValidationMessage
 
         ret.putAll(info);
         return ret;
-    }
-
-    public String getMessage()
-    {
-        return message;
     }
 
     public static final class Builder
