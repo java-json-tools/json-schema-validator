@@ -64,6 +64,6 @@ public final class JsonSchemaException
     @Override
     public String toString()
     {
-        return getClass().getName() + ": " + validationMessage.getMessage();
+        return getClass().getName() + ": " + validationMessage;
     }
 }

@@ -21,18 +21,25 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public final class ValidationMessage
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+    private static final Joiner JOINER = Joiner.on("; ");
+
     private final ValidationDomain domain;
     private final String keyword;
     private final String message;
@@ -79,6 +86,23 @@ public final class ValidationMessage
 
         ret.putAll(info);
         return ret;
+    }
+
+    @Override
+    public String toString()
+    {
+        final List<String> list = new ArrayList<String>();
+
+        list.add("domain: " + domain.toString());
+        list.add("keyword: " + keyword);
+        list.add("message: " + message);
+
+        final SortedSet<String> infoKeys = new TreeSet<String>(info.keySet());
+
+        for (final String key: infoKeys)
+            list.add(key + ": " + info.get(key));
+
+        return JOINER.join(list);
     }
 
     public static final class Builder
