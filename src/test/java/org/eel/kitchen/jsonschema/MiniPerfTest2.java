@@ -50,24 +50,16 @@ public final class MiniPerfTest2
         final SchemaContainer container = factory.registerSchema(draftv3);
         final JsonSchema schema = factory.createSchema(container);
 
-        String name;
-        JsonNode value;
-        ValidationReport report;
+        long begin, current;
+        begin = System.currentTimeMillis();
+        doValidate(schemas, schema, -1);
+        current = System.currentTimeMillis();
 
-        long current;
-        final long begin = System.currentTimeMillis();
+        System.out.println("Initial validation :" + (current - begin) + " ms");
 
+        begin = System.currentTimeMillis();
         for (int i = 0; i < 500; i++) {
-            for (final Map.Entry<String, JsonNode> entry : schemas.entrySet()) {
-                name = entry.getKey();
-                value = entry.getValue();
-                report = schema.validate(value);
-                if (!report.isSuccess()) {
-                    System.err.println("ERROR: schema " + name + " did not "
-                        + "validate (iteration " + i + ')');
-                    System.exit(1);
-                }
-            }
+            doValidate(schemas, schema, i);
             if (i % 20 == 0) {
                 current = System.currentTimeMillis();
                 System.out.println(String.format("Iteration %d (in %d ms)", i,
@@ -78,5 +70,24 @@ public final class MiniPerfTest2
         final long end = System.currentTimeMillis();
         System.out.println("END -- time in ms: " + (end - begin));
         System.exit(0);
+    }
+
+    private static void doValidate(final Map<String, JsonNode> schemas,
+        final JsonSchema schema, final int i)
+    {
+        String name;
+        JsonNode value;
+        ValidationReport report;
+
+        for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
+            name = entry.getKey();
+            value = entry.getValue();
+            report = schema.validate(value);
+            if (!report.isSuccess()) {
+                System.err.println("ERROR: schema " + name + " did not "
+                    + "validate (iteration " + i + ')');
+                System.exit(1);
+            }
+        }
     }
 }
