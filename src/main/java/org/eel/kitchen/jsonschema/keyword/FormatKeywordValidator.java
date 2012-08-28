@@ -34,6 +34,7 @@ import org.eel.kitchen.jsonschema.format.TimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.URIFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -96,14 +97,14 @@ public final class FormatKeywordValidator
     }
 
     // The format attribute, as defined by the spec
-    private final String fmtattr;
+    private final String fmt;
     private final FormatSpecifier specifier;
 
     public FormatKeywordValidator(final JsonNode schema)
     {
         super("format", NodeType.values());
-        fmtattr = schema.get(keyword).textValue();
-        specifier = specifiers.get(fmtattr);
+        fmt = schema.get(keyword).textValue();
+        specifier = specifiers.get(fmt);
     }
 
     @Override
@@ -115,12 +116,19 @@ public final class FormatKeywordValidator
 
         final List<String> messages = new ArrayList<String>();
         specifier.validate(messages, instance);
-        report.addMessages(messages);
+
+        if (messages.isEmpty())
+            return;
+
+        final ValidationMessage.Builder msg = newMsg().addInfo("format", fmt);
+
+        for (final String message: messages)
+            report.addMessage(msg.setMessage(message).build());
     }
 
     @Override
     public String toString()
     {
-        return keyword + ": " + fmtattr;
+        return keyword + ": " + fmt;
     }
 }
