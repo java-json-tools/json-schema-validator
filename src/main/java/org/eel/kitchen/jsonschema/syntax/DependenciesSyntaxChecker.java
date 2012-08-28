@@ -22,8 +22,10 @@ import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * Syntax checker for the {@code dependencies} keyword
@@ -31,6 +33,9 @@ import java.util.Map;
 public final class DependenciesSyntaxChecker
     extends SimpleSyntaxChecker
 {
+    private static final EnumSet<NodeType> VALID_DEPENDENCY_TYPES
+        = EnumSet.of(NodeType.OBJECT, NodeType.ARRAY, NodeType.STRING);
+
     private static final SyntaxChecker instance
         = new DependenciesSyntaxChecker();
 
@@ -51,9 +56,14 @@ public final class DependenciesSyntaxChecker
         /*
          * At that point, we know this is an array. Build a map out of it and
          * call an internal validation method on each map entry -- see below.
+         *
+         * For convenience reasons, we also use a SortedMap so that messages
+         * appear in property natural order: while there is no defined order in
+         * a JSON Object, chances are very high that the schema will be written
+         * with properties in order, so we might as well not confuse the user.
          */
-        final Map<String, JsonNode> map
-            = JacksonUtils.nodeToMap(schema.get(keyword));
+        final SortedMap<String, JsonNode> map
+            = JacksonUtils.nodeToTreeMap(schema.get(keyword));
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
             analyzeDependency(entry, msg, messages);
@@ -94,8 +104,8 @@ public final class DependenciesSyntaxChecker
          * complain.
          */
         if (!value.isArray()) {
-            msg.addInfo("expected", "array")
-                .addInfo("actual", NodeType.getNodeType(value))
+            msg.addInfo("found", NodeType.getNodeType(value))
+                .addInfo("expected", VALID_DEPENDENCY_TYPES)
                 .setMessage("dependency value has incorrect type");
             messages.add(msg.build());
             return;
@@ -117,9 +127,9 @@ public final class DependenciesSyntaxChecker
         for (final JsonNode element: value) {
             type = NodeType.getNodeType(element);
             if (NodeType.STRING != type) {
-                msg.addInfo("index", idx).addInfo("elementType", type)
-                    .setMessage("array dependency value has wrong type, "
-                        + "expected a property name (ie, a string)");
+                msg.addInfo("index", idx).addInfo("found", type)
+                    .addInfo("expected", NodeType.STRING)
+                    .setMessage("array dependency value has incorrect type");
                 messages.add(msg.build());
             }
             idx++;

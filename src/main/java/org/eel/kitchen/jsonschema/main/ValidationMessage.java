@@ -156,6 +156,12 @@ public final class ValidationMessage
             return this;
         }
 
+        public Builder addInfo(final String key, final int value)
+        {
+            info.put(key, value);
+            return this;
+        }
+
         public Builder clearInfo()
         {
             info.removeAll();

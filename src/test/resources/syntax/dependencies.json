@@ -33,6 +33,25 @@
                 "b": [ {} ]
             }
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "property": "a",
+                "message": "dependency value has incorrect type",
+                "expected": [ "array", "object", "string" ],
+                "found": "integer"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "property": "b",
+                "index": 0,
+                "message": "array dependency value has incorrect type",
+                "expected": "string",
+                "found": "object"
+            }
+        ]
     }
 ]
