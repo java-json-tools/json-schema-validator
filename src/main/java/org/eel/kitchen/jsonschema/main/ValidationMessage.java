@@ -27,7 +27,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -160,23 +159,6 @@ public final class ValidationMessage
         public Builder addInfo(final String key, final int value)
         {
             info.put(key, value);
-            return this;
-        }
-
-        public Builder addInfo(final String key, final BigDecimal value)
-        {
-            /*
-             * FIXME: really ugly! And needed for... Tests.
-             */
-            try {
-                info.put(key, value.intValueExact());
-            } catch (ArithmeticException ignored) {
-                try {
-                    info.put(key, value.longValueExact());
-                } catch (ArithmeticException ignoredAgain) {
-                    info.put(key, value);
-                }
-            }
             return this;
         }
 

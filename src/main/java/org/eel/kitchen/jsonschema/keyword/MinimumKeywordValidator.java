@@ -62,9 +62,12 @@ public final class MinimumKeywordValidator
 
     @Override
     protected void validateDecimal(final ValidationReport report,
-        final BigDecimal instance)
+        final JsonNode instance)
     {
-        final int cmp = instance.compareTo(decimalValue);
+        final BigDecimal instanceValue = instance.decimalValue();
+        final BigDecimal decimalValue = number.decimalValue();
+
+        final int cmp = instanceValue.compareTo(decimalValue);
 
         if (cmp > 0)
             return;

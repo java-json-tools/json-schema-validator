@@ -59,9 +59,12 @@ public final class DivisibleByKeywordValidator
 
     @Override
     protected void validateDecimal(final ValidationReport report,
-        final BigDecimal instance)
+        final JsonNode instance)
     {
-        final BigDecimal remainder = instance.remainder(decimalValue);
+        final BigDecimal instanceValue = instance.decimalValue();
+        final BigDecimal decimalValue = number.decimalValue();
+
+        final BigDecimal remainder = instanceValue.remainder(decimalValue);
 
         /*
          * We cannot use equality! As far as BigDecimal goes,

@@ -35,16 +35,24 @@ import java.math.BigDecimal;
  *
  * <p>This means that extending this validator will require you to implement
  * two methods: {@link #validateLong(ValidationReport, JsonNode)} and
- * {@link #validateDecimal(ValidationReport, BigDecimal)}.</p>
+ * {@link #validateDecimal(ValidationReport, JsonNode)}.</p>
+ *
+ * <p>You will note that these two methods take a {@link JsonNode} as an
+ * argument. Use the following methods to convert these to the appropriate
+ * types:</p>
+ *
+ * <ul>
+ *     <li>{@code long}: {@link JsonNode#longValue()};</li>
+ *     <li>{@link BigDecimal}: {@link JsonNode#decimalValue()}.</li>
+ * </ul>
  */
 public abstract class NumericKeywordValidator
     extends KeywordValidator
 {
-    protected final JsonNode number;
     /**
-     * The keyword value as a {@link BigDecimal}
+     * The keyword value
      */
-    protected final BigDecimal decimalValue;
+    protected final JsonNode number;
 
     /**
      * Does the keyword value fits into a {@code long}?
@@ -64,7 +72,6 @@ public abstract class NumericKeywordValidator
         number = schema.get(keyword);
 
         isLong = valueIsLong(number);
-        decimalValue = number.decimalValue();
     }
 
     /**
@@ -85,7 +92,7 @@ public abstract class NumericKeywordValidator
      * @param instance the instance to validate
      */
     protected abstract void validateDecimal(final ValidationReport report,
-        final BigDecimal instance);
+        final JsonNode instance);
 
     /**
      * Main validation method
@@ -93,7 +100,7 @@ public abstract class NumericKeywordValidator
      * <p>This is where the test for {@code long} is done on both the keyword
      * value and instance value. According to the result,
      * this method will then call either {@link #validateLong(ValidationReport,
-     * JsonNode)} or {@link #validateDecimal(ValidationReport, BigDecimal)}.</p>
+     * JsonNode)} or {@link #validateDecimal(ValidationReport, JsonNode)}</p>
      *
      * @param context the context
      * @param report the validation report
@@ -106,7 +113,7 @@ public abstract class NumericKeywordValidator
         if (valueIsLong(instance) && isLong)
             validateLong(report, instance);
         else
-            validateDecimal(report, instance.decimalValue());
+            validateDecimal(report, instance);
     }
 
     /**
@@ -129,6 +136,6 @@ public abstract class NumericKeywordValidator
     @Override
     public String toString()
     {
-        return keyword + ": " + decimalValue;
+        return keyword + ": " + number;
     }
 }
