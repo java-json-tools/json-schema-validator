@@ -19,7 +19,9 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -64,8 +66,16 @@ public final class PropertiesKeywordValidator
     {
         final Set<String> fields = JacksonUtils.fieldNames(instance);
 
-        if (!fields.containsAll(required))
-            report.addMessage("missing required properties in instance");
+        if (fields.containsAll(required))
+            return;
+
+        final Set<String> missing = Sets.newTreeSet(required);
+        missing.removeAll(fields);
+
+        final ValidationMessage.Builder msg = newMsg()
+            .addInfo("required", required).addInfo("missing", missing)
+            .setMessage("required property(ies) not found");
+        report.addMessage(msg.build());
     }
 
     @Override
