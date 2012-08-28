@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
@@ -55,6 +56,8 @@ import java.util.EnumSet;
  */
 public abstract class KeywordValidator
 {
+    protected static final JsonNodeFactory nodeFactory
+        = JsonNodeFactory.instance;
     /**
      * The keyword
      */
