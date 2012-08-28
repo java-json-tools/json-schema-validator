@@ -20,15 +20,14 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.google.common.collect.Lists;
 import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -42,8 +41,6 @@ public abstract class AbstractSyntaxCheckerTest
     private final JsonNode testData;
     private final SyntaxChecker checker;
 
-    private List<ValidationMessage> messages;
-
     protected AbstractSyntaxCheckerTest(final String keyword,
         final SyntaxChecker checker)
         throws IOException
@@ -52,12 +49,6 @@ public abstract class AbstractSyntaxCheckerTest
         testData = JsonLoader.fromResource(input);
         this.checker = checker;
         this.keyword = keyword;
-    }
-
-    @BeforeMethod
-    public void createValidator()
-    {
-        messages = new ArrayList<ValidationMessage>();
     }
 
     @DataProvider
@@ -80,10 +71,11 @@ public abstract class AbstractSyntaxCheckerTest
         };
     }
 
-    @Test(dataProvider = "getData")
+    @Test(dataProvider = "getData", invocationCount = 20, threadPoolSize = 4)
     public void testChecker(final JsonNode node, final boolean valid,
         final JsonNode expectedMessages)
     {
+        final List<ValidationMessage> messages = Lists.newArrayList();
         final ValidationMessage.Builder msg
             = new ValidationMessage.Builder(ValidationDomain.SYNTAX)
                 .setKeyword(keyword);
