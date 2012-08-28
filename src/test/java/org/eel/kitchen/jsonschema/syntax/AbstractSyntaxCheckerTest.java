@@ -80,7 +80,7 @@ public abstract class AbstractSyntaxCheckerTest
         };
     }
 
-    @Test(dataProvider = "getData", invocationCount = 20, threadPoolSize = 4)
+    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
     public void testChecker(final JsonNode node, final boolean valid,
         final JsonNode expectedMessages)
     {
