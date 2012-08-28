@@ -1,0 +1,26 @@
+[
+    {
+        "schema": { "maxItems": 4 },
+        "data": [ 1, 2, 3 ],
+        "valid": true
+    },
+    {
+        "schema": { "maxItems": 4 },
+        "data": [ 1, 2, 3, 4 ],
+        "valid": true
+    },
+    {
+        "schema": { "maxItems": 4 },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "maxItems",
+                "message": "too many elements in array",
+                "maxItems": 4,
+                "found": 5
+            }
+        ]
+    }
+]
