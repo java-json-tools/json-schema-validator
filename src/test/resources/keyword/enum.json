@@ -4,7 +4,16 @@
             "enum": [ true ]
         },
         "data": false,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "enum",
+                "message": "value not found in enum",
+                "enum": [ true ],
+                "value": false
+            }
+        ]
     },
     {
         "schema": {
@@ -18,7 +27,16 @@
             "enum": [ 1, {}, [ 1, 2, 3 ] ]
         },
         "data": { "a": "b" },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "enum",
+                "message": "value not found in enum",
+                "enum": [ 1, {}, [ 1, 2, 3 ] ],
+                "value": { "a": "b" }
+            }
+        ]
     },
     {
         "schema": {
