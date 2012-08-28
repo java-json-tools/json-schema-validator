@@ -72,7 +72,7 @@ public final class RhinoHelper
     /**
      * Script scope
      */
-    private static final Scriptable scope;
+    private static final Scriptable sharedScope;
 
     /**
      * Reference to Javascript function for regex validation
@@ -90,10 +90,10 @@ public final class RhinoHelper
 
     static {
         ctx = Context.enter();
-        scope = ctx.initStandardObjects();
-        ctx.evaluateString(scope, jsAsString, "re", 1, null);
-        regexIsValid = (Function) scope.get("regexIsValid", scope);
-        regMatch = (Function) scope.get("regMatch", scope);
+        sharedScope = ctx.initStandardObjects();
+        ctx.evaluateString(sharedScope, jsAsString, "re", 1, null);
+        regexIsValid = (Function) sharedScope.get("regexIsValid", sharedScope);
+        regMatch = (Function) sharedScope.get("regMatch", sharedScope);
         ctx.seal(null);
     }
 
@@ -105,8 +105,16 @@ public final class RhinoHelper
      */
     public static boolean regexIsValid(final String regex)
     {
-        return (Boolean) regexIsValid.call(ctx, scope, scope,
-            new Object[] { regex });
+        final Context context = Context.enter();
+        final Scriptable scope = context.newObject(sharedScope);
+        scope.setPrototype(sharedScope);
+        scope.setParentScope(null);
+        try {
+            return (Boolean) regexIsValid.call(context, scope, scope,
+                new Object[]{ regex });
+        } finally {
+            Context.exit();
+        }
     }
 
     /**
@@ -124,9 +132,19 @@ public final class RhinoHelper
      * @param input the input to match against (and again, see description)
      * @return true if the regex matches the input
      */
-    public static boolean regMatch(final String regex, final String input)
+    public static boolean regMatch(final String regex,
+        final String input)
     {
-        return (Boolean) regMatch.call(ctx, scope, scope,
-            new Object[] { regex, input });
+        final Context context = Context.enter();
+        final Scriptable scope = context.newObject(sharedScope);
+        scope.setPrototype(sharedScope);
+        scope.setParentScope(null);
+        try {
+            return (Boolean) regMatch.call(context, scope, scope,
+                new Object[]{ regex, input });
+        } finally {
+            Context.exit();
+        }
+
     }
 }
