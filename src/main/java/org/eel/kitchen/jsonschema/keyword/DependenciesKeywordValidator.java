@@ -22,8 +22,11 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -32,9 +35,10 @@ import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 import org.eel.kitchen.jsonschema.validator.SchemaNode;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Validator for the {@code dependencies} keyword
@@ -111,17 +115,13 @@ public final class DependenciesKeywordValidator
          * Simple dependencies: first try and see if it applies at all to this
          * instance. If yes, check that the needed properties are present.
          */
-        final Set<String> fieldDeps = new HashSet<String>(fields);
+
+        final SortedSet<String> fieldDeps = new TreeSet<String>(fields);
         fieldDeps.retainAll(simple.keySet());
-        if (!fieldDeps.isEmpty()) {
-            final Set<String> neededFields = new HashSet<String>();
 
-            for (final String field: fieldDeps)
-                neededFields.addAll(simple.get(field));
+        for (final String field: fieldDeps)
+            computeSimpleDep(field, fields, report);
 
-            if (!fields.containsAll(neededFields))
-                report.addMessage("missing property dependencies");
-        }
         /*
          * Schema dependencies: make a copy of the schemas map and only retain
          * whatever properties are present in the instance.
@@ -153,6 +153,23 @@ public final class DependenciesKeywordValidator
             validator.validate(context, report, instance);
             context.setContainer(orig);
         }
+    }
+
+    private void computeSimpleDep(final String field, final Set<String> fields,
+        final ValidationReport report)
+    {
+        final SortedSet<String> missing = Sets.newTreeSet(simple.get(field));
+        missing.removeAll(fields);
+
+        if (missing.isEmpty())
+            return;
+
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+                .setKeyword(keyword).addInfo("property", field)
+                .setMessage("missing property dependencies")
+                .addInfo("missing", missing);
+        report.addMessage(msg.build());
     }
 
     @Override

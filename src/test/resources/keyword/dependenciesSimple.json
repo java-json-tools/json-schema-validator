@@ -20,7 +20,16 @@
         "data": {
             "p": 1
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "missing property dependencies",
+                "property": "p",
+                "missing": [ "q" ]
+            }
+        ]
     },
     {
         "schema": {
@@ -47,7 +56,16 @@
             "p": 1,
             "q": 2
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "missing property dependencies",
+                "property": "p",
+                "missing": [ "r" ]
+            }
+        ]
     },
     {
         "schema": {
@@ -61,5 +79,35 @@
             "r": 3
         },
         "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": [ "q", "r" ],
+                "s": [ "t", "u" ]
+            }
+        },
+        "data": {
+            "p": 1,
+            "q": 2,
+            "s": 3
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "missing property dependencies",
+                "property": "p",
+                "missing": [ "r" ]
+            },
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "missing property dependencies",
+                "property": "s",
+                "missing": [ "t", "u" ]
+            }
+        ]
     }
 ]
