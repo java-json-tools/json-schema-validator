@@ -15,19 +15,46 @@
         "schema": {
             "k": 1
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "null", "object" ],
+                "found": "integer"
+            }
+        ]
     },
     {
         "schema": {
             "k": 1.1
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "null", "object" ],
+                "found": "number"
+            }
+        ]
     },
     {
         "schema": {
             "k": []
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "null", "object" ],
+                "found": "array"
+            }
+        ]
     },
     {
         "schema": {
@@ -39,6 +66,15 @@
         "schema": {
             "k": ""
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "null", "object" ],
+                "found": "string"
+            }
+        ]
     }
 ]

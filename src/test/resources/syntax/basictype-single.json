@@ -9,36 +9,90 @@
         "schema": {
             "k": {}
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "object"
+            }
+        ]
     },
     {
         "schema": {
             "k": 1
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "integer"
+            }
+        ]
     },
     {
         "schema": {
             "k": 1.1
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "number"
+            }
+        ]
     },
     {
         "schema": {
             "k": []
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "array"
+            }
+        ]
     },
     {
         "schema": {
             "k": null
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "null"
+            }
+        ]
     },
     {
         "schema": {
             "k": ""
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "string"
+            }
+        ]
     }
 ]
