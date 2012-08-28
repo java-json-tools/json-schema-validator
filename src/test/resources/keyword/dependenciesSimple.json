@@ -27,6 +27,7 @@
                 "keyword": "dependencies",
                 "message": "missing property dependencies",
                 "property": "p",
+                "expected": [ "q" ],
                 "missing": [ "q" ]
             }
         ]
@@ -63,6 +64,7 @@
                 "keyword": "dependencies",
                 "message": "missing property dependencies",
                 "property": "p",
+                "expected": [ "q", "r" ],
                 "missing": [ "r" ]
             }
         ]
@@ -99,6 +101,7 @@
                 "keyword": "dependencies",
                 "message": "missing property dependencies",
                 "property": "p",
+                "expected": [ "q", "r" ],
                 "missing": [ "r" ]
             },
             {
@@ -106,6 +109,7 @@
                 "keyword": "dependencies",
                 "message": "missing property dependencies",
                 "property": "s",
+                "expected": [ "t", "u" ],
                 "missing": [ "t", "u" ]
             }
         ]

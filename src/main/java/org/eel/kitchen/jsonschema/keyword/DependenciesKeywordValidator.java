@@ -158,7 +158,8 @@ public final class DependenciesKeywordValidator
     private void computeSimpleDep(final String field, final Set<String> fields,
         final ValidationReport report)
     {
-        final SortedSet<String> missing = Sets.newTreeSet(simple.get(field));
+        final Set<String> expected = simple.get(field);
+        final SortedSet<String> missing = Sets.newTreeSet(expected);
         missing.removeAll(fields);
 
         if (missing.isEmpty())
@@ -168,6 +169,7 @@ public final class DependenciesKeywordValidator
             = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
                 .setKeyword(keyword).addInfo("property", field)
                 .setMessage("missing property dependencies")
+                .addInfo("expected", Sets.newTreeSet(expected))
                 .addInfo("missing", missing);
         report.addMessage(msg.build());
     }
