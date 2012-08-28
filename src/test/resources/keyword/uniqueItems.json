@@ -1,0 +1,24 @@
+[
+    {
+        "schema": { "uniqueItems": true },
+        "data": [ 1, 2, 3 ],
+        "valid": true
+    },
+    {
+        "schema": { "uniqueItems": true },
+        "data": [ 1, 2, 1 ],
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "uniqueItems",
+                "message": "duplicate elements in array"
+            }
+        ]
+    },
+    {
+        "schema": { "uniqueItems": false },
+        "data": [ 1, 2, 1 ],
+        "valid": true
+    }
+]
