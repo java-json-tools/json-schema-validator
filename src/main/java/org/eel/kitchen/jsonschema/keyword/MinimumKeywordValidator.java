@@ -42,12 +42,15 @@ public final class MinimumKeywordValidator
 
     @Override
     protected void validateLong(final ValidationReport report,
-        final long instance)
+        final JsonNode instance)
     {
-        if (instance > longValue)
+        final long instanceValue = instance.longValue();
+        final long longValue = number.longValue();
+
+        if (instanceValue > longValue)
             return;
 
-        if (instance < longValue) {
+        if (instanceValue < longValue) {
             report.addMessage("instance is lower than the required minimum");
             return;
         }

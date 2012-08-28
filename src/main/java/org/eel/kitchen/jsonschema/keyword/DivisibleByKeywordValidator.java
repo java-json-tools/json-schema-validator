@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -39,17 +40,20 @@ public final class DivisibleByKeywordValidator
 
     @Override
     protected void validateLong(final ValidationReport report,
-        final long instance)
+        final JsonNode instance)
     {
-        final long remainder = instance % longValue;
+        final long instanceValue = instance.longValue();
+        final long longValue = number.longValue();
+
+        final long remainder = instanceValue % longValue;
 
         if (remainder == 0L)
             return;
 
         final ValidationMessage.Builder msg = newMsg()
             .setMessage("number is not a multiple of divisibleBy")
-            .addInfo("value", instance).addInfo("divisor", longValue)
-            .addInfo("remainder", remainder);
+            .addInfo("value", instance).addInfo("divisor", number)
+            .addInfo("remainder", JsonNodeFactory.instance.numberNode(remainder));
         report.addMessage(msg.build());
     }
 
@@ -69,8 +73,8 @@ public final class DivisibleByKeywordValidator
 
         final ValidationMessage.Builder msg = newMsg()
             .setMessage("number is not a multiple of divisibleBy")
-            .addInfo("value", instance).addInfo("divisor", decimalValue)
-            .addInfo("remainder", remainder);
+            .addInfo("value", instance).addInfo("divisor", number)
+            .addInfo("remainder", JsonNodeFactory.instance.numberNode(remainder));
         report.addMessage(msg.build());
     }
 }

@@ -34,7 +34,7 @@ import java.math.BigDecimal;
  * </p>
  *
  * <p>This means that extending this validator will require you to implement
- * two methods: {@link #validateLong(ValidationReport, long)} and
+ * two methods: {@link #validateLong(ValidationReport, JsonNode)} and
  * {@link #validateDecimal(ValidationReport, BigDecimal)}.</p>
  */
 public abstract class NumericKeywordValidator
@@ -45,11 +45,6 @@ public abstract class NumericKeywordValidator
      * The keyword value as a {@link BigDecimal}
      */
     protected final BigDecimal decimalValue;
-
-    /**
-     * The keyword value coerced as a {@code long}
-     */
-    protected final long longValue;
 
     /**
      * Does the keyword value fits into a {@code long}?
@@ -70,7 +65,6 @@ public abstract class NumericKeywordValidator
 
         isLong = valueIsLong(number);
         decimalValue = number.decimalValue();
-        longValue = number.longValue();
     }
 
     /**
@@ -81,7 +75,7 @@ public abstract class NumericKeywordValidator
      * @param instance the instance to validate
      */
     protected abstract void validateLong(final ValidationReport report,
-        final long instance);
+        final JsonNode instance);
 
     /**
      * Method to be implemented by a numeric validator if either of the
@@ -99,7 +93,7 @@ public abstract class NumericKeywordValidator
      * <p>This is where the test for {@code long} is done on both the keyword
      * value and instance value. According to the result,
      * this method will then call either {@link #validateLong(ValidationReport,
-     * long)} or {@link #validateDecimal(ValidationReport, BigDecimal)}.</p>
+     * JsonNode)} or {@link #validateDecimal(ValidationReport, BigDecimal)}.</p>
      *
      * @param context the context
      * @param report the validation report
@@ -110,7 +104,7 @@ public abstract class NumericKeywordValidator
         final ValidationReport report, final JsonNode instance)
     {
         if (valueIsLong(instance) && isLong)
-            validateLong(report, instance.longValue());
+            validateLong(report, instance);
         else
             validateDecimal(report, instance.decimalValue());
     }

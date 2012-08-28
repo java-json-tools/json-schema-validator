@@ -163,12 +163,6 @@ public final class ValidationMessage
             return this;
         }
 
-        public Builder addInfo(final String key, final long value)
-        {
-            info.put(key, value);
-            return this;
-        }
-
         public Builder addInfo(final String key, final BigDecimal value)
         {
             /*
