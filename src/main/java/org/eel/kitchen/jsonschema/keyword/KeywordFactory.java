@@ -22,6 +22,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -138,8 +140,12 @@ public final class KeywordFactory
             protected void validate(final ValidationContext context,
                 final ValidationReport report, final JsonNode instance)
             {
-                report.addMessage("cannot build validator: "
-                    + e.getClass().getName() + ": " + e.getMessage());
+                final ValidationMessage.Builder msg
+                    = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+                        .setMessage("cannot build validator")
+                        .addInfo("exception", e.getClass().getName())
+                        .addInfo("exceptionMessage", e.getMessage());
+                report.addMessage(msg.build());
             }
 
             @Override

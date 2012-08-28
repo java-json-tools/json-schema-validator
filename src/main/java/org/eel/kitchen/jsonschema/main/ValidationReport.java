@@ -116,27 +116,6 @@ public final class ValidationReport
     }
 
     /**
-     * Add one message to the current path
-     *
-     * @param message the message to add
-     */
-    public void addMessage(final String message)
-    {
-        msgMap.put(path, DEFAULT.setMessage(message).build());
-    }
-
-    /**
-     * Add a list of messages to the current path
-     *
-     * @param messages the list of messages
-     */
-    public void addMessages(final List<String> messages)
-    {
-        for (final String message: messages)
-            msgMap.put(path, DEFAULT.setMessage(message).build());
-    }
-
-    /**
      * Is this report a success?
      *
      * @return true if the message map is empty
