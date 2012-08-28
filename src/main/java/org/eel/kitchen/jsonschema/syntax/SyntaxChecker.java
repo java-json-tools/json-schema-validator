@@ -27,6 +27,6 @@ public interface SyntaxChecker
      * @param messages message list to fill in the event of a failure
      * @param schema schema to analyze
      */
-    abstract void checkSyntax(final ValidationMessage.Builder msg,
+    void checkSyntax(final ValidationMessage.Builder msg,
         final List<ValidationMessage> messages, final JsonNode schema);
 }

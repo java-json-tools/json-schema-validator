@@ -40,9 +40,6 @@ import java.util.TreeSet;
  */
 public final class ValidationReport
 {
-    private static final ValidationMessage.Builder DEFAULT
-        = ValidationMessage.defaultBuilder();
-
     /**
      * Root JSON Pointer (ie, {@code #})
      */

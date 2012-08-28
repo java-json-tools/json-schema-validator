@@ -75,7 +75,8 @@ public final class DependenciesSyntaxChecker
      * @param entry the JSON object entry (as a {@link Map.Entry})
      * @param messages the validation message list
      */
-    private void analyzeDependency(final Map.Entry<String, JsonNode> entry,
+    private static void analyzeDependency(
+        final Map.Entry<String, JsonNode> entry,
         final ValidationMessage.Builder msg,
         final List<ValidationMessage> messages)
     {

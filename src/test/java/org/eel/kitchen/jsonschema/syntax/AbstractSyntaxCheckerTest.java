@@ -38,7 +38,6 @@ import static org.testng.Assert.*;
 public abstract class AbstractSyntaxCheckerTest
 {
     private final String keyword;
-    private final String resourceName;
     private final JsonNode testData;
     private final SyntaxChecker checker;
 
@@ -47,7 +46,6 @@ public abstract class AbstractSyntaxCheckerTest
         throws IOException
     {
         this.keyword = keyword;
-        this.resourceName = resourceName;
         this.checker = checker;
         final String input = "/syntax/" + resourceName + ".json";
         testData = JsonLoader.fromResource(input);
