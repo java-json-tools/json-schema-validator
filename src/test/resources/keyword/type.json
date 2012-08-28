@@ -1,34 +1,6 @@
 [
     {
         "schema": {
-            "type": "string"
-        },
-        "data": "finance and marketing are the two biggest failures of the western world",
-        "valid": true
-    },
-    {
-        "schema": {
-            "type": "string"
-        },
-        "data": 31,
-        "valid": false
-    },
-    {
-        "schema": {
-            "type": [ "integer", "boolean" ]
-        },
-        "data": true,
-        "valid": true
-    },
-    {
-        "schema": {
-            "type": [ "integer", "boolean" ]
-        },
-        "data": null,
-        "valid": false
-    },
-    {
-        "schema": {
             "type": [
                 "number",
                 "boolean",
@@ -40,7 +12,6 @@
         },
         "data": 42329809283907240998102938019247192840,
         "valid": true
-
     },
     {
         "schema": {
@@ -54,7 +25,23 @@
             ]
         },
         "data": "a++",
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "type",
+                "message": "instance does not match any allowed primitive type",
+                "allowed": [ "boolean", "integer", "number" ],
+                "found": "string"
+            },
+            {
+                "domain": "validation",
+                "keyword": "minLength",
+                "message": "string is too short",
+                "minLength": 4,
+                "found": 3
+            }
+        ]
     },
     {
         "schema": {
@@ -83,8 +70,25 @@
                 }
             ]
         },
-        "data": 17,
-        "valid": false
+        "data": 17.1,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "type",
+                "message": "instance does not match any allowed primitive type",
+                "allowed": [ "string" ],
+                "found": "number"
+            },
+            {
+                "domain": "validation",
+                "keyword": "divisibleBy",
+                "message": "number is not a multiple of divisibleBy",
+                "value": 17.1,
+                "divisor": 3,
+                "remainder": 2.1
+            }
+        ]
     },
     {
         "schema": {

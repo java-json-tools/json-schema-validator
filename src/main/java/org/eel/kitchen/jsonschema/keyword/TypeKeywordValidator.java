@@ -57,11 +57,24 @@ public final class TypeKeywordValidator
                 return;
         }
 
-        final ValidationMessage.Builder msg = newMsg().addInfo("found", type)
-            .addInfo("allowed", typeSet)
-            .setMessage("instance does not match any allowed primitive type");
+        /*
+         * We must do that test here. Remember that the schema mandates a
+         * type array, if it is an array, to have at least one item. If we come
+         * to this point, it means that one element was either a primitive type
+         * or a schema -- understand: there may not have been a primitive type
+         * at all in the array.
+         *
+         * So, in order to avoid error messages of the type "instance type is
+         * not allowed" with an empty type set, we only add the primitive type
+         * mismatch message if there was at least one primitive type in the set.
+         */
+        if (!typeSet.isEmpty()) {
+            final ValidationMessage.Builder msg = newMsg()
+                .addInfo("found", type).addInfo("allowed", typeSet)
+                .setMessage("instance does not match any allowed primitive type");
+            report.addMessage(msg.build());
+        }
 
-        report.addMessage(msg.build());
         report.mergeWith(schemaReport);
     }
 
