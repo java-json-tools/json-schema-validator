@@ -25,12 +25,47 @@
         "schema": {
             "extends": 42
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "extends",
+                "message": "incorrect type for value",
+                "expected": [ "array", "object" ],
+                "found": "integer"
+            }
+        ]
     },
     {
         "schema": {
             "extends": [ 1, true, {}, "boo" ]
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "extends",
+                "message": "incorrect type for array element",
+                "index": 0,
+                "expected": [ "object" ],
+                "found": "integer"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "extends",
+                "message": "incorrect type for array element",
+                "index": 1,
+                "expected": [ "object" ],
+                "found": "boolean"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "extends",
+                "message": "incorrect type for array element",
+                "index": 3,
+                "expected": [ "object" ],
+                "found": "string"
+            }
+        ]
     }
 ]
