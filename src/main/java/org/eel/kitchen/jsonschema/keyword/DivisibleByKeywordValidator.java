@@ -39,25 +39,25 @@ public final class DivisibleByKeywordValidator
 
     @Override
     protected void validateLong(final ValidationReport report,
-        final long instanceValue)
+        final long instance)
     {
-        final long remainder = instanceValue % longValue;
+        final long remainder = instance % longValue;
 
         if (remainder == 0L)
             return;
 
         final ValidationMessage.Builder msg = newMsg()
             .setMessage("number is not a multiple of divisibleBy")
-            .addInfo("value", instanceValue).addInfo("divisor", longValue)
+            .addInfo("value", instance).addInfo("divisor", longValue)
             .addInfo("remainder", remainder);
         report.addMessage(msg.build());
     }
 
     @Override
     protected void validateDecimal(final ValidationReport report,
-        final BigDecimal instanceValue)
+        final BigDecimal instance)
     {
-        final BigDecimal remainder = instanceValue.remainder(decimalValue);
+        final BigDecimal remainder = instance.remainder(decimalValue);
 
         /*
          * We cannot use equality! As far as BigDecimal goes,
@@ -69,7 +69,7 @@ public final class DivisibleByKeywordValidator
 
         final ValidationMessage.Builder msg = newMsg()
             .setMessage("number is not a multiple of divisibleBy")
-            .addInfo("value", instanceValue).addInfo("divisor", decimalValue)
+            .addInfo("value", instance).addInfo("divisor", decimalValue)
             .addInfo("remainder", remainder);
         report.addMessage(msg.build());
     }

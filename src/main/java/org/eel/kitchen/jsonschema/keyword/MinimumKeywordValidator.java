@@ -42,12 +42,12 @@ public final class MinimumKeywordValidator
 
     @Override
     protected void validateLong(final ValidationReport report,
-        final long instanceValue)
+        final long instance)
     {
-        if (instanceValue > longValue)
+        if (instance > longValue)
             return;
 
-        if (instanceValue < longValue) {
+        if (instance < longValue) {
             report.addMessage("instance is lower than the required minimum");
             return;
         }
@@ -59,9 +59,9 @@ public final class MinimumKeywordValidator
 
     @Override
     protected void validateDecimal(final ValidationReport report,
-        final BigDecimal instanceValue)
+        final BigDecimal instance)
     {
-        final int cmp = instanceValue.compareTo(decimalValue);
+        final int cmp = instance.compareTo(decimalValue);
 
         if (cmp > 0)
             return;

@@ -40,6 +40,7 @@ import java.math.BigDecimal;
 public abstract class NumericKeywordValidator
     extends KeywordValidator
 {
+    protected final JsonNode number;
     /**
      * The keyword value as a {@link BigDecimal}
      */
@@ -65,11 +66,11 @@ public abstract class NumericKeywordValidator
         final JsonNode schema)
     {
         super(keyword, NodeType.INTEGER, NodeType.NUMBER);
-        final JsonNode node = schema.get(keyword);
+        number = schema.get(keyword);
 
-        isLong = valueIsLong(node);
-        decimalValue = node.decimalValue();
-        longValue = node.longValue();
+        isLong = valueIsLong(number);
+        decimalValue = number.decimalValue();
+        longValue = number.longValue();
     }
 
     /**
@@ -77,20 +78,20 @@ public abstract class NumericKeywordValidator
      * value and instance value fit into a {@code long}
      *
      * @param report the validation report
-     * @param instanceValue the instance value to validate as a {@code long}
+     * @param instance the instance to validate
      */
     protected abstract void validateLong(final ValidationReport report,
-        final long instanceValue);
+        final long instance);
 
     /**
      * Method to be implemented by a numeric validator if either of the
      * keyword value or instance value do <b>not</b> fit into a {@code long}
      *
      * @param report the validation report
-     * @param instanceValue the instance to validate as a {@link BigDecimal}
+     * @param instance the instance to validate
      */
     protected abstract void validateDecimal(final ValidationReport report,
-        final BigDecimal instanceValue);
+        final BigDecimal instance);
 
     /**
      * Main validation method
