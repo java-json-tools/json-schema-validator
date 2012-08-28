@@ -15,12 +15,39 @@
         "schema": {
             "items": null
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "items",
+                "message": "incorrect type for value",
+                "expected": [ "array", "object" ],
+                "found": "null"
+            }
+        ]
     },
     {
         "schema": {
             "items": [ {}, 5, true ]
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "items",
+                "message": "incorrect type for array element",
+                "index": 1,
+                "expected": [ "object" ],
+                "found": "integer"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "items",
+                "message": "incorrect type for array element",
+                "index": 2,
+                "expected": [ "object" ],
+                "found": "boolean"
+            }
+        ]
     }
 ]

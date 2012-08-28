@@ -47,7 +47,8 @@ public class PositiveIntegerSyntaxChecker
         msg.addInfo("found", node);
 
         if (!node.canConvertToInt()) {
-            msg.setMessage("integer value is too large");
+            msg.setMessage("integer value is too large")
+                .addInfo("max", Integer.MAX_VALUE);
             messages.add(msg.build());
             return;
         }
@@ -55,7 +56,7 @@ public class PositiveIntegerSyntaxChecker
         if (node.intValue() >= 0)
             return;
 
-        messages.add(msg.setMessage("value must be strictly greater than 0")
+        messages.add(msg.setMessage("value cannot be negative")
             .build());
     }
 }

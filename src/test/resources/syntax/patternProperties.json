@@ -15,12 +15,37 @@
                 "^[a-zA-Z\\d]+$": false
             }
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "patternProperties",
+                "key": "^[a-zA-Z\\d]+$",
+                "message": "illegal key value",
+                "expected": "object",
+                "found": "boolean"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "patternProperties",
+                "message": "key is not a valid ECMA 262 regex",
+                "key": "a++"
+            }
+        ]
     },
     {
         "schema": {
             "patternProperties": 2
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "patternProperties",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "integer"
+            }
+        ]
     }
 ]

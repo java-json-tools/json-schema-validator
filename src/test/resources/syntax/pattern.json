@@ -9,12 +9,29 @@
         "schema": {
             "pattern": "f*+"
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "pattern",
+                "message": "pattern is not a valid ECMA 262 regex",
+                "found": "f*+"
+            }
+        ]
     },
     {
         "schema": {
             "pattern": [ 1, 2, 3 ]
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "pattern",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "array"
+            }
+        ]
     }
 ]

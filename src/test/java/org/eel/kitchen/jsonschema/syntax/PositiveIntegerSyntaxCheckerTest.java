@@ -25,6 +25,6 @@ public final class PositiveIntegerSyntaxCheckerTest
     PositiveIntegerSyntaxCheckerTest()
         throws IOException
     {
-        super("positiveInteger", new PositiveIntegerSyntaxChecker("k"));
+        super("k", "positiveInteger", new PositiveIntegerSyntaxChecker("k"));
     }
 }

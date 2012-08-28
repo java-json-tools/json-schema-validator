@@ -52,7 +52,7 @@ public final class PatternSyntaxChecker
             return;
 
         msg.setMessage("pattern is not a valid ECMA 262 regex")
-            .addInfo("pattern", value);
+            .addInfo("found", value);
 
         messages.add(msg.build());
     }

@@ -25,6 +25,7 @@ import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * Syntax validator for the {@code patternProperties} keyword
@@ -49,8 +50,8 @@ public final class PatternPropertiesSyntaxChecker
     void checkValue(final ValidationMessage.Builder msg,
         final List<ValidationMessage> messages, final JsonNode schema)
     {
-        final Map<String, JsonNode> properties
-            = JacksonUtils.nodeToMap(schema.get(keyword));
+        final SortedMap<String, JsonNode> properties
+            = JacksonUtils.nodeToTreeMap(schema.get(keyword));
 
         String key;
         JsonNode value;
@@ -68,8 +69,9 @@ public final class PatternPropertiesSyntaxChecker
             }
             if (value.isObject())
                 continue;
-            msg.setMessage("associated value is not a JSON Schema (not an " +
-                "object)").addInfo("found", NodeType.getNodeType(value));
+            msg.setMessage("illegal key value")
+                .addInfo("expected", NodeType.OBJECT)
+                .addInfo("found", NodeType.getNodeType(value));
             messages.add(msg.build());
         }
     }

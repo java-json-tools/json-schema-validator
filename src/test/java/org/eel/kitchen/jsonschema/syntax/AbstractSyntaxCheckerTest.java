@@ -38,17 +38,26 @@ import static org.testng.Assert.*;
 public abstract class AbstractSyntaxCheckerTest
 {
     private final String keyword;
+    private final String resourceName;
     private final JsonNode testData;
     private final SyntaxChecker checker;
+
+    protected AbstractSyntaxCheckerTest(final String keyword,
+        final String resourceName, final SyntaxChecker checker)
+        throws IOException
+    {
+        this.keyword = keyword;
+        this.resourceName = resourceName;
+        this.checker = checker;
+        final String input = "/syntax/" + resourceName + ".json";
+        testData = JsonLoader.fromResource(input);
+    }
 
     protected AbstractSyntaxCheckerTest(final String keyword,
         final SyntaxChecker checker)
         throws IOException
     {
-        final String input = "/syntax/" + keyword + ".json";
-        testData = JsonLoader.fromResource(input);
-        this.checker = checker;
-        this.keyword = keyword;
+        this(keyword, keyword, checker);
     }
 
     @DataProvider

@@ -15,18 +15,44 @@
         "schema": {
             "k": 12339809814981293098102938
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "integer value is too large",
+                "max": 2147483647,
+                "found": 12339809814981293098102938
+            }
+        ]
     },
     {
         "schema": {
             "k": -33
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "value cannot be negative",
+                "found": -33
+            }
+        ]
     },
     {
         "schema": {
             "k": 3.1
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "k",
+                "message": "incorrect type for value",
+                "expected": [ "integer" ],
+                "found": "number"
+            }
+        ]
     }
 ]
