@@ -95,9 +95,6 @@ public abstract class AbstractKeywordValidatorTest
         if (valid)
             return;
 
-        if (messages == null)
-            return;
-
         final JsonNode[] actual = toArray(report.asJsonNode().get(""));
         final JsonNode[] expected = toArray(messages);
 

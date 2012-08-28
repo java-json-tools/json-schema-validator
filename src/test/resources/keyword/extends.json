@@ -17,21 +17,40 @@
             "type": "number"
         },
         "data": 23,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minimum",
+                "message": "number is lower than the required minimum",
+                "minimum": 31.4,
+                "found": 23
+            }
+        ]
     },
     {
         "schema": {
             "extends": [
                 {
-                    "type": "integer"
+                    "type": "number"
                 },
                 {
                     "divisibleBy": 8
                 }
             ]
         },
-        "data": 12,
-        "valid": false
+        "data": 12.1,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "divisibleBy",
+                "message": "number is not a multiple of divisibleBy",
+                "value": 12.1,
+                "divisor": 8,
+                "remainder": 4.1
+            }
+        ]
     },
     {
         "schema": {
