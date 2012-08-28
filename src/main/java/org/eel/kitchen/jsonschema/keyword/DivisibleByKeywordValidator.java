@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.math.BigDecimal;
@@ -40,8 +42,18 @@ public final class DivisibleByKeywordValidator
     protected void validateLong(final ValidationReport report,
         final long instanceValue)
     {
-        if (instanceValue % longValue != 0L)
-            report.addMessage("instance is not a multiple of divisibleBy");
+        final long remainder = instanceValue % longValue;
+
+        if (remainder == 0L)
+            return;
+
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+                .setKeyword(keyword).addInfo("value", instanceValue)
+                .addInfo("divisor", longValue)
+                .addInfo("remainder", remainder)
+                .setMessage("number is not a multiple of divisibleBy");
+        report.addMessage(msg.build());
     }
 
     @Override
@@ -55,7 +67,15 @@ public final class DivisibleByKeywordValidator
          * "0" and "0.0" are NOT equal. But .compareTo() returns the correct
          * result.
          */
-        if (remainder.compareTo(BigDecimal.ZERO) != 0)
-            report.addMessage("instance is not a multiple of divisibleBy");
+        if (remainder.compareTo(BigDecimal.ZERO) == 0)
+            return;
+
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+            .setKeyword(keyword).addInfo("value", instanceValue)
+            .addInfo("divisor", decimalValue)
+            .addInfo("remainder", remainder)
+            .setMessage("number is not a multiple of divisibleBy");
+        report.addMessage(msg.build());
     }
 }

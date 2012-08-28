@@ -11,7 +11,17 @@
             "divisibleBy": 1.1
         },
         "data": 3,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "divisibleBy",
+                "message": "number is not a multiple of divisibleBy",
+                "value": 3,
+                "divisor": 1.1,
+                "remainder": 0.8
+            }
+        ]
     },
     {
         "schema": {
@@ -25,6 +35,16 @@
             "divisibleBy": 9812938091283098.1
         },
         "data": 9812938091283098.11,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "divisibleBy",
+                "message": "number is not a multiple of divisibleBy",
+                "value": 9812938091283098.11,
+                "divisor": 9812938091283098.1,
+                "remainder": 0.01
+            }
+        ]
     }
 ]
