@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -30,6 +32,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Validator for {@code additionalProperties}
@@ -100,8 +103,18 @@ public final class AdditionalPropertiesKeywordValidator
 
         fields.removeAll(tmp);
 
-        if (!fields.isEmpty())
-            report.addMessage("additional properties not permitted");
+        if (fields.isEmpty())
+            return;
+
+        /*
+         * Display extra properties in order in the report
+         */
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+                .setKeyword(keyword)
+                .addInfo("unwanted", new TreeSet<String>(fields))
+                .setMessage("additional properties not permitted");
+        report.addMessage(msg.build());
     }
 
     @Override
@@ -122,10 +135,10 @@ public final class AdditionalPropertiesKeywordValidator
         final Set<String> further = new LinkedHashSet<String>();
 
         if (!properties.isEmpty())
-            further.add(" one property is any of: " + properties);
+            further.add("one property is any of: " + properties);
 
         if (!patternProperties.isEmpty())
-            further.add(" a property matches any regex among: "
+            further.add("a property matches any regex among: "
                 + patternProperties);
 
         sb.append(TOSTRING_JOINER.join(further));
