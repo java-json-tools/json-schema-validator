@@ -10,7 +10,7 @@
         "valid": true
     },
     {
-        "schema": { "maxItems": 4 },
+        "schema": { "maxLength": 4 },
         "data": "foobar",
         "valid": false,
         "messages": [

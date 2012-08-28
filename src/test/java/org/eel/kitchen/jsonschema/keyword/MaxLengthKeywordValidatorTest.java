@@ -25,6 +25,6 @@ public final class MaxLengthKeywordValidatorTest
     MaxLengthKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(MaxItemsKeywordValidator.class, "maxItems");
+        super(MaxLengthKeywordValidator.class, "maxLength");
     }
 }
