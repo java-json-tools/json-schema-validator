@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -109,11 +108,9 @@ public final class AdditionalPropertiesKeywordValidator
         /*
          * Display extra properties in order in the report
          */
-        final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-                .setKeyword(keyword)
-                .addInfo("unwanted", new TreeSet<String>(fields))
-                .setMessage("additional properties not permitted");
+        final ValidationMessage.Builder msg = newMsg()
+            .addInfo("unwanted", new TreeSet<String>(fields))
+            .setMessage("additional properties not permitted");
         report.addMessage(msg.build());
     }
 

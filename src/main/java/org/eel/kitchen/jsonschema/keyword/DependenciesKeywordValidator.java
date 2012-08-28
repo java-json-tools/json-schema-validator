@@ -25,7 +25,6 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -165,12 +164,10 @@ public final class DependenciesKeywordValidator
         if (missing.isEmpty())
             return;
 
-        final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-                .setKeyword(keyword).addInfo("property", field)
-                .setMessage("missing property dependencies")
-                .addInfo("expected", Sets.newTreeSet(expected))
-                .addInfo("missing", missing);
+        final ValidationMessage.Builder msg = newMsg()
+            .setMessage("missing property dependencies")
+            .addInfo("property", field).addInfo("missing", missing)
+            .addInfo("expected", Sets.newTreeSet(expected));
         report.addMessage(msg.build());
     }
 

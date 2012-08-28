@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -73,12 +72,9 @@ public final class AdditionalItemsKeywordValidator
             return;
 
         if (instance.size() > itemsCount) {
-            final ValidationMessage.Builder msg
-                = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-                    .setKeyword(keyword)
-                    .setMessage("additional items are not permitted")
-                    .addInfo("max", itemsCount)
-                    .addInfo("found", instance.size());
+            final ValidationMessage.Builder msg = newMsg()
+                .setMessage("additional items are not permitted")
+                .addInfo("max", itemsCount).addInfo("found", instance.size());
             report.addMessage(msg.build());
         }
     }

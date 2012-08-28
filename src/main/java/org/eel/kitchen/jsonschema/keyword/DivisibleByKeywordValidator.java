@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
@@ -47,12 +46,10 @@ public final class DivisibleByKeywordValidator
         if (remainder == 0L)
             return;
 
-        final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-                .setKeyword(keyword).addInfo("value", instanceValue)
-                .addInfo("divisor", longValue)
-                .addInfo("remainder", remainder)
-                .setMessage("number is not a multiple of divisibleBy");
+        final ValidationMessage.Builder msg = newMsg()
+            .setMessage("number is not a multiple of divisibleBy")
+            .addInfo("value", instanceValue).addInfo("divisor", longValue)
+            .addInfo("remainder", remainder);
         report.addMessage(msg.build());
     }
 
@@ -70,12 +67,10 @@ public final class DivisibleByKeywordValidator
         if (remainder.compareTo(BigDecimal.ZERO) == 0)
             return;
 
-        final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-            .setKeyword(keyword).addInfo("value", instanceValue)
-            .addInfo("divisor", decimalValue)
-            .addInfo("remainder", remainder)
-            .setMessage("number is not a multiple of divisibleBy");
+        final ValidationMessage.Builder msg = newMsg()
+            .setMessage("number is not a multiple of divisibleBy")
+            .addInfo("value", instanceValue).addInfo("divisor", decimalValue)
+            .addInfo("remainder", remainder);
         report.addMessage(msg.build());
     }
 }

@@ -19,6 +19,8 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -102,6 +104,12 @@ public abstract class KeywordValidator
      */
     protected abstract void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance);
+
+    protected final ValidationMessage.Builder newMsg()
+    {
+        return new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+            .setKeyword(keyword);
+    }
 
     @Override
     public abstract String toString();
