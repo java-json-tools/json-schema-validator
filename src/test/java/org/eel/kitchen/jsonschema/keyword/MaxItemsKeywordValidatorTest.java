@@ -19,10 +19,10 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import java.io.IOException;
 
-public final class MaxiItemsKeywordValidatorTest
+public final class MaxItemsKeywordValidatorTest
     extends AbstractKeywordValidatorTest
 {
-    MaxiItemsKeywordValidatorTest()
+    MaxItemsKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
         super(MaxItemsKeywordValidator.class, "maxItems");
