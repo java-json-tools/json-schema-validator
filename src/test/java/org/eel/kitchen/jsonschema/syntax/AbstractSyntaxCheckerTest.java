@@ -91,11 +91,12 @@ public abstract class AbstractSyntaxCheckerTest
         checker.checkSyntax(msg, messages, node);
         assertEquals(messages.isEmpty(), valid);
 
-        if (!valid && expectedMessages != null) {
-            final ArrayNode array = JsonNodeFactory.instance.arrayNode();
-            for (final ValidationMessage message: messages)
-                array.add(message.toJsonNode());
-            assertEquals(array, expectedMessages);
-        }
+        if (valid)
+            return;
+
+        final ArrayNode array = JsonNodeFactory.instance.arrayNode();
+        for (final ValidationMessage message: messages)
+            array.add(message.toJsonNode());
+        assertEquals(array, expectedMessages);
     }
 }
