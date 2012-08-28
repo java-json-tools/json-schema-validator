@@ -76,7 +76,7 @@ public abstract class AbstractKeywordValidatorTest
         };
     }
 
-    @Test(dataProvider = "getData")
+    @Test(dataProvider = "getData", invocationCount = 20, threadPoolSize = 4)
     public final void testKeyword(final JsonNode schema, final JsonNode data,
         final boolean valid)
         throws InvocationTargetException, IllegalAccessException,
