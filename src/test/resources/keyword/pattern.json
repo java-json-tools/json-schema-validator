@@ -1,0 +1,26 @@
+[
+    {
+        "schema": { "pattern": "^[Aa]" },
+        "data": "Ah, so that's how it is",
+        "valid": true
+    },
+    {
+        "schema": { "pattern": "a" },
+        "data": "foobar",
+        "valid": true
+    },
+    {
+        "schema": { "pattern": "^[Aa]" },
+        "data": "foobar",
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "pattern",
+                "message": "ECMA 262 regex does not match input string",
+                "regex": "^[Aa]",
+                "string": "foobar"
+            }
+        ]
+    }
+]
