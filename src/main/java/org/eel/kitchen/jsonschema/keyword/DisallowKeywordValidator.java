@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
@@ -50,26 +51,37 @@ public final class DisallowKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (typeSet.contains(NodeType.getNodeType(instance))) {
-            report.addMessage("instance is of a disallowed primitive type");
+        final ValidationMessage.Builder msg;
+
+        final NodeType type = NodeType.getNodeType(instance);
+        if (typeSet.contains(type)) {
+            msg = newMsg().addInfo("found", type).addInfo("disallowed", typeSet)
+                .setMessage("instance type is not allowed");
+            report.addMessage(msg.build());
             return;
         }
+
+        if (schemas.isEmpty())
+            return;
 
         final SchemaContainer orig = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
 
-        ValidationReport subReport;
+        ValidationReport schemaReport;
         JsonValidator validator;
         SchemaNode subNode;
 
         for (final JsonNode schema: schemas) {
             subNode = new SchemaNode(orig, schema);
             validator = cache.getValidator(subNode);
-            subReport = report.copy();
-            validator.validate(context, subReport, instance);
+            schemaReport = report.copy();
+            validator.validate(context, schemaReport, instance);
             context.setContainer(orig);
-            if (subReport.isSuccess()) {
-                report.addMessage("instance matches a disallowed schema");
+            if (schemaReport.isSuccess()) {
+                // FIXME: the day we have schema locators, add it here
+                msg = newMsg().setMessage("instance is valid against a " +
+                    "disallowed schema");
+                report.addMessage(msg.build());
                 return;
             }
         }

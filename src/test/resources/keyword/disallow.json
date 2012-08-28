@@ -1,17 +1,35 @@
 [
     {
         "schema": {
-            "disallow": [ "integer", "string" ]
+            "disallow": [ "number", "string" ]
         },
         "data": "hello",
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "disallow",
+                "message": "instance type is not allowed",
+                "disallowed": [ "integer", "number", "string" ],
+                "found": "string"
+            }
+        ]
     },
     {
         "schema": {
             "disallow": [ "integer", "string" ]
         },
         "data": 91209309801928309809238091802938109823019806173269287,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "disallow",
+                "message": "instance type is not allowed",
+                "disallowed": [ "integer", "string" ],
+                "found": "integer"
+            }
+        ]
     },
     {
         "schema": {
@@ -30,7 +48,14 @@
             ]
         },
         "data": "hello",
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "disallow",
+                "message": "instance is valid against a disallowed schema"
+            }
+        ]
     },
     {
         "schema": {
@@ -42,7 +67,16 @@
             ]
         },
         "data": [],
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "disallow",
+                "message": "instance type is not allowed",
+                "disallowed": [ "array" ],
+                "found": "array"
+            }
+        ]
     },
     {
         "schema": {
