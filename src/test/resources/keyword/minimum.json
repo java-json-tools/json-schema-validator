@@ -4,7 +4,16 @@
             "minimum": 0
         },
         "data": -1,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minimum",
+                "message": "number is lower than the required minimum",
+                "minimum": 0,
+                "found": -1
+            }
+        ]
     },
     {
         "schema": {
@@ -19,7 +28,17 @@
             "exclusiveMinimum": true
         },
         "data": 0,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minimum",
+                "message": "number is not strictly greater than the required minimum",
+                "exclusiveMinimum": true,
+                "minimum": 0,
+                "found": 0
+            }
+        ]
     },
     {
         "schema": {
@@ -34,7 +53,16 @@
             "minimum": 98091239809812309812312.43298
         },
         "data": 98091239809812309812312.4329,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minimum",
+                "message": "number is lower than the required minimum",
+                "minimum": 98091239809812309812312.43298,
+                "found": 98091239809812309812312.4329
+            }
+        ]
     },
     {
         "schema": {
@@ -49,7 +77,17 @@
             "exclusiveMinimum": true
         },
         "data": 98091239809812309812312.43298,
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minimum",
+                "message": "number is not strictly greater than the required minimum",
+                "exclusiveMinimum": true,
+                "minimum": 98091239809812309812312.43298,
+                "found": 98091239809812309812312.43298
+            }
+        ]
     },
     {
         "schema": {

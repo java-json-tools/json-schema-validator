@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.math.BigDecimal;
@@ -51,14 +52,21 @@ public final class MaximumKeywordValidator
         if (instanceValue < longValue)
             return;
 
+        final ValidationMessage.Builder msg = newMsg()
+            .addInfo(keyword, number).addInfo("found", instance);
+
         if (instanceValue > longValue) {
-            report.addMessage("instance is greater than the required maximum");
+            msg.setMessage("number is greater than the required maximum");
+            report.addMessage(msg.build());
             return;
         }
 
-        if (exclusive)
-            report.addMessage("instance is not strictly lower than the "
-                + "required maximum");
+        if (!exclusive)
+            return;
+
+        msg.setMessage("number is not strictly lower than the required maximum")
+            .addInfo("exclusiveMaximum", nodeFactory.booleanNode(true));
+        report.addMessage(msg.build());
     }
 
     @Override
@@ -73,13 +81,20 @@ public final class MaximumKeywordValidator
         if (cmp < 0)
             return;
 
+        final ValidationMessage.Builder msg = newMsg().addInfo(keyword, number)
+            .addInfo("found", instance);
+
         if (cmp > 0) {
-            report.addMessage("instance is greater than the required maximum");
+            msg.setMessage("number is greater than the required maximum");
+            report.addMessage(msg.build());
             return;
         }
 
-        if (exclusive)
-            report.addMessage("instance is not strictly lower than the "
-                + "required maximum");
+        if (!exclusive)
+            return;
+
+        msg.setMessage("number is not strictly lower than the required maximum")
+            .addInfo("exclusiveMaximum", nodeFactory.booleanNode(true));
+        report.addMessage(msg.build());
     }
 }

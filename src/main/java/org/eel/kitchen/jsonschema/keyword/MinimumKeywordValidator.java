@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 
 import java.math.BigDecimal;
@@ -50,14 +51,22 @@ public final class MinimumKeywordValidator
         if (instanceValue > longValue)
             return;
 
+        final ValidationMessage.Builder msg = newMsg().addInfo(keyword, number)
+            .addInfo("found", instance);
+
         if (instanceValue < longValue) {
-            report.addMessage("instance is lower than the required minimum");
+            msg.setMessage("number is lower than the required minimum");
+            report.addMessage(msg.build());
             return;
         }
 
-        if (exclusive)
-            report.addMessage("instance is not strictly greater than the"
-                + " required minimum");
+        if (!exclusive)
+            return;
+
+        msg.addInfo("exclusiveMinimum", nodeFactory.booleanNode(true))
+            .setMessage("number is not strictly greater than the required " +
+                "minimum");
+        report.addMessage(msg.build());
     }
 
     @Override
@@ -72,13 +81,21 @@ public final class MinimumKeywordValidator
         if (cmp > 0)
             return;
 
+        final ValidationMessage.Builder msg = newMsg().addInfo(keyword, number)
+            .addInfo("found", instance);
+
         if (cmp < 0) {
-            report.addMessage("instance is lower than the required minimum");
+            msg.setMessage("number is lower than the required minimum");
+            report.addMessage(msg.build());
             return;
         }
 
-        if (exclusive)
-            report.addMessage("instance is not strictly greater than the"
-                + " required minimum");
+        if (!exclusive)
+            return;
+
+        msg.addInfo("exclusiveMinimum", nodeFactory.booleanNode(true))
+            .setMessage("number is not strictly greater than the required " +
+                "minimum");
+        report.addMessage(msg.build());
     }
 }
