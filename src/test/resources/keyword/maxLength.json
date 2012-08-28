@@ -1,0 +1,26 @@
+[
+    {
+        "schema": { "maxLength": 4 },
+        "data": "foo",
+        "valid": true
+    },
+    {
+        "schema": { "maxLength": 4 },
+        "data": "foos",
+        "valid": true
+    },
+    {
+        "schema": { "maxItems": 4 },
+        "data": "foobar",
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "maxLength",
+                "message": "string is too long",
+                "maxLength": 4,
+                "found": 6
+            }
+        ]
+    }
+]
