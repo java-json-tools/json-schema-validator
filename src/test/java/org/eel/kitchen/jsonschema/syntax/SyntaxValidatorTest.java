@@ -74,7 +74,8 @@ public final class SyntaxValidatorTest
 
         validator.validate(messages, instance);
 
-        verify(checker1).checkSyntax(messages, instance);
+        verify(checker1).checkSyntax(any(ValidationMessage.Builder.class),
+            eq(messages), eq(instance));
     }
 
     @Test
@@ -90,8 +91,11 @@ public final class SyntaxValidatorTest
 
         validator.validate(messages, instance);
 
-        verify(checker1).checkSyntax(messages, instance);
-        verify(checker2, never()).checkSyntax(messages, instance);
+        verify(checker1).checkSyntax(any(ValidationMessage.Builder.class),
+            eq(messages), eq(instance));
+        verify(checker2, never())
+            .checkSyntax(any(ValidationMessage.Builder.class), eq(messages),
+                eq(instance));
     }
 
     @Test

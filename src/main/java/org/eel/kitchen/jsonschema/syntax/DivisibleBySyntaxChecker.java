@@ -49,8 +49,8 @@ public final class DivisibleBySyntaxChecker
     }
 
     @Override
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final BigDecimal decimal = schema.get(keyword).decimalValue();
 

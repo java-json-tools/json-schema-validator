@@ -43,8 +43,8 @@ public final class ExclusiveMinimumSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         if (schema.has("minimum"))
             return;

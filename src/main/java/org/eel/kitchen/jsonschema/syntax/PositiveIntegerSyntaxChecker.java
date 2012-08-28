@@ -40,8 +40,8 @@ public class PositiveIntegerSyntaxChecker
     }
 
     @Override
-    final void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    final void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
         msg.addInfo("found", node);

@@ -43,13 +43,13 @@ public class TypeKeywordSyntaxChecker
     }
 
     @Override
-    final void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    final void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
 
         if (!node.isArray()) {
-            validateOne(messages, node);
+            validateOne(msg, messages, node);
             return;
         }
 
@@ -62,11 +62,12 @@ public class TypeKeywordSyntaxChecker
                 messages.add(msg.build());
                 return;
             }
-            validateOne(messages, value);
+            validateOne(msg, messages, value);
         }
     }
 
-    private void validateOne(final List<ValidationMessage> messages,
+    private void validateOne(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages,
         final JsonNode value)
     {
         // Cannot happen in the event of single property validation (will
@@ -80,7 +81,7 @@ public class TypeKeywordSyntaxChecker
 
         // See above
         if (!value.isTextual()) {
-            msg.addInfo("elementType", NodeType.getNodeType(value))
+            msg.addInfo("found", NodeType.getNodeType(value))
                 .setMessage("array element is neither a primitive type nor " +
                 "a schema (neither a string nor an object)");
             messages.add(msg.build());
@@ -96,7 +97,7 @@ public class TypeKeywordSyntaxChecker
         if (NodeType.fromName(s) != null)
             return;
 
-        msg.addInfo("validValues", EnumSet.allOf(NodeType.class))
+        msg.addInfo("validSimpleTypes", EnumSet.allOf(NodeType.class))
             .addInfo("found", s).setMessage("unknow simple type");
         messages.add(msg.build());
     }

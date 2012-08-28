@@ -45,8 +45,8 @@ public final class PropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final Map<String, JsonNode> map
             = JacksonUtils.nodeToMap(schema.get(keyword));
@@ -60,7 +60,7 @@ public final class PropertiesSyntaxChecker
             type = NodeType.getNodeType(entry.getValue());
             if (!value.isObject()) {
                 msg.setMessage("value is not a JSON Schema (not an object)")
-                    .addInfo("valueType", type);
+                    .addInfo("found", type);
                 messages.add(msg.build());
                 continue;
             }

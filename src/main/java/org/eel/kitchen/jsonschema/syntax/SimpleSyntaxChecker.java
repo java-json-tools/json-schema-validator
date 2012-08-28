@@ -28,7 +28,7 @@ import java.util.List;
  * Simple type-only syntax checker
  */
 public class SimpleSyntaxChecker
-    extends SyntaxChecker
+    implements SyntaxChecker
 {
     protected final String keyword;
     private final EnumSet<NodeType> validTypes;
@@ -38,31 +38,26 @@ public class SimpleSyntaxChecker
     {
         this.keyword = keyword;
         validTypes = EnumSet.of(type, types);
-        msg.setKeyword(keyword);
     }
 
     @Override
-    public final void checkSyntax(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    public final void checkSyntax(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
 
-        // Must be done: syntax checkers are uniquely instantiated!
-        // FIXME: bug? But how to do better?
-        msg.clearInfo();
-
         if (!validTypes.contains(nodeType)) {
             msg.addInfo("expected", validTypes).addInfo("found", nodeType)
-                .setMessage("keyword is of wrong type");
+                .setKeyword(keyword).setMessage("keyword is of wrong type");
             messages.add(msg.build());
             return;
         }
 
-        checkValue(messages, schema);
+        checkValue(msg, messages, schema);
     }
 
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
     }
 }

@@ -45,8 +45,8 @@ public final class DependenciesSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         /*
          * At that point, we know this is an array. Build a map out of it and
@@ -56,7 +56,7 @@ public final class DependenciesSyntaxChecker
             = JacksonUtils.nodeToMap(schema.get(keyword));
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
-            analyzeDependency(entry, messages);
+            analyzeDependency(entry, msg, messages);
     }
 
     /**
@@ -66,6 +66,7 @@ public final class DependenciesSyntaxChecker
      * @param messages the validation message list
      */
     private void analyzeDependency(final Map.Entry<String, JsonNode> entry,
+        final ValidationMessage.Builder msg,
         final List<ValidationMessage> messages)
     {
         /**

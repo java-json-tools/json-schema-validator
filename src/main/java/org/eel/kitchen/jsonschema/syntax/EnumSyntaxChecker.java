@@ -44,8 +44,8 @@ public final class EnumSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final JsonNode enumNode = schema.get(keyword);
 

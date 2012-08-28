@@ -44,8 +44,8 @@ public final class PatternSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final String value = schema.get(keyword).textValue();
         if (RhinoHelper.regexIsValid(value))

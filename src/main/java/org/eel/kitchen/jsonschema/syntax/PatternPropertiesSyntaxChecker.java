@@ -46,8 +46,8 @@ public final class PatternPropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode schema)
     {
         final Map<String, JsonNode> properties
             = JacksonUtils.nodeToMap(schema.get(keyword));

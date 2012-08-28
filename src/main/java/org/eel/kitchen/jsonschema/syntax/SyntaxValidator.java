@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
@@ -65,7 +66,12 @@ public final class SyntaxValidator
 
         keywords.retainAll(checkers.keySet());
 
-        for (final String keyword: keywords)
-            checkers.get(keyword).checkSyntax(messages, schema);
+        ValidationMessage.Builder msg;
+
+        for (final String keyword: keywords) {
+            msg = new ValidationMessage.Builder(ValidationDomain.SYNTAX)
+                .setKeyword(keyword);
+            checkers.get(keyword).checkSyntax(msg, messages, schema);
+        }
     }
 }
