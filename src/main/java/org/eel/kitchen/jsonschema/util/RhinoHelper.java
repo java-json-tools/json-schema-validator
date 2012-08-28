@@ -106,10 +106,10 @@ public final class RhinoHelper
     public static boolean regexIsValid(final String regex)
     {
         final Context context = Context.enter();
-        final Scriptable scope = context.newObject(sharedScope);
-        scope.setPrototype(sharedScope);
-        scope.setParentScope(null);
         try {
+            final Scriptable scope = context.newObject(sharedScope);
+            scope.setPrototype(sharedScope);
+            scope.setParentScope(null);
             return (Boolean) regexIsValid.call(context, scope, scope,
                 new Object[]{ regex });
         } finally {
@@ -136,10 +136,10 @@ public final class RhinoHelper
         final String input)
     {
         final Context context = Context.enter();
-        final Scriptable scope = context.newObject(sharedScope);
-        scope.setPrototype(sharedScope);
-        scope.setParentScope(null);
         try {
+            final Scriptable scope = context.newObject(sharedScope);
+            scope.setPrototype(sharedScope);
+            scope.setParentScope(null);
             return (Boolean) regMatch.call(context, scope, scope,
                 new Object[]{ regex, input });
         } finally {
