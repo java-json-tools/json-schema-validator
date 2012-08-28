@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
@@ -44,32 +45,48 @@ public final class TypeKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (typeSet.contains(NodeType.getNodeType(instance)))
+        final NodeType type = NodeType.getNodeType(instance);
+        if (typeSet.contains(type))
             return;
 
-        final ValidationReport typeReport = report.copy();
+        final ValidationReport schemaReport = report.copy();
 
-        typeReport.addMessage("instance does not match any allowed primitive "
-            + "type");
+        if (!schemas.isEmpty()) {
+            trySchemas(context, schemaReport, instance);
+            if (schemaReport.isSuccess())
+                return;
+        }
 
+        final ValidationMessage.Builder msg = newMsg().addInfo("found", type)
+            .addInfo("allowed", typeSet)
+            .setMessage("instance does not match any allowed primitive type");
+
+        report.addMessage(msg.build());
+        report.mergeWith(schemaReport);
+    }
+
+    private void trySchemas(final ValidationContext context,
+        final ValidationReport schemaReport, final JsonNode instance)
+    {
         final SchemaContainer orig = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
+        final ValidationReport report = schemaReport.copy();
 
-        ValidationReport tempReport;
+        ValidationReport subReport;
         JsonValidator validator;
         SchemaNode schemaNode;
 
         for (final JsonNode schema: schemas) {
-            tempReport = report.copy();
+            subReport = report.copy();
             schemaNode = new SchemaNode(orig, schema);
             validator = cache.getValidator(schemaNode);
-            validator.validate(context, tempReport, instance);
+            validator.validate(context, subReport, instance);
             context.setContainer(orig);
-            if (tempReport.isSuccess())
+            if (subReport.isSuccess())
                 return;
-            typeReport.mergeWith(tempReport);
+            report.mergeWith(subReport);
         }
 
-        report.mergeWith(typeReport);
+        schemaReport.mergeWith(report);
     }
 }
