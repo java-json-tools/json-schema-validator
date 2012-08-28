@@ -48,7 +48,7 @@ public class SimpleSyntaxChecker
 
         if (!validTypes.contains(nodeType)) {
             msg.addInfo("expected", validTypes).addInfo("found", nodeType)
-                .setKeyword(keyword).setMessage("keyword is of wrong type");
+                .setKeyword(keyword).setMessage("incorrect type for value");
             messages.add(msg.build());
             return;
         }

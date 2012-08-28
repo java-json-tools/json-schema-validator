@@ -15,7 +15,16 @@
         "schema": {
             "dependencies": false
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "boolean"
+            }
+        ]
     },
     {
         "schema": {

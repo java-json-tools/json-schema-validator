@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.ValidationDomain;
 import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
@@ -36,10 +38,9 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractSyntaxCheckerTest
 {
+    private final String keyword;
     private final JsonNode testData;
     private final SyntaxChecker checker;
-    private final ValidationMessage.Builder msg
-        = new ValidationMessage.Builder(ValidationDomain.SYNTAX);
 
     private List<ValidationMessage> messages;
 
@@ -50,7 +51,7 @@ public abstract class AbstractSyntaxCheckerTest
         final String input = "/syntax/" + keyword + ".json";
         testData = JsonLoader.fromResource(input);
         this.checker = checker;
-        msg.setKeyword(keyword);
+        this.keyword = keyword;
     }
 
     @BeforeMethod
@@ -74,14 +75,26 @@ public abstract class AbstractSyntaxCheckerTest
     {
         return new Object[] {
             node.get("schema"),
-            node.get("valid").booleanValue()
+            node.get("valid").booleanValue(),
+            node.get("messages")
         };
     }
 
     @Test(dataProvider = "getData")
-    public void testChecker(final JsonNode node, final boolean valid)
+    public void testChecker(final JsonNode node, final boolean valid,
+        final JsonNode expectedMessages)
     {
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.SYNTAX)
+                .setKeyword(keyword);
         checker.checkSyntax(msg, messages, node);
         assertEquals(messages.isEmpty(), valid);
+
+        if (!valid && expectedMessages != null) {
+            final ArrayNode array = JsonNodeFactory.instance.arrayNode();
+            for (final ValidationMessage message: messages)
+                array.add(message.toJsonNode());
+            assertEquals(array, expectedMessages);
+        }
     }
 }
