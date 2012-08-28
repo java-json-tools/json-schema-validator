@@ -15,12 +15,29 @@
         "schema": {
             "uri": false
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "uri",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "boolean"
+            }
+        ]
     },
     {
         "schema": {
             "uri": "+23:"
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "uri",
+                "message": "not a valid URI",
+                "found": "+23:"
+            }
+        ]
     }
 ]

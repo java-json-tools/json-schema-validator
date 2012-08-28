@@ -36,6 +36,8 @@ public class TypeKeywordSyntaxChecker
     extends SimpleSyntaxChecker
 {
     private static final String ANY = "any";
+    private static final EnumSet<NodeType> VALID_TYPE_ARRAY_ELEMENTS
+        = EnumSet.of(NodeType.OBJECT, NodeType.STRING);
 
     public TypeKeywordSyntaxChecker(final String keyword)
     {
@@ -55,35 +57,32 @@ public class TypeKeywordSyntaxChecker
 
         final Set<JsonNode> set = new HashSet<JsonNode>();
 
+        int index = 0;
         for (final JsonNode value: node) {
+            msg.clearInfo().addInfo("index", index);
+            index++;
             if (!set.add(value)) {
-                msg.setMessage("duplicate value found in array (the spec " +
-                    "forbids that)");
+                msg.setMessage("duplicate value found in array");
                 messages.add(msg.build());
-                return;
+                continue;
             }
             validateOne(msg, messages, value);
         }
     }
 
-    private void validateOne(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages,
-        final JsonNode value)
+    private static void validateOne(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode value)
     {
         // Cannot happen in the event of single property validation (will
         // always be a string)
         if (value.isObject())
             return;
 
-        // Clear information here, other undesired error information may leak
-        // otherwise (?)
-        msg.clearInfo();
-
         // See above
         if (!value.isTextual()) {
             msg.addInfo("found", NodeType.getNodeType(value))
-                .setMessage("array element is neither a primitive type nor " +
-                "a schema (neither a string nor an object)");
+                .setMessage("array element has incorrect type")
+                .addInfo("expected", VALID_TYPE_ARRAY_ELEMENTS);
             messages.add(msg.build());
             return;
         }
@@ -97,8 +96,8 @@ public class TypeKeywordSyntaxChecker
         if (NodeType.fromName(s) != null)
             return;
 
-        msg.addInfo("validSimpleTypes", EnumSet.allOf(NodeType.class))
-            .addInfo("found", s).setMessage("unknow simple type");
+        msg.addInfo("possible-values", EnumSet.allOf(NodeType.class))
+            .addInfo("found", s).setMessage("unknown simple type");
         messages.add(msg.build());
     }
 }

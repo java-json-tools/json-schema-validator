@@ -25,6 +25,6 @@ public final class TypeKeywordSyntaxCheckerTest
     TypeKeywordSyntaxCheckerTest()
         throws IOException
     {
-        super("type-keyword", new TypeKeywordSyntaxChecker("k"));
+        super("k", "type-keyword", new TypeKeywordSyntaxChecker("k"));
     }
 }

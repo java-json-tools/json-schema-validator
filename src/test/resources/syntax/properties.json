@@ -14,7 +14,16 @@
         "schema": {
             "properties": null
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "properties",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "null"
+            }
+        ]
     },
     {
         "schema": {
@@ -25,6 +34,24 @@
                 }
             }
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "properties",
+                "message": "key value has incorrect type",
+                "key": "p1",
+                "expected": "object",
+                "found": "integer"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "properties",
+                "message": "\"required\" attribute has incorrect type",
+                "key": "p2",
+                "expected": "boolean",
+                "found": "string"
+            }
+        ]
     }
 ]

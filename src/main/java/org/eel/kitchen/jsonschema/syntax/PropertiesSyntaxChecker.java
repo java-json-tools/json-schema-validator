@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * Syntax validator for the {@code properties} keyword
@@ -48,8 +49,8 @@ public final class PropertiesSyntaxChecker
     void checkValue(final ValidationMessage.Builder msg,
         final List<ValidationMessage> messages, final JsonNode schema)
     {
-        final Map<String, JsonNode> map
-            = JacksonUtils.nodeToMap(schema.get(keyword));
+        final SortedMap<String, JsonNode> map
+            = JacksonUtils.nodeToTreeMap(schema.get(keyword));
 
         NodeType type;
         JsonNode value;
@@ -59,7 +60,8 @@ public final class PropertiesSyntaxChecker
             value = entry.getValue();
             type = NodeType.getNodeType(entry.getValue());
             if (!value.isObject()) {
-                msg.setMessage("value is not a JSON Schema (not an object)")
+                msg.setMessage("key value has incorrect type")
+                    .addInfo("expected", NodeType.OBJECT)
                     .addInfo("found", type);
                 messages.add(msg.build());
                 continue;
@@ -69,8 +71,9 @@ public final class PropertiesSyntaxChecker
             type = NodeType.getNodeType(value.get("required"));
             if (type == NodeType.BOOLEAN)
                 continue;
-            msg.setMessage("\"required\" attribute in associated schema is " +
-                "not a boolean").addInfo("found", type);
+            msg.setMessage("\"required\" attribute has incorrect type")
+                .addInfo("expected", NodeType.BOOLEAN)
+                .addInfo("found", type);
             messages.add(msg.build());
         }
     }
