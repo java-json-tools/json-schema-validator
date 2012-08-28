@@ -17,6 +17,10 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -188,5 +192,20 @@ public final class ValidationReport
                 builder.add(path + ": " + msg.getMessage());
 
         return builder.build();
+    }
+
+    public JsonNode asJsonNode()
+    {
+        final ObjectNode ret = JsonNodeFactory.instance.objectNode();
+        ArrayNode node;
+
+        for (final JsonPointer ptr: msgMap.keySet()) {
+            node = JsonNodeFactory.instance.arrayNode();
+            for (final ValidationMessage message: msgMap.get(ptr))
+                node.add(message.toJsonNode());
+            ret.put(ptr.toString(), node);
+        }
+
+        return ret;
     }
 }

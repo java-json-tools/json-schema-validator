@@ -13,7 +13,16 @@
             "additionalItems": false
         },
         "data": [ 1, 2, 3, 4 ],
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "additionalItems",
+                "message": "additional items are not permitted",
+                "max": 3,
+                "found": 4
+            }
+        ]
     },
     {
         "schema": {

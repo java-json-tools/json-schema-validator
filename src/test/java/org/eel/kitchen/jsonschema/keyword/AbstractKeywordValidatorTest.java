@@ -72,13 +72,14 @@ public abstract class AbstractKeywordValidatorTest
         return new Object[] {
             node.get("schema"),
             node.get("data"),
-            node.get("valid").booleanValue()
+            node.get("valid").booleanValue(),
+            node.get("messages")
         };
     }
 
     @Test(dataProvider = "getData", invocationCount = 20, threadPoolSize = 4)
     public final void testKeyword(final JsonNode schema, final JsonNode data,
-        final boolean valid)
+        final boolean valid, final JsonNode messages)
         throws InvocationTargetException, IllegalAccessException,
         InstantiationException, JsonSchemaException
     {
@@ -90,5 +91,31 @@ public abstract class AbstractKeywordValidatorTest
         validator.validate(context, report, data);
 
         assertEquals(report.isSuccess(), valid);
+
+        if (valid)
+            return;
+
+        if (messages == null)
+            return;
+
+        final JsonNode[] actual = toArray(report.asJsonNode().get(""));
+        final JsonNode[] expected = toArray(messages);
+
+        assertEqualsNoOrder(actual, expected);
+    }
+
+    private static JsonNode[] toArray(final JsonNode node)
+    {
+        final int size = node.size();
+        final JsonNode[] ret = new JsonNode[size];
+
+        int idx = 0;
+
+        for (final JsonNode element: node) {
+            ret[idx] = element;
+            idx++;
+        }
+
+        return ret;
     }
 }
