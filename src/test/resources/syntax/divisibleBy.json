@@ -9,12 +9,43 @@
         "schema": {
             "divisibleBy": 0.0
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "divisibleBy",
+                "message": "divisibleBy is not strictly greater than 0",
+                "value": 0.0
+            }
+        ]
     },
     {
         "schema": {
             "divisibleBy": "anything"
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "divisibleBy",
+                "message": "incorrect type for value",
+                "expected": [ "integer", "number" ],
+                "found": "string"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "divisibleBy": -2
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "divisibleBy",
+                "message": "divisibleBy is not strictly greater than 0",
+                "value": -2
+            }
+        ]
     }
 ]

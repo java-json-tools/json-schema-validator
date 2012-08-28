@@ -52,13 +52,13 @@ public final class DivisibleBySyntaxChecker
     void checkValue(final ValidationMessage.Builder msg,
         final List<ValidationMessage> messages, final JsonNode schema)
     {
-        final BigDecimal decimal = schema.get(keyword).decimalValue();
+        final JsonNode node = schema.get(keyword);
 
-        if (decimal.compareTo(ZERO) > 0)
+        if (node.decimalValue().compareTo(ZERO) > 0)
             return;
 
         msg.setMessage("divisibleBy is not strictly greater than 0")
-            .addInfo("value", decimal);
+            .addInfo("value", node);
 
         messages.add(msg.build());
     }
