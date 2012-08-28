@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.main.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -37,8 +38,12 @@ public final class MinItemsKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (instance.size() < intValue)
-            report.addMessage("array instance has less than minItems " +
-                "elements");
+        if (instance.size() >= intValue)
+            return;
+
+        final ValidationMessage.Builder msg = newMsg()
+            .addInfo(keyword, intValue).addInfo("found", instance.size())
+            .setMessage("not enough elements in array");
+        report.addMessage(msg.build());
     }
 }

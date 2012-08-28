@@ -1,0 +1,26 @@
+[
+    {
+        "schema": { "minItems": 4 },
+        "data": [ 1, 2, 3 ],
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minItems",
+                "message": "not enough elements in array",
+                "minItems": 4,
+                "found": 3
+            }
+        ]
+    },
+    {
+        "schema": { "minItems": 4 },
+        "data": [ 1, 2, 3, 4 ],
+        "valid": true
+    },
+    {
+        "schema": { "minItems": 4 },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    }
+]
