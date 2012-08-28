@@ -51,8 +51,8 @@ public final class PatternSyntaxChecker
         if (RhinoHelper.regexIsValid(value))
             return;
 
-        msg.setMessage("value is not a valid ECMA 262 regex")
-            .addInfo("value", value);
+        msg.setMessage("pattern is not a valid ECMA 262 regex")
+            .addInfo("pattern", value);
 
         messages.add(msg.build());
     }

@@ -69,8 +69,8 @@ public final class PropertiesSyntaxChecker
             type = NodeType.getNodeType(value.get("required"));
             if (type == NodeType.BOOLEAN)
                 continue;
-            msg.setMessage("\"required\" attribute in schema is not a boolean")
-                .addInfo("actualType", type);
+            msg.setMessage("\"required\" attribute in associated schema is " +
+                "not a boolean").addInfo("found", type);
             messages.add(msg.build());
         }
     }

@@ -42,7 +42,7 @@ public final class URISyntaxChecker
         try {
             new URI(value);
         } catch (URISyntaxException ignored) {
-            msg.setMessage("not a valid URI").addInfo("value", value);
+            msg.setMessage("not a valid URI").addInfo("found", value);
             messages.add(msg.build());
         }
     }

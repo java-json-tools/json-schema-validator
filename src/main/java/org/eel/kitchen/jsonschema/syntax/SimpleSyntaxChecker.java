@@ -46,8 +46,13 @@ public class SimpleSyntaxChecker
         final JsonNode schema)
     {
         final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
+
+        // Must be done: syntax checkers are uniquely instantiated!
+        // FIXME: bug? But how to do better?
+        msg.clearInfo();
+
         if (!validTypes.contains(nodeType)) {
-            msg.addInfo("expected", validTypes)
+            msg.addInfo("expected", validTypes).addInfo("found", nodeType)
                 .setMessage("keyword is of wrong type");
             messages.add(msg.build());
             return;

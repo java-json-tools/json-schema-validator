@@ -59,7 +59,7 @@ public class ArrayChildrenSyntaxChecker
             if (!childrenTypes.contains(type)) {
                 msg.setMessage("incorrect type for array element")
                     .addInfo("expected", childrenTypes)
-                    .addInfo("actual", type).addInfo("index", index);
+                    .addInfo("found", type).addInfo("index", index);
                 messages.add(msg.build());
             }
             index++;

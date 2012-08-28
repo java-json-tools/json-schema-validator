@@ -58,7 +58,7 @@ public final class PatternPropertiesSyntaxChecker
         for (final Map.Entry<String, JsonNode> entry: properties.entrySet()) {
             key = entry.getKey();
             value = entry.getValue();
-            msg.addInfo("key", key);
+            msg.clearInfo().addInfo("key", key);
             if (!RhinoHelper.regexIsValid(entry.getKey())) {
                 msg.setMessage("key is not a valid ECMA 262 regex");
                 messages.add(msg.build());
@@ -69,7 +69,7 @@ public final class PatternPropertiesSyntaxChecker
             if (value.isObject())
                 continue;
             msg.setMessage("associated value is not a JSON Schema (not an " +
-                "object");
+                "object)").addInfo("found", NodeType.getNodeType(value));
             messages.add(msg.build());
         }
     }

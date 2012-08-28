@@ -44,7 +44,7 @@ public class PositiveIntegerSyntaxChecker
         final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
-        msg.addInfo("value", node);
+        msg.addInfo("found", node);
 
         if (!node.canConvertToInt()) {
             msg.setMessage("integer value is too large");
