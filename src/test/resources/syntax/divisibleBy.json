@@ -16,5 +16,11 @@
             "divisibleBy": "anything"
         },
         "valid": false
+    },
+    {
+        "schema": {
+            "divisibleBy": -2
+        },
+        "valid": false
     }
 ]

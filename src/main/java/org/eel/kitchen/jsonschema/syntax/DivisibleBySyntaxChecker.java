@@ -48,7 +48,7 @@ public final class DivisibleBySyntaxChecker
     void checkValue(final List<String> messages, final JsonNode schema)
     {
         final BigDecimal decimal = schema.get(keyword).decimalValue();
-        if (BigDecimal.ZERO.compareTo(decimal) == 0)
-            messages.add("divisibleBy is 0");
+        if (decimal.compareTo(BigDecimal.ZERO) <= 0)
+            messages.add("divisibleBy must be strictly greater than 0");
     }
 }
