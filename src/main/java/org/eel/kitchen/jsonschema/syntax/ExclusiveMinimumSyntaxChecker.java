@@ -49,7 +49,7 @@ public final class ExclusiveMinimumSyntaxChecker
         if (schema.has("minimum"))
             return;
 
-        messages.add(msg.setMessage(keyword + " requires \"minimum\","
-            + " but the latter was not found").build());
+        messages.add(msg.setMessage(keyword + " must be paired with minimum")
+            .build());
     }
 }

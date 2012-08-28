@@ -49,7 +49,7 @@ public final class ExclusiveMaximumSyntaxChecker
         if (schema.has("maximum"))
             return;
 
-        messages.add(msg.setMessage(keyword + " requires \"maximum\","
-            + " but the latter was not found").build());
+        messages.add(msg.setMessage(keyword + " must be paired with maximum")
+            .build());
     }
 }

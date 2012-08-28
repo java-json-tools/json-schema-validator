@@ -11,12 +11,28 @@
             "minimum": 3,
             "exclusiveMinimum": "no"
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "exclusiveMinimum",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "string"
+            }
+        ]
     },
     {
         "schema": {
             "exclusiveMinimum": true
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "exclusiveMinimum",
+                "message": "exclusiveMinimum must be paired with minimum"
+            }
+        ]
     }
 ]

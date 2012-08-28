@@ -11,12 +11,28 @@
             "maximum": 3,
             "exclusiveMaximum": "no"
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "exclusiveMaximum",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "string"
+            }
+        ]
     },
     {
         "schema": {
             "exclusiveMaximum": true
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "exclusiveMaximum",
+                "message": "exclusiveMaximum must be paired with maximum"
+            }
+        ]
     }
 ]

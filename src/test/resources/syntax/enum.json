@@ -3,19 +3,42 @@
         "schema": {
             "enum": []
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "enum",
+                "message": "an enum array must have at least one element"
+            }
+        ]
     },
     {
         "schema": {
             "enum": 1
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "enum",
+                "message": "incorrect type for value",
+                "expected": [ "array" ],
+                "found": "integer"
+            }
+        ]
     },
     {
         "schema": {
             "enum": [ 1, 1 ]
         },
-        "valid": false
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "enum",
+                "message": "elements in the array are not unique"
+            }
+        ]
     },
     {
         "schema": {
