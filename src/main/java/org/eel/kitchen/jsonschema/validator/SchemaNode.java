@@ -59,6 +59,12 @@ public final class SchemaNode
     }
 
     @Override
+    public String toString()
+    {
+        return "locator: " + container.getLocator() + "; schema: " + node;
+    }
+
+    @Override
     public boolean equals(final Object obj)
     {
         if (obj == null)

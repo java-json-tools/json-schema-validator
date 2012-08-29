@@ -126,6 +126,12 @@ public final class SchemaContainer
         return locator.equals(other.locator);
     }
 
+    @Override
+    public String toString()
+    {
+        return "locator: " + locator;
+    }
+
     /**
      * Strip an object instance off its {@code id} member, if any
      *

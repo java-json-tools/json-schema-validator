@@ -54,4 +54,10 @@ public final class ValidationContext
     {
         this.container = container;
     }
+
+    @Override
+    public String toString()
+    {
+        return "container: " + container;
+    }
 }
