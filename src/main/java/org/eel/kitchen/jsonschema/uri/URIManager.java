@@ -25,6 +25,8 @@ import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 
@@ -183,11 +185,17 @@ public class URIManager
 
         final String scheme = target.getScheme();
 
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
+            .setKeyword("N/A"); // FIXME...
+
         final URIDownloader downloader = downloaders.get(scheme);
 
-        if (downloader == null)
-            throw new JsonSchemaException("cannot handle scheme \"" +  scheme
-                + "\" (requested URI: " + target + ')');
+        if (downloader == null) {
+            msg.setMessage("cannot handle scheme").addInfo("scheme", scheme)
+                .addInfo("uri", target);
+            throw new JsonSchemaException(msg.build());
+        }
 
         final InputStream in;
 

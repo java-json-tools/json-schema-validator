@@ -20,6 +20,8 @@ package org.eel.kitchen.jsonschema.uri;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -64,21 +66,22 @@ public final class URIManagerTest
     public void shouldBeAbleToUnregisterScheme()
         throws IOException, JsonSchemaException
     {
+        final URI uri = URI.create("foo://bar");
         final InputStream sampleStream
             = new ByteArrayInputStream("{}".getBytes());
 
         when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
 
         manager.registerScheme("foo", mock);
-        manager.getContent(URI.create("foo://bar"));
+        manager.getContent(uri);
 
         manager.unregisterScheme("foo");
+
         try {
-            manager.getContent(URI.create("foo://bar"));
+            manager.getContent(uri);
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "cannot handle scheme \"foo\""
-                + " (requested URI: foo://bar)");
+            checkMsg(e, uri);
         }
     }
     @Test
@@ -142,12 +145,12 @@ public final class URIManagerTest
     public void unhandledSchemeShouldBeReportedAsSuch()
     {
         manager.registerScheme("foo", mock);
+        final URI uri = URI.create("bar://baz");
 
         try {
-            manager.getContent(URI.create("bar://baz"));
+            manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "cannot handle scheme \"bar\" "
-                + "(requested URI: bar://baz)");
+            checkMsg(e, uri);
         }
     }
 
@@ -241,5 +244,16 @@ public final class URIManagerTest
          * Finally, ensure the correctness of the downloaded content.
          */
         assertEquals(actual, expected);
+    }
+
+    private static void checkMsg(final JsonSchemaException e, final URI uri)
+    {
+        final ValidationMessage msg = e.getValidationMessage();
+        final String scheme = uri.getScheme();
+
+        assertSame(msg.getDomain(), ValidationDomain.REF_RESOLVING);
+        assertEquals(msg.getKeyword(), "N/A"); // FIXME...
+        assertEquals(msg.getInfo("scheme").textValue(), scheme);
+        assertEquals(msg.getInfo("uri").textValue(), uri.toString());
     }
 }
