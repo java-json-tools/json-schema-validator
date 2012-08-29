@@ -93,6 +93,8 @@ public final class JsonRef
      */
     private final JsonFragment fragment;
 
+    private final int hashCode;
+
     /**
      * The main constructor, which is private by design
      *
@@ -107,6 +109,7 @@ public final class JsonRef
             locator = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
             this.uri = uri.getFragment() == null ? locator : uri;
             fragment = JsonFragment.fromFragment(this.uri.getFragment());
+            hashCode = uri.hashCode();
         } catch (URISyntaxException e) {
             throw new RuntimeException("WTF??", e);
         }
@@ -252,7 +255,7 @@ public final class JsonRef
     @Override
     public int hashCode()
     {
-        return uri.hashCode();
+        return hashCode;
     }
 
     @Override
