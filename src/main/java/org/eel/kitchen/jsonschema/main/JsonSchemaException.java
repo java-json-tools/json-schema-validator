@@ -32,6 +32,13 @@ public final class JsonSchemaException
             .setMessage(message).build();
     }
 
+    public JsonSchemaException(final ValidationMessage message,
+        final Exception e)
+    {
+        super(message.getMessage(), e);
+        validationMessage = message;
+    }
+
     public JsonSchemaException(final ValidationMessage validationMessage)
     {
         this.validationMessage = validationMessage;

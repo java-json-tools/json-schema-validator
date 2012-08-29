@@ -20,6 +20,8 @@ package org.eel.kitchen.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -147,7 +149,10 @@ public final class JsonRef
         try {
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
-            throw new JsonSchemaException("invalid URI: " + s, e);
+            final ValidationMessage.Builder msg
+                = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
+                .setKeyword("N/A").addInfo("uri", s).setMessage("invalid URI");
+            throw new JsonSchemaException(msg.build(), e);
         }
     }
 
