@@ -11,6 +11,15 @@ more details. The old, still maintained version is <b>0.4.1</b>.
 [here](http://fge.github.com/json-schema-validator/), which contains code
 samples.</p>
 
+<h2>0.6 and validation messages: feedback requested</h2>
+
+This is the major new feature of what will be the 0.6 series. Work is well
+underway, however I'd appreciate feedback on it. The page documenting this is
+currently
+[here](https://github.com/fge/json-schema-validator/wiki/Validation-messages)
+(not complete as of this writing -- in particular, message collection from the
+report is possible via the API but not documented yet).
+
 <h2>What it is</h2>
 
 <p>This is an implementation of the [JSON Schema
