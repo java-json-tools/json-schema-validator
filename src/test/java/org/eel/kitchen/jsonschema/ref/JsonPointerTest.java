@@ -19,6 +19,8 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -133,6 +135,22 @@ public final class JsonPointerTest
             fail(message);
         } catch (JsonSchemaException e) {
             assertEquals(e.getMessage(), errmsg);
+        }
+    }
+
+    private static void checkMessage(final ValidationMessage message,
+        final JsonNode info)
+    {
+        assertSame(message.getDomain(), ValidationDomain.REF_RESOLVING);
+        assertEquals(message.getKeyword(), "$ref");
+        assertEquals(message.getMessage(), "illegal JSON Pointer");
+
+        final Map<String, JsonNode> map = JacksonUtils.nodeToMap(info);
+
+        String key;
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            key = entry.getKey();
+            assertEquals(message.getInfo(key), info.get(key));
         }
     }
 }
