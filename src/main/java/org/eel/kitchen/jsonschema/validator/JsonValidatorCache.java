@@ -111,7 +111,7 @@ public final class JsonValidatorCache
                     try {
                         realNode = resolver.resolve(key);
                     } catch (JsonSchemaException e) {
-                        return new FailingValidator(e.getMessage());
+                        return new FailingValidator(e.getValidationMessage());
                     }
 
                 final List<ValidationMessage> messages = Lists.newArrayList();
@@ -138,15 +138,11 @@ public final class JsonValidatorCache
     private static final class FailingValidator
         implements JsonValidator
     {
-        private final ValidationMessage.Builder defaultBuilder
-            = ValidationMessage.defaultBuilder();
-
         private final List<ValidationMessage> messages;
 
-        private FailingValidator(final String message)
+        private FailingValidator(final ValidationMessage message)
         {
-            messages = ImmutableList.of(defaultBuilder.setMessage(message)
-                .build());
+            messages = ImmutableList.of(message);
         }
 
         private FailingValidator(final List<ValidationMessage> messages)
