@@ -24,6 +24,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.ValidationDomain;
+import org.eel.kitchen.jsonschema.main.ValidationMessage;
 
 import java.util.List;
 
@@ -180,7 +182,8 @@ public final class JsonPointer
              * Skip the /
              */
             if (!victim.startsWith("/"))
-                throw illegalPointer("reference token not preceeded by '/'");
+                throw illegalPointer(input, "reference token not preceeded " +
+                    "by '/'");
             victim = victim.substring(1);
 
             /*
@@ -230,9 +233,10 @@ public final class JsonPointer
         for (final char c: array) {
             if (inEscape) {
                 if (!ESCAPED.matches(c))
-                    throw illegalPointer("bad escape sequence: ~ should be " +
-                        "followed by one of " + ESCAPE_REPLACEMENT_MAP.keySet()
-                        + ", but was followed by '" + c + '\'');
+                    throw illegalPointer(input, "bad escape sequence: ~ " +
+                        "should be followed by one of " +
+                        ESCAPE_REPLACEMENT_MAP.keySet() + ", but was followed" +
+                        " by '" + c + '\'');
                 sb.append(c);
                 inEscape = false;
                 continue;
@@ -245,8 +249,8 @@ public final class JsonPointer
         }
 
         if (inEscape)
-            throw illegalPointer("bad escape sequence: ~ not followed by any " +
-                "token");
+            throw illegalPointer(input,  "bad escape sequence: ~ not followed" +
+                " by any token");
         return sb.toString();
     }
 
@@ -321,9 +325,15 @@ public final class JsonPointer
         return sb.toString();
     }
 
-    private static JsonSchemaException illegalPointer(final String message)
+    private static JsonSchemaException illegalPointer(final String input,
+        final String message)
     {
-        return new JsonSchemaException("illegal JSON Pointer: " + message);
+        // FIXME: builder parameters maybe not very appropriate/precise
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
+            .setKeyword("$ref").addInfo("input", input)
+            .setMessage("illegal JSON Pointer: " + message);
+        return new JsonSchemaException(msg.build());
     }
 
     @Override
