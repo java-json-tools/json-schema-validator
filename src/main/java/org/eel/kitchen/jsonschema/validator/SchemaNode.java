@@ -39,11 +39,13 @@ public final class SchemaNode
 {
     private final SchemaContainer container;
     private final JsonNode node;
+    private final int hashCode;
 
     public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
         this.container = container;
         this.node = node;
+        hashCode = 31 * container.getLocator().hashCode() + node.hashCode();
     }
 
     public SchemaContainer getContainer()
@@ -76,6 +78,6 @@ public final class SchemaNode
     @Override
     public int hashCode()
     {
-        return 31 * container.getLocator().hashCode() + node.hashCode();
+        return hashCode;
     }
 }
