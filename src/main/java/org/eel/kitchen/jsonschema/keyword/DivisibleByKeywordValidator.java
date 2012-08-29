@@ -51,8 +51,7 @@ public final class DivisibleByKeywordValidator
 
         final ValidationMessage.Builder msg = newMsg()
             .setMessage("number is not a multiple of divisibleBy")
-            .addInfo("value", instance).addInfo("divisor", number)
-            .addInfo("remainder", nodeFactory.numberNode(remainder));
+            .addInfo("value", instance).addInfo("divisor", number);
         report.addMessage(msg.build());
     }
 
@@ -75,8 +74,7 @@ public final class DivisibleByKeywordValidator
 
         final ValidationMessage.Builder msg = newMsg()
             .setMessage("number is not a multiple of divisibleBy")
-            .addInfo("value", instance).addInfo("divisor", number)
-            .addInfo("remainder", nodeFactory.numberNode(remainder));
+            .addInfo("value", instance).addInfo("divisor", number);
         report.addMessage(msg.build());
     }
 }

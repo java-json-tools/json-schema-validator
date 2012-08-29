@@ -18,8 +18,7 @@
                 "keyword": "divisibleBy",
                 "message": "number is not a multiple of divisibleBy",
                 "value": 3,
-                "divisor": 1.1,
-                "remainder": 0.8
+                "divisor": 1.1
             }
         ]
     },
@@ -42,8 +41,7 @@
                 "keyword": "divisibleBy",
                 "message": "number is not a multiple of divisibleBy",
                 "value": 9812938091283098.11,
-                "divisor": 9812938091283098.1,
-                "remainder": 0.01
+                "divisor": 9812938091283098.1
             }
         ]
     }

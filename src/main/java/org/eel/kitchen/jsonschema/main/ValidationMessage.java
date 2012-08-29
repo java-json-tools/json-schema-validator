@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -141,30 +140,7 @@ public final class ValidationMessage
 
         public Builder addInfo(final String key, final JsonNode value)
         {
-            /*
-             * Note: the hack below, with realValue, is only needed for tests.
-             *
-             * The problem is that if you try and submit a .numberNode(long)
-             * using Jackson, even if the value fits into an int perfectly, it
-             * will create a LongNode and not an IntNode. Which makes it a pain
-             * for tests using numeric instance validation, since for reading
-             * messages, Jackson _will_ use IntNode when appropriate, but if you
-             * create a .numberNode(long), not so.
-             *
-             * We therefore test whether the node passed as an argument is any
-             * integer value and check whether it can be coerced to int: this
-             * replicates ObjectMapper's default reading behavior. Maybe there
-             * actually is a way to tell ObjectMapper to "use the tightest fit",
-             * but this would probably have too wide an implication on the rest
-             * of the code. And the tests are cheap anyway (hopefully).
-             */
-            JsonNode realValue = value;
-
-            if (realValue.asToken() == JsonToken.VALUE_NUMBER_INT
-                && realValue.canConvertToInt())
-                realValue = factory.numberNode(value.intValue());
-
-            info.put(key, realValue);
+            info.put(key, value);
             return this;
         }
 

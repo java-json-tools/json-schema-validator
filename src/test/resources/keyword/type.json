@@ -70,7 +70,7 @@
                 }
             ]
         },
-        "data": 17.1,
+        "data": 17,
         "valid": false,
         "messages": [
             {
@@ -78,15 +78,14 @@
                 "keyword": "type",
                 "message": "instance does not match any allowed primitive type",
                 "allowed": [ "string" ],
-                "found": "number"
+                "found": "integer"
             },
             {
                 "domain": "validation",
                 "keyword": "divisibleBy",
                 "message": "number is not a multiple of divisibleBy",
-                "value": 17.1,
-                "divisor": 3,
-                "remainder": 2.1
+                "value": 17,
+                "divisor": 3
             }
         ]
     },

@@ -47,8 +47,7 @@
                 "keyword": "divisibleBy",
                 "message": "number is not a multiple of divisibleBy",
                 "value": 12,
-                "divisor": 8,
-                "remainder": 4
+                "divisor": 8
             }
         ]
     },
