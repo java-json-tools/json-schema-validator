@@ -94,6 +94,38 @@ public final class ValidationMessage
     }
 
     @Override
+    public int hashCode()
+    {
+        int ret = domain.hashCode();
+        ret *= 31;
+        ret += keyword.hashCode();
+        ret *= 31;
+        ret += message.hashCode();
+        ret *= 31;
+        ret += info.hashCode();
+        return ret;
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+
+        if (getClass() != obj.getClass())
+            return false;
+
+        final ValidationMessage other = (ValidationMessage) obj;
+
+        return domain == other.domain
+            && keyword.equals(other.keyword)
+            && message.equals(other.message)
+            && info.equals(other.info);
+    }
+
+    @Override
     public String toString()
     {
         final List<String> list = new ArrayList<String>();
