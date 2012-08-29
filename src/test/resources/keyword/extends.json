@@ -32,23 +32,23 @@
         "schema": {
             "extends": [
                 {
-                    "type": "number"
+                    "type": "integer"
                 },
                 {
                     "divisibleBy": 8
                 }
             ]
         },
-        "data": 12.1,
+        "data": 12,
         "valid": false,
         "messages": [
             {
                 "domain": "validation",
                 "keyword": "divisibleBy",
                 "message": "number is not a multiple of divisibleBy",
-                "value": 12.1,
+                "value": 12,
                 "divisor": 8,
-                "remainder": 4.1
+                "remainder": 4
             }
         ]
     },
