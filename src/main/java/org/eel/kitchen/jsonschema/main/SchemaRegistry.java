@@ -105,10 +105,18 @@ public final class SchemaRegistry
     public SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
+        final URI realURI = namespace.resolve(uri).normalize();
+
         try {
-            return cache.get(namespace.resolve(uri).normalize());
+            return cache.get(realURI);
         } catch (ExecutionException e) {
-            throw new JsonSchemaException(e.getCause().getMessage());
+            final ValidationMessage.Builder msg
+                = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
+                .setKeyword("N/A").setMessage("failed to get content from URI")
+                .addInfo("uri", realURI)
+                .addInfo("exception-class", e.getCause().getClass().getName())
+                .addInfo("exception-message", e.getCause().getMessage());
+            throw new JsonSchemaException(msg.build());
         }
     }
 }

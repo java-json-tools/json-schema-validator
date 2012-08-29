@@ -25,13 +25,6 @@ public final class JsonSchemaException
 {
     private final ValidationMessage validationMessage;
 
-    public JsonSchemaException(final String message)
-    {
-        super(message);
-        validationMessage = ValidationMessage.defaultBuilder()
-            .setMessage(message).build();
-    }
-
     public JsonSchemaException(final String message, final Exception e)
     {
         super(message, e);
