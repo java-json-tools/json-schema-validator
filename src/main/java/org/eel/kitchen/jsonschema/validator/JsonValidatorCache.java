@@ -46,13 +46,15 @@ import java.util.Set;
  * <p>As it uses a {@link LoadingCache}, it is totally thread safe and also
  * very efficient.</p>
  *
- * <p>Another critically important class for speed is {@link SchemaNode}, since
- * the cache uses them as keys.</p>
- *
  * @see SchemaNode
  */
 public final class JsonValidatorCache
 {
+    /**
+     * Cache for all validators, even failing ones
+     *
+     * @see FailingValidator
+     */
     private final LoadingCache<SchemaNode, JsonValidator> cache;
 
     private final JsonResolver resolver;
@@ -65,8 +67,8 @@ public final class JsonValidatorCache
      * <p>Instantiate the syntax validator, the keyword factory, the JSON ref
      * resolver and the validator cache.</p>
      *
-     * @param bundle
-     * @param registry
+     * @param bundle the keyword bundle
+     * @param registry the schema registry
      */
     public JsonValidatorCache(final KeywordBundle bundle,
         final SchemaRegistry registry)
