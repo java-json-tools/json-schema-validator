@@ -45,7 +45,7 @@ public final class SchemaNode
     {
         this.container = container;
         this.node = node;
-        hashCode = 31 * container.getLocator().hashCode() + node.hashCode();
+        hashCode = 31 * container.hashCode() + node.hashCode();
     }
 
     public SchemaContainer getContainer()
@@ -71,7 +71,7 @@ public final class SchemaNode
 
         final SchemaNode other = (SchemaNode) obj;
 
-        return container.getLocator().equals(other.container.getLocator())
+        return container.equals(other.container)
             && node.equals(other.node);
     }
 

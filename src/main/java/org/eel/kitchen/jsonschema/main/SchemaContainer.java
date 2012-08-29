@@ -100,6 +100,32 @@ public final class SchemaContainer
         return schema;
     }
 
+    @Override
+    public int hashCode()
+    {
+        // Yes, this works: right now there is a 1-1 relationship between URIs
+        // and JsonNodes.
+        return locator.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+
+        if (getClass() != obj.getClass())
+            return false;
+
+        final SchemaContainer other = (SchemaContainer) obj;
+
+        // Yes, this works: right now there is a 1-1 relationship between URIs
+        // and JsonNodes.
+        return locator.equals(other.locator);
+    }
+
     /**
      * Strip an object instance off its {@code id} member, if any
      *
