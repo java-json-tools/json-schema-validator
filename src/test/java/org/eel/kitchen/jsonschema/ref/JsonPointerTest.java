@@ -38,7 +38,7 @@ import static org.testng.Assert.*;
 
 public final class JsonPointerTest
 {
-    private JsonNode document, pointerData, uriData;
+    private JsonNode document, pointerData, uriData, illegal;
 
     @BeforeClass
     public void setUp()
@@ -48,6 +48,7 @@ public final class JsonPointerTest
         document = node.get("document");
         pointerData = node.get("pointers");
         uriData = node.get("uris");
+        illegal = JsonLoader.fromResource("/ref/jsonpointer-illegal.json");
     }
 
     private static Iterator<Object[]> nodeToDataProvider(final JsonNode node)
@@ -102,39 +103,26 @@ public final class JsonPointerTest
     @DataProvider
     public Iterator<Object[]> getIllegalPointerData()
     {
-        final Set<Object[]> set = new HashSet<Object[]>();
+        final Set<Object[]> set = new HashSet<Object[]>(illegal.size());
 
-        String input, errmsg, message;
-
-        input = "x";
-        errmsg = "illegal JSON Pointer: reference token not preceeded by '/'";
-        message = "pointer not starting with / should be illegal";
-        set.add(new Object[] { input, errmsg, message });
-
-        input = "/~";
-        errmsg = "illegal JSON Pointer: bad escape sequence: ~ not followed " +
-            "by any token";
-        message = "~ without any following character should be illegal";
-        set.add(new Object[] { input, errmsg, message });
-
-        input = "/~x";
-        errmsg = "illegal JSON Pointer: bad escape sequence: ~ should be " +
-            "followed by one of [0, 1], but was followed by 'x'";
-        message = "~ not followed by 0 or 1 should be illegal";
-        set.add(new Object[] { input, errmsg, message });
+        for (final JsonNode node: illegal)
+            set.add(new Object[] {
+                node.get("input").textValue(),
+                node.get("info")
+            });
 
         return set.iterator();
     }
 
     @Test(dataProvider = "getIllegalPointerData")
     public void illegalJSONPointerMustBeDetectedAsSuch(final String input,
-        final String errmsg, final String message)
+        final JsonNode info)
     {
         try {
             new JsonPointer(input);
-            fail(message);
+            fail(input + " was supposed to be illegal");
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), errmsg);
+            checkMessage(e.getValidationMessage(), info);
         }
     }
 
@@ -144,13 +132,6 @@ public final class JsonPointerTest
         assertSame(message.getDomain(), ValidationDomain.REF_RESOLVING);
         assertEquals(message.getKeyword(), "$ref");
         assertEquals(message.getMessage(), "illegal JSON Pointer");
-
-        final Map<String, JsonNode> map = JacksonUtils.nodeToMap(info);
-
-        String key;
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            key = entry.getKey();
-            assertEquals(message.getInfo(key), info.get(key));
-        }
+        assertEquals(message.getInfo(), info);
     }
 }

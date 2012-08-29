@@ -79,6 +79,11 @@ public final class ValidationMessage
         return info.get(key);
     }
 
+    public JsonNode getInfo()
+    {
+        return factory.objectNode().putAll(info);
+    }
+
     public JsonNode toJsonNode()
     {
         final ObjectNode ret = factory.objectNode()

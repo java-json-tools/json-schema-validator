@@ -181,9 +181,11 @@ public final class JsonPointer
             /*
              * Skip the /
              */
-            if (!victim.startsWith("/"))
-                throw illegalPointer(input, "reference token not preceeded " +
-                    "by '/'");
+            if (!victim.startsWith("/")) {
+                final ValidationMessage.Builder msg
+                    = newMsg("reference token not preceeded by '/'");
+                throw new JsonSchemaException(msg.build());
+            }
             victim = victim.substring(1);
 
             /*
@@ -232,11 +234,14 @@ public final class JsonPointer
 
         for (final char c: array) {
             if (inEscape) {
-                if (!ESCAPED.matches(c))
-                    throw illegalPointer(input, "bad escape sequence: ~ " +
-                        "should be followed by one of " +
-                        ESCAPE_REPLACEMENT_MAP.keySet() + ", but was followed" +
-                        " by '" + c + '\'');
+                if (!ESCAPED.matches(c)) {
+                    final ValidationMessage.Builder msg
+                        = newMsg("bad escape sequence: '~' not followed by a " +
+                        "valid token")
+                        .addInfo("allowed", ESCAPE_REPLACEMENT_MAP.keySet())
+                        .addInfo("found", Character.valueOf(c));
+                    throw new JsonSchemaException(msg.build());
+                }
                 sb.append(c);
                 inEscape = false;
                 continue;
@@ -249,8 +254,8 @@ public final class JsonPointer
         }
 
         if (inEscape)
-            throw illegalPointer(input,  "bad escape sequence: ~ not followed" +
-                " by any token");
+            throw new JsonSchemaException(newMsg("bad escape sequence: '~' " +
+                "not followed by any token").build());
         return sb.toString();
     }
 
@@ -367,5 +372,12 @@ public final class JsonPointer
     public String toString()
     {
         return fullPointer;
+    }
+
+    private static ValidationMessage.Builder newMsg(final String reason)
+    {
+        return new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
+            .setKeyword("$ref").setMessage("illegal JSON Pointer")
+            .addInfo("reason", reason);
     }
 }

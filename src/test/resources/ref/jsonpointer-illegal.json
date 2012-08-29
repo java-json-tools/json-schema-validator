@@ -1,18 +1,20 @@
 [
     {
         "input": "x",
-        "reason": "reference token not preceeded by '/'",
-        "info": {}
+        "info": {
+            "reason": "reference token not preceeded by '/'"
+        }
     },
     {
         "input": "/~",
-        "reason": "bad espace sequence: '~' not followed by any token",
-        "info": {}
+        "info": {
+            "reason": "bad escape sequence: '~' not followed by any token"
+        }
     },
     {
         "input": "/~x",
-        "reason": "bad escape sequence: '~' not followed by a valid token",
         "info": {
+            "reason": "bad escape sequence: '~' not followed by a valid token",
             "allowed": [ "0", "1" ],
             "found": "x"
         }
