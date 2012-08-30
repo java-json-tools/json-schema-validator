@@ -1,0 +1,11 @@
+{
+    "type": "object",
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "id": "child-body",
+    "properties": {
+        "bodyItem": {
+            "type": "string",
+            "required": true
+        }
+    }
+}
