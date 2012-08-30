@@ -106,32 +106,35 @@ public final class JsonPointerTest
         final Set<Object[]> set = new HashSet<Object[]>(illegal.size());
 
         for (final JsonNode node: illegal)
-            set.add(new Object[] {
-                node.get("input").textValue(),
-                node.get("info")
-            });
+            set.add(mungeArguments(node));
 
         return set.iterator();
     }
 
+    private static Object[] mungeArguments(final JsonNode node)
+    {
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
+                .setKeyword("$ref").setMessage("illegal JSON Pointer");
+
+        final Map<String, JsonNode> map
+            = JacksonUtils.nodeToMap(node.get("info"));
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet())
+            msg.addInfo(entry.getKey(), entry.getValue());
+
+        return new Object[] { node.get("input").textValue(), msg.build() };
+    }
+
     @Test(dataProvider = "getIllegalPointerData")
     public void illegalJSONPointerMustBeDetectedAsSuch(final String input,
-        final JsonNode info)
+        final ValidationMessage msg)
     {
         try {
             new JsonPointer(input);
             fail(input + " was supposed to be illegal");
         } catch (JsonSchemaException e) {
-            checkMessage(e.getValidationMessage(), info);
+            assertEquals(e.getValidationMessage(), msg);
         }
-    }
-
-    private static void checkMessage(final ValidationMessage message,
-        final JsonNode info)
-    {
-        assertSame(message.getDomain(), ValidationDomain.REF_RESOLVING);
-        assertEquals(message.getKeyword(), "$ref");
-        assertEquals(message.getMessage(), "illegal JSON Pointer");
-        assertEquals(message.getInfo(), info);
     }
 }
