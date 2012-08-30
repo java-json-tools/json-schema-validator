@@ -69,11 +69,12 @@ public final class PropertiesKeywordValidator
         if (fields.containsAll(required))
             return;
 
+        final Set<String> requiredSorted = Sets.newTreeSet(required);
         final Set<String> missing = Sets.newTreeSet(required);
         missing.removeAll(fields);
 
         final ValidationMessage.Builder msg = newMsg()
-            .addInfo("required", required).addInfo("missing", missing)
+            .addInfo("required", requiredSorted).addInfo("missing", missing)
             .setMessage("required property(ies) not found");
         report.addMessage(msg.build());
     }
