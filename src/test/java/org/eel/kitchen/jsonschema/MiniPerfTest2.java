@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;

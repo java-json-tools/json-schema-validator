@@ -15,11 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
 import java.net.URI;
 

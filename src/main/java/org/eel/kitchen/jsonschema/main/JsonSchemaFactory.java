@@ -24,6 +24,8 @@ import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;

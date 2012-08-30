@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 
 /**
  * Base class for container instance validation

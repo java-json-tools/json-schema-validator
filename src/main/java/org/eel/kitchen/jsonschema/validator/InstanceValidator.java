@@ -20,8 +20,9 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 
 import java.util.Set;
@@ -33,7 +34,7 @@ import java.util.Set;
  * to be correct. It is also responsible to instantiate an {@link
  * ArrayValidator} or {@link ObjectValidator} if necessary.</p>
  *
- * @see JsonValidatorCache#getValidator(SchemaNode)
+ * @see JsonValidatorCache#getValidator(org.eel.kitchen.jsonschema.ref.SchemaNode)
  * @see KeywordValidator
  */
 final class InstanceValidator

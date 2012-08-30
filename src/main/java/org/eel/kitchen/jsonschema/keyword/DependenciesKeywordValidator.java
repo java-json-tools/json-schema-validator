@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import org.eel.kitchen.jsonschema.main.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -31,7 +31,7 @@ import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
-import org.eel.kitchen.jsonschema.validator.SchemaNode;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 
 import java.util.HashMap;
 import java.util.Map;

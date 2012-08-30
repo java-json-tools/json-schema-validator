@@ -22,8 +22,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.SchemaContainer;
-import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationDomain;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -41,7 +42,7 @@ public final class JsonResolverTest
     private SchemaRegistry registry;
     private JsonResolver resolver;
     private SchemaContainer container;
-    private  SchemaNode schemaNode;
+    private SchemaNode schemaNode;
     private ValidationMessage msg;
 
     @BeforeMethod

@@ -27,8 +27,9 @@ import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.SchemaRegistry;
+import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
@@ -46,7 +47,7 @@ import java.util.Set;
  * <p>As it uses a {@link LoadingCache}, it is totally thread safe and also
  * very efficient.</p>
  *
- * @see SchemaNode
+ * @see org.eel.kitchen.jsonschema.ref.SchemaNode
  */
 public final class JsonValidatorCache
 {

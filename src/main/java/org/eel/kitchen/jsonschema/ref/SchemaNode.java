@@ -15,10 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.validator;
+package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.SchemaContainer;
 
 /**
  * Representation of a schema node
@@ -33,7 +32,7 @@ import org.eel.kitchen.jsonschema.main.SchemaContainer;
  *
  * <p>This class is thread safe and immutable.</p>
  *
- * @see JsonValidatorCache
+ * @see org.eel.kitchen.jsonschema.validator.JsonValidatorCache
  */
 public final class SchemaNode
 {

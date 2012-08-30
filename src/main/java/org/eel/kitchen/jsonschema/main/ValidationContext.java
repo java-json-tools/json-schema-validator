@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 /**
