@@ -118,6 +118,21 @@ safe. Sample code:</p>
         : "failed");
 </pre>
 
+<h2>Using validation messages</h2>
+
+<p>In the event of a failure, you have the option to retrieve the whole
+validation as a single JSON object. In this case, keys of these objects will be
+<a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-03.txt">JSON
+Pointers</a> into the validated data, and values will be arrays of validation
+messages for that pointer.</p>
+
+<p>Another option is to retrieve a list of simple strings: this list will
+contain as much information as the above method, though in a much less
+exploitable format -- it is more suited for logging purposes, though.</p>
+
+<p>See {@link org.eel.kitchen.jsonschema.main.ValidationReport} and {@link
+org.eel.kitchen.jsonschema.main.ValidationMessage} for details.</p>
+
 <h1>Customizing your schema factory</h1>
 
 <p>First note that all customization is achieved via the associated builder:
