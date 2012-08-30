@@ -81,7 +81,9 @@ public final class URIManagerTest
             manager.getContent(uri);
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            checkMsg(e, uri);
+            final ValidationMessage msg = e.getValidationMessage();
+            checkMsg(msg, "cannot handle scheme", uri);
+            assertEquals(msg.getInfo("scheme").textValue(), uri.getScheme());
         }
     }
     @Test
@@ -150,7 +152,9 @@ public final class URIManagerTest
         try {
             manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            checkMsg(e, uri);
+            final ValidationMessage msg = e.getValidationMessage();
+            checkMsg(msg, "cannot handle scheme", uri);
+            assertEquals(msg.getInfo("scheme").textValue(), "bar");
         }
     }
 
@@ -158,16 +162,18 @@ public final class URIManagerTest
     public void downloaderProblemsShouldBeReportedAsSuch()
         throws IOException
     {
+        final URI uri = URI.create("foo://bar");
         final Exception foo = new IOException("foo");
+
         when(mock.fetch(any(URI.class))).thenThrow(foo);
 
         manager.registerScheme("foo", mock);
 
         try {
-            manager.getContent(URI.create("foo://bar"));
+            manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "cannot fetch content from URI "
-                + "\"foo://bar\"");
+            checkMsg(e.getValidationMessage(), "cannot fetch content from URI",
+                uri);
             assertEquals(e.getCause(), foo);
         }
     }
@@ -176,6 +182,7 @@ public final class URIManagerTest
     public void nonJSONInputShouldBeReportedAsSuch()
         throws IOException
     {
+        final URI uri = URI.create("foo://bar");
         final InputStream sampleStream
             = new ByteArrayInputStream("}".getBytes());
 
@@ -184,10 +191,11 @@ public final class URIManagerTest
         manager.registerScheme("foo", mock);
 
         try {
-            manager.getContent(URI.create("foo://bar"));
+            manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            assertEquals(e.getMessage(), "content fetched from URI "
-                +"\"foo://bar\" is not valid JSON");
+            checkMsg(e.getValidationMessage(), "content fetched from URI is " +
+                "not valid JSON", uri);
+            assertNotNull(e.getCause());
         }
     }
 
@@ -246,14 +254,12 @@ public final class URIManagerTest
         assertEquals(actual, expected);
     }
 
-    private static void checkMsg(final JsonSchemaException e, final URI uri)
+    private static void checkMsg(final ValidationMessage msg,
+        final String message, final URI uri)
     {
-        final ValidationMessage msg = e.getValidationMessage();
-        final String scheme = uri.getScheme();
-
         assertSame(msg.getDomain(), ValidationDomain.REF_RESOLVING);
         assertEquals(msg.getKeyword(), "N/A"); // FIXME...
-        assertEquals(msg.getInfo("scheme").textValue(), scheme);
+        assertEquals(msg.getMessage(), message);
         assertEquals(msg.getInfo("uri").textValue(), uri.toString());
     }
 }

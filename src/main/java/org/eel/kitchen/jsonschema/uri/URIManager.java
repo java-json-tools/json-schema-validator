@@ -187,13 +187,12 @@ public class URIManager
 
         final ValidationMessage.Builder msg
             = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-            .setKeyword("N/A"); // FIXME...
+            .setKeyword("N/A").addInfo("uri", target); // FIXME...
 
         final URIDownloader downloader = downloaders.get(scheme);
 
         if (downloader == null) {
-            msg.setMessage("cannot handle scheme").addInfo("scheme", scheme)
-                .addInfo("uri", target);
+            msg.setMessage("cannot handle scheme").addInfo("scheme", scheme);
             throw new JsonSchemaException(msg.build());
         }
 
@@ -202,8 +201,8 @@ public class URIManager
         try {
             in = downloader.fetch(target);
         } catch (IOException e) {
-            throw new JsonSchemaException("cannot fetch content from URI \""
-                + target + '"', e);
+            msg.setMessage("cannot fetch content from URI");
+            throw new JsonSchemaException(msg.build(), e);
         }
 
         try {
@@ -211,8 +210,8 @@ public class URIManager
             // is done with it!
             return mapper.readTree(in);
         } catch (IOException e) {
-            throw new JsonSchemaException("content fetched from URI \"" + target
-                + "\" is not valid JSON", e);
+            msg.setMessage("content fetched from URI is not valid JSON");
+            throw new JsonSchemaException(msg.build(), e);
         }
     }
 }
