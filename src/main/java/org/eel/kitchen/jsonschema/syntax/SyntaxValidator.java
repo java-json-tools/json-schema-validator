@@ -20,8 +20,8 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
-import org.eel.kitchen.jsonschema.main.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationDomain;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.util.List;

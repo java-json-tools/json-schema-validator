@@ -24,8 +24,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
-import org.eel.kitchen.jsonschema.main.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationDomain;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 
 import java.util.List;
 

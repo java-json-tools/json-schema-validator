@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
-import org.eel.kitchen.jsonschema.main.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationDomain;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

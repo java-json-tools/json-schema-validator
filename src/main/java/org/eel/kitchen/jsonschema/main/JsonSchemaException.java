@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
+
 /**
  * Generic exception thrown when the validation cannot proceed normally
  */

@@ -34,8 +34,8 @@ import org.eel.kitchen.jsonschema.format.TimeFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.URIFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
-import org.eel.kitchen.jsonschema.main.ValidationMessage;
-import org.eel.kitchen.jsonschema.main.ValidationReport;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.ArrayList;

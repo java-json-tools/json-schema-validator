@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.report;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
 import java.util.Collection;
@@ -45,7 +46,7 @@ import java.util.TreeSet;
  * <p>You can retrieve messages either as a list of plain strings (ordered by
  * instance path) or as JSON (ie, a {@link JsonNode}).</p>
  *
- * @see JsonSchema#validate(JsonNode)
+ * @see org.eel.kitchen.jsonschema.main.JsonSchema#validate(JsonNode)
  */
 public final class ValidationReport
 {

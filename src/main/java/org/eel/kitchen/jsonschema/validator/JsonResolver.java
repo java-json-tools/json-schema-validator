@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.SchemaRegistry;
-import org.eel.kitchen.jsonschema.main.ValidationDomain;
-import org.eel.kitchen.jsonschema.main.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationDomain;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
 import java.net.URI;
