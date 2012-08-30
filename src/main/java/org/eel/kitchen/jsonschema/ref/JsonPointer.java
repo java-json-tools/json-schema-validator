@@ -330,17 +330,6 @@ public final class JsonPointer
         return sb.toString();
     }
 
-    private static JsonSchemaException illegalPointer(final String input,
-        final String message)
-    {
-        // FIXME: builder parameters maybe not very appropriate/precise
-        final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-            .setKeyword("$ref").addInfo("input", input)
-            .setMessage("illegal JSON Pointer: " + message);
-        return new JsonSchemaException(msg.build());
-    }
-
     @Override
     public int compareTo(final JsonPointer other)
     {
