@@ -76,11 +76,6 @@ public final class JsonPointer
     private static final CharMatcher SPECIAL = CharMatcher.anyOf("~/");
 
     /**
-     * The pointer in a raw, but JSON Pointer-escaped, string.
-     */
-    private final String fullPointer;
-
-    /**
      * The list of individual elements in the pointer.
      */
     private final List<String> elements;
@@ -94,17 +89,16 @@ public final class JsonPointer
     public JsonPointer(final String input)
         throws JsonSchemaException
     {
+        super(input);
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
         decode(input, builder);
 
         elements = builder.build();
-
-        fullPointer = input;
     }
 
     private JsonPointer(final String fullPointer, final List<String> elements)
     {
-        this.fullPointer = fullPointer;
+        super(fullPointer);
         this.elements = elements;
     }
 
@@ -119,7 +113,7 @@ public final class JsonPointer
         final List<String> newElements = new ImmutableList.Builder<String>()
             .addAll(elements).add(element).build();
 
-        return new JsonPointer(fullPointer + '/' + refTokenEncode(element),
+        return new JsonPointer(asString + '/' + refTokenEncode(element),
             newElements);
     }
 
@@ -304,10 +298,6 @@ public final class JsonPointer
     /**
      * Make a cooked reference token out of a raw element token
      *
-     * <p>Used to build new pointer instances when called from {@link #append
-     * (String)} or {@link #append(int)}, in order to build {@link
-     * #fullPointer}.</p>
-     *
      * @param raw the raw token
      * @return the cooked token
      */
@@ -333,34 +323,7 @@ public final class JsonPointer
     @Override
     public int compareTo(final JsonPointer other)
     {
-        return fullPointer.compareTo(other.fullPointer);
-    }
-
-    @Override
-    public boolean equals(final Object obj)
-    {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-
-        final JsonPointer other = (JsonPointer) obj;
-
-        return fullPointer.equals(other.fullPointer);
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return fullPointer.hashCode();
-    }
-
-    @Override
-    public String toString()
-    {
-        return fullPointer;
+        return asString.compareTo(other.asString);
     }
 
     private static ValidationMessage.Builder newMsg(final String reason)

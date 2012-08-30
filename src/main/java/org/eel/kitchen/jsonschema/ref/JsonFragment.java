@@ -34,21 +34,22 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
  */
 public abstract class JsonFragment
 {
+    protected final String asString;
+
+    protected JsonFragment(final String input)
+    {
+        asString = input;
+    }
+
     /**
      * Special case fragment (empty)
      */
-    private static final JsonFragment EMPTY = new JsonFragment()
+    private static final JsonFragment EMPTY = new JsonFragment("")
     {
         @Override
         public JsonNode resolve(final JsonNode node)
         {
             return node;
-        }
-
-        @Override
-        public String toString()
-        {
-            return "";
         }
     };
 
@@ -96,5 +97,25 @@ public abstract class JsonFragment
     }
 
     @Override
-    public abstract String toString();
+    public final int hashCode()
+    {
+        return asString.hashCode();
+    }
+
+    @Override
+    public final boolean equals(final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (!(obj instanceof JsonFragment))
+            return false;
+
+        return asString.equals(((JsonFragment) obj).asString);
+    }
+
+    @Override
+    public final String toString()
+    {
+        return asString;
+    }
 }

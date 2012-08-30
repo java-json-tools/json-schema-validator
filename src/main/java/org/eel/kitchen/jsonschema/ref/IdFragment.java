@@ -37,11 +37,9 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 final class IdFragment
     extends JsonFragment
 {
-    private final String id;
-
     IdFragment(final String id)
     {
-        this.id = id;
+        super(id);
     }
 
     @Override
@@ -61,7 +59,7 @@ final class IdFragment
 
         if (idNode.isTextual()) {
             final String s = idNode.textValue().replaceFirst("^#", "");
-            if (id.equals(s))
+            if (asString.equals(s))
                 return node;
         }
 
@@ -78,11 +76,5 @@ final class IdFragment
         }
 
         return MissingNode.getInstance();
-    }
-
-    @Override
-    public String toString()
-    {
-        return id;
     }
 }
