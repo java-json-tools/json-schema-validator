@@ -33,6 +33,7 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
  * @see JsonPointer
  */
 public abstract class JsonFragment
+    implements Comparable<JsonFragment>
 {
     protected final String asString;
 
@@ -95,6 +96,13 @@ public abstract class JsonFragment
         // This works: we always return EMPTY with a null fragment
         return this == EMPTY;
     }
+
+    @Override
+    public int compareTo(final JsonFragment other)
+    {
+        return asString.compareTo(other.asString);
+    }
+
 
     @Override
     public final int hashCode()
