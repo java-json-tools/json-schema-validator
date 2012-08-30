@@ -61,7 +61,7 @@ public final class BasicKeywordValidatorTest
     private static class BasicKeywordValidator
         extends KeywordValidator
     {
-        BasicKeywordValidator()
+        private BasicKeywordValidator()
         {
             super("foo", NodeType.INTEGER, NodeType.NUMBER, NodeType.STRING);
         }

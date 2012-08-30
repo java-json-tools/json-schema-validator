@@ -47,7 +47,7 @@ public final class BasicFormatSpecifierTest
         extends FormatSpecifier
     {
 
-        protected CustomFormatSpecifier()
+        private CustomFormatSpecifier()
         {
             super(NodeType.INTEGER, NodeType.NUMBER, NodeType.STRING);
         }

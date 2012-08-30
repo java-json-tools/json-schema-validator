@@ -72,10 +72,8 @@ public final class JsonSchemaFactory
      *
      * @param schema the raw schema
      * @return a schema container to instantiate a {@link JsonSchema}
-     * @throws JsonSchemaException illegal schema
      */
     public SchemaContainer registerSchema(final JsonNode schema)
-        throws JsonSchemaException
     {
         return registry.register(schema);
     }
