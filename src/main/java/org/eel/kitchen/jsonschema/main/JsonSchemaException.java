@@ -45,13 +45,13 @@ public final class JsonSchemaException
     @Override
     public String getMessage()
     {
-        return validationMessage.getMessage();
+        return validationMessage.toString();
     }
 
     @Override
     public String getLocalizedMessage()
     {
-        return validationMessage.getMessage();
+        return validationMessage.toString();
     }
 
     @Override
