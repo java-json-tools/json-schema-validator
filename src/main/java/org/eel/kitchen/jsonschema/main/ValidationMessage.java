@@ -25,6 +25,9 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.util.ArrayList;
@@ -35,6 +38,26 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+/**
+ * One validation message
+ *
+ * <p>A validation message consists of three mandatory fields and optional
+ * information. The three mandatory fields are:</p>
+ *
+ * <ul>
+ *     <li>the validation domain (see {@link ValidationDomain});</li>
+ *     <li>the associated keyword;</li>
+ *     <li>the validation message.</li>
+ * </ul>
+ *
+ * <p>You cannot instantiate this class directly: you need to use
+ * {@link Builder} for that.</p>
+ *
+ * <p>This class is immutable.</p>
+ *
+ * @see Builder
+ * @see ValidationReport
+ */
 public final class ValidationMessage
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
@@ -51,11 +74,6 @@ public final class ValidationMessage
         keyword = builder.keyword;
         message = builder.message;
         info = ImmutableMap.copyOf(JacksonUtils.nodeToMap(builder.info));
-    }
-
-    public static Builder defaultBuilder()
-    {
-        return new Builder(ValidationDomain.UNKNOWN).setKeyword("(not set)");
     }
 
     public ValidationDomain getDomain()
@@ -76,11 +94,6 @@ public final class ValidationMessage
     public JsonNode getInfo(final String key)
     {
         return info.get(key);
-    }
-
-    public JsonNode getInfo()
-    {
-        return factory.objectNode().putAll(info);
     }
 
     public JsonNode toJsonNode()
@@ -142,46 +155,139 @@ public final class ValidationMessage
         return JOINER.join(list);
     }
 
+    /**
+     * Builder class for a {@link ValidationMessage}
+     *
+     * <p>To build a validation message, you instantiate this class, fill the
+     * necessary information and finally call {@link #build()} to obtain the
+     * message.</p>
+     *
+     * <p>In most cases, you won't need to instantiate one directly:</p>
+     *
+     * <ul>
+     *     <li>when implementing a {@link SyntaxChecker}, an instance of this
+     *     class will be passed as an argument, already filled with the
+     *     correct domain and keyword;</li>
+     *     <li>when implementing a {@link KeywordValidator}, you can obtain an
+     *     instance also filled with the correct domain and keyword.</li>
+     * </ul>
+     *
+     * @see KeywordValidator#newMsg()
+     * @see SyntaxChecker#checkSyntax(Builder, List, JsonNode)
+     * @see SimpleSyntaxChecker#checkValue(Builder, List, JsonNode)
+     */
     public static final class Builder
     {
+        /**
+         * Reserved set of keywords which will be removed off {@link #info}
+         * before the message is built
+         */
         private static final Set<String> RESERVED = ImmutableSet.of("domain",
             "keyword", "message");
 
+        /**
+         * Validation domain
+         */
         private final ValidationDomain domain;
+
+        /**
+         * Keyword associated with the message
+         *
+         * <p>In some events, it may be set to {@code N/A}.</p>
+         */
         private String keyword;
+
+        /**
+         * Error message
+         */
         private String message;
+
+        /**
+         * Further information associated with the error message
+         */
         private final ObjectNode info = factory.objectNode();
 
+        /**
+         * Constructor
+         *
+         * @param domain the validation domain
+         */
         public Builder(final ValidationDomain domain)
         {
             Preconditions.checkNotNull(domain, "domain is null");
             this.domain = domain;
         }
 
+        /**
+         * Set the keyword associated with this message
+         *
+         * @param keyword the keyword
+         * @return the builder
+         */
         public Builder setKeyword(final String keyword)
         {
             this.keyword = keyword;
             return this;
         }
 
+        /**
+         * Set the error message
+         *
+         * @param message the error message
+         * @return the builder
+         */
         public Builder setMessage(final String message)
         {
             this.message = message;
             return this;
         }
 
+        /**
+         * Add further information to the message as a {@link JsonNode}
+         *
+         * @param key the key
+         * @param value the value
+         * @return the builder
+         */
         public Builder addInfo(final String key, final JsonNode value)
         {
             info.put(key, value);
             return this;
         }
 
+        /**
+         * Add further information to the message for an arbitrary type
+         *
+         * <p>This will call {@link Object#toString()} on the passed value. It
+         * is therefore important that objects passed as arguments implement it
+         * correctly.</p>
+         *
+         * @param key the key
+         * @param <T> the type of the value
+         * @param value the value
+         * @return the builder
+         */
         public <T> Builder addInfo(final String key, final T value)
         {
             info.put(key, value.toString());
             return this;
         }
 
+        /**
+         * Add further information to the message as a {@link Collection} of
+         * objects of an arbitrary type
+         *
+         * <p>This will call {@link Object#toString()} on each element of the
+         * collection.It is therefore important that objects passed as arguments
+         * implement it correctly.</p>
+         *
+         * @see #addInfo(String, Object)
+         *
+         * @param key the key
+         * @param <T> the type of values in the collections
+         * @param values the collection
+         * @return the builder
+         */
         public <T> Builder addInfo(final String key, final Collection<T> values)
         {
             final ArrayNode node = factory.arrayNode();
@@ -193,18 +299,38 @@ public final class ValidationMessage
             return this;
         }
 
+        /**
+         * Add further information to the message as an integer
+         *
+         * @param key the key
+         * @param value the value
+         * @return the builder
+         */
         public Builder addInfo(final String key, final int value)
         {
             info.put(key, value);
             return this;
         }
 
+        /**
+         * Clear all supplementary information
+         *
+         * <p>This <b>will not</b> reset the domain, keyword or message.</p>
+         *
+         * @return the builder
+         */
         public Builder clearInfo()
         {
             info.removeAll();
             return this;
         }
 
+        /**
+         * Build the actual message
+         *
+         * @return a {@link ValidationMessage}
+         * @throws NullPointerException the keyword or message are null
+         */
         public ValidationMessage build()
         {
             Preconditions.checkNotNull(keyword, "keyword is null");

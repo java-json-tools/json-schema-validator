@@ -17,13 +17,33 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+/**
+ * Enumeration of validation domains
+ *
+ * @see ValidationMessage
+ */
 public enum ValidationDomain
 {
+    /**
+     * Ref resolution
+     *
+     * <p>This can cover ref resolution proper (ie, JSON Reference resolution)
+     * but also all associated mechanism, such as JSON Schema retrieval, URI
+     * building, etc.</p>
+     */
     REF_RESOLVING("$ref resolving"),
+    /**
+     * Syntax validation
+     */
     SYNTAX("syntax"),
-    VALIDATION("validation"),
-    UNKNOWN("unknown");
+    /**
+     * Instance validation
+     */
+    VALIDATION("validation");
 
+    /**
+     * The domain as a string
+     */
     private final String domain;
 
     ValidationDomain(final String domain)

@@ -108,6 +108,17 @@ public abstract class KeywordValidator
     protected abstract void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance);
 
+    /**
+     * Create a new validation message template
+     *
+     * <p>Use this class when you want to report errors. It will have filled
+     * the message with the correct domain ({@link ValidationDomain#VALIDATION})
+     * and keyword.</p>
+     *
+     * @see ValidationMessage
+     *
+     * @return a {@link ValidationMessage.Builder}
+     */
     protected final ValidationMessage.Builder newMsg()
     {
         return new ValidationMessage.Builder(ValidationDomain.VALIDATION)

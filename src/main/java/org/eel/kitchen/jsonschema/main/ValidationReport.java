@@ -32,11 +32,20 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
- * Validation report
+ * A validation report
  *
- * <p>It is a simple {@link ListMultimap} which associates a path into the
- * validated instance (as a {@link JsonPointer} to a list of validation
- * messages.</p>
+ * <p>Internally, it uses a {@link ListMultimap} where:</p>
+ *
+ * <ul>
+ *     <li>keys are path into the validated instance (as {@link JsonPointer}s),
+ *     </li>
+ *     <li>values are (a list of) {@link ValidationMessage}s.</li>
+ * </ul>
+ *
+ * <p>You can retrieve messages either as a list of plain strings (ordered by
+ * instance path) or as JSON (ie, a {@link JsonNode}).</p>
+ *
+ * @see JsonSchema#validate(JsonNode)
  */
 public final class ValidationReport
 {
@@ -102,11 +111,21 @@ public final class ValidationReport
         this.path = path;
     }
 
+    /**
+     * Add one validation message to the report
+     *
+     * @param message the message
+     */
     public void addMessage(final ValidationMessage message)
     {
         msgMap.put(path, message);
     }
 
+    /**
+     * Add several validation messages to the report
+     *
+     * @param messages the collection of messages
+     */
     public void addMessages(final Collection<ValidationMessage> messages)
     {
         msgMap.putAll(path, messages);
@@ -165,11 +184,26 @@ public final class ValidationReport
 
         for (final JsonPointer path: paths)
             for (final ValidationMessage msg: msgMap.get(path))
-                builder.add(path + ": " + msg.getMessage());
+                builder.add(path + ": " + msg);
 
         return builder.build();
     }
 
+    /**
+     * Retrieve all messages as a {@link JsonNode}
+     *
+     * <p>The retrieved JSON document is an object where:</p>
+     *
+     * <ul>
+     *     <li>keys are string representations of {@link JsonPointer}s,</li>
+     *     <li>values are arrays of objects where each individual object is the
+     *     JSON representation of one message.</li>
+     * </ul>
+     *
+     * @see ValidationMessage#toJsonNode()
+     *
+     * @return a JSON document with all validation messages
+     */
     public JsonNode asJsonNode()
     {
         final ObjectNode ret = JsonNodeFactory.instance.objectNode();
