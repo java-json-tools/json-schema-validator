@@ -118,7 +118,9 @@ public abstract class JsonFragment
         if (!(obj instanceof JsonFragment))
             return false;
 
-        return asString.equals(((JsonFragment) obj).asString);
+        final JsonFragment other = (JsonFragment) obj;
+
+        return asString.equals(other.asString);
     }
 
     @Override
