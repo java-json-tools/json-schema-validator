@@ -1,0 +1,14 @@
+{
+    "type": "object",
+    "extends": {
+        "$ref": "../common/parent.json"
+    },
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "id": "child",
+    "properties": {
+        "body": {
+            "$ref": "../common/child-body.json",
+            "required": true
+        }
+    }
+}
