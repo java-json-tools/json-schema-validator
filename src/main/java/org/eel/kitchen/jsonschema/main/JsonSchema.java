@@ -18,11 +18,10 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
-import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
@@ -39,11 +38,10 @@ public final class JsonSchema
     private final JsonValidatorCache cache;
     private final SchemaNode schemaNode;
 
-    JsonSchema(final JsonValidatorCache cache, final SchemaContainer container,
-        final JsonNode schema)
+    JsonSchema(final JsonValidatorCache cache, final SchemaNode schemaNode)
     {
         this.cache = cache;
-        schemaNode = new SchemaNode(container, schema);
+        this.schemaNode = schemaNode;
     }
 
     /**

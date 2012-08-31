@@ -25,6 +25,7 @@ import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -156,7 +157,8 @@ public final class JsonSchemaFactory
     private JsonSchema createSchema(final SchemaContainer container,
         final JsonNode schema)
     {
-        return new JsonSchema(cache, container, schema);
+        final SchemaNode schemaNode = new SchemaNode(container, schema);
+        return new JsonSchema(cache, schemaNode);
     }
 
     /**
