@@ -52,7 +52,7 @@ public final class TypeKeywordValidator
         typeReport.addMessage("instance does not match any allowed primitive "
             + "type");
 
-        final SchemaContainer orig = context.getContainer();
+        final SchemaContainer container = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
 
         ValidationReport tempReport;
@@ -61,10 +61,9 @@ public final class TypeKeywordValidator
 
         for (final JsonNode schema: schemas) {
             tempReport = report.copy();
-            schemaNode = new SchemaNode(orig, schema);
+            schemaNode = new SchemaNode(container, schema);
             validator = cache.getValidator(schemaNode);
             validator.validate(context, tempReport, instance);
-            context.setContainer(orig);
             if (tempReport.isSuccess())
                 return;
             typeReport.mergeWith(tempReport);

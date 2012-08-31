@@ -93,7 +93,7 @@ final class ObjectValidator
     {
         final String key = entry.getKey();
         final JsonNode value = entry.getValue();
-        final SchemaContainer orig = context.getContainer();
+        final SchemaContainer container = context.getContainer();
         final JsonPointer ptr = report.getPath().append(key);
         final Set<JsonNode> subSchemas = getSchemas(key);
 
@@ -103,10 +103,9 @@ final class ObjectValidator
         report.setPath(ptr);
 
         for (final JsonNode subSchema: subSchemas) {
-            subNode = new SchemaNode(orig, subSchema);
+            subNode = new SchemaNode(container, subSchema);
             validator = cache.getValidator(subNode);
             validator.validate(context, report, value);
-            context.setContainer(orig);
         }
     }
 
