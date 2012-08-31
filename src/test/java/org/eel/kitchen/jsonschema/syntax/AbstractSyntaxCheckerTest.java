@@ -18,8 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.Lists;
 import org.eel.kitchen.jsonschema.report.ValidationDomain;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
@@ -92,9 +90,12 @@ public abstract class AbstractSyntaxCheckerTest
         if (valid)
             return;
 
-        final ArrayNode array = JsonNodeFactory.instance.arrayNode();
+        final List<JsonNode> expected = Lists.newArrayList(expectedMessages);
+        final List<JsonNode> actual = Lists.newArrayList();
+
         for (final ValidationMessage message: messages)
-            array.add(message.toJsonNode());
-        assertEquals(array, expectedMessages);
+            actual.add(message.toJsonNode());
+
+        assertEqualsNoOrder(actual.toArray(), expected.toArray());
     }
 }
