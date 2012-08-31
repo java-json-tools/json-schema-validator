@@ -61,19 +61,22 @@ public final class HostnameFormatSpecifier
     void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode value)
     {
-        final boolean strictRFC
-            = ctx.hasFeature(ValidationFeature.STRICT_RFC_CONFORMANCE);
-
-        final boolean hasParent
-            = InternetDomainName.from(value.textValue()).hasParent();
-
-        if (InternetDomainName.isValid(value.textValue())
-            && (strictRFC || hasParent))
-            return;
-
         final ValidationMessage.Builder msg = newMsg(fmt)
             .setMessage("string is not a valid hostname")
             .addInfo("value", value);
-        report.addMessage(msg.build());
+
+        final InternetDomainName hostname;
+        try {
+            hostname = InternetDomainName.from(value.textValue());
+        } catch (IllegalArgumentException ignored) {
+            report.addMessage(msg.build());
+            return;
+        }
+
+        if (ctx.hasFeature(ValidationFeature.STRICT_RFC_CONFORMANCE))
+            return;
+
+        if (!hostname.hasParent())
+            report.addMessage(msg.build());
     }
 }
