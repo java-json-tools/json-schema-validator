@@ -43,8 +43,7 @@ public final class ValidationContext
 
     public ValidationContext(final JsonValidatorCache cache)
     {
-        this.cache = cache;
-        features = EnumSet.noneOf(ValidationFeature.class);
+        this(cache, EnumSet.noneOf(ValidationFeature.class));
     }
 
     public ValidationContext(final JsonValidatorCache cache,
@@ -56,9 +55,8 @@ public final class ValidationContext
     public ValidationContext(final JsonValidatorCache cache,
         final SchemaContainer container)
     {
-        this.cache = cache;
+        this(cache, EnumSet.noneOf(ValidationFeature.class));
         this.container = container;
-        features = EnumSet.noneOf(ValidationFeature.class);
     }
 
     SchemaContainer getContainer()
