@@ -22,6 +22,7 @@ import com.google.common.net.InternetDomainName;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
  * Validator for the {@code host-name} format specification
@@ -50,8 +51,8 @@ public final class HostnameFormatSpecifier
     }
 
     @Override
-    void checkValue(final String fmt, final ValidationReport report,
-        final JsonNode value)
+    void checkValue(final String fmt, final ValidationContext ctx,
+        final ValidationReport report, final JsonNode value)
     {
         if (InternetDomainName.isValid(value.textValue()) &&
             InternetDomainName.from(value.textValue()).hasParent())

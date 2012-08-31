@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -40,6 +41,8 @@ public final class BasicFormatSpecifierTest
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
     private static final String FMT = "fmt";
 
+    private final ValidationContext ctx = new ValidationContext(null);
+
     private ValidationReport report;
     private FormatSpecifier specifier;
 
@@ -53,7 +56,7 @@ public final class BasicFormatSpecifierTest
         }
 
         @Override
-        void checkValue(final String fmt, final ValidationReport report,
+        void checkValue(final String fmt, ValidationContext ctx, final ValidationReport report,
             final JsonNode value)
         {
         }
@@ -79,8 +82,8 @@ public final class BasicFormatSpecifierTest
     @Test(dataProvider = "coveredInstances")
     public void checkValueIsCalledOnCoveredInstances(final JsonNode instance)
     {
-        specifier.validate(FMT, report, instance);
-        verify(specifier, times(1)).checkValue(FMT, report, instance);
+        specifier.validate(FMT, ctx, report, instance);
+        verify(specifier, times(1)).checkValue(FMT, ctx, report, instance);
     }
 
     @DataProvider
@@ -97,7 +100,7 @@ public final class BasicFormatSpecifierTest
     @Test(dataProvider = "ignoredInstances")
     public void checkValueIsNotCalledOnIgnoredInstances(final JsonNode instance)
     {
-        specifier.validate(FMT, report, instance);
-        verify(specifier, never()).checkValue(FMT, report, instance);
+        specifier.validate(FMT, ctx, report, instance);
+        verify(specifier, never()).checkValue(FMT, ctx, report, instance);
     }
 }

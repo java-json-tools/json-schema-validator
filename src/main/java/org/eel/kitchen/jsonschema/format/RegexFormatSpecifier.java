@@ -22,6 +22,7 @@ import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
  * Validator for the {@code regex} format specification
@@ -48,8 +49,8 @@ public final class RegexFormatSpecifier
     }
 
     @Override
-    void checkValue(final String fmt, final ValidationReport report,
-        final JsonNode value)
+    void checkValue(final String fmt, final ValidationContext ctx,
+        final ValidationReport report, final JsonNode value)
     {
         if (RhinoHelper.regexIsValid(value.textValue()))
             return;

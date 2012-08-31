@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
  * Attempt to validate the {@code phone} format specification
@@ -57,8 +58,8 @@ public final class PhoneNumberFormatSpecifier
     }
 
     @Override
-    void checkValue(final String fmt, final ValidationReport report,
-        final JsonNode value)
+    void checkValue(final String fmt, final ValidationContext ctx,
+        final ValidationReport report, final JsonNode value)
     {
         final String input = value.textValue();
 

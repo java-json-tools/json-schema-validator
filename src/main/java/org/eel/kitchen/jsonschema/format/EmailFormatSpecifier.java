@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -49,8 +50,8 @@ public final class EmailFormatSpecifier
     }
 
     @Override
-    void checkValue(final String fmt, final ValidationReport report,
-        final JsonNode instance)
+    void checkValue(final String fmt, final ValidationContext ctx,
+        final ValidationReport report, final JsonNode instance)
     {
         try {
             new InternetAddress(instance.textValue(), true);

@@ -111,7 +111,7 @@ public final class FormatKeywordValidator
         if (specifier == null)
             return;
 
-        specifier.validate(fmt, report, instance);
+        specifier.validate(fmt, context, report, instance);
     }
 
     @Override

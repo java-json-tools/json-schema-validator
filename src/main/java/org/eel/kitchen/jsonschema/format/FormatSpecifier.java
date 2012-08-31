@@ -22,6 +22,7 @@ import org.eel.kitchen.jsonschema.report.ValidationDomain;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.util.EnumSet;
 
@@ -70,37 +71,40 @@ public abstract class FormatSpecifier
      *
      * <p>This function only checks whether the value is of a type recognized
      * by this specifier. If so, it call
-     * {@link #checkValue(String, org.eel.kitchen.jsonschema.report.ValidationReport, com.fasterxml.jackson.databind.JsonNode)}.</p>
+     * {@link #checkValue(String, org.eel.kitchen.jsonschema.validator.ValidationContext, org.eel.kitchen.jsonschema.report.ValidationReport, com.fasterxml.jackson.databind.JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
      * with the keyword ({@code format}, the specifier name and the domain
      * ({@link ValidationDomain#VALIDATION}).</p>
      *
      * @param fmt the format specifier name
+     * @param ctx the validation context
      * @param report the validation report
      * @param value the value to validate
      */
-    public final void validate(final String fmt,
+    public final void validate(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode value)
     {
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
 
-        checkValue(fmt, report, value);
+        checkValue(fmt, ctx, report, value);
     }
 
     /**
      * Abstract method implemented by all specifiers
      *
      * <p>It is only called if the value type is one expected by the
-     * specifier, see  {@link #validate(String, ValidationReport, JsonNode)}.</p>
+     * specifier, see  {@link #validate(String, ValidationContext,
+     * ValidationReport, JsonNode)}.</p>
      *
      * @param fmt the format specifier name
+     * @param ctx the validation context
      * @param report the validation report
      * @param value the value to validate
      */
-    abstract void checkValue(final String fmt, final ValidationReport report,
-        final JsonNode value);
+    abstract void checkValue(final String fmt, ValidationContext ctx,
+        final ValidationReport report, final JsonNode value);
 
     protected static ValidationMessage.Builder newMsg(final String fmt)
     {
