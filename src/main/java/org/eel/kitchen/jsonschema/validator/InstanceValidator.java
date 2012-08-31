@@ -65,16 +65,13 @@ final class InstanceValidator
         for (final KeywordValidator validator: validators)
             validator.validateInstance(context, report, instance);
 
-        if (!instance.isContainerNode()) {
-            context.setContainer(orig);
-            return false;
+        if (instance.isContainerNode()) {
+            final JsonValidator validator = instance.isArray()
+                ? new ArrayValidator(schemaNode.getNode())
+                : new ObjectValidator(schemaNode.getNode());
+
+            validator.validate(context, report, instance);
         }
-
-        final JsonValidator validator = instance.isArray()
-            ? new ArrayValidator(schemaNode.getNode())
-            : new ObjectValidator(schemaNode.getNode());
-
-        validator.validate(context, report, instance);
         context.setContainer(orig);
         return false;
     }
