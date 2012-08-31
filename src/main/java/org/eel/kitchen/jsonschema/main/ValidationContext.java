@@ -17,8 +17,12 @@
 
 package org.eel.kitchen.jsonschema.main;
 
+import com.google.common.base.Joiner;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 /**
  * A validation context
@@ -33,7 +37,11 @@ import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
  */
 public final class ValidationContext
 {
-    private SchemaContainer container;
+    private static final Joiner JOINER = Joiner.on(" -> ");
+
+    private final Deque<SchemaContainer> containerStack
+        = new ArrayDeque<SchemaContainer>();
+
     private final JsonValidatorCache cache;
 
     public ValidationContext(final JsonValidatorCache cache)
@@ -48,17 +56,23 @@ public final class ValidationContext
 
     public SchemaContainer getContainer()
     {
-        return container;
+        return containerStack.getFirst();
     }
 
-    public void setContainer(final SchemaContainer container)
+    public void push(final SchemaContainer container)
     {
-        this.container = container;
+        containerStack.addFirst(container);
+    }
+
+    public void pop()
+    {
+        containerStack.removeFirst();
     }
 
     @Override
     public String toString()
     {
-        return "container: " + container;
+        return containerStack.size() + " levels; "
+            + JOINER.join(containerStack);
     }
 }

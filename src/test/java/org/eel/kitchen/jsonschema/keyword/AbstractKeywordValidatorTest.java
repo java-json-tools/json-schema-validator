@@ -97,7 +97,7 @@ public abstract class AbstractKeywordValidatorTest
         final ValidationReport report = new ValidationReport();
 
         final ValidationContext context = new ValidationContext(cache);
-        context.setContainer(new SchemaContainer(schema));
+        context.push(new SchemaContainer(schema));
         validator.validate(context, report, data);
 
         assertEquals(report.isSuccess(), valid);
