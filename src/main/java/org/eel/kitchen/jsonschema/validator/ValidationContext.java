@@ -15,14 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.main;
+package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Queues;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
-import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 import java.util.Deque;
 
@@ -50,13 +48,20 @@ public final class ValidationContext
         this.cache = cache;
     }
 
-    public void push(final SchemaContainer container)
+    public ValidationContext(final JsonValidatorCache cache,
+        final SchemaContainer container)
+    {
+        this.cache = cache;
+        current = container;
+    }
+
+    void push(final SchemaContainer container)
     {
         stack.addFirst(container);
         current = container;
     }
 
-    public void pop()
+    void pop()
     {
         current = stack.removeFirst();
     }

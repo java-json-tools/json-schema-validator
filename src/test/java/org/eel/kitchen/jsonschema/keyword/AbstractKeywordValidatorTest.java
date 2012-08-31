@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -96,8 +96,8 @@ public abstract class AbstractKeywordValidatorTest
         final KeywordValidator validator = constructor.newInstance(schema);
         final ValidationReport report = new ValidationReport();
 
-        final ValidationContext context = new ValidationContext(cache);
-        context.push(new SchemaContainer(schema));
+        final ValidationContext context
+            = new ValidationContext(cache, new SchemaContainer(schema));
         validator.validate(context, report, data);
 
         assertEquals(report.isSuccess(), valid);
