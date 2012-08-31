@@ -45,14 +45,16 @@ public final class URIFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
+    void checkValue(final String fmt,
         final ValidationReport report, final JsonNode value)
     {
         try {
             new URI(value.textValue());
         } catch (URISyntaxException ignored) {
-            report.addMessage(msg.setMessage("string is not a valid URI")
-                .addInfo("value", value).build());
+            final ValidationMessage.Builder msg = newMsg(fmt)
+                .setMessage("string is not a valid URI")
+                .addInfo("value", value);
+            report.addMessage(msg.build());
         }
     }
 }

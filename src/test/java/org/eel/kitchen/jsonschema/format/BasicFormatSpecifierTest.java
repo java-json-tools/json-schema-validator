@@ -19,8 +19,6 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;
@@ -40,10 +38,10 @@ public final class BasicFormatSpecifierTest
      * We pick a set of covered types in advance.
      */
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+    private static final String FMT = "fmt";
 
     private ValidationReport report;
     private FormatSpecifier specifier;
-    private ValidationMessage.Builder msg;
 
     private static class CustomFormatSpecifier
         extends FormatSpecifier
@@ -55,8 +53,8 @@ public final class BasicFormatSpecifierTest
         }
 
         @Override
-        void checkValue(final ValidationMessage.Builder msg,
-            final ValidationReport report, final JsonNode value)
+        void checkValue(final String fmt, final ValidationReport report,
+            final JsonNode value)
         {
         }
     }
@@ -64,8 +62,6 @@ public final class BasicFormatSpecifierTest
     @BeforeMethod
     public void ctxInit()
     {
-        msg = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-            .setKeyword("custom");
         report = new ValidationReport();
         specifier = spy(new CustomFormatSpecifier());
     }
@@ -83,8 +79,8 @@ public final class BasicFormatSpecifierTest
     @Test(dataProvider = "coveredInstances")
     public void checkValueIsCalledOnCoveredInstances(final JsonNode instance)
     {
-        specifier.validate(msg, report, instance);
-        verify(specifier, times(1)).checkValue(msg, report, instance);
+        specifier.validate(FMT, report, instance);
+        verify(specifier, times(1)).checkValue(FMT, report, instance);
     }
 
     @DataProvider
@@ -101,7 +97,7 @@ public final class BasicFormatSpecifierTest
     @Test(dataProvider = "ignoredInstances")
     public void checkValueIsNotCalledOnIgnoredInstances(final JsonNode instance)
     {
-        specifier.validate(msg, report, instance);
-        verify(specifier, never()).checkValue(msg, report, instance);
+        specifier.validate(FMT, report, instance);
+        verify(specifier, never()).checkValue(FMT, report, instance);
     }
 }

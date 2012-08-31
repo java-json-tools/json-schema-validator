@@ -50,14 +50,15 @@ public final class HostnameFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode value)
+    void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         if (InternetDomainName.isValid(value.textValue()) &&
             InternetDomainName.from(value.textValue()).hasParent())
             return;
 
-        msg.setMessage("string is not a valid hostname")
+        final ValidationMessage.Builder msg = newMsg(fmt)
+            .setMessage("string is not a valid hostname")
             .addInfo("value", value);
         report.addMessage(msg.build());
     }

@@ -57,8 +57,8 @@ public final class PhoneNumberFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode value)
+    void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         final String input = value.textValue();
 
@@ -79,7 +79,8 @@ public final class PhoneNumberFormatSpecifier
             else
                 parser.parse(input, "FR");
         } catch (NumberParseException ignored) {
-            msg.setMessage("string is not a recognized phone number")
+            final ValidationMessage.Builder msg = newMsg(fmt)
+                .setMessage("string is not a recognized phone number")
                 .addInfo("value", value);
             report.addMessage(msg.build());
         }

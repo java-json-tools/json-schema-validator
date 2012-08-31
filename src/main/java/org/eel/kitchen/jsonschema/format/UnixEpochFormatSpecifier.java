@@ -61,21 +61,26 @@ public final class UnixEpochFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode value)
+    void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         BigInteger epoch = value.bigIntegerValue();
 
+        final ValidationMessage.Builder msg;
+
         if (epoch.signum() == -1) {
-            report.addMessage(msg.setMessage("epoch cannot be negative")
-                .addInfo("value", value).build());
+            msg = newMsg(fmt).setMessage("epoch cannot be negative")
+                .addInfo("value", value);
+            report.addMessage(msg.build());
             return;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
-        if (epoch.bitLength() > EPOCH_BITLENGTH)
-            report.addMessage(msg.setMessage("epoch time would overflow")
-                .addInfo("value", value).build());
+        if (epoch.bitLength() > EPOCH_BITLENGTH) {
+            msg = newMsg(fmt).setMessage("epoch time would overflow")
+                .addInfo("value", value);
+            report.addMessage(msg.build());
+        }
     }
 }

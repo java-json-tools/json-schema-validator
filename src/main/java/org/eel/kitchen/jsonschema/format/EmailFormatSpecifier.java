@@ -49,13 +49,14 @@ public final class EmailFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode instance)
+    void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode instance)
     {
         try {
             new InternetAddress(instance.textValue(), true);
         } catch (AddressException ignored) {
-            msg.setMessage("string is not a valid email address")
+            final ValidationMessage.Builder msg = newMsg(fmt)
+                .setMessage("string is not a valid email address")
                 .addInfo("value", instance);
             report.addMessage(msg.build());
         }

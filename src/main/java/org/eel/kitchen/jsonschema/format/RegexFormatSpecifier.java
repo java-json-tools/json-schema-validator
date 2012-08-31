@@ -48,13 +48,14 @@ public final class RegexFormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode value)
+    void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         if (RhinoHelper.regexIsValid(value.textValue()))
             return;
 
-        msg.setMessage("string is not a valid ECMA 262 regular expression")
+        final ValidationMessage.Builder msg = newMsg(fmt)
+            .setMessage("string is not a valid ECMA 262 regular expression")
             .addInfo("value", value);
         report.addMessage(msg.build());
     }

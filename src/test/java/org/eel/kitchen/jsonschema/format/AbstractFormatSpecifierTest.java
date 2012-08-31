@@ -18,8 +18,6 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
@@ -70,11 +68,8 @@ public abstract class AbstractFormatSpecifierTest
     public void testSpecifier(final JsonNode data, final boolean valid)
     {
         final ValidationReport report = new ValidationReport();
-        final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-                .setKeyword("format").addInfo("format", fmt);
 
-        specifier.checkValue(msg, report, data);
+        specifier.checkValue(fmt, report, data);
 
         assertEquals(report.isSuccess(), valid);
     }

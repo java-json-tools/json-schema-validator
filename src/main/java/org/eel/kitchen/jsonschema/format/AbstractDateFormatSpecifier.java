@@ -63,13 +63,14 @@ public class AbstractDateFormatSpecifier
     }
 
     @Override
-    final void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode instance)
+    final void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode instance)
     {
         try {
             dtf.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            msg.setMessage(errmsg).addInfo("value", instance);
+            final ValidationMessage.Builder msg = newMsg(fmt)
+                .setMessage(errmsg).addInfo("value", instance);
             report.addMessage(msg.build());
         }
     }

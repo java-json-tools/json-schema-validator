@@ -70,37 +70,41 @@ public abstract class FormatSpecifier
      *
      * <p>This function only checks whether the value is of a type recognized
      * by this specifier. If so, it call
-     * {@link #checkValue(ValidationMessage.Builder, ValidationReport,
-     * JsonNode)}.</p>
+     * {@link #checkValue(String, org.eel.kitchen.jsonschema.report.ValidationReport, com.fasterxml.jackson.databind.JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
      * with the keyword ({@code format}, the specifier name and the domain
      * ({@link ValidationDomain#VALIDATION}).</p>
      *
-     * @param msg the message template to use
+     * @param fmt the format specifier name
      * @param report the validation report
      * @param value the value to validate
      */
-    public final void validate(final ValidationMessage.Builder msg,
+    public final void validate(final String fmt,
         final ValidationReport report, final JsonNode value)
     {
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
 
-        checkValue(msg, report, value);
+        checkValue(fmt, report, value);
     }
 
     /**
      * Abstract method implemented by all specifiers
      *
      * <p>It is only called if the value type is one expected by the
-     * specifier, see  {@link #validate(ValidationMessage.Builder,
-     * ValidationReport, JsonNode)}.</p>
+     * specifier, see  {@link #validate(String, ValidationReport, JsonNode)}.</p>
      *
-     * @param msg the message template to use
+     * @param fmt the format specifier name
      * @param report the validation report
      * @param value the value to validate
      */
-    abstract void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode value);
+    abstract void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value);
+
+    protected static ValidationMessage.Builder newMsg(final String fmt)
+    {
+        return new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+            .setKeyword("format").addInfo("format", fmt);
+    }
 }

@@ -46,8 +46,8 @@ public final class IPV6FormatSpecifier
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
-        final ValidationReport report, final JsonNode value)
+    void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         final String ipaddr = value.textValue();
 
@@ -55,7 +55,8 @@ public final class IPV6FormatSpecifier
             .forString(ipaddr).getAddress().length == IPV6_LENGTH)
             return;
 
-        msg.setMessage("string is not a valid IPv6 address")
+        final ValidationMessage.Builder msg = newMsg(fmt)
+            .setMessage("string is not a valid IPv6 address")
             .addInfo("value", value);
         report.addMessage(msg.build());
     }
