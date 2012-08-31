@@ -26,7 +26,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
@@ -172,9 +171,6 @@ public final class ValidationMessage
      *     instance also filled with the correct domain and keyword.</li>
      * </ul>
      *
-     * @see KeywordValidator#newMsg()
-     * @see SyntaxChecker#checkSyntax(Builder, List, JsonNode)
-     * @see SimpleSyntaxChecker#checkValue(Builder, List, JsonNode)
      */
     public static final class Builder
     {

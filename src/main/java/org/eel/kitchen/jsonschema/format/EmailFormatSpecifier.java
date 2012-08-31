@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -38,7 +37,6 @@ import javax.mail.internet.InternetAddress;
  * ValidationFeature#STRICT_RFC_CONFORMANCE} validation feature before building
  * your schema factory.</p>
  *
- * @see JsonSchemaFactory.Builder#enableFeature(ValidationFeature)
  * @see ValidationFeature
  */
 public final class EmailFormatSpecifier

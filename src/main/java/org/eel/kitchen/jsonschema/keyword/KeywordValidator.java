@@ -117,7 +117,7 @@ public abstract class KeywordValidator
      *
      * @see ValidationMessage
      *
-     * @return a {@link ValidationMessage.Builder}
+     * @return a message builder
      */
     protected final ValidationMessage.Builder newMsg()
     {

@@ -82,7 +82,7 @@ This is a three step process:</p>
     com.fasterxml.jackson.databind.JsonNode} (here, the {@link
     org.eel.kitchen.jsonschema.util.JsonLoader} will probably be useful);</li>
     <li>you need to register this schema to the factory: this will create a
-    {@link org.eel.kitchen.jsonschema.main.SchemaContainer};</li>
+    {@link org.eel.kitchen.jsonschema.ref.SchemaContainer};</li>
     <li>then you can create your {@link
     org.eel.kitchen.jsonschema.main.JsonSchema} instance.</li>
 </ul>
@@ -132,8 +132,8 @@ messages for that pointer.</p>
 contain as much information as the above method, though in a much less
 exploitable format -- it is more suited for logging purposes, though.</p>
 
-<p>See {@link org.eel.kitchen.jsonschema.main.ValidationReport} and {@link
-org.eel.kitchen.jsonschema.main.ValidationMessage} for details.</p>
+<p>See {@link org.eel.kitchen.jsonschema.report.ValidationReport} and {@link
+org.eel.kitchen.jsonschema.report.ValidationMessage} for details.</p>
 
 <h1>Customizing your schema factory</h1>
 

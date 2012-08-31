@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InternetDomainName;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -38,7 +37,6 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
  *
  * <p>Guava's {@link InternetDomainName} is used for validation.</p>
  *
- * @see JsonSchemaFactory.Builder#enableFeature(ValidationFeature)
  * @see ValidationFeature
  */
 public final class HostnameFormatSpecifier

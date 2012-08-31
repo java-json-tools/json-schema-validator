@@ -72,7 +72,7 @@ public final class DependenciesSyntaxChecker
     /**
      * Analyze one entry in a {@code dependency} object entry
      *
-     * @param entry the JSON object entry (as a {@link Map.Entry})
+     * @param entry the JSON object entry (as a map entry)
      * @param messages the validation message list
      */
     private static void analyzeDependency(
