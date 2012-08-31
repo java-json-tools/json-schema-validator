@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -53,8 +54,15 @@ public final class EmailFormatSpecifier
     void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode instance)
     {
+        // Yup, that is kind of misnamed. But the problem is with the
+        // InternetAddress constructor in the first place which "enforces" a
+        // syntax which IS NOT strictly RFC compliant.
+        final boolean strictRFC
+            = ctx.hasFeature(ValidationFeature.RFC_STRICT_CONFORMANCE);
+
         try {
-            new InternetAddress(instance.textValue(), true);
+            // Which means we actually invert it.
+            new InternetAddress(instance.textValue(), !strictRFC);
         } catch (AddressException ignored) {
             final ValidationMessage.Builder msg = newMsg(fmt)
                 .setMessage("string is not a valid email address")

@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InternetDomainName;
+import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -54,8 +55,14 @@ public final class HostnameFormatSpecifier
     void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode value)
     {
-        if (InternetDomainName.isValid(value.textValue()) &&
-            InternetDomainName.from(value.textValue()).hasParent())
+        final boolean strictRFC
+            = ctx.hasFeature(ValidationFeature.RFC_STRICT_CONFORMANCE);
+
+        final boolean hasParent
+            = InternetDomainName.from(value.textValue()).hasParent();
+
+        if (InternetDomainName.isValid(value.textValue())
+            && (strictRFC || hasParent))
             return;
 
         final ValidationMessage.Builder msg = newMsg(fmt)
