@@ -18,8 +18,11 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
+
+import java.util.EnumSet;
 
 /**
  * A validation context
@@ -36,17 +39,26 @@ public final class ValidationContext
 {
     private final JsonValidatorCache cache;
     private SchemaContainer container;
+    private final EnumSet<ValidationFeature> features;
 
     public ValidationContext(final JsonValidatorCache cache)
     {
         this.cache = cache;
+        features = EnumSet.noneOf(ValidationFeature.class);
     }
 
+    public ValidationContext(final JsonValidatorCache cache,
+        final EnumSet<ValidationFeature> features)
+    {
+        this.cache = cache;
+        this.features = EnumSet.copyOf(features);
+    }
     public ValidationContext(final JsonValidatorCache cache,
         final SchemaContainer container)
     {
         this.cache = cache;
         this.container = container;
+        features = EnumSet.noneOf(ValidationFeature.class);
     }
 
     SchemaContainer getContainer()
@@ -57,6 +69,11 @@ public final class ValidationContext
     void setContainer(final SchemaContainer container)
     {
         this.container = container;
+    }
+
+    public boolean hasFeature(final ValidationFeature feature)
+    {
+        return features.contains(feature);
     }
 
     public JsonValidator newValidator(final JsonNode node)
