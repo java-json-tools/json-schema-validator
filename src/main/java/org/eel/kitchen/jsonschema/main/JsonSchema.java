@@ -37,14 +37,12 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 public final class JsonSchema
 {
     private final JsonValidatorCache cache;
-    private final SchemaContainer container;
     private final SchemaNode schemaNode;
 
     JsonSchema(final JsonValidatorCache cache, final SchemaContainer container,
         final JsonNode schema)
     {
         this.cache = cache;
-        this.container = container;
         schemaNode = new SchemaNode(container, schema);
     }
 
