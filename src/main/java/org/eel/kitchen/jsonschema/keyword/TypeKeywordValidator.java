@@ -81,7 +81,7 @@ public final class TypeKeywordValidator
     private void trySchemas(final ValidationContext context,
         final ValidationReport schemaReport, final JsonNode instance)
     {
-        final SchemaContainer orig = context.getContainer();
+        final SchemaContainer container = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
         final ValidationReport report = schemaReport.copy();
 
@@ -91,10 +91,9 @@ public final class TypeKeywordValidator
 
         for (final JsonNode schema: schemas) {
             subReport = report.copy();
-            schemaNode = new SchemaNode(orig, schema);
+            schemaNode = new SchemaNode(container, schema);
             validator = cache.getValidator(schemaNode);
             validator.validate(context, subReport, instance);
-            context.setContainer(orig);
             if (subReport.isSuccess())
                 return;
             report.mergeWith(subReport);

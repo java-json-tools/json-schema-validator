@@ -69,17 +69,16 @@ public final class ExtendsKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final SchemaContainer orig = context.getContainer();
+        final SchemaContainer container = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
 
         JsonValidator validator;
         SchemaNode schemaNode;
 
         for (final JsonNode schema: schemas) {
-            schemaNode = new SchemaNode(orig, schema);
+            schemaNode = new SchemaNode(container, schema);
             validator = cache.getValidator(schemaNode);
             validator.validate(context, report, instance);
-            context.setContainer(orig);
         }
     }
 

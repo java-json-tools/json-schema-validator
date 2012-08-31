@@ -64,7 +64,7 @@ public final class DisallowKeywordValidator
         if (schemas.isEmpty())
             return;
 
-        final SchemaContainer orig = context.getContainer();
+        final SchemaContainer container = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
 
         ValidationReport schemaReport;
@@ -72,11 +72,10 @@ public final class DisallowKeywordValidator
         SchemaNode subNode;
 
         for (final JsonNode schema: schemas) {
-            subNode = new SchemaNode(orig, schema);
+            subNode = new SchemaNode(container, schema);
             validator = cache.getValidator(subNode);
             schemaReport = report.copy();
             validator.validate(context, schemaReport, instance);
-            context.setContainer(orig);
             if (schemaReport.isSuccess()) {
                 // FIXME: the day we have schema locators, add it here
                 msg = newMsg().setMessage("instance is valid against a " +

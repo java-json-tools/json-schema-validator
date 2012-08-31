@@ -140,17 +140,16 @@ public final class DependenciesKeywordValidator
          * the validator cache and current context (schema container) in order
          * to generate new schemas.
          */
-        final SchemaContainer orig = context.getContainer();
+        final SchemaContainer container = context.getContainer();
         final JsonValidatorCache cache = context.getValidatorCache();
 
         JsonValidator validator;
         SchemaNode schemaNode;
 
         for (final JsonNode subSchema: schemaDeps.values()) {
-            schemaNode = new SchemaNode(orig, subSchema);
+            schemaNode = new SchemaNode(container, subSchema);
             validator = cache.getValidator(schemaNode);
             validator.validate(context, report, instance);
-            context.setContainer(orig);
         }
     }
 

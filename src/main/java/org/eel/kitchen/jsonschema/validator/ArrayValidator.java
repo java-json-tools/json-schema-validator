@@ -78,7 +78,7 @@ final class ArrayValidator
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final SchemaContainer orig = context.getContainer();
+        final SchemaContainer container = context.getContainer();
         final JsonPointer pwd = report.getPath();
 
         JsonNode element;
@@ -86,12 +86,11 @@ final class ArrayValidator
         SchemaNode subNode;
 
         for (int i = 0; i < instance.size(); i++) {
-            subNode = new SchemaNode(orig, getSchema(i));
+            subNode = new SchemaNode(container, getSchema(i));
             element = instance.get(i);
             report.setPath(pwd.append(i));
             validator = cache.getValidator(subNode);
             validator.validate(context, report, element);
-            context.setContainer(orig);
         }
 
         report.setPath(pwd);
