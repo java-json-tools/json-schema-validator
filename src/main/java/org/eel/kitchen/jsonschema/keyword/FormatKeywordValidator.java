@@ -117,7 +117,7 @@ public final class FormatKeywordValidator
         final ValidationMessage.Builder msg = newMsg().addInfo("format", fmt);
 
         final List<ValidationMessage> messages = Lists.newArrayList();
-        specifier.validate(msg, messages, instance);
+        specifier.validate(msg, report, instance);
 
         report.addMessages(messages);
     }

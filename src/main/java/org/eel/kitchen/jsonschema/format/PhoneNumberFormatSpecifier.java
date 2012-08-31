@@ -22,9 +22,8 @@ import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-
-import java.util.List;
 
 /**
  * Attempt to validate the {@code phone} format specification
@@ -59,7 +58,7 @@ public final class PhoneNumberFormatSpecifier
 
     @Override
     void checkValue(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode value)
+        final ValidationReport report, final JsonNode value)
     {
         final String input = value.textValue();
 
@@ -82,7 +81,7 @@ public final class PhoneNumberFormatSpecifier
         } catch (NumberParseException ignored) {
             msg.setMessage("string is not a recognized phone number")
                 .addInfo("value", value);
-            messages.add(msg.build());
+            report.addMessage(msg.build());
         }
     }
 }

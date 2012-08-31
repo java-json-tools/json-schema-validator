@@ -20,10 +20,10 @@ package org.eel.kitchen.jsonschema.format;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.ValidationDomain;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
-import java.util.List;
 
 /**
  * Base class for a format specifier
@@ -70,36 +70,37 @@ public abstract class FormatSpecifier
      *
      * <p>This function only checks whether the value is of a type recognized
      * by this specifier. If so, it call
-     * {@link #checkValue(ValidationMessage.Builder, List, JsonNode)}.</p>
+     * {@link #checkValue(ValidationMessage.Builder, ValidationReport,
+     * JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
      * with the keyword ({@code format}, the specifier name and the domain
      * ({@link ValidationDomain#VALIDATION}).</p>
      *
      * @param msg the message template to use
-     * @param messages the list of messages to fill
+     * @param report the validation report
      * @param value the value to validate
      */
     public final void validate(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode value)
+        final ValidationReport report, final JsonNode value)
     {
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
 
-        checkValue(msg, messages, value);
+        checkValue(msg, report, value);
     }
 
     /**
      * Abstract method implemented by all specifiers
      *
      * <p>It is only called if the value type is one expected by the
-     * specifier, see  {@link #validate(ValidationMessage.Builder, List,
-     * JsonNode)}.</p>
+     * specifier, see  {@link #validate(ValidationMessage.Builder,
+     * ValidationReport, JsonNode)}.</p>
      *
      * @param msg the message template to use
-     * @param messages the list of messages to fill
+     * @param report the validation report
      * @param value the value to validate
      */
     abstract void checkValue(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode value);
+        final ValidationReport report, final JsonNode value);
 }

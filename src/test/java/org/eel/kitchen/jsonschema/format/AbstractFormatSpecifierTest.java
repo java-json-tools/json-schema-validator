@@ -18,9 +18,9 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
 import org.eel.kitchen.jsonschema.report.ValidationDomain;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -28,7 +28,6 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 import static org.testng.Assert.*;
@@ -70,13 +69,13 @@ public abstract class AbstractFormatSpecifierTest
     )
     public void testSpecifier(final JsonNode data, final boolean valid)
     {
-        final List<ValidationMessage> messages = Lists.newArrayList();
+        final ValidationReport report = new ValidationReport();
         final ValidationMessage.Builder msg
             = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
                 .setKeyword("format").addInfo("format", fmt);
 
-        specifier.checkValue(msg, messages, data);
+        specifier.checkValue(msg, report, data);
 
-        assertEquals(messages.isEmpty(), valid);
+        assertEquals(report.isSuccess(), valid);
     }
 }

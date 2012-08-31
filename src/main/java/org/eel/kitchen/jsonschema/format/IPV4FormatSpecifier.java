@@ -20,9 +20,8 @@ package org.eel.kitchen.jsonschema.format;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InetAddresses;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-
-import java.util.List;
 
 /**
  * Validator for the {@code ip-address} format specification, ie an IPv4 address
@@ -48,7 +47,7 @@ public final class IPV4FormatSpecifier
 
     @Override
     void checkValue(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode value)
+        final ValidationReport report, final JsonNode value)
     {
         final String ipaddr = value.textValue();
 
@@ -58,6 +57,6 @@ public final class IPV4FormatSpecifier
 
         msg.setMessage("string is not a valid IPv6 address")
             .addInfo("value", value);
-        messages.add(msg.build());
+        report.addMessage(msg.build());
     }
 }

@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 /**
  * Specialized format validator for date/time checking
@@ -64,13 +64,13 @@ public class AbstractDateFormatSpecifier
 
     @Override
     final void checkValue(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode instance)
+        final ValidationReport report, final JsonNode instance)
     {
         try {
             dtf.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            messages.add(msg.setMessage(errmsg).addInfo("value", instance)
-                .build());
+            msg.setMessage(errmsg).addInfo("value", instance);
+            report.addMessage(msg.build());
         }
     }
 }
