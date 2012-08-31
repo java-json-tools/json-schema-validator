@@ -17,11 +17,13 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import com.google.common.base.Joiner;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Queues;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
+import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
@@ -37,42 +39,38 @@ import java.util.Deque;
  */
 public final class ValidationContext
 {
-    private static final Joiner JOINER = Joiner.on(" -> ");
-
-    private final Deque<SchemaContainer> containerStack
-        = new ArrayDeque<SchemaContainer>();
+    private final Deque<SchemaContainer> stack = Queues.newArrayDeque();
 
     private final JsonValidatorCache cache;
+
+    private SchemaContainer current;
 
     public ValidationContext(final JsonValidatorCache cache)
     {
         this.cache = cache;
     }
 
-    public JsonValidatorCache getValidatorCache()
-    {
-        return cache;
-    }
-
-    public SchemaContainer getContainer()
-    {
-        return containerStack.getFirst();
-    }
-
     public void push(final SchemaContainer container)
     {
-        containerStack.addFirst(container);
+        stack.addFirst(container);
+        current = container;
     }
 
     public void pop()
     {
-        containerStack.removeFirst();
+        current = stack.removeFirst();
+    }
+
+    public JsonValidator newValidator(final JsonNode node)
+    {
+        final SchemaNode schemaNode = new SchemaNode(current, node);
+        return cache.getValidator(schemaNode);
     }
 
     @Override
     public String toString()
     {
-        return containerStack.size() + " levels; "
-            + JOINER.join(containerStack);
+        return "current: " + current + "; " + stack.size()
+            + " containers in stack";
     }
 }

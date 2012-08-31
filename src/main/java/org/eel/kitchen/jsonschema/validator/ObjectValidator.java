@@ -19,11 +19,10 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
@@ -94,18 +93,15 @@ final class ObjectValidator
     {
         final String key = entry.getKey();
         final JsonNode value = entry.getValue();
-        final SchemaContainer container = context.getContainer();
         final JsonPointer ptr = report.getPath().append(key);
         final Set<JsonNode> subSchemas = getSchemas(key);
 
         JsonValidator validator;
-        SchemaNode subNode;
 
         report.setPath(ptr);
 
         for (final JsonNode subSchema: subSchemas) {
-            subNode = new SchemaNode(container, subSchema);
-            validator = cache.getValidator(subNode);
+            validator = context.newValidator(subSchema);
             validator.validate(context, report, value);
         }
     }

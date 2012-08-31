@@ -18,14 +18,11 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
-import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
-import org.eel.kitchen.jsonschema.ref.SchemaNode;
 
 /**
  * Validator for the {@code type} keyword
@@ -81,18 +78,14 @@ public final class TypeKeywordValidator
     private void trySchemas(final ValidationContext context,
         final ValidationReport schemaReport, final JsonNode instance)
     {
-        final SchemaContainer container = context.getContainer();
-        final JsonValidatorCache cache = context.getValidatorCache();
         final ValidationReport report = schemaReport.copy();
 
         ValidationReport subReport;
         JsonValidator validator;
-        SchemaNode schemaNode;
 
         for (final JsonNode schema: schemas) {
             subReport = report.copy();
-            schemaNode = new SchemaNode(container, schema);
-            validator = cache.getValidator(schemaNode);
+            validator = context.newValidator(schema);
             validator.validate(context, subReport, instance);
             if (subReport.isSuccess())
                 return;

@@ -19,11 +19,10 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableList;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
 import java.util.Collections;
 import java.util.List;
@@ -78,18 +77,16 @@ final class ArrayValidator
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final SchemaContainer container = context.getContainer();
         final JsonPointer pwd = report.getPath();
 
-        JsonNode element;
+        JsonNode subSchema, element;
         JsonValidator validator;
-        SchemaNode subNode;
 
         for (int i = 0; i < instance.size(); i++) {
-            subNode = new SchemaNode(container, getSchema(i));
-            element = instance.get(i);
             report.setPath(pwd.append(i));
-            validator = cache.getValidator(subNode);
+            element = instance.get(i);
+            subSchema = getSchema(i);
+            validator = context.newValidator(subSchema);
             validator.validate(context, report, element);
         }
 
