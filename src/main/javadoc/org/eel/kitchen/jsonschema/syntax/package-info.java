@@ -44,22 +44,29 @@
  *      implements SyntaxChecker
  *  {
  *      &#64;Override
- *      public void checkSyntax(final List&lt;String&gt; messages,
- *          final JsonNode schema)
+ *      public void checkSyntax(final ValidationMessage.Builder msg,
+ *          final List&lt;String&gt; messages, final JsonNode schema)
  *      {
- *          final JsonNode node = schema.get("foo");
+ *          final JsonNode node = schema.get(keyword);
  *          if (!node.isTextual()) {
- *              messages.add("field is not a string");
+ *              msg.setMessage("field is not a string");
+ *              messages.add(msg.build());
  *              return;
  *          }
  *
- *          if (node.textValue().length() < 5)
- *              messages.add("field has insufficient length");
+ *          if (node.textValue().length() >= 5)
+ *              return;
+ *
+ *          msg.setMessage("field has insufficient length")
+ *              .addInfo("required", 5)
+ *              .addInfo("found", node.textValue().length());
+ *          messages.add(msg.build());
  *      }
  *  }
  * </pre>
  *
  * <p>For more information, see {@link
- * org.eel.kitchen.jsonschema.syntax.SyntaxChecker}.</p>
+ * org.eel.kitchen.jsonschema.syntax.SyntaxChecker} and {@link
+ * org.eel.kitchen.jsonschema.report.ValidationMessage}.</p>
  */
 package org.eel.kitchen.jsonschema.syntax;

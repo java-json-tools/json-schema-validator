@@ -21,6 +21,5 @@
  * <p>You will normally never use these classes directly. They are spawned  by
  * {@link org.eel.kitchen.jsonschema.main.JsonSchema} instances to proceed to
  * the validation itself.</p>
- *
  */
 package org.eel.kitchen.jsonschema.validator;

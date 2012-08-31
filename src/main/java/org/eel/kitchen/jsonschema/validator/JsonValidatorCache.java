@@ -105,14 +105,13 @@ public final class JsonValidatorCache
             @Override
             public JsonValidator load(final SchemaNode key)
             {
-                SchemaNode realNode = key;
+                final SchemaNode realNode;
 
-                if (realNode.getNode().has("$ref"))
-                    try {
-                        realNode = resolver.resolve(key);
-                    } catch (JsonSchemaException e) {
-                        return new FailingValidator(e.getValidationMessage());
-                    }
+                try {
+                    realNode = resolver.resolve(key);
+                } catch (JsonSchemaException e) {
+                    return new FailingValidator(e.getValidationMessage());
+                }
 
                 final List<ValidationMessage> messages = Lists.newArrayList();
 

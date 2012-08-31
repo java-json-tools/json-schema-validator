@@ -49,23 +49,31 @@
  * </p>
  *
  * <pre>
- *     public final class MinPropertiesKeywordValidator
- *         extends PositiveIntegerKeywordValidator
- *     {
- *         public MinPropertiesKeywordValidator(final JsonNode schema)
- *         {
- *             super("minProperties", schema, NodeType.OBJECT);
- *         }
+ *      public final class MinPropertiesKeywordValidator
+ *          extends PositiveIntegerKeywordValidator
+ *      {
+ *          public MinPropertiesKeywordValidator(final JsonNode schema)
+ *          {
+ *              super("minProperties", schema, NodeType.OBJECT);
+ *          }
  *
- *         &#64;Override
- *         public void validateInstance(final ValidationContext context,
- *             final ValidationReport report, final JsonNode instance)
- *         {
- *             if (instance.size() < intValue)
- *                report.addMessage("object instance has less than "
- *                + "minProperties elements");
+ *          &#64;Override
+ *          public void validateInstance(final ValidationContext context,
+ *              final ValidationReport report, final JsonNode instance)
+ *          {
+ *              if (instance.size() >= intValue)
+ *                  return;
+ *
+ *              final ValidationMessage.Builder msg = newMsg()
+ *                  .setMessage("object instance does not have the minimum "
+ *                      + "number of required properties")
+ *                  .addInfo("required", intValue)
+ *                  .addInfo("found", instance.size());
+ *              report.addMessage(msg.build());
  *         }
  *     }
  * </pre>
+ *
+ * <p>See also {@link org.eel.kitchen.jsonschema.report.ValidationMessage}.</p>
  */
 package org.eel.kitchen.jsonschema.keyword;

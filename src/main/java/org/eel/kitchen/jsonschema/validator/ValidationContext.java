@@ -27,13 +27,16 @@ import java.util.EnumSet;
 /**
  * A validation context
  *
- * <p>This object is passed along the validation process. At any point in
- * the validation process, it contains the current context and the
- * validator cache.</p>
+ * <p>This object is passed along the validation process. At any point in the
+ * validation process, it contains the current schema context, the feature set
+ * and the validator cache.</p>
  *
  * <p>The latter is necessary since four keywords may have to spawn other
  * validators: {@code type}, {@code disallow}, {@code dependencies} and
  * {@code extends}.</p>
+ *
+ * <p>One instance is created for each validation and is passed around to all
+ * validators. Due to this particular usage, it is <b>not</b> thread safe.</p>
  */
 public final class ValidationContext
 {
@@ -52,6 +55,7 @@ public final class ValidationContext
         this.cache = cache;
         this.features = EnumSet.copyOf(features);
     }
+
     public ValidationContext(final JsonValidatorCache cache,
         final SchemaContainer container)
     {
@@ -74,6 +78,15 @@ public final class ValidationContext
         return features.contains(feature);
     }
 
+    /**
+     * Build a new validator out of a JSON document
+     *
+     * <p>This calls {@link JsonValidatorCache#getValidator(SchemaNode)} with
+     * this context's {@link SchemaContainer} used as a schema context.</p>
+     *
+     * @param node the node (a subnode of the schema)
+     * @return a validator
+     */
     public JsonValidator newValidator(final JsonNode node)
     {
         final SchemaNode schemaNode = new SchemaNode(container, node);

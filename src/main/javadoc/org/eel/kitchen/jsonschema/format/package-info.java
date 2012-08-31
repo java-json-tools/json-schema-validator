@@ -24,7 +24,10 @@
  * <p>It should be noted that this implementation differs from the draft in
  * one subtle, but important way: strictly speaking, an email and a hostname
  * may have no domain part at all. However, this implementation chooses to
- * require that they have one by default.</p>
+ * require that they have one by default. You can however ask the library to
+ * obey the RFCs to the letter (see {@link
+ * org.eel.kitchen.jsonschema.main.ValidationFeature#STRICT_RFC_CONFORMANCE}).
+ * </p>
  *
  * <p>This implementation also adds a custom format specifier,
  * {@code date-time-ms}: this is the same as ISO 8601's {@code date-time},
