@@ -56,7 +56,6 @@ public final class JsonSchema
     public ValidationReport validate(final JsonNode instance)
     {
         final ValidationContext context = new ValidationContext(cache);
-        context.setContainer(container);
 
         final ValidationReport report = new ValidationReport();
 
