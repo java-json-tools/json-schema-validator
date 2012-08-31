@@ -56,9 +56,9 @@ final class ObjectValidator
     private final Map<String, JsonNode> properties;
     private final Map<String, JsonNode> patternProperties;
 
-    ObjectValidator(final JsonValidatorCache cache, final SchemaNode schemaNode)
+    ObjectValidator(final SchemaNode schemaNode)
     {
-        super(cache, schemaNode);
+        super(schemaNode);
 
         JsonNode node;
 

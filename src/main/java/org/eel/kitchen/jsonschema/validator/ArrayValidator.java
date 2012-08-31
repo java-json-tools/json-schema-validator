@@ -51,9 +51,9 @@ final class ArrayValidator
 
     private final List<JsonNode> items;
 
-    ArrayValidator(final JsonValidatorCache cache, final SchemaNode schemaNode)
+    ArrayValidator(final SchemaNode schemaNode)
     {
-        super(cache, schemaNode);
+        super(schemaNode);
 
         JsonNode node;
 

@@ -39,23 +39,20 @@ import java.util.Set;
 final class InstanceValidator
     implements JsonValidator
 {
-    private final JsonValidatorCache cache;
     private final SchemaNode schemaNode;
     private final Set<KeywordValidator> validators;
 
     /**
      * Constructor, package private
      *
-     * @param cache the JSON validator cache
      * @param schemaNode the schema node
      * @param validators the set of keyword validators
      */
-    InstanceValidator(final JsonValidatorCache cache,
-        final SchemaNode schemaNode, final Set<KeywordValidator> validators)
+    InstanceValidator(final SchemaNode schemaNode,
+        final Set<KeywordValidator> validators)
     {
         this.validators = ImmutableSet.copyOf(validators);
         this.schemaNode = schemaNode;
-        this.cache = cache;
     }
 
     @Override
@@ -73,8 +70,8 @@ final class InstanceValidator
         }
 
         final JsonValidator validator = instance.isArray()
-            ? new ArrayValidator(cache, schemaNode)
-            : new ObjectValidator(cache, schemaNode);
+            ? new ArrayValidator(schemaNode)
+            : new ObjectValidator(schemaNode);
 
         validator.validate(context, report, instance);
         context.pop();

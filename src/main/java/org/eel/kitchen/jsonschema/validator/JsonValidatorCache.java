@@ -101,8 +101,6 @@ public final class JsonValidatorCache
      */
     private CacheLoader<SchemaNode, JsonValidator> cacheLoader()
     {
-        final JsonValidatorCache myself = this;
-
         return new CacheLoader<SchemaNode, JsonValidator>()
         {
             @Override
@@ -127,7 +125,7 @@ public final class JsonValidatorCache
                 final Set<KeywordValidator> validators
                     = keywordFactory.getValidators(realNode.getNode());
 
-                return new InstanceValidator(myself, realNode, validators);
+                return new InstanceValidator(realNode, validators);
             }
         };
     }

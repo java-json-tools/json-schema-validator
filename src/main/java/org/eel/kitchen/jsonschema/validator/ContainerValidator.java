@@ -30,13 +30,10 @@ abstract class ContainerValidator
     protected static final JsonNode EMPTY_SCHEMA
         = JsonNodeFactory.instance.objectNode();
 
-    protected final JsonValidatorCache cache;
     protected final JsonNode schema;
 
-    protected ContainerValidator(final JsonValidatorCache cache,
-        final SchemaNode schemaNode)
+    protected ContainerValidator(final SchemaNode schemaNode)
     {
-        this.cache = cache;
         schema = schemaNode.getNode();
     }
 }
