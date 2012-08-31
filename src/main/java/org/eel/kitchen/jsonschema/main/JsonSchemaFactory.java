@@ -147,9 +147,7 @@ public final class JsonSchemaFactory
     }
 
     /**
-     * Specialized constructor for validation internals
-     *
-     * <p>You should not use it in theory. I can dream ;)</p>
+     * Create a {@link JsonSchema} instance
      *
      * @param container the schema container
      * @param schema the subschema
@@ -165,6 +163,7 @@ public final class JsonSchemaFactory
     {
         return cache;
     }
+
     /**
      * Builder class for a {@link JsonSchemaFactory}
      */
