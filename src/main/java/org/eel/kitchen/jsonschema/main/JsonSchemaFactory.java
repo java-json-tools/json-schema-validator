@@ -32,6 +32,7 @@ import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 import java.net.URI;
+import java.util.EnumSet;
 
 /**
  * Factory to build JSON Schema validating instances
@@ -58,6 +59,8 @@ public final class JsonSchemaFactory
 
     private final JsonValidatorCache cache;
 
+    private final EnumSet<ValidationFeature> features;
+
     /**
      * Constructor, private by design
      *
@@ -68,6 +71,7 @@ public final class JsonSchemaFactory
     {
         registry = new SchemaRegistry(builder.uriManager, builder.namespace);
         cache = new JsonValidatorCache(builder.bundle, registry);
+        features = EnumSet.copyOf(builder.features);
     }
 
     /**
@@ -180,6 +184,9 @@ public final class JsonSchemaFactory
          * The namespace
          */
         private URI namespace = URI.create("");
+
+        private final EnumSet<ValidationFeature> features
+            = EnumSet.noneOf(ValidationFeature.class);
 
         /**
          * No arg constructor
@@ -294,6 +301,12 @@ public final class JsonSchemaFactory
         public Builder addRedirection(final String from, final String to)
         {
             uriManager.addRedirection(from, to);
+            return this;
+        }
+
+        public Builder enableFeature(final ValidationFeature feature)
+        {
+            features.add(feature);
             return this;
         }
 
