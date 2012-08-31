@@ -18,11 +18,8 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Queues;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
-
-import java.util.Deque;
 
 /**
  * A validation context
@@ -37,11 +34,8 @@ import java.util.Deque;
  */
 public final class ValidationContext
 {
-    private final Deque<SchemaContainer> stack = Queues.newArrayDeque();
-
     private final JsonValidatorCache cache;
-
-    private SchemaContainer current;
+    private SchemaContainer container;
 
     public ValidationContext(final JsonValidatorCache cache)
     {
@@ -52,30 +46,28 @@ public final class ValidationContext
         final SchemaContainer container)
     {
         this.cache = cache;
-        current = container;
+        this.container = container;
     }
 
-    void push(final SchemaContainer container)
+    SchemaContainer getContainer()
     {
-        stack.addFirst(container);
-        current = container;
+        return container;
     }
 
-    void pop()
+    void setContainer(final SchemaContainer container)
     {
-        current = stack.removeFirst();
+        this.container = container;
     }
 
     public JsonValidator newValidator(final JsonNode node)
     {
-        final SchemaNode schemaNode = new SchemaNode(current, node);
+        final SchemaNode schemaNode = new SchemaNode(container, node);
         return cache.getValidator(schemaNode);
     }
 
     @Override
     public String toString()
     {
-        return "current: " + current + "; " + stack.size()
-            + " containers in stack";
+        return "current: " + container;
     }
 }

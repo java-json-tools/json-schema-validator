@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 
@@ -58,13 +59,14 @@ final class InstanceValidator
     public boolean validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        context.push(schemaNode.getContainer());
+        final SchemaContainer orig = context.getContainer();
+        context.setContainer(schemaNode.getContainer());
 
         for (final KeywordValidator validator: validators)
             validator.validateInstance(context, report, instance);
 
         if (!instance.isContainerNode()) {
-            context.pop();
+            context.setContainer(orig);
             return false;
         }
 
@@ -73,7 +75,7 @@ final class InstanceValidator
             : new ObjectValidator(schemaNode.getNode());
 
         validator.validate(context, report, instance);
-        context.pop();
+        context.setContainer(orig);
         return false;
     }
 }
