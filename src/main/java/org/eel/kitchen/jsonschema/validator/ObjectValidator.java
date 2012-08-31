@@ -48,7 +48,7 @@ import java.util.Set;
  *
  */
 final class ObjectValidator
-    extends ContainerValidator
+    implements JsonValidator
 {
     private final JsonNode additionalProperties;
     private final Map<String, JsonNode> properties;
@@ -56,12 +56,11 @@ final class ObjectValidator
 
     ObjectValidator(final JsonNode schema)
     {
-        super(schema);
-
         JsonNode node;
 
         node = schema.path("additionalProperties");
-        additionalProperties = node.isObject() ? node : EMPTY_SCHEMA;
+        additionalProperties = node.isObject() ? node
+            : JacksonUtils.emptySchema();
 
         node = schema.path("properties");
         properties = node.isObject() ? JacksonUtils.nodeToMap(node)

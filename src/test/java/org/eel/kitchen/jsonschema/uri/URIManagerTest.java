@@ -20,9 +20,9 @@ package org.eel.kitchen.jsonschema.uri;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.ValidationDomain;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

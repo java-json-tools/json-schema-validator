@@ -49,7 +49,7 @@ public final class JsonRefTest
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             final ValidationMessage msg = e.getValidationMessage();
-            assertEquals(msg.getDomain(), ValidationDomain.REF_RESOLVING);
+            assertSame(msg.getDomain(), ValidationDomain.REF_RESOLVING);
             assertEquals(msg.getKeyword(), "N/A");
             assertEquals(msg.getMessage(), "invalid URI");
             assertEquals(msg.getInfo("uri").textValue(), "+23:");

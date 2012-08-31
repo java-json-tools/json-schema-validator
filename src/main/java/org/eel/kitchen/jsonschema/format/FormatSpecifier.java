@@ -70,8 +70,8 @@ public abstract class FormatSpecifier
      * Main validation function
      *
      * <p>This function only checks whether the value is of a type recognized
-     * by this specifier. If so, it call
-     * {@link #checkValue(String, org.eel.kitchen.jsonschema.validator.ValidationContext, org.eel.kitchen.jsonschema.report.ValidationReport, com.fasterxml.jackson.databind.JsonNode)}.</p>
+     * by this specifier. If so, it calls {@link #checkValue(String,
+     * ValidationContext, ValidationReport, JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
      * with the keyword ({@code format}, the specifier name and the domain

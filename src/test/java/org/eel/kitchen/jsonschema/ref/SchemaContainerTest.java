@@ -20,8 +20,6 @@ package org.eel.kitchen.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;

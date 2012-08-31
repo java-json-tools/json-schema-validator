@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.Maps;
 
 import java.util.HashSet;
@@ -32,6 +33,9 @@ import java.util.SortedMap;
 
 public final class JacksonUtils
 {
+    private static final JsonNode EMPTY_SCHEMA
+        = JsonNodeFactory.instance.objectNode();
+
     private JacksonUtils()
     {
     }
@@ -98,5 +102,10 @@ public final class JacksonUtils
             ret.add(iterator.next());
 
         return ret;
+    }
+
+    public static JsonNode emptySchema()
+    {
+        return EMPTY_SCHEMA;
     }
 }

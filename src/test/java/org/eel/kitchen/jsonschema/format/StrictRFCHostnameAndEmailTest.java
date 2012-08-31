@@ -30,7 +30,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class StrictRFCHostnameAndEmailTest
 {

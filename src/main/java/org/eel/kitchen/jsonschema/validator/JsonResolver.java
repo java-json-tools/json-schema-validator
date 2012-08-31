@@ -18,14 +18,13 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
-import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
+import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationDomain;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
 
 import java.net.URI;
 import java.util.LinkedHashSet;
@@ -39,7 +38,6 @@ import java.util.Set;
  */
 final class JsonResolver
 {
-    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
     private final SchemaRegistry registry;
 
     JsonResolver(final SchemaRegistry registry)

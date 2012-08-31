@@ -93,7 +93,7 @@ public final class ValidationMessage
 
     public JsonNode getInfo(final String key)
     {
-        return info.get(key);
+        return info.get(key).deepCopy();
     }
 
     public JsonNode toJsonNode()
