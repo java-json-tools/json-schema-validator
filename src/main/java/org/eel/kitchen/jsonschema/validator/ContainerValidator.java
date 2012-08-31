@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.ref.SchemaNode;
 
 /**
  * Base class for container instance validation
@@ -32,8 +31,8 @@ abstract class ContainerValidator
 
     protected final JsonNode schema;
 
-    protected ContainerValidator(final SchemaNode schemaNode)
+    protected ContainerValidator(final JsonNode schema)
     {
-        schema = schemaNode.getNode();
+        this.schema = schema;
     }
 }

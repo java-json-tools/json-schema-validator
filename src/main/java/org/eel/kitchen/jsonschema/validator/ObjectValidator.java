@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
-import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
@@ -56,9 +55,9 @@ final class ObjectValidator
     private final Map<String, JsonNode> properties;
     private final Map<String, JsonNode> patternProperties;
 
-    ObjectValidator(final SchemaNode schemaNode)
+    ObjectValidator(final JsonNode schema)
     {
-        super(schemaNode);
+        super(schema);
 
         JsonNode node;
 
