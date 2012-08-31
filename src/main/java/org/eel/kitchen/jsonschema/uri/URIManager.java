@@ -55,8 +55,8 @@ public class URIManager
      * Our object mapper
      *
      * <p>Note that it uses {@link
-     * DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS} to deserialize,
-     * for accuracy reasons.</p>
+     * DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS} to deserialize, for
+     * accuracy reasons.</p>
      *
      * @see NumericKeywordValidator
      */
@@ -87,6 +87,7 @@ public class URIManager
         downloaders.put("ftp", DefaultURIDownloader.getInstance());
         downloaders.put("file", DefaultURIDownloader.getInstance());
         downloaders.put("jar", DefaultURIDownloader.getInstance());
+        downloaders.put("resource", ResourceURIDownloader.getInstance());
     }
 
     /**
