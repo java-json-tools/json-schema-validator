@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 /**
  * Representation of a schema node
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * <p>This class is thread safe and immutable.</p>
  *
- * @see org.eel.kitchen.jsonschema.validator.JsonValidatorCache
+ * @see JsonValidatorCache
  */
 public final class SchemaNode
 {

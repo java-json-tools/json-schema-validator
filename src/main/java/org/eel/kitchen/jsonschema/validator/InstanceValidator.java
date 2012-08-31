@@ -34,7 +34,7 @@ import java.util.Set;
  * to be correct. It is also responsible to instantiate an {@link
  * ArrayValidator} or {@link ObjectValidator} if necessary.</p>
  *
- * @see JsonValidatorCache#getValidator(org.eel.kitchen.jsonschema.ref.SchemaNode)
+ * @see JsonValidatorCache#getValidator(SchemaNode)
  * @see KeywordValidator
  */
 final class InstanceValidator

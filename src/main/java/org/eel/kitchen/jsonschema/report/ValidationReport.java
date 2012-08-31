@@ -224,7 +224,6 @@ public final class ValidationReport
     @Override
     public String toString()
     {
-        return "current path: \"" + path + "\"; "
-            + String.valueOf(msgMap.size()) + " messages";
+        return "current path: \"" + path + "\"; " + msgMap.size() + " messages";
     }
 }

@@ -47,7 +47,7 @@ import java.util.Set;
  * <p>As it uses a {@link LoadingCache}, it is totally thread safe and also
  * very efficient.</p>
  *
- * @see org.eel.kitchen.jsonschema.ref.SchemaNode
+ * @see SchemaNode
  */
 public final class JsonValidatorCache
 {
