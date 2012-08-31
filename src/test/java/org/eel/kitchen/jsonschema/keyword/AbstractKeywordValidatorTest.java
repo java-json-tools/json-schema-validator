@@ -18,10 +18,11 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
@@ -33,6 +34,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import static org.testng.Assert.*;
@@ -95,24 +97,10 @@ public abstract class AbstractKeywordValidatorTest
         if (valid)
             return;
 
-        final JsonNode[] actual = toArray(report.asJsonNode().get(""));
-        final JsonNode[] expected = toArray(messages);
+        final List<JsonNode> actual
+            = Lists.newArrayList(report.asJsonNode().get(""));
+        final List<JsonNode> expected = Lists.newArrayList(messages);
 
-        assertEqualsNoOrder(actual, expected);
-    }
-
-    private static JsonNode[] toArray(final JsonNode node)
-    {
-        final int size = node.size();
-        final JsonNode[] ret = new JsonNode[size];
-
-        int idx = 0;
-
-        for (final JsonNode element: node) {
-            ret[idx] = element;
-            idx++;
-        }
-
-        return ret;
+        assertEqualsNoOrder(actual.toArray(), expected.toArray());
     }
 }
