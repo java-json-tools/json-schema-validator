@@ -162,7 +162,7 @@ public final class JsonSchemaFactory
         final JsonNode schema)
     {
         final SchemaNode schemaNode = new SchemaNode(container, schema);
-        return new JsonSchema(cache, schemaNode);
+        return new JsonSchema(cache, features, schemaNode);
     }
 
     /**

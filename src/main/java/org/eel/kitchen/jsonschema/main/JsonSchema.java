@@ -24,6 +24,8 @@ import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.util.EnumSet;
+
 /**
  * The main validation class
  *
@@ -36,11 +38,14 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 public final class JsonSchema
 {
     private final JsonValidatorCache cache;
+    private final EnumSet<ValidationFeature> features;
     private final SchemaNode schemaNode;
 
-    JsonSchema(final JsonValidatorCache cache, final SchemaNode schemaNode)
+    JsonSchema(final JsonValidatorCache cache,
+        final EnumSet<ValidationFeature> features, final SchemaNode schemaNode)
     {
         this.cache = cache;
+        this.features = EnumSet.copyOf(features);
         this.schemaNode = schemaNode;
     }
 
@@ -52,7 +57,8 @@ public final class JsonSchema
      */
     public ValidationReport validate(final JsonNode instance)
     {
-        final ValidationContext context = new ValidationContext(cache);
+        final ValidationContext context
+            = new ValidationContext(cache, features);
 
         final ValidationReport report = new ValidationReport();
 
