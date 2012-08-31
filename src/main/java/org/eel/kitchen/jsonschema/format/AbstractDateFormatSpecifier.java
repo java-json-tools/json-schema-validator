@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -58,16 +59,18 @@ public class AbstractDateFormatSpecifier
     {
         super(NodeType.STRING);
         dtf = DateTimeFormat.forPattern(fmt);
-        errmsg = String.format("string is not a valid %s", desc);
+        errmsg = "string is not a valid " + desc;
     }
 
     @Override
-    final void checkValue(final List<String> messages, final JsonNode instance)
+    final void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode instance)
     {
         try {
             dtf.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            messages.add(errmsg);
+            messages.add(msg.setMessage(errmsg).addInfo("value", instance)
+                .build());
         }
     }
 }

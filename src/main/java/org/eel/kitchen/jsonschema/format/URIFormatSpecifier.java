@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.net.URI;
@@ -44,12 +45,14 @@ public final class URIFormatSpecifier
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode value)
+    void checkValue(final ValidationMessage.Builder builder,
+        final List<ValidationMessage> messages, final JsonNode value)
     {
         try {
             new URI(value.textValue());
         } catch (URISyntaxException ignored) {
-            messages.add("string is not a valid URI");
+            messages.add(builder.setMessage("string is not a valid URI")
+                .addInfo("value", value).build());
         }
     }
 }

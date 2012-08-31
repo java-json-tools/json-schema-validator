@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.report.ValidationDomain;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
@@ -29,7 +31,7 @@ import java.util.List;
  * <p>The {@code format} keyword always takes a string as an argument, and this
  * string is called a "specifier". The draft defines specifiers for recognizing
  * URIs, phone numbers, different date formats, and so on -- and even CSS 2.1
- * colors and styles(not supported).</p>
+ * colors and styles (not supported).</p>
  *
  * <p>One important thing to remember is that a specifier will only validate a
  * given subset of JSON instance types (for instance, {@code uri} only validates
@@ -67,29 +69,37 @@ public abstract class FormatSpecifier
      * Main validation function
      *
      * <p>This function only checks whether the value is of a type recognized
-     * by this specifier. If so, it call {@link #checkValue(List, JsonNode)}.
-     * </p>
+     * by this specifier. If so, it call
+     * {@link #checkValue(ValidationMessage.Builder, List, JsonNode)}.</p>
      *
+     * <p>The message template passed as an argument will have been pre-filled
+     * with the keyword ({@code format}, the specifier name and the domain
+     * ({@link ValidationDomain#VALIDATION}).</p>
+     *
+     * @param msg the message template to use
      * @param messages the list of messages to fill
      * @param value the value to validate
      */
-    public final void validate(final List<String> messages,
-        final JsonNode value)
+    public final void validate(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode value)
     {
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
 
-        checkValue(messages, value);
+        checkValue(msg, messages, value);
     }
 
     /**
      * Abstract method implemented by all specifiers
      *
      * <p>It is only called if the value type is one expected by the
-     * specifier, see {@link #validate(List, JsonNode)}.</p>
+     * specifier, see  {@link #validate(ValidationMessage.Builder, List,
+     * JsonNode)}.</p>
      *
+     * @param msg the message template to use
      * @param messages the list of messages to fill
      * @param value the value to validate
      */
-    abstract void checkValue(final List<String> messages, final JsonNode value);
+    abstract void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode value);
 }

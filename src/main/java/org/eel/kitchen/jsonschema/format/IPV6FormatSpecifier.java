@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InetAddresses;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
@@ -46,16 +47,17 @@ public final class IPV6FormatSpecifier
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode value)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode value)
     {
         final String ipaddr = value.textValue();
 
-        if (!InetAddresses.isInetAddress(ipaddr)) {
-            messages.add("string is not a valid IPv6 address");
+        if (InetAddresses.isInetAddress(ipaddr) && InetAddresses
+            .forString(ipaddr).getAddress().length == IPV6_LENGTH)
             return;
-        }
 
-        if (InetAddresses.forString(ipaddr).getAddress().length != IPV6_LENGTH)
-            messages.add("string is not a valid IPv6 address");
+        msg.setMessage("string is not a valid IPv6 address")
+            .addInfo("value", value);
+        messages.add(msg.build());
     }
 }

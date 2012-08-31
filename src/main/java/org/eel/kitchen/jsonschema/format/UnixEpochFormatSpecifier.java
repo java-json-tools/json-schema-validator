@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.math.BigInteger;
@@ -60,18 +61,21 @@ public final class UnixEpochFormatSpecifier
     }
 
     @Override
-    void checkValue(final List<String> messages, final JsonNode value)
+    void checkValue(final ValidationMessage.Builder msg,
+        final List<ValidationMessage> messages, final JsonNode value)
     {
         BigInteger epoch = value.bigIntegerValue();
 
+        msg.addInfo("value", value);
+
         if (epoch.signum() == -1) {
-            messages.add("epoch cannot be negative");
+            messages.add(msg.setMessage("epoch cannot be negative").build());
             return;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
         if (epoch.bitLength() > EPOCH_BITLENGTH)
-            messages.add("epoch time would overflow");
+            messages.add(msg.setMessage("epoch time would overflow").build());
     }
 }
