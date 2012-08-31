@@ -159,11 +159,6 @@ public final class JsonSchemaFactory
         return new JsonSchema(cache, container, schema);
     }
 
-    public JsonValidatorCache getValidatorCache()
-    {
-        return cache;
-    }
-
     /**
      * Builder class for a {@link JsonSchemaFactory}
      */

@@ -19,9 +19,12 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
+import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 import org.testng.annotations.BeforeMethod;
@@ -29,6 +32,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.math.BigDecimal;
+import java.net.URI;
 
 import static org.mockito.Mockito.*;
 
@@ -50,9 +54,13 @@ public final class BasicKeywordValidatorTest
     @BeforeMethod
     public void initContext()
     {
-        final JsonSchemaFactory schemaFactory
-            = new JsonSchemaFactory.Builder().build();
-        final JsonValidatorCache cache = schemaFactory.getValidatorCache();
+        final KeywordBundle bundle = KeywordBundles.defaultBundle();
+        final URIManager manager = new URIManager();
+        final SchemaRegistry registry = new SchemaRegistry(manager,
+            URI.create(""));
+        final JsonValidatorCache cache
+            = new JsonValidatorCache(bundle, registry);
+
         context = new ValidationContext(cache);
         report = new ValidationReport();
         validator = spy(new BasicKeywordValidator());

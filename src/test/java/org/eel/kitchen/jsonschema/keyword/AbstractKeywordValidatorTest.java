@@ -19,11 +19,14 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationContext;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
+import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 import org.testng.annotations.DataProvider;
@@ -32,6 +35,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -41,10 +45,7 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
-    private static final JsonSchemaFactory factory
-        = new JsonSchemaFactory.Builder().build();
-    private static final JsonValidatorCache cache = factory.getValidatorCache();
-
+    private final JsonValidatorCache cache;
     private final JsonNode testData;
     private final Constructor<? extends KeywordValidator> constructor;
 
@@ -56,6 +57,13 @@ public abstract class AbstractKeywordValidatorTest
         testData = JsonLoader.fromResource(input);
 
         constructor = c.getConstructor(JsonNode.class);
+
+        final KeywordBundle bundle = KeywordBundles.defaultBundle();
+        final URIManager manager = new URIManager();
+        final SchemaRegistry registry = new SchemaRegistry(manager,
+            URI.create(""));
+
+        cache = new JsonValidatorCache(bundle, registry);
     }
 
     @DataProvider
