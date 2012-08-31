@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -30,10 +31,15 @@ import javax.mail.internet.InternetAddress;
 /**
  * Validator for the {@code email} format specification.
  *
- * <p>Note: even though, stricto sensu, email addresses with no domain part
- * ARE valid, for practical reasons, this implementation chooses to mark
- * these emails as invalid,</p>
+ * <p>Note: even though the RFC covering email addresses does not require that
+ * emails have a domain part, this implementation requires that they have one
+ * by default (this is more in line with user expectations). You can enforce
+ * strict RFC compliance by setting the {@link
+ * ValidationFeature#STRICT_RFC_CONFORMANCE} validation feature before building
+ * your schema factory.</p>
  *
+ * @see JsonSchemaFactory.Builder#enableFeature(ValidationFeature)
+ * @see ValidationFeature
  */
 public final class EmailFormatSpecifier
     extends FormatSpecifier
@@ -58,7 +64,7 @@ public final class EmailFormatSpecifier
         // InternetAddress constructor in the first place which "enforces" a
         // syntax which IS NOT strictly RFC compliant.
         final boolean strictRFC
-            = ctx.hasFeature(ValidationFeature.RFC_STRICT_CONFORMANCE);
+            = ctx.hasFeature(ValidationFeature.STRICT_RFC_CONFORMANCE);
 
         try {
             // Which means we actually invert it.

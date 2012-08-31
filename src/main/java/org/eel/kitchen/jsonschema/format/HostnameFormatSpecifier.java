@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InternetDomainName;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -28,12 +29,17 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 /**
  * Validator for the {@code host-name} format specification
  *
- * <p>Note: even though non FQDN hostnames are valid stricto sensu,
- * this implementation considers non fully-qualified hostnames as invalid.
- * While this contradicts the RFC, this is more in line with user expectations.
- * </p>
+ * <p>Note: even though the RFCs covering hostnames do not require that
+ * hostnames have a domain part, this implementation requires that they have
+ * one by default (this is more in line with user expectations). You can enforce
+ * strict RFC compliance by setting the {@link
+ * ValidationFeature#STRICT_RFC_CONFORMANCE} validation feature before building
+ * your schema factory.</p>
  *
  * <p>Guava's {@link InternetDomainName} is used for validation.</p>
+ *
+ * @see JsonSchemaFactory.Builder#enableFeature(ValidationFeature)
+ * @see ValidationFeature
  */
 public final class HostnameFormatSpecifier
     extends FormatSpecifier
@@ -56,7 +62,7 @@ public final class HostnameFormatSpecifier
         final ValidationReport report, final JsonNode value)
     {
         final boolean strictRFC
-            = ctx.hasFeature(ValidationFeature.RFC_STRICT_CONFORMANCE);
+            = ctx.hasFeature(ValidationFeature.STRICT_RFC_CONFORMANCE);
 
         final boolean hasParent
             = InternetDomainName.from(value.textValue()).hasParent();

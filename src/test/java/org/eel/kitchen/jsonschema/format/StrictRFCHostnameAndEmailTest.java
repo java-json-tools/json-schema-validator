@@ -40,7 +40,7 @@ public final class StrictRFCHostnameAndEmailTest
         = EnumSet.noneOf(ValidationFeature.class);
 
     private static final EnumSet<ValidationFeature> STRICT
-        = EnumSet.of(ValidationFeature.RFC_STRICT_CONFORMANCE);
+        = EnumSet.of(ValidationFeature.STRICT_RFC_CONFORMANCE);
 
     private FormatSpecifier specifier;
     private ValidationContext context;
