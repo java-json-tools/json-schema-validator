@@ -62,9 +62,7 @@ public abstract class AbstractFormatSpecifierTest
         return set.iterator();
     }
 
-    @Test(
-        dataProvider = "getData"
-    )
+    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
     public void testSpecifier(final JsonNode data, final boolean valid)
     {
         final ValidationReport report = new ValidationReport();
