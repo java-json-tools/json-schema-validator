@@ -3,22 +3,18 @@
 <p>The license of this project is LGPLv3 or later. See file
 src/main/resources/LICENSE for the full text.</p>
 
-<p>The current version is <b>0.5.5</b>. See the
+<p>The current version is <b>0.6.0</b>. The big change in that version is the
+newer validation message format. See
+[here](https://github.com/fge/json-schema-validator/wiki/Validation-messages)
+for more details.</p>
+
+<p>The old stable version is <b>0.5.5</b>. See the
 [ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
-more details. The old, still maintained version is <b>0.4.1</b>. 
+more details. <b>Versions 0.4.x are not supported anymore.</b></p>
 
 <p>If you want to jump straight into action, you can see the Javadoc online
 [here](http://fge.github.com/json-schema-validator/), which contains code
 samples.</p>
-
-<h2>0.6 and validation messages: feedback requested</h2>
-
-This is the major new feature of what will be the 0.6 series. Work is well
-underway, however I'd appreciate feedback on it. The page documenting this is
-currently
-[here](https://github.com/fge/json-schema-validator/wiki/Validation-messages)
-(not complete as of this writing -- in particular, message collection from the
-report is possible via the API but not documented yet).
 
 <h2>What it is</h2>
 
