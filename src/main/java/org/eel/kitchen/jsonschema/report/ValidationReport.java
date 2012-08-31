@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
@@ -46,7 +47,7 @@ import java.util.TreeSet;
  * <p>You can retrieve messages either as a list of plain strings (ordered by
  * instance path) or as JSON (ie, a {@link JsonNode}).</p>
  *
- * @see org.eel.kitchen.jsonschema.main.JsonSchema#validate(JsonNode)
+ * @see JsonSchema#validate(JsonNode)
  */
 public final class ValidationReport
 {
@@ -218,5 +219,12 @@ public final class ValidationReport
         }
 
         return ret;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "current path: \"" + path + "\"; "
+            + String.valueOf(msgMap.size()) + " messages";
     }
 }
