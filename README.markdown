@@ -5,8 +5,9 @@ src/main/resources/LICENSE for the full text.</p>
 
 <p><b>IMPORTANT:</b> work is under way for version 1.0, and in 1.0, some format
 specifiers are split from this package and are in a new one:
-[json-schema-formats](https://github.com/fge/json-schema-formats). Support for
-the following format specifiers are not in <tt>master</tt> anymore:</p>
+[json-schema-formats](https://github.com/json-schema/json-schema-formats).
+Support for the following format specifiers are not in <tt>master</tt>
+anymore:</p>
 
 * <tt>date</tt>,
 * <tt>time</tt>,
@@ -21,16 +22,16 @@ reasons, see the above project for further explanations.</p>
 
 <p>The current version is <b>0.6.0</b>. The big change in that version is the
 newer validation message format. See
-[here](https://github.com/fge/json-schema-validator/wiki/Validation-messages)
+[here](https://github.com/json-schema/json-schema-validator/wiki/Validation-messages)
 for more details.</p>
 
 <p>The old stable version is <b>0.5.5</b>. See the
-[ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog) for
-more details. <b>Versions 0.4.x are not supported anymore.</b></p>
+[ChangeLog](https://github.com/json-schema/json-schema-validator/wiki/ChangeLog)
+for more details. <b>Versions 0.4.x are not supported anymore.</b></p>
 
 <p>If you want to jump straight into action, you can see the Javadoc online
-[here](http://fge.github.com/json-schema-validator/), which contains code
-samples.</p>
+[here](http://json-schema.github.com/json-schema-validator/), which contains
+code samples.</p>
 
 <h2>What it is</h2>
 
@@ -51,7 +52,7 @@ looking for.<p>
   (natively supported: <tt>http</tt>, <tt>ftp</tt>, <tt>file</tt> and
   <tt>jar</tt>);
 * ability to register/unregister keywords;
-* [very fast](https://github.com/fge/json-schema-validator/wiki/Performance).
+* [very fast](https://github.com/json-schema/json-schema-validator/wiki/Performance).
 
 <h2>Relevant documents</h2>
 
@@ -69,10 +70,11 @@ based on the following drafts:</p>
 <h2>More...</h2>
 
 <p>For a detailed discussion of the implementation, see
-[here](https://github.com/fge/json-schema-validator/wiki/Status). For a list of
-planned features for next versions, see
-[here](https://github.com/fge/json-schema-validator/wiki/Roadmap).
+[here](https://github.com/json-schema/json-schema-validator/wiki/Status). For a
+list of planned features for next versions, see
+[here](https://github.com/json-schema/json-schema-validator/wiki/Roadmap).
 
-Please see the [wiki](https://github.com/fge/json-schema-validator/wiki/) for
-more details.
+Please see the
+[wiki](https://github.com/json-schema/json-schema-validator/wiki/) for more
+details.
 
