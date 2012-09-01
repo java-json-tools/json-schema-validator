@@ -55,7 +55,7 @@ public final class EmailFormatSpecifier
     }
 
     @Override
-    void checkValue(final String fmt, final ValidationContext ctx,
+    public void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode instance)
     {
         // Yup, that is kind of misnamed. But the problem is with the

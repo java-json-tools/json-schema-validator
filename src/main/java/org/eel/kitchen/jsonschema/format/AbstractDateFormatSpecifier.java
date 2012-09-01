@@ -64,7 +64,7 @@ public abstract class AbstractDateFormatSpecifier
     }
 
     @Override
-    final void checkValue(final String fmt, final ValidationContext ctx,
+    public final void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode instance)
     {
         try {

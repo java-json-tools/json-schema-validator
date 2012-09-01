@@ -56,7 +56,7 @@ public final class HostnameFormatSpecifier
     }
 
     @Override
-    void checkValue(final String fmt, final ValidationContext ctx,
+    public void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode value)
     {
         final ValidationMessage.Builder msg = newMsg(fmt)

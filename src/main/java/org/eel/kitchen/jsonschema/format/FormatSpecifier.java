@@ -103,7 +103,7 @@ public abstract class FormatSpecifier
      * @param report the validation report
      * @param value the value to validate
      */
-    abstract void checkValue(final String fmt, ValidationContext ctx,
+    public abstract void checkValue(final String fmt, ValidationContext ctx,
         final ValidationReport report, final JsonNode value);
 
     protected static ValidationMessage.Builder newMsg(final String fmt)
