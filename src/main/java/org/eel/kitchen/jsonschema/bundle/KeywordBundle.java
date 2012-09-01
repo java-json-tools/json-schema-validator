@@ -106,6 +106,12 @@ public final class KeywordBundle
         validators.remove(name);
     }
 
+    public void mergeWith(final KeywordBundle other)
+    {
+        syntaxCheckers.putAll(other.syntaxCheckers);
+        validators.putAll(other.validators);
+    }
+
     public Map<String, SyntaxChecker> getSyntaxCheckers()
     {
         return ImmutableMap.copyOf(syntaxCheckers);
