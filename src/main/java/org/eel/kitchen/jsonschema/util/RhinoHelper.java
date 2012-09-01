@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
  *     <li>ECMA 262 doesn't have "possessive" quantifiers ({@code ++},
  *     {@code ?+}, etc);</li>
  *     <li>there is only one word delimiter in ECMA 262, which is {@code \b};
- *     {@code \&lt;} (for beginning of word) and {@code \&gt;} (for end
- *     of word) are not understood.
+ *     {@code \<} (for beginning of word) and {@code \>} (for end of word) are
+ *     not understood.
  *     </li>
  * </ul>
  *
@@ -132,8 +132,7 @@ public final class RhinoHelper
      * @param input the input to match against (and again, see description)
      * @return true if the regex matches the input
      */
-    public static boolean regMatch(final String regex,
-        final String input)
+    public static boolean regMatch(final String regex, final String input)
     {
         final Context context = Context.enter();
         try {

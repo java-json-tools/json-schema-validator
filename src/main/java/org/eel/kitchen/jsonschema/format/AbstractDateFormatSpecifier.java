@@ -37,7 +37,7 @@ import java.text.SimpleDateFormat;
  * <p>What's more, unlike {@link SimpleDateFormat}, Joda Time's
  * {@link DateTimeFormatter} is thread-safe!</p>
  */
-public class AbstractDateFormatSpecifier
+public abstract class AbstractDateFormatSpecifier
     extends FormatSpecifier
 {
     /**
