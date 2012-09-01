@@ -18,11 +18,15 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableMap;
+import org.eel.kitchen.jsonschema.format.FormatBundle;
+import org.eel.kitchen.jsonschema.format.FormatSpecifier;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 
 import java.util.EnumSet;
+import java.util.Map;
 
 /**
  * A validation context
@@ -43,6 +47,7 @@ public final class ValidationContext
     private final JsonValidatorCache cache;
     private SchemaContainer container;
     private final EnumSet<ValidationFeature> features;
+    private final Map<String, FormatSpecifier> specifiers;
 
     public ValidationContext(final JsonValidatorCache cache)
     {
@@ -54,6 +59,8 @@ public final class ValidationContext
     {
         this.cache = cache;
         this.features = EnumSet.copyOf(features);
+        specifiers = ImmutableMap.copyOf(FormatBundle.newBundle()
+            .getSpecifiers());
     }
 
     public ValidationContext(final JsonValidatorCache cache,
@@ -76,6 +83,11 @@ public final class ValidationContext
     public boolean hasFeature(final ValidationFeature feature)
     {
         return features.contains(feature);
+    }
+
+    public FormatSpecifier getFormat(final String fmt)
+    {
+        return specifiers.get(fmt);
     }
 
     /**

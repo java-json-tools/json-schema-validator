@@ -145,11 +145,11 @@ public final class FormatBundle
     }
 
     /**
-     * Get the list of specifiers for this bundle (package local)
+     * Get an immutable map of this bundle's specifiers
      *
      * @return a map of this bundle instance's specifiers
      */
-    Map<String, FormatSpecifier> getSpecifiers()
+    public Map<String, FormatSpecifier> getSpecifiers()
     {
         return ImmutableMap.copyOf(specifiers);
     }

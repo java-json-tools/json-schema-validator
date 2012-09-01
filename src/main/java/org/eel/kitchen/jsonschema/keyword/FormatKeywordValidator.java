@@ -19,25 +19,10 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableMap;
-import org.eel.kitchen.jsonschema.format.DateFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.DateTimeFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.DateTimeMillisecFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.EmailFormatSpecifier;
 import org.eel.kitchen.jsonschema.format.FormatSpecifier;
-import org.eel.kitchen.jsonschema.format.HostnameFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.IPV4FormatSpecifier;
-import org.eel.kitchen.jsonschema.format.IPV6FormatSpecifier;
-import org.eel.kitchen.jsonschema.format.PhoneNumberFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.RegexFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.TimeFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.URIFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.UnixEpochFormatSpecifier;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
-
-import java.util.Map;
 
 /**
  * Validator for the {@code format} keyword
@@ -59,55 +44,21 @@ import java.util.Map;
 public final class FormatKeywordValidator
     extends KeywordValidator
 {
-    /**
-     * Static final map of all format specifiers. We choose to not allow to
-     * add new specifiers, even though it is theoretically possible (MAY in
-     * the draft).
-     */
-    private static final Map<String, FormatSpecifier> specifiers;
-
-    static {
-        final ImmutableMap.Builder<String, FormatSpecifier> builder
-            = new ImmutableMap.Builder<String, FormatSpecifier>();
-
-        /*
-         * Draft v3 format specifiers
-         */
-        builder.put("date-time", DateTimeFormatSpecifier.getInstance());
-        builder.put("date", DateFormatSpecifier.getInstance());
-        builder.put("time", TimeFormatSpecifier.getInstance());
-        builder.put("utc-millisec", UnixEpochFormatSpecifier.getInstance());
-        builder.put("regex", RegexFormatSpecifier.getInstance());
-        builder.put("phone", PhoneNumberFormatSpecifier.getInstance());
-        builder.put("uri", URIFormatSpecifier.getInstance());
-        builder.put("email", EmailFormatSpecifier.getInstance());
-        builder.put("ip-address", IPV4FormatSpecifier.getInstance());
-        builder.put("ipv6", IPV6FormatSpecifier.getInstance());
-        builder.put("host-name", HostnameFormatSpecifier.getInstance());
-
-        /*
-         * Custom format specifiers
-         */
-        builder.put("date-time-ms", DateTimeMillisecFormatSpecifier.getInstance());
-
-        specifiers = builder.build();
-    }
-
-    // The format attribute, as defined by the spec
+    // The format attribute
     private final String fmt;
-    private final FormatSpecifier specifier;
 
     public FormatKeywordValidator(final JsonNode schema)
     {
         super("format", NodeType.values());
         fmt = schema.get(keyword).textValue();
-        specifier = specifiers.get(fmt);
     }
 
     @Override
     protected void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
+        final FormatSpecifier specifier = context.getFormat(fmt);
+
         if (specifier == null)
             return;
 
