@@ -36,23 +36,18 @@ import java.util.Map;
  * instances) for the following format attributes:</p>
  *
  * <ul>
- *     <li>{@code date},</li>
  *     <li>{@code date-time},</li>
- *     <li>{@code date-time-ms},</li>
  *     <li>{@code email},</li>
  *     <li>{@code host-name},</li>
  *     <li>{@code ip-address},</li>
  *     <li>{@code ipv6},</li>
- *     <li>{@code phone},</li>
  *     <li>{@code regex},</li>
- *     <li>{@code time},</li>
  *     <li>{@code uri},</li>
- *     <li>{@code utc-millisec}.</li>
  * </ul>
  *
- * <p>All of these attributes (except for {@code date-time-ms}) are defined by
- * the draft. The only missing attributes are {@code color} and {@code style}.
- * See the draft for more details.</p>
+ * <p>Other format attributes defined by the specification are hosted in a
+ * different package: <a href="https://github.com/fge/json-schema-formats">
+ * json-schema-formats</a>.</p>
  *
  * <p>you can override these, but it is <b>not</b> advised that you do so: they
  * have been carefully designed so as to conform to the specification as closely
@@ -75,23 +70,13 @@ public final class FormatBundle
         /*
          * Draft v3 format specifiers
          */
-        builder.put("date", DateFormatSpecifier.getInstance());
         builder.put("date-time", DateTimeFormatSpecifier.getInstance());
         builder.put("email", EmailFormatSpecifier.getInstance());
         builder.put("host-name", HostnameFormatSpecifier.getInstance());
         builder.put("ip-address", IPV4FormatSpecifier.getInstance());
         builder.put("ipv6", IPV6FormatSpecifier.getInstance());
-        builder.put("phone", PhoneNumberFormatSpecifier.getInstance());
         builder.put("regex", RegexFormatSpecifier.getInstance());
-        builder.put("time", TimeFormatSpecifier.getInstance());
         builder.put("uri", URIFormatSpecifier.getInstance());
-        builder.put("utc-millisec", UnixEpochFormatSpecifier.getInstance());
-
-        /*
-         * Custom format specifiers
-         */
-        builder.put("date-time-ms",
-            DateTimeMillisecFormatSpecifier.getInstance());
 
         BUILTIN_FORMATS = builder.build();
     }
