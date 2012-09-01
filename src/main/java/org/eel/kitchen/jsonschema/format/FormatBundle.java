@@ -21,17 +21,19 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
  * A format specifiers bundle
  *
- * <p>You can extend the list of specifiers by creating a new bundle (using the
- * {@link #newBundle()} static factory method) and adding/removing specifiers.
- * </p>
+ * <p>You can either create a bundle with all builtin format specifiers (see
+ * below for the list), or an empty one which you have to fill yourself. The
+ * methods to use for these are respectively {@link #defaultBundle()} and {@link
+ * #newBundle()}.</p>
  *
- * <p>Any newly created bundle will contain the following specifiers by default:
- * </p>
+ * <p>The default bundle will contain validators ({@link FormatSpecifier}
+ * instances) for the following format attributes:</p>
  *
  * <ul>
  *     <li>{@code date},</li>
@@ -48,14 +50,14 @@ import java.util.Map;
  *     <li>{@code utc-millisec}.</li>
  * </ul>
  *
- * <p>All of these specifiers (except for {@code date-time-ms}) are defined
- * by the draft. The only missing specifiers are {@code color} and {@code
- * style}. See the draft for more details.</p>
+ * <p>All of these attributes (except for {@code date-time-ms}) are defined by
+ * the draft. The only missing attributes are {@code color} and {@code style}.
+ * See the draft for more details.</p>
  *
- * <p>you can override the bundled specifiers, but it is <b>not</b> advised that
- * you do so: they have been carefully designed so as to conform to the
- * specification as closely as possible -- in particular, leave {@code regex}
- * alone (see {@link RhinoHelper}).</p>
+ * <p>you can override these, but it is <b>not</b> advised that you do so: they
+ * have been carefully designed so as to conform to the specification as closely
+ * as possible -- in particular, leave {@code regex} alone (see
+ * {@link RhinoHelper}).</p>
  *
  * @see FormatSpecifier
  */
@@ -100,7 +102,15 @@ public final class FormatBundle
     private final Map<String, FormatSpecifier> specifiers;
 
     /**
-     * Constructor, private by design
+     * Constructor for a completely empty bundle
+     */
+    private FormatBundle()
+    {
+        this(Collections.<String, FormatSpecifier>emptyMap());
+    }
+
+    /**
+     * Constructor with a provided specifier map
      *
      * @param specifiers the specifiers list
      */
@@ -110,11 +120,21 @@ public final class FormatBundle
     }
 
     /**
-     * Create a new bundle
+     * Create a new, empty bundle
      *
      * @return the bundle
      */
     public static FormatBundle newBundle()
+    {
+        return new FormatBundle();
+    }
+
+    /**
+     * Create a new bundle with the default format specifier set
+     *
+     * @return the bundle
+     */
+    public static FormatBundle defaultBundle()
     {
         return new FormatBundle(BUILTIN_FORMATS);
     }
@@ -142,6 +162,19 @@ public final class FormatBundle
     public void unregisterFormat(final String fmt)
     {
         specifiers.remove(fmt);
+    }
+
+    /**
+     * Merge with another bundle
+     *
+     * <p>Note that specifiers defined in the bundle given as an argument will
+     * happily override those defined in the current bundle. Use with care!</p>
+     *
+     * @param other the other bundle
+     */
+    public void mergeWith(final FormatBundle other)
+    {
+        specifiers.putAll(other.specifiers);
     }
 
     /**

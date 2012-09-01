@@ -59,7 +59,7 @@ public final class ValidationContext
     {
         this.cache = cache;
         this.features = EnumSet.copyOf(features);
-        specifiers = ImmutableMap.copyOf(FormatBundle.newBundle()
+        specifiers = ImmutableMap.copyOf(FormatBundle.defaultBundle()
             .getSpecifiers());
     }
 
