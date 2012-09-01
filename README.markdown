@@ -3,6 +3,22 @@
 <p>The license of this project is LGPLv3 or later. See file
 src/main/resources/LICENSE for the full text.</p>
 
+<p><b>IMPORTANT:</b> work is under way for version 1.0, and in 1.0, some format
+specifiers are split from this package and are in a new one:
+[json-schema-formats](https://github.com/fge/json-schema-formats). Support for
+the following format specifiers are not in <tt>master</tt> anymore:</p>
+
+* <tt>date</tt>,
+* <tt>time</tt>,
+* <tt>phone</tt>,
+* <tt>utc-millisec</tt>,
+* <tt>date-time-ms</tt>.
+
+<p>Support for other format specifiers are still in this package for various
+reasons, see the above project for further explanations.</p>
+
+<h2>Versions</h2>
+
 <p>The current version is <b>0.6.0</b>. The big change in that version is the
 newer validation message format. See
 [here](https://github.com/fge/json-schema-validator/wiki/Validation-messages)
@@ -25,8 +41,7 @@ looking for.<p>
 
 <p>This implementation has the following features:</p>
 
-* full draft v3 validation (except for the <tt>color</tt> and <tt>style</tt>
-  format specifiers...);
+* full draft v3 validation (however, see above for <tt>format</tt>);
 * arbitrary length/precision number validation;
 * ECMA 262 regexes (using Rhino);
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving and loop
