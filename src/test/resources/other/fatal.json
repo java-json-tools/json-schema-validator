@@ -12,5 +12,18 @@
             "message": "dangling JSON Reference",
             "ref": "#foo"
         }
+    },
+    {
+        "schema": {
+            "disallow": [ "integer", { "$ref": "#foo" } ]
+        },
+        "data": "hello",
+        "message": {
+            "fatal": true,
+            "domain": "$ref resolving",
+            "keyword": "$ref",
+            "message": "dangling JSON Reference",
+            "ref": "#foo"
+        }
     }
 ]

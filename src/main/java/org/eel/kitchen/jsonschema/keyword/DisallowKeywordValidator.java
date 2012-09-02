@@ -68,6 +68,10 @@ public final class DisallowKeywordValidator
             validator = context.newValidator(schema);
             schemaReport = report.copy();
             validator.validate(context, schemaReport, instance);
+            if (schemaReport.hasFatalError()) {
+                report.mergeWith(schemaReport);
+                return;
+            }
             if (schemaReport.isSuccess()) {
                 // FIXME: the day we have schema locators, add it here
                 msg = newMsg().setMessage("instance is valid against a " +
