@@ -58,9 +58,12 @@ final class JsonResolver
     SchemaNode resolve(final SchemaNode schemaNode)
         throws JsonSchemaException
     {
+        /*
+         * All failures at this level are fatal
+         */
         final ValidationMessage.Builder msg
             = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-            .setKeyword("$ref");
+            .setKeyword("$ref").setFatal(true);
         /*
          * These two elements might change during ref resolving. Set them to
          * their initial values.
