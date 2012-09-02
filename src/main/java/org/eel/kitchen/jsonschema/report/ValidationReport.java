@@ -147,6 +147,11 @@ public final class ValidationReport
                 return;
     }
 
+    public int size()
+    {
+        return msgMap.size();
+    }
+
     /**
      * Is this report a success?
      *
