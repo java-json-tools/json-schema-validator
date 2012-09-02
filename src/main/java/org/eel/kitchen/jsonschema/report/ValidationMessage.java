@@ -65,6 +65,7 @@ public final class ValidationMessage
     private final ValidationDomain domain;
     private final String keyword;
     private final String message;
+    private final boolean fatal;
     private final Map<String, JsonNode> info;
 
     private ValidationMessage(final Builder builder)
@@ -72,6 +73,7 @@ public final class ValidationMessage
         domain = builder.domain;
         keyword = builder.keyword;
         message = builder.message;
+        fatal = builder.fatal;
         info = ImmutableMap.copyOf(JacksonUtils.nodeToMap(builder.info));
     }
 
@@ -100,6 +102,9 @@ public final class ValidationMessage
         final ObjectNode ret = factory.objectNode()
             .put("domain", domain.toString()).put("keyword", keyword)
             .put("message", message);
+
+        if (fatal)
+            ret.put("fatal", true);
 
         ret.putAll(info);
         return ret;
@@ -179,7 +184,7 @@ public final class ValidationMessage
          * before the message is built
          */
         private static final Set<String> RESERVED = ImmutableSet.of("domain",
-            "keyword", "message");
+            "keyword", "message", "fatal");
 
         /**
          * Validation domain
@@ -202,6 +207,11 @@ public final class ValidationMessage
          * Further information associated with the error message
          */
         private final ObjectNode info = factory.objectNode();
+
+        /**
+         * Is this error message fatal?
+         */
+        boolean fatal = false;
 
         /**
          * Constructor
@@ -235,6 +245,18 @@ public final class ValidationMessage
         public Builder setMessage(final String message)
         {
             this.message = message;
+            return this;
+        }
+
+        /**
+         * Should this error message be marked as fatal?
+         *
+         * @param fatal true if this error message is fatal (false by default)
+         * @return the builder
+         */
+        public Builder setFatal(final boolean fatal)
+        {
+            this.fatal = fatal;
             return this;
         }
 
