@@ -1,0 +1,16 @@
+[
+    {
+        "schema": {
+            "type": "null",
+            "extends": { "$ref": "#foo" }
+        },
+        "data": 1,
+        "message": {
+            "fatal": true,
+            "domain": "$ref resolving",
+            "keyword": "$ref",
+            "message": "dangling JSON Reference",
+            "ref": "#foo"
+        }
+    }
+]
