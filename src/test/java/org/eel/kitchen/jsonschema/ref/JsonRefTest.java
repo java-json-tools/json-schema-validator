@@ -17,26 +17,26 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.net.URI;
 import java.util.Iterator;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
 public final class JsonRefTest
 {
-    private JsonRef baseRef;
+    private static final JsonRef BASE_REF;
 
-    @BeforeClass
-    public void initializeBaseRef()
-        throws JsonSchemaException
-    {
-        baseRef = JsonRef.fromString("http://foo.bar/baz#");
+    static {
+        try {
+            BASE_REF = JsonRef.fromString("http://foo.bar/baz#");
+        } catch (JsonSchemaException e) {
+           throw new ExceptionInInitializerError(e);
+        }
     }
 
     @Test
@@ -51,15 +51,13 @@ public final class JsonRefTest
     }
 
     @Test
-    public void twoJsonRefsWithSameURIAreEqualAndHaveTheSameHashCode()
+    public void emptyOrNoFragmentIsTheSame()
         throws JsonSchemaException
     {
-        final URI uri = URI.create("foo");
-        final JsonRef ref1 = JsonRef.fromURI(uri);
-        final JsonRef ref2 = JsonRef.fromString("foo");
+        final JsonRef ref1 = JsonRef.fromString("http://foo.bar");
+        final JsonRef ref2 = JsonRef.fromString("http://foo.bar#");
 
-        assertTrue(ref1.equals(ref2));
-        assertEquals(ref1.hashCode(), ref2.hashCode());
+        assertEquals(ref1, ref2);
     }
 
     @Test
@@ -75,20 +73,6 @@ public final class JsonRefTest
     }
 
     @Test
-    public void absoluteRefsShouldBeIdentifiedAsSuch()
-        throws JsonSchemaException
-    {
-        final String s1 = "http://foo.bar/a/b";
-        final String s2 = "foo.bar";
-
-        final JsonRef ref1 = JsonRef.fromString(s1);
-        final JsonRef ref2 = JsonRef.fromString(s2);
-
-        assertTrue(ref1.isAbsolute());
-        assertFalse(ref2.isAbsolute());
-    }
-
-    @Test
     public void absoluteURIWithFragmentIsNotAnAbsoluteRef()
         throws JsonSchemaException
     {
@@ -97,61 +81,52 @@ public final class JsonRefTest
         assertFalse(ref.isAbsolute());
     }
 
-    @Test
-    public void testFragments()
-        throws JsonSchemaException
+    @DataProvider
+    private Iterator<Object[]> getFragmentTestData()
     {
-        JsonRef ref;
-        JsonFragment fragment;
+        final Set<Object[]> set = Sets.newHashSet();
 
-        ref = JsonRef.fromString("file:///a");
-        fragment = ref.getFragment();
-        assertTrue(fragment.isEmpty());
+        set.add(new Object[] { "file:///a", "" });
+        set.add(new Object[] { "file:///a#", "" });
+        set.add(new Object[] { "file:///a#b/c", "b/c" });
 
-        ref = JsonRef.fromString("file:///a#");
-        fragment = ref.getFragment();
-        assertTrue(fragment.isEmpty());
-
-        ref = JsonRef.fromString("file:///a#b/c");
-        fragment = ref.getFragment();
-        assertFalse(fragment.isEmpty());
-        assertEquals(fragment.toString(), "b/c");
+        return set.iterator();
     }
 
-    @Test
-    public void emptyOrNoFragmentIsTheSame()
+    @Test(dataProvider = "getFragmentTestData")
+    public void testFragmentIsCorrectlyComputed(final String refAsString,
+        final String fragmentAsString)
         throws JsonSchemaException
     {
-        final JsonRef ref1 = JsonRef.fromString("http://foo.bar");
-        final JsonRef ref2 = JsonRef.fromString("http://foo.bar#");
+        final JsonRef ref = JsonRef.fromString(refAsString);
 
-        assertEquals(ref1, ref2);
+        assertEquals(ref.getFragment().toString(), fragmentAsString);
+        assertEquals(ref.getFragment().isEmpty(), fragmentAsString.isEmpty());
     }
 
     @DataProvider
-    public Iterator<Object[]> getData()
+    public Iterator<Object[]> getContainsData()
     {
-        final ImmutableSet.Builder<Object[]> builder
-            = new ImmutableSet.Builder<Object[]>();
+        final Set<Object[]> set = Sets.newHashSet();
 
-        builder.add(new Object[] { "http://foo.bar/blah#", false });
-        builder.add(new Object[] { "http://foo.bar/baz#pwet", true });
-        builder.add(new Object[] { "http://foo.bar/baz?a=b", false });
-        builder.add(new Object[] { "#/a/b/c", true });
-        builder.add(new Object[] { "a/b/v", false });
-        builder.add(new Object[] { "baz", true });
+        set.add(new Object[] { "http://foo.bar/blah#", false });
+        set.add(new Object[] { "http://foo.bar/baz#pwet", true });
+        set.add(new Object[] { "http://foo.bar/baz?a=b", false });
+        set.add(new Object[] { "#/a/b/c", true });
+        set.add(new Object[] { "a/b/v", false });
+        set.add(new Object[] { "baz", true });
 
-        return builder.build().iterator();
+        return set.iterator();
     }
 
-    @Test(dataProvider = "getData")
+    @Test(dataProvider = "getContainsData")
     public void testReferenceContains(final String input,
         final boolean contained)
         throws JsonSchemaException
     {
         final JsonRef tmp = JsonRef.fromString(input);
-        final JsonRef resolved = baseRef.resolve(tmp);
+        final JsonRef resolved = BASE_REF.resolve(tmp);
 
-        assertEquals(baseRef.contains(resolved), contained);
+        assertEquals(BASE_REF.contains(resolved), contained);
     }
 }
