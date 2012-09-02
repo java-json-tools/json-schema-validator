@@ -85,6 +85,8 @@ final class ArrayValidator
             subSchema = getSchema(i);
             validator = context.newValidator(subSchema);
             validator.validate(context, report, element);
+            if (report.hasFatalError())
+                break;
         }
 
         report.setPath(pwd);
