@@ -18,11 +18,17 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.eel.kitchen.jsonschema.bundle.Keyword;
+import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -77,5 +83,54 @@ public final class FatalErrorTests
 
         assertTrue(report.hasFatalError());
         assertEquals(report.asJsonNode().iterator().next().get(0), message);
+    }
+
+    @Test
+    public void keywordBuildFailureRaisesFatalError()
+    {
+        // Build a bundle with only the failing validator
+        final KeywordBundle bundle = new KeywordBundle();
+        final Keyword foo = Keyword.Builder.forKeyword("foo")
+            .withValidatorClass(Foo.class).build();
+
+        bundle.registerKeyword(foo);
+
+        // Build a new factory with that only keyword
+
+        factory = new JsonSchemaFactory.Builder().withKeywordBundle(bundle)
+            .build();
+
+        // Create our schema, which will also be our data, we don't care
+        final JsonNode node = JsonNodeFactory.instance.objectNode()
+            .put("foo", "bar");
+
+        container = factory.registerSchema(node);
+        schema = factory.createSchema(container);
+
+        report = schema.validate(node);
+
+        assertTrue(report.hasFatalError());
+    }
+
+    private static final class Foo
+        extends KeywordValidator
+    {
+        // Invalid constructor: no JsonNode argument
+        private Foo()
+        {
+            super("foo", NodeType.values());
+        }
+
+        @Override
+        protected void validate(final ValidationContext context,
+            final ValidationReport report, final JsonNode instance)
+        {
+        }
+
+        @Override
+        public String toString()
+        {
+            return "foo";
+        }
     }
 }

@@ -132,7 +132,7 @@ public final class KeywordFactory
     private static KeywordValidator invalidValidator(
         final Class<? extends KeywordValidator> c, final Exception e)
     {
-        final String className = c.getClass().getName();
+        final String className = c.getName();
 
         return new KeywordValidator(className, NodeType.values())
         {
@@ -142,9 +142,10 @@ public final class KeywordFactory
             {
                 final ValidationMessage.Builder msg
                     = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-                        .setMessage("cannot build validator")
-                        .addInfo("exception", e.getClass().getName())
-                        .addInfo("exceptionMessage", e.getMessage());
+                    .setMessage("cannot build validator").setKeyword(className)
+                    .addInfo("exception", e.getClass().getName())
+                    .addInfo("exceptionMessage", e.getMessage())
+                    .setFatal(true);
                 report.addMessage(msg.build());
             }
 
