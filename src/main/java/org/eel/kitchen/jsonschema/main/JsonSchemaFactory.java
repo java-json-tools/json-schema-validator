@@ -106,6 +106,25 @@ public final class JsonSchemaFactory
     }
 
     /**
+     * Get a schema container from a given URI
+     *
+     * <p>This calls {@link #getSchema(URI)} and uses {@link URI#create(String)}
+     * to build the URI</p>
+     *
+     * @see URI#create(String)
+     *
+     * @param str the URI as a string
+     * @return a schema container
+     * @throws JsonSchemaException cannot get schema from URI, or not a schema
+     * @throws IllegalArgumentException string is not a valid URI
+     */
+    public SchemaContainer getSchema(final String str)
+        throws JsonSchemaException
+    {
+        return registry.get(URI.create(str));
+    }
+
+    /**
      * Create a schema from a container
      *
      * <p>This is one of the constructors you will use. The other is
