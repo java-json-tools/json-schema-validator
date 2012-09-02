@@ -67,4 +67,36 @@ public final class ValidationReportTest
         assertTrue(report.hasFatalError());
         assertEquals(report.getMessages().size(), 1);
     }
+
+    @Test
+    public void mergingWithAnotherReportKeepsFatalStatus()
+    {
+        final ValidationMessage.Builder msg
+            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+            .setKeyword("N/A").setMessage("foo");
+
+        ValidationReport r1, r2;
+
+        // r1 is fatal
+        r1 = new ValidationReport();
+        r2 = new ValidationReport();
+
+        r1.addMessage(msg.setFatal(true).build());
+        r2.addMessage(msg.setFatal(false).build());
+
+        r1.mergeWith(r2);
+        assertTrue(r1.hasFatalError());
+        assertEquals(r1.getMessages().size(), 1);
+
+        // r2 is fatal
+        r1 = new ValidationReport();
+        r2 = new ValidationReport();
+
+        r1.addMessage(msg.setFatal(false).build());
+        r2.addMessage(msg.setFatal(true).build());
+
+        r1.mergeWith(r2);
+        assertTrue(r1.hasFatalError());
+        assertEquals(r1.getMessages().size(), 1);
+    }
 }

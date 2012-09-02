@@ -169,6 +169,14 @@ public final class ValidationReport
      */
     public void mergeWith(final ValidationReport other)
     {
+        if (fatal)
+            return;
+
+        if (other.fatal) {
+            msgMap.clear();
+            fatal = true;
+        }
+
         msgMap.putAll(other.msgMap);
     }
 
