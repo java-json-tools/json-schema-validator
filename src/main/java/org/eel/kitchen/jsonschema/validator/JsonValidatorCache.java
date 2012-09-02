@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -52,9 +51,6 @@ import java.util.Set;
  */
 public final class JsonValidatorCache
 {
-    private static final JsonNode EMPTY_SCHEMA
-        = JsonNodeFactory.instance.objectNode();
-
     private static final JsonValidator ALWAYS_TRUE
         = new JsonValidator()
     {
@@ -121,7 +117,9 @@ public final class JsonValidatorCache
             @Override
             public JsonValidator load(final SchemaNode key)
             {
-                if (JacksonUtils.emptySchema().equals(key.getNode()))
+                // We can do that: we ask JacksonUtils to return an empty schema
+                // each time we have to return one.
+                if (key.getNode() == JacksonUtils.emptySchema())
                     return ALWAYS_TRUE;
 
                 final SchemaNode realNode;

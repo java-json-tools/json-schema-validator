@@ -18,22 +18,40 @@
 /**
  * Format specifier classes
  *
- * <p>All format specifiers (section 5.23 of draft v3) are supported,
- * except for {@code style} and {@code color}.</p>
+ * <p>The {@code format} keyword is defined by section 5.23 of the current
+ * draft. This particular package supports the following format specifiers:</p>
  *
- * <p>It should be noted that this implementation differs from the draft in
- * one subtle, but important way: strictly speaking, an email and a hostname
- * may have no domain part at all. However, this implementation chooses to
- * require that they have one by default. You can however ask the library to
- * obey the RFCs to the letter (see {@link
- * org.eel.kitchen.jsonschema.main.ValidationFeature#STRICT_RFC_CONFORMANCE}).
+ * <ul>
+ *     <li>{@code date-time};</li>
+ *     <li>{@code email};</li>
+ *     <li>{@code host-name};</li>
+ *     <li>{@code ip-address};</li>
+ *     <li>{@code ipv6};</li>
+ *     <li>{@code regex};</li>
+ *     <li>{@code uri}.</li>
+ * </ul>
+ *
+ * <p>All other format specifiers defined by the draft (except {@code color} and
+ * {@code style}, for which support is deliberately omitted) are now in a
+ * separate package: <a
+ * href="https://github.com/json-schema/json-schema-formats">json-schema-formats
+ * </a>.</p>
+ *
+ * <p>In addition to using the package above, you can also implement your own
+ * format specifiers by creating a {@link
+ * org.eel.kitchen.jsonschema.format.FormatBundle} and setting/merging your
+ * bundle into your schema factory. See also {@link
+ * org.eel.kitchen.jsonschema.format.FormatSpecifier}.</p>
+ *
+ * <p>Note: by default, the {@code host-name} and {@code email} format
+ * specifiers require that both validated values have a domain part. This
+ * contradicts what the respective RFCs say, but it is more in line with user
+ * expectations. You can tell these formats to strictly comply to the RFC by
+ * setting {@link
+ * org.eel.kitchen.jsonschema.main.ValidationFeature#STRICT_RFC_CONFORMANCE}
+ * when building your schema factory (see {@link
+ * org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#enableFeature(org.eel.kitchen.jsonschema.main.ValidationFeature)}).
  * </p>
  *
- * <p>This implementation also adds a custom format specifier,
- * {@code date-time-ms}: this is the same as ISO 8601's {@code date-time},
- * with added milliseconds.</p>
- *
- * <p>Note: in theory, draft v3 also allows further format specifiers to be
- * registered, however this implementation does not support it currently.</p>
  */
 package org.eel.kitchen.jsonschema.format;

@@ -16,18 +16,26 @@
  */
 
 /**
- * JSON document downloaders
+ * Classes to handle URI downloading of JSON documents
  *
- * <p>You will normally not use any of these classes directly. {@code http}
- * is for the moment the only scheme supported natively. You can expand the
- * set of supported schemes by:</p>
+ * <p>The following URI schemes are supported by default: {@code http}, {@code
+ * file}, {@code ftp}, {@code resource} and {@code jar}.</p>
+ *
+ * <p>You can use classes in this package to extend the list of supported
+ * schemes, by:</p>
  *
  * <ul>
  *     <li>implementing {@link org.eel.kitchen.jsonschema.uri.URIDownloader},
  *     </li>
- *     <li>registering this new downloader using {@link
+ *     <li>registering this new downloader for a custom scheme by using {@link
  *     org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#registerScheme(String,
  *     URIDownloader)}.
  * </ul>
+ *
+ * <p>Note about {@code jar} relative URI resolutions: due to the very nature of
+ * {@code jar} URIs, normal URI resolving rules cannot be applied. This
+ * implementation ensures that relative ref resolutions happen correctly,
+ * though. See {@link org.eel.kitchen.jsonschema.ref.JsonRef} for more
+ * information.</p>
  */
 package org.eel.kitchen.jsonschema.uri;

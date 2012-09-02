@@ -104,6 +104,11 @@ public final class JacksonUtils
         return ret;
     }
 
+    /**
+     * Return an empty schema
+     *
+     * @return a statically created, empty, JSON object.
+     */
     public static JsonNode emptySchema()
     {
         return EMPTY_SCHEMA;

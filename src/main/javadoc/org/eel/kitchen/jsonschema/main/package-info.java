@@ -23,16 +23,37 @@
  *
  * <ul>
  *     <li>start by creating a {@link
- *     org.eel.kitchen.jsonschema.main.JsonSchemaFactory},</li>
- *     <li>customize it if need be (by adding new keywords,
- *     removing existing ones, etc),</li>
+ *     org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder},</li>
+ *     <li>customize it if need be,</li>
+ *     <li>build your factory,</li>
  *     <li>register a schema,</li>
- *     <li>create a schema instance,</li>
+ *     <li>create a {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance,
+ *     </li>
  *     <li>validate your inputs.</li>
  * </ul>
  *
- * <p>A single {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance can
- * validate as many inputs as required. What is more, it is fully thread
- * safe.</p>
+ * <p>{@link org.eel.kitchen.jsonschema.main.JsonSchema} is thread safe and
+ * immutable, you can therefore use a same instance to validate as much data as
+ * you want -- in parallel.</p>
+ *
+ * <p>You can customize your schema factory (via the builder) in several ways:
+ * </p>
+ *
+ * <ul>
+ *     <li>URI manipulations: setting a default namespace, setting redirections;
+ *     </li>
+ *     <li>keywords: registering/unregistering keywords, creating your own
+ *     bundles, replacing/merging them;</li>
+ *     <li>format specifiers: same as keywords;</li>
+ *     <li>enabling validation features.</li>
+ * </ul>
+ *
+ * <p>See also:</p>
+ *
+ * <ul>
+ *     <li>{@link org.eel.kitchen.jsonschema.keyword},</li>
+ *     <li>{@link org.eel.kitchen.jsonschema.format}.</li>
+ * </ul>
+ *
  */
 package org.eel.kitchen.jsonschema.main;

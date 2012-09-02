@@ -24,6 +24,5 @@
  *
  * <p>This is useful, for instance, if you have an idea for a new keyword
  * and want to experiment with it. See the relevant classes for sample code.</p>
- *
  */
 package org.eel.kitchen.jsonschema.bundle;

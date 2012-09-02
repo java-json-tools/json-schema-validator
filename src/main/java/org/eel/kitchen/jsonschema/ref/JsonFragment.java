@@ -35,13 +35,6 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 public abstract class JsonFragment
     implements Comparable<JsonFragment>
 {
-    protected final String asString;
-
-    protected JsonFragment(final String input)
-    {
-        asString = input;
-    }
-
     /**
      * Special case fragment (empty)
      */
@@ -53,6 +46,21 @@ public abstract class JsonFragment
             return node;
         }
     };
+
+    /**
+     * This fragment as a string value
+     */
+    protected final String asString;
+
+    /**
+     * Constructor
+     *
+     * @param input the input fragment
+     */
+    protected JsonFragment(final String input)
+    {
+        asString = input;
+    }
 
     /**
      * The only static factory method to obtain a fragment
@@ -89,7 +97,8 @@ public abstract class JsonFragment
      * Tell whether this fragment is empty
      *
      * @see JsonRef#isAbsolute()
-     * @return true if it is {@link #EMPTY}
+     * @return true if this fragment is (reference wise) equal to {@link
+     * #EMPTY}
      */
     public final boolean isEmpty()
     {

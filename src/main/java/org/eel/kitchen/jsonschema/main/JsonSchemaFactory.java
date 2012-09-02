@@ -59,8 +59,14 @@ public final class JsonSchemaFactory
      */
     private final SchemaRegistry registry;
 
+    /**
+     * Validator cache
+     */
     private final JsonValidatorCache cache;
 
+    /**
+     * List of supported features
+     */
     private final EnumSet<ValidationFeature> features;
 
     /**
@@ -206,9 +212,15 @@ public final class JsonSchemaFactory
          */
         private URI namespace = URI.create("");
 
+        /**
+         * The feature set
+         */
         private final EnumSet<ValidationFeature> features
             = EnumSet.noneOf(ValidationFeature.class);
 
+        /**
+         * The format bundle
+         */
         private FormatBundle formatBundle = FormatBundle.defaultBundle();
 
         /**
@@ -265,12 +277,28 @@ public final class JsonSchemaFactory
             return this;
         }
 
+        /**
+         * Replace the keyword bundle with an entirely new bundle
+         *
+         * <p>Use with caution!</p>
+         *
+         * @param keywordBundle the bundle
+         * @return the builder
+         */
         public Builder withKeywordBundle(final KeywordBundle keywordBundle)
         {
             this.keywordBundle = keywordBundle;
             return this;
         }
 
+        /**
+         * Merge the existing keyword bundle with another, custom bundle
+         *
+         * @see KeywordBundle#mergeWith(KeywordBundle)
+         *
+         * @param keywordBundle the bundle
+         * @return the builder
+         */
         public Builder addKeywords(final KeywordBundle keywordBundle)
         {
             this.keywordBundle.mergeWith(keywordBundle);
@@ -317,12 +345,27 @@ public final class JsonSchemaFactory
             return this;
         }
 
+        /**
+         * Enable a validation feature
+         *
+         * @param feature the feature to set
+         * @return the builder
+         */
         public Builder enableFeature(final ValidationFeature feature)
         {
             features.add(feature);
             return this;
         }
 
+        /**
+         * Register a format specifier
+         *
+         * @see FormatBundle#registerFormat(String, FormatSpecifier)
+         *
+         * @param fmt the name for this specifier
+         * @param specifier the format specifier instance
+         * @return the builder
+         */
         public Builder registerFormat(final String fmt,
             final FormatSpecifier specifier)
         {
@@ -330,18 +373,45 @@ public final class JsonSchemaFactory
             return this;
         }
 
+        /**
+         * Unregister a format specifier
+         *
+         * <p>This is a no op if such a specifier was not registered.</p>
+         *
+         * @param fmt the name for this specifier
+         * @return the builder
+         */
         public Builder unregisterFormat(final String fmt)
         {
             formatBundle.unregisterFormat(fmt);
             return this;
         }
 
+        /**
+         * Replace the format bundle with a custom bundle
+         *
+         * <p>Use with caution! In particular, you <b>should not</b> mess with
+         * {@code uri} and {@code regex}.</p>
+         *
+         * @see FormatBundle#defaultBundle()
+         *
+         * @param formatBundle the bundle
+         * @return the builder
+         */
         public Builder withFormatBundle(final FormatBundle formatBundle)
         {
             this.formatBundle = formatBundle;
             return this;
         }
 
+        /**
+         * Merge the existing bundle with another, custom bundle
+         *
+         * @see FormatBundle#mergeWith(FormatBundle)
+         *
+         * @param formatBundle the bundle
+         * @return the builder
+         */
         public Builder addFormats(final FormatBundle formatBundle)
         {
             this.formatBundle.mergeWith(formatBundle);

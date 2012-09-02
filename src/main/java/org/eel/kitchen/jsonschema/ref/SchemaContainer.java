@@ -40,8 +40,8 @@ public final class SchemaContainer
     /**
      * Return a new container based on a schema
      *
-     * <p>Note that if the {@code id} node exists and is an URI,
-     * but not absolute, an anonymous schema will be returned.
+     * <p>Note that if the {@code id} node exists and is an URI, but not
+     * absolute, an anonymous schema will be returned.
      * </p>
      *
      * @param schema the schema
@@ -68,8 +68,8 @@ public final class SchemaContainer
     /**
      * Return a new container based on an URI and a schema
      *
-     * <p>Note that if the provided URI is not absolute, an
-     * anonymous schema is returned.</p>
+     * <p>Note that if the provided URI is not absolute, an anonymous schema is
+     * returned.</p>
      *
      * @param uri the URI
      * @param node the schema

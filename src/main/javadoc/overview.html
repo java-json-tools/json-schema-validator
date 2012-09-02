@@ -213,6 +213,18 @@ like this:</p>
 <p>For further information, see {@link org.eel.kitchen.jsonschema.syntax} and
 {@link org.eel.kitchen.jsonschema.keyword}.</p>
 
+<h2>Registering/unregistering format specifiers</h2>
+
+<p>The draft defines the <tt>format</tt> keyword in section 5.23. It explicitly
+mentions that custom format specifiers MAY be created. You can do this with this
+implementation.</p>
+
+<p>The principle is the same as for keywords. Note also that this library only
+supports a subset of all specifiers defined by the draft: other specifiers are
+now in a separate package.</p>
+
+<p>See {@link org.eel.kitchen.jsonschema.format} for more information.</p>
+
 <h2>Registering/unregistering URI schemes</h2>
 
 <p>A JSON Schema locator is a URI, and this URI can be of any scheme. This

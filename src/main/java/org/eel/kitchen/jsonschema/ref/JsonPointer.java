@@ -55,7 +55,7 @@ import java.util.List;
  * <p>The latter example is the reason why a JSON Pointer is <b>always</b>
  * absolute.</p>
  *
- * <p>All instances of this class are immutable (therefore thread safe).</p>
+ * <p>All instances of this class are thread safe and immutable.</p>
  *
  */
 

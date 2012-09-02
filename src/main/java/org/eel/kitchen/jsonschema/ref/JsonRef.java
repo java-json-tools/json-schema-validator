@@ -29,9 +29,9 @@ import java.net.URISyntaxException;
 /**
  * Representation of a JSON Reference
  *
- * <p><a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02">
- *     JSON Reference</a>,
- * currently a draft, is a way to address a JSON instance of whatever type.</p>
+ * <p><a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON
+ * Reference</a>, currently a draft, is a way to define a path within a JSON
+ * document.</p>
  *
  * <p>To quote the draft, "A JSON Reference is a JSON object, which contains
  * a member named "$ref", which has a JSON string value." This string value
@@ -43,13 +43,11 @@ import java.net.URISyntaxException;
  *     }
  * </pre>
  *
- * <p>Here we choose to derive a little from the specification and calculate
- * references from any field, not just {@code $ref}. This class is also used,
- * for instance, to compute {@code id}.
- * </p>
+ * <p>This class is used in a more general way than the draft. It is also used
+ * as a backing class for schema identifiers.</p>
  *
- * <p>The implementation is a wrapper over Java's {@link URI},
- * with the following differences:</p>
+ * <p>The implementation is a wrapper over Java's {@link URI}, with the
+ * following differences:</p>
  *
  * <ul>
  *     <li>all URIs are normalized from the get go;</li>
@@ -58,6 +56,8 @@ import java.net.URISyntaxException;
  *     <li>a reference is taken to be absolute if the underlying URI is
  *     absolute <i>and</i> it has no fragment, or an empty fragment.</li>
  * </ul>
+ *
+ * <p>This class is thread safe and immutable.</p>
  */
 
 public final class JsonRef

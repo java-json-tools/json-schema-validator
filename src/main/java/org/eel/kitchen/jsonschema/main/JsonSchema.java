@@ -29,18 +29,35 @@ import java.util.EnumSet;
 /**
  * The main validation class
  *
- * <p>This class is thread-safe: you can validate as many inputs as you
- * want with one instance.</p>
+ * <p>This class is thread-safe and immutable: you can validate as many inputs
+ * as you want with one instance.</p>
  *
- * <p>In order to build an instance, you need to go through a
- * {@link JsonSchemaFactory}.</p>
+ * @see JsonSchemaFactory
  */
 public final class JsonSchema
 {
+    /**
+     * The validator cache
+     */
     private final JsonValidatorCache cache;
+
+    /**
+     * The feature set
+     */
     private final EnumSet<ValidationFeature> features;
+
+    /**
+     * The schema node
+     */
     private final SchemaNode schemaNode;
 
+    /**
+     * Constructor, package private
+     *
+     * @param cache the validator cache
+     * @param features the feature set
+     * @param schemaNode the schema node
+     */
     JsonSchema(final JsonValidatorCache cache,
         final EnumSet<ValidationFeature> features, final SchemaNode schemaNode)
     {

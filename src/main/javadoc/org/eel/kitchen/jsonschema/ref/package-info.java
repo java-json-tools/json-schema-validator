@@ -16,7 +16,7 @@
  */
 
 /**
- * JSON Reference related packages
+ * JSON Reference related classes
  *
  * <p>The main package which reprensents a JSON Reference is
  * {@link org.eel.kitchen.jsonschema.ref.JsonRef}.</p>

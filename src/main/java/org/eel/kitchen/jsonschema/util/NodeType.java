@@ -67,11 +67,14 @@ public enum NodeType
      */
     private final String name;
 
+    /**
+     * Reverse map to find a node type out of this type's name
+     */
     private static final Map<String, NodeType> nameMap;
 
     /**
-     * Mapping of {@link JsonToken} back to node types (used in
-     * {@link #getNodeType(JsonNode)})
+     * Mapping of {@link JsonToken} back to node types (used in {@link
+     * #getNodeType(JsonNode)})
      */
     private static final Map<JsonToken, NodeType> reverseMap
         = new EnumMap<JsonToken, NodeType>(JsonToken.class);

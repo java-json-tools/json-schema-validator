@@ -22,14 +22,14 @@
  * org.eel.kitchen.jsonschema.syntax.SyntaxValidator}.</p>
  *
  * <p>Syntax validation has a critically important role in the validation
- * process. An invalid schema will always <i>fail</i> to invalidate a JSON
+ * process. An invalid schema will always <i>fail</i> to validate a JSON
  * instance.</p>
  *
  * <p>For this implementation in particular, it also helps to ensure that the
  * {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator} associated with
  * the schema keyword does not need to preoccupy about its arguments being
- * well-formed -- they will be since the syntax validator has verified that they
- * are.</p>
+ * well-formed: it is the contract of syntax validation that a keyword validator
+ * needs not preoccupy about this when it is instantiated.</p>
  *
  * <p>Unlike keyword validators, syntax validators are not built by reflection.
  * It is therefore your responsibility to instantiate it and only then register

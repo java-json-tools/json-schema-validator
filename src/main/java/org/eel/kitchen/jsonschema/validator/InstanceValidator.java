@@ -34,12 +34,18 @@ import java.util.Set;
  * ArrayValidator} or {@link ObjectValidator} if necessary.</p>
  *
  * @see JsonValidatorCache#getValidator(SchemaNode)
- * @see KeywordValidator
  */
 final class InstanceValidator
     implements JsonValidator
 {
+    /**
+     * The schema node
+     */
     private final SchemaNode schemaNode;
+
+    /**
+     * The set of keyword validators for that schema node
+     */
     private final Set<KeywordValidator> validators;
 
     /**

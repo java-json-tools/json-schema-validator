@@ -16,7 +16,7 @@
  */
 
 /**
- * Various utility classes
+ * Various utility packages
  *
  * <p>The one you will use the most often here is {@link
  * org.eel.kitchen.jsonschema.util.JsonLoader}: it contains various methods to
@@ -38,4 +38,4 @@
  * provides useful methods to perform common operations on exsting {@link
  * com.fasterxml.jackson.databind.JsonNode} instances.</p>
  */
-package org.eel.kitchen.jsonschema.util;
+package org.eel.kitchen.jsonschema.report;
