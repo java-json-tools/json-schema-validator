@@ -105,7 +105,7 @@ public final class JsonRefTest
     }
 
     @DataProvider
-    public Iterator<Object[]> getContainsData()
+    private Iterator<Object[]> getContainsData()
     {
         final Set<Object[]> set = Sets.newHashSet();
 
@@ -128,5 +128,44 @@ public final class JsonRefTest
         final JsonRef resolved = BASE_REF.resolve(tmp);
 
         assertEquals(BASE_REF.contains(resolved), contained);
+    }
+
+    @DataProvider
+    private Iterator<Object[]> getJarURIData()
+    {
+        final Set<Object[]> set = Sets.newHashSet();
+
+        set.add(new Object[] { "jar:/x!/a/b", "/c", "jar:/x!/c" } );
+        set.add(new Object[] {
+            "jar:http://foo.bar/e.jar!/main/main.json",
+            "../children/other.json",
+            "jar:http://foo.bar/e.jar!/children/other.json"
+        });
+        set.add(new Object[] {
+            "jar:file:/tmp/t.jar!/main/main.json#foo",
+            "sub.json#/bar",
+            "jar:file:/tmp/t.jar!/main/sub.json#/bar"
+        });
+        set.add(new Object[] {
+            "jar:ftp://ftp.lip6.fr/pub/schemas.jar!/schemas/schema1.json#/x",
+            "http://json-schema.org/files/schema",
+            "http://json-schema.org/files/schema"
+        });
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "getJarURIData")
+    public void resolvingAgainstJarURIsWork(final String src, final String rel,
+        final String dst)
+        throws JsonSchemaException
+    {
+        final JsonRef source = JsonRef.fromString(src);
+        final JsonRef ref = JsonRef.fromString(rel);
+        final JsonRef expected = JsonRef.fromString(dst);
+
+        final JsonRef actual = source.resolve(ref);
+
+        assertEquals(actual, expected);
     }
 }
