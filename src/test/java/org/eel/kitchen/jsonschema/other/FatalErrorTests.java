@@ -43,18 +43,12 @@ import static org.testng.Assert.*;
 public final class FatalErrorTests
 {
     private JsonNode testData;
-    private JsonSchemaFactory factory;
-
-    private SchemaContainer container;
-    private JsonSchema schema;
-    private ValidationReport report;
 
     @BeforeClass
     public void initData()
         throws IOException
     {
         testData = JsonLoader.fromResource("/other/fatal.json");
-        factory = new JsonSchemaFactory.Builder().build();
     }
 
     @DataProvider
@@ -72,20 +66,22 @@ public final class FatalErrorTests
         return set.iterator();
     }
 
-    @Test(dataProvider = "getData")
+    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
     public void fataErrorsAreReportedAsSuch(final JsonNode node,
         final JsonNode data, final JsonNode message)
     {
-        container = factory.registerSchema(node);
-        schema = factory.createSchema(container);
+        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+            .build();
+        final SchemaContainer container = factory.registerSchema(node);
+        final JsonSchema schema = factory.createSchema(container);
 
-        report = schema.validate(data);
+        final ValidationReport report = schema.validate(data);
 
         assertTrue(report.hasFatalError());
         assertEquals(report.asJsonNode().iterator().next().get(0), message);
     }
 
-    @Test
+    @Test(invocationCount = 10, threadPoolSize = 4)
     public void keywordBuildFailureRaisesFatalError()
     {
         // Build a bundle with only the failing validator
@@ -97,17 +93,17 @@ public final class FatalErrorTests
 
         // Build a new factory with that only keyword
 
-        factory = new JsonSchemaFactory.Builder().withKeywordBundle(bundle)
-            .build();
+        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+            .withKeywordBundle(bundle).build();
 
         // Create our schema, which will also be our data, we don't care
         final JsonNode node = JsonNodeFactory.instance.objectNode()
             .put("foo", "bar");
 
-        container = factory.registerSchema(node);
-        schema = factory.createSchema(container);
+        final SchemaContainer container = factory.registerSchema(node);
+        final JsonSchema schema = factory.createSchema(container);
 
-        report = schema.validate(node);
+        final ValidationReport report = schema.validate(node);
 
         assertTrue(report.hasFatalError());
     }
