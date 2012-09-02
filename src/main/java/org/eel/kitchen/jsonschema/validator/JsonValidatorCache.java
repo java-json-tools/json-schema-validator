@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -50,6 +51,20 @@ import java.util.Set;
  */
 public final class JsonValidatorCache
 {
+    private static final JsonNode EMPTY_SCHEMA
+        = JsonNodeFactory.instance.objectNode();
+
+    private static final JsonValidator ALWAYS_TRUE
+        = new JsonValidator()
+    {
+        @Override
+        public boolean validate(final ValidationContext context,
+            final ValidationReport report, final JsonNode instance)
+        {
+            return false;
+        }
+    };
+
     /**
      * Cache for all validators, even failing ones
      *
@@ -105,6 +120,9 @@ public final class JsonValidatorCache
             @Override
             public JsonValidator load(final SchemaNode key)
             {
+                if (EMPTY_SCHEMA.equals(key.getNode()))
+                    return ALWAYS_TRUE;
+
                 final SchemaNode realNode;
 
                 try {
