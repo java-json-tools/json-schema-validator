@@ -9,8 +9,8 @@ is <b>0.6.1</b>. See the
 for more details.</p>
 
 <p>At any point in time, the javadoc for the current stable version can be found
-[here](http://json-schema.github.com/json-schema-validator/). The javadoc
-contains code samples.</p>
+[here](http://fge.github.com/json-schema-validator/). The javadoc contains code
+samples.</p>
 
 <p><b>IMPORTANT 1:</b> the versioning scheme is changing, see below for more
 information.</p>
