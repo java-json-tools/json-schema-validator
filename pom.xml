@@ -20,7 +20,7 @@
     <groupId>org.kitchen-eel</groupId>
     <artifactId>json-schema-validator</artifactId>
     <name>json-schema-validator</name>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <description>A Java implementation of the JSON Schema specification</description>
     <url>https://github.com/json-schema/json-schema-validator</url>
