@@ -20,12 +20,12 @@ reasons, see the above project for further explanations.</p>
 
 <h2>Versions</h2>
 
-<p>The current version is <b>0.6.0</b>. The big change in that version is the
+<p>The current version is <b>0.6.1</b>. The big change in that version is the
 newer validation message format. See
 [here](https://github.com/json-schema/json-schema-validator/wiki/Validation-messages)
 for more details.</p>
 
-<p>The old stable version is <b>0.5.5</b>. See the
+<p>The old stable version is <b>0.5.6</b>. See the
 [ChangeLog](https://github.com/json-schema/json-schema-validator/wiki/ChangeLog)
 for more details. <b>Versions 0.4.x are not supported anymore.</b></p>
 
