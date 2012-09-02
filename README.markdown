@@ -3,10 +3,22 @@
 <p>The license of this project is LGPLv3 or later. See file
 src/main/resources/LICENSE for the full text.</p>
 
-<p><b>IMPORTANT:</b> work is under way for version 1.0, and in 1.0, some format
-specifiers are split from this package and are in a new one:
+<p>The current stable version is <b>1.0</b>. The older, still supported version
+is <b>0.6.1</b>. See the
+[ChangeLog](https://github.com/json-schema/json-schema-validator/wiki/ChangeLog)
+for more details.</p>
+
+<p>At any point in time, the javadoc for the current stable version can be found
+[here](http://json-schema.github.com/json-schema-validator/). The javadoc
+contains code samples.</p>
+
+<p><b>IMPORTANT 1:</b> the versioning scheme is changing, see below for more
+information.</p>
+
+<p><b>IMPORTANT 2:</b> starting with 1.0, some format specifiers are split from
+this package and are in a new one:
 [json-schema-formats](https://github.com/json-schema/json-schema-formats).
-Support for the following format specifiers are not in <tt>master</tt>
+Support for the following format specifiers are not in the stable version
 anymore:</p>
 
 * <tt>date</tt>,
@@ -18,20 +30,18 @@ anymore:</p>
 <p>Support for other format specifiers are still in this package for various
 reasons, see the above project for further explanations.</p>
 
-<h2>Versions</h2>
+<h2>Versioning scheme policy</h2>
 
-<p>The current version is <b>0.6.1</b>. The big change in that version is the
-newer validation message format. See
-[here](https://github.com/json-schema/json-schema-validator/wiki/Validation-messages)
-for more details.</p>
+<p>The versioning scheme is now defined by the middle number of the version
+number:</p>
 
-<p>The old stable version is <b>0.5.6</b>. See the
-[ChangeLog](https://github.com/json-schema/json-schema-validator/wiki/ChangeLog)
-for more details. <b>Versions 0.4.x are not supported anymore.</b></p>
+* if this number is <b>even</b>, then this is the <b>stable</b> version; no new
+  features will be added to such versions, and the user API will only see
+  incremental changes;
+* if this number is <b>odd</b>, then this is the <b>development</b> version; new
+  features will be added to those versions only, and the user API may change.
 
-<p>If you want to jump straight into action, you can see the Javadoc online
-[here](http://json-schema.github.com/json-schema-validator/), which contains
-code samples.</p>
+<p>The next development version will therefore be <b>1.1</b>.
 
 <h2>What it is</h2>
 
@@ -42,17 +52,17 @@ looking for.<p>
 
 <p>This implementation has the following features:</p>
 
+* thread safe, concurrent-friendly validation;
+* [very fast](https://github.com/json-schema/json-schema-validator/wiki/Performance);
 * full draft v3 validation (however, see above for <tt>format</tt>);
-* arbitrary length/precision number validation;
-* ECMA 262 regexes (using Rhino);
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving and loop
   detection;
-* thread safe validators;
-* ability to register/unregister URI handlers for arbitrary URI schemes
-  (natively supported: <tt>http</tt>, <tt>ftp</tt>, <tt>file</tt> and
-  <tt>jar</tt>);
-* ability to register/unregister keywords;
-* [very fast](https://github.com/json-schema/json-schema-validator/wiki/Performance).
+* validation of numeric JSON instances of arbitrary scale/precision;
+* ECMA 262 regexes (using Rhino);
+* ability to register/unregister URI handlers for arbitrary URI schemes;
+* ability to set a default URI namespace;
+* ability to define URI redirections;
+* ability to register/unregister keywords and format specifiers.
 
 <h2>Relevant documents</h2>
 
