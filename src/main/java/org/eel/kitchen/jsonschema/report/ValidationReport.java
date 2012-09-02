@@ -75,6 +75,8 @@ public final class ValidationReport
      */
     private JsonPointer path;
 
+    private boolean fatal = false;
+
     /**
      * Create a new validation report with {@link #ROOT} as an instance path
      */
@@ -117,10 +119,20 @@ public final class ValidationReport
      * Add one validation message to the report
      *
      * @param message the message
+     * @return true if the added message is fatal, or if {@link #fatal} is
+     * already {@code true}
      */
-    public void addMessage(final ValidationMessage message)
+    public boolean addMessage(final ValidationMessage message)
     {
+        if (fatal)
+            return true;
+
+        if (message.isFatal()) {
+            fatal = true;
+            msgMap.clear();
+        }
         msgMap.put(path, message);
+        return fatal;
     }
 
     /**
@@ -130,7 +142,9 @@ public final class ValidationReport
      */
     public void addMessages(final Collection<ValidationMessage> messages)
     {
-        msgMap.putAll(path, messages);
+        for (final ValidationMessage message: messages)
+            if (addMessage(message))
+                return;
     }
 
     /**
@@ -141,6 +155,11 @@ public final class ValidationReport
     public boolean isSuccess()
     {
         return msgMap.isEmpty();
+    }
+
+    public boolean hasFatalError()
+    {
+        return fatal;
     }
 
     /**

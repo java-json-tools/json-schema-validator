@@ -92,6 +92,11 @@ public final class ValidationMessage
         return message;
     }
 
+    public boolean isFatal()
+    {
+        return fatal;
+    }
+
     public JsonNode getInfo(final String key)
     {
         return info.get(key).deepCopy();
