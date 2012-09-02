@@ -119,6 +119,8 @@ public final class ValidationMessage
         ret *= 31;
         ret += message.hashCode();
         ret *= 31;
+        ret += Boolean.valueOf(fatal).hashCode();
+        ret *= 31;
         ret += info.hashCode();
         return ret;
     }
@@ -139,6 +141,7 @@ public final class ValidationMessage
         return domain == other.domain
             && keyword.equals(other.keyword)
             && message.equals(other.message)
+            && fatal == other.fatal
             && info.equals(other.info);
     }
 
@@ -156,7 +159,7 @@ public final class ValidationMessage
         for (final String key: infoKeys)
             list.add(key + ": " + info.get(key));
 
-        return JOINER.join(list);
+        return (fatal ? "FATAL ERROR: " : "") + JOINER.join(list);
     }
 
     /**
