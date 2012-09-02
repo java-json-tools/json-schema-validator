@@ -5,7 +5,7 @@ src/main/resources/LICENSE for the full text.</p>
 
 <p>The current stable version is <b>1.0</b>. The older, still supported version
 is <b>0.6.1</b>. See the
-[ChangeLog](https://github.com/json-schema/json-schema-validator/wiki/ChangeLog)
+[ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog)
 for more details.</p>
 
 <p>At any point in time, the javadoc for the current stable version can be found
@@ -17,7 +17,7 @@ information.</p>
 
 <p><b>IMPORTANT 2:</b> starting with 1.0, some format specifiers are split from
 this package and are in a new one:
-[json-schema-formats](https://github.com/json-schema/json-schema-formats).
+[json-schema-formats](https://github.com/fge/json-schema-formats).
 Support for the following format specifiers are not in the stable version
 anymore:</p>
 
@@ -46,14 +46,14 @@ number:</p>
 <h2>What it is</h2>
 
 <p>This is an implementation of the [JSON Schema
-specification](http://json-schema.github.com/json-schema/) written in pure Java.
+specification](http://json-schema.github.com/fge/) written in pure Java.
 This allows pure server side JSON schema validation if this is what you are
 looking for.<p>
 
 <p>This implementation has the following features:</p>
 
 * thread safe, concurrent-friendly validation;
-* [very fast](https://github.com/json-schema/json-schema-validator/wiki/Performance);
+* [very fast](https://github.com/fge/json-schema-validator/wiki/Performance);
 * full draft v3 validation (however, see above for <tt>format</tt>);
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving and loop
   detection;
@@ -80,11 +80,11 @@ based on the following drafts:</p>
 <h2>More...</h2>
 
 <p>For a detailed discussion of the implementation, see
-[here](https://github.com/json-schema/json-schema-validator/wiki/Status). For a
+[here](https://github.com/fge/json-schema-validator/wiki/Status). For a
 list of planned features for next versions, see
-[here](https://github.com/json-schema/json-schema-validator/wiki/Roadmap).
+[here](https://github.com/fge/json-schema-validator/wiki/Roadmap).
 
 Please see the
-[wiki](https://github.com/json-schema/json-schema-validator/wiki/) for more
+[wiki](https://github.com/fge/json-schema-validator/wiki/) for more
 details.
 

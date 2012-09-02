@@ -34,7 +34,7 @@
  * <p>All other format specifiers defined by the draft (except {@code color} and
  * {@code style}, for which support is deliberately omitted) are now in a
  * separate package: <a
- * href="https://github.com/json-schema/json-schema-formats">json-schema-formats
+ * href="https://github.com/fge/json-schema-formats">json-schema-formats
  * </a>.</p>
  *
  * <p>In addition to using the package above, you can also implement your own
