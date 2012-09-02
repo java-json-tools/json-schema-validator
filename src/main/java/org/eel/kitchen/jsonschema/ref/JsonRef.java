@@ -208,12 +208,20 @@ public final class JsonRef
     /**
      * Resolve this reference against another reference
      *
+     * <p>Note: {@code jar} URIs need to be special cased, see {@link
+     * #resolveJarURI(JsonRef)}.</p>
+     *
      * @param other the reference to resolve
-     * @return a new reference
+     * @return the resolved reference
      */
     public JsonRef resolve(final JsonRef other)
     {
-        return new JsonRef(uri.resolve(other.uri));
+        if (other.uri.isAbsolute())
+            return other;
+
+        final URI targetURI = "jar".equals(uri.getScheme())
+            ? resolveJarURI(other) : uri.resolve(other.uri);
+        return new JsonRef(targetURI);
     }
 
     /**
@@ -277,5 +285,57 @@ public final class JsonRef
     public String toString()
     {
         return uri.toString();
+    }
+
+    /**
+     * Resolve a relative reference against a {@code jar} URI
+     *
+     * <p>Unfortunately, {@link URI#resolve(URI)} does not work for these,
+     * because of the way JAR URIs are built. An example JAR URI is:</p>
+     *
+     * <pre>
+     *     jar:file:/path/to/my.jar!/jar/entry.json#fragmentHere
+     * </pre>
+     *
+     * <p>As per URI rules, this URI has no host and no path, just a "scheme
+     * specific part" containing everyting after the scheme. Which means that
+     * using {@code .resolve(x)} on such a URI for whatever URI {@code x} will
+     * return... Yes, {@code x}. This is how URI resolution is supposed to work.
+     * </p>
+     *
+     * <p>We therefore handle these specially in this method:</p>
+     *
+     * <ul>
+     *     <li>we are guaranteed that if we enter here, the other URI is
+     *     relative: it has no scheme part, it is therefore a path followed by
+     *     a fragment (if any);</li>
+     *     <li>we therefore extract whatever is after the {@code !} (we are
+     *     guaranteed that there is one: we cannot enter this whole class if the
+     *     URI did not resolve successfully in the first place), make a URI out
+     *     of it and use classic URI resolution rules to resolve that extracted
+     *     path against the other URI;</li>
+     *     <li>we then rebuild the URI with this new path.</li>
+     * </ul>
+     *
+     * <p>This means that, for instance, resolving {@code ../x.json#} against
+     * the URI above will lead to {@code jar:file:/path/to/my.jar!/x.json#}.</p>
+     *
+     * <p>Sick. That's the price to pay for supporting the {@code jar} scheme in
+     * the first place :(</p>
+     *
+     * @param other the URI to resolve against
+     * @return the newly, specially crafted URI
+     */
+    private URI resolveJarURI(final JsonRef other)
+    {
+        final String str = uri.toString();
+
+        final int idx = str.indexOf('!');
+        final String jarPath = str.substring(0, idx + 1);
+        final String sourceEntry = str.substring(idx + 1);
+
+        final String targetEntry
+            = URI.create(sourceEntry).resolve(other.uri).toString();
+        return URI.create(jarPath + targetEntry);
     }
 }
