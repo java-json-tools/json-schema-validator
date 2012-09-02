@@ -68,8 +68,11 @@ final class InstanceValidator
         final SchemaContainer orig = context.getContainer();
         context.setContainer(schemaNode.getContainer());
 
-        for (final KeywordValidator validator: validators)
+        for (final KeywordValidator validator: validators) {
             validator.validateInstance(context, report, instance);
+            if (report.hasFatalError())
+                return false;
+        }
 
         if (instance.isContainerNode()) {
             final JsonValidator validator = instance.isArray()
