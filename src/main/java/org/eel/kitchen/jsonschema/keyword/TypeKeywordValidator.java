@@ -50,7 +50,7 @@ public final class TypeKeywordValidator
 
         if (!schemas.isEmpty()) {
             trySchemas(context, schemaReport, instance);
-            if (schemaReport.isSuccess())
+            if (schemaReport.isSuccess() || schemaReport.hasFatalError())
                 return;
         }
 

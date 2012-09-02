@@ -71,6 +71,8 @@ public final class ExtendsKeywordValidator
         for (final JsonNode schema: schemas) {
             validator = context.newValidator(schema);
             validator.validate(context, report, instance);
+            if (report.hasFatalError())
+                return;
         }
     }
 

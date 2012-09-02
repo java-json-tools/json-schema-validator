@@ -137,6 +137,8 @@ public final class DependenciesKeywordValidator
         for (final JsonNode subSchema: schemaDeps.values()) {
             validator = context.newValidator(subSchema);
             validator.validate(context, report, instance);
+            if (report.hasFatalError())
+                return;
         }
     }
 
