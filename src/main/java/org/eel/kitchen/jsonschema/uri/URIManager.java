@@ -184,11 +184,18 @@ public class URIManager
         final URI target = URIRedirections.containsKey(uri)
             ? URIRedirections.get(uri) : uri;
 
-        final String scheme = target.getScheme();
-
+        /*
+         * All errors at this level are fatal
+         */
         final ValidationMessage.Builder msg
             = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-            .setKeyword("N/A").addInfo("uri", target); // FIXME...
+            .setKeyword("N/A").addInfo("uri", target).setFatal(true);
+
+        if (!target.isAbsolute())
+            throw new JsonSchemaException(msg.setMessage("URI is not absolute")
+                .build());
+
+        final String scheme = target.getScheme();
 
         final URIDownloader downloader = downloaders.get(scheme);
 
