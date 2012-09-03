@@ -37,8 +37,6 @@ public final class MiniPerfTest2
     public static void main(final String... args)
         throws IOException, JsonSchemaException
     {
-        final JsonNode draftv3
-            = JsonLoader.fromResource("/schema-draftv3.json");
         final JsonNode googleAPI
             = JsonLoader.fromResource("/other/google-json-api.json");
         final Map<String, JsonNode> schemas
@@ -46,7 +44,8 @@ public final class MiniPerfTest2
 
         final JsonSchemaFactory factory
             = new JsonSchemaFactory.Builder().build();
-        final JsonSchema schema = factory.newSchema(draftv3);
+        final JsonSchema schema
+            = factory.fromURI("resource:/schema-draftv3.json");
 
         long begin, current;
         begin = System.currentTimeMillis();

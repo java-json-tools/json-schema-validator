@@ -71,7 +71,7 @@ public final class FatalErrorTests
     {
         final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
             .build();
-        final JsonSchema schema = factory.newSchema(node);
+        final JsonSchema schema = factory.fromSchema(node);
 
         final ValidationReport report = schema.validate(data);
 
@@ -98,7 +98,7 @@ public final class FatalErrorTests
         final JsonNode node = JsonNodeFactory.instance.objectNode()
             .put("foo", "bar");
 
-        final JsonSchema schema = factory.newSchema(node);
+        final JsonSchema schema = factory.fromSchema(node);
 
         final ValidationReport report = schema.validate(node);
 

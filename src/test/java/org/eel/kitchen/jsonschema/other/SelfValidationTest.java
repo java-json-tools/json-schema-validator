@@ -49,7 +49,7 @@ public final class SelfValidationTest
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
 
-        schema = factory.newSchema(draftv3);
+        schema = factory.fromSchema(draftv3);
     }
 
     @Test(invocationCount = 10, threadPoolSize = 4)

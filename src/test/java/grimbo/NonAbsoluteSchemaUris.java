@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeTest;
@@ -41,9 +40,7 @@ public final class NonAbsoluteSchemaUris
     {
         final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
             .setNamespace("resource:/grimbo/").build();
-        final SchemaContainer container
-            = factory.loadContainer("child1/child.json");
-        schema = factory.newSchema(container);
+        schema = factory.fromURI("child1/child.json");
     }
 
     @Test

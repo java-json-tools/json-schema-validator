@@ -18,26 +18,22 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.format.FormatSpecifier;
+import org.eel.kitchen.jsonschema.ref.JsonFragment;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.EnumSet;
 
 /**
@@ -87,89 +83,6 @@ public final class JsonSchemaFactory
     }
 
     /**
-     * Register a schema
-     *
-     * @param schema the raw schema
-     * @return a schema container to instantiate a {@link JsonSchema}
-     */
-    public SchemaContainer asContainer(final JsonNode schema)
-    {
-        return registry.register(schema);
-    }
-
-    /**
-     * Get a schema container from a given URI
-     *
-     * <p>This is the other way to obtain a container (the other is
-     * {@link #asContainer(JsonNode)}).</p>
-     *
-     * @see SchemaRegistry#get(URI)
-     *
-     * @param uri the URI
-     * @return a schema container
-     * @throws JsonSchemaException cannot get schema from URI, or not a schema
-     */
-    public SchemaContainer loadContainer(final URI uri)
-        throws JsonSchemaException
-    {
-        return registry.get(uri);
-    }
-
-    /**
-     * Get a schema container from a given URI
-     *
-     * <p>This calls {@link #loadContainer(URI)} and uses {@link
-     * URI#create(String)} to build the URI.</p>
-     *
-     * @see URI#create(String)
-     *
-     * @param str the URI as a string
-     * @return a schema container
-     * @throws JsonSchemaException cannot get schema from URI, or not a schema
-     * @throws IllegalArgumentException string is not a valid URI
-     */
-    public SchemaContainer loadContainer(final String str)
-        throws JsonSchemaException
-    {
-        return registry.get(URI.create(str));
-    }
-
-    /**
-     * Get a schema container from a given URL
-     *
-     * <p>This calls {@link URL#toURI()} and then {@link #loadContainer(URI)}.
-     * </p>
-     *
-     * @param url the URL to load from
-     * @return a schema container
-     * @throws JsonSchemaException cannot load content from URL
-     */
-    public SchemaContainer loadContainer(final URL url)
-        throws JsonSchemaException
-    {
-        try {
-            return registry.get(url.toURI());
-        } catch (URISyntaxException e) {
-            final ValidationMessage.Builder msg
-                = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-                .setKeyword("N/A").setFatal(true).addInfo("url", url)
-                .setMessage("URL cannot be converted to a URI");
-            throw new JsonSchemaException(msg.build(), e);
-        }
-    }
-
-    /**
-     * Create a schema from a container
-     *
-     * @param container the schema container
-     * @return a {@link JsonSchema} instance
-     */
-    public JsonSchema newSchema(final SchemaContainer container)
-    {
-        return createSchema(container, container.getSchema());
-    }
-
-    /**
      * Create a schema from a container, at a certain path
      *
      * <p>For instance, if you register this schema:</p>
@@ -190,23 +103,48 @@ public final class JsonSchemaFactory
      * <p>The path can be a {@link JsonPointer} as above,
      * but also an id reference.</p>
      *
-     * @param container the schema container
+     * @param schema the schema
      * @param path the pointer/id reference into the schema
      * @return a {@link JsonSchema} instance
      */
-    public JsonSchema newSchema(final SchemaContainer container,
-        final String path)
+    public JsonSchema fromSchema(final JsonNode schema, final String path)
     {
-        final JsonNode node = JsonNodeFactory.instance.objectNode()
-            .put("$ref", path);
-
-        return createSchema(container, node);
+        final SchemaContainer container = registry.register(schema);
+        final JsonNode subSchema = JsonFragment.fromFragment(path)
+            .resolve(container.getSchema());
+        return createSchema(container, subSchema);
     }
 
-    public JsonSchema newSchema(final JsonNode schema)
+    public JsonSchema fromSchema(final JsonNode schema)
     {
-        final SchemaContainer container = asContainer(schema);
-        return createSchema(container, schema);
+        return fromSchema(schema, "");
+    }
+
+    public JsonSchema fromURI(final URI uri, final String path)
+        throws JsonSchemaException
+    {
+        final SchemaContainer container = registry.get(uri);
+        final JsonNode subSchema = JsonFragment.fromFragment(path)
+            .resolve(container.getSchema());
+        return createSchema(container, subSchema);
+    }
+
+    public JsonSchema fromURI(final URI uri)
+        throws JsonSchemaException
+    {
+        return fromURI(uri, "");
+    }
+
+    public JsonSchema fromURI(final String str)
+        throws JsonSchemaException
+    {
+        return fromURI(URI.create(str), "");
+    }
+
+    public JsonSchema fromURI(final String str, final String path)
+        throws JsonSchemaException
+    {
+        return fromURI(URI.create(str), path);
     }
 
     /**
