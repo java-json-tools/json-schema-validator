@@ -69,8 +69,7 @@ public final class FatalErrorTests
     public void fataErrorsAreReportedAsSuch(final JsonNode node,
         final JsonNode data, final JsonNode message)
     {
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-            .build();
+        final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
         final JsonSchema schema = factory.fromSchema(node);
 
         final ValidationReport report = schema.validate(data);

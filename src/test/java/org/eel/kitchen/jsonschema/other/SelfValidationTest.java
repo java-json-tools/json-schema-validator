@@ -41,7 +41,7 @@ public final class SelfValidationTest
     private JsonNode draftv3;
     private JsonSchema schema;
     private final JsonSchemaFactory factory
-        = new JsonSchemaFactory.Builder().build();
+        = JsonSchemaFactory.defaultFactory();
 
     @BeforeClass
     public void setUp()

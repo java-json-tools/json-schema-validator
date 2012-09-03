@@ -51,14 +51,14 @@ of the below characteristics, none can pretend to all three of them:</p>
 
 <h2>Create a {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory}</h2>
 
-<p>You cannot instantiate one directly, you have to go through its included
-<tt>Builder</tt> class for that. This is by design: it allows to freeze the
-schema generation context. Here is the most simple way of building a factory
-using default settings:</p>
+<p>You have two choices: create a factory with default settings, or use a {@link
+org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder} if you want to
+customize your factory.</p>
+
+<p>To build a factory with default settings, use:</p>
 
 <pre>
-    // Build a schema factory with default settings
-    final JsonSchemaFactory factory = new JsonSchemaFactory.Builder().build();
+    final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
 </pre>
 
 <p>You can customize your factory in many ways:</p>
@@ -70,6 +70,16 @@ using default settings:</p>
     <li>setting validation features.</li>
 </ul>
 
+<p>For this, the way to build a factory differs:</p>
+
+<pre>
+    final JsonSchemaFactory = new JsonSchemaFactory.Builder()
+        .xxx().xxx().build();
+</pre>
+
+<p>where {@code xxx} is a method depending on the customization you wish to
+make.</p>
+
 <p>See below, and refer to the javadoc for more details.</p>
 
 <h2>Register/create a schema</h2>
@@ -80,14 +90,14 @@ using default settings:</p>
 
 <ul>
     <li>get an instance directly from a URI (in this case, ensure that the URI
-    scheme is supported beforehand!);</li>
+    scheme is supported beforehand, see below);</li>
     <li>load your schema as a {@link com.fasterxml.jackson.databind.JsonNode},
     and create a schema instance from that JsonNode.</li>
 </ul>
 
 <p>The sample code below shows how to create a {@link
 org.eel.kitchen.jsonschema.main.JsonSchema} from the v3 schema draft, bundled in
-this library (<b>NOTE</b>: {@link java.io.IOException} not accounted for):</p>
+this library:</p>
 
 <pre>
     final JsonSchema schema = factory.fromURI("resources:/schema-draftv3.json");
@@ -118,8 +128,9 @@ safe. Sample code:</p>
 <h2>Using validation messages</h2>
 
 <p>In the event of a failure, you have the option to retrieve the whole
-validation as a single JSON object. In this case, keys of these objects will be
-<a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-03.txt">JSON
+validation message as a single JSON object. In this case, keys of these objects
+will be <a
+href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-03.txt">JSON
 Pointers</a> into the validated data, and values will be arrays of validation
 messages for that pointer.</p>
 
@@ -180,7 +191,7 @@ resolve locally. For instance:</p>
 <p>You can, of course, add more than one redirection.</p>
 
 <p>Note, this only works for fully resolvable URIs (ie, URIs referring to actual
-content), not, say, directories.</p>
+content), not directories.</p>
 
 <h2>Registering/unregistering keywords</h2>
 
@@ -229,7 +240,7 @@ now in a separate package.</p>
 
 <h2>Registering/unregistering URI schemes</h2>
 
-<p>A JSON Schema locator is a URI, and this URI can be of any scheme. This
+<p>A JSON Reference is a URI, and this URI can be of any scheme. This
 implementation has native support for the following schemes, which are
 guaranteed to be implemented by any Java implementation: <tt>http</tt>,
 <tt>ftp</tt>, <tt>file</tt> and <tt>jar</tt>. While <tt>https</tt> is also
@@ -246,6 +257,7 @@ like this:</p>
     {
         &#64;Override
         public InputStream fetch(final URI source)
+            throws IOException
         {
             // your code here
         }
@@ -344,8 +356,8 @@ validate the data.</p>
 <p>There is one more step to validation. The step above will only have validated
 that the current "path" in the JSON instance will have been validated. However,
 in the event where the instance is a so-called <i>container instance</i>, that
-is it has children nodes, which is the case of objects and array, then a further
-validation step is issued so that all children get validated.</p>
+is it has children nodes, which is the case of objects and arrays, then a
+further validation step is issued so that all children get validated.</p>
 
 <p>The two classes responsible for this, {@link
 org.eel.kitchen.jsonschema.validator.ArrayValidator} and {@link

@@ -68,6 +68,11 @@ public final class JsonSchemaFactory
      */
     private final EnumSet<ValidationFeature> features;
 
+    /**
+     * Build a factory with all default settings
+     *
+     * @return a schema factory instance
+     */
     public static JsonSchemaFactory defaultFactory()
     {
         return new Builder().build();
@@ -177,8 +182,8 @@ public final class JsonSchemaFactory
     /**
      * Create a schema instance from a JSON Schema located at a given URI
      *
-     * @see {@link URI#create(String)}
-     * @see {@link #fromURI(URI, String)}
+     * @see URI#create(String)
+     * @see #fromURI(URI, String)
      *
      * @param str the URI as a string
      * @return a {@link JsonSchema} instance
@@ -194,8 +199,8 @@ public final class JsonSchemaFactory
      * Create a schema instance from a JSON Schema located at a given URI and
      * at a given path
      *
-     * @see {@link URI#create(String)}
-     * @see {@link #fromURI(URI, String)}
+     * @see URI#create(String)
+     * @see #fromURI(URI, String)
      *
      * @param str the URI as a string
      * @param  path the JSON Pointer/id reference into the downloaded schema

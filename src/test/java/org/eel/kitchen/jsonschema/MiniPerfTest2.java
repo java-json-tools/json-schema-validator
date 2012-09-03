@@ -42,8 +42,7 @@ public final class MiniPerfTest2
         final Map<String, JsonNode> schemas
             = JacksonUtils.nodeToMap(googleAPI.get("schemas"));
 
-        final JsonSchemaFactory factory
-            = new JsonSchemaFactory.Builder().build();
+        final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
         final JsonSchema schema
             = factory.fromURI("resource:/schema-draftv3.json");
 
