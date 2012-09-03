@@ -374,8 +374,8 @@ public final class JsonSchemaFactory
          * @param from the source URI, as a string
          * @param to the target URI, as a string
          * @return the builder
-         * @throws IllegalArgumentException either of the arguments is an
-         * invalid URI, or it is not an absolute JSON Reference
+         * @throws IllegalArgumentException either {@code from} or {@code to}
+         * is an  invalid URI, or it is not an absolute JSON Reference
          */
         public Builder addRedirection(final String from, final String to)
         {

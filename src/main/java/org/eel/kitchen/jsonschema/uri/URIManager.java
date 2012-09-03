@@ -142,25 +142,35 @@ public class URIManager
      *
      * @param from the original URI
      * @param to an URI which is reachable
-     * @throws IllegalArgumentException either of {@code from} or {@code to} are
+     * @throws NullPointerException {@code from} or {@code to} is null
+     * @throws IllegalArgumentException either {@code from} or {@code to} are
      * invalid URIs, or are not absolute JSON References
      */
     public void addRedirection(final String from, final String to)
     {
         final URI sourceURI, destURI;
+        JsonRef ref;
+        String errmsg;
 
+        Preconditions.checkNotNull(from, "source URI is null");
+        Preconditions.checkNotNull(to, "destination URI is null");
+
+        errmsg = "source URI " + from + " is not an absolute JSON reference";
         try {
-            sourceURI = JsonRef.fromString(from).getRootAsURI();
+            ref = JsonRef.fromString(from);
+            Preconditions.checkArgument(ref.isAbsolute(), errmsg);
+            sourceURI = ref.getRootAsURI();
         } catch (JsonSchemaException ignored) {
-            throw new IllegalArgumentException("source URI " + from + " is not"
-                + " an absolute JSON Reference");
+            throw new IllegalArgumentException(errmsg);
         }
 
+        errmsg = "destination URI " + to + " is not an absolute JSON reference";
         try {
-            destURI = JsonRef.fromString(to).getRootAsURI();
+            ref = JsonRef.fromString(to);
+            Preconditions.checkArgument(ref.isAbsolute(), errmsg);
+            destURI = ref.getRootAsURI();
         } catch (JsonSchemaException ignored) {
-            throw new IllegalArgumentException("destination URI " + to
-                + " is not an absolute JSON Reference");
+            throw new IllegalArgumentException(errmsg);
         }
 
         URIRedirections.put(sourceURI, destURI);

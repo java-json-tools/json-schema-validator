@@ -75,7 +75,7 @@ public abstract class FormatSpecifier
      * ValidationContext, ValidationReport, JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
-     * with the keyword ({@code format}, the specifier name and the domain
+     * with the keyword ({@code format}), the specifier name and the domain
      * ({@link ValidationDomain#VALIDATION}).</p>
      *
      * @param fmt the format specifier name
