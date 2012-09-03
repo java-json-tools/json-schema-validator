@@ -68,6 +68,11 @@ public final class JsonSchemaFactory
      */
     private final EnumSet<ValidationFeature> features;
 
+    public static JsonSchemaFactory defaultFactory()
+    {
+        return new Builder().build();
+    }
+
     /**
      * Constructor, private by design
      *
