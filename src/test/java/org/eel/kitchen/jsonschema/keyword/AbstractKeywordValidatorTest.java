@@ -106,7 +106,7 @@ public abstract class AbstractKeywordValidatorTest
             return;
 
         final List<JsonNode> actual
-            = Lists.newArrayList(report.asJsonNode().get(""));
+            = Lists.newArrayList(report.asJsonObject().get(""));
         final List<JsonNode> expected = Lists.newArrayList(messages);
 
         assertEqualsNoOrder(actual.toArray(), expected.toArray());

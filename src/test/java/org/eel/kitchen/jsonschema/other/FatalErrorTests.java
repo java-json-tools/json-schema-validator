@@ -75,7 +75,7 @@ public final class FatalErrorTests
         final ValidationReport report = schema.validate(data);
 
         assertTrue(report.hasFatalError());
-        assertEquals(report.asJsonNode().iterator().next().get(0), message);
+        assertEquals(report.asJsonObject().iterator().next().get(0), message);
     }
 
     @Test(invocationCount = 10, threadPoolSize = 4)

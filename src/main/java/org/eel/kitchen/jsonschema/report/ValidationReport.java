@@ -24,11 +24,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -224,7 +226,7 @@ public final class ValidationReport
     }
 
     /**
-     * Retrieve all messages as a {@link JsonNode}
+     * Retrieve all messages as a JSON object
      *
      * <p>The retrieved JSON document is an object where:</p>
      *
@@ -234,11 +236,13 @@ public final class ValidationReport
      *     JSON representation of one message.</li>
      * </ul>
      *
+     * <p>Note: the returned {@link JsonNode} is mutable.</p>
+     *
      * @see ValidationMessage#toJsonNode()
      *
-     * @return a JSON document with all validation messages
+     * @return a JSON object with all validation messages
      */
-    public JsonNode asJsonNode()
+    public JsonNode asJsonObject()
     {
         final ObjectNode ret = JsonNodeFactory.instance.objectNode();
         ArrayNode node;
@@ -253,9 +257,72 @@ public final class ValidationReport
         return ret;
     }
 
+    /**
+     * Return the list of validation messages as a JSON array
+     *
+     * <p>This method makes its best to order validation messages correctly.</p>
+     *
+     * <p>Each message in the resulting array is a JSON object, with the
+     * contents of the {@link ValidationMessage} and with an added member named
+     * {@code path}, which contains the path into the instance where the error
+     * has occurred (as a {@link JsonPointer}).</p>
+     *
+     * @see ValidationMessage#toJsonNode()
+     * @see MessageComparator
+     *
+     * @return a JSON array with all validation messages
+     */
+    public JsonNode asJsonArray()
+    {
+        final ArrayNode ret = JsonNodeFactory.instance.arrayNode();
+        ObjectNode node;
+
+        final SortedSet<JsonPointer> set
+            = new TreeSet<JsonPointer>(msgMap.keySet());
+
+        final SortedSet<ValidationMessage> messages
+            = Sets.newTreeSet(MessageComparator.instance);
+
+        for (final JsonPointer ptr: set) {
+            messages.addAll(msgMap.get(ptr));
+            for (final ValidationMessage msg: messages) {
+                node = JsonNodeFactory.instance.objectNode()
+                .put("path", ptr.toString());
+                // I hate to do that...
+                node.putAll((ObjectNode) msg.toJsonNode());
+                ret.add(node);
+            }
+            messages.clear();
+        }
+
+        return ret;
+    }
+
     @Override
     public String toString()
     {
         return "current path: \"" + path + "\"; " + msgMap.size() + " messages";
+    }
+
+    private static class MessageComparator
+        implements Comparator<ValidationMessage>
+    {
+        private static final Comparator<ValidationMessage> instance
+            = new MessageComparator();
+
+        @Override
+        public int compare(final ValidationMessage msg1,
+            final ValidationMessage msg2)
+        {
+            int ret;
+
+            ret = msg1.getDomain().compareTo(msg2.getDomain());
+            if (ret != 0)
+                return ret;
+            ret = msg1.getKeyword().compareTo(msg2.getKeyword());
+            if (ret != 0)
+                return ret;
+            return msg1.getMessage().compareTo(msg2.getMessage());
+        }
     }
 }
