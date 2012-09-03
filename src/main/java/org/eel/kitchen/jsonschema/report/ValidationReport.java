@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Ordering;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
@@ -32,8 +32,6 @@ import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * A validation report
@@ -57,6 +55,9 @@ public final class ValidationReport
      * Root JSON Pointer (ie, {@code #})
      */
     private static final JsonPointer ROOT;
+
+    private static final Ordering<ValidationMessage> MESSAGE_ORDER
+        = Ordering.from(MessageComparator.instance);
 
     static {
         try {
@@ -213,14 +214,18 @@ public final class ValidationReport
      */
     public List<String> getMessages()
     {
-        final SortedSet<JsonPointer> paths
-            = new TreeSet<JsonPointer>(msgMap.keySet());
+        final Iterable<JsonPointer> paths
+            = Ordering.natural().sortedCopy(msgMap.keySet());
 
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
 
-        for (final JsonPointer path: paths)
-            for (final ValidationMessage msg: msgMap.get(path))
+        List<ValidationMessage> messages;
+
+        for (final JsonPointer path: paths) {
+            messages = MESSAGE_ORDER.sortedCopy(msgMap.get(path));
+            for (final ValidationMessage msg : messages)
                 builder.add(path + ": " + msg);
+        }
 
         return builder.build();
     }
@@ -245,11 +250,14 @@ public final class ValidationReport
     public JsonNode asJsonObject()
     {
         final ObjectNode ret = JsonNodeFactory.instance.objectNode();
+
         ArrayNode node;
+        List<ValidationMessage> messages;
 
         for (final JsonPointer ptr: msgMap.keySet()) {
             node = JsonNodeFactory.instance.arrayNode();
-            for (final ValidationMessage message: msgMap.get(ptr))
+            messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
+            for (final ValidationMessage message: messages)
                 node.add(message.toJsonNode());
             ret.put(ptr.toString(), node);
         }
@@ -277,14 +285,13 @@ public final class ValidationReport
         final ArrayNode ret = JsonNodeFactory.instance.arrayNode();
         ObjectNode node;
 
-        final SortedSet<JsonPointer> set
-            = new TreeSet<JsonPointer>(msgMap.keySet());
+        final Iterable<JsonPointer> paths
+            = Ordering.natural().sortedCopy(msgMap.keySet());
 
-        final SortedSet<ValidationMessage> messages
-            = Sets.newTreeSet(MessageComparator.instance);
+        List<ValidationMessage> messages;
 
-        for (final JsonPointer ptr: set) {
-            messages.addAll(msgMap.get(ptr));
+        for (final JsonPointer ptr: paths) {
+            messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
             for (final ValidationMessage msg: messages) {
                 node = JsonNodeFactory.instance.objectNode()
                 .put("path", ptr.toString());
@@ -292,7 +299,6 @@ public final class ValidationReport
                 node.putAll((ObjectNode) msg.toJsonNode());
                 ret.add(node);
             }
-            messages.clear();
         }
 
         return ret;

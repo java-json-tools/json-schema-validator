@@ -25,6 +25,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Ordering;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -34,8 +35,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * One validation message
@@ -159,9 +158,7 @@ public final class ValidationMessage
         list.add("keyword: " + keyword);
         list.add("message: " + message);
 
-        final SortedSet<String> infoKeys = new TreeSet<String>(info.keySet());
-
-        for (final String key: infoKeys)
+        for (final String key: Ordering.natural().sortedCopy(info.keySet()))
             list.add(key + ": " + info.get(key));
 
         return (fatal ? "FATAL ERROR: " : "") + JOINER.join(list);
