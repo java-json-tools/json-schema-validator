@@ -25,6 +25,6 @@ public final class DisallowKeywordValidatorTest
     DisallowKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(DisallowKeywordValidator.class, "disallow");
+        super("disallow");
     }
 }

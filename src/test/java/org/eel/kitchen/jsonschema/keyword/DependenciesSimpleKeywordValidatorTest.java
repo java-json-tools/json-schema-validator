@@ -25,6 +25,6 @@ public final class DependenciesSimpleKeywordValidatorTest
     DependenciesSimpleKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(DependenciesKeywordValidator.class, "dependenciesSimple");
+        super("dependenciesSimple");
     }
 }

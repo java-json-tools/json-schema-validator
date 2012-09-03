@@ -25,7 +25,6 @@ public final class AdditionalPropertiesKeywordValidatorTest
     AdditionalPropertiesKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(AdditionalPropertiesKeywordValidator.class,
-            "additionalProperties");
+        super("additionalProperties");
     }
 }

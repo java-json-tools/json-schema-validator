@@ -25,6 +25,6 @@ public final class TypeSimpleKeywordValidatorTest
     TypeSimpleKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(TypeKeywordValidator.class, "typeSimple");
+        super("typeSimple");
     }
 }

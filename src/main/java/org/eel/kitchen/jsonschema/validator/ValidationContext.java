@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.format.FormatSpecifier;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
@@ -49,11 +50,24 @@ public final class ValidationContext
     private final EnumSet<ValidationFeature> features;
     private final Map<String, FormatSpecifier> specifiers;
 
+    /**
+     * Create a validation context with an empty feature set
+     *
+     * @param cache the validator cache to use
+     */
     public ValidationContext(final JsonValidatorCache cache)
     {
         this(cache, EnumSet.noneOf(ValidationFeature.class));
     }
 
+    /**
+     * Create a validation context with a defined set of features
+     *
+     * @see JsonSchemaFactory.Builder#enableFeature(ValidationFeature)
+     *
+     * @param cache the validator cache to use
+     * @param features the feature set
+     */
     public ValidationContext(final JsonValidatorCache cache,
         final EnumSet<ValidationFeature> features)
     {
@@ -61,13 +75,6 @@ public final class ValidationContext
         this.features = EnumSet.copyOf(features);
         specifiers = ImmutableMap.copyOf(FormatBundle.defaultBundle()
             .getSpecifiers());
-    }
-
-    public ValidationContext(final JsonValidatorCache cache,
-        final SchemaContainer container)
-    {
-        this(cache, EnumSet.noneOf(ValidationFeature.class));
-        this.container = container;
     }
 
     SchemaContainer getContainer()
@@ -80,11 +87,25 @@ public final class ValidationContext
         this.container = container;
     }
 
+    /**
+     * Test that the validation context contains a certain feature
+     *
+     * @param feature the feature to test
+     * @return true if the feature is present
+     */
     public boolean hasFeature(final ValidationFeature feature)
     {
         return features.contains(feature);
     }
 
+    /**
+     * Return a format specifier for a given attribute
+     *
+     * @see FormatBundle
+     *
+     * @param fmt the format attribute
+     * @return the specifier, {@code null} if not found
+     */
     public FormatSpecifier getFormat(final String fmt)
     {
         return specifiers.get(fmt);

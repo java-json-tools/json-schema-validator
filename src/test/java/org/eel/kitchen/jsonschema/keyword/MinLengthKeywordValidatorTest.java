@@ -25,6 +25,6 @@ public final class MinLengthKeywordValidatorTest
     MinLengthKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(MinLengthKeywordValidator.class, "minLength");
+        super("minLength");
     }
 }

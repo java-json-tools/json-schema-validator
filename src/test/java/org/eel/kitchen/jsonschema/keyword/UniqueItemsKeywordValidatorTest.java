@@ -25,6 +25,6 @@ public final class UniqueItemsKeywordValidatorTest
     UniqueItemsKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(UniqueItemsKeywordValidator.class, "uniqueItems");
+        super("uniqueItems");
     }
 }

@@ -25,6 +25,6 @@ public final class PropertiesKeywordValidatorTest
     PropertiesKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(PropertiesKeywordValidator.class, "properties");
+        super("properties");
     }
 }

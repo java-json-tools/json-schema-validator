@@ -25,6 +25,6 @@ public final class PatternKeywordValidatorTest
     PatternKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(PatternKeywordValidator.class, "pattern");
+        super("pattern");
     }
 }

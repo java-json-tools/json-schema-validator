@@ -25,6 +25,6 @@ public final class ExtendsKeywordValidatorTest
     ExtendsKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(ExtendsKeywordValidator.class, "extends");
+        super("extends");
     }
 }

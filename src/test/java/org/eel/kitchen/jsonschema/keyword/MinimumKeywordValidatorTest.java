@@ -25,6 +25,6 @@ public final class MinimumKeywordValidatorTest
     MinimumKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(MinimumKeywordValidator.class, "minimum");
+        super("minimum");
     }
 }

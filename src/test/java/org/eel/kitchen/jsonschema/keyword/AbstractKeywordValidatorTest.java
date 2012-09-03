@@ -19,23 +19,16 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
+import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
-import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
-import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URI;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -45,25 +38,17 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
-    private final JsonValidatorCache cache;
+    // We test that our bundled keywords work OK, so that is what we use
+    private static final JsonSchemaFactory factory
+        = JsonSchemaFactory.defaultFactory();
+
     private final JsonNode testData;
-    private final Constructor<? extends KeywordValidator> constructor;
 
-    AbstractKeywordValidatorTest(final Class<? extends KeywordValidator> c,
-        final String resourceName)
-        throws IOException, NoSuchMethodException
+    AbstractKeywordValidatorTest(final String resourceName)
+        throws IOException
     {
-        final String input = "/keyword/" + resourceName + ".json";
-        testData = JsonLoader.fromResource(input);
-
-        constructor = c.getConstructor(JsonNode.class);
-
-        final KeywordBundle bundle = KeywordBundles.defaultBundle();
-        final URIManager manager = new URIManager();
-        final SchemaRegistry registry = new SchemaRegistry(manager,
-            URI.create(""));
-
-        cache = new JsonValidatorCache(bundle, registry);
+        testData = JsonLoader.fromResource("/keyword/" + resourceName
+            + ".json");
     }
 
     @DataProvider
@@ -93,12 +78,9 @@ public abstract class AbstractKeywordValidatorTest
         throws InvocationTargetException, IllegalAccessException,
         InstantiationException, JsonSchemaException
     {
-        final KeywordValidator validator = constructor.newInstance(schema);
-        final ValidationReport report = new ValidationReport();
+        final JsonSchema jsonSchema = factory.fromSchema(schema);
 
-        final ValidationContext context
-            = new ValidationContext(cache, new SchemaContainer(schema));
-        validator.validate(context, report, data);
+        final ValidationReport report = jsonSchema.validate(data);
 
         assertEquals(report.isSuccess(), valid);
 

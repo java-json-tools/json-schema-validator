@@ -25,6 +25,6 @@ public final class TypeKeywordValidatorTest
     TypeKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super(TypeKeywordValidator.class, "type");
+        super("type");
     }
 }
