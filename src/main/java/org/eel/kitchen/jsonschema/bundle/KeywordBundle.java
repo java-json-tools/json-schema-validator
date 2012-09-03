@@ -32,7 +32,8 @@ import java.util.Map;
  * or use one of the default bundles and extend it. For instance:</p>
  *
  * <pre>
- *     final KeywordBundle bundle = KeywordBundles.defaultBundle();
+ *     // Returns an empty bundle
+ *     final KeywordBundle bundle = new KeywordBundle();
  *
  *     final Keyword k1 = ...;
  *     final Keyword k2 = ...;

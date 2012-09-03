@@ -29,8 +29,8 @@ import java.util.EnumSet;
 /**
  * The main validation class
  *
- * <p>This class is thread-safe and immutable: you can validate as many inputs
- * as you want with one instance.</p>
+ * <p>This class is thread-safe, immutable and concurrent-friendly: you can
+ * validate as many inputs as you want with one instance.</p>
  *
  * @see JsonSchemaFactory
  */

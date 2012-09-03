@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 /**
- * Class used to build a new keyword
+ * Representation of a schema keyword: its name, syntax checker and validator
  *
  * <p>The process is as follows:</p>
  *

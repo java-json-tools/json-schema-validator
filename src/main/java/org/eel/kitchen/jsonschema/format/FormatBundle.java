@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * A format specifiers bundle
+ * A bundle of format specifiers
  *
  * <p>You can either create a bundle with all builtin format specifiers (see
  * below for the list), or an empty one which you have to fill yourself. The

@@ -39,9 +39,10 @@ import java.util.EnumSet;
  * string instances). In the event that the instane type is not of the
  * validated types, validation <i>succeeds</i>.</p>
  *
- * <p>The spec allows for custom specifiers to be added. This implementation,
- * however, does not support it.</p>
+ * <p>The spec allows for custom specifiers to be added. This implementation
+ * supports it.</p>
  *
+ * @see FormatBundle
  */
 public abstract class FormatSpecifier
 {

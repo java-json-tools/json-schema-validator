@@ -40,12 +40,12 @@ import java.util.EnumSet;
 /**
  * Factory to build JSON Schema validating instances
  *
- * <p>This class cannot be instantiated directly, you need to go through
- * its included {@link JsonSchemaFactory.Builder} to do that.</p>
+ * <p>You can create a factory with all default settings using {@link
+ * JsonSchemaFactory#defaultFactory()}. This is what you will do in the vast
+ * majority of cases.</p>
  *
- * <p>Unless you have several sets of custom keywords and/or format specifiers,
- * you will probably only ever need one of these. It caches syntax validation
- * results and keyword validators to speed up validation (quite a bit).</p>
+ * <p>If you want to customize it, you need to go through {@link
+ * JsonSchemaFactory.Builder}.</p>
  *
  * <p>This class is thread safe and immutable.</p>
  *

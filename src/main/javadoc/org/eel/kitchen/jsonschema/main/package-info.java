@@ -18,29 +18,24 @@
 /**
  * Main schema validation API
  *
- * <p>This package contains all classes you will use to validate your
- * inputs:</p>
+ * <p>This package contains all classes you need to validate your data.</p>
+ *
+ * <p>Start by building a {@link
+ * org.eel.kitchen.jsonschema.main.JsonSchemaFactory}, then use it to build
+ * {@link org.eel.kitchen.jsonschema.main.JsonSchema} instances (one per
+ * schema).</p>
+ *
+ * <p>{@link org.eel.kitchen.jsonschema.main.JsonSchema} is thread-safe and
+ * immutable (<i>and</i> concurrent-friendly), you can therefore use a single
+ * instance to validate any amount of data. Typically, if you use a single
+ * schema, you can make that one instante {@code private static final}.</p>
+ *
+ * <p>You can also customize your schema factory (via the builder) in several
+ * ways:</p>
  *
  * <ul>
- *     <li>start by creating a {@link
- *     org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder},</li>
- *     <li>customize it if need be,</li>
- *     <li>build your factory,</li>
- *     <li>register a schema,</li>
- *     <li>create a {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance,
- *     </li>
- *     <li>validate your inputs.</li>
- * </ul>
- *
- * <p>{@link org.eel.kitchen.jsonschema.main.JsonSchema} is thread safe and
- * immutable, you can therefore use a same instance to validate as much data as
- * you want -- in parallel.</p>
- *
- * <p>You can customize your schema factory (via the builder) in several ways:
- * </p>
- *
- * <ul>
- *     <li>URI manipulations: setting a default namespace, setting redirections;
+ *     <li>URI manipulations: setting a default namespace, setting redirections,
+ *     registering downloaders for arbitrary URI schemes;
  *     </li>
  *     <li>keywords: registering/unregistering keywords, creating your own
  *     bundles, replacing/merging them;</li>
@@ -48,12 +43,10 @@
  *     <li>enabling validation features.</li>
  * </ul>
  *
- * <p>See also:</p>
- *
- * <ul>
- *     <li>{@link org.eel.kitchen.jsonschema.keyword},</li>
- *     <li>{@link org.eel.kitchen.jsonschema.format}.</li>
- * </ul>
+ * <p>See {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder}.</p>
  *
  */
 package org.eel.kitchen.jsonschema.main;
+
+import org.eel.kitchen.jsonschema.main.JsonSchema;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;

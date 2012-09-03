@@ -48,6 +48,18 @@ import java.util.Set;
  *     <li>the validation message.</li>
  * </ul>
  *
+ * <p>Example of the JSON representation of one message:</p>
+ *
+ * <pre>
+ *     {
+ *         "domain": "validation",
+ *         "keyword": "maxItems",
+ *         "message": "too many elements in array",
+ *         "maxItems": 4,
+ *         "found": 5
+ *     }
+ * </pre>
+ *
  * <p>You cannot instantiate this class directly: you need to use
  * {@link Builder} for that.</p>
  *

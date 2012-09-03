@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.format.FormatSpecifier;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
@@ -62,8 +61,6 @@ public final class ValidationContext
 
     /**
      * Create a validation context with a defined set of features
-     *
-     * @see JsonSchemaFactory.Builder#enableFeature(ValidationFeature)
      *
      * @param cache the validator cache to use
      * @param features the feature set

@@ -21,6 +21,9 @@ import org.eel.kitchen.jsonschema.report.ValidationMessage;
 
 /**
  * Generic exception thrown when the validation cannot proceed normally
+ *
+ * <p>Note that all constructors of this class take a {@link ValidationMessage}
+ * as an argument.</p>
  */
 public final class JsonSchemaException
     extends Exception

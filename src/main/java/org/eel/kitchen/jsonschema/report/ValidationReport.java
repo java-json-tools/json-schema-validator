@@ -44,8 +44,8 @@ import java.util.List;
  *     <li>values are (a list of) {@link ValidationMessage}s.</li>
  * </ul>
  *
- * <p>You can retrieve messages either as a list of plain strings (ordered by
- * instance path) or as JSON (ie, a {@link JsonNode}).</p>
+ * <p>You can retrieve messages either as a list of plain strings or JSON
+ * (either an object or an array).</p>
  *
  * @see JsonSchema#validate(JsonNode)
  */
@@ -276,7 +276,6 @@ public final class ValidationReport
      * has occurred (as a {@link JsonPointer}).</p>
      *
      * @see ValidationMessage#toJsonNode()
-     * @see MessageComparator
      *
      * @return a JSON array with all validation messages
      */
