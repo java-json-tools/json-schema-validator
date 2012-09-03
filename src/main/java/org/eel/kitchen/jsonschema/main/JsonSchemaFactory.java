@@ -40,14 +40,13 @@ import java.util.EnumSet;
  * Factory to build JSON Schema validating instances
  *
  * <p>This class cannot be instantiated directly, you need to go through
- * its included {@link JsonSchemaFactory.Builder} to do that. This is so
- * that {@link JsonSchema} instances can be thread safe.</p>
+ * its included {@link JsonSchemaFactory.Builder} to do that.</p>
  *
- * <p>Unless you have several sets of keywords, you will probably only ever
- * need one of these. It caches syntax validation results and keyword
- * validators to speed up validation (quite a bit).</p>
+ * <p>Unless you have several sets of custom keywords and/or format specifiers,
+ * you will probably only ever need one of these. It caches syntax validation
+ * results and keyword validators to speed up validation (quite a bit).</p>
  *
- * <p>This class is thread safe.</p>
+ * <p>This class is thread safe and immutable.</p>
  *
  * @see JsonSchema
  */
@@ -83,9 +82,9 @@ public final class JsonSchemaFactory
     }
 
     /**
-     * Create a schema from a container, at a certain path
+     * Create a schema instance from a JSON Schema, at a certain path
      *
-     * <p>For instance, if you register this schema:</p>
+     * <p>For instance, if you submi this schema:</p>
      *
      * <pre>
      *     {
@@ -97,11 +96,13 @@ public final class JsonSchemaFactory
      * <p>then you can create a validator for {@code schema1} using:</p>
      *
      * <pre>
-     *     final JsonSchema schema = factory.create(container, "#/schema1");
+     *     final JsonSchema schema = factory.create(schema, "#/schema1");
      * </pre>
      *
-     * <p>The path can be a {@link JsonPointer} as above,
-     * but also an id reference.</p>
+     * <p>The path can be a {@link JsonPointer} as above, but also an id
+     * reference.</p>
+     *
+     * @see JsonFragment
      *
      * @param schema the schema
      * @param path the pointer/id reference into the schema
@@ -115,11 +116,35 @@ public final class JsonSchemaFactory
         return createSchema(container, subSchema);
     }
 
+    /**
+     * Create a schema instance from a JSON Schema
+     *
+     * <p>This calls {@link #fromSchema(JsonNode, String)} with {@code ""} as
+     * a path.</p>
+     *
+     * @param schema the schema
+     * @return a {@link JsonSchema} instance
+     */
     public JsonSchema fromSchema(final JsonNode schema)
     {
         return fromSchema(schema, "");
     }
 
+    /**
+     * Create a schema instance from a JSON Schema located at a given URI, and
+     * at a given path
+     *
+     * <p>This allows you, for instance, to load a schema using HTTP. Or, in
+     * fact, any other URI scheme that is supported.</p>
+     *
+     * @see URIManager
+     * @see SchemaRegistry
+     *
+     * @param uri the URI
+     * @param path the JSON Pointer/id reference into the downloaded schema
+     * @return a {@link JsonSchema} instance
+     * @throws JsonSchemaException unable to get content from that URI
+     */
     public JsonSchema fromURI(final URI uri, final String path)
         throws JsonSchemaException
     {
@@ -129,18 +154,49 @@ public final class JsonSchemaFactory
         return createSchema(container, subSchema);
     }
 
+    /**
+     * Create a schema instance from a JSON Schema located at a given URI
+     *
+     * @see #fromSchema(JsonNode, String)
+     *
+     * @param uri the URI
+     * @return a {@link JsonSchema} instance
+     * @throws JsonSchemaException unable to get content from that URI
+     */
     public JsonSchema fromURI(final URI uri)
         throws JsonSchemaException
     {
         return fromURI(uri, "");
     }
 
+    /**
+     * Create a schema instance from a JSON Schema located at a given URI
+     *
+     * @see {@link URI#create(String)}
+     * @see {@link #fromURI(URI, String)}
+     *
+     * @param str the URI as a string
+     * @return a {@link JsonSchema} instance
+     * @throws JsonSchemaException unable to get content from that URI
+     */
     public JsonSchema fromURI(final String str)
         throws JsonSchemaException
     {
         return fromURI(URI.create(str), "");
     }
 
+    /**
+     * Create a schema instance from a JSON Schema located at a given URI and
+     * at a given path
+     *
+     * @see {@link URI#create(String)}
+     * @see {@link #fromURI(URI, String)}
+     *
+     * @param str the URI as a string
+     * @param  path the JSON Pointer/id reference into the downloaded schema
+     * @return a {@link JsonSchema} instance
+     * @throws JsonSchemaException unable to get content from that URI
+     */
     public JsonSchema fromURI(final String str, final String path)
         throws JsonSchemaException
     {
