@@ -94,7 +94,7 @@ this library (<b>NOTE</b>: {@link java.io.IOException} not accounted for):</p>
 <pre>
     final JsonNode rawSchema = JsonLoader.fromResource("/schema-draftv3.json");
 
-    final SchemaContainer container = factory.registerSchema(rawSchema);
+    final SchemaContainer container = factory.asContainer(rawSchema);
 
     final JsonSchema schema = factory.createSchema(container);
 </pre>

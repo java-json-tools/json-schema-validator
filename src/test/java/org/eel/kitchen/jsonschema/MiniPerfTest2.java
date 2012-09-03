@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
@@ -47,8 +46,7 @@ public final class MiniPerfTest2
 
         final JsonSchemaFactory factory
             = new JsonSchemaFactory.Builder().build();
-        final SchemaContainer container = factory.registerSchema(draftv3);
-        final JsonSchema schema = factory.createSchema(container);
+        final JsonSchema schema = factory.newSchema(draftv3);
 
         long begin, current;
         begin = System.currentTimeMillis();

@@ -24,7 +24,6 @@ import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -72,8 +71,7 @@ public final class FatalErrorTests
     {
         final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
             .build();
-        final SchemaContainer container = factory.registerSchema(node);
-        final JsonSchema schema = factory.createSchema(container);
+        final JsonSchema schema = factory.newSchema(node);
 
         final ValidationReport report = schema.validate(data);
 
@@ -100,8 +98,7 @@ public final class FatalErrorTests
         final JsonNode node = JsonNodeFactory.instance.objectNode()
             .put("foo", "bar");
 
-        final SchemaContainer container = factory.registerSchema(node);
-        final JsonSchema schema = factory.createSchema(container);
+        final JsonSchema schema = factory.newSchema(node);
 
         final ValidationReport report = schema.validate(node);
 

@@ -28,7 +28,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.net.URI;
 
 import static org.testng.Assert.*;
 
@@ -43,8 +42,8 @@ public final class NonAbsoluteSchemaUris
         final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
             .setNamespace("resource:/grimbo/").build();
         final SchemaContainer container
-            = factory.getSchema(URI.create("child1/child.json"));
-        schema = factory.createSchema(container);
+            = factory.loadContainer("child1/child.json");
+        schema = factory.newSchema(container);
     }
 
     @Test
