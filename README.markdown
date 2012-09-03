@@ -5,19 +5,20 @@ src/main/resources/LICENSE for the full text.</p>
 
 <p>The current stable version is <b>1.0</b>. The older, still supported version
 is <b>0.6.1</b>. See the
-[ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog)
+<a
+href="https://github.com/fge/json-schema-validator/wiki/ChangeLog">ChangeLog</a>
 for more details.</p>
 
 <p>At any point in time, the javadoc for the current stable version can be found
-[here](http://fge.github.com/json-schema-validator/). The javadoc contains code
-samples.</p>
+<a href="http://fge.github.com/json-schema-validator/">here</a>. The javadoc
+contains code samples.</p>
 
 <p><b>IMPORTANT 1:</b> the versioning scheme is changing, see below for more
 information.</p>
 
 <p><b>IMPORTANT 2:</b> starting with 1.0, some format specifiers are split from
 this package and are in a new one:
-[json-schema-formats](https://github.com/fge/json-schema-formats).
+<a href="https://github.com/fge/json-schema-formats">json-schema-formats</a>.
 Support for the following format specifiers are not in the stable version
 anymore:</p>
 
@@ -45,15 +46,15 @@ number:</p>
 
 <h2>What it is</h2>
 
-<p>This is an implementation of the [JSON Schema
-specification](http://json-schema.github.com/fge/) written in pure Java.
-This allows pure server side JSON schema validation if this is what you are
-looking for.<p>
+<p>This is an implementation of the <a href="http://json-schema.github.com">JSON
+Schema specification</a> written in pure Java.  This allows pure server side
+JSON schema validation if this is what you are looking for.<p>
 
 <p>This implementation has the following features:</p>
 
 * thread safe, concurrent-friendly validation;
-* [very fast](https://github.com/fge/json-schema-validator/wiki/Performance);
+* <a href="https://github.com/fge/json-schema-validator/wiki/Performance">very
+  fast</a>;
 * full draft v3 validation (however, see above for <tt>format</tt>);
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving and loop
   detection;
@@ -70,21 +71,21 @@ looking for.<p>
 obsolete -- but it is used on the Internet nonetheless. This implementation is
 based on the following drafts:</p>
 
-* JSON Schema Internet draft, version 3
-  ([link](http://tools.ietf.org/html/draft-zyp-json-schema-03));
-* JSON Reference Internet draft, version 2
-  ([link](http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02));
-* JSON Pointer Internet draft, version 3
-  ([link](http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-03)).
+* <a href="http://tools.ietf.org/html/draft-zyp-json-schema-03">JSON Schema
+  Internet draft, version 3</a>;
+* <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02">JSON
+  Reference Internet draft, version 2</a>;
+* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-03">JSON
+  Pointer Internet draft, version 3</a>.
 
 <h2>More...</h2>
 
-<p>For a detailed discussion of the implementation, see
-[here](https://github.com/fge/json-schema-validator/wiki/Status). For a
-list of planned features for next versions, see
-[here](https://github.com/fge/json-schema-validator/wiki/Roadmap).
+<p>For a detailed discussion of the implementation, see <a
+href="https://github.com/fge/json-schema-validator/wiki/Status">here</a>. For a
+list of planned features for next versions, see <a
+href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a>.
 
-Please see the
-[wiki](https://github.com/fge/json-schema-validator/wiki/) for more
+Please see the <a
+href="https://github.com/fge/json-schema-validator/wiki/">wiki</a> for more
 details.
 
