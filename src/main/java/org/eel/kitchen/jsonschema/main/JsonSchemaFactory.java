@@ -95,7 +95,7 @@ public final class JsonSchemaFactory
     /**
      * Create a schema instance from a JSON Schema, at a certain path
      *
-     * <p>For instance, if you submi this schema:</p>
+     * <p>For instance, if you submit this schema:</p>
      *
      * <pre>
      *     {
@@ -189,6 +189,7 @@ public final class JsonSchemaFactory
      * @param str the URI as a string
      * @return a {@link JsonSchema} instance
      * @throws JsonSchemaException unable to get content from that URI
+     * @throws IllegalArgumentException URI is invalid
      */
     public JsonSchema fromURI(final String str)
         throws JsonSchemaException
@@ -207,6 +208,7 @@ public final class JsonSchemaFactory
      * @param  path the JSON Pointer/id reference into the downloaded schema
      * @return a {@link JsonSchema} instance
      * @throws JsonSchemaException unable to get content from that URI
+     * @throws IllegalArgumentException URI is invalid
      */
     public JsonSchema fromURI(final String str, final String path)
         throws JsonSchemaException
