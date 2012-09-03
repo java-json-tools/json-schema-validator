@@ -18,9 +18,12 @@
 package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -33,8 +36,7 @@ import java.util.SortedMap;
 
 public final class JacksonUtils
 {
-    private static final JsonNode EMPTY_SCHEMA
-        = JsonNodeFactory.instance.objectNode();
+    private static final JsonNode EMPTY_SCHEMA = EmptySchema.getInstance();
 
     private JacksonUtils()
     {
@@ -112,5 +114,153 @@ public final class JacksonUtils
     public static JsonNode emptySchema()
     {
         return EMPTY_SCHEMA;
+    }
+
+    private static final class EmptySchema
+        extends ObjectNode
+    {
+        private static final JsonNode instance = new EmptySchema();
+
+        private static JsonNode getInstance()
+        {
+            return instance;
+        }
+
+        private EmptySchema()
+        {
+            super(JsonNodeFactory.instance);
+        }
+
+        @Override
+        public ObjectNode with(final String propertyName)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ArrayNode withArray(final String propertyName)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public JsonNode put(final String fieldName, final JsonNode value)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public JsonNode putAll(final Map<String, JsonNode> properties)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public JsonNode putAll(final ObjectNode other)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ArrayNode putArray(final String fieldName)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode putObject(final String fieldName)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode putPOJO(final String fieldName, final Object pojo)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode putNull(final String fieldName)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final int v)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final Integer value)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final long v)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final Long value)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final float v)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final Float value)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final double v)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final Double value)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final BigDecimal v)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final String v)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final boolean v)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final Boolean value)
+        {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public ObjectNode put(final String fieldName, final byte[] v)
+        {
+            throw new UnsupportedOperationException();
+        }
     }
 }
