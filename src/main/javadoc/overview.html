@@ -74,17 +74,15 @@ using default settings:</p>
 
 <h2>Register/create a schema</h2>
 
-<p>The class for this is {@link org.eel.kitchen.jsonschema.main.JsonSchema}.
-This is a three step process:</p>
+<p>The class for this is {@link org.eel.kitchen.jsonschema.main.JsonSchema}.</p>
+
+<p>You have two choices:</p>
 
 <ul>
-    <li>you need to get hold of your JSON Schema as a {@link
-    com.fasterxml.jackson.databind.JsonNode} (here, the {@link
-    org.eel.kitchen.jsonschema.util.JsonLoader} will probably be useful);</li>
-    <li>you need to register this schema to the factory: this will create a
-    {@link org.eel.kitchen.jsonschema.ref.SchemaContainer};</li>
-    <li>then you can create your {@link
-    org.eel.kitchen.jsonschema.main.JsonSchema} instance.</li>
+    <li>get an instance directly from a URI (in this case, ensure that the URI
+    scheme is supported beforehand!);</li>
+    <li>load your schema as a {@link com.fasterxml.jackson.databind.JsonNode},
+    and create a schema instance from that JsonNode.</li>
 </ul>
 
 <p>The sample code below shows how to create a {@link
@@ -92,18 +90,15 @@ org.eel.kitchen.jsonschema.main.JsonSchema} from the v3 schema draft, bundled in
 this library (<b>NOTE</b>: {@link java.io.IOException} not accounted for):</p>
 
 <pre>
-    final JsonNode rawSchema = JsonLoader.fromResource("/schema-draftv3.json");
-
-    final SchemaContainer container = factory.asContainer(rawSchema);
-
-    final JsonSchema schema = factory.createSchema(container);
+    final JsonSchema schema = factory.fromURI("resources:/schema-draftv3.json");
 </pre>
 
 <h2>Validate your data</h2>
 
 <p>Currently, you must load the data to be validated as a {@link
-com.fasterxml.jackson.databind.JsonNode}. Here again, the {@link
-org.eel.kitchen.jsonschema.util.JsonLoader} class may help you.</p>
+com.fasterxml.jackson.databind.JsonNode}. Have a look at the {@link
+org.eel.kitchen.jsonschema.util.JsonLoader} class, which provides ways of
+loading JSON from various sources.</p>
 
 <p>One {@link org.eel.kitchen.jsonschema.main.JsonSchema} instance may validate
 as many JSON documents as you want, in parallel: this class is inherently thread
@@ -160,6 +155,10 @@ and schemas refer to one another in a relative way. You can do:</p>
     // Note the ending /, it is necessary!
     final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
         .setNamespace("file:///path/to/base/directory/").build();
+
+    // Create a schema from a file named mySchema.json which is in the above
+    // directory:
+    final JsonSchema schema = factory.fromURI("mySchema.json");
 </pre>
 
 <h2>Adding URI redirections</h2>
@@ -179,6 +178,9 @@ resolve locally. For instance:</p>
 </pre>
 
 <p>You can, of course, add more than one redirection.</p>
+
+<p>Note, this only works for fully resolvable URIs (ie, URIs referring to actual
+content), not, say, directories.</p>
 
 <h2>Registering/unregistering keywords</h2>
 
@@ -305,6 +307,8 @@ Schema).</p>
 <p>This is <b>still</b> a JSON Reference. Other schema keywords, such as
 <tt>minimum</tt> in this example, should be <b>ignored</b>. And this is what
 this implementation does.</p>
+
+<p>Note that any failure in $ref validation is considered a fatal error.</p>
 
 <h2>Schema syntax checking</h2>
 
