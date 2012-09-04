@@ -31,7 +31,7 @@ number:</p>
 
 <h2>What it is</h2>
 
-<p>This is an implementation of the <a href="http://json-schema.github.com">JSON
+<p>This is an implementation of the <a href="https://github.com/json-schema">JSON
 Schema specification</a> written in pure Java.  This allows pure server side
 JSON schema validation if this is what you are looking for.<p>
 
