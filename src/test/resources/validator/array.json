@@ -1,0 +1,9 @@
+[
+    {
+        "schema": {
+            "additionalItems": { "type": "string" }
+        },
+        "index": 0,
+        "expected": {}
+    }
+]
