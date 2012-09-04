@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -56,13 +57,14 @@ final class ArrayValidator
 
         node = schema.path("items");
 
-        if (node.isObject()) {
-            additionalItems = node;
+        if (!node.isArray()) {
+            // Either it is missing or it is an object
+            additionalItems = node.isObject() ? node
+                : JacksonUtils.emptySchema();
             items = Collections.emptyList();
             return;
         }
 
-        // We know that if "items" is not an object, it is an array
         items = ImmutableList.copyOf(node);
 
         node = schema.path("additionalItems");
@@ -91,7 +93,8 @@ final class ArrayValidator
         return false;
     }
 
-    private JsonNode getSchema(final int index)
+    @VisibleForTesting
+    JsonNode getSchema(final int index)
     {
         return index >= items.size() ? additionalItems : items.get(index);
     }
