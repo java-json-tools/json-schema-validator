@@ -6,10 +6,10 @@ src/main/resources/LICENSE for the full text.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>current development version: <b>1.1.0</b> (<a
+    <li>current development version: <b>1.1.1</b> (<a
 href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>,
 <a href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
-    <li>current stable version: <b>1.0.1</b> (<a
+    <li>current stable version: <b>1.0.2</b> (<a
 href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>,
 <a href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>);</li>
     <li>old stable version: <b>0.6.1</b> (<a
