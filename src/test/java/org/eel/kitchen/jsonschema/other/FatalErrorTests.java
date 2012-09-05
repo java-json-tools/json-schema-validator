@@ -83,7 +83,7 @@ public final class FatalErrorTests
     {
         // Build a bundle with only the failing validator
         final KeywordBundle bundle = new KeywordBundle();
-        final Keyword foo = Keyword.Builder.forKeyword("foo")
+        final Keyword foo = Keyword.withName("foo")
             .withValidatorClass(Foo.class).build();
 
         bundle.registerKeyword(foo);

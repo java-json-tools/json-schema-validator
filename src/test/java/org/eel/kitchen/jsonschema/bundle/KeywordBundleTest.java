@@ -33,7 +33,7 @@ public final class KeywordBundleTest
     public void cannotBuildKeywordWithNullName()
     {
         try {
-            Keyword.Builder.forKeyword(null);
+            Keyword.withName(null);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(), "keyword name must not be null");
@@ -43,7 +43,7 @@ public final class KeywordBundleTest
     @Test
     public void emptyKeywordDoesNotShowInAnyMap()
     {
-        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD).build();
+        final Keyword keyword = Keyword.withName(KEYWORD).build();
 
         bundle.registerKeyword(keyword);
 
@@ -55,7 +55,7 @@ public final class KeywordBundleTest
     public void keywordWithSyntaxCheckerOnlyDoesNotShowUpInValidators()
     {
         final SyntaxChecker checker = mock(SyntaxChecker.class);
-        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD)
+        final Keyword keyword = Keyword.withName(KEYWORD)
             .withSyntaxChecker(checker).build();
 
         bundle.registerKeyword(keyword);
@@ -67,7 +67,7 @@ public final class KeywordBundleTest
     @Test(dependsOnMethods = "keywordWithSyntaxCheckerOnlyDoesNotShowUpInValidators")
     public void keywordWithValidatorOnlyDoesNotShowUpInSyntaxCheckers()
     {
-        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD)
+        final Keyword keyword = Keyword.withName(KEYWORD)
             .withValidatorClass(KeywordValidator.class).build();
 
         bundle.registerKeyword(keyword);
@@ -80,10 +80,9 @@ public final class KeywordBundleTest
     public void keywordIsCorrectlyUnregistered()
     {
         final SyntaxChecker checker = mock(SyntaxChecker.class);
-        final Keyword keyword = Keyword.Builder.forKeyword(KEYWORD)
+        final Keyword keyword = Keyword.withName(KEYWORD)
             .withSyntaxChecker(checker)
-            .withValidatorClass(KeywordValidator.class)
-            .build();
+            .withValidatorClass(KeywordValidator.class).build();
 
         bundle.registerKeyword(keyword);
 

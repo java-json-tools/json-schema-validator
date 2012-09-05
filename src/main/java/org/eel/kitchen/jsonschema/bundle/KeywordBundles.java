@@ -74,181 +74,143 @@ public final class KeywordBundles
 
         checker = new SimpleSyntaxChecker("additionalItems", NodeType.BOOLEAN,
             NodeType.OBJECT);
-        keyword = Keyword.Builder.forKeyword("additionalItems")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(AdditionalItemsKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("additionalItems").withSyntaxChecker(checker)
+            .withValidatorClass(AdditionalItemsKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("additionalProperties",
             NodeType.BOOLEAN, NodeType.OBJECT);
-        keyword = Keyword.Builder.forKeyword("additionalProperties")
+        keyword = Keyword.withName("additionalProperties")
             .withSyntaxChecker(checker)
             .withValidatorClass(AdditionalPropertiesKeywordValidator.class)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("dependencies")
+        keyword = Keyword.withName("dependencies")
             .withSyntaxChecker(DependenciesSyntaxChecker.getInstance())
-            .withValidatorClass(DependenciesKeywordValidator.class)
-            .build();
+            .withValidatorClass(DependenciesKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("description", NodeType.STRING);
-        keyword = Keyword.Builder.forKeyword("description")
-            .withSyntaxChecker(checker)
+        keyword = Keyword.withName("description").withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new TypeKeywordSyntaxChecker("disallow");
-        keyword = Keyword.Builder.forKeyword("disallow")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(DisallowKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("disallow").withSyntaxChecker(checker)
+            .withValidatorClass(DisallowKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("divisibleBy")
+        keyword = Keyword.withName("divisibleBy")
             .withSyntaxChecker(DivisibleBySyntaxChecker.getInstance())
-            .withValidatorClass(DivisibleByKeywordValidator.class)
-            .build();
+            .withValidatorClass(DivisibleByKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("enum")
+        keyword = Keyword.withName("enum")
             .withSyntaxChecker(EnumSyntaxChecker.getInstance())
-            .withValidatorClass(EnumKeywordValidator.class)
-            .build();
+            .withValidatorClass(EnumKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("exclusiveMinimum")
+        keyword = Keyword.withName("exclusiveMinimum")
             .withSyntaxChecker(ExclusiveMinimumSyntaxChecker.getInstance())
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("exclusiveMaximum")
+        keyword = Keyword.withName("exclusiveMaximum")
             .withSyntaxChecker(ExclusiveMaximumSyntaxChecker.getInstance())
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("extends")
+        keyword = Keyword.withName("extends")
             .withSyntaxChecker(ExtendsSyntaxChecker.getInstance())
-            .withValidatorClass(ExtendsKeywordValidator.class)
-            .build();
+            .withValidatorClass(ExtendsKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("format", NodeType.STRING);
-        keyword = Keyword.Builder.forKeyword("format")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(FormatKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("format").withSyntaxChecker(checker)
+            .withValidatorClass(FormatKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new URISyntaxChecker("id");
-        keyword = Keyword.Builder.forKeyword("id")
-            .withSyntaxChecker(checker)
-            .build();
+        keyword = Keyword.withName("id").withSyntaxChecker(checker).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("items")
-            .withSyntaxChecker(ItemsSyntaxChecker.getInstance())
-            .build();
+        keyword = Keyword.withName("items")
+            .withSyntaxChecker(ItemsSyntaxChecker.getInstance()).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("maximum", NodeType.INTEGER,
             NodeType.NUMBER);
-        keyword = Keyword.Builder.forKeyword("maximum")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(MaximumKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("maximum").withSyntaxChecker(checker)
+            .withValidatorClass(MaximumKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("maxItems");
-        keyword = Keyword.Builder.forKeyword("maxItems")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(MaxItemsKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("maxItems").withSyntaxChecker(checker)
+            .withValidatorClass(MaxItemsKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("maxLength");
-        keyword = Keyword.Builder.forKeyword("maxLength")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(MaxLengthKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("maxLength").withSyntaxChecker(checker)
+            .withValidatorClass(MaxLengthKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("minimum", NodeType.INTEGER,
             NodeType.NUMBER);
-        keyword = Keyword.Builder.forKeyword("minimum")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(MinimumKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("minimum").withSyntaxChecker(checker)
+            .withValidatorClass(MinimumKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("minItems");
-        keyword = Keyword.Builder.forKeyword("minItems")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(MinItemsKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("minItems").withSyntaxChecker(checker)
+            .withValidatorClass(MinItemsKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new PositiveIntegerSyntaxChecker("minLength");
-        keyword = Keyword.Builder.forKeyword("minLength")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(MinLengthKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("minLength").withSyntaxChecker(checker)
+            .withValidatorClass(MinLengthKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("pattern")
+        keyword = Keyword.withName("pattern")
             .withSyntaxChecker(PatternSyntaxChecker.getInstance())
-            .withValidatorClass(PatternKeywordValidator.class)
-            .build();
+            .withValidatorClass(PatternKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("patternProperties")
+        keyword = Keyword.withName("patternProperties")
             .withSyntaxChecker(PatternPropertiesSyntaxChecker.getInstance())
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        keyword = Keyword.Builder.forKeyword("properties")
+        keyword = Keyword.withName("properties")
             .withSyntaxChecker(PropertiesSyntaxChecker.getInstance())
-            .withValidatorClass(PropertiesKeywordValidator.class)
-            .build();
+            .withValidatorClass(PropertiesKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("required", NodeType.BOOLEAN);
-        keyword = Keyword.Builder.forKeyword("required")
-            .withSyntaxChecker(checker)
+        keyword = Keyword.withName("required").withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("title", NodeType.STRING);
-        keyword = Keyword.Builder.forKeyword("title")
-            .withSyntaxChecker(checker)
-            .build();
+        keyword = Keyword.withName("title").withSyntaxChecker(checker).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new TypeKeywordSyntaxChecker("type");
-        keyword = Keyword.Builder.forKeyword("type")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(TypeKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("type").withSyntaxChecker(checker)
+            .withValidatorClass(TypeKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("uniqueItems", NodeType.BOOLEAN);
-        keyword = Keyword.Builder.forKeyword("uniqueItems")
-            .withSyntaxChecker(checker)
-            .withValidatorClass(UniqueItemsKeywordValidator.class)
-            .build();
+        keyword = Keyword.withName("uniqueItems").withSyntaxChecker(checker)
+            .withValidatorClass(UniqueItemsKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new URISyntaxChecker("$ref");
-        keyword = Keyword.Builder.forKeyword("$ref")
-            .withSyntaxChecker(checker)
-            .build();
+        keyword = Keyword.withName("$ref").withSyntaxChecker(checker).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new URISyntaxChecker("$schema");
-        keyword = Keyword.Builder.forKeyword("$schema")
-            .withSyntaxChecker(checker)
+        keyword = Keyword.withName("$schema").withSyntaxChecker(checker)
             .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
     }

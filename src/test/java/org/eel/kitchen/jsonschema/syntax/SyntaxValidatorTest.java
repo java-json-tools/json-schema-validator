@@ -52,12 +52,10 @@ public final class SyntaxValidatorTest
         bundle = new KeywordBundle();
 
         checker1 = mock(SyntaxChecker.class);
-        k1 = Keyword.Builder.forKeyword("k1").withSyntaxChecker(checker1)
-            .build();
+        k1 = Keyword.withName("k1").withSyntaxChecker(checker1).build();
 
         checker2 = mock(SyntaxChecker.class);
-        k2 = Keyword.Builder.forKeyword("k2").withSyntaxChecker(checker2)
-            .build();
+        k2 = Keyword.withName("k2").withSyntaxChecker(checker2).build();
 
         messages = new ArrayList<Message>();
     }
@@ -104,7 +102,7 @@ public final class SyntaxValidatorTest
         final JsonNode instance = factory.objectNode().put("k1", "");
 
         // No syntax checker
-        final Keyword k = Keyword.Builder.forKeyword("k1").build();
+        final Keyword k = Keyword.withName("k1").build();
 
         bundle.registerKeyword(k);
 

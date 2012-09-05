@@ -39,7 +39,7 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  *     final SyntaxChecker checker = ...;
  *     final Class&lt;? extends KeywordValidator&gt; validatorClass = ...;
  *
- *     final Keyword myKeyword = Keyword.Builder.forKeyword("mykeyword")
+ *     final Keyword myKeyword = Keyword.withName("mykeyword")
  *         .withSyntaxChecker(checker).withValidatorClass(validatorClass)
  *         .build();
  *
@@ -70,6 +70,11 @@ public final class Keyword
         name = builder.keyword;
         syntaxChecker = builder.syntaxChecker;
         validatorClass = builder.validatorClass;
+    }
+
+    public static Keyword.Builder withName(final String name)
+    {
+        return new Builder(name);
     }
 
     public String getName()
@@ -106,17 +111,6 @@ public final class Keyword
         {
             Preconditions.checkNotNull(keyword, "keyword name must not be null");
             this.keyword = keyword;
-        }
-
-        /**
-         * The one and only static factory method to build an instance
-         *
-         * @param keyword the keyword to use
-         * @return the newly created instance
-         */
-        public static Builder forKeyword(final String keyword)
-        {
-            return new Builder(keyword);
         }
 
         /**
