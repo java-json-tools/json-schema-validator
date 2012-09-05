@@ -22,9 +22,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -96,7 +96,7 @@ public final class JacksonUtils
      */
     public static Set<String> fieldNames(final JsonNode node)
     {
-        final Set<String> ret = new HashSet<String>(node.size());
+        final Set<String> ret = Sets.newHashSet();
 
         final Iterator<String> iterator = node.fieldNames();
 
