@@ -16,6 +16,13 @@ href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">Change
 href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.old">ChangeLog</a>).</li>
 </ul>
 
+<p><b>Note to 1.0.x users or above:</b> this implementation does not cover the
+full set of format attributes defined by the currently active draft, and this is
+on purpose. See <a
+href="https://github.com/fge/json-schema-formats">json-schema-formats</a> (FWIW,
+at the Maven level, <tt>json-schema-formats</tt> depends on
+<tt>json-schema-validator</tt>).</p>
+
 <p>Note: the javadoc contains code samples.</p>
 
 <h2>Versioning scheme policy</h2>
