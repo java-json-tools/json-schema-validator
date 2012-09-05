@@ -121,8 +121,7 @@ public abstract class KeywordValidator
      */
     protected final ValidationMessage.Builder newMsg()
     {
-        return new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-            .setKeyword(keyword);
+        return ValidationDomain.VALIDATION.newMessage().setKeyword(keyword);
     }
 
     @Override

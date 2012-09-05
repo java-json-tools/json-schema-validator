@@ -30,8 +30,8 @@ public final class ValidationReportTest
     public void oneFatalMessageClearsAllOthers()
     {
         final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-            .setKeyword("N/A").setMessage("foo");
+            = ValidationDomain.VALIDATION.newMessage().setKeyword("N/A")
+            .setMessage("foo");
 
         final ValidationReport report = new ValidationReport();
 
@@ -51,8 +51,8 @@ public final class ValidationReportTest
     public void oneFatalMessageInAListClearsAllOthers()
     {
         final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-            .setKeyword("N/A").setMessage("foo");
+            = ValidationDomain.VALIDATION.newMessage().setKeyword("N/A")
+            .setMessage("foo");
 
         final ValidationReport report = new ValidationReport();
 
@@ -72,8 +72,8 @@ public final class ValidationReportTest
     public void mergingWithAnotherReportKeepsFatalStatus()
     {
         final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
-            .setKeyword("N/A").setMessage("foo");
+            = ValidationDomain.VALIDATION.newMessage().setKeyword("N/A")
+            .setMessage("foo");
 
         ValidationReport r1, r2;
 

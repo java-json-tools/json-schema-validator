@@ -321,8 +321,7 @@ public final class JsonPointer
 
     private static ValidationMessage.Builder newMsg(final String reason)
     {
-        return new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-            .setKeyword("$ref").setMessage("illegal JSON Pointer")
-            .addInfo("reason", reason);
+        return ValidationDomain.REF_RESOLVING.newMessage().setKeyword("$ref")
+            .setMessage("illegal JSON Pointer").addInfo("reason", reason);
     }
 }

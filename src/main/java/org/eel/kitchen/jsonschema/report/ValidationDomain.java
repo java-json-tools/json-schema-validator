@@ -56,4 +56,9 @@ public enum ValidationDomain
     {
         return domain;
     }
+
+    public ValidationMessage.Builder newMessage()
+    {
+        return new ValidationMessage.Builder(this);
+    }
 }

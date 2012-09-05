@@ -114,8 +114,8 @@ public final class JsonPointerTest
     private static Object[] mungeArguments(final JsonNode node)
     {
         final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-                .setKeyword("$ref").setMessage("illegal JSON Pointer");
+            = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("$ref")
+            .setMessage("illegal JSON Pointer");
 
         final Map<String, JsonNode> map
             = JacksonUtils.nodeToMap(node.get("info"));

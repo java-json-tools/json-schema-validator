@@ -82,8 +82,7 @@ public abstract class AbstractSyntaxCheckerTest
     {
         final List<ValidationMessage> messages = Lists.newArrayList();
         final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.SYNTAX)
-                .setKeyword(keyword);
+            = ValidationDomain.SYNTAX.newMessage().setKeyword(keyword);
         checker.checkSyntax(msg, messages, node);
         assertEquals(messages.isEmpty(), valid);
 

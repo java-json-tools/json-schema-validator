@@ -109,7 +109,7 @@ public abstract class FormatSpecifier
 
     protected static ValidationMessage.Builder newMsg(final String fmt)
     {
-        return new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+        return ValidationDomain.VALIDATION.newMessage()
             .setKeyword("format").addInfo("format", fmt);
     }
 }

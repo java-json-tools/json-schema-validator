@@ -141,7 +141,7 @@ public final class KeywordFactory
                 final ValidationReport report, final JsonNode instance)
             {
                 final ValidationMessage.Builder msg
-                    = new ValidationMessage.Builder(ValidationDomain.VALIDATION)
+                    = ValidationDomain.VALIDATION.newMessage()
                     .setMessage("cannot build validator").setKeyword(className)
                     .addInfo("exception", e.getClass().getName())
                     .addInfo("exceptionMessage", e.getMessage())

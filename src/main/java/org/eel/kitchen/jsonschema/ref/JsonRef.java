@@ -153,8 +153,8 @@ public final class JsonRef
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
             final ValidationMessage.Builder msg
-                = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-                .setKeyword("N/A").addInfo("uri", s).setMessage("invalid URI");
+                = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("N/A")
+                .addInfo("uri", s).setMessage("invalid URI");
             throw new JsonSchemaException(msg.build(), e);
         }
     }

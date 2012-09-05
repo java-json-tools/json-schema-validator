@@ -230,12 +230,7 @@ public final class ValidationMessage
          */
         boolean fatal = false;
 
-        /**
-         * Constructor
-         *
-         * @param domain the validation domain
-         */
-        public Builder(final ValidationDomain domain)
+        Builder(final ValidationDomain domain)
         {
             Preconditions.checkNotNull(domain, "domain is null");
             this.domain = domain;

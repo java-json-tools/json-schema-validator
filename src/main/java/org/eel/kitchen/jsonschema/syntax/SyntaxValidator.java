@@ -70,8 +70,7 @@ public final class SyntaxValidator
         SyntaxChecker checker;
 
         for (final String keyword: keywords) {
-            msg = new ValidationMessage.Builder(ValidationDomain.SYNTAX)
-                .setKeyword(keyword);
+            msg = ValidationDomain.SYNTAX.newMessage().setKeyword(keyword);
             checker = checkers.get(keyword);
             checker.checkSyntax(msg, messages, schema);
         }

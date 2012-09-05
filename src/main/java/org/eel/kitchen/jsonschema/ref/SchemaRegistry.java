@@ -113,8 +113,8 @@ public final class SchemaRegistry
             return cache.get(realURI);
         } catch (ExecutionException e) {
             final ValidationMessage.Builder msg
-                = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-                .setKeyword("N/A").setMessage("failed to get content from URI")
+                = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("N/A")
+                .setMessage("failed to get content from URI")
                 .addInfo("uri", realURI)
                 .addInfo("exception-class", e.getCause().getClass().getName())
                 .addInfo("exception-message", e.getCause().getMessage());

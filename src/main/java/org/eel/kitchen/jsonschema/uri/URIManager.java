@@ -198,8 +198,8 @@ public class URIManager
          * All errors at this level are fatal
          */
         final ValidationMessage.Builder msg
-            = new ValidationMessage.Builder(ValidationDomain.REF_RESOLVING)
-            .setKeyword("N/A").addInfo("uri", target).setFatal(true);
+            = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("N/A")
+            .addInfo("uri", target).setFatal(true);
 
         if (!target.isAbsolute())
             throw new JsonSchemaException(msg.setMessage("URI is not absolute")
