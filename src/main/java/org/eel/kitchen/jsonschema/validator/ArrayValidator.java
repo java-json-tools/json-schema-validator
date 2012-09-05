@@ -32,7 +32,7 @@ import java.util.List;
  *
  * <p>Array children must obey one schema, depending on the values of the
  * {@code items} and {@code additionalItems} schema keywords. No {@code items}
- * is equivalent to an empty array.</p>
+ * is equivalent to this keyword having an empty schema.</p>
  *
  * <p>Array indices start at 0. For a given index:</p>
  *
