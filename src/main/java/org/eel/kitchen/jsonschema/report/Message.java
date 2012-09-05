@@ -43,7 +43,7 @@ import java.util.Set;
  * information. The three mandatory fields are:</p>
  *
  * <ul>
- *     <li>the validation domain (see {@link ValidationDomain});</li>
+ *     <li>the validation domain (see {@link Domain});</li>
  *     <li>the associated keyword;</li>
  *     <li>the validation message.</li>
  * </ul>
@@ -68,18 +68,18 @@ import java.util.Set;
  * @see Builder
  * @see ValidationReport
  */
-public final class ValidationMessage
+public final class Message
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
     private static final Joiner JOINER = Joiner.on("; ");
 
-    private final ValidationDomain domain;
+    private final Domain domain;
     private final String keyword;
     private final String message;
     private final boolean fatal;
     private final Map<String, JsonNode> info;
 
-    private ValidationMessage(final Builder builder)
+    private Message(final Builder builder)
     {
         domain = builder.domain;
         keyword = builder.keyword;
@@ -88,7 +88,7 @@ public final class ValidationMessage
         info = ImmutableMap.copyOf(JacksonUtils.nodeToMap(builder.info));
     }
 
-    public ValidationDomain getDomain()
+    public Domain getDomain()
     {
         return domain;
     }
@@ -152,7 +152,7 @@ public final class ValidationMessage
         if (getClass() != obj.getClass())
             return false;
 
-        final ValidationMessage other = (ValidationMessage) obj;
+        final Message other = (Message) obj;
 
         return domain == other.domain
             && keyword.equals(other.keyword)
@@ -177,7 +177,7 @@ public final class ValidationMessage
     }
 
     /**
-     * Builder class for a {@link ValidationMessage}
+     * Builder class for a {@link Message}
      *
      * <p>To build a validation message, you instantiate this class, fill the
      * necessary information and finally call {@link #build()} to obtain the
@@ -206,7 +206,7 @@ public final class ValidationMessage
         /**
          * Validation domain
          */
-        private final ValidationDomain domain;
+        private final Domain domain;
 
         /**
          * Keyword associated with the message
@@ -230,7 +230,7 @@ public final class ValidationMessage
          */
         boolean fatal = false;
 
-        Builder(final ValidationDomain domain)
+        Builder(final Domain domain)
         {
             Preconditions.checkNotNull(domain, "domain is null");
             this.domain = domain;
@@ -358,16 +358,16 @@ public final class ValidationMessage
         /**
          * Build the actual message
          *
-         * @return a {@link ValidationMessage}
+         * @return a {@link Message}
          * @throws NullPointerException the keyword or message are null
          */
-        public ValidationMessage build()
+        public Message build()
         {
             Preconditions.checkNotNull(keyword, "keyword is null");
             Preconditions.checkNotNull(message, "message is null");
             info.remove(RESERVED);
 
-            return new ValidationMessage(this);
+            return new Message(this);
         }
     }
 }

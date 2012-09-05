@@ -23,8 +23,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
 import java.net.URI;
@@ -112,9 +112,8 @@ public final class SchemaRegistry
         try {
             return cache.get(realURI);
         } catch (ExecutionException e) {
-            final ValidationMessage.Builder msg
-                = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("N/A")
-                .setMessage("failed to get content from URI")
+            final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
+                .setKeyword("N/A").setMessage("failed to get content from URI")
                 .addInfo("uri", realURI)
                 .addInfo("exception-class", e.getCause().getClass().getName())
                 .addInfo("exception-message", e.getCause().getMessage());

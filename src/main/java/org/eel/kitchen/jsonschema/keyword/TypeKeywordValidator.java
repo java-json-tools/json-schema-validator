@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
@@ -66,9 +66,10 @@ public final class TypeKeywordValidator
          * mismatch message if there was at least one primitive type in the set.
          */
         if (!typeSet.isEmpty()) {
-            final ValidationMessage.Builder msg = newMsg()
-                .addInfo("found", type).addInfo("allowed", typeSet)
-                .setMessage("instance does not match any allowed primitive type");
+            final Message.Builder msg = newMsg().addInfo("found", type)
+                .addInfo("allowed", typeSet)
+                .setMessage("instance does not match any allowed primitive " +
+                    "type");
             report.addMessage(msg.build());
         }
 

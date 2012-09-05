@@ -1,8 +1,8 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 
 import java.util.List;
 
@@ -27,14 +27,14 @@ public interface SyntaxChecker
      *
      * <p>When entering this function, the message template passed as an
      * argument will have already been filled with the matching validation
-     * domain (here, {@link ValidationDomain#SYNTAX}) and the keyword.</p>
+     * domain (here, {@link Domain#SYNTAX}) and the keyword.</p>
      *
-     * @see ValidationMessage
+     * @see Message
      *
      * @param msg the validation message template
      * @param messages message list to fill in the event of a failure
      * @param schema schema to analyze
      */
-    void checkSyntax(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode schema);
+    void checkSyntax(final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema);
 }

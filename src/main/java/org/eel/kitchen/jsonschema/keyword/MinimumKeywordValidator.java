@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 
 import java.math.BigDecimal;
@@ -51,7 +51,7 @@ public final class MinimumKeywordValidator
         if (instanceValue > longValue)
             return;
 
-        final ValidationMessage.Builder msg = newMsg().addInfo(keyword, number)
+        final Message.Builder msg = newMsg().addInfo(keyword, number)
             .addInfo("found", instance);
 
         if (instanceValue < longValue) {
@@ -81,7 +81,7 @@ public final class MinimumKeywordValidator
         if (cmp > 0)
             return;
 
-        final ValidationMessage.Builder msg = newMsg().addInfo(keyword, number)
+        final Message.Builder msg = newMsg().addInfo(keyword, number)
             .addInfo("found", instance);
 
         if (cmp < 0) {

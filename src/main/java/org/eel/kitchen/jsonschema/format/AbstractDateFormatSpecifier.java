@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -70,8 +70,8 @@ public abstract class AbstractDateFormatSpecifier
         try {
             dtf.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            final ValidationMessage.Builder msg = newMsg(fmt)
-                .setMessage(errmsg).addInfo("value", instance);
+            final Message.Builder msg = newMsg(fmt).setMessage(errmsg)
+                .addInfo("value", instance);
             report.addMessage(msg.build());
         }
     }

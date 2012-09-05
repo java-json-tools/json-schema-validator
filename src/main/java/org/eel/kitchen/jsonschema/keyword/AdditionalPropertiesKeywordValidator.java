@@ -20,7 +20,8 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import com.google.common.collect.Ordering;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -31,7 +32,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Validator for {@code additionalProperties}
@@ -108,8 +108,8 @@ public final class AdditionalPropertiesKeywordValidator
         /*
          * Display extra properties in order in the report
          */
-        final ValidationMessage.Builder msg = newMsg()
-            .addInfo("unwanted", new TreeSet<String>(fields))
+        final Message.Builder msg = newMsg()
+            .addInfo("unwanted", Ordering.natural().sortedCopy(fields))
             .setMessage("additional properties not permitted");
         report.addMessage(msg.build());
     }

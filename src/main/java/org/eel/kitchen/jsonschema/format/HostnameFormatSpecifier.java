@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.format;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InternetDomainName;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -59,7 +59,7 @@ public final class HostnameFormatSpecifier
     public void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode value)
     {
-        final ValidationMessage.Builder msg = newMsg(fmt)
+        final Message.Builder msg = newMsg(fmt)
             .setMessage("string is not a valid hostname")
             .addInfo("value", value);
 

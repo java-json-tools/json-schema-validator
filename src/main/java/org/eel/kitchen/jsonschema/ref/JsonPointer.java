@@ -24,8 +24,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 
 import java.util.List;
 
@@ -175,7 +175,7 @@ public final class JsonPointer
              * Skip the /
              */
             if (!victim.startsWith("/")) {
-                final ValidationMessage.Builder msg
+                final Message.Builder msg
                     = newMsg("reference token not preceeded by '/'");
                 throw new JsonSchemaException(msg.build());
             }
@@ -228,9 +228,8 @@ public final class JsonPointer
         for (final char c: array) {
             if (inEscape) {
                 if (!ESCAPED.matches(c)) {
-                    final ValidationMessage.Builder msg
-                        = newMsg("bad escape sequence: '~' not followed by a " +
-                        "valid token")
+                    final Message.Builder msg = newMsg("bad escape sequence: " +
+                        "'~' not followed by a valid token")
                         .addInfo("allowed", ESCAPE_REPLACEMENT_MAP.keySet())
                         .addInfo("found", Character.valueOf(c));
                     throw new JsonSchemaException(msg.build());
@@ -319,9 +318,9 @@ public final class JsonPointer
         return sb.toString();
     }
 
-    private static ValidationMessage.Builder newMsg(final String reason)
+    private static Message.Builder newMsg(final String reason)
     {
-        return ValidationDomain.REF_RESOLVING.newMessage().setKeyword("$ref")
+        return Domain.REF_RESOLVING.newMessage().setKeyword("$ref")
             .setMessage("illegal JSON Pointer").addInfo("reason", reason);
     }
 }

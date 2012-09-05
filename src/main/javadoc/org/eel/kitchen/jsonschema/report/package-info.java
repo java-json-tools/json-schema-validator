@@ -19,8 +19,8 @@
  * Validation reports and messages
  *
  * <p>All validation messages use the {@link
- * org.eel.kitchen.jsonschema.report.ValidationMessage} class, which can itself
- * be represented as JSON.</p>
+ * org.eel.kitchen.jsonschema.report.Message} class, which can itself be
+ * represented as JSON.</p>
  *
  * <p>Validation reports are maps of messages, with keys to the map being
  * pointers into the instance being validated, and values being arrays of

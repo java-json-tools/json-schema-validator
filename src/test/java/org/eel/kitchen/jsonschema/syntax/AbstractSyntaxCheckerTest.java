@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -80,9 +80,9 @@ public abstract class AbstractSyntaxCheckerTest
     public void testChecker(final JsonNode node, final boolean valid,
         final JsonNode expectedMessages)
     {
-        final List<ValidationMessage> messages = Lists.newArrayList();
-        final ValidationMessage.Builder msg
-            = ValidationDomain.SYNTAX.newMessage().setKeyword(keyword);
+        final List<Message> messages = Lists.newArrayList();
+        final Message.Builder msg = Domain.SYNTAX.newMessage()
+            .setKeyword(keyword);
         checker.checkSyntax(msg, messages, node);
         assertEquals(messages.isEmpty(), valid);
 
@@ -92,7 +92,7 @@ public abstract class AbstractSyntaxCheckerTest
         final List<JsonNode> expected = Lists.newArrayList(expectedMessages);
         final List<JsonNode> actual = Lists.newArrayList();
 
-        for (final ValidationMessage message: messages)
+        for (final Message message: messages)
             actual.add(message.toJsonNode());
 
         assertEqualsNoOrder(actual.toArray(), expected.toArray());

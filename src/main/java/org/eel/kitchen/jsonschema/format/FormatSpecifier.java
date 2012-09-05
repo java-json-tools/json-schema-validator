@@ -18,8 +18,8 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -76,7 +76,7 @@ public abstract class FormatSpecifier
      *
      * <p>The message template passed as an argument will have been pre-filled
      * with the keyword ({@code format}), the specifier name and the domain
-     * ({@link ValidationDomain#VALIDATION}).</p>
+     * ({@link Domain#VALIDATION}).</p>
      *
      * @param fmt the format specifier name
      * @param ctx the validation context
@@ -107,9 +107,9 @@ public abstract class FormatSpecifier
     public abstract void checkValue(final String fmt, ValidationContext ctx,
         final ValidationReport report, final JsonNode value);
 
-    protected static ValidationMessage.Builder newMsg(final String fmt)
+    protected static Message.Builder newMsg(final String fmt)
     {
-        return ValidationDomain.VALIDATION.newMessage()
-            .setKeyword("format").addInfo("format", fmt);
+        return Domain.VALIDATION.newMessage().setKeyword("format")
+            .addInfo("format", fmt);
     }
 }

@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
@@ -45,8 +45,8 @@ public class ArrayChildrenSyntaxChecker
     }
 
     @Override
-    final void checkValue(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode schema)
+    final void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
 

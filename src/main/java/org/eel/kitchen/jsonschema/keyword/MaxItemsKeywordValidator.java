@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -41,8 +41,8 @@ public final class MaxItemsKeywordValidator
         if (instance.size() <= intValue)
             return;
 
-        final ValidationMessage.Builder msg = newMsg()
-            .addInfo(keyword, intValue).addInfo("found", instance.size())
+        final Message.Builder msg = newMsg().addInfo(keyword, intValue)
+            .addInfo("found", instance.size())
             .setMessage("too many elements in array");
         report.addMessage(msg.build());
     }

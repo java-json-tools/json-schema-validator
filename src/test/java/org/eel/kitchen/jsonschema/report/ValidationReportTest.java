@@ -29,9 +29,8 @@ public final class ValidationReportTest
     @Test
     public void oneFatalMessageClearsAllOthers()
     {
-        final ValidationMessage.Builder msg
-            = ValidationDomain.VALIDATION.newMessage().setKeyword("N/A")
-            .setMessage("foo");
+        final Message.Builder msg = Domain.VALIDATION.newMessage()
+            .setKeyword("N/A").setMessage("foo");
 
         final ValidationReport report = new ValidationReport();
 
@@ -50,13 +49,12 @@ public final class ValidationReportTest
     @Test
     public void oneFatalMessageInAListClearsAllOthers()
     {
-        final ValidationMessage.Builder msg
-            = ValidationDomain.VALIDATION.newMessage().setKeyword("N/A")
-            .setMessage("foo");
+        final Message.Builder msg = Domain.VALIDATION.newMessage()
+            .setKeyword("N/A").setMessage("foo");
 
         final ValidationReport report = new ValidationReport();
 
-        final List<ValidationMessage> list = Lists.newArrayList();
+        final List<Message> list = Lists.newArrayList();
 
         list.add(msg.build());
         list.add(msg.setFatal(true).build());
@@ -71,9 +69,8 @@ public final class ValidationReportTest
     @Test
     public void mergingWithAnotherReportKeepsFatalStatus()
     {
-        final ValidationMessage.Builder msg
-            = ValidationDomain.VALIDATION.newMessage().setKeyword("N/A")
-            .setMessage("foo");
+        final Message.Builder msg = Domain.VALIDATION.newMessage()
+            .setKeyword("N/A").setMessage("foo");
 
         ValidationReport r1, r2;
 

@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -68,7 +68,7 @@ public final class EmailFormatSpecifier
             // Which means we actually invert it.
             new InternetAddress(instance.textValue(), !strictRFC);
         } catch (AddressException ignored) {
-            final ValidationMessage.Builder msg = newMsg(fmt)
+            final Message.Builder msg = newMsg(fmt)
                 .setMessage("string is not a valid email address")
                 .addInfo("value", instance);
             report.addMessage(msg.build());

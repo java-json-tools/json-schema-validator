@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -49,7 +49,7 @@ public final class EnumKeywordValidator
         if (enumValues.contains(instance))
             return;
 
-        final ValidationMessage.Builder msg = newMsg()
+        final Message.Builder msg = newMsg()
             .setMessage("value not found in enum").addInfo("enum", enumNode)
             .addInfo("value", instance);
         report.addMessage(msg.build());

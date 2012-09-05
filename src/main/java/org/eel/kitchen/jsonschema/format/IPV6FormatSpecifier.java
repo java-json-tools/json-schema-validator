@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.net.InetAddresses;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -56,7 +56,7 @@ public final class IPV6FormatSpecifier
             .forString(ipaddr).getAddress().length == IPV6_LENGTH)
             return;
 
-        final ValidationMessage.Builder msg = newMsg(fmt)
+        final Message.Builder msg = newMsg(fmt)
             .setMessage("string is not a valid IPv6 address")
             .addInfo("value", value);
         report.addMessage(msg.build());

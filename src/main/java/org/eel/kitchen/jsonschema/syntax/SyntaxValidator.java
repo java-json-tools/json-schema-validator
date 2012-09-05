@@ -20,8 +20,8 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.util.List;
@@ -59,18 +59,17 @@ public final class SyntaxValidator
      * @param messages the list of messages to fill in the event of a failure
      * @param schema the schema to analyze
      */
-    public void validate(final List<ValidationMessage> messages,
-        final JsonNode schema)
+    public void validate(final List<Message> messages, final JsonNode schema)
     {
         final Set<String> keywords = JacksonUtils.fieldNames(schema);
 
         keywords.retainAll(checkers.keySet());
 
-        ValidationMessage.Builder msg;
+        Message.Builder msg;
         SyntaxChecker checker;
 
         for (final String keyword: keywords) {
-            msg = ValidationDomain.SYNTAX.newMessage().setKeyword(keyword);
+            msg = Domain.SYNTAX.newMessage().setKeyword(keyword);
             checker = checkers.get(keyword);
             checker.checkSyntax(msg, messages, schema);
         }

@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -50,8 +50,8 @@ public final class DependenciesSyntaxChecker
     }
 
     @Override
-    void checkValue(final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages, final JsonNode schema)
+    void checkValue(final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
     {
         /*
          * At that point, we know this is an array. Build a map out of it and
@@ -76,9 +76,8 @@ public final class DependenciesSyntaxChecker
      * @param messages the validation message list
      */
     private static void analyzeDependency(
-        final Map.Entry<String, JsonNode> entry,
-        final ValidationMessage.Builder msg,
-        final List<ValidationMessage> messages)
+        final Map.Entry<String, JsonNode> entry, final Message.Builder msg,
+        final List<Message> messages)
     {
         /**
          * The key is the propery name in the map entry, the value is this

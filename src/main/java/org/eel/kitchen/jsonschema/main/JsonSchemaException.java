@@ -17,51 +17,50 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 
 /**
  * Generic exception thrown when the validation cannot proceed normally
  *
- * <p>Note that all constructors of this class take a {@link ValidationMessage}
- * as an argument.</p>
+ * <p>Note that all constructors of this class take a {@link Message} as an
+ * argument.</p>
  */
 public final class JsonSchemaException
     extends Exception
 {
-    private final ValidationMessage validationMessage;
+    private final Message message;
 
-    public JsonSchemaException(final ValidationMessage message,
-        final Exception e)
+    public JsonSchemaException(final Message message, final Exception e)
     {
         super(message.getMessage(), e);
-        validationMessage = message;
+        this.message = message;
     }
 
-    public JsonSchemaException(final ValidationMessage validationMessage)
+    public JsonSchemaException(final Message message)
     {
-        this.validationMessage = validationMessage;
+        this.message = message;
     }
 
-    public ValidationMessage getValidationMessage()
+    public Message getValidationMessage()
     {
-        return validationMessage;
+        return message;
     }
 
     @Override
     public String getMessage()
     {
-        return validationMessage.toString();
+        return message.toString();
     }
 
     @Override
     public String getLocalizedMessage()
     {
-        return validationMessage.toString();
+        return message.toString();
     }
 
     @Override
     public String toString()
     {
-        return getClass().getName() + ": " + validationMessage;
+        return getClass().getName() + ": " + message;
     }
 }

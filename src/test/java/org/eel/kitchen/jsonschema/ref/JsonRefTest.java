@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -48,8 +48,8 @@ public final class JsonRefTest
             JsonRef.fromString("+23:");
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            final ValidationMessage msg = e.getValidationMessage();
-            assertSame(msg.getDomain(), ValidationDomain.REF_RESOLVING);
+            final Message msg = e.getValidationMessage();
+            assertSame(msg.getDomain(), Domain.REF_RESOLVING);
             assertEquals(msg.getKeyword(), "N/A");
             assertEquals(msg.getMessage(), "invalid URI");
             assertEquals(msg.getInfo("uri").textValue(), "+23:");

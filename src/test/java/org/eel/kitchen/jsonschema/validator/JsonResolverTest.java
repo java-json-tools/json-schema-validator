@@ -25,8 +25,8 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,7 +43,7 @@ public final class JsonResolverTest
     private JsonResolver resolver;
     private SchemaContainer container;
     private SchemaNode schemaNode;
-    private ValidationMessage msg;
+    private Message msg;
 
     @BeforeMethod
     public void initRegistry()
@@ -65,7 +65,7 @@ public final class JsonResolverTest
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
             msg = e.getValidationMessage();
-            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
             assertEquals(msg.getMessage(), "ref loop detected");
             assertEquals(msg.getInfo("path"), factory.arrayNode().add("#"));
         }
@@ -97,7 +97,7 @@ public final class JsonResolverTest
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
             msg = e.getValidationMessage();
-            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
             assertEquals(msg.getMessage(), "ref loop detected");
             assertEquals(msg.getInfo("path"), path);
         }
@@ -115,7 +115,7 @@ public final class JsonResolverTest
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
             msg = e.getValidationMessage();
-            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
             assertEquals(msg.getMessage(), "dangling JSON Reference");
             assertEquals(msg.getInfo("ref"), factory.textNode("#foo"));
         }
@@ -140,7 +140,7 @@ public final class JsonResolverTest
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
             msg = e.getValidationMessage();
-            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
             assertEquals(msg.getMessage(), "dangling JSON Reference");
             assertEquals(msg.getInfo("ref"), factory.textNode("#/c"));
         }
@@ -181,7 +181,7 @@ public final class JsonResolverTest
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
             msg = e.getValidationMessage();
-            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
             assertEquals(msg.getMessage(), "ref loop detected");
             assertEquals(msg.getInfo("path"), path);
         }
@@ -219,14 +219,14 @@ public final class JsonResolverTest
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
             msg = e.getValidationMessage();
-            verifyMessageParams(msg, ValidationDomain.REF_RESOLVING, "$ref");
+            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
             assertEquals(msg.getMessage(), "dangling JSON Reference");
             assertEquals(msg.getInfo("ref"), factory.textNode(ref2));
         }
     }
 
-    private static void verifyMessageParams(final ValidationMessage message,
-        final ValidationDomain domain, final String keyword)
+    private static void verifyMessageParams(final Message message,
+        final Domain domain, final String keyword)
     {
         assertSame(message.getDomain(), domain);
         assertEquals(message.getKeyword(), keyword);

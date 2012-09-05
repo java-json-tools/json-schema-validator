@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -44,7 +44,7 @@ public final class SyntaxValidatorTest
     private SyntaxChecker checker1;
     private SyntaxChecker checker2;
 
-    private List<ValidationMessage> messages;
+    private List<Message> messages;
 
     @BeforeMethod
     public void setUp()
@@ -59,7 +59,7 @@ public final class SyntaxValidatorTest
         k2 = Keyword.Builder.forKeyword("k2").withSyntaxChecker(checker2)
             .build();
 
-        messages = new ArrayList<ValidationMessage>();
+        messages = new ArrayList<Message>();
     }
 
     @Test
@@ -74,8 +74,8 @@ public final class SyntaxValidatorTest
 
         validator.validate(messages, instance);
 
-        verify(checker1).checkSyntax(any(ValidationMessage.Builder.class),
-            eq(messages), eq(instance));
+        verify(checker1).checkSyntax(any(Message.Builder.class), eq(messages),
+            eq(instance));
     }
 
     @Test
@@ -91,10 +91,10 @@ public final class SyntaxValidatorTest
 
         validator.validate(messages, instance);
 
-        verify(checker1).checkSyntax(any(ValidationMessage.Builder.class),
-            eq(messages), eq(instance));
+        verify(checker1).checkSyntax(any(Message.Builder.class), eq(messages),
+            eq(instance));
         verify(checker2, never())
-            .checkSyntax(any(ValidationMessage.Builder.class), eq(messages),
+            .checkSyntax(any(Message.Builder.class), eq(messages),
                 eq(instance));
     }
 

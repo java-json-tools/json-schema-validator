@@ -26,8 +26,8 @@ import org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
@@ -197,9 +197,8 @@ public class URIManager
         /*
          * All errors at this level are fatal
          */
-        final ValidationMessage.Builder msg
-            = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("N/A")
-            .addInfo("uri", target).setFatal(true);
+        final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
+            .setKeyword("N/A").addInfo("uri", target).setFatal(true);
 
         if (!target.isAbsolute())
             throw new JsonSchemaException(msg.setMessage("URI is not absolute")

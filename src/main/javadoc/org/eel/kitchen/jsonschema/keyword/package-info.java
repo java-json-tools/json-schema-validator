@@ -64,9 +64,9 @@
  *              if (instance.size() >= intValue)
  *                  return;
  *
- *              final ValidationMessage.Builder msg = newMsg()
+ *              final Message.Builder msg = newMsg()
  *                  .setMessage("object instance does not have the minimum "
- *                      + "number of required properties")
+ *                  + "number of required properties")
  *                  .addInfo("required", intValue)
  *                  .addInfo("found", instance.size());
  *              report.addMessage(msg.build());
@@ -74,6 +74,6 @@
  *     }
  * </pre>
  *
- * <p>See also {@link org.eel.kitchen.jsonschema.report.ValidationMessage}.</p>
+ * <p>See also {@link org.eel.kitchen.jsonschema.report.Message}.</p>
  */
 package org.eel.kitchen.jsonschema.keyword;

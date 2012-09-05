@@ -41,7 +41,7 @@ import java.util.List;
  * <ul>
  *     <li>keys are path into the validated instance (as {@link JsonPointer}s),
  *     </li>
- *     <li>values are (a list of) {@link ValidationMessage}s.</li>
+ *     <li>values are (a list of) {@link Message}s.</li>
  * </ul>
  *
  * <p>You can retrieve messages either as a list of plain strings or JSON
@@ -56,7 +56,7 @@ public final class ValidationReport
      */
     private static final JsonPointer ROOT;
 
-    private static final Ordering<ValidationMessage> MESSAGE_ORDER
+    private static final Ordering<Message> MESSAGE_ORDER
         = Ordering.from(MessageComparator.instance);
 
     static {
@@ -70,7 +70,7 @@ public final class ValidationReport
     /**
      * Message list
      */
-    private final ListMultimap<JsonPointer, ValidationMessage> msgMap
+    private final ListMultimap<JsonPointer, Message> msgMap
         = ArrayListMultimap.create();
 
     /**
@@ -125,7 +125,7 @@ public final class ValidationReport
      * @return true if the added message is fatal, or if {@link #fatal} is
      * already {@code true}
      */
-    public boolean addMessage(final ValidationMessage message)
+    public boolean addMessage(final Message message)
     {
         if (fatal)
             return true;
@@ -143,9 +143,9 @@ public final class ValidationReport
      *
      * @param messages the collection of messages
      */
-    public void addMessages(final Collection<ValidationMessage> messages)
+    public void addMessages(final Collection<Message> messages)
     {
-        for (final ValidationMessage message: messages)
+        for (final Message message: messages)
             if (addMessage(message))
                 return;
     }
@@ -219,11 +219,11 @@ public final class ValidationReport
 
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
 
-        List<ValidationMessage> messages;
+        List<Message> messages;
 
         for (final JsonPointer path: paths) {
             messages = MESSAGE_ORDER.sortedCopy(msgMap.get(path));
-            for (final ValidationMessage msg : messages)
+            for (final Message msg : messages)
                 builder.add(path + ": " + msg);
         }
 
@@ -243,7 +243,7 @@ public final class ValidationReport
      *
      * <p>Note: the returned {@link JsonNode} is mutable.</p>
      *
-     * @see ValidationMessage#toJsonNode()
+     * @see Message#toJsonNode()
      *
      * @return a JSON object with all validation messages
      */
@@ -252,12 +252,12 @@ public final class ValidationReport
         final ObjectNode ret = JsonNodeFactory.instance.objectNode();
 
         ArrayNode node;
-        List<ValidationMessage> messages;
+        List<Message> messages;
 
         for (final JsonPointer ptr: msgMap.keySet()) {
             node = JsonNodeFactory.instance.arrayNode();
             messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
-            for (final ValidationMessage message: messages)
+            for (final Message message: messages)
                 node.add(message.toJsonNode());
             ret.put(ptr.toString(), node);
         }
@@ -271,11 +271,11 @@ public final class ValidationReport
      * <p>This method makes its best to order validation messages correctly.</p>
      *
      * <p>Each message in the resulting array is a JSON object, with the
-     * contents of the {@link ValidationMessage} and with an added member named
+     * contents of the {@link Message} and with an added member named
      * {@code path}, which contains the path into the instance where the error
      * has occurred (as a {@link JsonPointer}).</p>
      *
-     * @see ValidationMessage#toJsonNode()
+     * @see Message#toJsonNode()
      *
      * @return a JSON array with all validation messages
      */
@@ -287,11 +287,11 @@ public final class ValidationReport
         final Iterable<JsonPointer> paths
             = Ordering.natural().sortedCopy(msgMap.keySet());
 
-        List<ValidationMessage> messages;
+        List<Message> messages;
 
         for (final JsonPointer ptr: paths) {
             messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
-            for (final ValidationMessage msg: messages) {
+            for (final Message msg: messages) {
                 node = JsonNodeFactory.instance.objectNode()
                 .put("path", ptr.toString());
                 // I hate to do that...
@@ -310,14 +310,13 @@ public final class ValidationReport
     }
 
     private static class MessageComparator
-        implements Comparator<ValidationMessage>
+        implements Comparator<Message>
     {
-        private static final Comparator<ValidationMessage> instance
+        private static final Comparator<Message> instance
             = new MessageComparator();
 
         @Override
-        public int compare(final ValidationMessage msg1,
-            final ValidationMessage msg2)
+        public int compare(final Message msg1, final Message msg2)
         {
             int ret;
 
@@ -346,7 +345,7 @@ public final class ValidationReport
      *     JSON representation of one message.</li>
      * </ul>
      *
-     * @see ValidationMessage#toJsonNode()
+     * @see Message#toJsonNode()
      *
      * @return a JSON document with all validation messages
      *

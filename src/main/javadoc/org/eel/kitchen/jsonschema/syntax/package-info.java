@@ -44,7 +44,7 @@
  *      implements SyntaxChecker
  *  {
  *      &#64;Override
- *      public void checkSyntax(final ValidationMessage.Builder msg,
+ *      public void checkSyntax(final Message.Builder msg,
  *          final List&lt;String&gt; messages, final JsonNode schema)
  *      {
  *          final JsonNode node = schema.get(keyword);
@@ -67,6 +67,6 @@
  *
  * <p>For more information, see {@link
  * org.eel.kitchen.jsonschema.syntax.SyntaxChecker} and {@link
- * org.eel.kitchen.jsonschema.report.ValidationMessage}.</p>
+ * org.eel.kitchen.jsonschema.report.Message}.</p>
  */
 package org.eel.kitchen.jsonschema.syntax;

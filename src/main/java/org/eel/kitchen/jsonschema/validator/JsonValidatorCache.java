@@ -29,7 +29,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -130,7 +130,7 @@ public final class JsonValidatorCache
                     return new FailingValidator(e.getValidationMessage());
                 }
 
-                final List<ValidationMessage> messages = Lists.newArrayList();
+                final List<Message> messages = Lists.newArrayList();
 
                 syntaxValidator.validate(messages, realNode.getNode());
 
@@ -154,14 +154,14 @@ public final class JsonValidatorCache
     private static final class FailingValidator
         implements JsonValidator
     {
-        private final List<ValidationMessage> messages;
+        private final List<Message> messages;
 
-        private FailingValidator(final ValidationMessage message)
+        private FailingValidator(final Message message)
         {
             messages = ImmutableList.of(message);
         }
 
-        private FailingValidator(final List<ValidationMessage> messages)
+        private FailingValidator(final List<Message> messages)
         {
             this.messages = ImmutableList.copyOf(messages);
         }

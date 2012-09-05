@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -112,16 +112,16 @@ public abstract class KeywordValidator
      * Create a new validation message template
      *
      * <p>Use this class when you want to report errors. It will have filled
-     * the message with the correct domain ({@link ValidationDomain#VALIDATION})
+     * the message with the correct domain ({@link Domain#VALIDATION})
      * and keyword.</p>
      *
-     * @see ValidationMessage
+     * @see Message
      *
      * @return a message builder
      */
-    protected final ValidationMessage.Builder newMsg()
+    protected final Message.Builder newMsg()
     {
-        return ValidationDomain.VALIDATION.newMessage().setKeyword(keyword);
+        return Domain.VALIDATION.newMessage().setKeyword(keyword);
     }
 
     @Override

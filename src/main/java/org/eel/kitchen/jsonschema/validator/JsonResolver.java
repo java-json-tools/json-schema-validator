@@ -23,8 +23,8 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 
 import java.net.URI;
 import java.util.LinkedHashSet;
@@ -61,9 +61,8 @@ final class JsonResolver
         /*
          * All failures at this level are fatal
          */
-        final ValidationMessage.Builder msg
-            = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("$ref")
-            .setFatal(true);
+        final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
+            .setKeyword("$ref").setFatal(true);
         /*
          * These two elements might change during ref resolving. Set them to
          * their initial values.

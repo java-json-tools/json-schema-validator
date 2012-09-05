@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -42,9 +42,8 @@ public final class MinLengthKeywordValidator
         if (len >= intValue)
             return;
 
-        final ValidationMessage.Builder msg = newMsg()
-            .addInfo(keyword, intValue).addInfo("found", len)
-            .setMessage("string is too short");
+        final Message.Builder msg = newMsg().addInfo(keyword, intValue)
+            .addInfo("found", len).setMessage("string is too short");
         report.addMessage(msg.build());
     }
 }

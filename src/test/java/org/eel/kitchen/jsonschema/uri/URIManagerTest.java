@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -81,7 +81,7 @@ public final class URIManagerTest
             manager.getContent(uri);
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            final ValidationMessage msg = e.getValidationMessage();
+            final Message msg = e.getValidationMessage();
             checkMsg(msg, "cannot handle scheme", uri);
             assertEquals(msg.getInfo("scheme").textValue(), uri.getScheme());
         }
@@ -152,7 +152,7 @@ public final class URIManagerTest
         try {
             manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            final ValidationMessage msg = e.getValidationMessage();
+            final Message msg = e.getValidationMessage();
             checkMsg(msg, "cannot handle scheme", uri);
             assertEquals(msg.getInfo("scheme").textValue(), "bar");
         }
@@ -254,10 +254,10 @@ public final class URIManagerTest
         assertEquals(actual, expected);
     }
 
-    private static void checkMsg(final ValidationMessage msg,
+    private static void checkMsg(final Message msg,
         final String message, final URI uri)
     {
-        assertSame(msg.getDomain(), ValidationDomain.REF_RESOLVING);
+        assertSame(msg.getDomain(), Domain.REF_RESOLVING);
         assertEquals(msg.getKeyword(), "N/A"); // FIXME...
         assertEquals(msg.getMessage(), message);
         assertEquals(msg.getInfo("uri").textValue(), uri.toString());

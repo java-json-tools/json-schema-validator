@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.report.ValidationDomain;
-import org.eel.kitchen.jsonschema.report.ValidationMessage;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -113,9 +113,8 @@ public final class JsonPointerTest
 
     private static Object[] mungeArguments(final JsonNode node)
     {
-        final ValidationMessage.Builder msg
-            = ValidationDomain.REF_RESOLVING.newMessage().setKeyword("$ref")
-            .setMessage("illegal JSON Pointer");
+        final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
+            .setKeyword("$ref").setMessage("illegal JSON Pointer");
 
         final Map<String, JsonNode> map
             = JacksonUtils.nodeToMap(node.get("info"));
@@ -128,7 +127,7 @@ public final class JsonPointerTest
 
     @Test(dataProvider = "getIllegalPointerData")
     public void illegalJSONPointerMustBeDetectedAsSuch(final String input,
-        final ValidationMessage msg)
+        final Message msg)
     {
         try {
             new JsonPointer(input);

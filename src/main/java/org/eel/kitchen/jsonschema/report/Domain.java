@@ -20,9 +20,9 @@ package org.eel.kitchen.jsonschema.report;
 /**
  * Enumeration of validation domains
  *
- * @see ValidationMessage
+ * @see Message
  */
-public enum ValidationDomain
+public enum Domain
 {
     /**
      * Ref resolution
@@ -46,7 +46,7 @@ public enum ValidationDomain
      */
     private final String domain;
 
-    ValidationDomain(final String domain)
+    Domain(final String domain)
     {
         this.domain = domain;
     }
@@ -57,8 +57,8 @@ public enum ValidationDomain
         return domain;
     }
 
-    public ValidationMessage.Builder newMessage()
+    public Message.Builder newMessage()
     {
-        return new ValidationMessage.Builder(this);
+        return new Message.Builder(this);
     }
 }
