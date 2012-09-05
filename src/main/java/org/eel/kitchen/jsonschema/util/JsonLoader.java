@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.StringReader;
 import java.net.URL;
 
 /**
@@ -158,5 +159,18 @@ public final class JsonLoader
         throws IOException
     {
         return mapper.readTree(reader);
+    }
+
+    /**
+     * Read a {@link JsonNode} from a string input
+     *
+     * @param json the JSON as a string
+     * @return the document
+     * @throws IOException could not read from string
+     */
+    public static JsonNode fromString(final String json)
+        throws IOException
+    {
+        return fromReader(new StringReader(json));
     }
 }
