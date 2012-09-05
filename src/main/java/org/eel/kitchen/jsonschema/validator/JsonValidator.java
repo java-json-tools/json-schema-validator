@@ -26,15 +26,12 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 public interface JsonValidator
 {
     /**
-     * Validate the instance, and tell whether validation should continue
-     *
-     * <p>Note: the return value is currently unused.</p>
+     * Validate an instance
      *
      * @param context the validation context
      * @param report the validation report
      * @param instance the instance to validate
-     * @return true if validation should proceed
      */
-    boolean validate(ValidationContext context, ValidationReport report,
+    void validate(ValidationContext context, ValidationReport report,
         JsonNode instance);
 }

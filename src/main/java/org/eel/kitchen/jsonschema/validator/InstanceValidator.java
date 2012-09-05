@@ -62,7 +62,7 @@ final class InstanceValidator
     }
 
     @Override
-    public boolean validate(final ValidationContext context,
+    public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
         final SchemaContainer orig = context.getContainer();
@@ -71,7 +71,7 @@ final class InstanceValidator
         for (final KeywordValidator validator: validators) {
             validator.validateInstance(context, report, instance);
             if (report.hasFatalError())
-                return false;
+                return;
         }
 
         if (instance.isContainerNode()) {
@@ -82,6 +82,5 @@ final class InstanceValidator
             validator.validate(context, report, instance);
         }
         context.setContainer(orig);
-        return false;
     }
 }

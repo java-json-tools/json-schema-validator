@@ -55,10 +55,9 @@ public final class JsonValidatorCache
         = new JsonValidator()
     {
         @Override
-        public boolean validate(final ValidationContext context,
+        public void validate(final ValidationContext context,
             final ValidationReport report, final JsonNode instance)
         {
-            return false;
         }
     };
 
@@ -167,11 +166,10 @@ public final class JsonValidatorCache
         }
 
         @Override
-        public boolean validate(final ValidationContext context,
+        public void validate(final ValidationContext context,
             final ValidationReport report, final JsonNode instance)
         {
             report.addMessages(messages);
-            return false;
         }
     }
 }

@@ -73,7 +73,7 @@ final class ArrayValidator
     }
 
     @Override
-    public boolean validate(final ValidationContext context,
+    public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
         final JsonPointer pwd = report.getPath();
@@ -92,7 +92,6 @@ final class ArrayValidator
         }
 
         report.setPath(pwd);
-        return false;
     }
 
     @VisibleForTesting
