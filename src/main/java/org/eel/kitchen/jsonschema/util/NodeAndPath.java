@@ -23,14 +23,15 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 public final class NodeAndPath
 {
     private static final NodeAndPath MISSING
-        = new NodeAndPath(MissingNode.getInstance(), "N/A");
+        = new NodeAndPath(MissingNode.getInstance(), "N/A", false);
 
     private final JsonNode node;
     private final String path;
+    private final boolean computed;
 
     public static NodeAndPath forNode(final JsonNode node)
     {
-        return new NodeAndPath(node, "");
+        return new NodeAndPath(node, "", false);
     }
 
     public static NodeAndPath missing()
@@ -40,8 +41,15 @@ public final class NodeAndPath
 
     public NodeAndPath(final JsonNode node, final String path)
     {
+        this(node, path, false);
+    }
+
+    public NodeAndPath(final JsonNode node, final String path,
+        final boolean computed)
+    {
         this.node = node;
         this.path = path;
+        this.computed = computed;
     }
 
     public JsonNode getNode()
@@ -52,6 +60,11 @@ public final class NodeAndPath
     public String getPath()
     {
         return path;
+    }
+
+    public boolean isComputed()
+    {
+        return computed;
     }
 
     public boolean isMissing()
