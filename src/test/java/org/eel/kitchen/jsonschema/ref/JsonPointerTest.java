@@ -26,10 +26,10 @@ import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -55,7 +55,7 @@ public final class JsonPointerTest
     {
         final Map<String, JsonNode> map = JacksonUtils.nodeToMap(node);
 
-        final Set<Object[]> set = new HashSet<Object[]>();
+        final Set<Object[]> set = Sets.newHashSet();
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
             set.add(new Object[] { entry.getKey(), entry.getValue() });
@@ -103,7 +103,7 @@ public final class JsonPointerTest
     @DataProvider
     public Iterator<Object[]> getIllegalPointerData()
     {
-        final Set<Object[]> set = new HashSet<Object[]>(illegal.size());
+        final Set<Object[]> set = Sets.newHashSet();
 
         for (final JsonNode node: illegal)
             set.add(mungeArguments(node));

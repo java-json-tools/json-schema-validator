@@ -18,11 +18,11 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -55,7 +55,7 @@ public class TypeKeywordSyntaxChecker
             return;
         }
 
-        final Set<JsonNode> set = new HashSet<JsonNode>();
+        final Set<JsonNode> set = Sets.newHashSet();
 
         int index = 0;
         for (final JsonNode value: node) {

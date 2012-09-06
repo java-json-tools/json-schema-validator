@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -29,7 +30,6 @@ import org.eel.kitchen.jsonschema.util.RhinoHelper;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -93,7 +93,7 @@ public final class AdditionalPropertiesKeywordValidator
 
         fields.removeAll(properties);
 
-        final Set<String> tmp = new HashSet<String>();
+        final Set<String> tmp = Sets.newHashSet();
 
         for (final String field: fields)
             for (final String regex: patternProperties)

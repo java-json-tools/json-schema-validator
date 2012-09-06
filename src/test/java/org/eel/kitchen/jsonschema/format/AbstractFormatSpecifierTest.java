@@ -23,9 +23,9 @@ import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -51,7 +51,7 @@ public abstract class AbstractFormatSpecifierTest
     @DataProvider
     protected Iterator<Object[]> getData()
     {
-        final Set<Object[]> set = new HashSet<Object[]>();
+        final Set<Object[]> set = Sets.newHashSet();
 
         for (final JsonNode node: testData)
             set.add(new Object[] {

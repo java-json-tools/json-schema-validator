@@ -18,12 +18,12 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -47,7 +47,7 @@ public final class UniqueItemsKeywordValidator
         if (!uniqueItems)
             return;
 
-        final Set<JsonNode> set = new HashSet<JsonNode>();
+        final Set<JsonNode> set = Sets.newHashSet();
 
         for (final JsonNode element: instance)
             if (!set.add(element)) {

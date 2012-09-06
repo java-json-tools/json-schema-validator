@@ -26,10 +26,10 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -54,7 +54,7 @@ public abstract class AbstractKeywordValidatorTest
     @DataProvider
     protected Iterator<Object[]> getData()
     {
-        final Set<Object[]> set = new HashSet<Object[]>(testData.size());
+        final Set<Object[]> set = Sets.newHashSet();
 
         for (final JsonNode node: testData)
             set.add(mungeArguments(node));

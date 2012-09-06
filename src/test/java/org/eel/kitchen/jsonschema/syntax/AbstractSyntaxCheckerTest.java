@@ -24,9 +24,9 @@ import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -59,7 +59,7 @@ public abstract class AbstractSyntaxCheckerTest
     @DataProvider
     public Iterator<Object[]> getData()
     {
-        final Set<Object[]> set = new HashSet<Object[]>(testData.size());
+        final Set<Object[]> set = Sets.newHashSet();
 
         for (final JsonNode node: testData)
             set.add(mungeArguments(node));

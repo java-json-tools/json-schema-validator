@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
@@ -31,7 +32,6 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -73,7 +73,7 @@ public final class KeywordFactory
      */
     public Set<KeywordValidator> getValidators(final JsonNode schema)
     {
-        final Set<KeywordValidator> ret = new HashSet<KeywordValidator>();
+        final Set<KeywordValidator> ret = Sets.newHashSet();
 
         final Set<String> set = JacksonUtils.fieldNames(schema);
 

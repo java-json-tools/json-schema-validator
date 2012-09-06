@@ -18,10 +18,10 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -63,7 +63,7 @@ public final class EnumSyntaxChecker
          * TODO: we may do with displaying the index in the array, that's better
          * than nothing...
          */
-        final Set<JsonNode> values = new HashSet<JsonNode>();
+        final Set<JsonNode> values = Sets.newHashSet();
 
         for (final JsonNode value: enumNode) {
             if (values.add(value))

@@ -19,13 +19,13 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -109,7 +109,7 @@ final class ObjectValidator
 
     private Set<JsonNode> getSchemas(final String key)
     {
-        final Set<JsonNode> ret = new HashSet<JsonNode>();
+        final Set<JsonNode> ret = Sets.newHashSet();
 
         if (properties.containsKey(key))
             ret.add(properties.get(key));

@@ -27,9 +27,9 @@ import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -69,7 +69,7 @@ public final class SelfValidationTest
         final Map<String, JsonNode> schemas
             = JacksonUtils.nodeToMap(googleAPI.get("schemas"));
 
-        final Set<Object[]> set = new HashSet<Object[]>();
+        final Set<Object[]> set = Sets.newHashSet();
 
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet())
             set.add(new Object[] { entry.getKey(), entry.getValue() });
