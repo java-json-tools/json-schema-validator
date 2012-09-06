@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 /**
@@ -39,13 +40,27 @@ public final class SchemaNode
 {
     private final SchemaContainer container;
     private final JsonNode node;
+    private final String path;
     private final int hashCode;
 
     public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
+        this(container, "", node);
+    }
+
+    public SchemaNode(final SchemaContainer container, final String path,
+        final JsonNode node)
+    {
         this.container = container;
+        this.path = path;
         this.node = node;
         hashCode = 31 * container.hashCode() + node.hashCode();
+    }
+
+    public SchemaNode(final SchemaContainer container,
+        final NodeAndPath nodeAndPath)
+    {
+        this(container, nodeAndPath.getPath(), nodeAndPath.getNode());
     }
 
     public SchemaContainer getContainer()
@@ -58,10 +73,20 @@ public final class SchemaNode
         return node;
     }
 
+    public String getPath()
+    {
+        return path;
+    }
+
+    public NodeAndPath getNodeAndPath()
+    {
+        return new NodeAndPath(node, path);
+    }
+
     @Override
     public String toString()
     {
-        return "locator: " + container.getLocator() + "; schema: " + node;
+        return "locator: " + container.getLocator() + "; path: " + path;
     }
 
     @Override

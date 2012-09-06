@@ -17,9 +17,9 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 
 /**
  * Abstract class for fragment resolution
@@ -41,9 +41,9 @@ public abstract class JsonFragment
     private static final JsonFragment EMPTY = new JsonFragment("")
     {
         @Override
-        public JsonNode resolve(final JsonNode node)
+        public NodeAndPath resolve(final NodeAndPath nodeAndPath)
         {
-            return node;
+            return nodeAndPath;
         }
     };
 
@@ -87,11 +87,11 @@ public abstract class JsonFragment
     /**
      * Resolve this fragment against a given node
      *
-     * @param node the node
+     * @param nodeAndPath the node and path
      * @return the result node ({@link MissingNode} if the fragment is not
      * found)
      */
-    public abstract JsonNode resolve(final JsonNode node);
+    public abstract NodeAndPath resolve(final NodeAndPath nodeAndPath);
 
     /**
      * Tell whether this fragment is empty

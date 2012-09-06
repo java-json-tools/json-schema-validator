@@ -18,7 +18,11 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
+
+import java.util.Map;
 
 /**
  * {@code id} fragment resolution class
@@ -43,13 +47,14 @@ final class IdFragment
     }
 
     @Override
-    public JsonNode resolve(final JsonNode node)
+    public NodeAndPath resolve(final NodeAndPath nodeAndPath)
     {
+        JsonNode node = nodeAndPath.getNode();
         /*
          * Non object instances are not worth being considered
          */
         if (!node.isObject())
-            return MissingNode.getInstance();
+            return NodeAndPath.missing();
 
         /*
          * If an id node exists and is a text node, see if that node's value
@@ -60,7 +65,7 @@ final class IdFragment
         if (idNode.isTextual()) {
             final String s = idNode.textValue().replaceFirst("^#", "");
             if (asString.equals(s))
-                return node;
+                return nodeAndPath;
         }
 
         /*
@@ -68,13 +73,26 @@ final class IdFragment
          * JsonNode will cycle through the values, which is what we want.
          */
 
-        JsonNode ret;
-        for (final JsonNode subNode: node) {
-            ret = resolve(subNode);
-            if (!ret.isMissingNode())
+        NodeAndPath tmp, ret;
+        JsonPointer ptr;
+        String path;
+
+        try {
+            ptr = new JsonPointer(nodeAndPath.getPath());
+        } catch (JsonSchemaException e) {
+            throw new RuntimeException("WTF??", e);
+        }
+
+        final Map<String, JsonNode> map = JacksonUtils.nodeToMap(node);
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            path = ptr.append(entry.getKey()).toString();
+            tmp = new NodeAndPath(entry.getValue(), path);
+            ret = resolve(tmp);
+            if (!ret.isMissing())
                 return ret;
         }
 
-        return MissingNode.getInstance();
+        return NodeAndPath.missing();
     }
 }

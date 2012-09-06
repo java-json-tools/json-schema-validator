@@ -32,6 +32,7 @@ import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 import java.net.URI;
@@ -122,9 +123,9 @@ public final class JsonSchemaFactory
     public JsonSchema fromSchema(final JsonNode schema, final String path)
     {
         final SchemaContainer container = registry.register(schema);
-        final JsonNode subSchema = JsonFragment.fromFragment(path)
-            .resolve(container.getSchema());
-        return createSchema(container, subSchema);
+        final NodeAndPath nodeAndPath = JsonFragment.fromFragment(path)
+            .resolve(NodeAndPath.forNode(container.getSchema()));
+        return createSchema(container, nodeAndPath);
     }
 
     /**
@@ -160,9 +161,9 @@ public final class JsonSchemaFactory
         throws JsonSchemaException
     {
         final SchemaContainer container = registry.get(uri);
-        final JsonNode subSchema = JsonFragment.fromFragment(path)
-            .resolve(container.getSchema());
-        return createSchema(container, subSchema);
+        final NodeAndPath nodeAndPath = JsonFragment.fromFragment(path)
+            .resolve(NodeAndPath.forNode(container.getSchema()));
+        return createSchema(container, nodeAndPath);
     }
 
     /**
@@ -220,13 +221,13 @@ public final class JsonSchemaFactory
      * Create a {@link JsonSchema} instance
      *
      * @param container the schema container
-     * @param schema the subschema
+     * @param nodeAndPath the node and path
      * @return a {@link JsonSchema} instance
      */
     private JsonSchema createSchema(final SchemaContainer container,
-        final JsonNode schema)
+        final NodeAndPath nodeAndPath)
     {
-        final SchemaNode schemaNode = new SchemaNode(container, schema);
+        final SchemaNode schemaNode = new SchemaNode(container, nodeAndPath);
         return new JsonSchema(cache, features, schemaNode);
     }
 
@@ -542,7 +543,8 @@ public final class JsonSchemaFactory
     @Deprecated
     public JsonSchema createSchema(final SchemaContainer container)
     {
-        return createSchema(container, container.getSchema());
+        return createSchema(container,
+            new NodeAndPath(container.getSchema(), ""));
     }
 
     /**
@@ -579,6 +581,6 @@ public final class JsonSchemaFactory
         final JsonNode node = JsonNodeFactory.instance.objectNode()
             .put("$ref", path);
 
-        return createSchema(container, node);
+        return createSchema(container, new NodeAndPath(node, "_in"));
     }
 }

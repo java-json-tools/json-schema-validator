@@ -25,6 +25,7 @@ import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 
 import java.net.URI;
 import java.util.LinkedHashSet;
@@ -68,7 +69,7 @@ final class JsonResolver
          * their initial values.
          */
         SchemaContainer container = schemaNode.getContainer();
-        JsonNode node = schemaNode.getNode();
+        NodeAndPath nodeAndPath = schemaNode.getNodeAndPath();
 
         /*
          * This set will store all ABSOLUTE JSON references we encounter
@@ -92,7 +93,7 @@ final class JsonResolver
              * or there exists one but it is not a text node (syntax validation
              * will catch that).
              */
-            refNode = node.path("$ref");
+            refNode = nodeAndPath.getNode().path("$ref");
             if (!refNode.isTextual())
                 break;
             /*
@@ -127,14 +128,15 @@ final class JsonResolver
              * Finally, compute the next node in the process. If it is missing,
              * we have a dangling JSON Pointer: this is an error condition.
              */
-            node = target.getFragment().resolve(container.getSchema());
-            if (node.isMissingNode()) {
+            nodeAndPath = target.getFragment()
+                .resolve(NodeAndPath.forNode(container.getSchema()));
+            if (nodeAndPath.isMissing()) {
                 msg.setMessage("dangling JSON Reference")
                     .addInfo("ref", target);
                 throw new JsonSchemaException(msg.build());
             }
         }
 
-        return new SchemaNode(container, node);
+        return new SchemaNode(container, nodeAndPath);
     }
 }

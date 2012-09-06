@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -107,8 +108,9 @@ public final class JsonFragmentTest
     {
         final JsonFragment fragment = JsonFragment.fromFragment(input);
 
-        final JsonNode result = fragment.resolve(schema);
+        final NodeAndPath result
+            = fragment.resolve(NodeAndPath.forNode(schema));
 
-        assertEquals(result, expected, errmsg);
+        assertEquals(result.getNode(), expected, errmsg);
     }
 }

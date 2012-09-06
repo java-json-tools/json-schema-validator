@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -75,10 +76,10 @@ public final class JsonPointerTest
         throws JsonSchemaException
     {
         final JsonPointer ptr = new JsonPointer(input);
-        final JsonNode actual = ptr.resolve(document);
+        final NodeAndPath actual = ptr.resolve(NodeAndPath.forNode(document));
 
-        assertEquals(actual, expected, "failed to resolve JSON Pointer "
-            + input);
+        assertEquals(actual.getNode(), expected, "failed to resolve JSON" +
+            " Pointer " + input);
     }
 
     @DataProvider
@@ -94,10 +95,10 @@ public final class JsonPointerTest
     {
         final JsonPointer ptr
             = new JsonPointer(URI.create(input).getFragment());
-        final JsonNode actual = ptr.resolve(document);
+        final NodeAndPath actual = ptr.resolve(NodeAndPath.forNode(document));
 
-        assertEquals(actual, expected, "failed to resolve URI encoded JSON "
-            + "Pointer " + input);
+        assertEquals(actual.getNode(), expected, "failed to resolve URI " +
+            "encoded JSON Pointer " + input);
     }
 
     @DataProvider

@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -26,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 
 import java.util.List;
 
@@ -131,26 +131,26 @@ public final class JsonPointer
     }
 
     @Override
-    public JsonNode resolve(final JsonNode node)
+    public NodeAndPath resolve(final NodeAndPath nodeAndPath)
     {
-        JsonNode ret = node;
+        JsonNode ret = nodeAndPath.getNode();
 
         for (final String pathElement : elements) {
             if (!ret.isContainerNode())
-                return MissingNode.getInstance();
+                return NodeAndPath.missing();
             if (ret.isObject())
                 ret = ret.path(pathElement);
             else
                 try {
                     ret = ret.path(Integer.parseInt(pathElement));
                 } catch (NumberFormatException ignored) {
-                    return MissingNode.getInstance();
+                    return NodeAndPath.missing();
                 }
             if (ret.isMissingNode())
                 break;
         }
 
-        return ret;
+        return new NodeAndPath(ret, toString());
     }
 
     /**
