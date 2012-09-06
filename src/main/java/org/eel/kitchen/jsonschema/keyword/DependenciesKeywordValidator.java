@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
+import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
@@ -30,11 +31,9 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 /**
  * Validator for the {@code dependencies} keyword
@@ -112,7 +111,7 @@ public final class DependenciesKeywordValidator
          * instance. If yes, check that the needed properties are present.
          */
 
-        final SortedSet<String> fieldDeps = new TreeSet<String>(fields);
+        final SortedSet<String> fieldDeps = Sets.newTreeSet(fields);
         fieldDeps.retainAll(simple.keySet());
 
         for (final String field: fieldDeps)
@@ -124,8 +123,7 @@ public final class DependenciesKeywordValidator
          *
          * If no schema dependencies, just return.
          */
-        final Map<String, JsonNode> schemaDeps
-            = new HashMap<String, JsonNode>(schemas);
+        final Map<String, JsonNode> schemaDeps = Maps.newHashMap(schemas);
 
         schemaDeps.keySet().retainAll(fields);
 

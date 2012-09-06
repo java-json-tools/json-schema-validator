@@ -34,7 +34,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -67,8 +66,7 @@ public class URIManager
      * Map of downloaders (schemes as keys, {@link URIDownloader} instances
      * as values)
      */
-    private final Map<String, URIDownloader> downloaders
-        = new HashMap<String, URIDownloader>();
+    private final Map<String, URIDownloader> downloaders = Maps.newHashMap();
 
     /**
      * Map for URI redirections
