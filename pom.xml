@@ -143,9 +143,9 @@
         </license>
     </licenses>
     <scm>
-        <url>git@github.com:json-schema/json-schema-validator</url>
-        <connection>scm:git:git@github.com:json-schema/json-schema-validator</connection>
-        <developerConnection>scm:git:git@github.com:json-schema/json-schema-validator</developerConnection>
+        <url>git@github.com:fge/json-schema-validator</url>
+        <connection>scm:git:git@github.com:fge/json-schema-validator</connection>
+        <developerConnection>scm:git:git@github.com:fge/json-schema-validator</developerConnection>
     </scm>
     <developers>
         <developer>
