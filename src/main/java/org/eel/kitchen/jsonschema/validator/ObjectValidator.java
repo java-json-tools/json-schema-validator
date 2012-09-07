@@ -22,7 +22,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
-import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeAndPath;
@@ -53,18 +52,13 @@ import java.util.Set;
 final class ObjectValidator
     implements JsonValidator
 {
-    private final SchemaNode schemaNode;
     private final Map<String, JsonNode> properties;
     private final Map<String, JsonNode> patternProperties;
     private final JsonNode additionalProperties;
     private final boolean computedAdditional;
 
-    ObjectValidator(final SchemaNode schemaNode)
+    ObjectValidator(final JsonNode schema)
     {
-        this.schemaNode = schemaNode;
-
-        final JsonNode schema = schemaNode.getNode();
-
         JsonNode node;
 
         node = schema.path("additionalProperties");
