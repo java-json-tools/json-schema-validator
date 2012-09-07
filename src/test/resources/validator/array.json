@@ -1,10 +1,75 @@
 [
     {
+        "schema": {},
+        "index": 3,
+        "expected": {},
+        "computed": true
+    },
+    {
         "schema": {
             "additionalItems": { "type": "string" }
         },
         "index": 0,
         "expected": {},
         "computed": true
+    },
+    {
+        "schema": {
+            "items": { "type": "string" }
+        },
+        "index": 4,
+        "expected": { "type": "string" },
+        "computed": false
+    },
+    {
+        "schema": {
+            "items": [ { "type": "boolean" }, { "$ref": "#foo" } ]
+        },
+        "index": 0,
+        "expected": { "type": "boolean" },
+        "computed": false
+    },
+    {
+        "schema": {
+            "items": [ { "type": "boolean" }, { "$ref": "#foo" } ]
+        },
+        "index": 1,
+        "expected": { "$ref": "#foo" },
+        "computed": false
+    },
+    {
+        "schema": {
+            "items": [ { "type": "boolean" }, { "$ref": "#foo" } ]
+        },
+        "index": 2,
+        "expected": {},
+        "computed": true
+    },
+    {
+        "schema": {
+            "items": [ { "type": "boolean" }, { "$ref": "#foo" } ],
+            "additionalItems": { "format": "uri" }
+        },
+        "index": 0,
+        "expected": { "type": "boolean" },
+        "computed": false
+    },
+    {
+        "schema": {
+            "items": [ { "type": "boolean" }, { "$ref": "#foo" } ],
+            "additionalItems": { "format": "uri" }
+        },
+        "index": 1,
+        "expected": { "$ref": "#foo" },
+        "computed": false
+    },
+    {
+        "schema": {
+            "items": [ { "type": "boolean" }, { "$ref": "#foo" } ],
+            "additionalItems": { "format": "uri" }
+        },
+        "index": 2,
+        "expected": { "format": "uri" },
+        "computed": false
     }
 ]

@@ -78,8 +78,8 @@ final class ArrayValidator
 
         node = schema.path("additionalItems");
 
-        computedAdditional = node.isObject();
-        itemsSchema = computedAdditional ? node : JacksonUtils.emptySchema();
+        computedAdditional = !node.isObject();
+        itemsSchema = computedAdditional ? JacksonUtils.emptySchema() : node;
     }
 
     @Override
@@ -110,7 +110,7 @@ final class ArrayValidator
         if (!tupleValidation)
             return new NodeAndPath(itemsSchema, "/items", computedItems);
 
-        return index <= tuples.size()
+        return index < tuples.size()
             ? new NodeAndPath(tuples.get(index), "/items/" + index)
             : new NodeAndPath(itemsSchema, "/additionalItems",
                 computedAdditional);
