@@ -1,0 +1,12 @@
+[
+    {
+        "schema": {},
+        "member": "k",
+        "expected": [
+            {
+                "schema": {},
+                "computed": true
+            }
+        ]
+    }
+]

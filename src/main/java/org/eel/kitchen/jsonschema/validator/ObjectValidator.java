@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
@@ -110,7 +111,8 @@ final class ObjectValidator
         return true;
     }
 
-    private Set<NodeAndPath> getSchemas(final String key)
+    @VisibleForTesting
+    Set<NodeAndPath> getSchemas(final String key)
     {
         final Set<NodeAndPath> ret = Sets.newHashSet();
 
