@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
+import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeAndPath;
@@ -48,16 +49,19 @@ import java.util.List;
 final class ArrayValidator
     implements JsonValidator
 {
+    private final SchemaNode schemaNode;
     private final JsonNode itemsSchema;
-
     private final List<JsonNode> tuples;
-
     private final boolean tupleValidation;
     private final boolean computedItems;
     private final boolean computedAdditional;
 
-    ArrayValidator(final JsonNode schema)
+    ArrayValidator(final SchemaNode schemaNode)
     {
+        this.schemaNode = schemaNode;
+
+        final JsonNode schema = schemaNode.getNode();
+
         JsonNode node;
 
         node = schema.path("items");
