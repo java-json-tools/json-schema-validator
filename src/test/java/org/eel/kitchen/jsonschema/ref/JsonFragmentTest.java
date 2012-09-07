@@ -84,11 +84,6 @@ public final class JsonFragmentTest
          * IDs -- existing and non existing
          */
 
-        input = "properties";
-        expected = schema.get("properties").get("properties");
-        errmsg = "id lookup failed (# prefixed)";
-        builder.add(new Object[] { input, expected, errmsg });
-
         input = "foobar";
         expected = schema.get("properties").get("patternProperties");
         errmsg = "id lookup failed (non # prefixed)";

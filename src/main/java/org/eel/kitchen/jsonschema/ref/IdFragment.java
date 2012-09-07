@@ -63,7 +63,7 @@ final class IdFragment
         final JsonNode idNode = node.path("id");
 
         if (idNode.isTextual()) {
-            final String s = idNode.textValue().replaceFirst("^#", "");
+            final String s = idNode.textValue();
             if (asString.equals(s))
                 return nodeAndPath;
         }

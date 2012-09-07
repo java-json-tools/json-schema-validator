@@ -14,7 +14,6 @@
 		},
 
 		"properties" : {
-            "id": "#properties",
 			"type" : "object",
 			"additionalProperties" : {"$ref" : "#"},
 			"default" : {}
