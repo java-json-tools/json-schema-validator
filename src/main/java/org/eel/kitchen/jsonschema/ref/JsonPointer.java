@@ -130,6 +130,14 @@ public final class JsonPointer
         return append(Integer.toString(index));
     }
 
+    public JsonPointer append(final JsonPointer other)
+    {
+        final List<String> newElements = new ImmutableList.Builder<String>()
+            .addAll(elements).addAll(other.elements).build();
+
+        return new JsonPointer(asString + other.asString, newElements);
+    }
+
     @Override
     public NodeAndPath resolve(final NodeAndPath nodeAndPath)
     {

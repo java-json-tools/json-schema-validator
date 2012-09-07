@@ -137,4 +137,19 @@ public final class JsonPointerTest
             assertEquals(e.getValidationMessage(), msg);
         }
     }
+
+    @Test
+    public void appendingJsonPointersWork()
+        throws JsonSchemaException
+    {
+        final String s1 = "/a/~0/..";
+        final String s2 = "/x";
+        final String s = s1 + s2;
+
+        final JsonPointer ptr1 = new JsonPointer(s1);
+        final JsonPointer ptr2 = new JsonPointer(s2);
+        final JsonPointer ptr = new JsonPointer(s);
+
+        assertEquals(ptr1.append(ptr2), ptr);
+    }
 }
