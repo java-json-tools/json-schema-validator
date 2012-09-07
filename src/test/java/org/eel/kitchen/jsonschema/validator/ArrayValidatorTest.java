@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -58,7 +59,8 @@ public final class ArrayValidatorTest
             set.add(new Object[] {
                 node.get("schema"),
                 node.get("index").intValue(),
-                node.get("expected")
+                node.get("expected"),
+                node.get("computed").booleanValue()
             });
 
         return set.iterator();
@@ -66,9 +68,10 @@ public final class ArrayValidatorTest
 
     @Test(dataProvider = "getData")
     public void arrayElementSchemasAreCorrectlyComputed(final JsonNode schema,
-        final int index, final JsonNode expected)
+        final int index, final JsonNode expected, final boolean  computed)
     {
         final ArrayValidator validator = new ArrayValidator(schema);
+        final NodeAndPath nodeAndPath = validator.getSchema(index);
 
         // This is ugly, I know... But ObjectNode's .equals() basically forbids
         // inheritance, so I have to resort to that, since JacksonUtils'
@@ -76,8 +79,9 @@ public final class ArrayValidatorTest
         final Map<String, JsonNode> expectedMap
             = JacksonUtils.nodeToMap(expected);
         final Map<String, JsonNode> actualMap
-            = JacksonUtils.nodeToMap(validator.getSchema(index));
+            = JacksonUtils.nodeToMap(nodeAndPath.getNode());
 
         assertEquals(expectedMap, actualMap);
+        assertEquals(computed, nodeAndPath.isComputed());
     }
 }

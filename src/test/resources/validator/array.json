@@ -4,6 +4,7 @@
             "additionalItems": { "type": "string" }
         },
         "index": 0,
-        "expected": {}
+        "expected": {},
+        "computed": true
     }
 ]
