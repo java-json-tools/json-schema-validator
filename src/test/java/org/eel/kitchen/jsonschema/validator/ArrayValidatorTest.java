@@ -18,8 +18,6 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
-import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeAndPath;
@@ -33,7 +31,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 /*
  * TODO:
@@ -72,9 +70,7 @@ public final class ArrayValidatorTest
     public void arrayElementSchemasAreCorrectlyComputed(final JsonNode schema,
         final int index, final JsonNode expected, final boolean  computed)
     {
-        final SchemaContainer container = new SchemaContainer(schema);
-        final SchemaNode schemaNode = new SchemaNode(container, schema);
-        final ArrayValidator validator = new ArrayValidator(schemaNode);
+        final ArrayValidator validator = new ArrayValidator(schema);
         final NodeAndPath nodeAndPath = validator.getSchema(index);
 
         // This is ugly, I know... But ObjectNode's .equals() basically forbids
