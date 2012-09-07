@@ -5,6 +5,7 @@
         "expected": [
             {
                 "schema": {},
+                "path": "/additionalProperties",
                 "computed": true
             }
         ]
@@ -17,6 +18,7 @@
         "expected": [
             {
                 "schema": { "format": "uri" },
+                "path": "/additionalProperties",
                 "computed": false
             }
         ]
@@ -31,6 +33,7 @@
         "expected": [
             {
                 "schema": { "type": "boolean" },
+                "path": "/properties/p",
                 "computed": false
             }
         ]
@@ -45,6 +48,7 @@
         "expected": [
             {
                 "schema": {},
+                "path": "/additionalProperties",
                 "computed": true
             }
         ]
@@ -60,6 +64,7 @@
         "expected": [
             {
                 "schema": {},
+                "path": "/additionalProperties",
                 "computed": true
             }
         ]
@@ -75,6 +80,7 @@
         "expected": [
             {
                 "schema": { "format": "ipv6" },
+                "path": "/additionalProperties",
                 "computed": false
             }
         ]
@@ -92,10 +98,12 @@
         "expected": [
             {
                 "schema": { "format": "uri" },
+                "path": "/patternProperties/\\d",
                 "computed": false
             },
             {
                 "schema": { "minLength": 3 },
+                "path": "/properties/p1",
                 "computed": false
             }
         ]
@@ -113,6 +121,7 @@
         "expected": [
             {
                 "schema": { "format": "uri" },
+                "path": "/patternProperties/\\d",
                 "computed": false
             }
         ]
@@ -130,6 +139,7 @@
         "expected": [
             {
                 "schema": {},
+                "path": "/additionalProperties",
                 "computed": true
             }
         ]
@@ -148,6 +158,7 @@
         "expected": [
             {
                 "schema": { "pattern": "." },
+                "path": "/additionalProperties",
                 "computed": false
             }
         ]

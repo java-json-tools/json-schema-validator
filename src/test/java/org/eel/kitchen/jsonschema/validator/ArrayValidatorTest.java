@@ -60,6 +60,7 @@ public final class ArrayValidatorTest
                 node.get("schema"),
                 node.get("index").intValue(),
                 node.get("expected"),
+                node.get("path").textValue(),
                 node.get("computed").booleanValue()
             });
 
@@ -68,7 +69,8 @@ public final class ArrayValidatorTest
 
     @Test(dataProvider = "getData")
     public void arrayElementSchemasAreCorrectlyComputed(final JsonNode schema,
-        final int index, final JsonNode expected, final boolean  computed)
+        final int index, final JsonNode expected, final String path,
+        final boolean  computed)
     {
         final ArrayValidator validator = new ArrayValidator(schema);
         final NodeAndPath nodeAndPath = validator.getSchema(index);
@@ -83,5 +85,6 @@ public final class ArrayValidatorTest
 
         assertEquals(expectedMap, actualMap);
         assertEquals(computed, nodeAndPath.isComputed());
+        assertEquals(nodeAndPath.getPath().toString(), path);
     }
 }

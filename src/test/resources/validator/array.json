@@ -3,6 +3,7 @@
         "schema": {},
         "index": 3,
         "expected": {},
+        "path": "/items",
         "computed": true
     },
     {
@@ -11,6 +12,7 @@
         },
         "index": 0,
         "expected": {},
+        "path": "/items",
         "computed": true
     },
     {
@@ -19,6 +21,7 @@
         },
         "index": 4,
         "expected": { "type": "string" },
+        "path": "/items",
         "computed": false
     },
     {
@@ -27,6 +30,7 @@
         },
         "index": 0,
         "expected": { "type": "boolean" },
+        "path": "/items/0",
         "computed": false
     },
     {
@@ -35,6 +39,7 @@
         },
         "index": 1,
         "expected": { "$ref": "#foo" },
+        "path": "/items/1",
         "computed": false
     },
     {
@@ -43,6 +48,7 @@
         },
         "index": 2,
         "expected": {},
+        "path": "/additionalItems",
         "computed": true
     },
     {
@@ -52,6 +58,7 @@
         },
         "index": 0,
         "expected": { "type": "boolean" },
+        "path": "/items/0",
         "computed": false
     },
     {
@@ -61,6 +68,7 @@
         },
         "index": 1,
         "expected": { "$ref": "#foo" },
+        "path": "/items/1",
         "computed": false
     },
     {
@@ -70,6 +78,7 @@
         },
         "index": 2,
         "expected": { "format": "uri" },
+        "path": "/additionalItems",
         "computed": false
     }
 ]

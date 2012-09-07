@@ -102,6 +102,7 @@ public final class ObjectValidatorTest
         schema.putAll(map);
         ret.put("schema", schema);
         ret.put("computed", nodeAndPath.isComputed());
+        ret.put("path", nodeAndPath.getPath().toString());
         return ret;
     }
 }
