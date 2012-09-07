@@ -27,6 +27,7 @@ import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeAndPath;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -62,6 +63,9 @@ import java.util.List;
 public final class JsonPointer
     extends JsonFragment
 {
+    private static final JsonPointer EMPTY
+        = new JsonPointer("", Collections.<String>emptyList());
+
     private static final CharMatcher SLASH = CharMatcher.is('/');
     private static final CharMatcher ESCAPE_CHAR = CharMatcher.is('~');
 
@@ -93,6 +97,11 @@ public final class JsonPointer
         decode(input, builder);
 
         elements = builder.build();
+    }
+
+    public static JsonPointer empty()
+    {
+        return EMPTY;
     }
 
     private JsonPointer(final String fullPointer, final List<String> elements)
