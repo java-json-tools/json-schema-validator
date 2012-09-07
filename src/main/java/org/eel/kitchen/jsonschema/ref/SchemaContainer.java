@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 
 import java.net.URI;
+import java.util.UUID;
 
 /**
  * A JSON Schema container
@@ -36,6 +37,7 @@ public final class SchemaContainer
 {
     private final JsonNode schema;
     private final JsonRef locator;
+    private final String uuid;
 
     /**
      * Return a new container based on a schema
@@ -49,6 +51,7 @@ public final class SchemaContainer
     public SchemaContainer(final JsonNode schema)
     {
         JsonRef ref;
+        uuid = UUID.randomUUID().toString();
 
         try {
             ref = JsonRef.fromNode(schema.path("id"));
@@ -76,6 +79,7 @@ public final class SchemaContainer
      */
     SchemaContainer(final URI uri, final JsonNode node)
     {
+        uuid = UUID.randomUUID().toString();
         locator = JsonRef.fromURI(uri);
         schema = cleanup(node);
     }
@@ -103,9 +107,7 @@ public final class SchemaContainer
     @Override
     public int hashCode()
     {
-        // Yes, this works: right now there is a 1-1 relationship between URIs
-        // and JsonNodes.
-        return locator.hashCode();
+        return uuid.hashCode();
     }
 
     @Override
@@ -121,9 +123,7 @@ public final class SchemaContainer
 
         final SchemaContainer other = (SchemaContainer) obj;
 
-        // Yes, this works: right now there is a 1-1 relationship between URIs
-        // and JsonNodes.
-        return locator.equals(other.locator);
+        return uuid.equals(other.uuid);
     }
 
     @Override
