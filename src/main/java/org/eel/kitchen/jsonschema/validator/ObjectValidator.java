@@ -78,8 +78,10 @@ final class ObjectValidator
         final JsonPointer pwd = report.getPath();
         final Map<String, JsonNode> map = JacksonUtils.nodeToMap(instance);
 
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet())
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            report.setPath(pwd.append(entry.getKey()));
             validateOne(context, report, entry);
+        }
 
         report.setPath(pwd);
         return false;
@@ -90,12 +92,9 @@ final class ObjectValidator
     {
         final String key = entry.getKey();
         final JsonNode value = entry.getValue();
-        final JsonPointer ptr = report.getPath().append(key);
         final Set<JsonNode> subSchemas = getSchemas(key);
 
         JsonValidator validator;
-
-        report.setPath(ptr);
 
         for (final JsonNode subSchema: subSchemas) {
             validator = context.newValidator(subSchema);
