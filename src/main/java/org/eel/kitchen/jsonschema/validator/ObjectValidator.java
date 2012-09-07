@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.Collections;
@@ -50,17 +51,19 @@ import java.util.Set;
 final class ObjectValidator
     implements JsonValidator
 {
-    private final JsonNode additionalProperties;
     private final Map<String, JsonNode> properties;
     private final Map<String, JsonNode> patternProperties;
+    private final JsonNode additionalProperties;
+    private final boolean computedAdditional;
 
     ObjectValidator(final JsonNode schema)
     {
         JsonNode node;
 
         node = schema.path("additionalProperties");
-        additionalProperties = node.isObject() ? node
-            : JacksonUtils.emptySchema();
+        computedAdditional = !node.isObject();
+        additionalProperties = computedAdditional ? JacksonUtils.emptySchema()
+            : node;
 
         node = schema.path("properties");
         properties = node.isObject() ? JacksonUtils.nodeToMap(node)
@@ -91,14 +94,14 @@ final class ObjectValidator
         final String key = entry.getKey();
         final JsonNode value = entry.getValue();
         final JsonPointer ptr = report.getPath().append(key);
-        final Set<JsonNode> subSchemas = getSchemas(key);
+        final Set<NodeAndPath> subSchemas = getSchemas(key);
 
         JsonValidator validator;
 
         report.setPath(ptr);
 
-        for (final JsonNode subSchema: subSchemas) {
-            validator = context.newValidator(subSchema);
+        for (final NodeAndPath subSchema: subSchemas) {
+            validator = context.newValidator(subSchema.getNode());
             validator.validate(context, report, value);
             if (report.hasFatalError())
                 return false;
@@ -107,20 +110,34 @@ final class ObjectValidator
         return true;
     }
 
-    private Set<JsonNode> getSchemas(final String key)
+    private Set<NodeAndPath> getSchemas(final String key)
     {
-        final Set<JsonNode> ret = Sets.newHashSet();
+        final Set<NodeAndPath> ret = Sets.newHashSet();
 
-        if (properties.containsKey(key))
-            ret.add(properties.get(key));
+        NodeAndPath nodeAndPath;
+        JsonNode node;
+
+        if (properties.containsKey(key)) {
+            node = properties.get(key);
+            nodeAndPath = new NodeAndPath(node, "/properties/" + key);
+            ret.add(nodeAndPath);
+        }
 
         for (final Map.Entry<String, JsonNode> entry:
             patternProperties.entrySet())
-            if (RhinoHelper.regMatch(entry.getKey(), key))
-                ret.add(entry.getValue());
+            if (RhinoHelper.regMatch(entry.getKey(), key)) {
+                node = entry.getValue();
+                nodeAndPath = new NodeAndPath(node,
+                    "/patternProperties/" + entry.getKey());
+                ret.add(nodeAndPath);
+            }
 
-        if (ret.isEmpty())
-            ret.add(additionalProperties);
+        if (ret.isEmpty()) {
+            node = additionalProperties;
+            nodeAndPath = new NodeAndPath(node, "/additionalProperties",
+                computedAdditional);
+            ret.add(nodeAndPath);
+        }
 
         return ImmutableSet.copyOf(ret);
     }
