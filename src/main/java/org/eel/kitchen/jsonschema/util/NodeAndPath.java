@@ -71,4 +71,11 @@ public final class NodeAndPath
     {
         return this == MISSING;
     }
+
+    @Override
+    public String toString()
+    {
+        return "path: " + path + "; computed: " + computed
+            + "; node: " + node;
+    }
 }
