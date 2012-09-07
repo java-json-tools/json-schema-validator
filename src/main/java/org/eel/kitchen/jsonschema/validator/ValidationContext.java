@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.format.FormatSpecifier;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 
@@ -46,6 +47,7 @@ public final class ValidationContext
 {
     private final JsonValidatorCache cache;
     private SchemaContainer container;
+    private JsonPointer path;
     private final EnumSet<ValidationFeature> features;
     private final Map<String, FormatSpecifier> specifiers;
 
@@ -72,6 +74,7 @@ public final class ValidationContext
         this.features = EnumSet.copyOf(features);
         specifiers = ImmutableMap.copyOf(FormatBundle.defaultBundle()
             .getSpecifiers());
+        path = JsonPointer.empty();
     }
 
     SchemaContainer getContainer()
@@ -82,6 +85,16 @@ public final class ValidationContext
     void setContainer(final SchemaContainer container)
     {
         this.container = container;
+    }
+
+    JsonPointer getPath()
+    {
+        return path;
+    }
+
+    void setPath(final JsonPointer path)
+    {
+        this.path = path;
     }
 
     /**
@@ -117,15 +130,17 @@ public final class ValidationContext
      * @param node the node (a subnode of the schema)
      * @return a validator
      */
-    public JsonValidator newValidator(final JsonNode node)
+    public JsonValidator newValidator(final JsonPointer ptr,
+        final JsonNode node)
     {
-        final SchemaNode schemaNode = new SchemaNode(container, node);
+        final JsonPointer realPtr = path.append(ptr);
+        final SchemaNode schemaNode = new SchemaNode(container, realPtr, node);
         return cache.getValidator(schemaNode);
     }
 
     @Override
     public String toString()
     {
-        return "current: " + container;
+        return "locator: " + container + "; path: \"" + path + '"';
     }
 }

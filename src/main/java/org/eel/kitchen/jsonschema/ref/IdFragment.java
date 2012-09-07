@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeAndPath;
 
@@ -49,7 +48,7 @@ final class IdFragment
     @Override
     public NodeAndPath resolve(final NodeAndPath nodeAndPath)
     {
-        JsonNode node = nodeAndPath.getNode();
+        final JsonNode node = nodeAndPath.getNode();
         /*
          * Non object instances are not worth being considered
          */
@@ -74,19 +73,13 @@ final class IdFragment
          */
 
         NodeAndPath tmp, ret;
-        JsonPointer ptr;
-        String path;
-
-        try {
-            ptr = new JsonPointer(nodeAndPath.getPath());
-        } catch (JsonSchemaException e) {
-            throw new RuntimeException("WTF??", e);
-        }
+        final JsonPointer ptr = nodeAndPath.getPath();
+        JsonPointer path;
 
         final Map<String, JsonNode> map = JacksonUtils.nodeToMap(node);
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            path = ptr.append(entry.getKey()).toString();
+            path = ptr.append(entry.getKey());
             tmp = new NodeAndPath(entry.getValue(), path);
             ret = resolve(tmp);
             if (!ret.isMissing())

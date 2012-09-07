@@ -24,6 +24,8 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.util.Map;
+
 /**
  * Validator for the {@code disallow} keyword
  *
@@ -64,8 +66,9 @@ public final class DisallowKeywordValidator
         ValidationReport schemaReport;
         JsonValidator validator;
 
-        for (final JsonNode schema: schemas) {
-            validator = context.newValidator(schema);
+        for (final Map.Entry<Integer, JsonNode> entry: schemas.entrySet()) {
+            validator = context.newValidator(basePtr.append(entry.getKey()),
+                entry.getValue());
             schemaReport = report.copy();
             validator.validate(context, schemaReport, instance);
             if (schemaReport.hasFatalError()) {

@@ -101,7 +101,8 @@ final class ObjectValidator
         JsonValidator validator;
 
         for (final NodeAndPath subSchema: subSchemas) {
-            validator = context.newValidator(subSchema.getNode());
+            validator = context.newValidator(subSchema.getPath(),
+                subSchema.getNode());
             validator.validate(context, report, value);
             if (report.hasFatalError())
                 return false;
@@ -117,10 +118,12 @@ final class ObjectValidator
 
         NodeAndPath nodeAndPath;
         JsonNode node;
+        JsonPointer ptr;
 
         if (properties.containsKey(key)) {
             node = properties.get(key);
-            nodeAndPath = new NodeAndPath(node, "/properties/" + key);
+            ptr = JsonPointer.empty().append("properties").append(key);
+            nodeAndPath = new NodeAndPath(node, ptr);
             ret.add(nodeAndPath);
         }
 
@@ -128,15 +131,16 @@ final class ObjectValidator
             patternProperties.entrySet())
             if (RhinoHelper.regMatch(entry.getKey(), key)) {
                 node = entry.getValue();
-                nodeAndPath = new NodeAndPath(node,
-                    "/patternProperties/" + entry.getKey());
+                ptr = JsonPointer.empty().append("patternProperties")
+                    .append(entry.getKey());
+                nodeAndPath = new NodeAndPath(node, ptr);
                 ret.add(nodeAndPath);
             }
 
         if (ret.isEmpty()) {
             node = additionalProperties;
-            nodeAndPath = new NodeAndPath(node, "/additionalProperties",
-                computedAdditional);
+            ptr = JsonPointer.empty().append("additionalProperties");
+            nodeAndPath = new NodeAndPath(node, ptr, computedAdditional);
             ret.add(nodeAndPath);
         }
 

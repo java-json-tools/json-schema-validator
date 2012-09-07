@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
@@ -544,7 +543,7 @@ public final class JsonSchemaFactory
     public JsonSchema createSchema(final SchemaContainer container)
     {
         return createSchema(container,
-            new NodeAndPath(container.getSchema(), ""));
+            new NodeAndPath(container.getSchema(), JsonPointer.empty()));
     }
 
     /**
@@ -578,9 +577,12 @@ public final class JsonSchemaFactory
     public JsonSchema createSchema(final SchemaContainer container,
         final String path)
     {
-        final JsonNode node = JsonNodeFactory.instance.objectNode()
-            .put("$ref", path);
+        final JsonFragment fragment = JsonFragment.fromFragment(path);
+        final NodeAndPath orig
+            = new NodeAndPath(container.getSchema(), JsonPointer.empty());
 
-        return createSchema(container, new NodeAndPath(node, "_in"));
+        final NodeAndPath dst = fragment.resolve(orig);
+
+        return createSchema(container, dst);
     }
 }

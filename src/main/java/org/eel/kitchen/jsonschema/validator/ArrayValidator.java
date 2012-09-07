@@ -86,14 +86,16 @@ final class ArrayValidator
     {
         final JsonPointer pwd = report.getPath();
 
-        JsonNode subSchema, element;
+        JsonNode element;
         JsonValidator validator;
+        NodeAndPath nodeAndPath;
 
         for (int i = 0; i < instance.size(); i++) {
             report.setPath(pwd.append(i));
             element = instance.get(i);
-            subSchema = getSchema(i).getNode();
-            validator = context.newValidator(subSchema);
+            nodeAndPath = getSchema(i);
+            validator = context.newValidator(nodeAndPath.getPath(),
+                nodeAndPath.getNode());
             validator.validate(context, report, element);
             if (report.hasFatalError())
                 break;
@@ -105,12 +107,19 @@ final class ArrayValidator
     @VisibleForTesting
     NodeAndPath getSchema(final int index)
     {
-        if (!tupleValidation)
-            return new NodeAndPath(itemsSchema, "/items", computedItems);
+        final JsonPointer ptr;
 
-        return index < tuples.size()
-            ? new NodeAndPath(tuples.get(index), "/items/" + index)
-            : new NodeAndPath(itemsSchema, "/additionalItems",
-                computedAdditional);
+        if (!tupleValidation) {
+            ptr = JsonPointer.empty().append("items");
+            return new NodeAndPath(itemsSchema, ptr, computedItems);
+        }
+
+        if (index < tuples.size()) {
+            ptr = JsonPointer.empty().append("items").append(index);
+            return new NodeAndPath(tuples.get(index), ptr);
+        }
+
+        ptr = JsonPointer.empty().append("additionalItems");
+        return new NodeAndPath(itemsSchema, ptr, computedAdditional);
     }
 }

@@ -18,12 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableMap;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Collections;
 import java.util.EnumSet;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Abstract validator for the {@code type} and {@code disallow} keywords
@@ -47,28 +48,36 @@ public abstract class AbstractTypeKeywordValidator
     /**
      * Schemas found in the keyword definition
      */
-    protected final Set<JsonNode> schemas;
+    protected final Map<Integer, JsonNode> schemas;
+
+    protected final JsonPointer basePtr;
 
     protected AbstractTypeKeywordValidator(final String keyword,
         final JsonNode schema)
     {
         super(keyword, NodeType.values());
+        basePtr = JsonPointer.empty().append(keyword);
+
         final JsonNode node = schema.get(keyword);
 
         if (node.isTextual()) {
             addSimpleType(node.textValue());
-            schemas = Collections.emptySet();
+            schemas = Collections.emptyMap();
             return;
         }
 
-        final ImmutableSet.Builder<JsonNode> builder
-            = new ImmutableSet.Builder<JsonNode>();
+        final ImmutableMap.Builder<Integer, JsonNode> builder
+            = new ImmutableMap.Builder<Integer, JsonNode>();
 
-        for (final JsonNode element: node)
+        JsonNode element;
+
+        for (int i = 0; i < node.size(); i++) {
+            element = node.get(i);
             if (element.isTextual())
                 addSimpleType(element.textValue());
             else
-                builder.add(element);
+                builder.put(i, element);
+        }
 
         schemas = builder.build();
     }

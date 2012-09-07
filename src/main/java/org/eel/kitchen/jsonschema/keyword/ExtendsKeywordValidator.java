@@ -18,13 +18,14 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableList;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Validator for the {@code extends} keyword
@@ -34,14 +35,19 @@ import java.util.Set;
 public final class ExtendsKeywordValidator
     extends KeywordValidator
 {
-    private final Set<JsonNode> schemas;
+    private static final JsonPointer BASE_PTR
+        = JsonPointer.empty().append("extends");
+
+    private final List<JsonNode> schemas;
+
+    private final boolean isObject;
 
     public ExtendsKeywordValidator(final JsonNode schema)
     {
         super("extends", NodeType.values());
         final JsonNode node = schema.get(keyword);
-        final ImmutableSet.Builder<JsonNode> builder
-            = new ImmutableSet.Builder<JsonNode>();
+        final ImmutableList.Builder<JsonNode> builder
+            = new ImmutableList.Builder<JsonNode>();
 
         /*
          * Again, the fact that syntax validation has ensured our schema's
@@ -54,7 +60,9 @@ public final class ExtendsKeywordValidator
          * but we swallow duplicates this way.
          */
 
-        if (node.isObject())
+        isObject = node.isObject();
+
+        if (isObject)
             builder.add(node);
         else
             builder.addAll(node);
@@ -68,8 +76,13 @@ public final class ExtendsKeywordValidator
     {
         JsonValidator validator;
 
-        for (final JsonNode schema: schemas) {
-            validator = context.newValidator(schema);
+        JsonPointer ptr;
+
+        for (int i = 0; i < schemas.size(); i++) {
+            ptr = BASE_PTR;
+            if (!isObject)
+                ptr = ptr.append(i);
+            validator = context.newValidator(ptr, schemas.get(i));
             validator.validate(context, report, instance);
             if (report.hasFatalError())
                 return;

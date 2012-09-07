@@ -19,19 +19,21 @@ package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import org.eel.kitchen.jsonschema.ref.JsonPointer;
 
 public final class NodeAndPath
 {
     private static final NodeAndPath MISSING
-        = new NodeAndPath(MissingNode.getInstance(), "N/A", false);
+        = new NodeAndPath(MissingNode.getInstance(), JsonPointer.empty(),
+        false);
 
     private final JsonNode node;
-    private final String path;
+    private final JsonPointer path;
     private final boolean computed;
 
     public static NodeAndPath forNode(final JsonNode node)
     {
-        return new NodeAndPath(node, "", false);
+        return new NodeAndPath(node, JsonPointer.empty(), false);
     }
 
     public static NodeAndPath missing()
@@ -39,12 +41,12 @@ public final class NodeAndPath
         return MISSING;
     }
 
-    public NodeAndPath(final JsonNode node, final String path)
+    public NodeAndPath(final JsonNode node, final JsonPointer path)
     {
         this(node, path, false);
     }
 
-    public NodeAndPath(final JsonNode node, final String path,
+    public NodeAndPath(final JsonNode node, final JsonPointer path,
         final boolean computed)
     {
         this.node = node;
@@ -57,7 +59,7 @@ public final class NodeAndPath
         return node;
     }
 
-    public String getPath()
+    public JsonPointer getPath()
     {
         return path;
     }

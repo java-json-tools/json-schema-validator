@@ -167,7 +167,7 @@ public final class JsonPointer
                 break;
         }
 
-        return new NodeAndPath(ret, toString());
+        return new NodeAndPath(ret, this);
     }
 
     /**
@@ -318,6 +318,9 @@ public final class JsonPointer
      */
     private static String refTokenEncode(final String raw)
     {
+        if (SPECIAL.matchesNoneOf(raw))
+            return raw;
+
         final StringBuilder sb = new StringBuilder(raw.length());
 
         /*

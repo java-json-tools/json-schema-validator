@@ -40,21 +40,21 @@ public final class SchemaNode
 {
     private final SchemaContainer container;
     private final JsonNode node;
-    private final String path;
+    private final JsonPointer path;
     private final int hashCode;
 
     public SchemaNode(final SchemaContainer container, final JsonNode node)
     {
-        this(container, "", node);
+        this(container, JsonPointer.empty(), node);
     }
 
-    public SchemaNode(final SchemaContainer container, final String path,
+    public SchemaNode(final SchemaContainer container, final JsonPointer path,
         final JsonNode node)
     {
         this.container = container;
         this.path = path;
         this.node = node;
-        hashCode = 31 * container.hashCode() + node.hashCode();
+        hashCode = 31 * container.hashCode() + path.hashCode();
     }
 
     public SchemaNode(final SchemaContainer container,
@@ -73,7 +73,7 @@ public final class SchemaNode
         return node;
     }
 
-    public String getPath()
+    public JsonPointer getPath()
     {
         return path;
     }
@@ -103,7 +103,7 @@ public final class SchemaNode
         final SchemaNode other = (SchemaNode) obj;
 
         return container.equals(other.container)
-            && node.equals(other.node);
+            && path.equals(other.path);
     }
 
     @Override
