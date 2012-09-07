@@ -8,5 +8,148 @@
                 "computed": true
             }
         ]
+    },
+    {
+        "schema": {
+            "additionalProperties": { "format": "uri" }
+        },
+        "member": "k",
+        "expected": [
+            {
+                "schema": { "format": "uri" },
+                "computed": false
+            }
+        ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": { "type": "boolean" }
+            }
+        },
+        "member": "p",
+        "expected": [
+            {
+                "schema": { "type": "boolean" },
+                "computed": false
+            }
+        ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": { "type": "boolean" }
+            }
+        },
+        "member": "k",
+        "expected": [
+            {
+                "schema": {},
+                "computed": true
+            }
+        ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": { "type": "boolean" }
+            },
+            "additionalProperties": true
+        },
+        "member": "k",
+        "expected": [
+            {
+                "schema": {},
+                "computed": true
+            }
+        ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": { "type": "boolean" }
+            },
+            "additionalProperties": { "format": "ipv6" }
+        },
+        "member": "k",
+        "expected": [
+            {
+                "schema": { "format": "ipv6" },
+                "computed": false
+            }
+        ]
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "\\d": { "format": "uri" }
+            },
+            "properties": {
+                "p1": { "minLength": 3 }
+            }
+        },
+        "member": "p1",
+        "expected": [
+            {
+                "schema": { "format": "uri" },
+                "computed": false
+            },
+            {
+                "schema": { "minLength": 3 },
+                "computed": false
+            }
+        ]
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "\\d": { "format": "uri" }
+            },
+            "properties": {
+                "p1": { "minLength": 3 }
+            }
+        },
+        "member": "p2",
+        "expected": [
+            {
+                "schema": { "format": "uri" },
+                "computed": false
+            }
+        ]
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "\\d": { "format": "uri" }
+            },
+            "properties": {
+                "p1": { "minLength": 3 }
+            }
+        },
+        "member": "k",
+        "expected": [
+            {
+                "schema": {},
+                "computed": true
+            }
+        ]
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "\\d": { "format": "uri" }
+            },
+            "properties": {
+                "p1": { "minLength": 3 }
+            },
+            "additionalProperties": { "pattern": "." }
+        },
+        "member": "k",
+        "expected": [
+            {
+                "schema": { "pattern": "." },
+                "computed": false
+            }
+        ]
     }
 ]
