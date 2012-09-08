@@ -23,7 +23,6 @@ import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -76,10 +75,10 @@ public final class JsonPointerTest
         throws JsonSchemaException
     {
         final JsonPointer ptr = new JsonPointer(input);
-        final NodeAndPath actual = ptr.resolve(NodeAndPath.forNode(document));
+        final JsonNode actual = ptr.resolve(document);
 
-        assertEquals(actual.getNode(), expected, "failed to resolve JSON" +
-            " Pointer " + input);
+        assertEquals(actual, expected, "failed to resolve JSON Pointer "
+            + input);
     }
 
     @DataProvider
@@ -95,10 +94,10 @@ public final class JsonPointerTest
     {
         final JsonPointer ptr
             = new JsonPointer(URI.create(input).getFragment());
-        final NodeAndPath actual = ptr.resolve(NodeAndPath.forNode(document));
+        final JsonNode actual = ptr.resolve(document);
 
-        assertEquals(actual.getNode(), expected, "failed to resolve URI " +
-            "encoded JSON Pointer " + input);
+        assertEquals(actual, expected, "failed to resolve URI encoded JSON "
+            + "Pointer " + input);
     }
 
     @DataProvider
@@ -136,20 +135,5 @@ public final class JsonPointerTest
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), msg);
         }
-    }
-
-    @Test
-    public void appendingJsonPointersWork()
-        throws JsonSchemaException
-    {
-        final String s1 = "/a/~0/..";
-        final String s2 = "/x";
-        final String s = s1 + s2;
-
-        final JsonPointer ptr1 = new JsonPointer(s1);
-        final JsonPointer ptr2 = new JsonPointer(s2);
-        final JsonPointer ptr = new JsonPointer(s);
-
-        assertEquals(ptr1.append(ptr2), ptr);
     }
 }

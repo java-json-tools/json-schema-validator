@@ -18,14 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableList;
-import org.eel.kitchen.jsonschema.ref.JsonPointer;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Validator for the {@code extends} keyword
@@ -35,19 +34,14 @@ import java.util.List;
 public final class ExtendsKeywordValidator
     extends KeywordValidator
 {
-    private static final JsonPointer BASE_PTR
-        = JsonPointer.empty().append("extends");
-
-    private final List<JsonNode> schemas;
-
-    private final boolean isObject;
+    private final Set<JsonNode> schemas;
 
     public ExtendsKeywordValidator(final JsonNode schema)
     {
         super("extends", NodeType.values());
         final JsonNode node = schema.get(keyword);
-        final ImmutableList.Builder<JsonNode> builder
-            = new ImmutableList.Builder<JsonNode>();
+        final ImmutableSet.Builder<JsonNode> builder
+            = new ImmutableSet.Builder<JsonNode>();
 
         /*
          * Again, the fact that syntax validation has ensured our schema's
@@ -60,9 +54,7 @@ public final class ExtendsKeywordValidator
          * but we swallow duplicates this way.
          */
 
-        isObject = node.isObject();
-
-        if (isObject)
+        if (node.isObject())
             builder.add(node);
         else
             builder.addAll(node);
@@ -76,13 +68,8 @@ public final class ExtendsKeywordValidator
     {
         JsonValidator validator;
 
-        JsonPointer ptr;
-
-        for (int i = 0; i < schemas.size(); i++) {
-            ptr = BASE_PTR;
-            if (!isObject)
-                ptr = ptr.append(i);
-            validator = context.newValidator(ptr, schemas.get(i));
+        for (final JsonNode schema: schemas) {
+            validator = context.newValidator(schema);
             validator.validate(context, report, instance);
             if (report.hasFatalError())
                 return;

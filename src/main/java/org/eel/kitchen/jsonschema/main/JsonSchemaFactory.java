@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
@@ -31,7 +32,6 @@ import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.ref.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.util.NodeAndPath;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 import java.net.URI;
@@ -122,9 +122,9 @@ public final class JsonSchemaFactory
     public JsonSchema fromSchema(final JsonNode schema, final String path)
     {
         final SchemaContainer container = registry.register(schema);
-        final NodeAndPath nodeAndPath = JsonFragment.fromFragment(path)
-            .resolve(NodeAndPath.forNode(container.getSchema()));
-        return createSchema(container, nodeAndPath);
+        final JsonNode subSchema = JsonFragment.fromFragment(path)
+            .resolve(container.getSchema());
+        return createSchema(container, subSchema);
     }
 
     /**
@@ -160,9 +160,9 @@ public final class JsonSchemaFactory
         throws JsonSchemaException
     {
         final SchemaContainer container = registry.get(uri);
-        final NodeAndPath nodeAndPath = JsonFragment.fromFragment(path)
-            .resolve(NodeAndPath.forNode(container.getSchema()));
-        return createSchema(container, nodeAndPath);
+        final JsonNode subSchema = JsonFragment.fromFragment(path)
+            .resolve(container.getSchema());
+        return createSchema(container, subSchema);
     }
 
     /**
@@ -220,13 +220,13 @@ public final class JsonSchemaFactory
      * Create a {@link JsonSchema} instance
      *
      * @param container the schema container
-     * @param nodeAndPath the node and path
+     * @param schema the subschema
      * @return a {@link JsonSchema} instance
      */
     private JsonSchema createSchema(final SchemaContainer container,
-        final NodeAndPath nodeAndPath)
+        final JsonNode schema)
     {
-        final SchemaNode schemaNode = new SchemaNode(container, nodeAndPath);
+        final SchemaNode schemaNode = new SchemaNode(container, schema);
         return new JsonSchema(cache, features, schemaNode);
     }
 
@@ -542,8 +542,7 @@ public final class JsonSchemaFactory
     @Deprecated
     public JsonSchema createSchema(final SchemaContainer container)
     {
-        return createSchema(container,
-            new NodeAndPath(container.getSchema(), JsonPointer.empty()));
+        return createSchema(container, container.getSchema());
     }
 
     /**
@@ -577,12 +576,9 @@ public final class JsonSchemaFactory
     public JsonSchema createSchema(final SchemaContainer container,
         final String path)
     {
-        final JsonFragment fragment = JsonFragment.fromFragment(path);
-        final NodeAndPath orig
-            = new NodeAndPath(container.getSchema(), JsonPointer.empty());
+        final JsonNode node = JsonNodeFactory.instance.objectNode()
+            .put("$ref", path);
 
-        final NodeAndPath dst = fragment.resolve(orig);
-
-        return createSchema(container, dst);
+        return createSchema(container, node);
     }
 }

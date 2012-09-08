@@ -24,7 +24,6 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -45,9 +44,6 @@ import java.util.SortedSet;
 public final class DependenciesKeywordValidator
     extends KeywordValidator
 {
-    private static final JsonPointer BASE_PTR
-        = JsonPointer.empty().append("dependencies");
-
     private static final Joiner DEP_JOINER = Joiner.on("; ").skipNulls();
     /**
      * Map of simple dependencies (ie, property dependencies)
@@ -136,9 +132,8 @@ public final class DependenciesKeywordValidator
 
         JsonValidator validator;
 
-        for (final Map.Entry<String, JsonNode> entry: schemaDeps.entrySet()) {
-            validator = context.newValidator(BASE_PTR.append(entry.getKey()),
-                entry.getValue());
+        for (final JsonNode subSchema: schemaDeps.values()) {
+            validator = context.newValidator(subSchema);
             validator.validate(context, report, instance);
             if (report.hasFatalError())
                 return;

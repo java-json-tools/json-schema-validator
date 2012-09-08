@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -25,9 +26,7 @@ import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.util.NodeAndPath;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -63,9 +62,6 @@ import java.util.List;
 public final class JsonPointer
     extends JsonFragment
 {
-    private static final JsonPointer EMPTY
-        = new JsonPointer("", Collections.<String>emptyList());
-
     private static final CharMatcher SLASH = CharMatcher.is('/');
     private static final CharMatcher ESCAPE_CHAR = CharMatcher.is('~');
 
@@ -97,11 +93,6 @@ public final class JsonPointer
         decode(input, builder);
 
         elements = builder.build();
-    }
-
-    public static JsonPointer empty()
-    {
-        return EMPTY;
     }
 
     private JsonPointer(final String fullPointer, final List<String> elements)
@@ -139,35 +130,27 @@ public final class JsonPointer
         return append(Integer.toString(index));
     }
 
-    public JsonPointer append(final JsonPointer other)
-    {
-        final List<String> newElements = new ImmutableList.Builder<String>()
-            .addAll(elements).addAll(other.elements).build();
-
-        return new JsonPointer(asString + other.asString, newElements);
-    }
-
     @Override
-    public NodeAndPath resolve(final NodeAndPath nodeAndPath)
+    public JsonNode resolve(final JsonNode node)
     {
-        JsonNode ret = nodeAndPath.getNode();
+        JsonNode ret = node;
 
         for (final String pathElement : elements) {
             if (!ret.isContainerNode())
-                return NodeAndPath.missing();
+                return MissingNode.getInstance();
             if (ret.isObject())
                 ret = ret.path(pathElement);
             else
                 try {
                     ret = ret.path(Integer.parseInt(pathElement));
                 } catch (NumberFormatException ignored) {
-                    return NodeAndPath.missing();
+                    return MissingNode.getInstance();
                 }
             if (ret.isMissingNode())
                 break;
         }
 
-        return new NodeAndPath(ret, this);
+        return ret;
     }
 
     /**
@@ -318,9 +301,6 @@ public final class JsonPointer
      */
     private static String refTokenEncode(final String raw)
     {
-        if (SPECIAL.matchesNoneOf(raw))
-            return raw;
-
         final StringBuilder sb = new StringBuilder(raw.length());
 
         /*

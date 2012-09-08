@@ -2,26 +2,14 @@
     {
         "schema": {},
         "member": "k",
-        "expected": [
-            {
-                "schema": {},
-                "path": "/additionalProperties",
-                "computed": true
-            }
-        ]
+        "expected": [ {} ]
     },
     {
         "schema": {
             "additionalProperties": { "format": "uri" }
         },
         "member": "k",
-        "expected": [
-            {
-                "schema": { "format": "uri" },
-                "path": "/additionalProperties",
-                "computed": false
-            }
-        ]
+        "expected": [ { "format": "uri" } ]
     },
     {
         "schema": {
@@ -30,13 +18,7 @@
             }
         },
         "member": "p",
-        "expected": [
-            {
-                "schema": { "type": "boolean" },
-                "path": "/properties/p",
-                "computed": false
-            }
-        ]
+        "expected": [ { "type": "boolean" } ]
     },
     {
         "schema": {
@@ -45,13 +27,7 @@
             }
         },
         "member": "k",
-        "expected": [
-            {
-                "schema": {},
-                "path": "/additionalProperties",
-                "computed": true
-            }
-        ]
+        "expected": [ {} ]
     },
     {
         "schema": {
@@ -61,13 +37,7 @@
             "additionalProperties": true
         },
         "member": "k",
-        "expected": [
-            {
-                "schema": {},
-                "path": "/additionalProperties",
-                "computed": true
-            }
-        ]
+        "expected": [ {} ]
     },
     {
         "schema": {
@@ -77,13 +47,7 @@
             "additionalProperties": { "format": "ipv6" }
         },
         "member": "k",
-        "expected": [
-            {
-                "schema": { "format": "ipv6" },
-                "path": "/additionalProperties",
-                "computed": false
-            }
-        ]
+        "expected": [ { "format": "ipv6" } ]
     },
     {
         "schema": {
@@ -95,18 +59,7 @@
             }
         },
         "member": "p1",
-        "expected": [
-            {
-                "schema": { "format": "uri" },
-                "path": "/patternProperties/\\d",
-                "computed": false
-            },
-            {
-                "schema": { "minLength": 3 },
-                "path": "/properties/p1",
-                "computed": false
-            }
-        ]
+        "expected": [ { "format": "uri" }, { "minLength": 3 } ]
     },
     {
         "schema": {
@@ -118,13 +71,7 @@
             }
         },
         "member": "p2",
-        "expected": [
-            {
-                "schema": { "format": "uri" },
-                "path": "/patternProperties/\\d",
-                "computed": false
-            }
-        ]
+        "expected": [ { "format": "uri" } ]
     },
     {
         "schema": {
@@ -136,13 +83,7 @@
             }
         },
         "member": "k",
-        "expected": [
-            {
-                "schema": {},
-                "path": "/additionalProperties",
-                "computed": true
-            }
-        ]
+        "expected": [ {} ]
     },
     {
         "schema": {
@@ -155,12 +96,6 @@
             "additionalProperties": { "pattern": "." }
         },
         "member": "k",
-        "expected": [
-            {
-                "schema": { "pattern": "." },
-                "path": "/additionalProperties",
-                "computed": false
-            }
-        ]
+        "expected": [ { "pattern": "." } ]
     }
 ]

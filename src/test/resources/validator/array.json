@@ -2,54 +2,42 @@
     {
         "schema": {},
         "index": 3,
-        "expected": {},
-        "path": "/items",
-        "computed": true
+        "expected": {}
     },
     {
         "schema": {
             "additionalItems": { "type": "string" }
         },
         "index": 0,
-        "expected": {},
-        "path": "/items",
-        "computed": true
+        "expected": {}
     },
     {
         "schema": {
             "items": { "type": "string" }
         },
         "index": 4,
-        "expected": { "type": "string" },
-        "path": "/items",
-        "computed": false
+        "expected": { "type": "string" }
     },
     {
         "schema": {
             "items": [ { "type": "boolean" }, { "$ref": "#foo" } ]
         },
         "index": 0,
-        "expected": { "type": "boolean" },
-        "path": "/items/0",
-        "computed": false
+        "expected": { "type": "boolean" }
     },
     {
         "schema": {
             "items": [ { "type": "boolean" }, { "$ref": "#foo" } ]
         },
         "index": 1,
-        "expected": { "$ref": "#foo" },
-        "path": "/items/1",
-        "computed": false
+        "expected": { "$ref": "#foo" }
     },
     {
         "schema": {
             "items": [ { "type": "boolean" }, { "$ref": "#foo" } ]
         },
         "index": 2,
-        "expected": {},
-        "path": "/additionalItems",
-        "computed": true
+        "expected": {}
     },
     {
         "schema": {
@@ -57,9 +45,7 @@
             "additionalItems": { "format": "uri" }
         },
         "index": 0,
-        "expected": { "type": "boolean" },
-        "path": "/items/0",
-        "computed": false
+        "expected": { "type": "boolean" }
     },
     {
         "schema": {
@@ -67,9 +53,7 @@
             "additionalItems": { "format": "uri" }
         },
         "index": 1,
-        "expected": { "$ref": "#foo" },
-        "path": "/items/1",
-        "computed": false
+        "expected": { "$ref": "#foo" }
     },
     {
         "schema": {
@@ -77,8 +61,6 @@
             "additionalItems": { "format": "uri" }
         },
         "index": 2,
-        "expected": { "format": "uri" },
-        "path": "/additionalItems",
-        "computed": false
+        "expected": { "format": "uri" }
     }
 ]

@@ -24,8 +24,6 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
-import java.util.Map;
-
 /**
  * Validator for the {@code type} keyword
  *
@@ -86,10 +84,9 @@ public final class TypeKeywordValidator
         ValidationReport subReport;
         JsonValidator validator;
 
-        for (final Map.Entry<Integer, JsonNode> entry: schemas.entrySet()) {
+        for (final JsonNode schema: schemas) {
             subReport = report.copy();
-            validator = context.newValidator(basePtr.append(entry.getKey()),
-                entry.getValue());
+            validator = context.newValidator(schema);
             validator.validate(context, subReport, instance);
             if (subReport.isSuccess())
                 return;

@@ -18,10 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
-import org.eel.kitchen.jsonschema.util.NodeAndPath;
-
-import java.util.Map;
+import com.fasterxml.jackson.databind.node.MissingNode;
 
 /**
  * {@code id} fragment resolution class
@@ -46,14 +43,13 @@ final class IdFragment
     }
 
     @Override
-    public NodeAndPath resolve(final NodeAndPath nodeAndPath)
+    public JsonNode resolve(final JsonNode node)
     {
-        final JsonNode node = nodeAndPath.getNode();
         /*
          * Non object instances are not worth being considered
          */
         if (!node.isObject())
-            return NodeAndPath.missing();
+            return MissingNode.getInstance();
 
         /*
          * If an id node exists and is a text node, see if that node's value
@@ -64,7 +60,7 @@ final class IdFragment
         if (idNode.isTextual()) {
             final String s = idNode.textValue();
             if (asString.equals(s))
-                return nodeAndPath;
+                return node;
         }
 
         /*
@@ -72,20 +68,13 @@ final class IdFragment
          * JsonNode will cycle through the values, which is what we want.
          */
 
-        NodeAndPath tmp, ret;
-        final JsonPointer ptr = nodeAndPath.getPath();
-        JsonPointer path;
-
-        final Map<String, JsonNode> map = JacksonUtils.nodeToMap(node);
-
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            path = ptr.append(entry.getKey());
-            tmp = new NodeAndPath(entry.getValue(), path);
-            ret = resolve(tmp);
-            if (!ret.isMissing())
+        JsonNode ret;
+        for (final JsonNode subNode: node) {
+            ret = resolve(subNode);
+            if (!ret.isMissingNode())
                 return ret;
         }
 
-        return NodeAndPath.missing();
+        return MissingNode.getInstance();
     }
 }

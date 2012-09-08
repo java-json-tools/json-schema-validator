@@ -23,7 +23,6 @@ import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
-import org.eel.kitchen.jsonschema.util.NodeAndPath;
 
 import java.util.Collections;
 import java.util.List;
@@ -48,11 +47,9 @@ import java.util.List;
 final class ArrayValidator
     implements JsonValidator
 {
-    private final JsonNode itemsSchema;
-    private final List<JsonNode> tuples;
-    private final boolean tupleValidation;
-    private final boolean computedItems;
-    private final boolean computedAdditional;
+    private final JsonNode additionalItems;
+
+    private final List<JsonNode> items;
 
     ArrayValidator(final JsonNode schema)
     {
@@ -60,24 +57,19 @@ final class ArrayValidator
 
         node = schema.path("items");
 
-
         if (!node.isArray()) {
-            computedAdditional = true; // in fact, we don't care
-            tupleValidation = false;
-            computedItems = !node.isObject();
-            itemsSchema = computedItems ? JacksonUtils.emptySchema() : node;
-            tuples = Collections.emptyList();
+            // Either it is missing or it is an object
+            additionalItems = node.isObject() ? node
+                : JacksonUtils.emptySchema();
+            items = Collections.emptyList();
             return;
         }
 
-        tupleValidation = true;
-        computedItems = false;
-        tuples = ImmutableList.copyOf(node);
+        items = ImmutableList.copyOf(node);
 
         node = schema.path("additionalItems");
 
-        computedAdditional = !node.isObject();
-        itemsSchema = computedAdditional ? JacksonUtils.emptySchema() : node;
+        additionalItems = node.isObject() ? node : JacksonUtils.emptySchema();
     }
 
     @Override
@@ -86,16 +78,14 @@ final class ArrayValidator
     {
         final JsonPointer pwd = report.getPath();
 
-        JsonNode element;
+        JsonNode subSchema, element;
         JsonValidator validator;
-        NodeAndPath nodeAndPath;
 
         for (int i = 0; i < instance.size(); i++) {
             report.setPath(pwd.append(i));
             element = instance.get(i);
-            nodeAndPath = getSchema(i);
-            validator = context.newValidator(nodeAndPath.getPath(),
-                nodeAndPath.getNode());
+            subSchema = getSchema(i);
+            validator = context.newValidator(subSchema);
             validator.validate(context, report, element);
             if (report.hasFatalError())
                 break;
@@ -105,21 +95,8 @@ final class ArrayValidator
     }
 
     @VisibleForTesting
-    NodeAndPath getSchema(final int index)
+    JsonNode getSchema(final int index)
     {
-        final JsonPointer ptr;
-
-        if (!tupleValidation) {
-            ptr = JsonPointer.empty().append("items");
-            return new NodeAndPath(itemsSchema, ptr, computedItems);
-        }
-
-        if (index < tuples.size()) {
-            ptr = JsonPointer.empty().append("items").append(index);
-            return new NodeAndPath(tuples.get(index), ptr);
-        }
-
-        ptr = JsonPointer.empty().append("additionalItems");
-        return new NodeAndPath(itemsSchema, ptr, computedAdditional);
+        return index >= items.size() ? additionalItems : items.get(index);
     }
 }
