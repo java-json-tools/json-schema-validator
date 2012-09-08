@@ -109,6 +109,10 @@ public final class JacksonUtils
     /**
      * Return an empty schema
      *
+     * <p><b>IMPORTANT:</b> due to the way {@code equals()} is implemented in
+     * Jackson's {@link ObjectNode}, the {@link JsonNode} returned by this
+     * method <b>is not</b> equal to an empty {@link ObjectNode}.</p>
+     *
      * @return a statically created, empty, JSON object.
      */
     public static JsonNode emptySchema()

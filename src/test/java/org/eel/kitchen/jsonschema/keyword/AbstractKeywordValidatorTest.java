@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
@@ -29,7 +28,6 @@ import org.testng.annotations.Test;
 import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -75,8 +73,6 @@ public abstract class AbstractKeywordValidatorTest
     @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
     public final void testKeyword(final JsonNode schema, final JsonNode data,
         final boolean valid, final JsonNode messages)
-        throws InvocationTargetException, IllegalAccessException,
-        InstantiationException, JsonSchemaException
     {
         final JsonSchema jsonSchema = factory.fromSchema(schema);
 

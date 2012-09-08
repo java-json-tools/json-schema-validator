@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.net.URI;
 
 /**
- * A downloader for the {@code resource} "scheme"
+ * A downloader for the custom {@code resource} "scheme"
  *
  * <p>Here, {@code resource} is to be interpreted as a Java resource, exactly
  * what you would obtain using {@link Class#getResourceAsStream(String)}.</p>

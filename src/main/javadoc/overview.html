@@ -29,22 +29,22 @@ application; this library has no dependencies on anything Web-related.</p>
 
 <h2>Strong points</h2>
 
-<p>This library has three main characteristics which make it stand apart from
-other existing implementations. While some other libraries also bear one or two
-of the below characteristics, none can pretend to all three of them:</p>
+<p>This library has complete draft v3 validation support. This includes all
+"exotic" features of the draft, such as:</p>
 
 <ul>
-    <li><b>Correctness</b>&nbsp;It is currently the only library in existence to
-    accurately validate numeric JSON instances of arbitraty length/precision; it
-    also accurately uses an ECMA 262 regular expression engine to validate
-    patterns (JavaScript libraries all do, of course, but then the JavaScript
-    standard requires it);</li>
-    <li><b>Raw speed</b>&nbsp;Downloaded schemas are cached, syntax validation
-    results are cached, validators are cached. All of them can therefore be
-    reused each time you have to validate data against a same schema.</li>
-    <li><b>Fully thread safe</b>&nbsp;All schema object instances are immutable,
-    therefore thread safe. You can use the same instance in several threads in
-    parallel and validate as much data as you want.</li>
+    <li>multiple schemas in {@code extends};</li>
+    <li>schemas in {@code type} and {@code disallow};</li>
+    <li>schemas in {@code dependencies}.</li>
+</ul>
+
+<p>It also has two particular features making it stand apart:</p>
+
+<ul>
+    <li>regular expressions obey ECMA 262 (ie, those are JavaScript regular
+    expressions);</li>
+    <li><b>it can validate numeric JSON data or abitrary scale/precision</b>.
+    </li>
 </ul>
 
 <h1>Sample usage</h1>
@@ -216,7 +216,7 @@ allows them to be cached). You can then register the keyword to your factory
 like this:</p>
 
 <pre>
-    final Keyword myKeyword = Keyword.Builder.forName("mykeyword")
+    final Keyword myKeyword = Keyword.withName("mykeyword")
         .withSyntaxChecker(mySyntaxChecker)
         .withValidatorClass(MyKeywordValidator.class)
         .build();

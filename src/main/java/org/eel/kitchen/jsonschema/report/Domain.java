@@ -57,6 +57,13 @@ public enum Domain
         return domain;
     }
 
+    /**
+     * Create a {@link Message.Builder} for this validation domain
+     *
+     * @see Message
+     *
+     * @return a message builder
+     */
     public Message.Builder newMessage()
     {
         return new Message.Builder(this);

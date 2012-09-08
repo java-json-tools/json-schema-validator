@@ -16,7 +16,7 @@
  */
 
 /**
- * Classes to handle downloading of JSON documents
+ * Classes to handle downloading of JSON documents using any URI scheme
  *
  * <p>The following URI schemes are supported by default: {@code http}, {@code
  * file}, {@code ftp}, {@code resource} and {@code jar}.</p>
@@ -35,6 +35,6 @@
  * <p>Note about {@code jar} relative URI resolutions: due to the very nature of
  * {@code jar} URIs, normal URI resolving rules cannot be applied. This
  * implementation ensures that relative ref resolutions happen correctly, even
- * though this is a violation of the specification.</p>
+ * though this is a violation of the URI specification.</p>
  */
 package org.eel.kitchen.jsonschema.uri;

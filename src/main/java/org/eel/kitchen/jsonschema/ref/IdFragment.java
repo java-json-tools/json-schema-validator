@@ -23,14 +23,13 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 /**
  * {@code id} fragment resolution class
  *
- * <p>JSON Schema documents can have {@code id} members in any subschema
- * (there can also be one at the root of the schema,
- * but this one plays a particular role). This class helps find a subschema
- * with a given id.</p>
+ * <p>JSON Schemas can have {@code id} members in any subschema (there can also
+ * be one at the root of the schema, but this one plays a particular role). This
+ * class helps find a subschema with a given id.</p>
  *
  * <p>Note that the draft does not specify anywhere that {@code id} members
  * should have unique values in a same schema! This implementation therefore
- * returns the first schema found with the given id, and you should <b>not</b>
+ * returns the first schema found with the given id, and you <b>SHOULD NOT</b>
  * rely on the order in which keys are looked up etc (there is no order
  * defined in the keys of a JSON Object!).</p>
  */

@@ -74,7 +74,7 @@ final class InstanceValidator
                 return;
         }
 
-        if (instance.isContainerNode()) {
+        if (instance.size() > 0) {
             final JsonValidator validator = instance.isArray()
                 ? new ArrayValidator(schemaNode.getNode())
                 : new ObjectValidator(schemaNode.getNode());

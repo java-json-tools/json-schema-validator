@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -36,13 +37,8 @@ import java.util.List;
 /**
  * A validation report
  *
- * <p>Internally, it uses a {@link ListMultimap} where:</p>
- *
- * <ul>
- *     <li>keys are path into the validated instance (as {@link JsonPointer}s),
- *     </li>
- *     <li>values are (a list of) {@link Message}s.</li>
- * </ul>
+ * <p>A report is a map of {@link Message}s, with the path into the validated
+ * instance where the error occurred as a supplementary information.</p>
  *
  * <p>You can retrieve messages either as a list of plain strings or JSON
  * (either an object or an array).</p>
@@ -121,6 +117,10 @@ public final class ValidationReport
     /**
      * Add one validation message to the report
      *
+     * <p>The message will be added to the already existing list of messages for
+     * the current path (see {@link #getPath()}, {@link #setPath(JsonPointer)}).
+     * </p>
+     *
      * @param message the message
      * @return true if the added message is fatal, or if {@link #fatal} is
      * already {@code true}
@@ -150,7 +150,8 @@ public final class ValidationReport
                 return;
     }
 
-    public int size()
+    @VisibleForTesting
+    int size()
     {
         return msgMap.size();
     }
@@ -165,6 +166,14 @@ public final class ValidationReport
         return msgMap.isEmpty();
     }
 
+    /**
+     * Was there a fatal error during validation?
+     *
+     * <p>This implementation currently considers that all URI resolution
+     * failures are fatal errors.</p>
+     *
+     * @return true if a fatal error has been encountered
+     */
     public boolean hasFatalError()
     {
         return fatal;
@@ -172,6 +181,10 @@ public final class ValidationReport
 
     /**
      * Merge with another validation report
+     *
+     * <p>Note that if a fatal error has been encountered, only the message
+     * describing this fatal error will make it into the report. Other messages
+     * are <b>discarded</b>.</p>
      *
      * @param other the report to merge with
      */
@@ -200,7 +213,7 @@ public final class ValidationReport
     }
 
     /**
-     * Get a flat list of validation messages
+     * Get a flat list of validation messages as strings
      *
      * <p>One message has the form:</p>
      *
@@ -271,9 +284,9 @@ public final class ValidationReport
      * <p>This method makes its best to order validation messages correctly.</p>
      *
      * <p>Each message in the resulting array is a JSON object, with the
-     * contents of the {@link Message} and with an added member named
-     * {@code path}, which contains the path into the instance where the error
-     * has occurred (as a {@link JsonPointer}).</p>
+     * contents of the {@link Message} and with an added member named {@code
+     * path}, which contains the path into the instance where the error has
+     * occurred (as a {@link JsonPointer}).</p>
      *
      * @see Message#toJsonNode()
      *
@@ -349,8 +362,8 @@ public final class ValidationReport
      *
      * @return a JSON document with all validation messages
      *
-     * @deprecated use {@link #asJsonObject()} instead; scheduled for removal
-     * in 1.3+
+     * @deprecated use {@link #asJsonObject()} instead (this method just calls
+     * the latter anyway); scheduled for removal in 1.3+
      */
     @Deprecated
     public JsonNode asJsonNode()

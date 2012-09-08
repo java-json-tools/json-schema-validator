@@ -36,8 +36,8 @@ import java.util.Map;
  * and the validator cache.</p>
  *
  * <p>The latter is necessary since four keywords may have to spawn other
- * validators: {@code type}, {@code disallow}, {@code dependencies} and
- * {@code extends}.</p>
+ * validators: {@code type}, {@code disallow}, {@code dependencies} and {@code
+ * extends}.</p>
  *
  * <p>One instance is created for each validation and is passed around to all
  * validators. Due to this particular usage, it is <b>not</b> thread safe.</p>

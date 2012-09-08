@@ -60,8 +60,8 @@ import java.util.Set;
  *     }
  * </pre>
  *
- * <p>You cannot instantiate this class directly: you need to use
- * {@link Builder} for that.</p>
+ * <p>You cannot instantiate this class directly: use {@link
+ * Domain#newMessage()} for that.</p>
  *
  * <p>This class is immutable.</p>
  *

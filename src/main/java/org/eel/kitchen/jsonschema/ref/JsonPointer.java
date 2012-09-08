@@ -35,8 +35,8 @@ import java.util.List;
  * <p><a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-03.txt">
  * JSON Pointer</a> is an IETF draft defining a way to address paths within JSON
  * documents. Paths apply to container objects, ie arrays or nodes. For objects,
- * path elements are property names. For arrays, they are the index in the
- * array (starting from 0).</p>
+ * path elements are property names. For arrays, they are the index in the array
+ * (starting from 0).</p>
  *
  * <p>The general syntax is {@code #/path/elements/here}. A path element is
  * referred to as a "reference token" in the specification.</p>

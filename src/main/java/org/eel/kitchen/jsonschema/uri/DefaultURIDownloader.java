@@ -26,10 +26,11 @@ import java.net.URL;
  * Default URI downloader
  *
  * <p>{@link URL}'s API doc guarantees that an implementation can handle the
- * following schemes: http, https, ftp, file and jar.</p>
+ * following schemes: <tt>http</tt>, <tt>https</tt>, <tt>ftp</tt>, <tt>file</tt>
+ * and <tt>jar</tt>.</p>
  *
- * <p>We choose however not to provide https for certificate handling reasons,
- * which is a pain to get right.</p>
+ * <p>This implementation, however, <b>does not</b> provide <tt>https</tt>
+ * support (certificate handling is a pain to get right).</p>
  *
  * @see URL#openStream()
  */

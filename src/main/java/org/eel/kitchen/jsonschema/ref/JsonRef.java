@@ -51,8 +51,8 @@ import java.net.URISyntaxException;
  *
  * <ul>
  *     <li>all URIs are normalized from the get go;</li>
- *     <li>an empty fragment is equivalent to no fragment at all,
- *     and stands for a root JSON Pointer;</li>
+ *     <li>an empty fragment is equivalent to no fragment at all, and stands for
+ *     a root JSON Pointer;</li>
  *     <li>a reference is taken to be absolute if the underlying URI is
  *     absolute <i>and</i> it has no fragment, or an empty fragment.</li>
  * </ul>

@@ -72,6 +72,12 @@ public final class Keyword
         validatorClass = builder.validatorClass;
     }
 
+    /**
+     * Create a new {@link Builder} for a keyword with a given name
+     *
+     * @param name the name
+     * @return the newly created builder
+     */
     public static Keyword.Builder withName(final String name)
     {
         return new Builder(name);

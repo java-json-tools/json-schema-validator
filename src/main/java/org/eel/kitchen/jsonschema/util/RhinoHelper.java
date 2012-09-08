@@ -119,10 +119,9 @@ public final class RhinoHelper
 
     /**
      * <p>Matches an input against a given regex, in the <b>real</b> sense
-     * of matching, that is, the regex can match anywhere in the input.
-     * Java's {@link java.util.regex} makes the unfortunate mistake to make
-     * people believe that matching is done on the whole input... Which is
-     * not true.
+     * of matching, that is, the regex can match anywhere in the input. Java's
+     * {@link java.util.regex} makes the unfortunate mistake to make people
+     * believe that matching is done on the whole input... Which is not true.
      * </p>
      *
      * <p>Also note that the regex MUST have been validated at this point

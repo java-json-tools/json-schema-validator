@@ -47,6 +47,3 @@
  *
  */
 package org.eel.kitchen.jsonschema.main;
-
-import org.eel.kitchen.jsonschema.main.JsonSchema;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
