@@ -477,7 +477,8 @@ public final class JsonSchemaFactory
      * @param schema the raw schema
      * @return a schema container to instantiate a {@link JsonSchema}
      *
-     * @deprecated use {@link #fromSchema(JsonNode)} instead
+     * @deprecated use {@link #fromSchema(JsonNode)} instead; scheduled for
+     * removal in 1.3+
      */
     @Deprecated
     public SchemaContainer registerSchema(final JsonNode schema)
@@ -497,7 +498,8 @@ public final class JsonSchemaFactory
      * @return a schema container
      * @throws JsonSchemaException cannot get schema from URI, or not a schema
      *
-     * @deprecated use {@link #fromURI(URI)} instead
+     * @deprecated use {@link #fromURI(URI)} instead; scheduled for removal
+     * in 1.3+
      */
     @Deprecated
     public SchemaContainer getSchema(final URI uri)
@@ -519,7 +521,8 @@ public final class JsonSchemaFactory
      * @throws JsonSchemaException cannot get schema from URI, or not a schema
      * @throws IllegalArgumentException string is not a valid URI
      *
-     * @deprecated use {@link #fromURI(String)} instead
+     * @deprecated use {@link #fromURI(String)} instead; scheduled for removal
+     * in 1.3+
      */
     @Deprecated
     public SchemaContainer getSchema(final String str)
@@ -537,7 +540,8 @@ public final class JsonSchemaFactory
      * @param container the schema container
      * @return a {@link JsonSchema} instance
      *
-     * @deprecated use one of the {@code .from*()} methods instead
+     * @deprecated use one of the {@code .from*()} methods instead; scheduled
+     * for removal in 1.3+
      */
     @Deprecated
     public JsonSchema createSchema(final SchemaContainer container)
@@ -570,7 +574,8 @@ public final class JsonSchemaFactory
      * @param path the pointer/id reference into the schema
      * @return a {@link JsonSchema} instance
      *
-     * @deprecated use {@link #fromSchema(JsonNode, String)} instead
+     * @deprecated use {@link #fromSchema(JsonNode, String)} instead; scheduled
+     * for removal in 1.3+
      */
     @Deprecated
     public JsonSchema createSchema(final SchemaContainer container,

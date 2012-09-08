@@ -349,7 +349,8 @@ public final class ValidationReport
      *
      * @return a JSON document with all validation messages
      *
-     * @deprecated use {@link #asJsonObject()} instead
+     * @deprecated use {@link #asJsonObject()} instead; scheduled for removal
+     * in 1.3+
      */
     @Deprecated
     public JsonNode asJsonNode()
