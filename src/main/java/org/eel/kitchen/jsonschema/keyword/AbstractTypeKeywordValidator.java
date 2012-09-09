@@ -98,7 +98,7 @@ public abstract class AbstractTypeKeywordValidator
     }
 
     @Override
-    public String toString()
+    public final String toString()
     {
         final StringBuilder sb = new StringBuilder(keyword)
             .append(": primitive types ");

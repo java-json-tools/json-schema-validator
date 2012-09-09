@@ -32,6 +32,6 @@ public interface JsonValidator
      * @param report the validation report
      * @param instance the instance to validate
      */
-    void validate(ValidationContext context, ValidationReport report,
-        JsonNode instance);
+    void validate(final ValidationContext context,
+        final ValidationReport report, final JsonNode instance);
 }
