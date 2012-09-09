@@ -69,7 +69,6 @@ public final class DisallowKeywordValidator
                 return;
             }
             if (schemaReport.isSuccess()) {
-                // FIXME: the day we have schema locators, add it here
                 msg = newMsg().setMessage("instance is valid against a " +
                     "disallowed schema");
                 report.addMessage(msg.build());
