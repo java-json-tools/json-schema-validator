@@ -31,10 +31,6 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
  * and if the JSON instance matches either a primitive type or a schema
  * within this keyword's definition, validation fails.</p>
  *
- * <p>FIXME: if a schema is a JSON reference and this reference does not
- * resolve successfully, then this particular schema fails validation,
- * and the logic is also inverted in that case. While the draft doesn't
- * object this, it can be viewed as a bug.</p>
  */
 public final class DisallowKeywordValidator
     extends AbstractTypeKeywordValidator
