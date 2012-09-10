@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,14 @@ public final class SyntaxValidator
      */
     public void validate(final List<Message> messages, final JsonNode schema)
     {
+        if (!schema.isObject()) {
+            final Message message = Domain.SYNTAX.newMessage().setKeyword("N/A")
+                .setMessage("illegal JSON Schema: not an object")
+                .addInfo("found", NodeType.getNodeType(schema)).build();
+            messages.add(message);
+            return;
+        }
+
         final Set<String> keywords = JacksonUtils.fieldNames(schema);
 
         keywords.retainAll(checkers.keySet());
