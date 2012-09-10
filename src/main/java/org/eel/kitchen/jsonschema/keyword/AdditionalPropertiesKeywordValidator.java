@@ -86,9 +86,6 @@ public final class AdditionalPropertiesKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (additionalOK)
-            return;
-
         final Set<String> fields = JacksonUtils.fieldNames(instance);
 
         fields.removeAll(properties);

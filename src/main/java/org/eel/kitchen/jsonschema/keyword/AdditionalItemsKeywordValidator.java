@@ -68,9 +68,6 @@ public final class AdditionalItemsKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (additionalOK)
-            return;
-
         if (instance.size() > itemsCount) {
             final Message.Builder msg = newMsg()
                 .setMessage("additional items are not permitted")
