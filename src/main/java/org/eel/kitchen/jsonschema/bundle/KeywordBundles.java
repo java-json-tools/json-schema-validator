@@ -57,6 +57,10 @@ import org.eel.kitchen.jsonschema.util.NodeType;
  *
  * <p>Right now, it only distributes a draft v3 keyword bundle, via the
  * {@link #defaultBundle()} method.</p>
+ *
+ * <p>It also supports syntax checking for the not yet official {@code
+ * minProperties} and {@code maxProperties} keywords (which calculate resp. the
+ * minimum and maximum number of members an object instance can have).</p>
  */
 public final class KeywordBundles
 {
@@ -155,6 +159,11 @@ public final class KeywordBundles
             .withValidatorClass(MaxLengthKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
+        checker = new PositiveIntegerSyntaxChecker("maxProperties");
+        keyword = Keyword.withName("maxProperties").withSyntaxChecker(checker)
+            .build();
+        DEFAULT_BUNDLE.registerKeyword(keyword);
+
         checker = new SimpleSyntaxChecker("minimum", NodeType.INTEGER,
             NodeType.NUMBER);
         keyword = Keyword.withName("minimum").withSyntaxChecker(checker)
@@ -169,6 +178,11 @@ public final class KeywordBundles
         checker = new PositiveIntegerSyntaxChecker("minLength");
         keyword = Keyword.withName("minLength").withSyntaxChecker(checker)
             .withValidatorClass(MinLengthKeywordValidator.class).build();
+        DEFAULT_BUNDLE.registerKeyword(keyword);
+
+        checker = new PositiveIntegerSyntaxChecker("minProperties");
+        keyword = Keyword.withName("minProperties").withSyntaxChecker(checker)
+            .build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         keyword = Keyword.withName("pattern")
