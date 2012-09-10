@@ -124,6 +124,11 @@ public abstract class KeywordValidator
         return Domain.VALIDATION.newMessage().setKeyword(keyword);
     }
 
+    public boolean alwaysTrue()
+    {
+        return false;
+    }
+
     @Override
     public abstract String toString();
 }

@@ -80,6 +80,12 @@ public final class AdditionalItemsKeywordValidator
     }
 
     @Override
+    public boolean alwaysTrue()
+    {
+        return additionalOK;
+    }
+
+    @Override
     public String toString()
     {
         final StringBuilder sb = new StringBuilder(keyword).append(": ");

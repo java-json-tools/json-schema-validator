@@ -80,6 +80,12 @@ public final class PropertiesKeywordValidator
     }
 
     @Override
+    public boolean alwaysTrue()
+    {
+        return required.isEmpty();
+    }
+
+    @Override
     public String toString()
     {
         return keyword + ": " +

@@ -115,6 +115,12 @@ public final class AdditionalPropertiesKeywordValidator
     }
 
     @Override
+    public boolean alwaysTrue()
+    {
+        return additionalOK;
+    }
+
+    @Override
     public String toString()
     {
         final StringBuilder sb = new StringBuilder(keyword + ": ");

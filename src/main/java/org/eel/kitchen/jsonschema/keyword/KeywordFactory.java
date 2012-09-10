@@ -79,8 +79,13 @@ public final class KeywordFactory
 
         set.retainAll(validators.keySet());
 
-        for (final String keyword: set)
-            ret.add(buildValidator(validators.get(keyword), schema));
+        KeywordValidator validator;
+
+        for (final String keyword: set) {
+            validator = buildValidator(validators.get(keyword), schema);
+            if (!validator.alwaysTrue())
+                ret.add(validator);
+        }
 
         return ImmutableSet.copyOf(ret);
     }

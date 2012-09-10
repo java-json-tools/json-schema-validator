@@ -24,6 +24,8 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.util.EnumSet;
+
 /**
  * Validator for the {@code type} keyword
  *
@@ -74,6 +76,12 @@ public final class TypeKeywordValidator
         }
 
         report.mergeWith(schemaReport);
+    }
+
+    @Override
+    public boolean alwaysTrue()
+    {
+        return EnumSet.complementOf(typeSet).isEmpty();
     }
 
     private void trySchemas(final ValidationContext context,
