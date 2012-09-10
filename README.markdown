@@ -11,14 +11,11 @@ href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeL
 <a href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>current stable version: <b>1.0.3</b> (<a
 href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>,
-<a href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>);</li>
-    <li>old stable version: <b>0.6.1</b> (<a
-href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.old">ChangeLog</a>).</li>
+<a href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
 </ul>
 
-<p><b>Note to 1.0.x users or above:</b> this implementation does not cover the
-full set of format attributes defined by the currently active draft, and this is
-on purpose. See <a
+<p><b>Note:</b> this implementation does not cover the full set of format
+attributes defined by the currently active draft, and this is on purpose. See <a
 href="https://github.com/fge/json-schema-formats">json-schema-formats</a> (FWIW,
 at the Maven level, <tt>json-schema-formats</tt> depends on
 <tt>json-schema-validator</tt>).</p>
