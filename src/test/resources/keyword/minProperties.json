@@ -1,0 +1,26 @@
+[
+    {
+        "schema": { "minProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3 },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minProperties",
+                "message": "not enough members in object",
+                "minProperties": 4,
+                "found": 3
+            }
+        ]
+    },
+    {
+        "schema": { "minProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3, "four": 4 },
+        "valid": true
+    },
+    {
+        "schema": { "minProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3, "four": 4, "five": 5 },
+        "valid": true
+    }
+]

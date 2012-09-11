@@ -27,9 +27,11 @@ import org.eel.kitchen.jsonschema.keyword.ExtendsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.MaxItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.MaxLengthKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MaxPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.MaximumKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.MinItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.MinLengthKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.MinPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.MinimumKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.PatternKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
@@ -161,7 +163,7 @@ public final class KeywordBundles
 
         checker = new PositiveIntegerSyntaxChecker("maxProperties");
         keyword = Keyword.withName("maxProperties").withSyntaxChecker(checker)
-            .build();
+            .withValidatorClass(MaxPropertiesKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         checker = new SimpleSyntaxChecker("minimum", NodeType.INTEGER,
@@ -182,7 +184,7 @@ public final class KeywordBundles
 
         checker = new PositiveIntegerSyntaxChecker("minProperties");
         keyword = Keyword.withName("minProperties").withSyntaxChecker(checker)
-            .build();
+            .withValidatorClass(MinPropertiesKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
         keyword = Keyword.withName("pattern")
