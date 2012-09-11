@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.format;
 
 import java.io.IOException;
 
-public final class RegexFormatSpecifierTest
-    extends AbstractFormatSpecifierTest
+public final class IPV6FormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    RegexFormatSpecifierTest()
+    IPV6FormatAttributeTest()
         throws IOException
     {
-        super(RegexFormatSpecifier.getInstance(), "regex");
+        super(IPV6FormatAttribute.getInstance(), "ipv6");
     }
 }

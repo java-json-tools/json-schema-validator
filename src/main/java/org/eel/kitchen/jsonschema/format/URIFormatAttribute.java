@@ -18,30 +18,29 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.net.InetAddresses;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
- * Validator for the {@code ip-address} format specification, ie an IPv4 address
- *
- * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
+ * Validator for the {@code uri} format specification
  */
-public final class IPV4FormatSpecifier
-    extends FormatSpecifier
+public final class URIFormatAttribute
+    extends FormatAttribute
 {
-    private static final FormatSpecifier instance = new IPV4FormatSpecifier();
+    private static final FormatAttribute instance
+        = new URIFormatAttribute();
 
-    private static final int IPV4_LENGTH = 4;
-
-    private IPV4FormatSpecifier()
+    private URIFormatAttribute()
     {
         super(NodeType.STRING);
     }
 
-    public static FormatSpecifier getInstance()
+    public static FormatAttribute getInstance()
     {
         return instance;
     }
@@ -50,15 +49,13 @@ public final class IPV4FormatSpecifier
     public void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode value)
     {
-        final String ipaddr = value.textValue();
-
-        if (InetAddresses.isInetAddress(ipaddr) && InetAddresses
-            .forString(ipaddr).getAddress().length == IPV4_LENGTH)
-            return;
-
-        final Message.Builder msg = newMsg(fmt)
-            .setMessage("string is not a valid IPv4 address")
-            .addInfo("value", value);
-        report.addMessage(msg.build());
+        try {
+            new URI(value.textValue());
+        } catch (URISyntaxException ignored) {
+            final Message.Builder msg = newMsg(fmt)
+                .setMessage("string is not a valid URI")
+                .addInfo("value", value);
+            report.addMessage(msg.build());
+        }
     }
 }

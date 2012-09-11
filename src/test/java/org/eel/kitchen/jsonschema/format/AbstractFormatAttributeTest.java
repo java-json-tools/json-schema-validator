@@ -31,18 +31,18 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
-public abstract class AbstractFormatSpecifierTest
+public abstract class AbstractFormatAttributeTest
 {
-    private final FormatSpecifier specifier;
+    private final FormatAttribute attribute;
     private final String fmt;
 
     private final JsonNode testData;
 
-    AbstractFormatSpecifierTest(final FormatSpecifier specifier,
+    AbstractFormatAttributeTest(final FormatAttribute attribute,
         final String resourceName)
         throws IOException
     {
-        this.specifier = specifier;
+        this.attribute = attribute;
         fmt = resourceName;
 
         testData = JsonLoader.fromResource("/format/" + resourceName + ".json");
@@ -69,7 +69,7 @@ public abstract class AbstractFormatSpecifierTest
         final ValidationContext ctx = new ValidationContext(null);
         final ValidationReport report = new ValidationReport();
 
-        specifier.checkValue(fmt, ctx, report, data);
+        attribute.checkValue(fmt, ctx, report, data);
 
         assertEquals(report.isSuccess(), valid);
     }

@@ -16,10 +16,10 @@
  */
 
 /**
- * Format specifier classes
+ * Format attribute classes
  *
  * <p>The {@code format} keyword is defined by section 5.23 of the current
- * draft. This particular package supports the following format specifiers:</p>
+ * draft. This particular package supports the following format attributes:</p>
  *
  * <ul>
  *     <li>{@code date-time};</li>
@@ -31,20 +31,20 @@
  *     <li>{@code uri}.</li>
  * </ul>
  *
- * <p>All other format specifiers defined by the draft (except {@code color} and
+ * <p>All other format attributes defined by the draft (except {@code color} and
  * {@code style}, for which support is deliberately omitted) are now in a
  * separate package: <a
  * href="https://github.com/fge/json-schema-formats">json-schema-formats
  * </a>.</p>
  *
  * <p>In addition to using the package above, you can also implement your own
- * format specifiers by creating a {@link
+ * format attributes by creating a {@link
  * org.eel.kitchen.jsonschema.format.FormatBundle} and setting/merging your
  * bundle into your schema factory. See also {@link
- * org.eel.kitchen.jsonschema.format.FormatSpecifier}.</p>
+ * FormatAttribute}.</p>
  *
  * <p>Note: by default, the {@code host-name} and {@code email} format
- * specifiers require that both validated values have a domain part. This
+ * attributes require that both validated values have a domain part. This
  * contradicts what the respective RFCs say, but it is more in line with user
  * expectations. You can tell these formats to strictly comply to the RFC by
  * setting {@link

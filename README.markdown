@@ -53,7 +53,7 @@ this is what you are looking for.<p>
 * ability to register/unregister URI handlers for arbitrary URI schemes;
 * ability to set a default URI namespace;
 * ability to define URI redirections;
-* ability to register/unregister keywords and format specifiers.
+* ability to register/unregister keywords and format attributes.
 
 <h2>Relevant documents</h2>
 

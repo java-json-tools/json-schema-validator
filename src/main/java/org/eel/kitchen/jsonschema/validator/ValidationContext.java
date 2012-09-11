@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
-import org.eel.kitchen.jsonschema.format.FormatSpecifier;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.ref.SchemaContainer;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
@@ -47,7 +47,7 @@ public final class ValidationContext
     private final JsonValidatorCache cache;
     private SchemaContainer container;
     private final EnumSet<ValidationFeature> features;
-    private final Map<String, FormatSpecifier> specifiers;
+    private final Map<String, FormatAttribute> attributes;
 
     /**
      * Create a validation context with an empty feature set
@@ -70,8 +70,8 @@ public final class ValidationContext
     {
         this.cache = cache;
         this.features = EnumSet.copyOf(features);
-        specifiers = ImmutableMap.copyOf(FormatBundle.defaultBundle()
-            .getSpecifiers());
+        attributes = ImmutableMap.copyOf(FormatBundle.defaultBundle()
+            .getAttributes());
     }
 
     SchemaContainer getContainer()
@@ -96,16 +96,16 @@ public final class ValidationContext
     }
 
     /**
-     * Return a format specifier for a given attribute
+     * Return a format attribute for a given attribute
      *
      * @see FormatBundle
      *
      * @param fmt the format attribute
-     * @return the specifier, {@code null} if not found
+     * @return the attribute, {@code null} if not found
      */
-    public FormatSpecifier getFormat(final String fmt)
+    public FormatAttribute getFormat(final String fmt)
     {
-        return specifiers.get(fmt);
+        return attributes.get(fmt);
     }
 
     /**

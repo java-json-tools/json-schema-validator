@@ -17,22 +17,14 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-/**
- * Validator for the {@code date-time} format specification
- */
-public final class DateTimeFormatSpecifier
-    extends AbstractDateFormatSpecifier
+import java.io.IOException;
+
+public final class HostnameFormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    private static final FormatSpecifier instance
-        = new DateTimeFormatSpecifier();
-
-    public static FormatSpecifier getInstance()
+    HostnameFormatAttributeTest()
+        throws IOException
     {
-        return instance;
-    }
-
-    private DateTimeFormatSpecifier()
-    {
-        super("yyyy-MM-dd'T'HH:mm:ssZ", "ISO 8601 date");
+        super(HostnameFormatAttribute.getInstance(), "hostname");
     }
 }

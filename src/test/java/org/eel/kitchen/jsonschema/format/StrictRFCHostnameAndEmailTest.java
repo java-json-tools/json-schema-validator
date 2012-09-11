@@ -42,7 +42,7 @@ public final class StrictRFCHostnameAndEmailTest
     private static final EnumSet<ValidationFeature> STRICT
         = EnumSet.of(ValidationFeature.STRICT_RFC_CONFORMANCE);
 
-    private FormatSpecifier specifier;
+    private FormatAttribute attribute;
     private ValidationContext context;
     private ValidationReport report;
     private JsonNode value;
@@ -62,17 +62,17 @@ public final class StrictRFCHostnameAndEmailTest
     public void hostnameStrictRFCConformanceIsObeyed(final String input,
         final boolean unstrictRet, final boolean strictRet)
     {
-        specifier = HostnameFormatSpecifier.getInstance();
+        attribute = HostnameFormatAttribute.getInstance();
         value = factory.textNode(input);
 
         context = new ValidationContext(null, UNSTRICT);
         report = new ValidationReport();
-        specifier.checkValue("", context, report, value);
+        attribute.checkValue("", context, report, value);
         assertEquals(report.isSuccess(), unstrictRet);
 
         context = new ValidationContext(null, STRICT);
         report = new ValidationReport();
-        specifier.checkValue("", context, report, value);
+        attribute.checkValue("", context, report, value);
         assertEquals(report.isSuccess(), strictRet);
     }
 
@@ -91,17 +91,17 @@ public final class StrictRFCHostnameAndEmailTest
     public void emailStrictRFCConformanceIsObeyed(final String input,
         final boolean unstrictRet, final boolean strictRet)
     {
-        specifier = EmailFormatSpecifier.getInstance();
+        attribute = EmailFormatAttribute.getInstance();
         value = factory.textNode(input);
 
         context = new ValidationContext(null, UNSTRICT);
         report = new ValidationReport();
-        specifier.checkValue("", context, report, value);
+        attribute.checkValue("", context, report, value);
         assertEquals(report.isSuccess(), unstrictRet);
 
         context = new ValidationContext(null, STRICT);
         report = new ValidationReport();
-        specifier.checkValue("", context, report, value);
+        attribute.checkValue("", context, report, value);
         assertEquals(report.isSuccess(), strictRet);
     }
 }

@@ -39,7 +39,7 @@
  *     </li>
  *     <li>keywords: registering/unregistering keywords, creating your own
  *     bundles, replacing/merging them;</li>
- *     <li>format specifiers: same as keywords;</li>
+ *     <li>format attributes: same as keywords;</li>
  *     <li>enabling validation features.</li>
  * </ul>
  *

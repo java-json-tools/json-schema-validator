@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.format;
 
 import java.io.IOException;
 
-public final class HostnameFormatSpecifierTest
-    extends AbstractFormatSpecifierTest
+public final class EmailFormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    HostnameFormatSpecifierTest()
+    EmailFormatAttributeTest()
         throws IOException
     {
-        super(HostnameFormatSpecifier.getInstance(), "hostname");
+        super(EmailFormatAttribute.getInstance(), "email");
     }
 }

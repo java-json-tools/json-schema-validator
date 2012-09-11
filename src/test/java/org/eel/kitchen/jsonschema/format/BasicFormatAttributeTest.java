@@ -30,10 +30,10 @@ import java.math.BigDecimal;
 
 import static org.mockito.Mockito.*;
 
-public final class BasicFormatSpecifierTest
+public final class BasicFormatAttributeTest
 {
     /*
-     * Here we create a basic FormatSpecifier covering a certain type set,
+     * Here we create a basic FormatAttribute covering a certain type set,
      * and check that the checkValue() method is only called for this type set.
      *
      * We pick a set of covered types in advance.
@@ -44,13 +44,13 @@ public final class BasicFormatSpecifierTest
     private final ValidationContext ctx = new ValidationContext(null);
 
     private ValidationReport report;
-    private FormatSpecifier specifier;
+    private FormatAttribute attribute;
 
-    private static class CustomFormatSpecifier
-        extends FormatSpecifier
+    private static class CustomFormatAttribute
+        extends FormatAttribute
     {
 
-        private CustomFormatSpecifier()
+        private CustomFormatAttribute()
         {
             super(NodeType.INTEGER, NodeType.NUMBER, NodeType.STRING);
         }
@@ -66,7 +66,7 @@ public final class BasicFormatSpecifierTest
     public void ctxInit()
     {
         report = new ValidationReport();
-        specifier = spy(new CustomFormatSpecifier());
+        attribute = spy(new CustomFormatAttribute());
     }
 
     @DataProvider
@@ -82,8 +82,8 @@ public final class BasicFormatSpecifierTest
     @Test(dataProvider = "coveredInstances")
     public void checkValueIsCalledOnCoveredInstances(final JsonNode instance)
     {
-        specifier.validate(FMT, ctx, report, instance);
-        verify(specifier, times(1)).checkValue(FMT, ctx, report, instance);
+        attribute.validate(FMT, ctx, report, instance);
+        verify(attribute, times(1)).checkValue(FMT, ctx, report, instance);
     }
 
     @DataProvider
@@ -100,7 +100,7 @@ public final class BasicFormatSpecifierTest
     @Test(dataProvider = "ignoredInstances")
     public void checkValueIsNotCalledOnIgnoredInstances(final JsonNode instance)
     {
-        specifier.validate(FMT, ctx, report, instance);
-        verify(specifier, never()).checkValue(FMT, ctx, report, instance);
+        attribute.validate(FMT, ctx, report, instance);
+        verify(attribute, never()).checkValue(FMT, ctx, report, instance);
     }
 }

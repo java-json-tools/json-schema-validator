@@ -17,14 +17,22 @@
 
 package org.eel.kitchen.jsonschema.format;
 
-import java.io.IOException;
-
-public final class IPV4FormatSpecifierTest
-    extends AbstractFormatSpecifierTest
+/**
+ * Validator for the {@code date-time} format specification
+ */
+public final class DateTimeFormatAttribute
+    extends AbstractDateFormatAttribute
 {
-    IPV4FormatSpecifierTest()
-        throws IOException
+    private static final FormatAttribute instance
+        = new DateTimeFormatAttribute();
+
+    public static FormatAttribute getInstance()
     {
-        super(IPV4FormatSpecifier.getInstance(), "ip-address");
+        return instance;
+    }
+
+    private DateTimeFormatAttribute()
+    {
+        super("yyyy-MM-dd'T'HH:mm:ssZ", "ISO 8601 date");
     }
 }

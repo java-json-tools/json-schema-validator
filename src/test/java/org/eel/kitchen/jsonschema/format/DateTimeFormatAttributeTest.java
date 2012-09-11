@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.format;
 
 import java.io.IOException;
 
-public final class IPV6FormatSpecifierTest
-    extends AbstractFormatSpecifierTest
+public final class DateTimeFormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    IPV6FormatSpecifierTest()
+    DateTimeFormatAttributeTest()
         throws IOException
     {
-        super(IPV6FormatSpecifier.getInstance(), "ipv6");
+        super(DateTimeFormatAttribute.getInstance(), "datetime");
     }
 }

@@ -32,18 +32,18 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
  *
  * @see RhinoHelper
  */
-public final class RegexFormatSpecifier
-    extends FormatSpecifier
+public final class RegexFormatAttribute
+    extends FormatAttribute
 {
-    private static final FormatSpecifier instance
-        = new RegexFormatSpecifier();
+    private static final FormatAttribute instance
+        = new RegexFormatAttribute();
 
-    private RegexFormatSpecifier()
+    private RegexFormatAttribute()
     {
         super(NodeType.STRING);
     }
 
-    public static FormatSpecifier getInstance()
+    public static FormatAttribute getInstance()
     {
         return instance;
     }

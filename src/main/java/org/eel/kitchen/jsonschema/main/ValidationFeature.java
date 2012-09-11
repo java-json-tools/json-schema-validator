@@ -17,8 +17,8 @@
 
 package org.eel.kitchen.jsonschema.main;
 
-import org.eel.kitchen.jsonschema.format.EmailFormatSpecifier;
-import org.eel.kitchen.jsonschema.format.HostnameFormatSpecifier;
+import org.eel.kitchen.jsonschema.format.EmailFormatAttribute;
+import org.eel.kitchen.jsonschema.format.HostnameFormatAttribute;
 
 /**
  * Validation features
@@ -26,11 +26,11 @@ import org.eel.kitchen.jsonschema.format.HostnameFormatSpecifier;
 public enum ValidationFeature
 {
     /**
-     * Make the {@code email} and {@code host-name} format specifiers obey the
+     * Make the {@code email} and {@code host-name} format attributes obey the
      * RFCs to the letter
      *
-     * @see EmailFormatSpecifier
-     * @see HostnameFormatSpecifier
+     * @see EmailFormatAttribute
+     * @see HostnameFormatAttribute
      */
     STRICT_RFC_CONFORMANCE
 }

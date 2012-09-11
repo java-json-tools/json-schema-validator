@@ -27,42 +27,42 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import java.util.EnumSet;
 
 /**
- * Base class for a format specifier
+ * Base class for a format attribute
  *
  * <p>The {@code format} keyword always takes a string as an argument, and this
- * string is called a "specifier". The draft defines specifiers for recognizing
+ * string is called a "attribute". The draft defines attributes for recognizing
  * URIs, phone numbers, different date formats, and so on -- and even CSS 2.1
  * colors and styles (not supported).</p>
  *
- * <p>One important thing to remember is that a specifier will only validate a
+ * <p>One important thing to remember is that a attribute will only validate a
  * given subset of JSON instance types (for instance, {@code uri} only validates
  * string instances). In the event that the instane type is not of the
  * validated types, validation <i>succeeds</i>.</p>
  *
- * <p>The spec allows for custom specifiers to be added. This implementation
+ * <p>The spec allows for custom attributes to be added. This implementation
  * supports it.</p>
  *
  * @see FormatBundle
  */
-public abstract class FormatSpecifier
+public abstract class FormatAttribute
 {
     /**
-     * JSON instance types which this specifier can validate
+     * JSON instance types which this attribute can validate
      */
     private final EnumSet<NodeType> typeSet;
 
     /**
      * Protected constructor
      *
-     * <p>Its arguments are the node types recognized by the specifier. Only
-     * one specifier recognizes more than one type: {@code utc-millisec} (it
+     * <p>Its arguments are the node types recognized by the attribute. Only
+     * one attribute recognizes more than one type: {@code utc-millisec} (it
      * can validate both numbers and integers).
      * </p>
      *
      * @param first first type
      * @param other other types, if any
      */
-    protected FormatSpecifier(final NodeType first, final NodeType... other)
+    protected FormatAttribute(final NodeType first, final NodeType... other)
     {
         typeSet = EnumSet.of(first, other);
     }
@@ -71,14 +71,14 @@ public abstract class FormatSpecifier
      * Main validation function
      *
      * <p>This function only checks whether the value is of a type recognized
-     * by this specifier. If so, it calls {@link #checkValue(String,
+     * by this attribute. If so, it calls {@link #checkValue(String,
      * ValidationContext, ValidationReport, JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
-     * with the keyword ({@code format}), the specifier name and the domain
+     * with the keyword ({@code format}), the attribute name and the domain
      * ({@link Domain#VALIDATION}).</p>
      *
-     * @param fmt the format specifier name
+     * @param fmt the format attribute name
      * @param ctx the validation context
      * @param report the validation report
      * @param value the value to validate
@@ -93,13 +93,13 @@ public abstract class FormatSpecifier
     }
 
     /**
-     * Abstract method implemented by all specifiers
+     * Abstract method implemented by all attributes
      *
      * <p>It is only called if the value type is one expected by the
-     * specifier, see  {@link #validate(String, ValidationContext,
+     * attribute, see  {@link #validate(String, ValidationContext,
      * ValidationReport, JsonNode)}.</p>
      *
-     * @param fmt the format specifier name
+     * @param fmt the format attribute name
      * @param ctx the validation context
      * @param report the validation report
      * @param value the value to validate

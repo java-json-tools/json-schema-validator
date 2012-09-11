@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.format;
 
 import java.io.IOException;
 
-public final class URIFormatSpecifierTest
-    extends AbstractFormatSpecifierTest
+public final class RegexFormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    URIFormatSpecifierTest()
+    RegexFormatAttributeTest()
         throws IOException
     {
-        super(URIFormatSpecifier.getInstance(), "uri");
+        super(RegexFormatAttribute.getInstance(), "regex");
     }
 }

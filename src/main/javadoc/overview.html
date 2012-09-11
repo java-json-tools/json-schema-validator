@@ -233,14 +233,14 @@ like this:</p>
 <p>For further information, see {@link org.eel.kitchen.jsonschema.syntax} and
 {@link org.eel.kitchen.jsonschema.keyword}.</p>
 
-<h2>Registering/unregistering format specifiers</h2>
+<h2>Registering/unregistering format attributes</h2>
 
 <p>The draft defines the <tt>format</tt> keyword in section 5.23. It explicitly
-mentions that custom format specifiers MAY be created. You can do this with this
+mentions that custom format attributes MAY be created. You can do this with this
 implementation.</p>
 
 <p>The principle is the same as for keywords. Note also that this library only
-supports a subset of all specifiers defined by the draft: other specifiers are
+supports a subset of all attributes defined by the draft: other attributes are
 now in a separate package.</p>
 
 <p>See {@link org.eel.kitchen.jsonschema.format} for more information.</p>
@@ -282,7 +282,7 @@ like this:</p>
 <p>This is done using the <tt>.setFeature()</tt> method of a schema factory
 builder. For now, the only existing feature is called {@link
 org.eel.kitchen.jsonschema.main.ValidationFeature#STRICT_RFC_CONFORMANCE}. It is
-used by the <tt>host-name</tt> and <tt>email</tt> format specifiers since, by
+used by the <tt>host-name</tt> and <tt>email</tt> format attributes since, by
 default, they require that both hostnames and emails have a domain part -- but
 RFCs do not require this. This brings those two validators in conformance with
 their respective RFCs.</p>

@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.bundle.Keyword;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
-import org.eel.kitchen.jsonschema.format.FormatSpecifier;
 import org.eel.kitchen.jsonschema.ref.JsonFragment;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
@@ -396,27 +396,27 @@ public final class JsonSchemaFactory
         }
 
         /**
-         * Register a format specifier
+         * Register a format attribute
          *
-         * @see FormatBundle#registerFormat(String, FormatSpecifier)
+         * @see FormatBundle#registerFormat(String, FormatAttribute)
          *
-         * @param fmt the name for this specifier
-         * @param specifier the format specifier instance
+         * @param fmt the name for this attribute
+         * @param attribute the format attribute instance
          * @return the builder
          */
         public Builder registerFormat(final String fmt,
-            final FormatSpecifier specifier)
+            final FormatAttribute attribute)
         {
-            formatBundle.registerFormat(fmt, specifier);
+            formatBundle.registerFormat(fmt, attribute);
             return this;
         }
 
         /**
-         * Unregister a format specifier
+         * Unregister a format attribute
          *
-         * <p>This is a no op if such a specifier was not registered.</p>
+         * <p>This is a no op if such a attribute was not registered.</p>
          *
-         * @param fmt the name for this specifier
+         * @param fmt the name for this attribute
          * @return the builder
          */
         public Builder unregisterFormat(final String fmt)

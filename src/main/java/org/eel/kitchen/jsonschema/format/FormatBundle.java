@@ -25,14 +25,14 @@ import java.util.Collections;
 import java.util.Map;
 
 /**
- * A bundle of format specifiers
+ * A bundle of format attributes
  *
- * <p>You can either create a bundle with all builtin format specifiers (see
+ * <p>You can either create a bundle with all builtin format attributes (see
  * below for the list), or an empty one which you have to fill yourself. The
  * methods to use for these are respectively {@link #defaultBundle()} and {@link
  * #newBundle()}.</p>
  *
- * <p>The default bundle will contain validators ({@link FormatSpecifier}
+ * <p>The default bundle will contain validators ({@link FormatAttribute}
  * instances) for the following format attributes:</p>
  *
  * <ul>
@@ -54,54 +54,54 @@ import java.util.Map;
  * as possible -- in particular, leave {@code regex} alone (see
  * {@link RhinoHelper}).</p>
  *
- * @see FormatSpecifier
+ * @see FormatAttribute
  */
 public final class FormatBundle
 {
     /**
-     * The builtin format specifiers
+     * The builtin format attributes
      */
-    private static final Map<String, FormatSpecifier> BUILTIN_FORMATS;
+    private static final Map<String, FormatAttribute> BUILTIN_FORMATS;
 
     static {
-        final ImmutableMap.Builder<String, FormatSpecifier> builder
-            = new ImmutableMap.Builder<String, FormatSpecifier>();
+        final ImmutableMap.Builder<String, FormatAttribute> builder
+            = new ImmutableMap.Builder<String, FormatAttribute>();
 
         /*
-         * Draft v3 format specifiers
+         * Draft v3 format attributes
          */
-        builder.put("date-time", DateTimeFormatSpecifier.getInstance());
-        builder.put("email", EmailFormatSpecifier.getInstance());
-        builder.put("host-name", HostnameFormatSpecifier.getInstance());
-        builder.put("ip-address", IPV4FormatSpecifier.getInstance());
-        builder.put("ipv6", IPV6FormatSpecifier.getInstance());
-        builder.put("regex", RegexFormatSpecifier.getInstance());
-        builder.put("uri", URIFormatSpecifier.getInstance());
+        builder.put("date-time", DateTimeFormatAttribute.getInstance());
+        builder.put("email", EmailFormatAttribute.getInstance());
+        builder.put("host-name", HostnameFormatAttribute.getInstance());
+        builder.put("ip-address", IPV4FormatAttribute.getInstance());
+        builder.put("ipv6", IPV6FormatAttribute.getInstance());
+        builder.put("regex", RegexFormatAttribute.getInstance());
+        builder.put("uri", URIFormatAttribute.getInstance());
 
         BUILTIN_FORMATS = builder.build();
     }
 
     /**
-     * This bundle's specifiers
+     * This bundle's attributes
      */
-    private final Map<String, FormatSpecifier> specifiers;
+    private final Map<String, FormatAttribute> attributes;
 
     /**
      * Constructor for a completely empty bundle
      */
     private FormatBundle()
     {
-        this(Collections.<String, FormatSpecifier>emptyMap());
+        this(Collections.<String, FormatAttribute>emptyMap());
     }
 
     /**
-     * Constructor with a provided specifier map
+     * Constructor with a provided attribute map
      *
-     * @param specifiers the specifiers list
+     * @param attributes the attributes list
      */
-    private FormatBundle(final Map<String, FormatSpecifier> specifiers)
+    private FormatBundle(final Map<String, FormatAttribute> attributes)
     {
-        this.specifiers = Maps.newHashMap(specifiers);
+        this.attributes = Maps.newHashMap(attributes);
     }
 
     /**
@@ -115,7 +115,7 @@ public final class FormatBundle
     }
 
     /**
-     * Create a new bundle with the default format specifier set
+     * Create a new bundle with the default format attribute set
      *
      * @return the bundle
      */
@@ -125,56 +125,56 @@ public final class FormatBundle
     }
 
     /**
-     * Register a new format specifier
+     * Register a new format attribute
      *
-     * <p>Note: it will unconditionally override any existing specifier, so be
+     * <p>Note: it will unconditionally override any existing attribute, so be
      * careful!</p>
      *
-     * @param fmt the format specifier name
-     * @param specifier the specifier instance
+     * @param fmt the format attribute name
+     * @param attribute the attribute instance
      */
     public void registerFormat(final String fmt,
-        final FormatSpecifier specifier)
+        final FormatAttribute attribute)
     {
-        specifiers.put(fmt, specifier);
+        attributes.put(fmt, attribute);
     }
 
     /**
-     * Unregister a specifier
+     * Unregister a attribute
      *
-     * @param fmt the specifier name
+     * @param fmt the attribute name
      */
     public void unregisterFormat(final String fmt)
     {
-        specifiers.remove(fmt);
+        attributes.remove(fmt);
     }
 
     /**
      * Merge with another bundle
      *
-     * <p>Note that specifiers defined in the bundle given as an argument will
+     * <p>Note that attributes defined in the bundle given as an argument will
      * happily override those defined in the current bundle. Use with care!</p>
      *
      * @param other the other bundle
      */
     public void mergeWith(final FormatBundle other)
     {
-        specifiers.putAll(other.specifiers);
+        attributes.putAll(other.attributes);
     }
 
     /**
-     * Get an immutable map of this bundle's specifiers
+     * Get an immutable map of this bundle's attributes
      *
-     * @return a map of this bundle instance's specifiers
+     * @return a map of this bundle instance's attributes
      */
-    public Map<String, FormatSpecifier> getSpecifiers()
+    public Map<String, FormatAttribute> getAttributes()
     {
-        return ImmutableMap.copyOf(specifiers);
+        return ImmutableMap.copyOf(attributes);
     }
 
     @Override
     public String toString()
     {
-        return "specifiers: " + specifiers.keySet();
+        return "attributes: " + attributes.keySet();
     }
 }

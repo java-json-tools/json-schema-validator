@@ -29,19 +29,19 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
  *
  * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
  */
-public final class IPV6FormatSpecifier
-    extends FormatSpecifier
+public final class IPV6FormatAttribute
+    extends FormatAttribute
 {
-    private static final FormatSpecifier instance = new IPV6FormatSpecifier();
+    private static final FormatAttribute instance = new IPV6FormatAttribute();
 
     private static final int IPV6_LENGTH = 16;
 
-    private IPV6FormatSpecifier()
+    private IPV6FormatAttribute()
     {
         super(NodeType.STRING);
     }
 
-    public static FormatSpecifier getInstance()
+    public static FormatAttribute getInstance()
     {
         return instance;
     }

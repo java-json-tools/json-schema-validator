@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.format;
 
 import java.io.IOException;
 
-public final class DateTimeFormatSpecifierTest
-    extends AbstractFormatSpecifierTest
+public final class URIFormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    DateTimeFormatSpecifierTest()
+    URIFormatAttributeTest()
         throws IOException
     {
-        super(DateTimeFormatSpecifier.getInstance(), "datetime");
+        super(URIFormatAttribute.getInstance(), "uri");
     }
 }

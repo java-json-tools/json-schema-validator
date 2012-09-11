@@ -19,7 +19,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.format.FormatSpecifier;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -27,17 +27,16 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 /**
  * Validator for the {@code format} keyword
  *
- * <p>This keyword is scheduled for disappearance in draft v4. However,
- * some people have raised concerns about this.</p>
+ * <p>The {@code format} keyword is a particular beast, since in draft v3, it is
+ * the only validation keyword able to do <i>semantic</i> analysis of an
+ * instance.</p>
  *
- * <p>All format specifiers from draft v3 are supported except {@code style}
- * and {@code color} (which validate an entire CSS 2.1 style and color
- * respectively!).</p>
- *
- * <p>There is support here for one custom specifier: {@code date-time-ms}. The
- * v3 draft specifies that {@code date-time} should match the pattern
- * {@code YYYY-MM-DDThh:mm:ssZ}.  {@code date-time-ms} extends that to a format
- * supporting milliseconds: {@code YYYY-MM-DDThh:mm:ss.SSSZ}.</p>
+ * <p>This library only supports a subset of all format attributes defined by
+ * draft v3. Other format attributes, apart from {@code color} and {@code style}
+ * (for which support is deliberately ommitted), are in another library
+ * dependent on this one (and also reachable by Maven users): <a
+ * href="https://github.com/fge/json-schema-formats">json-schema-formats</a>.
+ * </p>
  *
  * @see org.eel.kitchen.jsonschema.format
  */
@@ -57,12 +56,12 @@ public final class FormatKeywordValidator
     protected void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final FormatSpecifier specifier = context.getFormat(fmt);
+        final FormatAttribute attribute = context.getFormat(fmt);
 
-        if (specifier == null)
+        if (attribute == null)
             return;
 
-        specifier.validate(fmt, context, report, instance);
+        attribute.validate(fmt, context, report, instance);
     }
 
     @Override

@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.format;
 
 import java.io.IOException;
 
-public final class EmailFormatSpecifierTest
-    extends AbstractFormatSpecifierTest
+public final class IPV4FormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    EmailFormatSpecifierTest()
+    IPV4FormatAttributeTest()
         throws IOException
     {
-        super(EmailFormatSpecifier.getInstance(), "email");
+        super(IPV4FormatAttribute.getInstance(), "ip-address");
     }
 }
