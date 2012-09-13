@@ -83,6 +83,20 @@ public final class JarNamespaceValidationTest
         assertTrue(report.isSuccess());
     }
 
+    @Test
+    public void callingSchemaViaJarURINamespaceWorks()
+        throws JsonSchemaException
+    {
+        final JsonSchemaFactory factory = builder.setNamespace(namespace)
+            .build();
+
+        final JsonSchema schema = factory.fromURI(SCHEMA_SUBPATH);
+
+        final ValidationReport report = schema.validate(data);
+
+        assertTrue(report.isSuccess());
+    }
+
     @AfterClass
     public void deleteJar()
         throws IOException
