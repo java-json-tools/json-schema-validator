@@ -191,6 +191,11 @@ public final class JsonRef
         return EMPTY;
     }
 
+    public URI asURI()
+    {
+        return uri;
+    }
+
     /**
      * Tell whether this reference is an absolute reference
      *

@@ -46,7 +46,7 @@ public final class SchemaRegistry
     /**
      * The default namespace
      */
-    private final URI namespace;
+    private final JsonRef namespace;
 
     /**
      * Schema cache
@@ -61,7 +61,7 @@ public final class SchemaRegistry
      */
     public SchemaRegistry(final URIManager manager, final URI namespace)
     {
-        this.namespace = namespace.normalize();
+        this.namespace = JsonRef.fromURI(namespace);
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(new CacheLoader<URI, SchemaContainer>()
             {
@@ -107,7 +107,7 @@ public final class SchemaRegistry
     public SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
-        final URI realURI = namespace.resolve(uri).normalize();
+        final URI realURI = namespace.resolve(JsonRef.fromURI(uri)).asURI();
 
         try {
             return cache.get(realURI);

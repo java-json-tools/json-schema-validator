@@ -38,7 +38,7 @@ public final class SchemaRegistryTest
     public void namespacesAreRespected()
         throws IOException, JsonSchemaException
     {
-        final URI fullPath = URI.create("foo:///baz");
+        final URI fullPath = URI.create("foo:/baz#");
         final URIManager manager = new URIManager();
         final URIDownloader downloader = spy(new URIDownloader()
         {
@@ -60,7 +60,8 @@ public final class SchemaRegistryTest
 
         final URI uri = URI.create("../baz");
         registry.get(uri);
-        verify(downloader).fetch(rootns.resolve(uri));
+        final JsonRef ref = JsonRef.fromURI(rootns.resolve(uri));
+        verify(downloader).fetch(rootns.resolve(ref.asURI()));
     }
 
     @Test
