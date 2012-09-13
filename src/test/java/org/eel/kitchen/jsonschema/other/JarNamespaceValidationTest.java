@@ -46,6 +46,7 @@ public final class JarNamespaceValidationTest
 
     private URI rootURI;
     private File jarLocation;
+    private String namespace;
     private JsonNode data;
 
     private JsonSchemaFactory.Builder builder;
@@ -57,6 +58,9 @@ public final class JarNamespaceValidationTest
         rootURI = getClass().getResource("/").toURI();
         jarLocation = doBuildJar();
         data = JsonLoader.fromResource("/grimbo/test-object.json");
+
+        final String tmp = jarLocation.toURI().toString() + "!/grimbo/";
+        namespace = new URI("jar", tmp, null).toString();
     }
 
     @BeforeTest
@@ -66,17 +70,13 @@ public final class JarNamespaceValidationTest
     }
 
     @Test
-    public void foo()
+    public void callingSchemaViaAbsoluteJarURIWorks()
         throws URISyntaxException, JsonSchemaException
     {
         final JsonSchemaFactory factory = builder.build();
-        String s = jarLocation.toURI().toString();
+        final String schemaPath = namespace + SCHEMA_SUBPATH;
 
-        s += "!/grimbo/" + SCHEMA_SUBPATH;
-
-        final URI uri = new URI("jar", s, null);
-
-        final JsonSchema schema = factory.fromURI(uri);
+        final JsonSchema schema = factory.fromURI(schemaPath);
 
         final ValidationReport report = schema.validate(data);
 
