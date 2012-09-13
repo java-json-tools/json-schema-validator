@@ -107,7 +107,7 @@ public final class SchemaRegistry
     public SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
-        final URI realURI = namespace.resolve(JsonRef.fromURI(uri)).asURI();
+        final URI realURI = namespace.resolve(JsonRef.fromURI(uri)).toURI();
 
         try {
             return cache.get(realURI);

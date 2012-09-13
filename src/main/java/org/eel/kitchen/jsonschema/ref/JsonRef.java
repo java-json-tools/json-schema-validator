@@ -191,7 +191,7 @@ public final class JsonRef
         return EMPTY;
     }
 
-    public URI asURI()
+    public URI toURI()
     {
         return uri;
     }

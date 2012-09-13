@@ -61,7 +61,7 @@ public final class SchemaRegistryTest
         final URI uri = URI.create("../baz");
         registry.get(uri);
         final JsonRef ref = JsonRef.fromURI(rootns.resolve(uri));
-        verify(downloader).fetch(rootns.resolve(ref.asURI()));
+        verify(downloader).fetch(rootns.resolve(ref.toURI()));
     }
 
     @Test
