@@ -29,7 +29,7 @@ import java.net.URI;
 import java.util.Iterator;
 import java.util.Set;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class JsonLocatorTest
 {
@@ -67,5 +67,32 @@ public final class JsonLocatorTest
 
         assertEquals(baseLocator.resolve(resolved), expected);
 
+    }
+
+    @Test
+    public void malformedJarURLsAreRejected()
+    {
+        String bad;
+        URI uri;
+
+        bad = "jar:file:/tmp/foo.jar";
+        uri = URI.create(bad);
+
+        try {
+            JsonLocator.fromURI(uri);
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "illegal jar URL " + bad);
+        }
+
+        bad = "jar:file:/x.jar!t";
+        uri = URI.create(bad);
+
+        try {
+            JsonLocator.fromURI(uri);
+            fail("No exception thrown!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), "illegal jar URL " + bad);
+        }
     }
 }

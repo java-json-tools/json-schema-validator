@@ -17,6 +17,8 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
+import com.google.common.base.Preconditions;
+
 import java.net.URI;
 
 final class JarJsonLocator
@@ -28,10 +30,18 @@ final class JarJsonLocator
     JarJsonLocator(final URI uri)
     {
         super(uri);
-        final String str = uri.toString();
+        final String str = this.uri.toString();
+
         final int index = str.indexOf('!');
+        Preconditions.checkArgument(index != -1, "illegal jar URL " + this.uri);
+
         jarPrefix = str.substring(0, index + 1);
-        path = URI.create(str.substring(index + 1));
+
+        final String pathstr = str.substring(index + 1);
+        Preconditions.checkArgument(pathstr.startsWith("/"), "illegal jar URL "
+            + this.uri);
+
+        path = URI.create(pathstr);
     }
 
     private JarJsonLocator(final String jarPrefix, final URI path)
