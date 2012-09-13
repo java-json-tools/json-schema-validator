@@ -17,9 +17,16 @@
 
 package org.eel.kitchen.jsonschema.other;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.io.Files;
+import org.eel.kitchen.jsonschema.main.JsonSchema;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -35,9 +42,13 @@ import static org.testng.Assert.*;
 
 public final class JarNamespaceValidationTest
 {
+    private static final String SCHEMA_SUBPATH = "child1/child.json";
+
     private URI rootURI;
     private File jarLocation;
+    private JsonNode data;
 
+    private JsonSchemaFactory.Builder builder;
 
     @BeforeClass
     public void buildJar()
@@ -45,12 +56,31 @@ public final class JarNamespaceValidationTest
     {
         rootURI = getClass().getResource("/").toURI();
         jarLocation = doBuildJar();
+        data = JsonLoader.fromResource("/grimbo/test-object.json");
+    }
+
+    @BeforeTest
+    public void setBuilder()
+    {
+        builder = new JsonSchemaFactory.Builder();
     }
 
     @Test
     public void foo()
+        throws URISyntaxException, JsonSchemaException
     {
-        assertTrue(true);
+        final JsonSchemaFactory factory = builder.build();
+        String s = jarLocation.toURI().toString();
+
+        s += "!/grimbo/" + SCHEMA_SUBPATH;
+
+        final URI uri = new URI("jar", s, null);
+
+        final JsonSchema schema = factory.fromURI(uri);
+
+        final ValidationReport report = schema.validate(data);
+
+        assertTrue(report.isSuccess());
     }
 
     @AfterClass
@@ -90,8 +120,10 @@ public final class JarNamespaceValidationTest
         throws IOException
     {
         final File src = new File(baseURI.getPath());
-        final String basePath = "/" + rootURI.relativize(baseURI)
-            + (src.isDirectory() ? "/" : "");
+        String basePath = rootURI.relativize(baseURI).getPath();
+
+        if (src.isDirectory() && !basePath.endsWith("/"))
+            basePath += "/";
 
         final JarEntry entry = new JarEntry(basePath);
         jarfh.putNextEntry(entry);
