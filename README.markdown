@@ -6,7 +6,7 @@ src/main/resources/LICENSE for the full text.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>current development version: <b>1.1.3</b> (<a
+    <li>current development version: <b>1.1.4</b> (<a
 href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>,
 <a href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>current stable version: <b>1.0.4</b> (<a
@@ -65,8 +65,8 @@ based on the following drafts:</p>
   Internet draft, version 3</a>;
 * <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02">JSON
   Reference Internet draft, version 2</a>;
-* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-03">JSON
-  Pointer Internet draft, version 3</a>.
+* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-04">JSON
+  Pointer Internet draft, version 4</a>.
 
 <h2>More...</h2>
 
