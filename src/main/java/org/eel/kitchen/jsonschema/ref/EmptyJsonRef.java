@@ -17,20 +17,14 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import java.net.URI;
-
 public final class EmptyJsonRef
     extends JsonRef
 {
-    private static final URI EMPTY = URI.create("#");
-    private static final JsonFragment EMPTY_FRAGMENT
-        = JsonFragment.fromFragment("");
-
     private static final JsonRef instance = new EmptyJsonRef();
 
     private EmptyJsonRef()
     {
-        super(EMPTY, EMPTY, EMPTY_FRAGMENT);
+        super(HASHONLY_URI);
     }
 
     static JsonRef getInstance()

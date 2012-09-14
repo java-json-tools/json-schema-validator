@@ -64,7 +64,7 @@ public abstract class JsonRef
 {
     private static final URI EMPTY_URI = URI.create("");
 
-    private static final URI HASHONLY_URI = URI.create("#");
+    protected static final URI HASHONLY_URI = URI.create("#");
 
     /**
      * The URI, as provided by the input, with an appended empty fragment if
@@ -75,16 +75,6 @@ public abstract class JsonRef
     protected final URI locator;
     protected final JsonFragment fragment;
     protected final int hashCode;
-
-    protected JsonRef(final URI uri, final URI locator,
-        final JsonFragment fragment)
-    {
-        this.uri = uri;
-        this.locator = locator;
-        this.fragment = fragment;
-        asString = uri.toString();
-        hashCode = asString.hashCode();
-    }
 
     protected JsonRef(final URI uri)
     {
