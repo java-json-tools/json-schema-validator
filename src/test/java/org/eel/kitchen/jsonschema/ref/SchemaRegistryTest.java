@@ -76,7 +76,7 @@ public final class SchemaRegistryTest
 
         final SchemaContainer container = registry.register(schema);
 
-        assertEquals(container.getLocator().getRootAsURI(),
+        assertEquals(container.getLocator().getLocator(),
             URI.create("http://toto/b#"));
     }
 }

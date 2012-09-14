@@ -122,7 +122,7 @@ final class JsonResolver
              * cannot do that, this is an error condition, bail out.
              */
             if (!source.contains(target))
-                container = registry.get(target.getRootAsURI());
+                container = registry.get(target.getLocator());
             /*
              * Finally, compute the next node in the process. If it is missing,
              * we have a dangling JSON Pointer: this is an error condition.

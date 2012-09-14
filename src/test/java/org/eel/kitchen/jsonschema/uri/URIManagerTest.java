@@ -222,8 +222,8 @@ public final class URIManagerTest
         final String to = "foo://real/location.json";
         manager.addRedirection(from, to);
 
-        final URI source = JsonRef.fromString(from).getRootAsURI();
-        final URI target = JsonRef.fromString(to).getRootAsURI();
+        final URI source = JsonRef.fromString(from).getLocator();
+        final URI target = JsonRef.fromString(to).getLocator();
 
         /*
          * Build another mock for the original source URI protocol, make it

@@ -157,7 +157,7 @@ public class URIManager
         try {
             ref = JsonRef.fromString(from);
             Preconditions.checkArgument(ref.isAbsolute(), errmsg);
-            sourceURI = ref.getRootAsURI();
+            sourceURI = ref.getLocator();
         } catch (JsonSchemaException ignored) {
             throw new IllegalArgumentException(errmsg);
         }
@@ -166,7 +166,7 @@ public class URIManager
         try {
             ref = JsonRef.fromString(to);
             Preconditions.checkArgument(ref.isAbsolute(), errmsg);
-            destURI = ref.getRootAsURI();
+            destURI = ref.getLocator();
         } catch (JsonSchemaException ignored) {
             throw new IllegalArgumentException(errmsg);
         }

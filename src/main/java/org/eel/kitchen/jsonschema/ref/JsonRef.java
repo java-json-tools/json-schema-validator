@@ -235,7 +235,7 @@ public final class JsonRef
      *
      * @return an URI
      */
-    public URI getRootAsURI()
+    public URI getLocator()
     {
         return locator;
     }

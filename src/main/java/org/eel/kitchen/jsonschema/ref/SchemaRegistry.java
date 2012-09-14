@@ -89,7 +89,7 @@ public final class SchemaRegistry
         final JsonRef ref = container.getLocator();
 
         if (ref.isAbsolute())
-            cache.put(ref.getRootAsURI(), container);
+            cache.put(ref.getLocator(), container);
 
         return container;
     }
