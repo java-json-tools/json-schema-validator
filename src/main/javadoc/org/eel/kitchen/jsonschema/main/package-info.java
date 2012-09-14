@@ -35,8 +35,7 @@
  *
  * <ul>
  *     <li>URI manipulations: setting a default namespace, setting redirections,
- *     registering downloaders for arbitrary URI schemes;
- *     </li>
+ *     registering downloaders for arbitrary URI schemes;</li>
  *     <li>keywords: registering/unregistering keywords, creating your own
  *     bundles, replacing/merging them;</li>
  *     <li>format attributes: same as keywords;</li>

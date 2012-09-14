@@ -41,7 +41,7 @@
  * format attributes by creating a {@link
  * org.eel.kitchen.jsonschema.format.FormatBundle} and setting/merging your
  * bundle into your schema factory. See also {@link
- * FormatAttribute}.</p>
+ * org.eel.kitchen.jsonschema.format.FormatAttribute}.</p>
  *
  * <p>Note: by default, the {@code host-name} and {@code email} format
  * attributes require that both validated values have a domain part. This

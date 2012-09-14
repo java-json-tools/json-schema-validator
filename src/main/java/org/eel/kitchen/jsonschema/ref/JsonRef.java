@@ -57,6 +57,14 @@ import java.net.URISyntaxException;
  *     absolute <i>and</i> it has no fragment, or an empty fragment.</li>
  * </ul>
  *
+ * <p>It also special cases the following:</p>
+ *
+ * <ul>
+ *     <li>an empty reference (for instance, used in anonymouns schemas);</li>
+ *     <li>URIs with the {@code jar} scheme (the resolving algorithm differs --
+ *     please note that this breaks URI resolution rules).</li>
+ * </ul>
+ *
  * <p>This class is thread safe and immutable.</p>
  */
 
@@ -71,11 +79,35 @@ public abstract class JsonRef
      * no fragment was provided
      */
     protected final URI uri;
-    private final String asString;
+
+    /**
+     * The locator of this reference. This is the URI with an empty fragment
+     * part.
+     */
     protected final URI locator;
+
+    /**
+     * The fragment of this reference.
+     *
+     * @see JsonFragment
+     */
     protected final JsonFragment fragment;
+
+    /**
+     * String representation
+     */
+    private final String asString;
+
+    /**
+     * Hashcode
+     */
     private final int hashCode;
 
+    /**
+     * Main constructor, {@code protected} by design
+     *
+     * @param uri the URI to build that reference
+     */
     protected JsonRef(final URI uri)
     {
         final String scheme = uri.getScheme();
@@ -222,7 +254,7 @@ public abstract class JsonRef
     }
 
     /**
-     * Tell whether the current JSON Reference contains another
+     * Tell whether the current JSON Reference "contains" another
      *
      * <p>This is considered true iif both references have the same locator,
      * in other words, if they differ only by their fragment part.</p>

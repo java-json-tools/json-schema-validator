@@ -17,31 +17,60 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.google.common.base.Preconditions;
-
 import java.net.URI;
 
-public final class JarJsonRef
+/**
+ * Special case of a JSON Reference with a JAR URL
+ *
+ * <p>These URLs are legal URIs, but they are very strange beasts. Basically:
+ * </p>
+ *
+ * <ul>
+ *     <li>they are always absolute (except with a non empty fragment);</li>
+ *     <li>when resolving against another URI, we special case relative URIs
+ *     so as to resolve them against the path/fragment part instead of the
+ *     whole URI.</li>
+ * </ul>
+ *
+ * <p>The latter is because JAR URLs are opaque, and normally, resolving any
+ * URI against an opaque URI gives the URI to be resolved.</p>
+ */
+final class JarJsonRef
     extends JsonRef
 {
+    /**
+     * The URL part with the {@code !} included
+     */
     private final String jarPrefix;
+
+    /**
+     * Everything after the {@code !}
+     */
     private final URI pathURI;
 
+    /**
+     * Build a JSON Reference form a JAR URL
+     *
+     * @param uri the URI
+     */
     JarJsonRef(final URI uri)
     {
         super(uri);
         final String str = uri.toString();
         final int index = str.indexOf('!');
-
-        Preconditions.checkArgument(index != -1, "malformed JAR URL " + str);
         jarPrefix = str.substring(0, index + 1);
 
         final String path = str.substring(index + 1);
-        Preconditions.checkArgument(path.startsWith("/"), "malformed JAR URL "
-            + str);
         pathURI = URI.create(path);
     }
 
+    /**
+     * Specialized constructor used when resolving against a relative URI
+     *
+     * @param uri the final URI
+     * @param jarPrefix the jar prefix
+     * @param pathURI the path
+     */
     private JarJsonRef(final URI uri, final String jarPrefix, final URI pathURI)
     {
         super(uri);

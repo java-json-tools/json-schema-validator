@@ -17,7 +17,14 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-public final class EmptyJsonRef
+/**
+ * A completely empty JSON Reference
+ *
+ * <p>This happens in a lot of situations, it is therefore beneficial to have
+ * a dedicated class for it. For instance, resolving any other reference against
+ * this one always returns the other reference, and it is never absolute.</p>
+ */
+final class EmptyJsonRef
     extends JsonRef
 {
     private static final JsonRef instance = new EmptyJsonRef();

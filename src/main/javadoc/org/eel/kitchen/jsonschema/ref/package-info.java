@@ -27,5 +27,9 @@
  * implementations: {@link org.eel.kitchen.jsonschema.ref.JsonPointer} and
  * {@link org.eel.kitchen.jsonschema.ref.IdFragment}.</p>
  *
+ * <p>It should be noted that {@link org.eel.kitchen.jsonschema.ref.IdFragment}
+ * breaks the draft somewhat. But this is because section 5.27 of the draft is
+ * just insane, and this class is based on the experience gathered by the author
+ * about real-world {@code id} usage.</p>
  */
 package org.eel.kitchen.jsonschema.ref;

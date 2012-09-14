@@ -19,7 +19,13 @@ package org.eel.kitchen.jsonschema.ref;
 
 import java.net.URI;
 
-public final class HierarchicalJsonRef
+/**
+ * JSON Reference for classical, hierarchical URIs
+ *
+ * <p>A hierarchical URI is defined as a URI which is either not absolute, or
+ * which is absolute but not opaque.</p>
+ */
+final class HierarchicalJsonRef
     extends JsonRef
 {
     HierarchicalJsonRef(final URI uri)
