@@ -6,19 +6,21 @@ src/main/resources/LICENSE for the full text.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>current development version: <b>1.1.4</b> (<a
-href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>,
-<a href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
-    <li>current stable version: <b>1.0.4</b> (<a
+    <li>current stable version: <b>1.2.0</b> (<a
 href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>,
-<a href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
+<a href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>);</li>
+    <li>old stable version: <b>1.0.4</b> (<a
+href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
 </ul>
+
+<p>You can see what is new in 1.2.x <a
+href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a>
 
 <p><b>Note:</b> this implementation does not cover the full set of format
 attributes defined by the currently active draft, and this is on purpose. See <a
-href="https://github.com/fge/json-schema-formats">json-schema-formats</a> (FWIW,
-at the Maven level, <tt>json-schema-formats</tt> depends on
-<tt>json-schema-validator</tt>).</p>
+href="https://github.com/fge/json-schema-formats">json-schema-formats</a>. If
+you need some format attributes not supported by this package, consider
+depending on the latter package instead, which depends on this one.</p>
 
 <p>Note: the javadoc contains code samples.</p>
 
