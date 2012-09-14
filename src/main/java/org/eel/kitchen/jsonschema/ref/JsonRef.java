@@ -60,65 +60,52 @@ import java.net.URISyntaxException;
  * <p>This class is thread safe and immutable.</p>
  */
 
-public final class JsonRef
+public abstract class JsonRef
 {
-    /**
-     * URI with only an empty fragment part
-     */
-    private static final URI HASHONLY_URI = URI.create("#");
-
-    /**
-     * Empty URI
-     */
     private static final URI EMPTY_URI = URI.create("");
 
-    /**
-     * An empty JSON Reference
-     */
-    private static final JsonRef EMPTY = new JsonRef(EMPTY_URI);
+    private static final URI HASHONLY_URI = URI.create("#");
 
     /**
      * The URI, as provided by the input, with an appended empty fragment if
      * no fragment was provided
      */
-    private final URI uri;
+    protected final URI uri;
+    protected final String asString;
+    protected final URI locator;
+    protected final JsonFragment fragment;
+    protected final int hashCode;
 
-    /**
-     * The locator for this fragment
-     */
-    private final URI locator;
-
-    /**
-     * The fragment of this JSON Reference
-     */
-    private final JsonFragment fragment;
-
-    private final int hashCode;
-
-    /**
-     * The main constructor, which is private by design
-     *
-     * <p>If the provided URI has no fragment, then an empty one is appended.
-     * </p>
-     *
-     * @param uri Input URI
-     */
-    private JsonRef(final URI uri)
+    protected JsonRef(final URI uri, final URI locator,
+        final JsonFragment fragment)
     {
+        this.uri = uri;
+        this.locator = locator;
+        this.fragment = fragment;
+        asString = uri.toString();
+        hashCode = asString.hashCode();
+    }
+
+    protected JsonRef(final URI uri)
+    {
+        final String scheme = uri.getScheme();
+        final String ssp = uri.getSchemeSpecificPart();
+        final String uriFragment = uri.getFragment();
+
+        final String realFragment = uriFragment == null ? "" : uriFragment;
+
         try {
-            locator = new URI(uri.getScheme(), uri.getSchemeSpecificPart(), "");
-            this.uri = uri.getFragment() == null ? locator : uri;
-            fragment = JsonFragment.fromFragment(this.uri.getFragment());
-            hashCode = uri.hashCode();
+            this.uri = new URI(scheme, ssp, realFragment);
+            locator = new URI(scheme, ssp, "");
+            fragment = JsonFragment.fromFragment(realFragment);
+            asString = this.uri.toString();
+            hashCode = asString.hashCode();
         } catch (URISyntaxException e) {
             throw new RuntimeException("WTF??", e);
         }
     }
-
     /**
      * Build a JSON Reference from a URI
-     *
-     * @see #JsonRef(URI)
      *
      * @param uri the provided URI
      * @return the JSON Reference
@@ -131,9 +118,11 @@ public final class JsonRef
         final URI normalized = uri.normalize();
 
         if (HASHONLY_URI.equals(normalized) || EMPTY_URI.equals(normalized))
-            return EMPTY;
+            return EmptyJsonRef.getInstance();
 
-        return new JsonRef(normalized);
+        return "jar".equals(normalized.getScheme())
+            ? new JarJsonRef(normalized)
+            : new HierarchicalJsonRef(normalized);
     }
 
     /**
@@ -175,7 +164,8 @@ public final class JsonRef
     {
         Preconditions.checkNotNull(node, "node must not be null");
 
-        return node.isTextual() ? fromString(node.textValue()) : EMPTY;
+        return node.isTextual() ? fromString(node.textValue())
+            : EmptyJsonRef.getInstance();
     }
 
     /**
@@ -188,10 +178,10 @@ public final class JsonRef
      */
     public static JsonRef emptyRef()
     {
-        return EMPTY;
+        return EmptyJsonRef.getInstance();
     }
 
-    public URI toURI()
+    public final URI toURI()
     {
         return uri;
     }
@@ -204,29 +194,15 @@ public final class JsonRef
      *
      * @return see above
      */
-    public boolean isAbsolute()
-    {
-        return uri.isAbsolute() && fragment.isEmpty();
-    }
+    public abstract boolean isAbsolute();
 
     /**
      * Resolve this reference against another reference
      *
-     * <p>Note: {@code jar} URIs need to be special cased, see {@link
-     * #resolveJarURI(JsonRef)}.</p>
-     *
      * @param other the reference to resolve
      * @return the resolved reference
      */
-    public JsonRef resolve(final JsonRef other)
-    {
-        if (other.uri.isAbsolute())
-            return other;
-
-        final URI targetURI = "jar".equals(uri.getScheme())
-            ? resolveJarURI(other) : uri.resolve(other.uri);
-        return new JsonRef(targetURI);
-    }
+    public abstract JsonRef resolve(final JsonRef other);
 
     /**
      * Return this JSON Reference's locator
@@ -235,7 +211,7 @@ public final class JsonRef
      *
      * @return an URI
      */
-    public URI getLocator()
+    public final URI getLocator()
     {
         return locator;
     }
@@ -245,7 +221,7 @@ public final class JsonRef
      *
      * @return the fragment
      */
-    public JsonFragment getFragment()
+    public final JsonFragment getFragment()
     {
         return fragment;
     }
@@ -259,87 +235,35 @@ public final class JsonRef
      * @param other the other reference
      * @return see above
      */
-    public boolean contains(final JsonRef other)
+    public final boolean contains(final JsonRef other)
     {
         return locator.equals(other.locator);
     }
 
     @Override
-    public int hashCode()
+    public final int hashCode()
     {
         return hashCode;
     }
 
     @Override
-    public boolean equals(final Object obj)
+    public final boolean equals(final Object o)
     {
-        if (obj == null)
+        if (o == null)
             return false;
-        if (this == obj)
+        if (this == o)
             return true;
 
-        if (getClass() != obj.getClass())
+        if (!(o instanceof JsonRef))
             return false;
 
-        final JsonRef that = (JsonRef) obj;
-        return uri.equals(that.uri);
+        final JsonRef that = (JsonRef) o;
+        return asString.equals(that.asString);
     }
 
     @Override
-    public String toString()
+    public final String toString()
     {
-        return uri.toString();
-    }
-
-    /**
-     * Resolve a relative reference against a {@code jar} URI
-     *
-     * <p>Unfortunately, {@link URI#resolve(URI)} does not work for these,
-     * because of the way JAR URIs are built. An example JAR URI is:</p>
-     *
-     * <pre>
-     *     jar:file:/path/to/my.jar!/jar/entry.json#fragmentHere
-     * </pre>
-     *
-     * <p>As per URI rules, this URI has no host and no path, just a "scheme
-     * specific part" containing everyting after the scheme. Which means that
-     * using {@code .resolve(x)} on such a URI for whatever URI {@code x} will
-     * return... Yes, {@code x}. This is how URI resolution is supposed to work.
-     * </p>
-     *
-     * <p>We therefore handle these specially in this method:</p>
-     *
-     * <ul>
-     *     <li>we are guaranteed that if we enter here, the other URI is
-     *     relative: it has no scheme part, it is therefore a path followed by
-     *     a fragment (if any);</li>
-     *     <li>we therefore extract whatever is after the {@code !} (we are
-     *     guaranteed that there is one: we cannot enter this whole class if the
-     *     URI did not resolve successfully in the first place), make a URI out
-     *     of it and use classic URI resolution rules to resolve that extracted
-     *     path against the other URI;</li>
-     *     <li>we then rebuild the URI with this new path.</li>
-     * </ul>
-     *
-     * <p>This means that, for instance, resolving {@code ../x.json#} against
-     * the URI above will lead to {@code jar:file:/path/to/my.jar!/x.json#}.</p>
-     *
-     * <p>Sick. That's the price to pay for supporting the {@code jar} scheme in
-     * the first place :(</p>
-     *
-     * @param other the URI to resolve against
-     * @return the newly, specially crafted URI
-     */
-    private URI resolveJarURI(final JsonRef other)
-    {
-        final String str = uri.toString();
-
-        final int idx = str.indexOf('!');
-        final String jarPath = str.substring(0, idx + 1);
-        final String sourceEntry = str.substring(idx + 1);
-
-        final String targetEntry
-            = URI.create(sourceEntry).resolve(other.uri).toString();
-        return URI.create(jarPath + targetEntry);
+        return asString;
     }
 }
