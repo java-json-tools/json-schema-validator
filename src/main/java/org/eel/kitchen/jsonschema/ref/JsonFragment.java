@@ -107,7 +107,7 @@ public abstract class JsonFragment
     }
 
     @Override
-    public int compareTo(final JsonFragment other)
+    public final int compareTo(final JsonFragment other)
     {
         return asString.compareTo(other.asString);
     }

@@ -71,10 +71,10 @@ public abstract class JsonRef
      * no fragment was provided
      */
     protected final URI uri;
-    protected final String asString;
+    private final String asString;
     protected final URI locator;
     protected final JsonFragment fragment;
-    protected final int hashCode;
+    private final int hashCode;
 
     protected JsonRef(final URI uri)
     {
@@ -171,6 +171,11 @@ public abstract class JsonRef
         return EmptyJsonRef.getInstance();
     }
 
+    /**
+     * Return the underlying URI for this JSON Reference
+     *
+     * @return the URI
+     */
     public final URI toURI()
     {
         return uri;
