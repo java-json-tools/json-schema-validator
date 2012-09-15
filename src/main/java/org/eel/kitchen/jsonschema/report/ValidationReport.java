@@ -342,32 +342,4 @@ public final class ValidationReport
             return msg1.getMessage().compareTo(msg2.getMessage());
         }
     }
-
-    /*
-     * Deprecated stuff
-     */
-
-    /**
-     * Retrieve all messages as a {@link JsonNode}
-     *
-     * <p>The retrieved JSON document is an object where:</p>
-     *
-     * <ul>
-     *     <li>keys are string representations of {@link JsonPointer}s,</li>
-     *     <li>values are arrays of objects where each individual object is the
-     *     JSON representation of one message.</li>
-     * </ul>
-     *
-     * @see Message#toJsonNode()
-     *
-     * @return a JSON document with all validation messages
-     *
-     * @deprecated use {@link #asJsonObject()} instead (this method just calls
-     * the latter anyway); scheduled for removal in 1.3+
-     */
-    @Deprecated
-    public JsonNode asJsonNode()
-    {
-        return asJsonObject();
-    }
 }
