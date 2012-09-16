@@ -85,6 +85,11 @@ public final class SchemaContainer
         return locator.contains(other);
     }
 
+    public JsonNode resolve(final JsonRef ref)
+    {
+        return ref.getFragment().resolve(schema);
+    }
+
     /**
      * Get this container's locator
      *

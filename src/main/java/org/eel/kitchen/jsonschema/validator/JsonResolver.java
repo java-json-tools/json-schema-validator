@@ -127,7 +127,7 @@ final class JsonResolver
              * Finally, compute the next node in the process. If it is missing,
              * we have a dangling JSON Pointer: this is an error condition.
              */
-            node = target.getFragment().resolve(container.getSchema());
+            node = container.resolve(target);
             if (node.isMissingNode()) {
                 msg.setMessage("dangling JSON Reference")
                     .addInfo("ref", target);
