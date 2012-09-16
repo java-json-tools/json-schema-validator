@@ -115,7 +115,7 @@ public final class SchemaRegistry
         } catch (ExecutionException e) {
             final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
                 .setKeyword("N/A").setMessage("failed to get content from URI")
-                .addInfo("uri", realURI)
+                .addInfo("uri", realURI).setFatal(true)
                 .addInfo("exception-class", e.getCause().getClass().getName())
                 .addInfo("exception-message", e.getCause().getMessage());
             throw new JsonSchemaException(msg.build());
