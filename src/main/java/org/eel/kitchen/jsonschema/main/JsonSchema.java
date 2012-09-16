@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.ref.SchemaNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
@@ -47,6 +48,11 @@ public final class JsonSchema
     private final EnumSet<ValidationFeature> features;
 
     /**
+     * The format bundle
+     */
+    private final FormatBundle formatBundle;
+
+    /**
      * The schema node
      */
     private final SchemaNode schemaNode;
@@ -59,11 +65,13 @@ public final class JsonSchema
      * @param schemaNode the schema node
      */
     JsonSchema(final JsonValidatorCache cache,
-        final EnumSet<ValidationFeature> features, final SchemaNode schemaNode)
+        final EnumSet<ValidationFeature> features, final FormatBundle bundle,
+        final SchemaNode schemaNode)
     {
         this.cache = cache;
         this.features = EnumSet.copyOf(features);
         this.schemaNode = schemaNode;
+        formatBundle = bundle;
     }
 
     /**
@@ -75,7 +83,7 @@ public final class JsonSchema
     public ValidationReport validate(final JsonNode instance)
     {
         final ValidationContext context
-            = new ValidationContext(cache, features);
+            = new ValidationContext(cache, features, formatBundle);
 
         final ValidationReport report = new ValidationReport();
 
