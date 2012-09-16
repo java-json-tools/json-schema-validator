@@ -65,6 +65,11 @@ public final class JsonSchemaFactory
     private final JsonValidatorCache cache;
 
     /**
+     * Format bundle
+     */
+    private final FormatBundle formatBundle;
+
+    /**
      * List of supported features
      */
     private final EnumSet<ValidationFeature> features;
@@ -89,6 +94,7 @@ public final class JsonSchemaFactory
     {
         registry = new SchemaRegistry(builder.uriManager, builder.namespace);
         cache = new JsonValidatorCache(builder.keywordBundle, registry);
+        formatBundle = builder.formatBundle;
         features = EnumSet.copyOf(builder.features);
     }
 
@@ -227,7 +233,7 @@ public final class JsonSchemaFactory
         final JsonNode schema)
     {
         final SchemaNode schemaNode = new SchemaNode(container, schema);
-        return new JsonSchema(cache, features, schemaNode);
+        return new JsonSchema(cache, features, formatBundle, schemaNode);
     }
 
     /**
