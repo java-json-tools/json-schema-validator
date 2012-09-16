@@ -51,16 +51,22 @@ public final class ValidationContext
 
     public ValidationContext(final JsonValidatorCache cache)
     {
-        this(cache, EnumSet.noneOf(ValidationFeature.class));
+        this(cache, EnumSet.noneOf(ValidationFeature.class),
+            FormatBundle.defaultBundle());
     }
 
     public ValidationContext(final JsonValidatorCache cache,
         final EnumSet<ValidationFeature> features)
     {
+        this(cache, features, FormatBundle.defaultBundle());
+    }
+
+    public ValidationContext(final JsonValidatorCache cache,
+        final EnumSet<ValidationFeature> features, final FormatBundle bundle)
+    {
         this.cache = cache;
         this.features = EnumSet.copyOf(features);
-        specifiers = ImmutableMap.copyOf(FormatBundle.defaultBundle()
-            .getSpecifiers());
+        specifiers = ImmutableMap.copyOf(bundle.getSpecifiers());
     }
 
     public ValidationContext(final JsonValidatorCache cache,
@@ -69,6 +75,7 @@ public final class ValidationContext
         this(cache, EnumSet.noneOf(ValidationFeature.class));
         this.container = container;
     }
+
 
     SchemaContainer getContainer()
     {
