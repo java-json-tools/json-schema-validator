@@ -43,7 +43,6 @@ public final class JsonResolverTest
     private JsonResolver resolver;
     private SchemaContainer container;
     private SchemaNode schemaNode;
-    private Message msg;
 
     @BeforeMethod
     public void initRegistry()
@@ -61,13 +60,13 @@ public final class JsonResolverTest
         container = registry.register(schema);
         schemaNode = new SchemaNode(container, schema);
 
+        final Message expectedMessage = newMsg().setMessage("ref loop detected")
+            .addInfo("path", factory.arrayNode().add("#")).build();
+
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            msg = e.getValidationMessage();
-            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
-            assertEquals(msg.getMessage(), "ref loop detected");
-            assertEquals(msg.getInfo("path"), factory.arrayNode().add("#"));
+            assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
 
@@ -93,13 +92,13 @@ public final class JsonResolverTest
         container = new SchemaContainer(schema);
         schemaNode = new SchemaNode(container, schema.get("a"));
 
+        final Message expectedMessage = newMsg().setMessage("ref loop detected")
+            .addInfo("path", path).build();
+
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            msg = e.getValidationMessage();
-            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
-            assertEquals(msg.getMessage(), "ref loop detected");
-            assertEquals(msg.getInfo("path"), path);
+            assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
 
@@ -111,13 +110,13 @@ public final class JsonResolverTest
         container = new SchemaContainer(schema);
         schemaNode = new SchemaNode(container, schema);
 
+        final Message expectedMessage = newMsg().addInfo("ref", "#foo")
+            .setMessage("dangling JSON Reference").build();
+
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            msg = e.getValidationMessage();
-            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
-            assertEquals(msg.getMessage(), "dangling JSON Reference");
-            assertEquals(msg.getInfo("ref"), factory.textNode("#foo"));
+            assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
 
@@ -136,13 +135,14 @@ public final class JsonResolverTest
         container = new SchemaContainer(schema);
         schemaNode = new SchemaNode(container, schema.get("a"));
 
+        final Message expectedMessage = newMsg()
+            .setMessage("dangling JSON Reference").addInfo("ref", "#/c")
+            .build();
+
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            msg = e.getValidationMessage();
-            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
-            assertEquals(msg.getMessage(), "dangling JSON Reference");
-            assertEquals(msg.getInfo("ref"), factory.textNode("#/c"));
+            assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
 
@@ -177,13 +177,13 @@ public final class JsonResolverTest
         container = registry.register(schema1);
         schemaNode = new SchemaNode(container, schema1.get("a"));
 
+        final Message expectedMessage = newMsg().setMessage("ref loop detected")
+            .addInfo("path", path).build();
+
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            msg = e.getValidationMessage();
-            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
-            assertEquals(msg.getMessage(), "ref loop detected");
-            assertEquals(msg.getInfo("path"), path);
+            assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
 
@@ -215,20 +215,19 @@ public final class JsonResolverTest
         container = registry.register(schema1);
         schemaNode = new SchemaNode(container, schema1.get("a"));
 
+        final Message expectedMessage = newMsg().addInfo("ref", ref2)
+            .setMessage("dangling JSON Reference").build();
+
         try {
             resolver.resolve(schemaNode);
         } catch (JsonSchemaException e) {
-            msg = e.getValidationMessage();
-            verifyMessageParams(msg, Domain.REF_RESOLVING, "$ref");
-            assertEquals(msg.getMessage(), "dangling JSON Reference");
-            assertEquals(msg.getInfo("ref"), factory.textNode(ref2));
+            assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
 
-    private static void verifyMessageParams(final Message message,
-        final Domain domain, final String keyword)
+    private static Message.Builder newMsg()
     {
-        assertSame(message.getDomain(), domain);
-        assertEquals(message.getKeyword(), keyword);
+        return Domain.REF_RESOLVING.newMessage().setFatal(true)
+            .setKeyword("$ref");
     }
 }
