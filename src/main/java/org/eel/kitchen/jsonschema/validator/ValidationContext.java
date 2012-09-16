@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.main.ValidationFeature;
-import org.eel.kitchen.jsonschema.ref.SchemaContainer;
-import org.eel.kitchen.jsonschema.ref.SchemaNode;
+import org.eel.kitchen.jsonschema.schema.SchemaContainer;
+import org.eel.kitchen.jsonschema.schema.SchemaNode;
 
 import java.util.EnumSet;
 import java.util.Map;
