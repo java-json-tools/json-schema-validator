@@ -121,7 +121,7 @@ final class JsonResolver
              * this case, get the new container from our schema registry. If we
              * cannot do that, this is an error condition, bail out.
              */
-            if (!source.contains(target))
+            if (!container.contains(target))
                 container = registry.get(target.getLocator());
             /*
              * Finally, compute the next node in the process. If it is missing,

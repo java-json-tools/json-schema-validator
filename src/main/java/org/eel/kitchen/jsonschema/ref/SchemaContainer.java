@@ -80,6 +80,11 @@ public final class SchemaContainer
         schema = cleanup(node);
     }
 
+    public boolean contains(final JsonRef other)
+    {
+        return locator.contains(other);
+    }
+
     /**
      * Get this container's locator
      *
