@@ -2,19 +2,19 @@
 
 
 Internet Engineering Task Force                            P. Bryan, Ed.
-Internet-Draft                                        ForgeRock US, Inc.
+Internet-Draft                                            Salesforce.com
 Intended status: Informational                                    K. Zyp
-Expires: September 10, 2012                                SitePen (USA)
-                                                           March 9, 2012
+Expires: March 20, 2013                                    SitePen (USA)
+                                                      September 16, 2012
 
 
                              JSON Reference
-                      draft-pbryan-zyp-json-ref-02
+                      draft-pbryan-zyp-json-ref-03
 
 Abstract
 
-   JSON Reference allows a JSON value to reference another JSON value in
-   a JSON document.
+   JSON Reference allows a JSON value to reference another value in a
+   JSON document.
 
 Status of this Memo
 
@@ -31,7 +31,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 10, 2012.
+   This Internet-Draft will expire on March 20, 2013.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Bryan & Zyp            Expires September 10, 2012               [Page 1]
+Bryan & Zyp              Expires March 20, 2013                 [Page 1]
 
-Internet-Draft               JSON Reference                   March 2012
+Internet-Draft               JSON Reference               September 2012
 
 
 Table of Contents
@@ -64,11 +64,10 @@ Table of Contents
    3.  Syntax  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
    4.  Resolution  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
    5.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . . . 4
-   6.  Media Type  . . . . . . . . . . . . . . . . . . . . . . . . . . 4
-   7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 4
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . . . 4
-   9.  Normative References  . . . . . . . . . . . . . . . . . . . . . 4
-   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . . . 5
+   6.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 4
+   7.  Security Considerations . . . . . . . . . . . . . . . . . . . . 4
+   8.  Normative References  . . . . . . . . . . . . . . . . . . . . . 4
+   Appendix A.  Acknowledgements . . . . . . . . . . . . . . . . . . . 4
    Appendix B.  Examples . . . . . . . . . . . . . . . . . . . . . . . 5
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . 5
 
@@ -108,15 +107,16 @@ Table of Contents
 
 
 
-Bryan & Zyp            Expires September 10, 2012               [Page 2]
+
+Bryan & Zyp              Expires March 20, 2013                 [Page 2]
 
-Internet-Draft               JSON Reference                   March 2012
+Internet-Draft               JSON Reference               September 2012
 
 
 1.  Introduction
 
    This specification defines a JSON [RFC4627] structure which allows a
-   JSON value to reference another JSON value in a JSON document.  This
+   JSON value to reference another value in a JSON document.  This
    provides the basis for transclusion in JSON: the use of a target
    resource as an effective substitute for the reference.
 
@@ -164,9 +164,9 @@ Internet-Draft               JSON Reference                   March 2012
 
 
 
-Bryan & Zyp            Expires September 10, 2012               [Page 3]
+Bryan & Zyp              Expires March 20, 2013                 [Page 3]
 
-Internet-Draft               JSON Reference                   March 2012
+Internet-Draft               JSON Reference               September 2012
 
 
 5.  Error Handling
@@ -175,19 +175,12 @@ Internet-Draft               JSON Reference                   March 2012
    SHOULD fail to complete.
 
 
-6.  Media Type
-
-   Documents that use JSON Reference SHOULD include a media type
-   parameter: application/json; profile=http://json-schema.org/json-ref
-   or refer to a schema that extends http://json-schema.org/json-ref.
-
-
-7.  IANA Considerations
+6.  IANA Considerations
 
    This draft includes no request to IANA.
 
 
-8.  Security Considerations
+7.  Security Considerations
 
    A JSON Reference is not guaranteed to resolve to a JSON value.
    Implementations of this specification SHOULD take appropriate
@@ -199,12 +192,12 @@ Internet-Draft               JSON Reference                   March 2012
    iteration.
 
 
-9.  Normative References
+8.  Normative References
 
    [JSON-Pointer]
-              Bryan, P. and K. Zyp, "JSON Pointer",
-              draft-ietf-appsawg-json-pointer-01 (work in progress),
-              March 2012.
+              Bryan, P., Zyp, K., and M. Nottingham, "JSON Pointer",
+              draft-ietf-appsawg-json-pointer-04 (work in progress),
+              September 2012.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -217,20 +210,19 @@ Internet-Draft               JSON Reference                   March 2012
               JavaScript Object Notation (JSON)", RFC 4627, July 2006.
 
 
-
-
-
-Bryan & Zyp            Expires September 10, 2012               [Page 4]
-
-Internet-Draft               JSON Reference                   March 2012
-
-
 Appendix A.  Acknowledgements
 
-   The authors acknowledge the following individuals for their
-   contributed feedback, which influenced this specification:
+   The following individuals contributed ideas, feedback and wording to
+   this specification:
 
       Bob Aman, Francis Galiegue.
+
+
+
+
+Bryan & Zyp              Expires March 20, 2013                 [Page 4]
+
+Internet-Draft               JSON Reference               September 2012
 
 
 Appendix B.  Examples
@@ -241,7 +233,7 @@ Appendix B.  Examples
 Authors' Addresses
 
    Paul C. Bryan (editor)
-   ForgeRock US, Inc.
+   Salesforce.com
 
    Phone: +1 604 783 1481
    Email: pbryan@anode.ca
@@ -276,5 +268,13 @@ Authors' Addresses
 
 
 
-Bryan & Zyp            Expires September 10, 2012               [Page 5]
+
+
+
+
+
+
+
+
+Bryan & Zyp              Expires March 20, 2013                 [Page 5]
 

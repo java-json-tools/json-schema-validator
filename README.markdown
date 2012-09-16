@@ -65,8 +65,8 @@ based on the following drafts:</p>
 
 * <a href="http://tools.ietf.org/html/draft-zyp-json-schema-03">JSON Schema
   Internet draft, version 3</a>;
-* <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-02">JSON
-  Reference Internet draft, version 2</a>;
+* <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON
+  Reference Internet draft, version 3</a>;
 * <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-04">JSON
   Pointer Internet draft, version 4</a>.
 
