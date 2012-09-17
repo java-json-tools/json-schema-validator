@@ -20,9 +20,9 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
-import org.eel.kitchen.jsonschema.report.ValidationReport;
 
 import java.util.Set;
 

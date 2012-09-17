@@ -25,9 +25,9 @@ import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 
 import java.io.IOException;

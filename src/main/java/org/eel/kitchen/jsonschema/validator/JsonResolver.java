@@ -20,11 +20,11 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
-import org.eel.kitchen.jsonschema.report.Domain;
-import org.eel.kitchen.jsonschema.report.Message;
 
 import java.net.URI;
 import java.util.LinkedHashSet;

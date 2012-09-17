@@ -27,10 +27,10 @@ import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.schema.SchemaNode;
-import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.schema.SchemaNode;
+import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
