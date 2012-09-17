@@ -186,8 +186,6 @@ public class URIManager
         throws JsonSchemaException
     {
         Preconditions.checkNotNull(uri, "null URI");
-        Preconditions.checkArgument(uri.isAbsolute(), "requested URI (" + uri
-            + ") is not absolute");
 
         final URI target = URIRedirections.containsKey(uri)
             ? URIRedirections.get(uri) : uri;

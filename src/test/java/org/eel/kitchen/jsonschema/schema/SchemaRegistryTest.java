@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.report.Domain;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.testng.annotations.Test;
@@ -79,5 +81,25 @@ public final class SchemaRegistryTest
 
         assertEquals(container.getLocator().getLocator(),
             URI.create("http://toto/b#"));
+    }
+
+    @Test
+    public void NonAbsoluteURIsAreRefused()
+    {
+        final SchemaRegistry registry = new SchemaRegistry(new URIManager(),
+            URI.create("#"));
+
+        final URI target = URI.create("moo#");
+
+        final Message expectedMessage = Domain.REF_RESOLVING.newMessage()
+            .setFatal(true).setKeyword("N/A").addInfo("uri", target)
+            .setMessage("URI is not absolute").build();
+
+        try {
+            registry.get(target);
+            fail("No exception thrown!");
+        } catch (JsonSchemaException e) {
+            assertEquals(e.getValidationMessage(), expectedMessage);
+        }
     }
 }

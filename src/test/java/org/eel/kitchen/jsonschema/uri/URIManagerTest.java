@@ -132,18 +132,6 @@ public final class URIManagerTest
     }
 
     @Test
-    public void shouldRefuseToHandleNonAbsoluteURIs()
-        throws JsonSchemaException
-    {
-        try {
-            manager.getContent(URI.create(""));
-            fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "requested URI () is not absolute");
-        }
-    }
-
-    @Test
     public void unhandledSchemeShouldBeReportedAsSuch()
     {
         manager.registerScheme("foo", mock);

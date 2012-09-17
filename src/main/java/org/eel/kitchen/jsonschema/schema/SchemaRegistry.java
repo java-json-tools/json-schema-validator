@@ -108,16 +108,23 @@ public final class SchemaRegistry
     public SchemaContainer get(final URI uri)
         throws JsonSchemaException
     {
-        final URI realURI = namespace.resolve(JsonRef.fromURI(uri)).toURI();
+        final JsonRef ref = namespace.resolve(JsonRef.fromURI(uri));
+
+        final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
+            .setFatal(true).setKeyword("N/A").addInfo("uri", ref);
+
+        if (!ref.isAbsolute())
+            throw new JsonSchemaException(msg.setMessage("URI is not absolute")
+                .build());
+
+        final URI realURI = ref.toURI();
 
         try {
             return cache.get(realURI);
         } catch (ExecutionException e) {
-            final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
-                .setKeyword("N/A").setMessage("failed to get content from URI")
-                .addInfo("uri", realURI).setFatal(true)
-                .addInfo("exception-class", e.getCause().getClass().getName())
-                .addInfo("exception-message", e.getCause().getMessage());
+            final Throwable cause = e.getCause();
+            msg.addInfo("exception-class", cause.getClass().getName())
+                .addInfo("exception-message", cause.getMessage());
             throw new JsonSchemaException(msg.build());
         }
     }
