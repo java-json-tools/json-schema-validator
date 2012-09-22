@@ -20,6 +20,8 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 
+import java.net.URI;
+
 /**
  * Schema addressing mode
  *
@@ -53,6 +55,30 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
  */
 public enum AddressingMode
 {
-    CANONICAL,
+    CANONICAL
+        {
+            @Override
+            public SchemaContainer forSchema(URI uri, JsonNode schema)
+            {
+                return new SchemaContainer(uri, schema);
+            }
+        },
     INNER
+        {
+            @Override
+            public SchemaContainer forSchema(URI uri, JsonNode schema)
+            {
+                return null;
+            }
+        };
+
+    private static final URI EMPTY = URI.create("#");
+
+    public abstract SchemaContainer forSchema(final URI uri,
+        final JsonNode schema);
+
+    public SchemaContainer forSchema(final JsonNode schema)
+    {
+        return forSchema(EMPTY, schema);
+    }
 }

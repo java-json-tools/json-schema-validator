@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.schema.AddressingMode;
 import org.eel.kitchen.jsonschema.schema.SchemaBundle;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
@@ -91,7 +92,7 @@ public final class JsonResolverTest
         schema.put("c", node);
         path.add("#/a");
 
-        container = new SchemaContainer(schema);
+        container = AddressingMode.CANONICAL.forSchema(schema);
         schemaNode = new SchemaNode(container, schema.get("a"));
 
         final Message expectedMessage = newMsg().setMessage("ref loop detected")
@@ -110,7 +111,7 @@ public final class JsonResolverTest
     {
         final JsonNode schema = factory.objectNode().put("$ref", "#foo");
 
-        container = new SchemaContainer(schema);
+        container = AddressingMode.CANONICAL.forSchema(schema);
         schemaNode = new SchemaNode(container, schema);
 
         final Message expectedMessage = newMsg().addInfo("ref", "#foo")
@@ -136,7 +137,7 @@ public final class JsonResolverTest
         node = factory.objectNode().put("$ref", "#/c");
         schema.put("b", node);
 
-        container = new SchemaContainer(schema);
+        container = AddressingMode.CANONICAL.forSchema(schema);
         schemaNode = new SchemaNode(container, schema.get("a"));
 
         final Message expectedMessage = newMsg()

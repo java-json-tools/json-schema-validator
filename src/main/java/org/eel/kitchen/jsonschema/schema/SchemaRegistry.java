@@ -80,7 +80,8 @@ public final class SchemaRegistry
                 public SchemaContainer load(final URI key)
                     throws JsonSchemaException
                 {
-                    return new SchemaContainer(key, manager.getContent(key));
+                    return addressingMode.forSchema(key,
+                        manager.getContent(key));
                 }
             });
     }
@@ -100,7 +101,7 @@ public final class SchemaRegistry
     {
         Preconditions.checkNotNull(schema, "cannot register null schema");
 
-        final SchemaContainer container = new SchemaContainer(schema);
+        final SchemaContainer container = addressingMode.forSchema(schema);
 
         final JsonRef ref = container.getLocator();
 
@@ -160,7 +161,7 @@ public final class SchemaRegistry
         for (final Map.Entry<URI, JsonNode> entry: map.entrySet()) {
             uri = entry.getKey();
             schema = entry.getValue();
-            container = new SchemaContainer(uri, schema);
+            container = addressingMode.forSchema(uri, schema);
             cache.put(uri, container);
         }
     }

@@ -34,7 +34,8 @@ public final class SchemaContainerTest
         throws JsonSchemaException
     {
         final JsonNode node = factory.objectNode().put("id", "foo");
-        final SchemaContainer container = new SchemaContainer(node);
+        final SchemaContainer container
+            = AddressingMode.CANONICAL.forSchema(node);
         assertSame(container.getLocator(), JsonRef.emptyRef());
     }
 
@@ -45,8 +46,8 @@ public final class SchemaContainerTest
         final JsonNode n1 = factory.objectNode().put("id", "a://b/c#");
         final JsonNode n2 = factory.objectNode().put("id", "a://b/c#");
 
-        final SchemaContainer c1 = new SchemaContainer(n1);
-        final SchemaContainer c2 = new SchemaContainer(n2);
+        final SchemaContainer c1 = AddressingMode.CANONICAL.forSchema(n1);
+        final SchemaContainer c2 = AddressingMode.CANONICAL.forSchema(n2);
 
         assertEquals(c1.getLocator(), c2.getLocator());
         assertEquals(c1.getSchema(), c2.getSchema());
@@ -59,8 +60,8 @@ public final class SchemaContainerTest
         final JsonNode n1 = factory.objectNode().put("id", "a://c");
         final JsonNode n2 = factory.objectNode().put("id", "a://c#");
 
-        final SchemaContainer c1 = new SchemaContainer(n1);
-        final SchemaContainer c2 = new SchemaContainer(n2);
+        final SchemaContainer c1 = AddressingMode.CANONICAL.forSchema(n1);
+        final SchemaContainer c2 = AddressingMode.CANONICAL.forSchema(n2);
 
         assertEquals(c1.getLocator(), c2.getLocator());
         assertEquals(c1.getSchema(), c2.getSchema());
