@@ -22,6 +22,8 @@ import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.schema.AddressingMode;
+import org.eel.kitchen.jsonschema.schema.IdBasedSchemaContainer;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -43,8 +45,11 @@ import java.net.URISyntaxException;
  *     }
  * </pre>
  *
- * <p>This class is used in a more general way than the draft. It is also used
- * as a backing class for schema identifiers.</p>
+ * <p>This class differs from the JSON Reference draft in one important way:
+ * normally, the fragment part of a JSON Reference must be a JSON Pointer;
+ * however, this means you cannot use a reference for addressing inner schemas
+ * when inner schema addressing mode is used. We therefore choose to accept all
+ * possible fragment parts.</p>
  *
  * <p>The implementation is a wrapper over Java's {@link URI}, with the
  * following differences:</p>
@@ -66,6 +71,9 @@ import java.net.URISyntaxException;
  * </ul>
  *
  * <p>This class is thread safe and immutable.</p>
+ *
+ * @see AddressingMode#INNER
+ * @see IdBasedSchemaContainer
  */
 
 public abstract class JsonRef

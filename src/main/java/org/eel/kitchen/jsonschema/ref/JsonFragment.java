@@ -20,17 +20,20 @@ package org.eel.kitchen.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.schema.AddressingMode;
 
 /**
  * Abstract class for fragment resolution
  *
- * <p>In a JSON Reference, a fragment can either be a JSON Pointer or a schema
- * id. In both cases, when found, the fragment must be resolve with regards to
- * the schema. This is what this class, and its two implementations, are for.
- * </p>
+ * <p>In a JSON Reference, a fragment can only be a JSON Pointer. All other
+ * fragments are illegal.</p>
  *
- * @see IdFragment
+ * <p>The only possibility for a non JSON Pointer fragment to appear is when
+ * inner schema addressing mode is used.</p>
+ *
+ * @see IllegalFragment
  * @see JsonPointer
+ * @see AddressingMode
  */
 public abstract class JsonFragment
     implements Comparable<JsonFragment>
@@ -66,7 +69,7 @@ public abstract class JsonFragment
      * The only static factory method to obtain a fragment
      *
      * <p>Depending on the situation, this method will either return a
-     * {@link JsonPointer}, an {@link IdFragment} or {@link #EMPTY}.</p>
+     * {@link JsonPointer}, an {@link IllegalFragment} or {@link #EMPTY}.</p>
      *
      * @param fragment the fragment as a string
      * @return the fragment
@@ -79,8 +82,8 @@ public abstract class JsonFragment
         try {
             return new JsonPointer(fragment);
         } catch (JsonSchemaException ignored) {
-            // Not a valid JSON Pointer: it is an id
-            return new IdFragment(fragment);
+            // Not a valid JSON Pointer: illegal
+            return new IllegalFragment(fragment);
         }
     }
 

@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * Implementation of IETF JSON Pointer draft, version 3
  *
- * <p><a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-03.txt">
+ * <p><a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-04.txt">
  * JSON Pointer</a> is an IETF draft defining a way to address paths within JSON
  * documents. Paths apply to container objects, ie arrays or nodes. For objects,
  * path elements are property names. For arrays, they are the index in the array
@@ -56,7 +56,6 @@ import java.util.List;
  * absolute.</p>
  *
  * <p>All instances of this class are thread safe and immutable.</p>
- *
  */
 
 public final class JsonPointer
