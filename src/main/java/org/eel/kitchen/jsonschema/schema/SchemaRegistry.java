@@ -29,6 +29,7 @@ import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 
 import java.net.URI;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -126,6 +127,27 @@ public final class SchemaRegistry
             msg.addInfo("exception-class", cause.getClass().getName())
                 .addInfo("exception-message", cause.getMessage());
             throw new JsonSchemaException(msg.build());
+        }
+    }
+
+    /**
+     * Load a schema bundle into this registry
+     *
+     * <p>As a schema bundle is guaranteed to have well-formed locators, schemas
+     * from a bundle can be directly injected into the cache.</p>
+     */
+    public void addBundle(final SchemaBundle bundle)
+    {
+        final Map<URI, JsonNode> map = bundle.getSchemas();
+
+        SchemaContainer container;
+        URI uri;
+        JsonNode schema;
+        for (final Map.Entry<URI, JsonNode> entry: map.entrySet()) {
+            uri = entry.getKey();
+            schema = entry.getValue();
+            container = new SchemaContainer(uri, schema);
+            cache.put(uri, container);
         }
     }
 }
