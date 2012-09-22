@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -78,10 +79,11 @@ public final class JsonPointerLookupTest
     @Test(dataProvider = "getData")
     public void pointerLookupSucceed(final String input,
         final JsonNode expected, final String errmsg)
+        throws JsonSchemaException
     {
-        final JsonFragment fragment = JsonFragment.fromFragment(input);
+        final JsonPointer ptr = new JsonPointer(input);
 
-        final JsonNode result = fragment.resolve(schema);
+        final JsonNode result = ptr.resolve(schema);
 
         assertEquals(result, expected, errmsg);
     }

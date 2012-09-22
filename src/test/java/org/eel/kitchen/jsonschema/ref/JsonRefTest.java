@@ -88,31 +88,6 @@ public final class JsonRefTest
     }
 
     @DataProvider
-    private Iterator<Object[]> getFragmentTestData()
-    {
-        final Set<Object[]> set = Sets.newHashSet();
-
-        set.add(new Object[] { "file:///a", "" });
-        set.add(new Object[] { "file:///a#", "" });
-        set.add(new Object[] { "file:///a#b/c", "b/c" });
-
-        return set.iterator();
-    }
-
-    @Test(dataProvider = "getFragmentTestData")
-    public void testFragmentIsCorrectlyComputed(final String refAsString,
-        final String fragmentAsString)
-        throws JsonSchemaException
-    {
-        final JsonRef ref = JsonRef.fromString(refAsString);
-        final JsonFragment fragment
-            = JsonFragment.fromFragment(fragmentAsString);
-
-        assertEquals(ref.getFragment(), fragment);
-        assertEquals(fragment.isEmpty(), fragmentAsString.isEmpty());
-    }
-
-    @DataProvider
     private Iterator<Object[]> getContainsData()
     {
         final Set<Object[]> set = Sets.newHashSet();
