@@ -26,16 +26,12 @@ import java.net.URI;
 /**
  * A JSON Schema container
  *
- * <p>This embodies the schema itself, as a {@link JsonNode}, and its locator,
- * as a {@link JsonRef}.</p>
- *
- * <p>Note that the schema passed as an argument will be stripped off its {@code
- * id} field, if it has one.</p>
+ * <b>TODO: Javadoc</b>
  */
-public final class SchemaContainer
+public abstract class SchemaContainer
 {
-    private final JsonNode schema;
-    private final JsonRef locator;
+    protected final JsonNode schema;
+    protected final JsonRef locator;
 
     /**
      * Return a new container based on an URI and a schema
@@ -46,28 +42,22 @@ public final class SchemaContainer
      * @param uri the URI
      * @param node the schema
      */
-    SchemaContainer(final URI uri, final JsonNode node)
+    protected SchemaContainer(final URI uri, final JsonNode node)
     {
         locator = JsonRef.fromURI(uri);
         schema = cleanup(node);
     }
 
-    public boolean contains(final JsonRef other)
-    {
-        return locator.contains(other);
-    }
+    public abstract boolean contains(final JsonRef other);
 
-    public JsonNode resolve(final JsonRef ref)
-    {
-        return ref.getFragment().resolve(schema);
-    }
+    public abstract JsonNode resolve(final JsonRef ref);
 
     /**
      * Get this container's locator
      *
      * @return the locator
      */
-    public JsonRef getLocator()
+    public final JsonRef getLocator()
     {
         return locator;
     }
@@ -77,13 +67,13 @@ public final class SchemaContainer
      *
      * @return the underlying {@link JsonNode}
      */
-    public JsonNode getSchema()
+    public final JsonNode getSchema()
     {
         return schema;
     }
 
     @Override
-    public int hashCode()
+    public final int hashCode()
     {
         // Yes, this works: right now there is a 1-1 relationship between URIs
         // and JsonNodes.
@@ -91,14 +81,14 @@ public final class SchemaContainer
     }
 
     @Override
-    public boolean equals(final Object obj)
+    public final boolean equals(final Object obj)
     {
         if (obj == null)
             return false;
         if (this == obj)
             return true;
 
-        if (getClass() != obj.getClass())
+        if (!(obj instanceof SchemaContainer))
             return false;
 
         final SchemaContainer other = (SchemaContainer) obj;
@@ -109,7 +99,7 @@ public final class SchemaContainer
     }
 
     @Override
-    public String toString()
+    public final String toString()
     {
         return "locator: " + locator;
     }
@@ -120,7 +110,7 @@ public final class SchemaContainer
      * @param schema the victim
      * @return the copy
      */
-    private static JsonNode cleanup(final JsonNode schema)
+    protected static JsonNode cleanup(final JsonNode schema)
     {
         if (!schema.has("id"))
             return schema;

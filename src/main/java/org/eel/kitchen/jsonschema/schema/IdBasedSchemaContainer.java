@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
@@ -31,101 +30,32 @@ import java.util.Map;
  * <b>TODO: javadoc</b>
  */
 public final class IdBasedSchemaContainer
+    extends SchemaContainer
 {
-    private final JsonRef locator;
-    private final JsonNode schema;
     private final Map<JsonRef, JsonNode> schemas;
 
     IdBasedSchemaContainer(final JsonNode schema)
     {
+        super(extractLocator(schema).toURI(), schema);
         final ImmutableMap.Builder<JsonRef, JsonNode> builder
             = new ImmutableMap.Builder<JsonRef, JsonNode>();
 
-        locator = extractLocator(schema);
-        this.schema = cleanup(schema);
         builder.put(locator, this.schema);
         fillURIMap(locator, this.schema, builder);
         schemas = builder.build();
     }
 
+    @Override
     public boolean contains(final JsonRef other)
     {
         return schemas.containsKey(other) || locator.contains(other);
     }
 
+    @Override
     public JsonNode resolve(final JsonRef ref)
     {
         return schemas.containsKey(ref) ? schemas.get(ref)
             : ref.getFragment().resolve(schema);
-    }
-
-    /**
-     * Get this container's locator
-     *
-     * @return the locator
-     */
-    public JsonRef getLocator()
-    {
-        return locator;
-    }
-
-    /**
-     * Get this container's underlying schema
-     *
-     * @return the underlying {@link JsonNode}
-     */
-    public JsonNode getSchema()
-    {
-        return schema;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        // Yes, this works: right now there is a 1-1 relationship between URIs
-        // and JsonNodes.
-        return locator.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj)
-    {
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-
-        if (getClass() != obj.getClass())
-            return false;
-
-        final IdBasedSchemaContainer other = (IdBasedSchemaContainer) obj;
-
-        // Yes, this works: right now there is a 1-1 relationship between URIs
-        // and JsonNodes.
-        return locator.equals(other.locator);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "locator: " + locator;
-    }
-
-    /**
-     * Strip an object instance off its {@code id} member, if any
-     *
-     * @param schema the victim
-     * @return the copy
-     */
-    private static JsonNode cleanup(final JsonNode schema)
-    {
-        if (!schema.has("id"))
-            return schema;
-
-        final ObjectNode ret = schema.deepCopy();
-
-        ret.remove("id");
-        return ret;
     }
 
     private static JsonRef extractLocator(final JsonNode node)

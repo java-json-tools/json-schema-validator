@@ -58,17 +58,19 @@ public enum AddressingMode
     CANONICAL
         {
             @Override
-            public SchemaContainer forSchema(URI uri, JsonNode schema)
+            public SchemaContainer forSchema(final URI uri,
+                final JsonNode schema)
             {
-                return new SchemaContainer(uri, schema);
+                return new CanonicalSchemaContainer(uri, schema);
             }
         },
     INNER
         {
             @Override
-            public SchemaContainer forSchema(URI uri, JsonNode schema)
+            public SchemaContainer forSchema(final URI uri,
+                final JsonNode schema)
             {
-                return null;
+                return new IdBasedSchemaContainer(schema);
             }
         };
 
