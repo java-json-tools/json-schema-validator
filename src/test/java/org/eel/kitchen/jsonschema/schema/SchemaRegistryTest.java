@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.schema;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
@@ -71,13 +70,19 @@ public final class SchemaRegistryTest
     public void URIsAreNormalizedBehindTheScenes()
         throws JsonSchemaException
     {
-        final JsonNode schema = JsonNodeFactory.instance.objectNode()
-            .put("id", "http://toto/a/../b");
+        final SchemaBundle bundle;
+        final String location = "http://toto/a/../b";
+
+        bundle = SchemaBundle.withRootSchema(location,
+            JsonNodeFactory.instance.objectNode());
 
         final SchemaRegistry registry = new SchemaRegistry(new URIManager(),
             URI.create("#"));
 
-        final SchemaContainer container = registry.register(schema);
+        registry.addBundle(bundle);
+
+        final SchemaContainer container
+            = registry.get(URI.create(location));
 
         assertEquals(container.getLocator().getLocator(),
             URI.create("http://toto/b#"));
