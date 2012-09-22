@@ -56,13 +56,22 @@ public final class SchemaRegistry
     private final LoadingCache<URI, SchemaContainer> cache;
 
     /**
+     * Addressing mode
+     */
+
+    private final AddressingMode addressingMode;
+
+    /**
      * Constructor
      *
      * @param manager the URI manager to use
      * @param namespace this registry's namespace
+     * @param addressingMode the addressing mode for this registry
      */
-    public SchemaRegistry(final URIManager manager, final URI namespace)
+    public SchemaRegistry(final URIManager manager, final URI namespace,
+        final AddressingMode addressingMode)
     {
+        this.addressingMode = addressingMode;
         this.namespace = JsonRef.fromURI(namespace);
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(new CacheLoader<URI, SchemaContainer>()
@@ -74,6 +83,11 @@ public final class SchemaRegistry
                     return new SchemaContainer(key, manager.getContent(key));
                 }
             });
+    }
+
+    public SchemaRegistry(final URIManager manager, final URI namespace)
+    {
+        this(manager, namespace, AddressingMode.CANONICAL);
     }
 
     /**
