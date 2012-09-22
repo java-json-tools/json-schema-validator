@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
 import java.net.URI;
@@ -37,34 +36,6 @@ public final class SchemaContainer
 {
     private final JsonNode schema;
     private final JsonRef locator;
-
-    /**
-     * Return a new container based on a schema
-     *
-     * <p>Note that if the {@code id} node exists and is an URI, but not
-     * absolute, an anonymous schema will be returned.
-     * </p>
-     *
-     * @param schema the schema
-     */
-    public SchemaContainer(final JsonNode schema)
-    {
-        JsonRef ref;
-
-        try {
-            ref = JsonRef.fromNode(schema.path("id"));
-        } catch (JsonSchemaException ignored) {
-            locator = JsonRef.emptyRef();
-            this.schema = schema;
-            return;
-        }
-
-        if (!ref.isAbsolute())
-            ref = JsonRef.emptyRef();
-
-        locator = ref;
-        this.schema = cleanup(schema);
-    }
 
     /**
      * Return a new container based on an URI and a schema

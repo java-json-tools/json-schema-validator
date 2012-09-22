@@ -58,7 +58,6 @@ public final class SchemaRegistry
     /**
      * Addressing mode
      */
-
     private final AddressingMode addressingMode;
 
     /**
