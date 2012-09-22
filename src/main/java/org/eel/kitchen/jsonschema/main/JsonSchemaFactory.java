@@ -54,11 +54,6 @@ import java.util.EnumSet;
 public final class JsonSchemaFactory
 {
     /**
-     * Addressing mode
-     */
-    private final AddressingMode addressingMode;
-
-    /**
      * Schema registry
      */
     private final SchemaRegistry registry;
@@ -96,9 +91,8 @@ public final class JsonSchemaFactory
      */
     private JsonSchemaFactory(final Builder builder)
     {
-        addressingMode = builder.addressingMode;
         registry = new SchemaRegistry(builder.uriManager, builder.namespace,
-            addressingMode);
+            builder.addressingMode);
         cache = new JsonValidatorCache(builder.keywordBundle, registry);
         formatBundle = builder.formatBundle;
         features = EnumSet.copyOf(builder.features);
