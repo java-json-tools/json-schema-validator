@@ -26,6 +26,7 @@ import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.ref.JsonFragment;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.schema.AddressingMode;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
@@ -52,6 +53,10 @@ import java.util.EnumSet;
  */
 public final class JsonSchemaFactory
 {
+    /**
+     * Addressing mode
+     */
+    private final AddressingMode addressingMode;
 
     /**
      * Schema registry
@@ -91,7 +96,9 @@ public final class JsonSchemaFactory
      */
     private JsonSchemaFactory(final Builder builder)
     {
-        registry = new SchemaRegistry(builder.uriManager, builder.namespace);
+        addressingMode = builder.addressingMode;
+        registry = new SchemaRegistry(builder.uriManager, builder.namespace,
+            addressingMode);
         cache = new JsonValidatorCache(builder.keywordBundle, registry);
         formatBundle = builder.formatBundle;
         features = EnumSet.copyOf(builder.features);
@@ -241,6 +248,11 @@ public final class JsonSchemaFactory
     public static final class Builder
     {
         /**
+         * Addressing mode
+         */
+        private AddressingMode addressingMode = AddressingMode.CANONICAL;
+
+        /**
          * The keyword bundle
          */
         private KeywordBundle keywordBundle = KeywordBundles.defaultBundle();
@@ -345,6 +357,12 @@ public final class JsonSchemaFactory
         public Builder addKeywords(final KeywordBundle keywordBundle)
         {
             this.keywordBundle.mergeWith(keywordBundle);
+            return this;
+        }
+
+        public Builder addressingMode(final AddressingMode addressingMode)
+        {
+            this.addressingMode = addressingMode;
             return this;
         }
 
