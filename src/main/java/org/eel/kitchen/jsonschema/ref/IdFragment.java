@@ -44,36 +44,6 @@ final class IdFragment
     @Override
     public JsonNode resolve(final JsonNode node)
     {
-        /*
-         * Non object instances are not worth being considered
-         */
-        if (!node.isObject())
-            return MissingNode.getInstance();
-
-        /*
-         * If an id node exists and is a text node, see if that node's value
-         * (minus the initial #) matches our id, if yes we have a match
-         */
-        final JsonNode idNode = node.path("id");
-
-        if (idNode.isTextual()) {
-            final String s = idNode.textValue();
-            if (asString.equals(s))
-                return node;
-        }
-
-        /*
-         * Otherwise, go on with children. As this is an object,
-         * JsonNode will cycle through the values, which is what we want.
-         */
-
-        JsonNode ret;
-        for (final JsonNode subNode: node) {
-            ret = resolve(subNode);
-            if (!ret.isMissingNode())
-                return ret;
-        }
-
         return MissingNode.getInstance();
     }
 }

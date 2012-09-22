@@ -79,20 +79,6 @@ public final class JsonFragmentTest
         input = "/foobar"; // an ID exists, but not a pointer
         builder.add(new Object[] { input, expected, errmsg });
 
-        /*
-         * IDs -- existing and non existing
-         */
-
-        input = "foobar";
-        expected = schema.get("properties").get("patternProperties");
-        errmsg = "id lookup failed (non # prefixed)";
-        builder.add(new Object[] { input, expected, errmsg });
-
-        input = "moo";
-        expected = MissingNode.getInstance();
-        errmsg = "non existing id lookup failed";
-        builder.add(new Object[] { input, expected, errmsg });
-
         return builder.build().iterator();
     }
 
