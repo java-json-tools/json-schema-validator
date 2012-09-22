@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.schema.SchemaBundle;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
@@ -152,8 +153,11 @@ public final class JsonResolverTest
 
     @Test
     public void crossContextRefLoopIsDetected()
+        throws JsonSchemaException
     {
+        final SchemaBundle bundle;
         final ArrayNode path = factory.arrayNode();
+
         JsonNode node;
 
         final String location1 = "http://foo.bar/helloword";
@@ -170,15 +174,20 @@ public final class JsonResolverTest
         node = factory.objectNode().put("$ref", ref1);
         schema1.put("a", node);
 
+        bundle = SchemaBundle.withRootSchema(location1, schema1);
+
         final ObjectNode schema2 = factory.objectNode();
         schema2.put("id", location2);
 
         node = factory.objectNode().put("$ref", ref2);
         schema2.put("x", node);
 
-        registry.register(schema2);
+        bundle.addSchema(location2, schema2);
 
-        container = registry.register(schema1);
+        registry.addBundle(bundle);
+
+        container = registry.get(URI.create(location1));
+
         schemaNode = new SchemaNode(container, schema1.get("a"));
 
         final Message expectedMessage = newMsg().setMessage("ref loop detected")
@@ -194,8 +203,11 @@ public final class JsonResolverTest
 
     @Test
     public void crossContextDanglingRefIsDetected()
+        throws JsonSchemaException
     {
         JsonNode node;
+
+        final SchemaBundle bundle;
 
         final String location1 = "http://foo.bar/helloword";
         final String location2 = "zookeeper://127.0.0.1:9000/acrylic#";
@@ -209,15 +221,20 @@ public final class JsonResolverTest
         node = factory.objectNode().put("$ref", ref1);
         schema1.put("a", node);
 
+        bundle = SchemaBundle.withRootSchema(location1, schema1);
+
         final ObjectNode schema2 = factory.objectNode();
         schema2.put("id", location2);
 
         node = factory.objectNode().put("$ref", ref2);
         schema2.put("x", node);
 
-        registry.register(schema2);
+        bundle.addSchema(location2, schema2);
 
-        container = registry.register(schema1);
+        registry.addBundle(bundle);
+
+        container = registry.get(URI.create(location1));
+
         schemaNode = new SchemaNode(container, schema1.get("a"));
 
         final Message expectedMessage = newMsg().addInfo("ref", ref2)
