@@ -1,0 +1,48 @@
+{
+    "schema": {
+        "id": "http://x.y.z/rootschema.json#",
+        "pointer": "",
+        "schema1": {
+            "id": "#foo",
+            "pointer": "/schema1"
+        },
+        "schema2": {
+            "id": "otherschema.json",
+            "pointer": "/schema2",
+            "nested": {
+                "id": "#bar",
+                "pointer": "/schema2/nested"
+            },
+            "alsonested": {
+                "id": "t/inner.json#a",
+                "pointer": "/schema2/alsonested"
+            }
+        },
+        "schema3": {
+            "id": "some://where.else/completely#",
+            "pointer": "/schema3"
+        }
+    },
+    "lookups": [
+        {
+            "pointer": "",
+            "id": "http://x.y.z/rootschema.json#"
+        },
+        {
+            "pointer": "/schema1",
+            "id": "http://x.y.z/rootschema.json#foo"
+        },
+        {
+            "pointer": "/schema2",
+            "id": "http://x.y.z/otherschema.json#"
+        },
+        {
+            "pointer": "/schema2/alsonested",
+            "id": "http://x.y.z/t/inner.json#a"
+        },
+        {
+            "pointer": "/schema3",
+            "id": "some://where.else/completely#"
+        }
+    ]
+}
