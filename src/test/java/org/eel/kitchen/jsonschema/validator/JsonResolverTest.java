@@ -65,6 +65,7 @@ public final class JsonResolverTest
 
         try {
             resolver.resolve(schemaNode);
+            fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
@@ -97,6 +98,7 @@ public final class JsonResolverTest
 
         try {
             resolver.resolve(schemaNode);
+            fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
@@ -115,6 +117,7 @@ public final class JsonResolverTest
 
         try {
             resolver.resolve(schemaNode);
+            fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
@@ -141,6 +144,7 @@ public final class JsonResolverTest
 
         try {
             resolver.resolve(schemaNode);
+            fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
@@ -182,6 +186,7 @@ public final class JsonResolverTest
 
         try {
             resolver.resolve(schemaNode);
+            fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
@@ -220,6 +225,7 @@ public final class JsonResolverTest
 
         try {
             resolver.resolve(schemaNode);
+            fail("No exception thrown!");
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
