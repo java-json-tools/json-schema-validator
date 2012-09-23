@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 
 import java.net.URI;
 
@@ -47,11 +46,7 @@ import java.net.URI;
  * #INLINE} addressing mode.</p>
  *
  * <p>By default, however, and for security reasons, the addressing mode is
- * {@link #CANONICAL}. Note that even in canonical addressing mode, if the
- * schema is loaded locally (ie, not using a URI, for instance by using
- * {@link JsonSchemaFactory#fromSchema(JsonNode)} <i>and</i> the top-level
- * {@code id} is an absolute URI with no, or an empty fragment, the value of
- * {@code id} will be considered that schema's URI.</p>
+ * {@link #CANONICAL}.</p>
  */
 public enum AddressingMode
 {
