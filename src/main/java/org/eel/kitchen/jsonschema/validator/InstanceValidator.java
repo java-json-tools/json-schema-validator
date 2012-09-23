@@ -74,7 +74,16 @@ final class InstanceValidator
                 return;
         }
 
-        if (instance.size() > 0) {
+        /*
+         * Check now whether the instance is a container with at least one
+         * element. Jackson's .size() works for value nodes as well and always
+         * returns 0 in this case, so this is safe to to.
+         *
+         * For containers, however, we don't bother testing their children if
+         * the container itself is invalid: check whether the report is a
+         * success before we proceed.
+         */
+        if (instance.size() > 0 && report.isSuccess()) {
             final JsonValidator validator = instance.isArray()
                 ? new ArrayValidator(schemaNode.getNode())
                 : new ObjectValidator(schemaNode.getNode());
