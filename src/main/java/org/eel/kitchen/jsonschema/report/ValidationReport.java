@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -148,12 +147,6 @@ public final class ValidationReport
         for (final Message message: messages)
             if (addMessage(message))
                 return;
-    }
-
-    @VisibleForTesting
-    int size()
-    {
-        return msgMap.size();
     }
 
     /**

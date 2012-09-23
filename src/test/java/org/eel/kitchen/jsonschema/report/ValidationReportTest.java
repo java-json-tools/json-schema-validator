@@ -39,11 +39,11 @@ public final class ValidationReportTest
 
         report.addMessage(msg.build());
         assertFalse(report.hasFatalError());
-        assertEquals(report.size(), 2);
+        assertEquals(report.asJsonArray().size(), 2);
 
         report.addMessage(msg.setFatal(true).build());
         assertTrue(report.hasFatalError());
-        assertEquals(report.size(), 1);
+        assertEquals(report.asJsonArray().size(), 1);
     }
 
     @Test
@@ -63,7 +63,7 @@ public final class ValidationReportTest
         report.addMessages(list);
 
         assertTrue(report.hasFatalError());
-        assertEquals(report.size(), 1);
+        assertEquals(report.asJsonArray().size(), 1);
     }
 
     @Test
@@ -83,7 +83,7 @@ public final class ValidationReportTest
 
         r1.mergeWith(r2);
         assertTrue(r1.hasFatalError());
-        assertEquals(r1.size(), 1);
+        assertEquals(r1.asJsonArray().size(), 1);
 
         // r2 is fatal
         r1 = new ValidationReport();
@@ -94,6 +94,6 @@ public final class ValidationReportTest
 
         r1.mergeWith(r2);
         assertTrue(r1.hasFatalError());
-        assertEquals(r1.size(), 1);
+        assertEquals(r1.asJsonArray().size(), 1);
     }
 }
