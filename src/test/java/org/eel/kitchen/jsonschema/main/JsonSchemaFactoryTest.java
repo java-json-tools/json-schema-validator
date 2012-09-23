@@ -22,14 +22,38 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
 public final class JsonSchemaFactoryTest
 {
+    @Test
+    public void childrenAreNotValidatedIfContainerIsInvalid()
+        throws IOException
+    {
+        final JsonNode testData
+            = JsonLoader.fromResource("/other/invalidContainer.json");
+
+        final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
+
+        final JsonNode node = testData.get("schema");
+        final JsonNode data = testData.get("data");
+        final JsonNode messages = testData.get("messages");
+
+        final JsonSchema schema = factory.fromSchema(node);
+
+        final ValidationReport report = schema.validate(data);
+
+        assertFalse(report.isSuccess());
+        assertEquals(report.asJsonObject(), messages);
+    }
     @Test
     public void customFormatAttributeIsEffectivelyRegistered()
     {
