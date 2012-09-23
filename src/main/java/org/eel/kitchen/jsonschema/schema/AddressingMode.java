@@ -44,7 +44,7 @@ import java.net.URI;
  * see the other {@code id} in subschema {@code /sub} and resolve the value of
  * this subschema against the root URI: this gives {@code
  * some://where/other.json}. This is called by this implementation {@link
- * #INNER} addressing mode.</p>
+ * #INLINE} addressing mode.</p>
  *
  * <p>By default, however, and for security reasons, the addressing mode is
  * {@link #CANONICAL}. Note that even in canonical addressing mode, if the
@@ -64,13 +64,13 @@ public enum AddressingMode
                 return new CanonicalSchemaContainer(uri, schema);
             }
         },
-    INNER
+    INLINE
         {
             @Override
             public SchemaContainer forSchema(final URI uri,
                 final JsonNode schema)
             {
-                return new IdBasedSchemaContainer(schema);
+                return new InlineSchemaContainer(schema);
             }
         };
 

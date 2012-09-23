@@ -32,10 +32,10 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
-public final class IdBasedSchemaContainerTest
+public final class InlineSchemaContainerTest
 {
     private JsonNode lookups;
-    private IdBasedSchemaContainer container;
+    private InlineSchemaContainer container;
 
     @BeforeClass
     public void initialize()
@@ -43,7 +43,7 @@ public final class IdBasedSchemaContainerTest
     {
         final JsonNode testData
             = JsonLoader.fromResource("/schema/idBased.json");
-        container = new IdBasedSchemaContainer(testData.get("schema"));
+        container = new InlineSchemaContainer(testData.get("schema"));
         lookups = testData.get("lookups");
     }
 

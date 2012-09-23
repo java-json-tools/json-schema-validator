@@ -29,7 +29,7 @@ import org.eel.kitchen.jsonschema.schema.AddressingMode;
  * fragments are illegal.</p>
  *
  * <p>The only possibility for a non JSON Pointer fragment to appear is when
- * inner schema addressing mode is used.</p>
+ * inline addressing mode is used.</p>
  *
  * @see IllegalFragment
  * @see JsonPointer

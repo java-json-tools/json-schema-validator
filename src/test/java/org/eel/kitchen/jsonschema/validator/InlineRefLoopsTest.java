@@ -39,7 +39,7 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
-public final class IdBasedRefLoopsTest
+public final class InlineRefLoopsTest
 {
     private static final URI EMPTY = URI.create("#");
 
@@ -72,7 +72,7 @@ public final class IdBasedRefLoopsTest
     {
         final URIManager manager = new URIManager();
         final SchemaRegistry registry = new SchemaRegistry(manager,
-            EMPTY, AddressingMode.INNER);
+            EMPTY, AddressingMode.INLINE);
         final JsonResolver resolver = new JsonResolver(registry);
 
         final SchemaContainer container = registry.register(schema);
@@ -88,7 +88,7 @@ public final class IdBasedRefLoopsTest
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
-    private Message buildMessage(final JsonNode path)
+    private static Message buildMessage(final JsonNode path)
     {
         return Domain.REF_RESOLVING.newMessage().setKeyword("$ref")
             .setFatal(true).setMessage("ref loop detected")

@@ -29,12 +29,12 @@ import java.util.Map;
  *
  * <b>TODO: javadoc</b>
  */
-public final class IdBasedSchemaContainer
+public final class InlineSchemaContainer
     extends SchemaContainer
 {
     private final Map<JsonRef, JsonNode> schemas;
 
-    IdBasedSchemaContainer(final JsonNode schema)
+    InlineSchemaContainer(final JsonNode schema)
     {
         super(extractLocator(schema).toURI(), schema);
         final ImmutableMap.Builder<JsonRef, JsonNode> builder
