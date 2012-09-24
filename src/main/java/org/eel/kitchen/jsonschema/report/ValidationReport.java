@@ -315,7 +315,7 @@ public final class ValidationReport
         return "current path: \"" + path + "\"; " + msgMap.size() + " messages";
     }
 
-    private static class MessageComparator
+    private static final class MessageComparator
         implements Comparator<Message>
     {
         private static final Comparator<Message> instance

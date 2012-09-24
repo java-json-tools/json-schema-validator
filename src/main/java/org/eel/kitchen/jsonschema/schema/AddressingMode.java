@@ -74,7 +74,7 @@ public enum AddressingMode
     public abstract SchemaContainer forSchema(final URI uri,
         final JsonNode schema);
 
-    public SchemaContainer forSchema(final JsonNode schema)
+    public final SchemaContainer forSchema(final JsonNode schema)
     {
         return forSchema(EMPTY, schema);
     }

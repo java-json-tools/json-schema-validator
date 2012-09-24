@@ -48,7 +48,7 @@ import java.util.Map;
  * @see SchemaRegistry
  * @see JsonLoader
  */
-public class URIManager
+public final class URIManager
 {
     /**
      * Our object mapper
