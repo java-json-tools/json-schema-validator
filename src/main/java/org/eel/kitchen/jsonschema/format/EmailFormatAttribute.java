@@ -56,7 +56,7 @@ public final class EmailFormatAttribute
 
     @Override
     public void checkValue(final String fmt, final ValidationContext ctx,
-        final ValidationReport report, final JsonNode instance)
+        final ValidationReport report, final JsonNode value)
     {
         // Yup, that is kind of misnamed. But the problem is with the
         // InternetAddress constructor in the first place which "enforces" a
@@ -66,11 +66,11 @@ public final class EmailFormatAttribute
 
         try {
             // Which means we actually invert it.
-            new InternetAddress(instance.textValue(), !strictRFC);
+            new InternetAddress(value.textValue(), !strictRFC);
         } catch (AddressException ignored) {
             final Message.Builder msg = newMsg(fmt)
                 .setMessage("string is not a valid email address")
-                .addInfo("value", instance);
+                .addInfo("value", value);
             report.addMessage(msg.build());
         }
     }

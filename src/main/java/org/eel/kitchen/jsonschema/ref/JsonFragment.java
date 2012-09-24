@@ -110,9 +110,9 @@ public abstract class JsonFragment
     }
 
     @Override
-    public final int compareTo(final JsonFragment other)
+    public final int compareTo(final JsonFragment o)
     {
-        return asString.compareTo(other.asString);
+        return asString.compareTo(o.asString);
     }
 
 

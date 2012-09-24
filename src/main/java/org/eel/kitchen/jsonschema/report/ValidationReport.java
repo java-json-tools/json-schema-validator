@@ -322,17 +322,17 @@ public final class ValidationReport
             = new MessageComparator();
 
         @Override
-        public int compare(final Message msg1, final Message msg2)
+        public int compare(final Message o1, final Message o2)
         {
             int ret;
 
-            ret = msg1.getDomain().compareTo(msg2.getDomain());
+            ret = o1.getDomain().compareTo(o2.getDomain());
             if (ret != 0)
                 return ret;
-            ret = msg1.getKeyword().compareTo(msg2.getKeyword());
+            ret = o1.getKeyword().compareTo(o2.getKeyword());
             if (ret != 0)
                 return ret;
-            return msg1.getMessage().compareTo(msg2.getMessage());
+            return o1.getMessage().compareTo(o2.getMessage());
         }
     }
 }

@@ -282,17 +282,17 @@ public abstract class JsonRef
     }
 
     @Override
-    public final boolean equals(final Object o)
+    public final boolean equals(final Object obj)
     {
-        if (o == null)
+        if (obj == null)
             return false;
-        if (this == o)
+        if (this == obj)
             return true;
 
-        if (!(o instanceof JsonRef))
+        if (!(obj instanceof JsonRef))
             return false;
 
-        final JsonRef that = (JsonRef) o;
+        final JsonRef that = (JsonRef) obj;
         return asString.equals(that.asString);
     }
 
