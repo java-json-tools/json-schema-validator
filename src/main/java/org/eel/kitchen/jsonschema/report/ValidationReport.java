@@ -211,7 +211,7 @@ public final class ValidationReport
      * <p>One message has the form:</p>
      *
      * <pre>
-     *     #/pointer/here: message here
+     *     "/pointer/here": message here
      * </pre>
      *
      * <p>The list is sorted by pointer.</p>
@@ -229,8 +229,8 @@ public final class ValidationReport
 
         for (final JsonPointer path: paths) {
             messages = MESSAGE_ORDER.sortedCopy(msgMap.get(path));
-            for (final Message msg : messages)
-                builder.add(path + ": " + msg);
+            for (final Message msg: messages)
+                builder.add("\"" + path + "\": " + msg);
         }
 
         return builder.build();
