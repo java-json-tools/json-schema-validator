@@ -70,24 +70,24 @@ public enum NodeType
     /**
      * Reverse map to find a node type out of this type's name
      */
-    private static final Map<String, NodeType> nameMap;
+    private static final Map<String, NodeType> NAME_MAP;
 
     /**
      * Mapping of {@link JsonToken} back to node types (used in {@link
      * #getNodeType(JsonNode)})
      */
-    private static final Map<JsonToken, NodeType> reverseMap
+    private static final Map<JsonToken, NodeType> TOKEN_MAP
         = new EnumMap<JsonToken, NodeType>(JsonToken.class);
 
     static {
-        reverseMap.put(JsonToken.START_ARRAY, ARRAY);
-        reverseMap.put(JsonToken.VALUE_TRUE, BOOLEAN);
-        reverseMap.put(JsonToken.VALUE_FALSE, BOOLEAN);
-        reverseMap.put(JsonToken.VALUE_NUMBER_INT, INTEGER);
-        reverseMap.put(JsonToken.VALUE_NUMBER_FLOAT, NUMBER);
-        reverseMap.put(JsonToken.VALUE_NULL, NULL);
-        reverseMap.put(JsonToken.START_OBJECT, OBJECT);
-        reverseMap.put(JsonToken.VALUE_STRING, STRING);
+        TOKEN_MAP.put(JsonToken.START_ARRAY, ARRAY);
+        TOKEN_MAP.put(JsonToken.VALUE_TRUE, BOOLEAN);
+        TOKEN_MAP.put(JsonToken.VALUE_FALSE, BOOLEAN);
+        TOKEN_MAP.put(JsonToken.VALUE_NUMBER_INT, INTEGER);
+        TOKEN_MAP.put(JsonToken.VALUE_NUMBER_FLOAT, NUMBER);
+        TOKEN_MAP.put(JsonToken.VALUE_NULL, NULL);
+        TOKEN_MAP.put(JsonToken.START_OBJECT, OBJECT);
+        TOKEN_MAP.put(JsonToken.VALUE_STRING, STRING);
 
         final ImmutableMap.Builder<String, NodeType> builder
             = ImmutableMap.builder();
@@ -95,7 +95,7 @@ public enum NodeType
         for (final NodeType type: NodeType.values())
             builder.put(type.name, type);
 
-        nameMap = builder.build();
+        NAME_MAP = builder.build();
     }
 
     NodeType(final String name)
@@ -117,7 +117,7 @@ public enum NodeType
      */
     public static NodeType fromName(final String name)
     {
-        return nameMap.get(name);
+        return NAME_MAP.get(name);
     }
 
     /**
@@ -130,7 +130,7 @@ public enum NodeType
     public static NodeType getNodeType(final JsonNode node)
     {
         final JsonToken token = node.asToken();
-        final NodeType ret = reverseMap.get(token);
+        final NodeType ret = TOKEN_MAP.get(token);
 
         Preconditions.checkNotNull(ret, "unhandled token type " + token);
 
