@@ -1,0 +1,22 @@
+{
+	"fn" : "Matty Jaracz",
+	"familyName" : "Jaracz",
+	"givenName" : "MJ",
+	"nickname" : "wyh",
+	"url" : "http://example.com",
+	"email" : {
+		"type": "work",
+		"value": "main@example.com"
+	},
+	"adr" : {
+		"street-address": "Lubicz 23",
+		"locality": "Krakow",
+		"region": "malopolska",
+		"postal-code": "45-543",
+		"country-name": "Poland"
+	},
+	"geo" : {
+		"latitude" : 123
+	},
+	"bday" : "09/23/88"
+}
