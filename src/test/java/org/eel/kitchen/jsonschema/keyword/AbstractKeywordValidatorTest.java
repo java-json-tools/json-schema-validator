@@ -50,7 +50,7 @@ public abstract class AbstractKeywordValidatorTest
     }
 
     @DataProvider
-    protected Iterator<Object[]> getData()
+    protected final Iterator<Object[]> getData()
     {
         final Set<Object[]> set = Sets.newHashSet();
 

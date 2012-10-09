@@ -49,7 +49,7 @@ public abstract class AbstractFormatAttributeTest
     }
 
     @DataProvider
-    protected Iterator<Object[]> getData()
+    protected final Iterator<Object[]> getData()
     {
         final Set<Object[]> set = Sets.newHashSet();
 
@@ -64,7 +64,7 @@ public abstract class AbstractFormatAttributeTest
     }
 
     @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
-    public void testSpecifier(final JsonNode data, final boolean valid)
+    public final void testSpecifier(final JsonNode data, final boolean valid)
     {
         final ValidationContext ctx = new ValidationContext(null);
         final ValidationReport report = new ValidationReport();

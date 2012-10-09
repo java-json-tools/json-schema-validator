@@ -57,7 +57,7 @@ public abstract class AbstractSyntaxCheckerTest
     }
 
     @DataProvider
-    public Iterator<Object[]> getData()
+    public final Iterator<Object[]> getData()
     {
         final Set<Object[]> set = Sets.newHashSet();
 
@@ -77,7 +77,7 @@ public abstract class AbstractSyntaxCheckerTest
     }
 
     @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
-    public void testChecker(final JsonNode node, final boolean valid,
+    public final void testChecker(final JsonNode node, final boolean valid,
         final JsonNode expectedMessages)
     {
         final List<Message> messages = Lists.newArrayList();

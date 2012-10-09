@@ -80,7 +80,7 @@ public final class InlineSchemaContainer
         JsonRef idRef, resolvedRef;
 
         for (final JsonNode child: node) {
-            if (child.has("id")) {
+            if (child.has("id"))
                 try {
                     idRef = JsonRef.fromNode(child.get("id"));
                     resolvedRef = baseRef.resolve(idRef);
@@ -88,7 +88,6 @@ public final class InlineSchemaContainer
                 } catch (JsonSchemaException ignored) {
                     // Do nothing
                 }
-            }
             fillURIMap(baseRef, cleanup(child), builder);
         }
     }

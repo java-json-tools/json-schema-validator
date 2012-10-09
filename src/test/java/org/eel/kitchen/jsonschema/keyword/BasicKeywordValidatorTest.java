@@ -81,7 +81,7 @@ public final class BasicKeywordValidatorTest
         }
 
         @Override
-        public String toString()
+        public final String toString()
         {
             return "KeywordValidator mock";
         }

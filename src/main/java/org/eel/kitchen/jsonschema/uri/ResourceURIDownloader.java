@@ -39,8 +39,7 @@ public final class ResourceURIDownloader
     private static final Class<ResourceURIDownloader> myself
         = ResourceURIDownloader.class;
 
-    private static final URIDownloader instance
-        = new ResourceURIDownloader();
+    private static final URIDownloader instance = new ResourceURIDownloader();
 
     private ResourceURIDownloader()
     {
