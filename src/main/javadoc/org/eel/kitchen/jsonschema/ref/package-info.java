@@ -23,13 +23,8 @@
  *
  * <p>Fragments play a particularly important role in JSON References, as such
  * there is a dedicated {@link org.eel.kitchen.jsonschema.ref.JsonFragment}
- * class to help resolve a fragment into a JSON schema. It has two
- * implementations: {@link org.eel.kitchen.jsonschema.ref.JsonPointer} and
- * {@link org.eel.kitchen.jsonschema.ref.IdFragment}.</p>
- *
- * <p>It should be noted that {@link org.eel.kitchen.jsonschema.ref.IdFragment}
- * breaks the draft somewhat. But this is because section 5.27 of the draft is
- * just insane, and this class is based on the experience gathered by the author
- * about real-world {@code id} usage.</p>
+ * class to help resolve a fragment into a JSON schema. Depending on the chosen
+ * addressing mode ({@link org.eel.kitchen.jsonschema.schema.AddressingMode}),
+ * a fragment can only be a JSON Pointer or an {@code id} reference.</p>
  */
 package org.eel.kitchen.jsonschema.ref;
