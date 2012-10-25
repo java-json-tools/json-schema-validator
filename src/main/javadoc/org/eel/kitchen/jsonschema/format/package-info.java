@@ -43,15 +43,5 @@
  * bundle into your schema factory. See also {@link
  * org.eel.kitchen.jsonschema.format.FormatAttribute}.</p>
  *
- * <p>Note: by default, the {@code host-name} and {@code email} format
- * attributes require that both validated values have a domain part. This
- * contradicts what the respective RFCs say, but it is more in line with user
- * expectations. You can tell these formats to strictly comply to the RFC by
- * setting {@link
- * org.eel.kitchen.jsonschema.main.ValidationFeature#STRICT_RFC_CONFORMANCE}
- * when building your schema factory (see {@link
- * org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#enableFeature(org.eel.kitchen.jsonschema.main.ValidationFeature)}).
- * </p>
- *
  */
 package org.eel.kitchen.jsonschema.format;

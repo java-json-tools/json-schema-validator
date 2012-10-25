@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -29,15 +28,6 @@ import javax.mail.internet.InternetAddress;
 
 /**
  * Validator for the {@code email} format specification.
- *
- * <p>Note: even though the RFC covering email addresses does not require that
- * emails have a domain part, this implementation requires that they have one
- * by default (this is more in line with user expectations). You can enforce
- * strict RFC compliance by setting the {@link
- * ValidationFeature#STRICT_RFC_CONFORMANCE} validation feature before building
- * your schema factory.</p>
- *
- * @see ValidationFeature
  */
 public final class EmailFormatAttribute
     extends FormatAttribute
@@ -58,15 +48,9 @@ public final class EmailFormatAttribute
     public void checkValue(final String fmt, final ValidationContext ctx,
         final ValidationReport report, final JsonNode value)
     {
-        // Yup, that is kind of misnamed. But the problem is with the
-        // InternetAddress constructor in the first place which "enforces" a
-        // syntax which IS NOT strictly RFC compliant.
-        final boolean strictRFC
-            = ctx.hasFeature(ValidationFeature.STRICT_RFC_CONFORMANCE);
 
         try {
-            // Which means we actually invert it.
-            new InternetAddress(value.textValue(), !strictRFC);
+            new InternetAddress(value.textValue(), true);
         } catch (AddressException ignored) {
             final Message.Builder msg = newMsg(fmt)
                 .setMessage("string is not a valid email address")

@@ -69,11 +69,6 @@ public final class JsonSchemaFactory
     private final FormatBundle formatBundle;
 
     /**
-     * List of supported features
-     */
-    private final EnumSet<ValidationFeature> features;
-
-    /**
      * Build a factory with all default settings
      *
      * @return a schema factory instance
@@ -95,7 +90,6 @@ public final class JsonSchemaFactory
             builder.addressingMode);
         cache = new JsonValidatorCache(builder.keywordBundle, registry);
         formatBundle = builder.formatBundle;
-        features = EnumSet.copyOf(builder.features);
     }
 
     /**
@@ -233,7 +227,7 @@ public final class JsonSchemaFactory
         final JsonNode schema)
     {
         final SchemaNode schemaNode = new SchemaNode(container, schema);
-        return new JsonSchema(cache, features, formatBundle, schemaNode);
+        return new JsonSchema(cache, formatBundle, schemaNode);
     }
 
     /**
@@ -260,12 +254,6 @@ public final class JsonSchemaFactory
          * The namespace
          */
         private URI namespace = URI.create("");
-
-        /**
-         * The feature set
-         */
-        private final EnumSet<ValidationFeature> features
-            = EnumSet.noneOf(ValidationFeature.class);
 
         /**
          * The format bundle
@@ -397,18 +385,6 @@ public final class JsonSchemaFactory
         public Builder addRedirection(final String from, final String to)
         {
             uriManager.addRedirection(from, to);
-            return this;
-        }
-
-        /**
-         * Enable a validation feature
-         *
-         * @param feature the feature to set
-         * @return the builder
-         */
-        public Builder enableFeature(final ValidationFeature feature)
-        {
-            features.add(feature);
             return this;
         }
 

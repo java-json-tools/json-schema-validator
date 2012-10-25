@@ -66,8 +66,7 @@ customize your factory.</p>
 <ul>
     <li>registering/unregistering keywords;</li>
     <li>registering/unregistering URI schemes;</li>
-    <li>adding a URI namespace, and URI redirections;</li>
-    <li>setting validation features.</li>
+    <li>adding a URI namespace, and URI redirections.</li>
 </ul>
 
 <p>For this, the way to build a factory differs:</p>
@@ -276,16 +275,6 @@ like this:</p>
         .unregisterScheme("ftp")
         .build();
 </pre>
-
-<h2>Setting validation features</h2>
-
-<p>This is done using the <tt>.setFeature()</tt> method of a schema factory
-builder. For now, the only existing feature is called {@link
-org.eel.kitchen.jsonschema.main.ValidationFeature#STRICT_RFC_CONFORMANCE}. It is
-used by the <tt>host-name</tt> and <tt>email</tt> format attributes since, by
-default, they require that both hostnames and emails have a domain part -- but
-RFCs do not require this. This brings those two validators in conformance with
-their respective RFCs.</p>
 
 <h1>The core stuff: the validation process</h1>
 

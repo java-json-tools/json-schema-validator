@@ -20,11 +20,9 @@ package org.eel.kitchen.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.format.FormatBundle;
-import org.eel.kitchen.jsonschema.main.ValidationFeature;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 
-import java.util.EnumSet;
 import java.util.Map;
 
 /**
@@ -45,7 +43,6 @@ public final class ValidationContext
 {
     private final JsonValidatorCache cache;
     private SchemaContainer container;
-    private final EnumSet<ValidationFeature> features;
     private final Map<String, FormatAttribute> attributes;
 
     /**
@@ -55,27 +52,13 @@ public final class ValidationContext
      */
     public ValidationContext(final JsonValidatorCache cache)
     {
-        this(cache, EnumSet.noneOf(ValidationFeature.class),
-            FormatBundle.defaultBundle());
-    }
-
-    /**
-     * Create a validation context with a defined set of features
-     *
-     * @param cache the validator cache to use
-     * @param features the feature set
-     */
-    public ValidationContext(final JsonValidatorCache cache,
-        final EnumSet<ValidationFeature> features)
-    {
-        this(cache, features, FormatBundle.defaultBundle());
+        this(cache, FormatBundle.defaultBundle());
     }
 
     public ValidationContext(final JsonValidatorCache cache,
-        final EnumSet<ValidationFeature> features, final FormatBundle bundle)
+        final FormatBundle bundle)
     {
         this.cache = cache;
-        this.features = EnumSet.copyOf(features);
         attributes = bundle.getAttributes();
     }
 
@@ -88,17 +71,6 @@ public final class ValidationContext
     void setContainer(final SchemaContainer container)
     {
         this.container = container;
-    }
-
-    /**
-     * Test that the validation context contains a certain feature
-     *
-     * @param feature the feature to test
-     * @return true if the feature is present
-     */
-    public boolean hasFeature(final ValidationFeature feature)
-    {
-        return features.contains(feature);
     }
 
     /**
