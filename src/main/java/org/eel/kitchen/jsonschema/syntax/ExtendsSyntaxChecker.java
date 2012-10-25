@@ -17,18 +17,19 @@
 
 package org.eel.kitchen.jsonschema.syntax;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.util.EnumSet;
+import java.util.List;
 
 /**
- * Syntax validator for the {@code extends} keyword
+ * Syntax validator for the {@code items} keyword
  */
 public final class ExtendsSyntaxChecker
-    extends ArrayChildrenSyntaxChecker
+    extends SimpleSyntaxChecker
 {
-    private static final SyntaxChecker instance
-        = new ExtendsSyntaxChecker();
+    private static final SyntaxChecker instance = new ExtendsSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
@@ -37,7 +38,33 @@ public final class ExtendsSyntaxChecker
 
     private ExtendsSyntaxChecker()
     {
-        super("extends", EnumSet.of(NodeType.OBJECT), NodeType.OBJECT,
-            NodeType.ARRAY);
+        super("extends", NodeType.ARRAY, NodeType.OBJECT);
+    }
+
+    @Override
+    void checkValue(final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
+    {
+        final JsonNode extendsNode = schema.get(keyword);
+
+        if (!extendsNode.isArray())
+            return;
+
+        /*
+         * If it is an array, check that its elements are all objects
+         */
+
+        int index = 0;
+        NodeType elementType;
+        for (final JsonNode element: extendsNode) {
+            elementType = NodeType.getNodeType(element);
+            if (elementType != NodeType.OBJECT) {
+                msg.setMessage("incorrect type for array element")
+                    .addInfo("index", index).addInfo("found", elementType)
+                    .addInfo("expected", NodeType.OBJECT);
+                messages.add(msg.build());
+            }
+            index++;
+        }
     }
 }

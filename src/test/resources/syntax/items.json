@@ -37,7 +37,7 @@
                 "keyword": "items",
                 "message": "incorrect type for array element",
                 "index": 1,
-                "expected": [ "object" ],
+                "expected": "object",
                 "found": "integer"
             },
             {
@@ -45,7 +45,7 @@
                 "keyword": "items",
                 "message": "incorrect type for array element",
                 "index": 2,
-                "expected": [ "object" ],
+                "expected": "object",
                 "found": "boolean"
             }
         ]

@@ -47,7 +47,7 @@
                 "keyword": "extends",
                 "message": "incorrect type for array element",
                 "index": 0,
-                "expected": [ "object" ],
+                "expected": "object",
                 "found": "integer"
             },
             {
@@ -55,7 +55,7 @@
                 "keyword": "extends",
                 "message": "incorrect type for array element",
                 "index": 1,
-                "expected": [ "object" ],
+                "expected": "object",
                 "found": "boolean"
             },
             {
@@ -63,7 +63,7 @@
                 "keyword": "extends",
                 "message": "incorrect type for array element",
                 "index": 3,
-                "expected": [ "object" ],
+                "expected": "object",
                 "found": "string"
             }
         ]

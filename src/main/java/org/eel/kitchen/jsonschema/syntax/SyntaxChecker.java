@@ -18,7 +18,6 @@ import java.util.List;
  *
  * @see SimpleSyntaxChecker
  * @see PositiveIntegerSyntaxChecker
- * @see ArrayChildrenSyntaxChecker
  */
 public interface SyntaxChecker
 {
