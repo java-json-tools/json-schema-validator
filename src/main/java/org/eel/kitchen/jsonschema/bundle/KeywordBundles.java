@@ -202,11 +202,6 @@ public final class KeywordBundles
             .withValidatorClass(PropertiesKeywordValidator.class).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
 
-        checker = new SimpleSyntaxChecker("required", NodeType.BOOLEAN);
-        keyword = Keyword.withName("required").withSyntaxChecker(checker)
-            .build();
-        DEFAULT_BUNDLE.registerKeyword(keyword);
-
         checker = new SimpleSyntaxChecker("title", NodeType.STRING);
         keyword = Keyword.withName("title").withSyntaxChecker(checker).build();
         DEFAULT_BUNDLE.registerKeyword(keyword);
