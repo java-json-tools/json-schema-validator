@@ -23,10 +23,11 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
@@ -35,6 +36,7 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -72,24 +74,23 @@ public final class JsonValidatorCache
     private final SyntaxValidator syntaxValidator;
     private final KeywordFactory keywordFactory;
 
-    /**
-     * Constructor
-     *
-     * <p>Instantiate the syntax validator, the keyword factory, the JSON ref
-     * resolver and the validator cache.</p>
-     *
-     * @param bundle the keyword bundle
-     * @param registry the schema registry
-     */
-    public JsonValidatorCache(final KeywordBundle bundle,
-        final SchemaRegistry registry)
-    {
-        resolver = new JsonResolver(registry);
-        syntaxValidator = new SyntaxValidator(bundle);
-        keywordFactory = new KeywordFactory(bundle);
+    private final Map<String, FormatAttribute> formatAttributes;
 
+    public JsonValidatorCache(final KeywordRegistry keywordRegistry,
+        final SchemaRegistry schemaRegistry)
+    {
+        resolver = new JsonResolver(schemaRegistry);
+        syntaxValidator = new SyntaxValidator(
+            keywordRegistry.getSyntaxCheckers());
+        keywordFactory = new KeywordFactory(keywordRegistry.getValidators());
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(cacheLoader());
+        formatAttributes = keywordRegistry.getFormatAttributes();
+    }
+
+    public Map<String, FormatAttribute> getFormatAttributes()
+    {
+        return formatAttributes;
     }
 
     public JsonValidator getValidator(final SchemaNode schemaNode)

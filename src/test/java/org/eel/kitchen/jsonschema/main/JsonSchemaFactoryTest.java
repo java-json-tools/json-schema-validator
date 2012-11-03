@@ -21,6 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -62,8 +65,10 @@ public final class JsonSchemaFactoryTest
 
         final FormatAttribute spy = spy(DummyFormatAttribute.instance);
 
+        final KeywordRegistry registry = KeywordRegistries.draftV3();
+        registry.addFormatAttribute("foo", spy);
         final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-            .registerFormat("foo", spy).build();
+            .addKeywordRegistry(JsonRef.emptyRef(), registry, true).build();
 
         final JsonNode data = JsonNodeFactory.instance.nullNode();
         final JsonSchema schema = factory.fromSchema(node);

@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
@@ -44,14 +43,9 @@ public final class SyntaxValidator
      */
     private final Map<String, SyntaxChecker> checkers;
 
-    /**
-     * Constructor
-     *
-     * @param bundle the keyword bundle
-     */
-    public SyntaxValidator(final KeywordBundle bundle)
+    public SyntaxValidator(final Map<String, SyntaxChecker> checkers)
     {
-        checkers = ImmutableMap.copyOf(bundle.getSyntaxCheckers());
+        this.checkers = ImmutableMap.copyOf(checkers);
     }
 
     /**

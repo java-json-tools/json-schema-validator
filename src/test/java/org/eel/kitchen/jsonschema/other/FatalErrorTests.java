@@ -19,11 +19,12 @@ package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.bundle.Keyword;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -81,17 +82,16 @@ public final class FatalErrorTests
     @Test(invocationCount = 10, threadPoolSize = 4)
     public void keywordBuildFailureRaisesFatalError()
     {
-        // Build a bundle with only the failing validator
-        final KeywordBundle bundle = new KeywordBundle();
         final Keyword foo = Keyword.withName("foo")
             .withValidatorClass(Foo.class).build();
 
-        bundle.registerKeyword(foo);
+        final KeywordRegistry registry = new KeywordRegistry();
+        registry.addKeyword(foo);
 
         // Build a new factory with that only keyword
 
         final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-            .withKeywordBundle(bundle).build();
+            .addKeywordRegistry(JsonRef.emptyRef(), registry, true).build();
 
         // Create our schema, which will also be our data, we don't care
         final JsonNode node = JsonNodeFactory.instance.objectNode()

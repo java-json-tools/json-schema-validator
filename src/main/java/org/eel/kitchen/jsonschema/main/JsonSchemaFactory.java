@@ -18,11 +18,12 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.bundle.Keyword;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
-import org.eel.kitchen.jsonschema.format.FormatAttribute;
-import org.eel.kitchen.jsonschema.format.FormatBundle;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.metaschema.SchemaURIs;
 import org.eel.kitchen.jsonschema.ref.JsonFragment;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
@@ -35,7 +36,7 @@ import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
 
 import java.net.URI;
-import java.util.EnumSet;
+import java.util.Map;
 
 /**
  * Factory to build JSON Schema validating instances
@@ -59,14 +60,19 @@ public final class JsonSchemaFactory
     private final SchemaRegistry registry;
 
     /**
+     * Default schema URI
+     */
+    private final JsonRef defaultSchemaURI;
+
+    /**
+     * Map of schema URIs and validator caches
+     */
+    private final Map<JsonRef, JsonValidatorCache> validatorCaches;
+
+    /**
      * Validator cache
      */
     private final JsonValidatorCache cache;
-
-    /**
-     * Format bundle
-     */
-    private final FormatBundle formatBundle;
 
     /**
      * Build a factory with all default settings
@@ -88,8 +94,25 @@ public final class JsonSchemaFactory
     {
         registry = new SchemaRegistry(builder.uriManager, builder.namespace,
             builder.addressingMode);
-        cache = new JsonValidatorCache(builder.keywordBundle, registry);
-        formatBundle = builder.formatBundle;
+        defaultSchemaURI = builder.defaultSchemaURI;
+
+        final ImmutableMap.Builder<JsonRef, JsonValidatorCache> cacheBuilder
+            = new ImmutableMap.Builder<JsonRef, JsonValidatorCache>();
+        JsonRef ref;
+        JsonValidatorCache validatorCache;
+
+        final Map<JsonRef, KeywordRegistry> map = builder.keywordRegistries;
+
+        for (final Map.Entry<JsonRef, KeywordRegistry> entry:
+            map.entrySet()) {
+            ref = entry.getKey();
+            validatorCache = new JsonValidatorCache(entry.getValue(),
+                registry);
+            cacheBuilder.put(ref, validatorCache);
+        }
+        validatorCaches = cacheBuilder.build();
+
+        cache = validatorCaches.get(defaultSchemaURI);
     }
 
     /**
@@ -227,7 +250,7 @@ public final class JsonSchemaFactory
         final JsonNode schema)
     {
         final SchemaNode schemaNode = new SchemaNode(container, schema);
-        return new JsonSchema(cache, formatBundle, schemaNode);
+        return new JsonSchema(cache, schemaNode);
     }
 
     /**
@@ -238,27 +261,56 @@ public final class JsonSchemaFactory
         /**
          * Addressing mode
          */
-        private AddressingMode addressingMode = AddressingMode.CANONICAL;
+        private AddressingMode addressingMode;
 
         /**
-         * The keyword bundle
+         * Default schema URI
          */
-        private KeywordBundle keywordBundle = KeywordBundles.defaultBundle();
+        private JsonRef defaultSchemaURI;
+
+        /**
+         * Default keyword registry
+         */
+        private KeywordRegistry defaultKeywordRegistry;
+
+        /**
+         * Keyword registries
+         */
+        private final Map<JsonRef, KeywordRegistry> keywordRegistries;
 
         /**
          * The URI manager
          */
-        private final URIManager uriManager = new URIManager();
+        private final URIManager uriManager;
 
         /**
          * The namespace
          */
-        private URI namespace = URI.create("");
+        private URI namespace;
+
+        /*
+         * Deprecated instance fields
+         */
 
         /**
-         * The format bundle
+         * Constructor
          */
-        private FormatBundle formatBundle = FormatBundle.defaultBundle();
+        public Builder()
+        {
+            /*
+             * Initialize all default values
+             */
+            // URI related
+            namespace = URI.create("");
+            uriManager = new URIManager();
+            addressingMode = AddressingMode.CANONICAL;
+
+            // Metaschema related
+            defaultSchemaURI = SchemaURIs.draftV3();
+            defaultKeywordRegistry = KeywordRegistries.draftV3();
+            keywordRegistries = Maps.newHashMap();
+            keywordRegistries.put(defaultSchemaURI, defaultKeywordRegistry);
+        }
 
         /**
          * Register a {@link URIDownloader} for a given scheme
@@ -285,60 +337,6 @@ public final class JsonSchemaFactory
         public Builder unregisterScheme(final String scheme)
         {
             uriManager.unregisterScheme(scheme);
-            return this;
-        }
-
-        /**
-         * Add a schema keyword to the bundle
-         *
-         * @see Keyword
-         *
-         * @param keyword the keyword to add
-         * @return the builder
-         */
-        public Builder registerKeyword(final Keyword keyword)
-        {
-            keywordBundle.registerKeyword(keyword);
-            return this;
-        }
-
-        /**
-         * Unregister a schema keyword
-         *
-         * @param name the name of the keyword to unregister
-         * @return the builder
-         */
-        public Builder unregisterKeyword(final String name)
-        {
-            keywordBundle.unregisterKeyword(name);
-            return this;
-        }
-
-        /**
-         * Replace the keyword bundle with an entirely new bundle
-         *
-         * <p>Use with caution!</p>
-         *
-         * @param keywordBundle the bundle
-         * @return the builder
-         */
-        public Builder withKeywordBundle(final KeywordBundle keywordBundle)
-        {
-            this.keywordBundle = keywordBundle;
-            return this;
-        }
-
-        /**
-         * Merge the existing keyword bundle with another, custom bundle
-         *
-         * @see KeywordBundle#mergeWith(KeywordBundle)
-         *
-         * @param keywordBundle the bundle
-         * @return the builder
-         */
-        public Builder addKeywords(final KeywordBundle keywordBundle)
-        {
-            this.keywordBundle.mergeWith(keywordBundle);
             return this;
         }
 
@@ -388,64 +386,19 @@ public final class JsonSchemaFactory
             return this;
         }
 
-        /**
-         * Register a format attribute
-         *
-         * @see FormatBundle#registerFormat(String, FormatAttribute)
-         *
-         * @param fmt the name for this attribute
-         * @param attribute the format attribute instance
-         * @return the builder
-         */
-        public Builder registerFormat(final String fmt,
-            final FormatAttribute attribute)
+        public Builder addKeywordRegistry(final JsonRef schemaURI,
+            final KeywordRegistry keywordRegistry, final boolean byDefault)
         {
-            formatBundle.registerFormat(fmt, attribute);
-            return this;
-        }
+            Preconditions.checkNotNull(schemaURI, "schema URI cannot be null");
+            Preconditions.checkNotNull(keywordRegistry,
+                "keyword registry cannot be null");
 
-        /**
-         * Unregister a format attribute
-         *
-         * <p>This is a no op if such a attribute was not registered.</p>
-         *
-         * @param fmt the name for this attribute
-         * @return the builder
-         */
-        public Builder unregisterFormat(final String fmt)
-        {
-            formatBundle.unregisterFormat(fmt);
-            return this;
-        }
+            keywordRegistries.put(schemaURI, keywordRegistry);
+            if (byDefault) {
+                defaultSchemaURI = schemaURI;
+                defaultKeywordRegistry = keywordRegistry;
+            }
 
-        /**
-         * Replace the format bundle with a custom bundle
-         *
-         * <p>Use with caution! In particular, you <b>should not</b> mess with
-         * {@code uri} and {@code regex}.</p>
-         *
-         * @see FormatBundle#defaultBundle()
-         *
-         * @param formatBundle the bundle
-         * @return the builder
-         */
-        public Builder withFormatBundle(final FormatBundle formatBundle)
-        {
-            this.formatBundle = formatBundle;
-            return this;
-        }
-
-        /**
-         * Merge the existing bundle with another, custom bundle
-         *
-         * @see FormatBundle#mergeWith(FormatBundle)
-         *
-         * @param formatBundle the bundle
-         * @return the builder
-         */
-        public Builder addFormats(final FormatBundle formatBundle)
-        {
-            this.formatBundle.mergeWith(formatBundle);
             return this;
         }
 

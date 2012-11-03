@@ -37,11 +37,5 @@
  * href="https://github.com/fge/json-schema-formats">json-schema-formats
  * </a>.</p>
  *
- * <p>In addition to using the package above, you can also implement your own
- * format attributes by creating a {@link
- * org.eel.kitchen.jsonschema.format.FormatBundle} and setting/merging your
- * bundle into your schema factory. See also {@link
- * org.eel.kitchen.jsonschema.format.FormatAttribute}.</p>
- *
  */
 package org.eel.kitchen.jsonschema.format;

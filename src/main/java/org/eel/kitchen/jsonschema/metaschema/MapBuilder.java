@@ -15,16 +15,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.metaschema;
 
-import java.io.IOException;
+import com.google.common.collect.ImmutableMap;
 
-public final class MaxPropertiesKeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+import java.util.Map;
+
+final class MapBuilder<T>
 {
-    MaxPropertiesKeywordValidatorTest()
-        throws IOException, NoSuchMethodException
+    private final ImmutableMap.Builder<String, T> builder;
+
+    private MapBuilder()
     {
-        super("maxProperties");
+        builder = new ImmutableMap.Builder<String, T>();
+    }
+
+    public static <T> MapBuilder<T> create()
+    {
+        return new MapBuilder<T>();
+    }
+
+    public void put(final String keyword, final T value)
+    {
+        builder.put(keyword, value);
+    }
+
+    public void putAll(final Map<String, T> map)
+    {
+        builder.putAll(map);
+    }
+
+    public Map<String, T> build()
+    {
+        return builder.build();
     }
 }

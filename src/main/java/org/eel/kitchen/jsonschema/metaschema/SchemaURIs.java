@@ -15,16 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.metaschema;
 
-import java.io.IOException;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.ref.JsonRef;
 
-public final class MinPropertiesKeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+public final class SchemaURIs
 {
-    MinPropertiesKeywordValidatorTest()
-        throws IOException, NoSuchMethodException
+    private static final JsonRef DRAFTV3;
+
+    // No making new instances of this class
+    private SchemaURIs()
     {
-        super("minProperties");
+    }
+
+    static {
+        String uri;
+        try {
+            // Draft v3
+            uri = "http://json-schema.org/draft-03/schema#";
+            DRAFTV3 = JsonRef.fromString(uri);
+        } catch (JsonSchemaException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
+    public static JsonRef draftV3()
+    {
+        return DRAFTV3;
     }
 }

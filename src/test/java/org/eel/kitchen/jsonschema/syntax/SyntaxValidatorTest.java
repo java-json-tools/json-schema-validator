@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.bundle.Keyword;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
+import org.eel.kitchen.jsonschema.main.Keyword;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -35,7 +35,7 @@ public final class SyntaxValidatorTest
 {
     private static final JsonNodeFactory factory = JsonNodeFactory.instance;
 
-    private KeywordBundle bundle;
+    private KeywordRegistry registry;
     private SyntaxValidator validator;
 
     private Keyword k1;
@@ -49,7 +49,7 @@ public final class SyntaxValidatorTest
     @BeforeMethod
     public void setUp()
     {
-        bundle = new KeywordBundle();
+        registry = new KeywordRegistry();
 
         checker1 = mock(SyntaxChecker.class);
         k1 = Keyword.withName("k1").withSyntaxChecker(checker1).build();
@@ -66,9 +66,9 @@ public final class SyntaxValidatorTest
         final JsonNode instance = factory.objectNode()
             .put("k1", "");
 
-        bundle.registerKeyword(k1);
+        registry.addKeyword(k1);
 
-        validator = new SyntaxValidator(bundle);
+        validator = new SyntaxValidator(registry.getSyntaxCheckers());
 
         validator.validate(messages, instance);
 
@@ -82,10 +82,10 @@ public final class SyntaxValidatorTest
         final JsonNode instance = factory.objectNode()
             .put("k1", "");
 
-        bundle.registerKeyword(k1);
-        bundle.registerKeyword(k2);
+        registry.addKeyword(k1);
+        registry.addKeyword(k2);
 
-        validator = new SyntaxValidator(bundle);
+        validator = new SyntaxValidator(registry.getSyntaxCheckers());
 
         validator.validate(messages, instance);
 
@@ -104,9 +104,9 @@ public final class SyntaxValidatorTest
         // No syntax checker
         final Keyword k = Keyword.withName("k1").build();
 
-        bundle.registerKeyword(k);
+        registry.addKeyword(k);
 
-        validator = new SyntaxValidator(bundle);
+        validator = new SyntaxValidator(registry.getSyntaxCheckers());
 
         validator.validate(messages, instance);
 

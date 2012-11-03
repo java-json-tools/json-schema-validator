@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -55,14 +54,10 @@ public final class KeywordFactory
      */
     private final Map<String, Class<? extends KeywordValidator>> validators;
 
-    /**
-     * The only constructor
-     *
-     * @param bundle The keyword bundle to use
-     */
-    public KeywordFactory(final KeywordBundle bundle)
+    public KeywordFactory(
+        final Map<String, Class<? extends KeywordValidator>> validators)
     {
-        validators = ImmutableMap.copyOf(bundle.getValidators());
+        this.validators = ImmutableMap.copyOf(validators);
     }
 
     /**

@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIManager;
@@ -54,12 +54,12 @@ public final class BasicKeywordValidatorTest
     @BeforeMethod
     public void initContext()
     {
-        final KeywordBundle bundle = KeywordBundles.defaultBundle();
+        final KeywordRegistry keywordRegistry = KeywordRegistries.draftV3();
         final URIManager manager = new URIManager();
         final SchemaRegistry registry = new SchemaRegistry(manager,
             URI.create(""));
         final JsonValidatorCache cache
-            = new JsonValidatorCache(bundle, registry);
+            = new JsonValidatorCache(keywordRegistry, registry);
 
         context = new ValidationContext(cache);
         report = new ValidationReport();

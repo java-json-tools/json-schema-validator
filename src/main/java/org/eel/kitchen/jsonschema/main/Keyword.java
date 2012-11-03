@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.bundle;
+package org.eel.kitchen.jsonschema.main;
 
 import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 /**
@@ -43,8 +44,8 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  *         .withSyntaxChecker(checker).withValidatorClass(validatorClass)
  *         .build();
  *
- *     // register it into a KeywordBundle, see link below
- *     bundle.registerKeyword(myKeyword);
+ *     // register it into a KeywordRegistry
+ *     registry.addKeyword(myKeyword);
  * </pre>
  *
  * <p>It is perfectly legal to register a keyword with only a syntax checker, or
@@ -57,7 +58,7 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  * @see Keyword.Builder
  * @see SyntaxChecker
  * @see KeywordValidator
- * @see KeywordBundle
+ * @see KeywordRegistry
  */
 public final class Keyword
 {

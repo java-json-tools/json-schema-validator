@@ -41,8 +41,6 @@ import java.util.EnumSet;
  *
  * <p>The spec allows for custom attributes to be added. This implementation
  * supports it.</p>
- *
- * @see FormatBundle
  */
 public abstract class FormatAttribute
 {

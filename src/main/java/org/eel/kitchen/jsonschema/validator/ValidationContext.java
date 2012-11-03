@@ -19,11 +19,8 @@ package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
-import org.eel.kitchen.jsonschema.format.FormatBundle;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
-
-import java.util.Map;
 
 /**
  * A validation context
@@ -43,7 +40,6 @@ public final class ValidationContext
 {
     private final JsonValidatorCache cache;
     private SchemaContainer container;
-    private final Map<String, FormatAttribute> attributes;
 
     /**
      * Create a validation context with an empty feature set
@@ -52,16 +48,8 @@ public final class ValidationContext
      */
     public ValidationContext(final JsonValidatorCache cache)
     {
-        this(cache, FormatBundle.defaultBundle());
-    }
-
-    public ValidationContext(final JsonValidatorCache cache,
-        final FormatBundle bundle)
-    {
         this.cache = cache;
-        attributes = bundle.getAttributes();
     }
-
 
     SchemaContainer getContainer()
     {
@@ -76,14 +64,12 @@ public final class ValidationContext
     /**
      * Return a format attribute for a given attribute
      *
-     * @see FormatBundle
-     *
      * @param fmt the format attribute
      * @return the attribute, {@code null} if not found
      */
     public FormatAttribute getFormat(final String fmt)
     {
-        return attributes.get(fmt);
+        return cache.getFormatAttributes().get(fmt);
     }
 
     /**

@@ -20,8 +20,8 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundle;
-import org.eel.kitchen.jsonschema.bundle.KeywordBundles;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.testng.annotations.Test;
@@ -36,8 +36,9 @@ public final class BasicSyntaxValidatorTest
     public void syntaxCheckingCorrectlyBalksOnNonObject()
     {
         final JsonNode wrong = JsonNodeFactory.instance.nullNode();
-        final KeywordBundle bundle = KeywordBundles.defaultBundle();
-        final SyntaxValidator validator = new SyntaxValidator(bundle);
+        final KeywordRegistry registry = KeywordRegistries.draftV3();
+        final SyntaxValidator validator
+            = new SyntaxValidator(registry.getSyntaxCheckers());
 
         final List<Message> messages = Lists.newArrayList();
 
