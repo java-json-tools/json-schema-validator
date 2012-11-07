@@ -15,16 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.common;
+
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
+import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxChecker;
 
 import java.io.IOException;
 
-public final class ExtendsSyntaxCheckerTest
+public final class PatternSyntaxCheckerTest
     extends AbstractSyntaxCheckerTest
 {
-    ExtendsSyntaxCheckerTest()
+    PatternSyntaxCheckerTest()
         throws IOException
     {
-        super("extends", ExtendsSyntaxChecker.getInstance());
+        super("pattern", PatternSyntaxChecker.getInstance());
     }
 }

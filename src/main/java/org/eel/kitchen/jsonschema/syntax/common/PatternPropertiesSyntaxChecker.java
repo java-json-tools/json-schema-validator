@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
@@ -47,8 +49,8 @@ public final class PatternPropertiesSyntaxChecker
     }
 
     @Override
-    void checkValue(final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+    public void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema)
     {
         final SortedMap<String, JsonNode> properties
             = JacksonUtils.nodeToTreeMap(schema.get(keyword));

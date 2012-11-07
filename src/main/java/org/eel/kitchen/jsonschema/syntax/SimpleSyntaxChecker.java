@@ -56,8 +56,8 @@ public class SimpleSyntaxChecker
         checkValue(msg, messages, schema);
     }
 
-    void checkValue(final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+    public void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema)
     {
     }
 }

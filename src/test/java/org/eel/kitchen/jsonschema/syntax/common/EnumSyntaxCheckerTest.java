@@ -15,16 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.common;
+
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
+import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
 
 import java.io.IOException;
 
-public final class PropertiesSyntaxCheckerTest
+public final class EnumSyntaxCheckerTest
     extends AbstractSyntaxCheckerTest
 {
-    PropertiesSyntaxCheckerTest()
+    EnumSyntaxCheckerTest()
         throws IOException
     {
-        super("properties", PropertiesSyntaxChecker.getInstance());
+        super("enum", EnumSyntaxChecker.getInstance());
     }
 }

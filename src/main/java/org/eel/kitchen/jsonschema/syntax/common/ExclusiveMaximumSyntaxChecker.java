@@ -15,45 +15,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.List;
 
 /**
- * Syntax validator for the {@code pattern} keyword
+ * Syntax validator for the {@code exclusiveMaximum} keyword
  */
-public final class PatternSyntaxChecker
+public final class ExclusiveMaximumSyntaxChecker
     extends SimpleSyntaxChecker
 {
-    private static final PatternSyntaxChecker instance
-        = new PatternSyntaxChecker();
+    private static final SyntaxChecker instance
+        = new ExclusiveMaximumSyntaxChecker();
 
-    public static PatternSyntaxChecker getInstance()
+    public static SyntaxChecker getInstance()
     {
         return instance;
     }
 
-    private PatternSyntaxChecker()
+    private ExclusiveMaximumSyntaxChecker()
     {
-        super("pattern", NodeType.STRING);
+        super("exclusiveMaximum", NodeType.BOOLEAN);
     }
 
     @Override
-    void checkValue(final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+    public void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema)
     {
-        final String value = schema.get(keyword).textValue();
-        if (RhinoHelper.regexIsValid(value))
+        if (schema.has("maximum"))
             return;
 
-        msg.setMessage("pattern is not a valid ECMA 262 regex")
-            .addInfo("found", value);
-
-        messages.add(msg.build());
+        messages.add(msg.setMessage(keyword + " must be paired with maximum")
+            .build());
     }
 }

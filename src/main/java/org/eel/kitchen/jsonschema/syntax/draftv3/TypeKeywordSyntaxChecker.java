@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
@@ -45,7 +46,7 @@ public class TypeKeywordSyntaxChecker
     }
 
     @Override
-    final void checkValue(final Message.Builder msg,
+    public final void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);

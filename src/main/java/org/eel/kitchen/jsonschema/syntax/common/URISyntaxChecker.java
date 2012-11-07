@@ -15,41 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
-/**
- * Syntax validator for the {@code exclusiveMaximum} keyword
- */
-public final class ExclusiveMaximumSyntaxChecker
+public final class URISyntaxChecker
     extends SimpleSyntaxChecker
 {
-    private static final SyntaxChecker instance
-        = new ExclusiveMaximumSyntaxChecker();
-
-    public static SyntaxChecker getInstance()
+    public URISyntaxChecker(final String keyword)
     {
-        return instance;
-    }
-
-    private ExclusiveMaximumSyntaxChecker()
-    {
-        super("exclusiveMaximum", NodeType.BOOLEAN);
+        super(keyword, NodeType.STRING);
     }
 
     @Override
-    void checkValue(final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+    public void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema)
     {
-        if (schema.has("maximum"))
-            return;
+        final String value = schema.get(keyword).textValue();
 
-        messages.add(msg.setMessage(keyword + " must be paired with maximum")
-            .build());
+        try {
+            new URI(value);
+        } catch (URISyntaxException ignored) {
+            msg.setMessage("not a valid URI").addInfo("found", value);
+            messages.add(msg.build());
+        }
     }
 }

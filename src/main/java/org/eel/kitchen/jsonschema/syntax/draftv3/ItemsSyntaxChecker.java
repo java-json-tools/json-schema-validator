@@ -15,10 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
@@ -26,28 +28,28 @@ import java.util.List;
 /**
  * Syntax validator for the {@code items} keyword
  */
-public final class ExtendsSyntaxChecker
+public final class ItemsSyntaxChecker
     extends SimpleSyntaxChecker
 {
-    private static final SyntaxChecker instance = new ExtendsSyntaxChecker();
+    private static final SyntaxChecker instance = new ItemsSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
         return instance;
     }
 
-    private ExtendsSyntaxChecker()
+    private ItemsSyntaxChecker()
     {
-        super("extends", NodeType.ARRAY, NodeType.OBJECT);
+        super("items", NodeType.ARRAY, NodeType.OBJECT);
     }
 
     @Override
-    void checkValue(final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+    public void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema)
     {
-        final JsonNode extendsNode = schema.get(keyword);
+        final JsonNode itemsNode = schema.get(keyword);
 
-        if (!extendsNode.isArray())
+        if (!itemsNode.isArray())
             return;
 
         /*
@@ -56,7 +58,7 @@ public final class ExtendsSyntaxChecker
 
         int index = 0;
         NodeType elementType;
-        for (final JsonNode element: extendsNode) {
+        for (final JsonNode element: itemsNode) {
             elementType = NodeType.getNodeType(element);
             if (elementType != NodeType.OBJECT) {
                 msg.setMessage("incorrect type for array element")

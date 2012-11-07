@@ -15,19 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.draftv3;
 
-import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
+import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxChecker;
 
 import java.io.IOException;
 
-public final class SingleTypeSyntaxCheckerTest
+public final class DivisibleBySyntaxCheckerTest
     extends AbstractSyntaxCheckerTest
 {
-    SingleTypeSyntaxCheckerTest()
+    DivisibleBySyntaxCheckerTest()
         throws IOException
     {
-        super("basictype-single",
-            new SimpleSyntaxChecker("k", NodeType.BOOLEAN));
+        super("divisibleBy", DivisibleBySyntaxChecker.getInstance());
     }
 }

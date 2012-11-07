@@ -15,35 +15,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
-public final class URISyntaxChecker
+/**
+ * Syntax validator for the {@code pattern} keyword
+ */
+public final class PatternSyntaxChecker
     extends SimpleSyntaxChecker
 {
-    public URISyntaxChecker(final String keyword)
+    private static final PatternSyntaxChecker instance
+        = new PatternSyntaxChecker();
+
+    public static PatternSyntaxChecker getInstance()
     {
-        super(keyword, NodeType.STRING);
+        return instance;
+    }
+
+    private PatternSyntaxChecker()
+    {
+        super("pattern", NodeType.STRING);
     }
 
     @Override
-    void checkValue(final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+    public void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema)
     {
         final String value = schema.get(keyword).textValue();
+        if (RhinoHelper.regexIsValid(value))
+            return;
 
-        try {
-            new URI(value);
-        } catch (URISyntaxException ignored) {
-            msg.setMessage("not a valid URI").addInfo("found", value);
-            messages.add(msg.build());
-        }
+        msg.setMessage("pattern is not a valid ECMA 262 regex")
+            .addInfo("found", value);
+
+        messages.add(msg.build());
     }
 }
