@@ -65,7 +65,7 @@ public final class JsonSchemaFactoryTest
 
         final FormatAttribute spy = spy(DummyFormatAttribute.instance);
 
-        final KeywordRegistry registry = KeywordRegistries.draftV3();
+        final KeywordRegistry registry = KeywordRegistries.defaultRegistry();
         registry.addFormatAttribute("foo", spy);
         final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
             .addKeywordRegistry(JsonRef.emptyRef(), registry, true).build();

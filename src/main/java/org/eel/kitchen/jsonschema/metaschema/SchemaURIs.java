@@ -44,4 +44,9 @@ public final class SchemaURIs
     {
         return DRAFTV3;
     }
+
+    public static JsonRef defaultURI()
+    {
+        return draftV3();
+    }
 }

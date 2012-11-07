@@ -36,7 +36,7 @@ public final class BasicSyntaxValidatorTest
     public void syntaxCheckingCorrectlyBalksOnNonObject()
     {
         final JsonNode wrong = JsonNodeFactory.instance.nullNode();
-        final KeywordRegistry registry = KeywordRegistries.draftV3();
+        final KeywordRegistry registry = KeywordRegistries.defaultRegistry();
         final SyntaxValidator validator
             = new SyntaxValidator(registry.getSyntaxCheckers());
 

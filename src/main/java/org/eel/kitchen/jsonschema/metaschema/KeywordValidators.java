@@ -157,4 +157,10 @@ public final class KeywordValidators
     {
         return DRAFTV3;
     }
+
+    public static Map<String, Class<? extends KeywordValidator>>
+        defaultValidators()
+    {
+        return draftV3();
+    }
 }

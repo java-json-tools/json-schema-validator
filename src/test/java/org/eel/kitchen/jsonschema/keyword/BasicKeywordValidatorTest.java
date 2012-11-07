@@ -54,12 +54,13 @@ public final class BasicKeywordValidatorTest
     @BeforeMethod
     public void initContext()
     {
-        final KeywordRegistry keywordRegistry = KeywordRegistries.draftV3();
+        final KeywordRegistry keywordRegistry
+            = KeywordRegistries.defaultRegistry();
         final URIManager manager = new URIManager();
         final SchemaRegistry registry = new SchemaRegistry(manager,
             URI.create(""));
-        final JsonValidatorCache cache
-            = new JsonValidatorCache(keywordRegistry, registry);
+        final JsonValidatorCache cache = new JsonValidatorCache(keywordRegistry,
+            registry);
 
         context = new ValidationContext(cache);
         report = new ValidationReport();

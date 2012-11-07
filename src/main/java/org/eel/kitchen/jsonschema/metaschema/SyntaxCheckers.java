@@ -183,4 +183,9 @@ public final class SyntaxCheckers
     {
         return DRAFTV3;
     }
+
+    public static Map<String, SyntaxChecker> defaultCheckers()
+    {
+        return draftV3();
+    }
 }

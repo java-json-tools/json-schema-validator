@@ -306,8 +306,8 @@ public final class JsonSchemaFactory
             addressingMode = AddressingMode.CANONICAL;
 
             // Metaschema related
-            defaultSchemaURI = SchemaURIs.draftV3();
-            defaultKeywordRegistry = KeywordRegistries.draftV3();
+            defaultSchemaURI = SchemaURIs.defaultURI();
+            defaultKeywordRegistry = KeywordRegistries.defaultRegistry();
             keywordRegistries = Maps.newHashMap();
             keywordRegistries.put(defaultSchemaURI, defaultKeywordRegistry);
         }

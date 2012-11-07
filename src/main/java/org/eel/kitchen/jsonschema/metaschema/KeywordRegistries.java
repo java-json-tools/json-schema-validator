@@ -32,4 +32,9 @@ public final class KeywordRegistries
         ret.addFormatAttributes(FormatAttributes.draftV3());
         return ret;
     }
+
+    public static KeywordRegistry defaultRegistry()
+    {
+        return draftV3();
+    }
 }
