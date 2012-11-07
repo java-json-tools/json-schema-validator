@@ -15,52 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Sets;
+import org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
-import java.util.Set;
-
 /**
- * Validator for the {@code uniqueItems} keyword
+ * Validator for the {@code maxItems} keyword
  */
-public final class UniqueItemsKeywordValidator
-    extends KeywordValidator
+public final class MaxItemsKeywordValidator
+    extends PositiveIntegerKeywordValidator
 {
-    private final boolean uniqueItems;
-
-    public UniqueItemsKeywordValidator(final JsonNode schema)
+    public MaxItemsKeywordValidator(final JsonNode schema)
     {
-        super("uniqueItems", NodeType.ARRAY);
-        uniqueItems = schema.get(keyword).booleanValue();
+        super("maxItems", schema, NodeType.ARRAY);
     }
 
     @Override
-    protected void validate(final ValidationContext context,
+    public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (!uniqueItems)
+        if (instance.size() <= intValue)
             return;
 
-        final Set<JsonNode> set = Sets.newHashSet();
-
-        for (final JsonNode element: instance)
-            if (!set.add(element)) {
-                final Message.Builder msg = newMsg()
-                    .setMessage("duplicate elements in array");
-                report.addMessage(msg.build());
-                return;
-            }
-    }
-
-    @Override
-    public String toString()
-    {
-        return keyword + ": " + uniqueItems;
+        final Message.Builder msg = newMsg().addInfo(keyword, intValue)
+            .addInfo("found", instance.size())
+            .setMessage("too many elements in array");
+        report.addMessage(msg.build());
     }
 }

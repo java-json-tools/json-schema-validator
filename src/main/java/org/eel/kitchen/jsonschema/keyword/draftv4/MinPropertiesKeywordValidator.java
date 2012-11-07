@@ -15,23 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
- * Validator for the {@code minItems} keyword
+ * Validator for the {@code minProperties} keyword
+ *
+ * <p>This keyword is not defined by draft v3, and a candidate for the next
+ * draft. It places a lower constraint on the number of members of an object
+ * instance in the same manner than {@code minItems} does for array instances.
+ * </p>
  */
-public final class MinItemsKeywordValidator
+public final class MinPropertiesKeywordValidator
     extends PositiveIntegerKeywordValidator
 {
-    public MinItemsKeywordValidator(final JsonNode schema)
+    public MinPropertiesKeywordValidator(final JsonNode schema)
     {
-        super("minItems", schema, NodeType.ARRAY);
+        super("minProperties", schema, NodeType.OBJECT);
     }
 
     @Override
@@ -43,7 +49,7 @@ public final class MinItemsKeywordValidator
 
         final Message.Builder msg = newMsg().addInfo(keyword, intValue)
             .addInfo("found", instance.size())
-            .setMessage("not enough elements in array");
+            .setMessage("not enough members in object");
         report.addMessage(msg.build());
     }
 }

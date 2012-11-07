@@ -15,50 +15,53 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Sets;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.util.RhinoHelper;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.util.Set;
+
 /**
- * Validator for the {@code pattern} keyword
- *
- * <p>Regexes must conform to ECMA 262, so, again, this makes {@link
- * java.util.regex} unusable.</p>
- *
- * @see RhinoHelper
+ * Validator for the {@code uniqueItems} keyword
  */
-public final class PatternKeywordValidator
+public final class UniqueItemsKeywordValidator
     extends KeywordValidator
 {
-    private final String regex;
+    private final boolean uniqueItems;
 
-    public PatternKeywordValidator(final JsonNode schema)
+    public UniqueItemsKeywordValidator(final JsonNode schema)
     {
-        super("pattern", NodeType.STRING);
-        regex = schema.get(keyword).textValue();
+        super("uniqueItems", NodeType.ARRAY);
+        uniqueItems = schema.get(keyword).booleanValue();
     }
 
     @Override
-    public void validate(final ValidationContext context,
+    protected void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (RhinoHelper.regMatch(regex, instance.textValue()))
+        if (!uniqueItems)
             return;
 
-        final Message.Builder msg = newMsg().addInfo("regex", regex)
-            .addInfo("string", instance)
-            .setMessage("ECMA 262 regex does not match input string");
-        report.addMessage(msg.build());
+        final Set<JsonNode> set = Sets.newHashSet();
+
+        for (final JsonNode element: instance)
+            if (!set.add(element)) {
+                final Message.Builder msg = newMsg()
+                    .setMessage("duplicate elements in array");
+                report.addMessage(msg.build());
+                return;
+            }
     }
 
     @Override
     public String toString()
     {
-        return keyword + ": " + regex;
+        return keyword + ": " + uniqueItems;
     }
 }

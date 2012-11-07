@@ -15,56 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
-import java.util.Set;
-
 /**
- * Validator for the {@code enum} keyword
+ * Validator for the {@code minLength} keyword
  */
-public final class EnumKeywordValidator
-    extends KeywordValidator
+public final class MinLengthKeywordValidator
+    extends PositiveIntegerKeywordValidator
 {
-    private final JsonNode enumNode;
-    private final Set<JsonNode> enumValues;
-
-    public EnumKeywordValidator(final JsonNode schema)
+    public MinLengthKeywordValidator(final JsonNode schema)
     {
-        super("enum", NodeType.values());
-        enumNode = schema.get(keyword);
-        enumValues = ImmutableSet.copyOf(enumNode);
+        super("minLength", schema, NodeType.STRING);
     }
 
     @Override
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (enumValues.contains(instance))
+        final int len = instance.textValue().length();
+        if (len >= intValue)
             return;
 
-        final Message.Builder msg = newMsg()
-            .setMessage("value not found in enum").addInfo("enum", enumNode)
-            .addInfo("value", instance);
+        final Message.Builder msg = newMsg().addInfo(keyword, intValue)
+            .addInfo("found", len).setMessage("string is too short");
         report.addMessage(msg.build());
-    }
-
-    @Override
-    public String toString()
-    {
-        /*
-         * Enum values may be arbitrarily complex: we therefore choose to only
-         * print the number of possible values instead of each possible value.
-         *
-         * By virtue of syntax validation, we also know that enumValues will
-         * never be empty.
-         */
-        return keyword + ": " + enumValues.size() + " possible value(s)";
     }
 }

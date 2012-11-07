@@ -15,40 +15,57 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.util.Set;
+
 /**
- * Validator for the {@code minProperties} keyword
- *
- * <p>This keyword is not defined by draft v3, and a candidate for the next
- * draft. It places a lower constraint on the number of members of an object
- * instance in the same manner than {@code minItems} does for array instances.
- * </p>
+ * Validator for the {@code enum} keyword
  */
-public final class MinPropertiesKeywordValidator
-    extends PositiveIntegerKeywordValidator
+public final class EnumKeywordValidator
+    extends KeywordValidator
 {
-    public MinPropertiesKeywordValidator(final JsonNode schema)
+    private final JsonNode enumNode;
+    private final Set<JsonNode> enumValues;
+
+    public EnumKeywordValidator(final JsonNode schema)
     {
-        super("minProperties", schema, NodeType.OBJECT);
+        super("enum", NodeType.values());
+        enumNode = schema.get(keyword);
+        enumValues = ImmutableSet.copyOf(enumNode);
     }
 
     @Override
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (instance.size() >= intValue)
+        if (enumValues.contains(instance))
             return;
 
-        final Message.Builder msg = newMsg().addInfo(keyword, intValue)
-            .addInfo("found", instance.size())
-            .setMessage("not enough members in object");
+        final Message.Builder msg = newMsg()
+            .setMessage("value not found in enum").addInfo("enum", enumNode)
+            .addInfo("value", instance);
         report.addMessage(msg.build());
+    }
+
+    @Override
+    public String toString()
+    {
+        /*
+         * Enum values may be arbitrarily complex: we therefore choose to only
+         * print the number of possible values instead of each possible value.
+         *
+         * By virtue of syntax validation, we also know that enumValues will
+         * never be empty.
+         */
+        return keyword + ": " + enumValues.size() + " possible value(s)";
     }
 }

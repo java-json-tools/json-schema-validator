@@ -17,25 +17,25 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
-import org.eel.kitchen.jsonschema.keyword.AdditionalItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.AdditionalPropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.DependenciesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.DisallowKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.DivisibleByKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.EnumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.ExtendsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.FormatKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.AdditionalPropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DependenciesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DisallowKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DivisibleByKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MaxItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MaxLengthKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MaximumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MinItemsKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MinLengthKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.MinimumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.PatternKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.TypeKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.UniqueItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.MaxItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.MaxLengthKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.MaximumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.MinItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.MinLengthKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.MinimumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.PatternKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.PropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.TypeKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
 
 import java.util.Map;
 

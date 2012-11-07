@@ -15,35 +15,51 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.RhinoHelper;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
- * Validator for the {@code minLength} keyword
+ * Validator for the {@code pattern} keyword
+ *
+ * <p>Regexes must conform to ECMA 262, so, again, this makes {@link
+ * java.util.regex} unusable.</p>
+ *
+ * @see RhinoHelper
  */
-public final class MinLengthKeywordValidator
-    extends PositiveIntegerKeywordValidator
+public final class PatternKeywordValidator
+    extends KeywordValidator
 {
-    public MinLengthKeywordValidator(final JsonNode schema)
+    private final String regex;
+
+    public PatternKeywordValidator(final JsonNode schema)
     {
-        super("minLength", schema, NodeType.STRING);
+        super("pattern", NodeType.STRING);
+        regex = schema.get(keyword).textValue();
     }
 
     @Override
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final int len = instance.textValue().length();
-        if (len >= intValue)
+        if (RhinoHelper.regMatch(regex, instance.textValue()))
             return;
 
-        final Message.Builder msg = newMsg().addInfo(keyword, intValue)
-            .addInfo("found", len).setMessage("string is too short");
+        final Message.Builder msg = newMsg().addInfo("regex", regex)
+            .addInfo("string", instance)
+            .setMessage("ECMA 262 regex does not match input string");
         report.addMessage(msg.build());
+    }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " + regex;
     }
 }
