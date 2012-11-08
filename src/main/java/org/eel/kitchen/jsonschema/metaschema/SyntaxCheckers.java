@@ -141,14 +141,6 @@ public final class SyntaxCheckers
         checker = new SimpleSyntaxChecker(keyword, STRING);
         common.put(keyword, checker);
 
-        keyword = "type";
-        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
-        common.put(keyword, checker);
-
-        keyword = "disallow";
-        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
-        common.put(keyword, checker);
-
         // Build the map
         final Map<String, SyntaxChecker> commonCheckers = common.build();
 
@@ -176,10 +168,19 @@ public final class SyntaxCheckers
         checker = DraftV3DependenciesSyntaxChecker.getInstance();
         draftv3.put(keyword, checker);
 
-        // All
+        // All/none
         keyword = "extends";
         checker = ExtendsSyntaxChecker.getInstance();
         draftv3.put(keyword, checker);
+
+        keyword = "type";
+        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
+        draftv3.put(keyword, checker);
+
+        keyword = "disallow";
+        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
+        draftv3.put(keyword, checker);
+
 
         // Build the map: all checkers in common, plus draft v3 specific
         // checkers
