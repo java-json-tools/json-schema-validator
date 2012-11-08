@@ -27,6 +27,6 @@ public final class URISyntaxCheckerTest
     URISyntaxCheckerTest()
         throws IOException
     {
-        super("uri", new URISyntaxChecker("uri"));
+        super("uri", "uri", new URISyntaxChecker("uri"));
     }
 }

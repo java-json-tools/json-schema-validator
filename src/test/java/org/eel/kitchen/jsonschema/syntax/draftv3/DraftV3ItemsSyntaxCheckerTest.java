@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.syntax.draftv3;
 import java.io.IOException;
 
 public final class DraftV3ItemsSyntaxCheckerTest
-    extends DraftV3SyntaxCheckerTest2
+    extends DraftV3SyntaxCheckerTest
 {
     DraftV3ItemsSyntaxCheckerTest()
         throws IOException

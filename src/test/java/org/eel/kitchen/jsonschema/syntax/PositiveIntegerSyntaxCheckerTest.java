@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.syntax;
 import java.io.IOException;
 
 public final class PositiveIntegerSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest2
+    extends AbstractSyntaxCheckerTest
 {
     PositiveIntegerSyntaxCheckerTest()
         throws IOException

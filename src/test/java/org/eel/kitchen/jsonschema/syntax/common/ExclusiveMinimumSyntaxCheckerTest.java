@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.syntax.common;
 import java.io.IOException;
 
 public final class ExclusiveMinimumSyntaxCheckerTest
-    extends CommonSyntaxCheckerTest2
+    extends CommonSyntaxCheckerTest
 {
     ExclusiveMinimumSyntaxCheckerTest()
         throws IOException

@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.io.IOException;
 
 public final class MultipleTypeSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest2
+    extends AbstractSyntaxCheckerTest
 {
     MultipleTypeSyntaxCheckerTest()
         throws IOException

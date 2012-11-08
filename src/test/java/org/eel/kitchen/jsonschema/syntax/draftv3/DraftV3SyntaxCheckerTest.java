@@ -17,85 +17,17 @@
 
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.report.Domain;
-import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-import org.testng.internal.annotations.Sets;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
-import static org.testng.Assert.*;
 
 public abstract class DraftV3SyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    private final String keyword;
-    private final JsonNode testData;
-    private final SyntaxChecker checker;
-
-    protected DraftV3SyntaxCheckerTest(final String keyword,
-        final String resourceName, final SyntaxChecker checker)
+    protected DraftV3SyntaxCheckerTest(final String resourceName)
         throws IOException
     {
-        this.keyword = keyword;
-        this.checker = checker;
-        final String input = "/syntax/" + resourceName + ".json";
-        testData = JsonLoader.fromResource(input);
-    }
-
-    protected DraftV3SyntaxCheckerTest(final String keyword,
-        final SyntaxChecker checker)
-        throws IOException
-    {
-        this(keyword, keyword, checker);
-    }
-
-    @DataProvider
-    public final Iterator<Object[]> getData()
-    {
-        final Set<Object[]> set = Sets.newHashSet();
-
-        for (final JsonNode node: testData)
-            set.add(mungeArguments(node));
-
-        return set.iterator();
-    }
-
-    private static Object[] mungeArguments(final JsonNode node)
-    {
-        return new Object[] {
-            node.get("schema"),
-            node.get("valid").booleanValue(),
-            node.get("messages")
-        };
-    }
-
-    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
-    public final void testChecker(final JsonNode node, final boolean valid,
-        final JsonNode expectedMessages)
-    {
-        final List<Message> messages = Lists.newArrayList();
-        final Message.Builder msg = Domain.SYNTAX.newMessage()
-            .setKeyword(keyword);
-        checker.checkSyntax(msg, messages, node);
-        assertEquals(messages.isEmpty(), valid);
-
-        if (valid)
-            return;
-
-        final List<JsonNode> expected = Lists.newArrayList(expectedMessages);
-        final List<JsonNode> actual = Lists.newArrayList();
-
-        for (final Message message: messages)
-            actual.add(message.toJsonNode());
-
-        assertEqualsNoOrder(actual.toArray(), expected.toArray());
+        super(resourceName, KeywordRegistries.draftV3());
     }
 }

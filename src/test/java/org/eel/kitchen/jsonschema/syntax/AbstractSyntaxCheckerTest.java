@@ -19,12 +19,13 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.report.Domain;
+import com.google.common.collect.Sets;
+import org.eel.kitchen.jsonschema.main.Keyword;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -35,25 +36,32 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractSyntaxCheckerTest
 {
-    private final String keyword;
+    private final SyntaxValidator syntaxValidator;
     private final JsonNode testData;
-    private final SyntaxChecker checker;
 
-    protected AbstractSyntaxCheckerTest(final String keyword,
-        final String resourceName, final SyntaxChecker checker)
+    protected AbstractSyntaxCheckerTest(final String resource,
+        final KeywordRegistry registry)
         throws IOException
     {
-        this.keyword = keyword;
-        this.checker = checker;
-        final String input = "/syntax/" + resourceName + ".json";
+        final String input = "/syntax/" + resource + ".json";
         testData = JsonLoader.fromResource(input);
+
+        syntaxValidator = new SyntaxValidator(registry.getSyntaxCheckers());
     }
 
-    protected AbstractSyntaxCheckerTest(final String keyword,
-        final SyntaxChecker checker)
+    protected AbstractSyntaxCheckerTest(final String resource,
+        final String name, final SyntaxChecker checker)
         throws IOException
     {
-        this(keyword, keyword, checker);
+        final String input = "/syntax/" + resource + ".json";
+        testData = JsonLoader.fromResource(input);
+
+        final KeywordRegistry registry = new KeywordRegistry();
+        final Keyword keyword = Keyword.withName(name).withSyntaxChecker(checker)
+            .build();
+
+        registry.addKeyword(keyword);
+        syntaxValidator = new SyntaxValidator(registry.getSyntaxCheckers());
     }
 
     @DataProvider
@@ -81,9 +89,7 @@ public abstract class AbstractSyntaxCheckerTest
         final JsonNode expectedMessages)
     {
         final List<Message> messages = Lists.newArrayList();
-        final Message.Builder msg = Domain.SYNTAX.newMessage()
-            .setKeyword(keyword);
-        checker.checkSyntax(msg, messages, node);
+        syntaxValidator.validate(messages, node);
         assertEquals(messages.isEmpty(), valid);
 
         if (valid)
