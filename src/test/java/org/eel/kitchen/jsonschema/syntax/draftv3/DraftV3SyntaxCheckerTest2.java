@@ -17,14 +17,17 @@
 
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest2;
+
 import java.io.IOException;
 
-public final class DraftV3DependenciesSyntaxCheckerTest
-    extends DraftV3SyntaxCheckerTest2
+public abstract class DraftV3SyntaxCheckerTest2
+    extends AbstractSyntaxCheckerTest2
 {
-    DraftV3DependenciesSyntaxCheckerTest()
+    protected DraftV3SyntaxCheckerTest2(final String resourceName)
         throws IOException
     {
-        super("dependencies");
+        super(resourceName, KeywordRegistries.draftV3());
     }
 }

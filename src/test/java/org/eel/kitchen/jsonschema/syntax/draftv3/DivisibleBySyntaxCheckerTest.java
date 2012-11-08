@@ -17,16 +17,14 @@
 
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
-import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxChecker;
-
 import java.io.IOException;
 
 public final class DivisibleBySyntaxCheckerTest
-    extends DraftV3SyntaxCheckerTest
+    extends DraftV3SyntaxCheckerTest2
 {
     DivisibleBySyntaxCheckerTest()
         throws IOException
     {
-        super("divisibleBy", DivisibleBySyntaxChecker.getInstance());
+        super("divisibleBy");
     }
 }

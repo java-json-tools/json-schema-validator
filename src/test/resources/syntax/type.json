@@ -1,0 +1,90 @@
+[
+    {
+        "schema": {
+            "type": "string"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "any"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": [ "boolean", { "$ref": "#/schema2" } ]
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": false
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for value",
+                "expected": [ "array", "string" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": "hammer"
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "unknown simple type",
+                "possible-values": [ "array", "boolean", "integer", "number",
+                    "null", "object", "string" ],
+                "found": "hammer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": [ null, "boolean", {}, "foo" ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "array element has incorrect type",
+                "index": 0,
+                "expected": [ "object", "string" ],
+                "found": "null"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "unknown simple type",
+                "index": 3,
+                "possible-values": [ "array", "boolean", "integer", "number",
+                    "null", "object", "string" ],
+                "found": "foo"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": [ "string", "string" ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "duplicate value found in array",
+                "index": 1
+            }
+        ]
+    }
+]

@@ -20,11 +20,11 @@ package org.eel.kitchen.jsonschema.syntax.draftv3;
 import java.io.IOException;
 
 public final class DraftV3TypeKeywordSyntaxCheckerTest
-    extends DraftV3SyntaxCheckerTest
+    extends DraftV3SyntaxCheckerTest2
 {
     DraftV3TypeKeywordSyntaxCheckerTest()
         throws IOException
     {
-        super("k", "type-keyword", new DraftV3TypeKeywordSyntaxChecker("k"));
+        super("type");
     }
 }

@@ -31,6 +31,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3DependenciesSyntaxChecke
 import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.ExtendsSyntaxChecker;
 
 import java.util.Map;
 
@@ -173,6 +174,11 @@ public final class SyntaxCheckers
 
         keyword = "dependencies";
         checker = DraftV3DependenciesSyntaxChecker.getInstance();
+        draftv3.put(keyword, checker);
+
+        // All
+        keyword = "extends";
+        checker = ExtendsSyntaxChecker.getInstance();
         draftv3.put(keyword, checker);
 
         // Build the map: all checkers in common, plus draft v3 specific
