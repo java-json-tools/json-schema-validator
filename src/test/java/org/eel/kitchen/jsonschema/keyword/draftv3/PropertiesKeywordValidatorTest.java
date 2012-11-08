@@ -25,6 +25,6 @@ public final class PropertiesKeywordValidatorTest
     PropertiesKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("properties");
+        super("draftv3/properties");
     }
 }

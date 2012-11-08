@@ -19,12 +19,12 @@ package org.eel.kitchen.jsonschema.keyword.draftv3;
 
 import java.io.IOException;
 
-public final class DependenciesSchemaKeywordValidatorTest
+public final class DependenciesKeywordValidatorTest
     extends DraftV3KeywordValidatorTest
 {
-    DependenciesSchemaKeywordValidatorTest()
+    DependenciesKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("dependenciesSchema");
+        super("draftv3/dependencies");
     }
 }

@@ -25,6 +25,6 @@ public final class DivisibleByKeywordValidatorTest
     DivisibleByKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("divisibleBy");
+        super("draftv3/divisibleBy");
     }
 }
