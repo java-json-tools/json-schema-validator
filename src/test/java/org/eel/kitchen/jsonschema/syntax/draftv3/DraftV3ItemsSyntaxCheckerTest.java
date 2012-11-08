@@ -18,16 +18,15 @@
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
-import org.eel.kitchen.jsonschema.syntax.draftv3.TypeKeywordSyntaxChecker;
 
 import java.io.IOException;
 
-public final class TypeKeywordSyntaxCheckerTest
+public final class DraftV3ItemsSyntaxCheckerTest
     extends AbstractSyntaxCheckerTest
 {
-    TypeKeywordSyntaxCheckerTest()
+    DraftV3ItemsSyntaxCheckerTest()
         throws IOException
     {
-        super("k", "type-keyword", new TypeKeywordSyntaxChecker("k"));
+        super("items", DraftV3ItemsSyntaxChecker.getInstance());
     }
 }

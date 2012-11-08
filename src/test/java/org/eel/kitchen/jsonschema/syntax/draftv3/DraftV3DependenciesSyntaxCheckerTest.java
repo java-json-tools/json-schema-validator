@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.syntax.draftv3;
+
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
 
 import java.io.IOException;
 
-public final class AdditionalItemsKeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+public final class DraftV3DependenciesSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    AdditionalItemsKeywordValidatorTest()
-        throws IOException, NoSuchMethodException
+    DraftV3DependenciesSyntaxCheckerTest()
+        throws IOException
     {
-        super("additionalItems");
+        super("dependencies", DraftV3DependenciesSyntaxChecker.getInstance());
     }
 }

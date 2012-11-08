@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax.common;
 
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
-import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
 
 import java.io.IOException;
 
@@ -28,6 +28,6 @@ public final class PropertiesSyntaxCheckerTest
     PropertiesSyntaxCheckerTest()
         throws IOException
     {
-        super("properties", PropertiesSyntaxChecker.getInstance());
+        super("properties", DraftV3PropertiesSyntaxChecker.getInstance());
     }
 }

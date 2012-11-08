@@ -32,16 +32,16 @@ import java.util.SortedMap;
 /**
  * Syntax checker for the {@code dependencies} keyword
  */
-public final class DependenciesSyntaxChecker
+public final class DraftV3DependenciesSyntaxChecker
     extends SimpleSyntaxChecker
 {
     private static final EnumSet<NodeType> VALID_DEPENDENCY_TYPES
         = EnumSet.of(NodeType.OBJECT, NodeType.ARRAY, NodeType.STRING);
 
     private static final SyntaxChecker instance
-        = new DependenciesSyntaxChecker();
+        = new DraftV3DependenciesSyntaxChecker();
 
-    private DependenciesSyntaxChecker()
+    private DraftV3DependenciesSyntaxChecker()
     {
         super("dependencies", NodeType.OBJECT);
     }

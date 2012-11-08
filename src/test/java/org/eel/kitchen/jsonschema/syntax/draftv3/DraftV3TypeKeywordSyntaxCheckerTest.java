@@ -21,12 +21,12 @@ import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
 
 import java.io.IOException;
 
-public final class DependenciesSyntaxCheckerTest
+public final class DraftV3TypeKeywordSyntaxCheckerTest
     extends AbstractSyntaxCheckerTest
 {
-    DependenciesSyntaxCheckerTest()
+    DraftV3TypeKeywordSyntaxCheckerTest()
         throws IOException
     {
-        super("dependencies", DependenciesSyntaxChecker.getInstance());
+        super("k", "type-keyword", new DraftV3TypeKeywordSyntaxChecker("k"));
     }
 }

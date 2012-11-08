@@ -33,14 +33,14 @@ import java.util.Set;
  * <p>These keywords are monsters. Only {@code dependencies} comes close in
  * terms of complexity.</p>
  */
-public class TypeKeywordSyntaxChecker
+public class DraftV3TypeKeywordSyntaxChecker
     extends SimpleSyntaxChecker
 {
     private static final String ANY = "any";
     private static final EnumSet<NodeType> VALID_TYPE_ARRAY_ELEMENTS
         = EnumSet.of(NodeType.OBJECT, NodeType.STRING);
 
-    public TypeKeywordSyntaxChecker(final String keyword)
+    public DraftV3TypeKeywordSyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.STRING, NodeType.ARRAY);
     }

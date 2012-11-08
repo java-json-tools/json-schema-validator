@@ -31,13 +31,13 @@ import java.util.SortedMap;
 /**
  * Syntax validator for the {@code properties} keyword
  */
-public final class PropertiesSyntaxChecker
+public final class DraftV3PropertiesSyntaxChecker
     extends SimpleSyntaxChecker
 {
     private static final SyntaxChecker instance
-        = new PropertiesSyntaxChecker();
+        = new DraftV3PropertiesSyntaxChecker();
 
-    private PropertiesSyntaxChecker()
+    private DraftV3PropertiesSyntaxChecker()
     {
         super("properties", NodeType.OBJECT);
     }

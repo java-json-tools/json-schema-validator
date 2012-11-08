@@ -28,17 +28,18 @@ import java.util.List;
 /**
  * Syntax validator for the {@code items} keyword
  */
-public final class ItemsSyntaxChecker
+public final class DraftV3ItemsSyntaxChecker
     extends SimpleSyntaxChecker
 {
-    private static final SyntaxChecker instance = new ItemsSyntaxChecker();
+    private static final SyntaxChecker instance
+        = new DraftV3ItemsSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
         return instance;
     }
 
-    private ItemsSyntaxChecker()
+    private DraftV3ItemsSyntaxChecker()
     {
         super("items", NodeType.ARRAY, NodeType.OBJECT);
     }

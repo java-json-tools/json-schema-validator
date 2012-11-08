@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.common;
+
+import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
 
 import java.io.IOException;
 
-public final class MaximumKeywordValidatorTest
+public final class EnumKeywordValidatorTest
     extends AbstractKeywordValidatorTest
 {
-    MaximumKeywordValidatorTest()
+    EnumKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("maximum");
+        super("enum");
     }
 }

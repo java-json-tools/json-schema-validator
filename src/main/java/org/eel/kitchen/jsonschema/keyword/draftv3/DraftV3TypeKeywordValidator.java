@@ -32,10 +32,10 @@ import java.util.EnumSet;
  * <p>This keyword and its counterpart ({@code disallowed}) are two of the
  * most complex keywords.</p>
  */
-public final class TypeKeywordValidator
+public final class DraftV3TypeKeywordValidator
     extends AbstractTypeKeywordValidator
 {
-    public TypeKeywordValidator(final JsonNode schema)
+    public DraftV3TypeKeywordValidator(final JsonNode schema)
     {
         super("type", schema);
     }

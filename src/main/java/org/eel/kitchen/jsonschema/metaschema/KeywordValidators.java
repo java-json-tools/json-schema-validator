@@ -19,10 +19,12 @@ package org.eel.kitchen.jsonschema.metaschema;
 
 import org.eel.kitchen.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.AdditionalPropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.DependenciesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3DependenciesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.DisallowKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.DivisibleByKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3PropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.FormatKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
@@ -33,8 +35,6 @@ import org.eel.kitchen.jsonschema.keyword.common.MinItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MinLengthKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MinimumKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.PatternKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
 
 import java.util.Map;
@@ -128,16 +128,16 @@ public final class KeywordValidators
 
         // Object
         keyword = "properties";
-        validator = PropertiesKeywordValidator.class;
+        validator = DraftV3PropertiesKeywordValidator.class;
         draftv3.put(keyword, validator);
 
         keyword = "dependencies";
-        validator = DependenciesKeywordValidator.class;
+        validator = DraftV3DependenciesKeywordValidator.class;
         draftv3.put(keyword, validator);
 
         // All
         keyword = "type";
-        validator = TypeKeywordValidator.class;
+        validator = DraftV3TypeKeywordValidator.class;
         draftv3.put(keyword, validator);
 
         keyword = "disallow";

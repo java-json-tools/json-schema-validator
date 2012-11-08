@@ -42,7 +42,7 @@ import java.util.SortedSet;
  * <p>This validator covers both property dependencies and schema
  * dependencies.</p>
  */
-public final class DependenciesKeywordValidator
+public final class DraftV3DependenciesKeywordValidator
     extends KeywordValidator
 {
     private static final Joiner DEP_JOINER = Joiner.on("; ").skipNulls();
@@ -56,7 +56,7 @@ public final class DependenciesKeywordValidator
      */
     private final Map<String, JsonNode> schemas;
 
-    public DependenciesKeywordValidator(final JsonNode schema)
+    public DraftV3DependenciesKeywordValidator(final JsonNode schema)
     {
         super("dependencies", NodeType.OBJECT);
         final Map<String, JsonNode> fields

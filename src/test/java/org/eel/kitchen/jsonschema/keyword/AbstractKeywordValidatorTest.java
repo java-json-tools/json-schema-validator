@@ -41,7 +41,7 @@ public abstract class AbstractKeywordValidatorTest
 
     private final JsonNode testData;
 
-    AbstractKeywordValidatorTest(final String resourceName)
+    public AbstractKeywordValidatorTest(final String resourceName)
         throws IOException
     {
         testData = JsonLoader.fromResource("/keyword/" + resourceName

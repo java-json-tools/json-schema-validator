@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword;
+package org.eel.kitchen.jsonschema.keyword.common;
+
+import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
 
 import java.io.IOException;
 
-public final class UniqueItemsKeywordValidatorTest
+public final class AdditionalItemsKeywordValidatorTest
     extends AbstractKeywordValidatorTest
 {
-    UniqueItemsKeywordValidatorTest()
+    AdditionalItemsKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("uniqueItems");
+        super("additionalItems");
     }
 }

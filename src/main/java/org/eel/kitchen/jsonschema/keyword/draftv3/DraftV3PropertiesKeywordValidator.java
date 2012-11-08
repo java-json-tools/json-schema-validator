@@ -40,12 +40,12 @@ import java.util.Set;
  * if this keyword is present, it means that the object instance must have a
  * property by that name.</p>
  */
-public final class PropertiesKeywordValidator
+public final class DraftV3PropertiesKeywordValidator
     extends KeywordValidator
 {
     private final Set<String> required;
 
-    public PropertiesKeywordValidator(final JsonNode schema)
+    public DraftV3PropertiesKeywordValidator(final JsonNode schema)
     {
         super("properties", NodeType.OBJECT);
 

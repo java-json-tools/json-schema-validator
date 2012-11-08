@@ -17,17 +17,17 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
-import org.eel.kitchen.jsonschema.syntax.draftv3.DependenciesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.draftv3.ItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.PatternPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.draftv3.PropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.draftv3.TypeKeywordSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.URISyntaxChecker;
 
 import java.util.Map;
@@ -139,11 +139,11 @@ public final class SyntaxCheckers
         common.put(keyword, checker);
 
         keyword = "type";
-        checker = new TypeKeywordSyntaxChecker(keyword);
+        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
         common.put(keyword, checker);
 
         keyword = "disallow";
-        checker = new TypeKeywordSyntaxChecker(keyword);
+        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
         common.put(keyword, checker);
 
         // Build the map
@@ -156,7 +156,7 @@ public final class SyntaxCheckers
 
         // Array
         keyword = "items";
-        checker = ItemsSyntaxChecker.getInstance();
+        checker = DraftV3ItemsSyntaxChecker.getInstance();
         draftv3.put(keyword, checker);
 
         // Integer/number
@@ -166,11 +166,11 @@ public final class SyntaxCheckers
 
         // Object
         keyword = "properties";
-        checker = PropertiesSyntaxChecker.getInstance();
+        checker = DraftV3PropertiesSyntaxChecker.getInstance();
         draftv3.put(keyword, checker);
 
         keyword = "dependencies";
-        checker = DependenciesSyntaxChecker.getInstance();
+        checker = DraftV3DependenciesSyntaxChecker.getInstance();
         draftv3.put(keyword, checker);
 
         // Build the map: all checkers in common, plus draft v3 specific
