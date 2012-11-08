@@ -36,7 +36,6 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
-    // We test that our bundled keywords work OK, so that is what we use
     private final JsonSchemaFactory factory;
 
     private final JsonNode testData;
