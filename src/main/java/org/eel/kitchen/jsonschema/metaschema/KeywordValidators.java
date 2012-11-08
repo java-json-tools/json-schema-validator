@@ -36,12 +36,15 @@ import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3DependenciesKeywordVali
 import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3PropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.MaxPropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.MinPropertiesKeywordValidator;
 
 import java.util.Map;
 
 public final class KeywordValidators
 {
     private static final Map<String, Class<? extends KeywordValidator>> DRAFTV3;
+    private static final Map<String, Class<? extends KeywordValidator>> DRAFTV4;
 
     // No making new instances of this class
     private KeywordValidators()
@@ -151,6 +154,25 @@ public final class KeywordValidators
         // Build the map
         draftv3.putAll(commonMap);
         DRAFTV3 = draftv3.build();
+
+        /*
+         * Draft v4 specific keyword validators
+         */
+        final MapBuilder<Class<? extends KeywordValidator>> draftv4
+            = MapBuilder.create();
+
+        // Object
+        keyword = "minProperties";
+        validator = MinPropertiesKeywordValidator.class;
+        draftv4.put(keyword, validator);
+
+        keyword = "maxProperties";
+        validator = MaxPropertiesKeywordValidator.class;
+        draftv4.put(keyword, validator);
+
+        // Build the map
+        draftv4.putAll(commonMap);
+        DRAFTV4 = draftv4.build();
     }
 
     public static Map<String, Class<? extends KeywordValidator>> draftV3()
@@ -166,6 +188,6 @@ public final class KeywordValidators
 
     public static Map<String, Class<? extends KeywordValidator>> draftV4()
     {
-        return DRAFTV3;
+        return DRAFTV4;
     }
 }
