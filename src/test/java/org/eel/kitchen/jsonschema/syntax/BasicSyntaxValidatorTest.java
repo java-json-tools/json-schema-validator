@@ -19,33 +19,54 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static org.testng.Assert.*;
 
 public final class BasicSyntaxValidatorTest
 {
-    @Test
-    public void syntaxCheckingCorrectlyBalksOnNonObject()
-    {
-        final JsonNode wrong = JsonNodeFactory.instance.nullNode();
-        final KeywordRegistry registry = KeywordRegistries.defaultRegistry();
-        final SyntaxValidator validator
-            = new SyntaxValidator(registry.getSyntaxCheckers());
+    private final SyntaxValidator validator;
 
+    public BasicSyntaxValidatorTest()
+    {
+        final KeywordRegistry registry = new KeywordRegistry();
+        validator = new SyntaxValidator(registry.getSyntaxCheckers());
+    }
+
+    @DataProvider
+    private Iterator<Object[]> getData()
+    {
+        final JsonNodeFactory factory = JsonNodeFactory.instance;
+
+        return new ImmutableSet.Builder<Object[]>()
+            .add(new Object[] { factory.arrayNode() })
+            .add(new Object[] { factory.booleanNode(true) })
+            .add(new Object[] { factory.numberNode(1) })
+            .add(new Object[] { factory.numberNode(1.0) })
+            .add(new Object[] { factory.nullNode() })
+            .add(new Object[] { factory.textNode("") })
+            .build().iterator();
+    }
+
+    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
+    public void syntaxCheckingCorrectlyBalksOnNonObject(final JsonNode schema)
+    {
+        final NodeType nodeType = NodeType.getNodeType(schema);
         final List<Message> messages = Lists.newArrayList();
 
-        validator.validate(messages, wrong);
+        validator.validate(messages, schema);
 
         assertEquals(messages.size(), 1);
         assertEquals(messages.get(0).getInfo("found").textValue(),
-            NodeType.NULL.toString());
+            nodeType.toString());
     }
 }
