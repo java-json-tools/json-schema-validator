@@ -25,6 +25,6 @@ public final class EnumKeywordValidatorTest
     EnumKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("enum");
+        super("common/enum");
     }
 }

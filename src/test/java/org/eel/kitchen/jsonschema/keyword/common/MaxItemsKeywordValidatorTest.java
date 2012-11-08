@@ -25,6 +25,6 @@ public final class MaxItemsKeywordValidatorTest
     MaxItemsKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("maxItems");
+        super("common/maxItems");
     }
 }

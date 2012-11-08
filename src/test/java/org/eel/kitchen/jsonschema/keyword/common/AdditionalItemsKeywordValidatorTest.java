@@ -25,6 +25,6 @@ public final class AdditionalItemsKeywordValidatorTest
     AdditionalItemsKeywordValidatorTest()
         throws IOException, NoSuchMethodException
     {
-        super("additionalItems");
+        super("common/additionalItems");
     }
 }
