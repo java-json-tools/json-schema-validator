@@ -74,4 +74,9 @@ public final class FormatAttributes
     {
         return draftV3();
     }
+
+    public static Map<String, FormatAttribute> draftV4()
+    {
+        return DRAFTV3;
+    }
 }

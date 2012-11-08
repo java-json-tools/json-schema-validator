@@ -163,4 +163,9 @@ public final class KeywordValidators
     {
         return draftV3();
     }
+
+    public static Map<String, Class<? extends KeywordValidator>> draftV4()
+    {
+        return DRAFTV3;
+    }
 }

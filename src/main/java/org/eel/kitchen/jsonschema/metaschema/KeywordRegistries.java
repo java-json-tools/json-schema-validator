@@ -33,6 +33,14 @@ public final class KeywordRegistries
         return ret;
     }
 
+    public static KeywordRegistry draftV4()
+    {
+        final KeywordRegistry ret = new KeywordRegistry();
+        ret.addSyntaxCheckers(SyntaxCheckers.draftV4());
+        ret.addValidators(KeywordValidators.draftV4());
+        ret.addFormatAttributes(FormatAttributes.draftV4());
+        return ret;
+    }
     public static KeywordRegistry defaultRegistry()
     {
         return draftV3();

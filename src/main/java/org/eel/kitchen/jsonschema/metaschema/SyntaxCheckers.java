@@ -40,6 +40,7 @@ import static org.eel.kitchen.jsonschema.util.NodeType.*;
 public final class SyntaxCheckers
 {
     private static final Map<String, SyntaxChecker> DRAFTV3;
+    private static final Map<String, SyntaxChecker> DRAFTV4;
 
     // No making new instances of this class
     private SyntaxCheckers()
@@ -186,11 +187,31 @@ public final class SyntaxCheckers
         // checkers
         draftv3.putAll(commonCheckers);
         DRAFTV3 = draftv3.build();
+
+        /*
+         * Draft v4 specific syntax checkers
+         */
+        final MapBuilder<SyntaxChecker> draftv4 = MapBuilder.create();
+
+        // Object
+        keyword = "minProperties";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        draftv4.put(keyword, checker);
+
+        // Build the map: all checkers in common, plus draft v4 specific
+        // checkers
+        draftv4.putAll(commonCheckers);
+        DRAFTV4 = draftv4.build();
     }
 
     public static Map<String, SyntaxChecker> draftV3()
     {
         return DRAFTV3;
+    }
+
+    public static Map<String, SyntaxChecker> draftV4()
+    {
+        return DRAFTV4;
     }
 
     public static Map<String, SyntaxChecker> defaultCheckers()
