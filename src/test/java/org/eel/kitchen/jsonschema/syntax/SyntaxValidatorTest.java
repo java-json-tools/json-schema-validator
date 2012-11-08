@@ -19,13 +19,17 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -58,6 +62,32 @@ public final class SyntaxValidatorTest
         k2 = Keyword.withName("k2").withSyntaxChecker(checker2).build();
 
         messages = new ArrayList<Message>();
+    }
+
+    @DataProvider
+    private Iterator<Object[]> getNonSchemaJsonDocuments()
+    {
+        return new ImmutableSet.Builder<Object[]>()
+            .add(new Object[] { factory.arrayNode() })
+            .add(new Object[] { factory.booleanNode(true) })
+            .add(new Object[] { factory.numberNode(1) })
+            .add(new Object[] { factory.numberNode(1.0) })
+            .add(new Object[] { factory.nullNode() })
+            .add(new Object[] { factory.textNode("") })
+            .build().iterator();
+    }
+
+
+    @Test(dataProvider = "getNonSchemaJsonDocuments")
+    public void syntaxCheckingCorrectlyBalksOnNonObject(final JsonNode schema)
+    {
+        final NodeType nodeType = NodeType.getNodeType(schema);
+
+        validator.validate(messages, schema);
+
+        assertEquals(messages.size(), 1);
+        assertEquals(messages.get(0).getInfo("found").textValue(),
+            nodeType.toString());
     }
 
     @Test
