@@ -25,6 +25,6 @@ public final class ExclusiveMinimumSyntaxCheckerTest
     ExclusiveMinimumSyntaxCheckerTest()
         throws IOException
     {
-        super("exclusiveMinimum");
+        super("common/exclusiveMinimum");
     }
 }

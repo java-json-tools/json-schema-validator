@@ -25,6 +25,6 @@ public final class DraftV3DependenciesSyntaxCheckerTest
     DraftV3DependenciesSyntaxCheckerTest()
         throws IOException
     {
-        super("dependencies");
+        super("draftv3/dependencies");
     }
 }

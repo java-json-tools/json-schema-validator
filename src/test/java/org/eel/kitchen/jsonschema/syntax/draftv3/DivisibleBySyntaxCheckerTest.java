@@ -25,6 +25,6 @@ public final class DivisibleBySyntaxCheckerTest
     DivisibleBySyntaxCheckerTest()
         throws IOException
     {
-        super("divisibleBy");
+        super("draftv3/divisibleBy");
     }
 }

@@ -25,6 +25,6 @@ public final class PatternSyntaxCheckerTest
     PatternSyntaxCheckerTest()
         throws IOException
     {
-        super("pattern");
+        super("common/pattern");
     }
 }

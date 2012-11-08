@@ -25,6 +25,6 @@ public final class PatternPropertiesSyntaxCheckerTest
     PatternPropertiesSyntaxCheckerTest()
         throws IOException
     {
-        super("patternProperties");
+        super("common/patternProperties");
     }
 }

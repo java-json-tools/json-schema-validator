@@ -25,6 +25,6 @@ public final class ExclusiveMaximumSyntaxCheckerTest
     ExclusiveMaximumSyntaxCheckerTest()
         throws IOException
     {
-        super("exclusiveMaximum");
+        super("common/exclusiveMaximum");
     }
 }

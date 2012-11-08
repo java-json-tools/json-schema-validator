@@ -25,6 +25,6 @@ public final class ExtendsSyntaxCheckerTest
     ExtendsSyntaxCheckerTest()
         throws IOException
     {
-        super("extends");
+        super("draftv3/extends");
     }
 }

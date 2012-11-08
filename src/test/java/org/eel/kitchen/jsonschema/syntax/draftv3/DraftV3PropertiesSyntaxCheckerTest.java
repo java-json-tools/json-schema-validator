@@ -25,6 +25,6 @@ public final class DraftV3PropertiesSyntaxCheckerTest
     DraftV3PropertiesSyntaxCheckerTest()
         throws IOException
     {
-        super("properties");
+        super("draftv3/properties");
     }
 }

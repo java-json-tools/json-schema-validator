@@ -25,6 +25,6 @@ public final class DraftV3ItemsSyntaxCheckerTest
     DraftV3ItemsSyntaxCheckerTest()
         throws IOException
     {
-        super("items");
+        super("draftv3/items");
     }
 }

@@ -25,6 +25,6 @@ public final class DraftV3TypeKeywordSyntaxCheckerTest
     DraftV3TypeKeywordSyntaxCheckerTest()
         throws IOException
     {
-        super("type");
+        super("draftv3/type");
     }
 }

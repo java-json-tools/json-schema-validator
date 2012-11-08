@@ -25,6 +25,6 @@ public final class EnumSyntaxCheckerTest
     EnumSyntaxCheckerTest()
         throws IOException
     {
-        super("enum");
+        super("common/enum");
     }
 }
