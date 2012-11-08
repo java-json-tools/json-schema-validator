@@ -1,0 +1,98 @@
+[
+    {
+        "schema": {
+            "title": true
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "title",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "title": {}
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "title",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "title": 1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "title",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "integer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "title": 1.1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "title",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "number"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "title": []
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "title",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "array"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "title": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "title",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "title": ""
+        },
+        "valid": true
+    }
+]

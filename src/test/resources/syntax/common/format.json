@@ -1,0 +1,98 @@
+[
+    {
+        "schema": {
+            "format": true
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "format",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "format": {}
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "format",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "format": 1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "format",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "integer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "format": 1.1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "format",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "number"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "format": []
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "format",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "array"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "format": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "format",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "format": ""
+        },
+        "valid": true
+    }
+]

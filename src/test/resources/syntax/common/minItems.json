@@ -1,0 +1,58 @@
+[
+    {
+        "schema": {
+            "minItems": 20
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minItems": 0
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minItems": 12339809814981293098102938
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minItems",
+                "message": "integer value is too large",
+                "max": 2147483647,
+                "found": 12339809814981293098102938
+            }
+        ]
+    },
+    {
+        "schema": {
+            "minItems": -33
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minItems",
+                "message": "value cannot be negative",
+                "found": -33
+            }
+        ]
+    },
+    {
+        "schema": {
+            "minItems": 3.1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minItems",
+                "message": "incorrect type for value",
+                "expected": [ "integer" ],
+                "found": "number"
+            }
+        ]
+    }
+]

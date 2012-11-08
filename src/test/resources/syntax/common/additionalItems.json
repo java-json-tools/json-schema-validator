@@ -1,78 +1,87 @@
 [
     {
         "schema": {
-            "k": true
+            "additionalItems": true
         },
         "valid": true
     },
     {
         "schema": {
-            "k": {}
+            "additionalItems": {}
         },
         "valid": true
     },
     {
         "schema": {
-            "k": 1
+            "additionalItems": 1
         },
         "valid": false,
         "messages": [
             {
                 "domain": "syntax",
-                "keyword": "k",
+                "keyword": "additionalItems",
                 "message": "incorrect type for value",
-                "expected": [ "boolean", "null", "object" ],
+                "expected": [ "boolean", "object" ],
                 "found": "integer"
             }
         ]
     },
     {
         "schema": {
-            "k": 1.1
+            "additionalItems": 1.1
         },
         "valid": false,
         "messages": [
             {
                 "domain": "syntax",
-                "keyword": "k",
+                "keyword": "additionalItems",
                 "message": "incorrect type for value",
-                "expected": [ "boolean", "null", "object" ],
+                "expected": [ "boolean", "object" ],
                 "found": "number"
             }
         ]
     },
     {
         "schema": {
-            "k": []
+            "additionalItems": []
         },
         "valid": false,
         "messages": [
             {
                 "domain": "syntax",
-                "keyword": "k",
+                "keyword": "additionalItems",
                 "message": "incorrect type for value",
-                "expected": [ "boolean", "null", "object" ],
+                "expected": [ "boolean", "object" ],
                 "found": "array"
             }
         ]
     },
     {
         "schema": {
-            "k": null
-        },
-        "valid": true
-    },
-    {
-        "schema": {
-            "k": ""
+            "additionalItems": null
         },
         "valid": false,
         "messages": [
             {
                 "domain": "syntax",
-                "keyword": "k",
+                "keyword": "additionalItems",
                 "message": "incorrect type for value",
-                "expected": [ "boolean", "null", "object" ],
+                "expected": [ "boolean", "object" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "additionalItems": ""
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "additionalItems",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "object" ],
                 "found": "string"
             }
         ]

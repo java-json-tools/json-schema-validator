@@ -1,0 +1,89 @@
+[
+    {
+        "schema": {
+            "minimum": true
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minimum",
+                "message": "incorrect type for value",
+                "expected": [ "integer", "number" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "minimum": {}
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minimum",
+                "message": "incorrect type for value",
+                "expected": [ "integer", "number" ],
+                "found": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "minimum": 1
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": 1.1
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": []
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minimum",
+                "message": "incorrect type for value",
+                "expected": [ "integer", "number" ],
+                "found": "array"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "minimum": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minimum",
+                "message": "incorrect type for value",
+                "expected": [ "integer", "number" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "minimum": ""
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "minimum",
+                "message": "incorrect type for value",
+                "expected": [ "integer", "number" ],
+                "found": "string"
+            }
+        ]
+    }
+]

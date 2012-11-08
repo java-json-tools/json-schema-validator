@@ -1,25 +1,25 @@
 [
     {
         "schema": {
-            "uri": "#"
+            "$ref": "#"
         },
         "valid": true
     },
     {
         "schema": {
-            "uri": "http://json-schema.org/schema/v3#/a/b"
+            "$ref": "http://json-schema.org/schema/v3#/a/b"
         },
         "valid": true
     },
     {
         "schema": {
-            "uri": false
+            "$ref": false
         },
         "valid": false,
         "messages": [
             {
                 "domain": "syntax",
-                "keyword": "uri",
+                "keyword": "$ref",
                 "message": "incorrect type for value",
                 "expected": [ "string" ],
                 "found": "boolean"
@@ -28,13 +28,13 @@
     },
     {
         "schema": {
-            "uri": "+23:"
+            "$ref": "+23:"
         },
         "valid": false,
         "messages": [
             {
                 "domain": "syntax",
-                "keyword": "uri",
+                "keyword": "$ref",
                 "message": "not a valid URI",
                 "found": "+23:"
             }

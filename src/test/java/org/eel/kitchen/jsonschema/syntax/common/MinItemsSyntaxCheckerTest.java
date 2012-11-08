@@ -15,18 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
-
-import org.eel.kitchen.jsonschema.syntax.common.URISyntaxChecker;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import java.io.IOException;
 
-public final class URISyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+public final class MinItemsSyntaxCheckerTest
+    extends CommonSyntaxCheckerTest
 {
-    URISyntaxCheckerTest()
+    MinItemsSyntaxCheckerTest()
         throws IOException
     {
-        super("uri", "uri", new URISyntaxChecker("uri"));
+        super("common/minItems");
     }
 }

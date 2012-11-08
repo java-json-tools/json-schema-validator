@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax;
+package org.eel.kitchen.jsonschema.syntax.common;
 
 import java.io.IOException;
 
-public final class PositiveIntegerSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+public final class DescriptionSyntaxCheckerTest
+    extends CommonSyntaxCheckerTest
 {
-    PositiveIntegerSyntaxCheckerTest()
+    DescriptionSyntaxCheckerTest()
         throws IOException
     {
-        super("positiveInteger", "k", new PositiveIntegerSyntaxChecker("k"));
+        super("common/description");
     }
 }

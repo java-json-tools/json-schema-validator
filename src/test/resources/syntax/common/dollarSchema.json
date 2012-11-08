@@ -1,0 +1,43 @@
+[
+    {
+        "schema": {
+            "$schema": "#"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "$schema": "http://json-schema.org/schema/v3#/a/b"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "$schema": false
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "$schema",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "$schema": "+23:"
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "$schema",
+                "message": "not a valid URI",
+                "found": "+23:"
+            }
+        ]
+    }
+]
