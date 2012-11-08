@@ -20,11 +20,11 @@ package org.eel.kitchen.jsonschema.syntax.common;
 import java.io.IOException;
 
 public final class ExclusiveMaximumSyntaxCheckerTest
-    extends CommonSyntaxCheckerTest
+    extends CommonSyntaxCheckerTest2
 {
     ExclusiveMaximumSyntaxCheckerTest()
         throws IOException
     {
-        super("exclusiveMaximum", ExclusiveMaximumSyntaxChecker.getInstance());
+        super("exclusiveMaximum");
     }
 }

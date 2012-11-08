@@ -22,6 +22,8 @@ import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMaximumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMinimumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.PatternPropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.URISyntaxChecker;
@@ -76,7 +78,7 @@ public final class SyntaxCheckers
         common.put(keyword, checker);
 
         keyword = "exclusiveMinimum";
-        checker = new SimpleSyntaxChecker(keyword, BOOLEAN);
+        checker = ExclusiveMinimumSyntaxChecker.getInstance();
         common.put(keyword, checker);
 
         keyword = "maximum";
@@ -84,7 +86,7 @@ public final class SyntaxCheckers
         common.put(keyword, checker);
 
         keyword = "exclusiveMaximum";
-        checker = new SimpleSyntaxChecker(keyword, BOOLEAN);
+        checker = ExclusiveMaximumSyntaxChecker.getInstance();
         common.put(keyword, checker);
 
         // Object

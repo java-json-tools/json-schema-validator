@@ -17,14 +17,17 @@
 
 package org.eel.kitchen.jsonschema.syntax.common;
 
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest2;
+
 import java.io.IOException;
 
-public final class EnumSyntaxCheckerTest
-    extends CommonSyntaxCheckerTest2
+public abstract class CommonSyntaxCheckerTest2
+    extends AbstractSyntaxCheckerTest2
 {
-    EnumSyntaxCheckerTest()
+    protected CommonSyntaxCheckerTest2(final String resourceName)
         throws IOException
     {
-        super("enum");
+        super(resourceName, KeywordRegistries.defaultRegistry());
     }
 }

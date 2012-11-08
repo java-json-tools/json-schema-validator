@@ -20,12 +20,11 @@ package org.eel.kitchen.jsonschema.syntax.common;
 import java.io.IOException;
 
 public final class PatternPropertiesSyntaxCheckerTest
-    extends CommonSyntaxCheckerTest
+    extends CommonSyntaxCheckerTest2
 {
     PatternPropertiesSyntaxCheckerTest()
         throws IOException
     {
-        super("patternProperties",
-            PatternPropertiesSyntaxChecker.getInstance());
+        super("patternProperties");
     }
 }
