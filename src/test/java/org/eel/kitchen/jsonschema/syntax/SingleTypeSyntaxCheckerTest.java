@@ -15,20 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax.draftv3;
+package org.eel.kitchen.jsonschema.syntax;
 
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.io.IOException;
 
-public final class MultipleTypeSyntaxCheckerTest
-    extends DraftV3SyntaxCheckerTest
+public final class SingleTypeSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest
 {
-    MultipleTypeSyntaxCheckerTest()
+    SingleTypeSyntaxCheckerTest()
         throws IOException
     {
-        super("basictype-multiple", new SimpleSyntaxChecker("k",
-            NodeType.BOOLEAN, NodeType.OBJECT, NodeType.NULL));
+        super("basictype-single",
+            new SimpleSyntaxChecker("k", NodeType.BOOLEAN));
     }
 }
