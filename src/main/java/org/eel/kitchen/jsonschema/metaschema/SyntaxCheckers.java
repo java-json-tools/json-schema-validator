@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.metaschema;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DivisibleBySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMinimumSyntaxChecker;

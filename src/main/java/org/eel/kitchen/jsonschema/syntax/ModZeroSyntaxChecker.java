@@ -15,43 +15,38 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax.common;
+package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Syntax checker for the {@code divisibleBy} keyword
+ * Syntax checker for the {@code divisibleBy} keyword (draft v3) and {@code
+ * multipleOf} keyword (draft v4)
  *
- * <p>Note: in draft v4, this will be renamed to {@code mod}.</p>
+ * <p>This is an abstract class to ensure that the value of the keyword is any
+ * number and that it is strictly greater than 0.</p>
+ *
+ * <p>Draft v3 used {@code divisibleBy} for this, draft v4 uses {@code
+ * multipleOf} instead.</p>
  *
  */
-public final class DivisibleBySyntaxChecker
+public class ModZeroSyntaxChecker
     extends SimpleSyntaxChecker
 {
     private static final BigDecimal ZERO = BigDecimal.ZERO;
 
-    private static final SyntaxChecker instance
-        = new DivisibleBySyntaxChecker();
-
-    private DivisibleBySyntaxChecker()
+    protected ModZeroSyntaxChecker(final String keyword)
     {
-        super("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
-    }
-
-    public static SyntaxChecker getInstance()
-    {
-        return instance;
+        super(keyword, NodeType.INTEGER, NodeType.NUMBER);
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
+    public final void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
