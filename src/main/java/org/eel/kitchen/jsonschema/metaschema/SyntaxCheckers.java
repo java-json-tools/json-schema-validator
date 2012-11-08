@@ -198,6 +198,9 @@ public final class SyntaxCheckers
         checker = new PositiveIntegerSyntaxChecker(keyword);
         draftv4.put(keyword, checker);
 
+        keyword = "maxProperties";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        draftv4.put(keyword, checker);
         // Build the map: all checkers in common, plus draft v4 specific
         // checkers
         draftv4.putAll(commonCheckers);
