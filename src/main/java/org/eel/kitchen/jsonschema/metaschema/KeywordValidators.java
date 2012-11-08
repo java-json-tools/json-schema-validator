@@ -17,17 +17,11 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
+import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.AdditionalPropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3DependenciesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.DisallowKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.DivisibleByKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3PropertiesKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3TypeKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.FormatKeywordValidator;
-import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MaxItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MaxLengthKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MaximumKeywordValidator;
@@ -36,6 +30,12 @@ import org.eel.kitchen.jsonschema.keyword.common.MinLengthKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.MinimumKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.PatternKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DisallowKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DivisibleByKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3DependenciesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3PropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3TypeKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
 
 import java.util.Map;
 

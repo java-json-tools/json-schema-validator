@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax.common;
 
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
-import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxChecker;
 
 import java.io.IOException;
 

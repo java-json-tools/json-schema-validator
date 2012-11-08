@@ -20,9 +20,9 @@ package org.eel.kitchen.jsonschema.metaschema;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 import java.util.Map;

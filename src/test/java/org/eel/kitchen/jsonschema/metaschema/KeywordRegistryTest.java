@@ -19,9 +19,9 @@ package org.eel.kitchen.jsonschema.metaschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableMap;
-import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.testng.annotations.BeforeMethod;

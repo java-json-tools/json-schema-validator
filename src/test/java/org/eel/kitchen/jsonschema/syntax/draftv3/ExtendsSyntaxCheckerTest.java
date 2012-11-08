@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
-import org.eel.kitchen.jsonschema.syntax.draftv3.ExtendsSyntaxChecker;
 
 import java.io.IOException;
 

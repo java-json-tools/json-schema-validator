@@ -17,18 +17,18 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
-import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3DependenciesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3ItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.common.PatternPropertiesSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.common.DivisibleBySyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.common.PatternPropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.common.PatternSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.URISyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3DependenciesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3ItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker;
 
 import java.util.Map;
 
