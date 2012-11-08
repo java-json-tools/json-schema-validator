@@ -15,16 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword.common;
+package org.eel.kitchen.jsonschema.keyword.draftv3;
+
+import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
 
 import java.io.IOException;
 
-public final class MinLengthKeywordValidatorTest
-    extends CommonKeywordValidatorTest
+public abstract class DraftV3KeywordValidatorTest
+    extends AbstractKeywordValidatorTest
 {
-    MinLengthKeywordValidatorTest()
-        throws IOException, NoSuchMethodException
+    protected DraftV3KeywordValidatorTest(final String resourceName)
+        throws IOException
     {
-        super("minLength");
+        super(KeywordRegistries.draftV3(), resourceName);
     }
 }

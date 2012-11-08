@@ -17,14 +17,17 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
+import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+
 import java.io.IOException;
 
-public final class MinLengthKeywordValidatorTest
-    extends CommonKeywordValidatorTest
+public abstract class CommonKeywordValidatorTest
+    extends AbstractKeywordValidatorTest
 {
-    MinLengthKeywordValidatorTest()
-        throws IOException, NoSuchMethodException
+    protected CommonKeywordValidatorTest(final String resourceName)
+        throws IOException
     {
-        super("minLength");
+        super(KeywordRegistries.defaultRegistry(), resourceName);
     }
 }

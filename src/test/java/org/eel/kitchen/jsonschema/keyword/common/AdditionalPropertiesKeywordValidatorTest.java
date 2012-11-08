@@ -17,12 +17,10 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
-
 import java.io.IOException;
 
 public final class AdditionalPropertiesKeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+    extends CommonKeywordValidatorTest
 {
     AdditionalPropertiesKeywordValidatorTest()
         throws IOException, NoSuchMethodException

@@ -17,12 +17,10 @@
 
 package org.eel.kitchen.jsonschema.keyword.common;
 
-import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
-
 import java.io.IOException;
 
 public final class MaxLengthKeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+    extends CommonKeywordValidatorTest
 {
     MaxLengthKeywordValidatorTest()
         throws IOException, NoSuchMethodException

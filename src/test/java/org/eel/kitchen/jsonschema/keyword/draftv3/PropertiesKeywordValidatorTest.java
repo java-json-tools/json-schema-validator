@@ -17,12 +17,10 @@
 
 package org.eel.kitchen.jsonschema.keyword.draftv3;
 
-import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
-
 import java.io.IOException;
 
 public final class PropertiesKeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+    extends DraftV3KeywordValidatorTest
 {
     PropertiesKeywordValidatorTest()
         throws IOException, NoSuchMethodException

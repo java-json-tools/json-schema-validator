@@ -19,15 +19,22 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.main.JsonSchema;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.schema.SchemaContainer;
+import org.eel.kitchen.jsonschema.schema.SchemaNode;
+import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
+import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.eel.kitchen.jsonschema.validator.JsonValidator;
+import org.eel.kitchen.jsonschema.validator.JsonValidatorCache;
+import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -36,16 +43,20 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
-    private final JsonSchemaFactory factory;
+    private static final URI BASE_URI = URI.create("");
 
+    private final JsonValidatorCache validatorCache;
+    private final SchemaRegistry schemaRegistry;
     private final JsonNode testData;
 
-    public AbstractKeywordValidatorTest(final String resourceName)
+    protected AbstractKeywordValidatorTest(final KeywordRegistry registry,
+        final String resourceName)
         throws IOException
     {
+        schemaRegistry = new SchemaRegistry(new URIManager(), BASE_URI);
+        validatorCache = new JsonValidatorCache(registry, schemaRegistry);
         testData = JsonLoader.fromResource("/keyword/" + resourceName
             + ".json");
-        factory = JsonSchemaFactory.defaultFactory();
     }
 
     @DataProvider
@@ -73,9 +84,13 @@ public abstract class AbstractKeywordValidatorTest
     public final void testKeyword(final JsonNode schema, final JsonNode data,
         final boolean valid, final JsonNode messages)
     {
-        final JsonSchema jsonSchema = factory.fromSchema(schema);
+        final SchemaContainer container = schemaRegistry.register(schema);
+        final SchemaNode schemaNode = new SchemaNode(container, schema);
+        final ValidationReport report = new ValidationReport();
+        final JsonValidator validator = validatorCache.getValidator(schemaNode);
+        final ValidationContext ctx = new ValidationContext(validatorCache);
 
-        final ValidationReport report = jsonSchema.validate(data);
+        validator.validate(ctx, report, data);
 
         assertEquals(report.isSuccess(), valid);
 
