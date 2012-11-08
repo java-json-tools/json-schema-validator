@@ -15,17 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax.common;
-
-import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
-import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
+package org.eel.kitchen.jsonschema.syntax.draftv3;
 
 import java.io.IOException;
 
-public final class PropertiesSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+public final class DraftV3PropertiesSyntaxCheckerTest
+    extends DraftV3SyntaxCheckerTest
 {
-    PropertiesSyntaxCheckerTest()
+    DraftV3PropertiesSyntaxCheckerTest()
         throws IOException
     {
         super("properties", DraftV3PropertiesSyntaxChecker.getInstance());

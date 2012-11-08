@@ -17,14 +17,13 @@
 
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
-import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.io.IOException;
 
 public final class MultipleTypeSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+    extends DraftV3SyntaxCheckerTest
 {
     MultipleTypeSyntaxCheckerTest()
         throws IOException

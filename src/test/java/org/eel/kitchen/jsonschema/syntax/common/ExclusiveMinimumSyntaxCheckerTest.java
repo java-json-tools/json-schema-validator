@@ -17,12 +17,10 @@
 
 package org.eel.kitchen.jsonschema.syntax.common;
 
-import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
-
 import java.io.IOException;
 
 public final class ExclusiveMinimumSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+    extends CommonSyntaxCheckerTest
 {
     ExclusiveMinimumSyntaxCheckerTest()
         throws IOException

@@ -17,12 +17,10 @@
 
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
-import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
-
 import java.io.IOException;
 
 public final class DraftV3DependenciesSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+    extends DraftV3SyntaxCheckerTest
 {
     DraftV3DependenciesSyntaxCheckerTest()
         throws IOException
