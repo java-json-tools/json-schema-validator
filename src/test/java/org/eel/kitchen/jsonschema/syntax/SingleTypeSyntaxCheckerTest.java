@@ -22,12 +22,12 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.io.IOException;
 
 public final class SingleTypeSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest2
 {
     SingleTypeSyntaxCheckerTest()
         throws IOException
     {
-        super("basictype-single",
+        super("basictype-single", "k",
             new SimpleSyntaxChecker("k", NodeType.BOOLEAN));
     }
 }

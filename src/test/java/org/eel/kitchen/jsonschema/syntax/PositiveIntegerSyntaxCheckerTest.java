@@ -20,11 +20,11 @@ package org.eel.kitchen.jsonschema.syntax;
 import java.io.IOException;
 
 public final class PositiveIntegerSyntaxCheckerTest
-    extends AbstractSyntaxCheckerTest
+    extends AbstractSyntaxCheckerTest2
 {
     PositiveIntegerSyntaxCheckerTest()
         throws IOException
     {
-        super("k", "positiveInteger", new PositiveIntegerSyntaxChecker("k"));
+        super("positiveInteger", "k", new PositiveIntegerSyntaxChecker("k"));
     }
 }
