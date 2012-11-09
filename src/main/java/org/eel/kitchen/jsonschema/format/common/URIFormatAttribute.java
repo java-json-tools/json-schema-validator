@@ -15,25 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
- * Validator for the {@code email} format specification.
+ * Validator for the {@code uri} format specification
  */
-public final class EmailFormatAttribute
+public final class URIFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance = new EmailFormatAttribute();
+    private static final FormatAttribute instance
+        = new URIFormatAttribute();
 
-    private EmailFormatAttribute()
+    private URIFormatAttribute()
     {
         super(NodeType.STRING);
     }
@@ -47,12 +49,11 @@ public final class EmailFormatAttribute
     public void checkValue(final String fmt, final ValidationReport report,
         final JsonNode value)
     {
-
         try {
-            new InternetAddress(value.textValue(), true);
-        } catch (AddressException ignored) {
+            new URI(value.textValue());
+        } catch (URISyntaxException ignored) {
             final Message.Builder msg = newMsg(fmt)
-                .setMessage("string is not a valid email address")
+                .setMessage("string is not a valid URI")
                 .addInfo("value", value);
             report.addMessage(msg.build());
         }

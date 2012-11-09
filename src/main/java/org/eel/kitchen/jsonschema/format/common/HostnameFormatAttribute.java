@@ -15,26 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.net.InternetDomainName;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 /**
- * Validator for the {@code uri} format specification
+ * Validator for the {@code host-name} format specification
+ *
+ * <p>Note: a hostname is not required to have two or more components. As such,
+ * {@code foo} <b>is</b> a valid hostname.</p>
+ *
+ * <p>Guava's {@link InternetDomainName} is used for validation.</p>
  */
-public final class URIFormatAttribute
+public final class HostnameFormatAttribute
     extends FormatAttribute
 {
     private static final FormatAttribute instance
-        = new URIFormatAttribute();
+        = new HostnameFormatAttribute();
 
-    private URIFormatAttribute()
+    private HostnameFormatAttribute()
     {
         super(NodeType.STRING);
     }
@@ -49,10 +53,10 @@ public final class URIFormatAttribute
         final JsonNode value)
     {
         try {
-            new URI(value.textValue());
-        } catch (URISyntaxException ignored) {
+            InternetDomainName.from(value.textValue());
+        } catch (IllegalArgumentException ignored) {
             final Message.Builder msg = newMsg(fmt)
-                .setMessage("string is not a valid URI")
+                .setMessage("string is not a valid hostname")
                 .addInfo("value", value);
             report.addMessage(msg.build());
         }

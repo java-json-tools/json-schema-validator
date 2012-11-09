@@ -15,27 +15,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.net.InetAddresses;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 /**
- * Validator for the {@code ip-address} format specification, ie an IPv4 address
- *
- * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
+ * Validator for the {@code email} format specification.
  */
-public final class IPV4FormatAttribute
+public final class EmailFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance = new IPV4FormatAttribute();
+    private static final FormatAttribute instance = new EmailFormatAttribute();
 
-    private static final int IPV4_LENGTH = 4;
-
-    private IPV4FormatAttribute()
+    private EmailFormatAttribute()
     {
         super(NodeType.STRING);
     }
@@ -49,15 +48,14 @@ public final class IPV4FormatAttribute
     public void checkValue(final String fmt, final ValidationReport report,
         final JsonNode value)
     {
-        final String ipaddr = value.textValue();
 
-        if (InetAddresses.isInetAddress(ipaddr) && InetAddresses
-            .forString(ipaddr).getAddress().length == IPV4_LENGTH)
-            return;
-
-        final Message.Builder msg = newMsg(fmt)
-            .setMessage("string is not a valid IPv4 address")
-            .addInfo("value", value);
-        report.addMessage(msg.build());
+        try {
+            new InternetAddress(value.textValue(), true);
+        } catch (AddressException ignored) {
+            final Message.Builder msg = newMsg(fmt)
+                .setMessage("string is not a valid email address")
+                .addInfo("value", value);
+            report.addMessage(msg.build());
+        }
     }
 }

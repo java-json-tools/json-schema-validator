@@ -15,29 +15,28 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.net.InternetDomainName;
+import com.google.common.net.InetAddresses;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
- * Validator for the {@code host-name} format specification
+ * Validator for the {@code ip-address} format specification, ie an IPv4 address
  *
- * <p>Note: a hostname is not required to have two or more components. As such,
- * {@code foo} <b>is</b> a valid hostname.</p>
- *
- * <p>Guava's {@link InternetDomainName} is used for validation.</p>
+ * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
  */
-public final class HostnameFormatAttribute
+public final class IPV4FormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance
-        = new HostnameFormatAttribute();
+    private static final FormatAttribute instance = new IPV4FormatAttribute();
 
-    private HostnameFormatAttribute()
+    private static final int IPV4_LENGTH = 4;
+
+    private IPV4FormatAttribute()
     {
         super(NodeType.STRING);
     }
@@ -51,13 +50,15 @@ public final class HostnameFormatAttribute
     public void checkValue(final String fmt, final ValidationReport report,
         final JsonNode value)
     {
-        try {
-            InternetDomainName.from(value.textValue());
-        } catch (IllegalArgumentException ignored) {
-            final Message.Builder msg = newMsg(fmt)
-                .setMessage("string is not a valid hostname")
-                .addInfo("value", value);
-            report.addMessage(msg.build());
-        }
+        final String ipaddr = value.textValue();
+
+        if (InetAddresses.isInetAddress(ipaddr) && InetAddresses
+            .forString(ipaddr).getAddress().length == IPV4_LENGTH)
+            return;
+
+        final Message.Builder msg = newMsg(fmt)
+            .setMessage("string is not a valid IPv4 address")
+            .addInfo("value", value);
+        report.addMessage(msg.build());
     }
 }

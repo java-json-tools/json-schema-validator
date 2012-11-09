@@ -15,7 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
+
+import org.eel.kitchen.jsonschema.format.AbstractDateFormatAttribute;
+import org.eel.kitchen.jsonschema.format.FormatAttribute;
 
 /**
  * Validator for the {@code date-time} format specification

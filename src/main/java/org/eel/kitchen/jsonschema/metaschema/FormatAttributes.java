@@ -17,14 +17,14 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
-import org.eel.kitchen.jsonschema.format.DateTimeFormatAttribute;
-import org.eel.kitchen.jsonschema.format.EmailFormatAttribute;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
-import org.eel.kitchen.jsonschema.format.HostnameFormatAttribute;
-import org.eel.kitchen.jsonschema.format.IPV4FormatAttribute;
-import org.eel.kitchen.jsonschema.format.IPV6FormatAttribute;
-import org.eel.kitchen.jsonschema.format.RegexFormatAttribute;
-import org.eel.kitchen.jsonschema.format.URIFormatAttribute;
+import org.eel.kitchen.jsonschema.format.common.DateTimeFormatAttribute;
+import org.eel.kitchen.jsonschema.format.common.EmailFormatAttribute;
+import org.eel.kitchen.jsonschema.format.common.HostnameFormatAttribute;
+import org.eel.kitchen.jsonschema.format.common.IPV4FormatAttribute;
+import org.eel.kitchen.jsonschema.format.common.IPV6FormatAttribute;
+import org.eel.kitchen.jsonschema.format.common.RegexFormatAttribute;
+import org.eel.kitchen.jsonschema.format.common.URIFormatAttribute;
 
 import java.util.Map;
 
