@@ -33,6 +33,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv3.ExtendsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.MultipleOfSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.SchemaArraySyntaxChecker;
@@ -235,6 +236,10 @@ public final class SyntaxCheckers
 
         keyword = "not";
         checker = new SimpleSyntaxChecker(keyword, OBJECT);
+        draftv4.put(keyword, checker);
+
+        keyword = "type";
+        checker = DraftV4TypeSyntaxChecker.getInstance();
         draftv4.put(keyword, checker);
 
         // Build the map: all checkers in common, plus draft v4 specific

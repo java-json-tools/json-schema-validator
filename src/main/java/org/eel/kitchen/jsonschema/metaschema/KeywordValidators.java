@@ -38,6 +38,7 @@ import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.AllOfKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.AnyOfKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.DraftV4TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MaxPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MinPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MultipleOfKeywordValidator;
@@ -200,6 +201,10 @@ public final class KeywordValidators
 
         keyword = "not";
         validator = NotKeywordValidator.class;
+        draftv4.put(keyword, validator);
+
+        keyword = "type";
+        validator = DraftV4TypeKeywordValidator.class;
         draftv4.put(keyword, validator);
 
         // Build the map

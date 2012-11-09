@@ -1,0 +1,150 @@
+[
+    {
+        "schema": {
+            "type": true
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": {}
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": 1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "integer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": 1.1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "number"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": []
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "array"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for value",
+                "expected": [ "string" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": "foo"
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "unknown simple type",
+                "value": "foo",
+                "valid": [ "array", "boolean", "integer", "null", "number",
+                    "object", "string" ]
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": "array"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "boolean"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "integer"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "number"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "null"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "object"
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "type": "string"
+        },
+        "valid": true
+    }
+]
