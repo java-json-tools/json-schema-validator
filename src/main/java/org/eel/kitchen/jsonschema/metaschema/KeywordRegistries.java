@@ -41,6 +41,7 @@ public final class KeywordRegistries
         ret.addFormatAttributes(FormatAttributes.draftV4());
         return ret;
     }
+
     public static KeywordRegistry defaultRegistry()
     {
         return draftV3();

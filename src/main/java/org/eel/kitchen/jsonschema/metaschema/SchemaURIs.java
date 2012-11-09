@@ -23,6 +23,7 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 public final class SchemaURIs
 {
     private static final JsonRef DRAFTV3;
+    private static final JsonRef DRAFTV4;
 
     // No making new instances of this class
     private SchemaURIs()
@@ -35,6 +36,8 @@ public final class SchemaURIs
             // Draft v3
             uri = "http://json-schema.org/draft-03/schema#";
             DRAFTV3 = JsonRef.fromString(uri);
+            uri = "http://json-schema.org/draft-04/schema#";
+            DRAFTV4 = JsonRef.fromString(uri);
         } catch (JsonSchemaException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -43,6 +46,11 @@ public final class SchemaURIs
     public static JsonRef draftV3()
     {
         return DRAFTV3;
+    }
+
+    public static JsonRef draftv4()
+    {
+        return DRAFTV4;
     }
 
     public static JsonRef defaultURI()

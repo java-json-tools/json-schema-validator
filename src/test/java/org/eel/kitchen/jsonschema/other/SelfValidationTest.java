@@ -39,7 +39,11 @@ import static org.testng.Assert.*;
 public final class SelfValidationTest
 {
     private JsonNode draftv3;
-    private JsonSchema schema;
+    private JsonSchema draftV3Schema;
+
+    private JsonNode draftv4;
+    private JsonSchema draftV4Schema;
+
     private final JsonSchemaFactory factory
         = JsonSchemaFactory.defaultFactory();
 
@@ -48,14 +52,24 @@ public final class SelfValidationTest
         throws IOException, JsonSchemaException
     {
         draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
+        draftV3Schema = factory.fromSchema(draftv3);
 
-        schema = factory.fromSchema(draftv3);
+        draftv4 = JsonLoader.fromResource("/schema-draftv4.json");
+        draftV4Schema = factory.fromSchema(draftv4);
     }
 
     @Test(invocationCount = 10, threadPoolSize = 4)
-    public void testSchemaValidatesItself()
+    public void testDraftV3SchemaValidatesItself()
     {
-        final ValidationReport report = schema.validate(draftv3);
+        final ValidationReport report = draftV3Schema.validate(draftv3);
+
+        assertTrue(report.isSuccess());
+    }
+
+    @Test(invocationCount = 10, threadPoolSize = 4)
+    public void testDraftV4SchemaValidatesItself()
+    {
+        final ValidationReport report = draftV4Schema.validate(draftv4);
 
         assertTrue(report.isSuccess());
     }
@@ -84,7 +98,7 @@ public final class SelfValidationTest
     )
     public void testGoogleSchemas(final String name, final JsonNode node)
     {
-        final ValidationReport report = schema.validate(node);
+        final ValidationReport report = draftV3Schema.validate(node);
 
         assertTrue(report.isSuccess(), "Google schema " + name + " failed to "
             + "validate");
