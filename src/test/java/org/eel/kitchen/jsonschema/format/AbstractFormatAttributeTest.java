@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.format;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.internal.annotations.Sets;
@@ -66,7 +65,6 @@ public abstract class AbstractFormatAttributeTest
     @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
     public final void testSpecifier(final JsonNode data, final boolean valid)
     {
-        final ValidationContext ctx = new ValidationContext(null);
         final ValidationReport report = new ValidationReport();
 
         attribute.checkValue(fmt, report, data);
