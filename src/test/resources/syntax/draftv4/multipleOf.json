@@ -1,0 +1,51 @@
+[
+    {
+        "schema": {
+            "multipleOf": 3
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "multipleOf": 0.0
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "multipleOf",
+                "message": "multipleOf is not strictly greater than 0",
+                "value": 0.0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "multipleOf": "anything"
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "multipleOf",
+                "message": "incorrect type for value",
+                "expected": [ "integer", "number" ],
+                "found": "string"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "multipleOf": -2
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "multipleOf",
+                "message": "multipleOf is not strictly greater than 0",
+                "value": -2
+            }
+        ]
+    }
+]

@@ -54,7 +54,7 @@ public class ModZeroSyntaxChecker
         if (node.decimalValue().compareTo(ZERO) > 0)
             return;
 
-        msg.setMessage("divisibleBy is not strictly greater than 0")
+        msg.setMessage(keyword + " is not strictly greater than 0")
             .addInfo("value", node);
 
         messages.add(msg.build());
