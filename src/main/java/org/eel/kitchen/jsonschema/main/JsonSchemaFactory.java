@@ -97,7 +97,7 @@ public final class JsonSchemaFactory
         defaultSchemaURI = builder.defaultSchemaURI;
 
         final ImmutableMap.Builder<JsonRef, JsonValidatorCache> cacheBuilder
-            = new ImmutableMap.Builder<JsonRef, JsonValidatorCache>();
+            = ImmutableMap.builder();
         JsonRef ref;
         JsonValidatorCache validatorCache;
 

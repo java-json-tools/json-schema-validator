@@ -38,7 +38,7 @@ public final class InlineSchemaContainer
     {
         super(extractLocator(schema).toURI(), schema);
         final ImmutableMap.Builder<JsonRef, JsonNode> builder
-            = new ImmutableMap.Builder<JsonRef, JsonNode>();
+            = ImmutableMap.builder();
 
         builder.put(locator, this.schema);
         fillURIMap(locator, this.schema, builder);

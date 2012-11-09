@@ -27,7 +27,7 @@ final class MapBuilder<T>
 
     private MapBuilder()
     {
-        builder = new ImmutableMap.Builder<String, T>();
+        builder = ImmutableMap.builder();
     }
 
     public static <T> MapBuilder<T> create()

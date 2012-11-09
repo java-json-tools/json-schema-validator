@@ -63,7 +63,7 @@ public final class DraftV3DependenciesKeywordValidator
             = JacksonUtils.nodeToMap(schema.get("dependencies"));
 
         final ImmutableMap.Builder<String, JsonNode> schemaBuilder
-            = new ImmutableMap.Builder<String, JsonNode>();
+            = ImmutableMap.builder();
 
         final ImmutableSetMultimap.Builder<String, String> simpleBuilder
             = new ImmutableSetMultimap.Builder<String, String>();
