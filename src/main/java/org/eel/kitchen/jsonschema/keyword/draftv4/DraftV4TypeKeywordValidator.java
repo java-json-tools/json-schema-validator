@@ -55,6 +55,6 @@ public final class DraftV4TypeKeywordValidator
     @Override
     public String toString()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return "type: " + expected;
     }
 }

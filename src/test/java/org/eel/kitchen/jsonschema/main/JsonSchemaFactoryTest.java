@@ -27,7 +27,6 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -74,8 +73,7 @@ public final class JsonSchemaFactoryTest
         final JsonSchema schema = factory.fromSchema(node);
 
         schema.validate(data);
-        verify(spy).checkValue(eq("foo"), any(ValidationContext.class),
-            any(ValidationReport.class), eq(data));
+        verify(spy).checkValue(eq("foo"), any(ValidationReport.class), eq(data));
     }
 
     private static class DummyFormatAttribute
@@ -90,8 +88,8 @@ public final class JsonSchemaFactoryTest
         }
 
         @Override
-        public void checkValue(final String fmt, final ValidationContext ctx,
-            final ValidationReport report, final JsonNode value)
+        public void checkValue(final String fmt, final ValidationReport report,
+            final JsonNode value)
         {
         }
     }

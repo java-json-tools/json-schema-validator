@@ -69,8 +69,7 @@ public abstract class FormatAttribute
      * Main validation function
      *
      * <p>This function only checks whether the value is of a type recognized
-     * by this attribute. If so, it calls {@link #checkValue(String,
-     * ValidationContext, ValidationReport, JsonNode)}.</p>
+     * by this attribute. If so, it calls {@link #checkValue(String, org.eel.kitchen.jsonschema.report.ValidationReport, com.fasterxml.jackson.databind.JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
      * with the keyword ({@code format}), the attribute name and the domain
@@ -87,8 +86,10 @@ public abstract class FormatAttribute
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
 
-        checkValue(fmt, ctx, report, value);
+        checkValue(fmt, report, value);
     }
+
+
 
     /**
      * Abstract method implemented by all attributes
@@ -98,11 +99,10 @@ public abstract class FormatAttribute
      * ValidationReport, JsonNode)}.</p>
      *
      * @param fmt the format attribute name
-     * @param ctx the validation context
      * @param report the validation report
      * @param value the value to validate
      */
-    public abstract void checkValue(final String fmt, ValidationContext ctx,
+    public abstract void checkValue(final String fmt,
         final ValidationReport report, final JsonNode value);
 
     protected static Message.Builder newMsg(final String fmt)

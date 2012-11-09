@@ -77,15 +77,18 @@ public final class URIManagerTest
 
         manager.unregisterScheme("foo");
 
+        final Message message = Domain.REF_RESOLVING.newMessage().setFatal(true)
+            .setKeyword("N/A").addInfo("uri", uri).addInfo("scheme", "foo")
+            .setMessage("cannot handle scheme").build();
+
         try {
             manager.getContent(uri);
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            final Message msg = e.getValidationMessage();
-            checkMsg(msg, "cannot handle scheme", uri);
-            assertEquals(msg.getInfo("scheme").textValue(), uri.getScheme());
+            assertEquals(e.getValidationMessage(), message);
         }
     }
+
     @Test
     public void shouldNotBeAbleToRegisterNullScheme()
     {
@@ -137,12 +140,13 @@ public final class URIManagerTest
         manager.registerScheme("foo", mock);
         final URI uri = URI.create("bar://baz");
 
+        final Message message = Domain.REF_RESOLVING.newMessage().setFatal(true)
+            .setMessage("cannot handle scheme").addInfo("scheme", "bar")
+            .addInfo("uri", uri).setKeyword("N/A").build();
         try {
             manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            final Message msg = e.getValidationMessage();
-            checkMsg(msg, "cannot handle scheme", uri);
-            assertEquals(msg.getInfo("scheme").textValue(), "bar");
+            assertEquals(e.getValidationMessage(), message);
         }
     }
 
@@ -157,11 +161,14 @@ public final class URIManagerTest
 
         manager.registerScheme("foo", mock);
 
+        final Message message = Domain.REF_RESOLVING.newMessage()
+            .setKeyword("N/A").addInfo("uri", uri).setFatal(true)
+            .setMessage("cannot fetch content from URI").build();
+
         try {
             manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            checkMsg(e.getValidationMessage(), "cannot fetch content from URI",
-                uri);
+            assertEquals(e.getValidationMessage(), message);
             assertEquals(e.getCause(), foo);
         }
     }
@@ -178,11 +185,14 @@ public final class URIManagerTest
 
         manager.registerScheme("foo", mock);
 
+        final Message message = Domain.REF_RESOLVING.newMessage().setFatal(true)
+            .setKeyword("N/A").addInfo("uri", uri)
+            .setMessage("content fetched from URI is not valid JSON").build();
+
         try {
             manager.getContent(uri);
         } catch (JsonSchemaException e) {
-            checkMsg(e.getValidationMessage(), "content fetched from URI is " +
-                "not valid JSON", uri);
+            assertEquals(e.getValidationMessage(), message);
             assertNotNull(e.getCause());
         }
     }
@@ -240,14 +250,5 @@ public final class URIManagerTest
          * Finally, ensure the correctness of the downloaded content.
          */
         assertEquals(actual, expected);
-    }
-
-    private static void checkMsg(final Message msg,
-        final String message, final URI uri)
-    {
-        assertSame(msg.getDomain(), Domain.REF_RESOLVING);
-        assertEquals(msg.getKeyword(), "N/A"); // FIXME...
-        assertEquals(msg.getMessage(), message);
-        assertEquals(msg.getInfo("uri").textValue(), uri.toString());
     }
 }

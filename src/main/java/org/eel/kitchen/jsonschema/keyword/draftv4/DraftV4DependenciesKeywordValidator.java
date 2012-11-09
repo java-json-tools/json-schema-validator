@@ -79,6 +79,6 @@ public final class DraftV4DependenciesKeywordValidator
     @Override
     public String toString()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return "schema dependencies on properties: " + dependencies.keySet();
     }
 }

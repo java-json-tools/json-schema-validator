@@ -53,6 +53,6 @@ public final class NotKeywordValidator
     @Override
     public String toString()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return "not: must not match enclosed schema";
     }
 }

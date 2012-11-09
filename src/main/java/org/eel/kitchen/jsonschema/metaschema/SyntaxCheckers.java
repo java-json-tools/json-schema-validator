@@ -262,9 +262,4 @@ public final class SyntaxCheckers
     {
         return DRAFTV4;
     }
-
-    public static Map<String, SyntaxChecker> defaultCheckers()
-    {
-        return draftV3();
-    }
 }

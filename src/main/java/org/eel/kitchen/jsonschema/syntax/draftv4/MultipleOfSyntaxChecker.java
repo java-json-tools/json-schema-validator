@@ -30,7 +30,7 @@ public final class MultipleOfSyntaxChecker
         return instance;
     }
 
-    public MultipleOfSyntaxChecker()
+    private MultipleOfSyntaxChecker()
     {
         super("multipleOf");
     }

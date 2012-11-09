@@ -70,11 +70,6 @@ public final class FormatAttributes
         return DRAFTV3;
     }
 
-    public static Map<String, FormatAttribute> defaultAttributes()
-    {
-        return draftV3();
-    }
-
     public static Map<String, FormatAttribute> draftV4()
     {
         return DRAFTV3;

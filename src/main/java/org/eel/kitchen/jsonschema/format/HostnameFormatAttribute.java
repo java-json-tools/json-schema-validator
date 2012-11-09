@@ -22,7 +22,6 @@ import com.google.common.net.InternetDomainName;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
  * Validator for the {@code host-name} format specification
@@ -49,8 +48,8 @@ public final class HostnameFormatAttribute
     }
 
     @Override
-    public void checkValue(final String fmt, final ValidationContext ctx,
-        final ValidationReport report, final JsonNode value)
+    public void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         try {
             InternetDomainName.from(value.textValue());
@@ -59,7 +58,6 @@ public final class HostnameFormatAttribute
                 .setMessage("string is not a valid hostname")
                 .addInfo("value", value);
             report.addMessage(msg.build());
-            return;
         }
     }
 }

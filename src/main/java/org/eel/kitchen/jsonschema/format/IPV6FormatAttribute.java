@@ -22,7 +22,6 @@ import com.google.common.net.InetAddresses;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 /**
  * Validator for the {@code ipv6} format specification
@@ -47,8 +46,8 @@ public final class IPV6FormatAttribute
     }
 
     @Override
-    public void checkValue(final String fmt, final ValidationContext ctx,
-        final ValidationReport report, final JsonNode value)
+    public void checkValue(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         final String ipaddr = value.textValue();
 

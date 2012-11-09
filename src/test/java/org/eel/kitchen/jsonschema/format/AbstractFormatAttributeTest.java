@@ -69,7 +69,7 @@ public abstract class AbstractFormatAttributeTest
         final ValidationContext ctx = new ValidationContext(null);
         final ValidationReport report = new ValidationReport();
 
-        attribute.checkValue(fmt, ctx, report, data);
+        attribute.checkValue(fmt, report, data);
 
         assertEquals(report.isSuccess(), valid);
     }

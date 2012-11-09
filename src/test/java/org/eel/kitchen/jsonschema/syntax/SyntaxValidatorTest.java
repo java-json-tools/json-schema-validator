@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;
@@ -88,9 +89,12 @@ public final class SyntaxValidatorTest
 
         validator.validate(messages, schema);
 
+        final Message message = Domain.SYNTAX.newMessage().setKeyword("N/A")
+            .addInfo("found", nodeType)
+            .setMessage("illegal JSON Schema: not an object").build();
+
         assertEquals(messages.size(), 1);
-        assertEquals(messages.get(0).getInfo("found").textValue(),
-            nodeType.toString());
+        assertEquals(messages.get(0), message);
     }
 
     @Test

@@ -56,8 +56,8 @@ public final class BasicFormatAttributeTest
         }
 
         @Override
-        public void checkValue(final String fmt, final ValidationContext ctx,
-            final ValidationReport report, final JsonNode value)
+        public void checkValue(final String fmt, final ValidationReport report,
+            final JsonNode value)
         {
         }
     }
@@ -83,7 +83,7 @@ public final class BasicFormatAttributeTest
     public void checkValueIsCalledOnCoveredInstances(final JsonNode instance)
     {
         attribute.validate(FMT, ctx, report, instance);
-        verify(attribute, times(1)).checkValue(FMT, ctx, report, instance);
+        verify(attribute, times(1)).checkValue(FMT, report, instance);
     }
 
     @DataProvider
@@ -101,6 +101,6 @@ public final class BasicFormatAttributeTest
     public void checkValueIsNotCalledOnIgnoredInstances(final JsonNode instance)
     {
         attribute.validate(FMT, ctx, report, instance);
-        verify(attribute, never()).checkValue(FMT, ctx, report, instance);
+        verify(attribute, never()).checkValue(FMT, report, instance);
     }
 }

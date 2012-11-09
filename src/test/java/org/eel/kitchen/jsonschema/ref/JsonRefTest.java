@@ -44,15 +44,16 @@ public final class JsonRefTest
     @Test
     public void NonURIStringsShouldBeIdentifiedAsInvalid()
     {
+        final String s = "+23:";
+        final Message message = Domain.REF_RESOLVING.newMessage()
+            .setKeyword("N/A").setMessage("invalid URI")
+            .addInfo("uri", s).build();
+
         try {
-            JsonRef.fromString("+23:");
+            JsonRef.fromString(s);
             fail("No exception thrown!");
         } catch (JsonSchemaException e) {
-            final Message msg = e.getValidationMessage();
-            assertSame(msg.getDomain(), Domain.REF_RESOLVING);
-            assertEquals(msg.getKeyword(), "N/A");
-            assertEquals(msg.getMessage(), "invalid URI");
-            assertEquals(msg.getInfo("uri").textValue(), "+23:");
+            assertEquals(e.getValidationMessage(), message);
         }
     }
 

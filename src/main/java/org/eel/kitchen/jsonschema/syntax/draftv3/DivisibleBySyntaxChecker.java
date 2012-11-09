@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 public final class DivisibleBySyntaxChecker
     extends ModZeroSyntaxChecker
 {
-    public static final SyntaxChecker instance = new DivisibleBySyntaxChecker();
+    private static final SyntaxChecker instance = new DivisibleBySyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {

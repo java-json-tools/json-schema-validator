@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -64,7 +63,7 @@ public abstract class AbstractDateFormatAttribute
     }
 
     @Override
-    public final void checkValue(final String fmt, final ValidationContext ctx,
+    public final void checkValue(final String fmt,
         final ValidationReport report, final JsonNode value)
     {
         try {
