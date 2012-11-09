@@ -18,20 +18,12 @@
 package org.eel.kitchen.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.eel.kitchen.jsonschema.format.FormatAttribute;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.eel.kitchen.jsonschema.util.NodeType;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class JsonSchemaFactoryTest
@@ -55,42 +47,5 @@ public final class JsonSchemaFactoryTest
 
         assertFalse(report.isSuccess());
         assertEquals(report.asJsonObject(), messages);
-    }
-    @Test
-    public void customFormatAttributeIsEffectivelyRegistered()
-    {
-        final ObjectNode node = JsonNodeFactory.instance.objectNode()
-            .put("format", "foo");
-
-        final FormatAttribute spy = spy(DummyFormatAttribute.instance);
-
-        final KeywordRegistry registry = KeywordRegistries.defaultRegistry();
-        registry.addFormatAttribute("foo", spy);
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-            .addKeywordRegistry(JsonRef.emptyRef(), registry, true).build();
-
-        final JsonNode data = JsonNodeFactory.instance.nullNode();
-        final JsonSchema schema = factory.fromSchema(node);
-
-        schema.validate(data);
-        verify(spy).checkValue(eq("foo"), any(ValidationReport.class), eq(data));
-    }
-
-    private static class DummyFormatAttribute
-        extends FormatAttribute
-    {
-        private static final FormatAttribute instance
-            = new DummyFormatAttribute();
-
-        private DummyFormatAttribute()
-        {
-            super(NodeType.NULL);
-        }
-
-        @Override
-        public void checkValue(final String fmt, final ValidationReport report,
-            final JsonNode value)
-        {
-        }
     }
 }
