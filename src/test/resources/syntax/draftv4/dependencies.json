@@ -1,0 +1,54 @@
+[
+    {
+        "schema": {
+            "dependencies": false
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "a": "b",
+                "c": {},
+                "xx": [ "a", "b", "c" ]
+            }
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "message": "incorrect type for dependency value",
+                "property": "a",
+                "found": "string",
+                "expected": "object"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "message": "incorrect type for dependency value",
+                "property": "xx",
+                "found": "array",
+                "expected": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "a": {},
+                "b": {}
+            }
+        },
+        "valid": true
+    }
+]

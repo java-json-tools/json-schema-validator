@@ -32,6 +32,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv3.ExtendsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.MultipleOfSyntaxChecker;
@@ -219,6 +220,10 @@ public final class SyntaxCheckers
 
         keyword = "required";
         checker = RequiredSyntaxChecker.getInstance();
+        draftv4.put(keyword, checker);
+
+        keyword = "dependencies";
+        checker = DraftV4DependenciesSyntaxChecker.getInstance();
         draftv4.put(keyword, checker);
 
         // All/none

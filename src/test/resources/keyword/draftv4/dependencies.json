@@ -1,0 +1,127 @@
+[
+    {
+        "schema": {
+            "dependencies": {
+                "p": { "required": [ "a" ] }
+            }
+        },
+        "data": {
+            "p": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "required",
+                "message": "required property(ies) not found",
+                "required": [ "a" ],
+                "missing": [ "a" ]
+            },
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "unsatisfied schema dependencies",
+                "unsatisfied": [ "p" ]
+            }
+        ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": { "required": [ "a" ] }
+            }
+        },
+        "data": {
+            "p": null,
+            "a": true
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": { "minProperties": 3 }
+            }
+        },
+        "data": {},
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": { "minProperties": 3 }
+            }
+        },
+        "data": {
+            "p": null,
+            "p1": 1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "minProperties",
+                "message": "not enough members in object",
+                "minProperties": 3,
+                "found": 2
+            },
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "unsatisfied schema dependencies",
+                "unsatisfied": [ "p" ]
+            }
+        ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": { "minProperties": 3 },
+                "q": { "maxProperties": 3 }
+            }
+        },
+        "data": {
+            "p": null,
+            "q": null,
+            "r": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": { "required": [ "a" ] },
+                "q": { "maxProperties": 3 }
+            }
+        },
+        "data": {
+            "p": null,
+            "q": null,
+            "r": null,
+            "s": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "required",
+                "message": "required property(ies) not found",
+                "required": [ "a" ],
+                "missing": [ "a" ]
+            },
+            {
+                "domain": "validation",
+                "keyword": "maxProperties",
+                "message": "too many members in object",
+                "maxProperties": 3,
+                "found": 4
+            },
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "unsatisfied schema dependencies",
+                "unsatisfied": [ "p", "q" ]
+            }
+        ]
+    }
+]

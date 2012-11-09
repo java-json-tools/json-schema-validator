@@ -38,6 +38,7 @@ import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.AllOfKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.AnyOfKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.DraftV4DependenciesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.DraftV4TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MaxPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MinPropertiesKeywordValidator;
@@ -184,6 +185,10 @@ public final class KeywordValidators
 
         keyword = "required";
         validator = RequiredKeywordValidator.class;
+        draftv4.put(keyword, validator);
+
+        keyword = "dependencies";
+        validator = DraftV4DependenciesKeywordValidator.class;
         draftv4.put(keyword, validator);
 
         // All/none
