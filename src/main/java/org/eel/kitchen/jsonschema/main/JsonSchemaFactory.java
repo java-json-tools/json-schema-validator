@@ -70,11 +70,6 @@ public final class JsonSchemaFactory
     private final Map<JsonRef, JsonValidatorCache> validatorCaches;
 
     /**
-     * Validator cache
-     */
-    private final JsonValidatorCache cache;
-
-    /**
      * Build a factory with all default settings
      *
      * @return a schema factory instance
@@ -111,8 +106,6 @@ public final class JsonSchemaFactory
             cacheBuilder.put(ref, validatorCache);
         }
         validatorCaches = cacheBuilder.build();
-
-        cache = validatorCaches.get(defaultSchemaURI);
     }
 
     /**
@@ -250,7 +243,29 @@ public final class JsonSchemaFactory
         final JsonNode schema)
     {
         final SchemaNode schemaNode = new SchemaNode(container, schema);
+        final JsonValidatorCache cache
+            = getValidatorCache(container.getSchema());
         return new JsonSchema(cache, schemaNode);
+    }
+
+    private JsonValidatorCache getValidatorCache(final JsonNode schema)
+    {
+        final JsonNode node = schema.path("$schema");
+
+        if (!node.isTextual())
+            return validatorCaches.get(defaultSchemaURI);
+
+        JsonRef ref;
+
+        try {
+            ref = JsonRef.fromString(node.textValue());
+            if (!validatorCaches.containsKey(ref))
+                ref = defaultSchemaURI;
+        } catch (JsonSchemaException ignored) {
+            ref = defaultSchemaURI;
+        }
+
+        return validatorCaches.get(ref);
     }
 
     /**
