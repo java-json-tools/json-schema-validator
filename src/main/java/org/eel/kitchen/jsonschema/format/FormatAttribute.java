@@ -22,7 +22,6 @@ import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.util.EnumSet;
 
@@ -69,19 +68,19 @@ public abstract class FormatAttribute
      * Main validation function
      *
      * <p>This function only checks whether the value is of a type recognized
-     * by this attribute. If so, it calls {@link #checkValue(String, org.eel.kitchen.jsonschema.report.ValidationReport, com.fasterxml.jackson.databind.JsonNode)}.</p>
+     * by this attribute. If so, it calls {@link #checkValue(String,
+     * ValidationReport, JsonNode)}.</p>
      *
      * <p>The message template passed as an argument will have been pre-filled
      * with the keyword ({@code format}), the attribute name and the domain
      * ({@link Domain#VALIDATION}).</p>
      *
      * @param fmt the format attribute name
-     * @param ctx the validation context
      * @param report the validation report
      * @param value the value to validate
      */
-    public final void validate(final String fmt, final ValidationContext ctx,
-        final ValidationReport report, final JsonNode value)
+    public final void validate(final String fmt, final ValidationReport report,
+        final JsonNode value)
     {
         if (!typeSet.contains(NodeType.getNodeType(value)))
             return;
@@ -89,14 +88,12 @@ public abstract class FormatAttribute
         checkValue(fmt, report, value);
     }
 
-
-
     /**
      * Abstract method implemented by all attributes
      *
      * <p>It is only called if the value type is one expected by the
-     * attribute, see  {@link #validate(String, ValidationContext,
-     * ValidationReport, JsonNode)}.</p>
+     * attribute, see  {@link #validate(String, ValidationReport, JsonNode)}.
+     * </p>
      *
      * @param fmt the format attribute name
      * @param report the validation report

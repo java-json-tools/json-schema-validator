@@ -82,7 +82,7 @@ public final class BasicFormatAttributeTest
     @Test(dataProvider = "coveredInstances")
     public void checkValueIsCalledOnCoveredInstances(final JsonNode instance)
     {
-        attribute.validate(FMT, ctx, report, instance);
+        attribute.validate(FMT, report, instance);
         verify(attribute, times(1)).checkValue(FMT, report, instance);
     }
 
@@ -100,7 +100,7 @@ public final class BasicFormatAttributeTest
     @Test(dataProvider = "ignoredInstances")
     public void checkValueIsNotCalledOnIgnoredInstances(final JsonNode instance)
     {
-        attribute.validate(FMT, ctx, report, instance);
+        attribute.validate(FMT, report, instance);
         verify(attribute, never()).checkValue(FMT, report, instance);
     }
 }
