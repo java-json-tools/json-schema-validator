@@ -15,16 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
+
+import org.eel.kitchen.jsonschema.format.AbstractFormatAttributeTest2;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
 
 import java.io.IOException;
 
-public final class DateTimeFormatAttributeTest
-    extends AbstractFormatAttributeTest
+public abstract class CommonFormatAttributeTest
+    extends AbstractFormatAttributeTest2
 {
-    DateTimeFormatAttributeTest()
+    protected CommonFormatAttributeTest(final String fmt)
         throws IOException
     {
-        super(DateTimeFormatAttribute.getInstance(), "datetime");
+        super(KeywordRegistries.defaultRegistry(), "common", fmt);
     }
 }
