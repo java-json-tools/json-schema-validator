@@ -1,0 +1,75 @@
+[
+    {
+        "schema": {
+            "anyOf": {}
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "anyOf",
+                "message": "incorrect type for value",
+                "expected": [ "array" ],
+                "found": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "anyOf": []
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "anyOf",
+                "message": "array must have at least one element"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "anyOf": [ {}, {} ]
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "anyOf": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "anyOf",
+                "message": "incorrect type for value",
+                "expected": [ "array" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "anyOf": [ {}, 5, true ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "anyOf",
+                "message": "incorrect type for array element",
+                "index": 1,
+                "expected": "object",
+                "found": "integer"
+            },
+            {
+                "domain": "syntax",
+                "keyword": "anyOf",
+                "message": "incorrect type for array element",
+                "index": 2,
+                "expected": "object",
+                "found": "boolean"
+            }
+        ]
+    }
+]

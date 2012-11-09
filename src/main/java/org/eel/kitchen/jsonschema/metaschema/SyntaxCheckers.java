@@ -34,6 +34,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker
 import org.eel.kitchen.jsonschema.syntax.draftv3.ExtendsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.MultipleOfSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv4.SchemaArraySyntaxChecker;
 
 import java.util.Map;
 
@@ -212,6 +213,11 @@ public final class SyntaxCheckers
 
         keyword = "maxProperties";
         checker = new PositiveIntegerSyntaxChecker(keyword);
+        draftv4.put(keyword, checker);
+
+        // All/none
+        keyword = "anyOf";
+        checker = new SchemaArraySyntaxChecker(keyword);
         draftv4.put(keyword, checker);
 
         // Build the map: all checkers in common, plus draft v4 specific
