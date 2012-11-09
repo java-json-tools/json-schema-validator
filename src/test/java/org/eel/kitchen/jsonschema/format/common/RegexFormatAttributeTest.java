@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import java.io.IOException;
 
-public final class HostnameFormatAttributeTest
-    extends AbstractFormatAttributeTest
+public final class RegexFormatAttributeTest
+    extends CommonFormatAttributeTest
 {
-    HostnameFormatAttributeTest()
+    RegexFormatAttributeTest()
         throws IOException
     {
-        super(HostnameFormatAttribute.getInstance(), "hostname");
+        super("regex");
     }
 }

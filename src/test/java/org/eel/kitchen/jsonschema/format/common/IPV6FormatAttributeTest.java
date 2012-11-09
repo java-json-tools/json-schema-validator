@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import java.io.IOException;
 
-public final class RegexFormatAttributeTest
-    extends AbstractFormatAttributeTest
+public final class IPV6FormatAttributeTest
+    extends CommonFormatAttributeTest
 {
-    RegexFormatAttributeTest()
+    IPV6FormatAttributeTest()
         throws IOException
     {
-        super(RegexFormatAttribute.getInstance(), "regex");
+        super("ipv6");
     }
 }

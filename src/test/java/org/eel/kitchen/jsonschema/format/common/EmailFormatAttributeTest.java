@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import java.io.IOException;
 
-public final class IPV4FormatAttributeTest
-    extends AbstractFormatAttributeTest
+public final class EmailFormatAttributeTest
+    extends CommonFormatAttributeTest
 {
-    IPV4FormatAttributeTest()
+    EmailFormatAttributeTest()
         throws IOException
     {
-        super(IPV4FormatAttribute.getInstance(), "ip-address");
+        super("email");
     }
 }

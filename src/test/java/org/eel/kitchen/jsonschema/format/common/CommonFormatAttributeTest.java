@@ -17,13 +17,13 @@
 
 package org.eel.kitchen.jsonschema.format.common;
 
-import org.eel.kitchen.jsonschema.format.AbstractFormatAttributeTest2;
+import org.eel.kitchen.jsonschema.format.AbstractFormatAttributeTest;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
 
 import java.io.IOException;
 
 public abstract class CommonFormatAttributeTest
-    extends AbstractFormatAttributeTest2
+    extends AbstractFormatAttributeTest
 {
     protected CommonFormatAttributeTest(final String fmt)
         throws IOException

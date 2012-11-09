@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
@@ -26,25 +27,34 @@ import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import static org.testng.Assert.*;
 
 public abstract class AbstractFormatAttributeTest
 {
-    private final FormatAttribute attribute;
-    private final String fmt;
-
     private final JsonNode testData;
+    private final String fmt;
+    private final Map<String, FormatAttribute> formatAttributes;
 
-    AbstractFormatAttributeTest(final FormatAttribute attribute,
-        final String resourceName)
+    private FormatAttribute formatAttribute;
+
+    protected AbstractFormatAttributeTest(final KeywordRegistry registry,
+        final String prefix, final String fmt)
         throws IOException
     {
-        this.attribute = attribute;
-        fmt = resourceName;
+        final String resource = "/format/" + prefix + '/' + fmt + ".json";
+        testData = JsonLoader.fromResource(resource);
+        formatAttributes = registry.getFormatAttributes();
+        this.fmt = fmt;
+    }
 
-        testData = JsonLoader.fromResource("/format/" + resourceName + ".json");
+    @Test
+    public final void formatAttributeExists()
+    {
+        formatAttribute = formatAttributes.get(fmt);
+        assertNotNull(formatAttribute, "no such format attribute " + fmt);
     }
 
     @DataProvider
@@ -62,12 +72,17 @@ public abstract class AbstractFormatAttributeTest
         return set.iterator();
     }
 
-    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
+    @Test(
+        dataProvider = "getData",
+        invocationCount = 10,
+        threadPoolSize = 4,
+        dependsOnMethods = "formatAttributeExists"
+    )
     public final void testSpecifier(final JsonNode data, final boolean valid)
     {
         final ValidationReport report = new ValidationReport();
 
-        attribute.checkValue(fmt, report, data);
+        formatAttribute.checkValue(fmt, report, data);
 
         assertEquals(report.isSuccess(), valid);
     }

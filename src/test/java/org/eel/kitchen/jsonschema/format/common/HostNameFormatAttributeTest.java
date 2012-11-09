@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format;
+package org.eel.kitchen.jsonschema.format.common;
 
 import java.io.IOException;
 
-public final class EmailFormatAttributeTest
-    extends AbstractFormatAttributeTest
+public final class HostNameFormatAttributeTest
+    extends CommonFormatAttributeTest
 {
-    EmailFormatAttributeTest()
+    HostNameFormatAttributeTest()
         throws IOException
     {
-        super(EmailFormatAttribute.getInstance(), "email");
+        super("host-name");
     }
 }
