@@ -1,0 +1,31 @@
+[
+    {
+        "schema": { "not": { "multipleOf": 2 } },
+        "data": 2,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "not",
+                "message": "instance validates against a forbidden schema"
+            }
+        ]
+    },
+    {
+        "schema": { "not": { "multipleOf": 2 } },
+        "data": 20000000000000000000.0000,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "not",
+                "message": "instance validates against a forbidden schema"
+            }
+        ]
+    },
+    {
+        "schema": { "not": { "multipleOf": 2 } },
+        "data": 9810928309127481091820491,
+        "valid": true
+    }
+]

@@ -1,0 +1,98 @@
+[
+    {
+        "schema": {
+            "not": true
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "not",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "boolean"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "not": {}
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "not": 1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "not",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "integer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "not": 1.1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "not",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "number"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "not": []
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "not",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "array"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "not": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "not",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "not": ""
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "not",
+                "message": "incorrect type for value",
+                "expected": [ "object" ],
+                "found": "string"
+            }
+        ]
+    }
+]

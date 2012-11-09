@@ -228,6 +228,10 @@ public final class SyntaxCheckers
         checker = new SchemaArraySyntaxChecker(keyword);
         draftv4.put(keyword, checker);
 
+        keyword = "not";
+        checker = new SimpleSyntaxChecker(keyword, OBJECT);
+        draftv4.put(keyword, checker);
+
         // Build the map: all checkers in common, plus draft v4 specific
         // checkers
         draftv4.putAll(commonCheckers);

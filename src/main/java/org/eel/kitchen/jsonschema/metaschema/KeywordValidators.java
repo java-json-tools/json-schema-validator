@@ -41,6 +41,7 @@ import org.eel.kitchen.jsonschema.keyword.draftv4.AnyOfKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MaxPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MinPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MultipleOfKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.NotKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.OneOfKeywordValidator;
 
 import java.util.Map;
@@ -190,6 +191,10 @@ public final class KeywordValidators
 
         keyword = "oneOf";
         validator = OneOfKeywordValidator.class;
+        draftv4.put(keyword, validator);
+
+        keyword = "not";
+        validator = NotKeywordValidator.class;
         draftv4.put(keyword, validator);
 
         // Build the map
