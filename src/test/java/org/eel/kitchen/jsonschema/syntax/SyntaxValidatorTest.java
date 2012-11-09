@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Message;
@@ -82,6 +83,8 @@ public final class SyntaxValidatorTest
     public void syntaxCheckingCorrectlyBalksOnNonObject(final JsonNode schema)
     {
         final NodeType nodeType = NodeType.getNodeType(schema);
+
+        validator = new SyntaxValidator(Maps.<String, SyntaxChecker>newHashMap());
 
         validator.validate(messages, schema);
 
