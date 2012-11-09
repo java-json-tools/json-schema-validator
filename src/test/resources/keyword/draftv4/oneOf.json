@@ -1,0 +1,39 @@
+[
+    {
+        "schema": {
+            "oneOf": [ { "minimum": 4 }, { "multipleOf": 3 } ]
+        },
+        "data": 1,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "oneOf",
+                "message": "instance does not match exactly one schema",
+                "matches": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "oneOf": [ { "minimum": 4 }, { "multipleOf": 3 } ]
+        },
+        "data": 9,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "oneOf",
+                "message": "instance does not match exactly one schema",
+                "matches": 2
+            }
+        ]
+    },
+    {
+        "schema": {
+            "oneOf": [ { "minimum": 4 }, { "multipleOf": 3 } ]
+        },
+        "data": 10,
+        "valid": true
+    }
+]
