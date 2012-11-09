@@ -9,7 +9,14 @@
         "schema": {
             "items": []
         },
-        "valid": true
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "items",
+                "message": "array must have at least one element"
+            }
+        ]
     },
     {
         "schema": {
