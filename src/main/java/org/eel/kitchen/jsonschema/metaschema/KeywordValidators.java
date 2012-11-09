@@ -43,6 +43,7 @@ import org.eel.kitchen.jsonschema.keyword.draftv4.MinPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MultipleOfKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.NotKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.OneOfKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
 
 import java.util.Map;
 
@@ -178,6 +179,10 @@ public final class KeywordValidators
 
         keyword = "maxProperties";
         validator = MaxPropertiesKeywordValidator.class;
+        draftv4.put(keyword, validator);
+
+        keyword = "required";
+        validator = RequiredKeywordValidator.class;
         draftv4.put(keyword, validator);
 
         // All/none

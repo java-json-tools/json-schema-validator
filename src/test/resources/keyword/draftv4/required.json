@@ -1,0 +1,32 @@
+[
+    {
+        "schema": {
+            "required": [ "a1", "a2", "a3" ]
+        },
+        "data": {
+            "a1": 1,
+            "a2": 2,
+            "a3": 3
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "required": [ "a1", "a2", "a3" ]
+        },
+        "data": {
+            "a1": 1,
+            "p": "yeah, right"
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "required",
+                "message": "required property(ies) not found",
+                "required": [ "a1", "a2", "a3" ],
+                "missing": [ "a2", "a3" ]
+            }
+        ]
+    }
+]
