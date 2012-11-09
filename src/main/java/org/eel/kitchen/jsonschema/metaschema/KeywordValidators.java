@@ -38,6 +38,7 @@ import org.eel.kitchen.jsonschema.keyword.draftv3.DraftV3TypeKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv3.ExtendsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MaxPropertiesKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.draftv4.MinPropertiesKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.draftv4.MultipleOfKeywordValidator;
 
 import java.util.Map;
 
@@ -160,6 +161,11 @@ public final class KeywordValidators
          */
         final MapBuilder<Class<? extends KeywordValidator>> draftv4
             = MapBuilder.create();
+
+        // Integer/number
+        keyword = "multipleOf";
+        validator = MultipleOfKeywordValidator.class;
+        draftv4.put(keyword, validator);
 
         // Object
         keyword = "minProperties";

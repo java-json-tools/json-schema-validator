@@ -15,20 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.keyword.draftv3;
+package org.eel.kitchen.jsonschema.keyword.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.ModZeroKeywordValidator;
 
 /**
- * Validator for the {@code disallow} keyword
- *
+ * Validator for the {@code multipleOf} keyword
  */
-public final class DivisibleByKeywordValidator
+public final class MultipleOfKeywordValidator
     extends ModZeroKeywordValidator
 {
-    public DivisibleByKeywordValidator(final JsonNode schema)
+    public MultipleOfKeywordValidator(final JsonNode schema)
     {
-        super("divisibleBy", schema);
+        super("multipleOf", schema);
     }
 }

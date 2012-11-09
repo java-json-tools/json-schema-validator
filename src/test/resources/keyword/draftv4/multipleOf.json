@@ -1,0 +1,48 @@
+[
+    {
+        "schema": {
+            "multipleOf": 1
+        },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "schema": {
+            "multipleOf": 1.1
+        },
+        "data": 3,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "multipleOf",
+                "message": "number is not a multiple of multipleOf",
+                "value": 3,
+                "divisor": 1.1
+            }
+        ]
+    },
+    {
+        "schema": {
+            "multipleOf": 9812938091283098
+        },
+        "data": 9812938091283098,
+        "valid": true
+    },
+    {
+        "schema": {
+            "multipleOf": 9812938091283098.1
+        },
+        "data": 9812938091283098.11,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "multipleOf",
+                "message": "number is not a multiple of multipleOf",
+                "value": 9812938091283098.11,
+                "divisor": 9812938091283098.1
+            }
+        ]
+    }
+]
