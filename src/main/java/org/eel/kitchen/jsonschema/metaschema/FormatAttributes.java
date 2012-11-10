@@ -25,12 +25,17 @@ import org.eel.kitchen.jsonschema.format.common.IPV4FormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.IPV6FormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.RegexFormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.URIFormatAttribute;
+import org.eel.kitchen.jsonschema.format.draftv3.DateFormatAttribute;
+import org.eel.kitchen.jsonschema.format.draftv3.PhoneNumberFormatAttribute;
+import org.eel.kitchen.jsonschema.format.draftv3.TimeFormatAttribute;
+import org.eel.kitchen.jsonschema.format.draftv3.UnixEpochFormatAttribute;
 
 import java.util.Map;
 
 public final class FormatAttributes
 {
     private static final Map<String, FormatAttribute> DRAFTV3;
+    private static final Map<String, FormatAttribute> DRAFTV4;
 
     // No instantiations for this class
     private FormatAttributes()
@@ -58,11 +63,26 @@ public final class FormatAttributes
          * Draft v3 specific format attributes
          */
         final MapBuilder<FormatAttribute> draftV3 = MapBuilder.create();
-        // TODO
+
+        draftV3.put("date", DateFormatAttribute.getInstance());
+        draftV3.put("phone", PhoneNumberFormatAttribute.getInstance());
+        draftV3.put("time", TimeFormatAttribute.getInstance());
+        draftV3.put("utc-millisec", UnixEpochFormatAttribute.getInstance());
 
         // Build the map
         draftV3.putAll(commonMap);
         DRAFTV3 = draftV3.build();
+
+        /*
+         * Draft v4 specific format attributes
+         */
+        final MapBuilder<FormatAttribute> draftV4 = MapBuilder.create();
+
+        // None
+
+        // Build the map
+        draftV4.putAll(commonMap);
+        DRAFTV4 = draftV4.build();
     }
 
     public static Map<String, FormatAttribute> draftV3()
@@ -72,6 +92,6 @@ public final class FormatAttributes
 
     public static Map<String, FormatAttribute> draftV4()
     {
-        return DRAFTV3;
+        return DRAFTV4;
     }
 }
