@@ -74,8 +74,8 @@ public abstract class AbstractFormatAttributeTest
 
     @Test(
         dataProvider = "getData",
-        invocationCount = 10,
-        threadPoolSize = 4,
+        invocationCount = 5,
+        threadPoolSize = 3,
         dependsOnMethods = "formatAttributeExists"
     )
     public final void testFormatAttribute(final JsonNode data,

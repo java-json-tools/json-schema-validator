@@ -66,7 +66,7 @@ public final class FatalErrorTests
         return set.iterator();
     }
 
-    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
+    @Test(dataProvider = "getData", invocationCount = 5, threadPoolSize = 3)
     public void fataErrorsAreReportedAsSuch(final JsonNode node,
         final JsonNode data, final JsonNode message)
     {
@@ -79,7 +79,7 @@ public final class FatalErrorTests
         assertEquals(report.asJsonObject().iterator().next().get(0), message);
     }
 
-    @Test(invocationCount = 10, threadPoolSize = 4)
+    @Test(invocationCount = 5, threadPoolSize = 3)
     public void keywordBuildFailureRaisesFatalError()
     {
         final Keyword foo = Keyword.withName("foo")

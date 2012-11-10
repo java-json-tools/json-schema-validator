@@ -58,7 +58,7 @@ public final class SelfValidationTest
         draftV4Schema = factory.fromSchema(draftv4);
     }
 
-    @Test(invocationCount = 10, threadPoolSize = 4)
+    @Test(invocationCount = 5, threadPoolSize = 3)
     public void testDraftV3SchemaValidatesItself()
     {
         final ValidationReport report = draftV3Schema.validate(draftv3);
@@ -66,7 +66,7 @@ public final class SelfValidationTest
         assertTrue(report.isSuccess());
     }
 
-    @Test(invocationCount = 10, threadPoolSize = 4)
+    @Test(invocationCount = 5, threadPoolSize = 3)
     public void testDraftV4SchemaValidatesItself()
     {
         final ValidationReport report = draftV4Schema.validate(draftv4);
@@ -93,8 +93,8 @@ public final class SelfValidationTest
 
     @Test(
         dataProvider = "getGoogleSchemas",
-        invocationCount = 10,
-        threadPoolSize = 4
+        invocationCount = 5,
+        threadPoolSize = 3
     )
     public void testGoogleSchemas(final String name, final JsonNode node)
     {

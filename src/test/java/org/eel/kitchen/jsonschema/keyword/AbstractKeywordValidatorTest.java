@@ -80,7 +80,7 @@ public abstract class AbstractKeywordValidatorTest
         };
     }
 
-    @Test(dataProvider = "getData", invocationCount = 10, threadPoolSize = 4)
+    @Test(dataProvider = "getData", invocationCount = 5, threadPoolSize = 3)
     public final void testKeyword(final JsonNode schema, final JsonNode data,
         final boolean valid, final JsonNode messages)
     {
