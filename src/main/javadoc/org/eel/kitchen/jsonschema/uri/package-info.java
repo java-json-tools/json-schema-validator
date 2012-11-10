@@ -28,8 +28,8 @@
  *     <li>implementing {@link org.eel.kitchen.jsonschema.uri.URIDownloader},
  *     </li>
  *     <li>registering this new downloader for a custom scheme by using {@link
- *     org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#registerScheme(String,
- *     URIDownloader)}.
+ *     org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#registerScheme(
+ *     String, URIDownloader)}.
  * </ul>
  *
  * <p>Note about {@code jar} relative URI resolutions: due to the very nature of

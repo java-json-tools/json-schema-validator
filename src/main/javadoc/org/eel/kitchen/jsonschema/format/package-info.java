@@ -51,6 +51,6 @@
  * in a sister project: <a
  * href="https://github.com/fge/json-schema-formats">json-schema-formats</a>.
  * </p>
- *
  */
+
 package org.eel.kitchen.jsonschema.format;

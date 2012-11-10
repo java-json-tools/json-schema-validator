@@ -37,8 +37,9 @@
  * <ul>
  *     <li>{@link org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator}
  *     (used for numeric instance validation),</li>
- *     <li>{@link org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator}
- *     (used for keywords which take a positive integer as an argument).</li>
+ *     <li>{@link
+ *     org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator} (used
+ *     for keywords which take a positive integer as an argument).</li>
  * </ul>
  *
  * <p>Here is an example for a proposed {@code minProperties} keyword. This
