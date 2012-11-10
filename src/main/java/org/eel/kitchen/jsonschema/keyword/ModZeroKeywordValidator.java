@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 
 /**
  * Abstract validator for the {@code disallow} (draft v3) and {@code multipleOf}
- * keywords
+ * (draft v4) keywords
  */
 public abstract class ModZeroKeywordValidator
     extends NumericKeywordValidator

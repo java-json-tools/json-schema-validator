@@ -40,17 +40,17 @@ import java.util.EnumSet;
  * result.</p>
  *
  * <p>A keyword only takes effect for a certain number of JSON instance
- * types: if the instance to validate is not among these types,
- * validation succeeds.</p>
+ * types: if the instance to validate is not among these types, validation
+ * succeeds.</p>
  *
- * <p>Two other abstract classes exist which you may want to extend instead
- * of this one, depending on your needs:</p>
+ * <p>Two other abstract classes exist which you may want to extend instead of
+ * this one, depending on your needs:</p>
  *
  * <ul>
  *     <li>{@link NumericKeywordValidator}, for validating numeric instances;
  *     </li>
- *     <li>{@link PositiveIntegerKeywordValidator}, for keywords accepting
- *     only a positive integer as an argument (to be paired with {@link
+ *     <li>{@link PositiveIntegerKeywordValidator}, for keywords accepting only
+ *     a positive integer as an argument (to be paired with {@link
  *     PositiveIntegerSyntaxChecker}).</li>
  * </ul>
  */

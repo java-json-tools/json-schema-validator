@@ -41,40 +41,5 @@
  *     org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator} (used
  *     for keywords which take a positive integer as an argument).</li>
  * </ul>
- *
- * <p>Here is an example for a proposed {@code minProperties} keyword. This
- * keyword validates that an object instance has a minimum number of members.
- * Its argument is a positive integer, we therefore extend {@link
- * org.eel.kitchen.jsonschema.keyword.PositiveIntegerKeywordValidator} directly
- * instead of {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator}:
- * </p>
- *
- * <pre>
- *      public final class MinPropertiesKeywordValidator
- *          extends PositiveIntegerKeywordValidator
- *      {
- *          public MinPropertiesKeywordValidator(final JsonNode schema)
- *          {
- *              super("minProperties", schema, NodeType.OBJECT);
- *          }
- *
- *          &#64;Override
- *          public void validateInstance(final ValidationContext context,
- *              final ValidationReport report, final JsonNode instance)
- *          {
- *              if (instance.size() >= intValue)
- *                  return;
- *
- *              final Message.Builder msg = newMsg()
- *                  .setMessage("object instance does not have the minimum "
- *                  + "number of required properties")
- *                  .addInfo("required", intValue)
- *                  .addInfo("found", instance.size());
- *              report.addMessage(msg.build());
- *         }
- *     }
- * </pre>
- *
- * <p>See also {@link org.eel.kitchen.jsonschema.report.Message}.</p>
  */
 package org.eel.kitchen.jsonschema.keyword;

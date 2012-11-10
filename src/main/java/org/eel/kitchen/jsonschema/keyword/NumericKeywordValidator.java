@@ -27,15 +27,14 @@ import java.math.BigDecimal;
 /**
  * Base class for numeric instances validators
  *
- * <p>We separate validation in two: if both the keyword value and
- * instance value are integers which fit into a {@code long},
- * we use that (for performance reasons). If one of them doesn't,
- * then we use {@link BigDecimal} instead (for accuracy reasons).
- * </p>
+ * <p>We separate validation in two: if both the keyword value and instance
+ * value are integers which fit into a {@code long}, we use that (for
+ * performance reasons). If one of them doesn't, then we use {@link BigDecimal}
+ * instead (for accuracy reasons).</p>
  *
- * <p>This means that extending this validator will require you to implement
- * two methods: {@link #validateLong(ValidationReport, JsonNode)} and
- * {@link #validateDecimal(ValidationReport, JsonNode)}.</p>
+ * <p>This means that extending this validator will require you to implement two
+ * methods: {@link #validateLong(ValidationReport, JsonNode)} and {@link
+ * #validateDecimal(ValidationReport, JsonNode)}.</p>
  *
  * <p>You will note that these two methods take a {@link JsonNode} as an
  * argument. Use the following methods to convert these to the appropriate
