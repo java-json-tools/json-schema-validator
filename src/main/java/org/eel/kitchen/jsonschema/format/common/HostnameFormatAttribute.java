@@ -25,7 +25,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
- * Validator for the {@code host-name} format specification
+ * Validator for the {@code host-name} format attribute.
  *
  * <p>Note: a hostname is not required to have two or more components. As such,
  * {@code foo} <b>is</b> a valid hostname.</p>

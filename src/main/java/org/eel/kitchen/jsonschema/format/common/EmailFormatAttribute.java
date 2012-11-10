@@ -27,7 +27,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
 /**
- * Validator for the {@code email} format specification.
+ * Validator for the {@code email} format attribute.
  */
 public final class EmailFormatAttribute
     extends FormatAttribute

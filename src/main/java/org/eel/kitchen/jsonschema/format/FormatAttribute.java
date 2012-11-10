@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.metaschema.FormatAttributes;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -29,17 +31,18 @@ import java.util.EnumSet;
  * Base class for a format attribute
  *
  * <p>The {@code format} keyword always takes a string as an argument, and this
- * string is called a "attribute". The draft defines attributes for recognizing
- * URIs, phone numbers, different date formats, and so on -- and even CSS 2.1
- * colors and styles (not supported).</p>
+ * string is called a "attribute". See {@link FormatAttributes} for the list of
+ * supported attributes.</p>
  *
  * <p>One important thing to remember is that a attribute will only validate a
  * given subset of JSON instance types (for instance, {@code uri} only validates
  * string instances). In the event that the instane type is not of the
  * validated types, validation <i>succeeds</i>.</p>
  *
- * <p>The spec allows for custom attributes to be added. This implementation
- * supports it.</p>
+ * <p>JSON Schema specifications allow for custom attributes to be added. This
+ * implementation supports it.</p>
+ *
+ * @see KeywordRegistry
  */
 public abstract class FormatAttribute
 {

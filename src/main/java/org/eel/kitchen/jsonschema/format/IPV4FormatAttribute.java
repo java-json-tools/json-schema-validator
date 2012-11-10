@@ -24,7 +24,8 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
- * Validator for the {@code ip-address} format specification, ie an IPv4 address
+ * Validator for both the {@code ip-address} (draft v3) and {@code ipv4} (draft
+ * v4) format attributes.
  *
  * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
  */

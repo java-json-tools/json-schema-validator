@@ -26,13 +26,12 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.math.BigInteger;
 
 /**
- * Validator for the {@code utc-millisec} format specification
+ * Validator for the {@code utc-millisec} format attribute.
  *
  * <p>As an extra step, this validator also ensures that the number in the
  * instance is not negative, and does not overflow: Java's {@link
- * System#currentTimeMillis()} may return a long, but internally the return
- * code is a signed 32-bit integer, therefore must not be greater than 2^31 -
- * 1.
+ * System#currentTimeMillis()} may return a long, but internally the return code
+ * is a signed 32-bit integer, therefore must not be greater than 2^31 - 1.
  * </p>
  */
 public final class UnixEpochFormatAttribute

@@ -25,7 +25,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 /**
- * Validator for the {@code ipv6} format specification
+ * Validator for the {@code ipv6} format attribute.
  *
  * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
  */

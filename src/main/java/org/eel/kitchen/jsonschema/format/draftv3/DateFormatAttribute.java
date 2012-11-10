@@ -21,7 +21,7 @@ import org.eel.kitchen.jsonschema.format.AbstractDateFormatAttribute;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 
 /**
- * Validator for the {@code date} format specification
+ * Validator for the {@code date} format attribute.
  */
 public final class DateFormatAttribute
     extends AbstractDateFormatAttribute

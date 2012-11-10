@@ -27,7 +27,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
- * Validator for the {@code uri} format specification
+ * Validator for the {@code uri} format attribute.
+ *
+ * <p>Note that each and any URI is allowed. In particular, it is not required
+ * that the URI be absolute or normalized.</p>
  */
 public final class URIFormatAttribute
     extends FormatAttribute

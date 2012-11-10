@@ -27,14 +27,14 @@ import org.joda.time.format.DateTimeFormatter;
 import java.text.SimpleDateFormat;
 
 /**
- * Specialized format validator for date/time checking
+ * Abstract class for date/time related format attributes
  *
  * <p><a href="http://joda-time.sourceforge.net/">Joda Time</a> is used for
  * date and time parsing: it can handle all defined formats, and catches more
  * errors than the standard JDK's {@link SimpleDateFormat} does.</p>
  *
  * <p>What's more, unlike {@link SimpleDateFormat}, Joda Time's
- * {@link DateTimeFormatter} is thread-safe!</p>
+ * {@link DateTimeFormatter} is thread-safe.</p>
  */
 public abstract class AbstractDateFormatAttribute
     extends FormatAttribute
