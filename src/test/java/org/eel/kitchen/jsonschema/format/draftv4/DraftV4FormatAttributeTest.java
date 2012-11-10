@@ -15,16 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.format.common;
+package org.eel.kitchen.jsonschema.format.draftv4;
+
+import org.eel.kitchen.jsonschema.format.AbstractFormatAttributeTest;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
 
 import java.io.IOException;
 
-public final class IpAddressFormatAttributeTest
-    extends CommonFormatAttributeTest
+public abstract class DraftV4FormatAttributeTest
+    extends AbstractFormatAttributeTest
 {
-    IpAddressFormatAttributeTest()
+    protected DraftV4FormatAttributeTest(final String fmt)
         throws IOException
     {
-        super("ip-address");
+        super(KeywordRegistries.draftV4(), "draftv4", fmt);
     }
 }

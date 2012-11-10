@@ -16,26 +16,41 @@
  */
 
 /**
- * Format attribute classes
+ * Format attribute base classes
  *
- * <p>The {@code format} keyword is defined by section 5.23 of the current
- * draft. This particular package supports the following format attributes:</p>
+ * <p>The {@code format} keyword is defined by section 5.23 of JSON Schema draft
+ * v3, and (currently) section 7 of the next validation draft.</p>
+ *
+ * <p>Draft v4 defines a narrower subset than draft v3. The following format
+ * attributes are common to both draft v3 and draft v4:</p>
  *
  * <ul>
  *     <li>{@code date-time};</li>
  *     <li>{@code email};</li>
  *     <li>{@code host-name};</li>
- *     <li>{@code ip-address};</li>
  *     <li>{@code ipv6};</li>
  *     <li>{@code regex};</li>
  *     <li>{@code uri}.</li>
  * </ul>
  *
- * <p>All other format attributes defined by the draft (except {@code color} and
- * {@code style}, for which support is deliberately omitted) are now in a
- * separate package: <a
- * href="https://github.com/fge/json-schema-formats">json-schema-formats
- * </a>.</p>
+ * <p>Draft v3 defines the following additional attributes:</p>
+ *
+ * <ul>
+ *     <li>{@code date};</li>
+ *     <li>{@code phone};</li>
+ *     <li>{@code time};</li>
+ *     <li>{@code utc-millisec};</li>
+ *     <li>{@code color} (<b>unsupported</b>);</li>
+ *     <li>{@code style} (<b>unsupported</b>).</li>
+ * </ul>
+ *
+ * <p>Additionally, there is an attribute named {@code ip-address} in draft v3,
+ * and {@code ipv4} in draft v4, which can validate IP addresses.</p>
+ *
+ * <p>Other format attributes not defined by any of these drafts can be found
+ * in a sister project: <a
+ * href="https://github.com/fge/json-schema-formats">json-schema-formats</a>.
+ * </p>
  *
  */
 package org.eel.kitchen.jsonschema.format;

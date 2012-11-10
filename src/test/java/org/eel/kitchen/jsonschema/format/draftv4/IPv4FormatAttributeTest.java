@@ -15,14 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/**
- * Schema keywords and keyword bundles
- *
- * <p>Classes in this package allow you to build your own keywords and add them
- * to an existing keyword bundle. You can then supply this bundle to your
- * schema factory.</p>
- *
- * <p>This is useful, for instance, if you have an idea for a new keyword
- * and want to experiment with it. See the relevant classes for sample code.</p>
- */
-package org.eel.kitchen.jsonschema.bundle;
+package org.eel.kitchen.jsonschema.format.draftv4;
+
+import java.io.IOException;
+
+public final class IPv4FormatAttributeTest
+    extends DraftV4FormatAttributeTest
+{
+    protected IPv4FormatAttributeTest(final String fmt)
+        throws IOException
+    {
+        super("ipv4");
+    }
+}

@@ -18,10 +18,10 @@
 package org.eel.kitchen.jsonschema.metaschema;
 
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
+import org.eel.kitchen.jsonschema.format.IPV4FormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.DateTimeFormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.EmailFormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.HostnameFormatAttribute;
-import org.eel.kitchen.jsonschema.format.common.IPV4FormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.IPV6FormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.RegexFormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.URIFormatAttribute;
@@ -51,7 +51,6 @@ public final class FormatAttributes
         common.put("date-time", DateTimeFormatAttribute.getInstance());
         common.put("email", EmailFormatAttribute.getInstance());
         common.put("host-name", HostnameFormatAttribute.getInstance());
-        common.put("ip-address", IPV4FormatAttribute.getInstance());
         common.put("ipv6", IPV6FormatAttribute.getInstance());
         common.put("regex", RegexFormatAttribute.getInstance());
         common.put("uri", URIFormatAttribute.getInstance());
@@ -65,6 +64,7 @@ public final class FormatAttributes
         final MapBuilder<FormatAttribute> draftV3 = MapBuilder.create();
 
         draftV3.put("date", DateFormatAttribute.getInstance());
+        draftV3.put("ip-address", IPV4FormatAttribute.getInstance());
         draftV3.put("phone", PhoneNumberFormatAttribute.getInstance());
         draftV3.put("time", TimeFormatAttribute.getInstance());
         draftV3.put("utc-millisec", UnixEpochFormatAttribute.getInstance());
@@ -78,7 +78,7 @@ public final class FormatAttributes
          */
         final MapBuilder<FormatAttribute> draftV4 = MapBuilder.create();
 
-        // None
+        draftV4.put("ipv4", IPV4FormatAttribute.getInstance());
 
         // Build the map
         draftV4.putAll(commonMap);
