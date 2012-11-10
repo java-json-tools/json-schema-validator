@@ -78,7 +78,8 @@ public abstract class AbstractFormatAttributeTest
         threadPoolSize = 4,
         dependsOnMethods = "formatAttributeExists"
     )
-    public final void testSpecifier(final JsonNode data, final boolean valid)
+    public final void testFormatAttribute(final JsonNode data,
+        final boolean valid)
     {
         final ValidationReport report = new ValidationReport();
 
