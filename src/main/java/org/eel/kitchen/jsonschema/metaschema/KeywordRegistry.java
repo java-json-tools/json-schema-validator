@@ -27,6 +27,16 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 
 import java.util.Map;
 
+/**
+ * Class holder for schema keywords and format attributes
+ *
+ * <p>This is the base class to use if you want to customize your schemas. You
+ * can also take as a base existing registries as defined by {@link
+ * KeywordRegistries}.</p>
+ *
+ * @see KeywordRegistries
+ */
+
 public final class KeywordRegistry
 {
     private final Map<String, SyntaxChecker> syntaxCheckers;
@@ -35,6 +45,11 @@ public final class KeywordRegistry
 
     private final Map<String, FormatAttribute> formatAttributes;
 
+    /**
+     * Default constructor
+     *
+     * <p>By default, a keyword registry is completely empty.</p>
+     */
     public KeywordRegistry()
     {
         syntaxCheckers = Maps.newHashMap();
@@ -42,26 +57,55 @@ public final class KeywordRegistry
         formatAttributes = Maps.newHashMap();
     }
 
+    /**
+     * Add a set of syntax checkers (package private)
+     *
+     * @param map the syntax checker map
+     */
     void addSyntaxCheckers(final Map<String, SyntaxChecker> map)
     {
         syntaxCheckers.putAll(map);
     }
 
+    /**
+     * Return an immutable copy of this registry's syntax checkers
+     *
+     * @return a map pairing keyword names and associated syntax checkers
+     */
     public Map<String, SyntaxChecker> getSyntaxCheckers()
     {
         return ImmutableMap.copyOf(syntaxCheckers);
     }
 
+    /**
+     * Add a set of keyword validators (package private)
+     *
+     * @param map a map pairing keyword names and keyword validator classes
+     */
     void addValidators(final Map<String, Class<? extends KeywordValidator>> map)
     {
         validators.putAll(map);
     }
 
+    /**
+     * Return an immutable copy of this registry's keyword validator classes
+     *
+     * @return a map pairing keyword names and associated keyword validator
+     * classes
+     */
     public Map<String, Class<? extends KeywordValidator>> getValidators()
     {
         return ImmutableMap.copyOf(validators);
     }
 
+    /**
+     * Add a keyword to this registry
+     *
+     * <p>Note: this method removes any previous traces of a keyword by the same
+     * name.</p>
+     *
+     * @param keyword the keyword
+     */
     public void addKeyword(final Keyword keyword)
     {
         Preconditions.checkNotNull(keyword, "keyword must not be null");
@@ -79,6 +123,11 @@ public final class KeywordRegistry
             validators.put(name, validator);
     }
 
+    /**
+     * Remove a keyword by its name
+     *
+     * @param name the keyword name
+     */
     public void removeKeyword(final String name)
     {
         Preconditions.checkNotNull(name, "name must not be null");
@@ -86,11 +135,22 @@ public final class KeywordRegistry
         validators.remove(name);
     }
 
-    public void addFormatAttributes(final Map<String, FormatAttribute> map)
+    /**
+     * Add a set of format attributes (package private)
+     *
+     * @param map a map pairing the format attributes and their implementations
+     */
+    void addFormatAttributes(final Map<String, FormatAttribute> map)
     {
         formatAttributes.putAll(map);
     }
 
+    /**
+     * Add a format attribute
+     *
+     * @param name the attribute name
+     * @param formatAttribute the attribute implementation
+     */
     public void addFormatAttribute(final String name,
         final FormatAttribute formatAttribute)
     {
@@ -100,12 +160,22 @@ public final class KeywordRegistry
         formatAttributes.put(name, formatAttribute);
     }
 
+    /**
+     * Remove a format attribute by name
+     *
+     * @param name the name of the format attribute
+     */
     public void removeFormatAttribute(final String name)
     {
         Preconditions.checkNotNull(name, "name must not be null");
         formatAttributes.remove(name);
     }
 
+    /**
+     * Return an immutable map of format attributes for this registry
+     *
+     * @return a map pairing format attribute names and their implementations
+     */
     public Map<String, FormatAttribute> getFormatAttributes()
     {
         return ImmutableMap.copyOf(formatAttributes);

@@ -49,6 +49,10 @@ import org.eel.kitchen.jsonschema.keyword.draftv4.RequiredKeywordValidator;
 
 import java.util.Map;
 
+/**
+ * Utility class for builtin keyword validators
+ */
+
 public final class KeywordValidators
 {
     private static final Map<String, Class<? extends KeywordValidator>> DRAFTV3;
@@ -217,11 +221,21 @@ public final class KeywordValidators
         DRAFTV4 = draftv4.build();
     }
 
+    /**
+     * Return an immutable copy of keyword validators for draft v3
+     *
+     * @return a map pairing keyword names and their validator classes
+     */
     public static Map<String, Class<? extends KeywordValidator>> draftV3()
     {
         return DRAFTV3;
     }
 
+    /**
+     * Return an immutable copy of keyword validators for draft v4
+     *
+     * @return a map pairing keyword names and their validator classes
+     */
     public static Map<String, Class<? extends KeywordValidator>> draftV4()
     {
         return DRAFTV4;

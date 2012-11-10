@@ -34,20 +34,6 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
  *     <li>create the keyword.</li>
  * </ul>
  *
- * <p>Sample code:</p>
- *
- * <pre>
- *     final SyntaxChecker checker = ...;
- *     final Class&lt;? extends KeywordValidator&gt; validatorClass = ...;
- *
- *     final Keyword myKeyword = Keyword.withName("mykeyword")
- *         .withSyntaxChecker(checker).withValidatorClass(validatorClass)
- *         .build();
- *
- *     // register it into a KeywordRegistry
- *     registry.addKeyword(myKeyword);
- * </pre>
- *
  * <p>It is perfectly legal to register a keyword with only a syntax checker, or
  * only a keyword validator. An example is {@code $schema}, which must be a
  * valid URI (therefore it has a syntax checker) but does not play any role

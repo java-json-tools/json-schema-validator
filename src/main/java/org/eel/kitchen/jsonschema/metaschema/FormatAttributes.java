@@ -32,6 +32,17 @@ import org.eel.kitchen.jsonschema.format.draftv3.UnixEpochFormatAttribute;
 
 import java.util.Map;
 
+/**
+ * Utility class for builtin format attributes
+ *
+ * <p>Both attributes for draft v3 and draft v4 are bundled.</p>
+ *
+ * <p>You should not have to use this class directly: use {@link
+ * KeywordRegistry} instead.</p>
+ *
+ * @see KeywordRegistry
+ * @see KeywordRegistries
+ */
 public final class FormatAttributes
 {
     private static final Map<String, FormatAttribute> DRAFTV3;
@@ -85,11 +96,21 @@ public final class FormatAttributes
         DRAFTV4 = draftV4.build();
     }
 
+    /**
+     * Immutable map of defined format attributes for draft v3
+     *
+     * @return a map pairing format attribute names and their implementation
+     */
     public static Map<String, FormatAttribute> draftV3()
     {
         return DRAFTV3;
     }
 
+    /**
+     * Immutable map of defined format attributes for draft v4
+     *
+     * @return a map pairing format attribute names and their implementation
+     */
     public static Map<String, FormatAttribute> draftV4()
     {
         return DRAFTV4;

@@ -17,6 +17,17 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
+/**
+ * Builtin keyword and format attribute registries
+ *
+ * <p>The {@link #defaultRegistry()} method returns the latest published draft
+ * (right now, it is draft v3).</p>
+ *
+ * <p>Note: all methods return a {@link KeywordRegistry} instance, which is
+ * mutable.</p>
+ *
+ * @see KeywordRegistry
+ */
 public final class KeywordRegistries
 {
     // No instantiation
@@ -24,6 +35,11 @@ public final class KeywordRegistries
     {
     }
 
+    /**
+     * Return a registry for draft version 3
+     *
+     * @return a {@link KeywordRegistry}
+     */
     public static KeywordRegistry draftV3()
     {
         final KeywordRegistry ret = new KeywordRegistry();
@@ -33,6 +49,12 @@ public final class KeywordRegistries
         return ret;
     }
 
+
+    /**
+     * Return a registry for draft version 4
+     *
+     * @return a {@link KeywordRegistry}
+     */
     public static KeywordRegistry draftV4()
     {
         final KeywordRegistry ret = new KeywordRegistry();
@@ -42,6 +64,11 @@ public final class KeywordRegistries
         return ret;
     }
 
+    /**
+     * Return the current default keyword registry (draft v3)
+     *
+     * @return a {@link KeywordRegistry}
+     */
     public static KeywordRegistry defaultRegistry()
     {
         return draftV3();

@@ -43,6 +43,10 @@ import java.util.Map;
 
 import static org.eel.kitchen.jsonschema.util.NodeType.*;
 
+/**
+ * Utility class for builtin syntax checkers
+ */
+
 public final class SyntaxCheckers
 {
     private static final Map<String, SyntaxChecker> DRAFTV3;
@@ -253,11 +257,21 @@ public final class SyntaxCheckers
         DRAFTV4 = draftv4.build();
     }
 
+    /**
+     * Return an immutable map of syntax checkers for draft v3
+     *
+     * @return a map pairing keyword names and their syntax checkers
+     */
     public static Map<String, SyntaxChecker> draftV3()
     {
         return DRAFTV3;
     }
 
+    /**
+     * Return an immutable map of syntax checkers for draft v4
+     *
+     * @return a map pairing keyword names and their syntax checkers
+     */
     public static Map<String, SyntaxChecker> draftV4()
     {
         return DRAFTV4;

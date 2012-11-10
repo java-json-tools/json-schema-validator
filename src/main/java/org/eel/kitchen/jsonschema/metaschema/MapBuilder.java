@@ -21,6 +21,15 @@ import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
+/**
+ * Utility class to build maps
+ *
+ * <p>All maps dealt with by this class have {@link String} instances as keys.
+ * </p>
+ *
+ * @param <T> value type
+ */
+
 final class MapBuilder<T>
 {
     private final ImmutableMap.Builder<String, T> builder;
@@ -30,21 +39,43 @@ final class MapBuilder<T>
         builder = ImmutableMap.builder();
     }
 
+    /**
+     * Create a new instance
+     *
+     * @param <T> value type
+     * @return a new builder
+     */
     public static <T> MapBuilder<T> create()
     {
         return new MapBuilder<T>();
     }
 
-    public void put(final String keyword, final T value)
+    /**
+     * Add one entry to this builder
+     *
+     * @param key the key
+     * @param value the value
+     */
+    public void put(final String key, final T value)
     {
-        builder.put(keyword, value);
+        builder.put(key, value);
     }
 
+    /**
+     * Add all entries from an existing map
+     *
+     * @param map the map to add
+     */
     public void putAll(final Map<String, T> map)
     {
         builder.putAll(map);
     }
 
+    /**
+     * Return an immutable map from this builder
+     *
+     * @return a map
+     */
     public Map<String, T> build()
     {
         return builder.build();

@@ -20,6 +20,16 @@ package org.eel.kitchen.jsonschema.metaschema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
+/**
+ * Utility class to distribute schema URIs
+ *
+ * <p>Drafts define URIs to locate metaschemas, this class provides them.</p>
+ *
+ * <p>Note that it is currently buggy: the default URI is supposed to be {@code
+ * http://json-schema.orgschema#}, but this URI is not accounted for at this
+ * time.</p>
+ */
+
 public final class SchemaURIs
 {
     private static final JsonRef DRAFTV3;
@@ -43,16 +53,33 @@ public final class SchemaURIs
         }
     }
 
+    /**
+     * Return the defined URI for draft v3
+     *
+     * @return the URI as a {@link JsonRef}
+     */
     public static JsonRef draftV3()
     {
         return DRAFTV3;
     }
 
+    /**
+     * Return the defined URI for draft v4
+     *
+     * @return the URI as a {@link JsonRef}
+     */
     public static JsonRef draftv4()
     {
         return DRAFTV4;
     }
 
+    /**
+     * Return the default URI
+     *
+     * <p>Buggy: currently returns the same result as {@link #draftV3()}</p>
+     *
+     * @return the URI as a {@link JsonRef}
+     */
     public static JsonRef defaultURI()
     {
         return draftV3();
