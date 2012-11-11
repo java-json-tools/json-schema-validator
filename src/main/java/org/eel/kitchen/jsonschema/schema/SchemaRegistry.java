@@ -139,7 +139,8 @@ public final class SchemaRegistry
         } catch (ExecutionException e) {
             final Throwable cause = e.getCause();
             msg.addInfo("exception-class", cause.getClass().getName())
-                .addInfo("exception-message", cause.getMessage());
+                .addInfo("exception-message", cause.getMessage())
+                .setMessage("failed to load schema from URI");
             throw new JsonSchemaException(msg.build());
         }
     }
