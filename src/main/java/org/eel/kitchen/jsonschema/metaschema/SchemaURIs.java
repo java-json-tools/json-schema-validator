@@ -68,7 +68,7 @@ public final class SchemaURIs
      *
      * @return the URI as a {@link JsonRef}
      */
-    public static JsonRef draftv4()
+    public static JsonRef draftV4()
     {
         return DRAFTV4;
     }

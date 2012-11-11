@@ -325,7 +325,7 @@ public final class JsonSchemaFactory
             defaultKeywordRegistry = KeywordRegistries.defaultRegistry();
             keywordRegistries = Maps.newHashMap();
             keywordRegistries.put(defaultSchemaURI, defaultKeywordRegistry);
-            keywordRegistries.put(SchemaURIs.draftv4(),
+            keywordRegistries.put(SchemaURIs.draftV4(),
                 KeywordRegistries.draftV4());
         }
 
