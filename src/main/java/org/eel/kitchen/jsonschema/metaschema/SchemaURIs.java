@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
  * <p>Drafts define URIs to locate metaschemas, this class provides them.</p>
  *
  * <p>Note that it is currently buggy: the default URI is supposed to be {@code
- * http://json-schema.orgschema#}, but this URI is not accounted for at this
+ * http://json-schema.org/schema#}, but this URI is not accounted for at this
  * time.</p>
  */
 

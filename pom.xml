@@ -47,6 +47,7 @@
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
                     </links>
+                    <docfilessubdirs>true</docfilessubdirs>
                 </configuration>
                 <executions>
                     <execution>
