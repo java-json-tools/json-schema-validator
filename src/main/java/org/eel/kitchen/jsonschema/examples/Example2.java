@@ -21,54 +21,46 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.schema.AddressingMode;
 
 import java.io.IOException;
 
+import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
+
 /**
- * First example
+ * Second example
  *
- * <p><a href="doc-files/Example1.java">link to source code</a></p>
+ * <p><a href="doc-files/Example2.java">link to source code</a></p>
  *
- * <p>This shows a basic usage example. The schema used for validation is
- * <a href="doc-files/fstab.json">here</a>, which conforms to draft v3. You will
- * notice that a JSON Pointer ({@code #/mntent}) is used to address the mntent
- * subschema.</p>
+ * <p>This example uses the same schema with one difference: the mntent
+ * subschema is now referenced via inline addressing using an {@code id}.</p>
  *
- * <p>This example uses {@link JsonSchemaFactory#defaultFactory()}, and uses
- * {@link JsonSchemaFactory#fromSchema(JsonNode)} to create the {@link
- * JsonSchema} instance.</p>
+ * <p>The schema used for validation is <a href="doc-files/fstab-inline.json">
+ * here</a>.</p>
  *
- * <p>The first sample (<a href="doc-files/fstab-good.json">here</a>) validates
- * successfully.</p>
+ * <p>In order to use inline schema addressing, we cannot use the default
+ * factory: we must go through {@link Builder} and use the {@link
+ * Builder#addressingMode(AddressingMode)} method, specifying that we want
+ * {@link AddressingMode#INLINE} addressing.</p>
  *
- * <p>The second sample (<a href="doc-files/fstab-bad.json">here</a>) fails to
- * validate. Please note that the failure occurs at the structural level
- * (required entry {@code swap} is missing). Validation therefore stops here,
- * and does not attempt to validate the {@code /} member of the instance, which
- * is itself invalid.</p>
+ * <p>Apart from these, the files used for validation and validation results
+ * are the same as {@link Example1}.</p>
  *
- * <p>The third sample (<a href="doc-files/fstab-bad2.json">here</a>) fails to
- * validate as well. This time, the problem is with the member values:</p>
- *
- * <ul>
- *     <li>the {@code options} member of {@code /tmp} is a string, but an array
- *     is expected;</li>
- *     <li>the {@code /} member is missing the required {@code fstype} member.
- *     </li>
- * </ul>
+ * @see AddressingMode
  */
-public final class Example1
+public final class Example2
     extends ExampleBase
 {
     public static void main(final String... args)
         throws IOException
     {
-        final JsonNode fstabSchema = loadResource("/fstab.json");
+        final JsonNode fstabSchema = loadResource("/fstab-inline.json");
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
+        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+            .addressingMode(AddressingMode.INLINE).build();
 
         final JsonSchema schema = factory.fromSchema(fstabSchema);
 
