@@ -28,7 +28,7 @@ import java.io.IOException;
 import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder;
 
 /**
- * Fourth example
+ * Fifth example: setting a URI namespace; relative URI resolution
  *
  * <p><a href="doc-files/Example5.java">link to source code</a></p>
  *
@@ -49,7 +49,8 @@ import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder;
  * </ul>
  *
  * <p>The first refers to the second one via the relative URI {@code
- * mntent.json}. This works precisely because a URI namespace has been set.</p>
+ * mntent.json}. This works precisely because a URI namespace has been set: all
+ * URIs are resolved against this namespace.</p>
  *
  * <p>Files validated, and the validation outputs, are the same as for {@link
  * Example2}.</p>

@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import java.io.IOException;
 
 /**
- * Fourth example
+ * Fourth example: schema loading via URIs, and subschema addressing
  *
  * <p><a href="doc-files/Example4.java">link to source code</a></p>
  *

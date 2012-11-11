@@ -25,7 +25,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import java.io.IOException;
 
 /**
- * Third example
+ * Third example: draft v4 detection via $schema
  *
  * <p><a href="doc-files/Example3.java">link to source code</a></p>
  *

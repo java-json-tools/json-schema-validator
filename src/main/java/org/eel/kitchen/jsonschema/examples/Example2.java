@@ -28,7 +28,7 @@ import java.io.IOException;
 import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
 
 /**
- * Second example
+ * Second example: inline schema addressing
  *
  * <p><a href="doc-files/Example2.java">link to source code</a></p>
  *

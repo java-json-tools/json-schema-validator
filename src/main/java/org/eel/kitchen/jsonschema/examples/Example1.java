@@ -25,7 +25,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import java.io.IOException;
 
 /**
- * First example
+ * First example: basic usage
  *
  * <p><a href="doc-files/Example1.java">link to source code</a></p>
  *
