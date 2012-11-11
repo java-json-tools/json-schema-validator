@@ -191,11 +191,10 @@ public final class Example9
         }
     }
 
-    /*
-     * Our custom keyword validator
+    /**
+     * Custom keyword validator for {@link Example9}
      *
-     * Note that since validators are built by reflection, the class and
-     * constructor must both be public.
+     * It must be {@code public} because it is built by reflection.
      */
     public static final class DivisorsKeywordValidator
         extends KeywordValidator
