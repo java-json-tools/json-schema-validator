@@ -35,9 +35,9 @@ import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder;
  * <p>This example demonstrates another capability of {@link JsonSchemaFactory}:
  * the ability to set a URI namespace. This requires to customize the factory,
  * and therefore go through {@link Builder}, and more precisely {@link
- * Builder#setNamespace(String)}. After this, you can use, for instance, {@link
- * JsonSchemaFactory#fromURI(String)} to load a schema (or their variant to
- * load subschemas, as in {@link Example4}).</p>
+ * Builder#setNamespace(String)}. After this, {@link JsonSchemaFactory#fromURI(
+ * String)} and assimilates will resolve all URIs against this namespace (which
+ * is empty by default).</p>
  *
  * <p>The schemas are split in two:</p>
  *

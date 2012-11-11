@@ -38,12 +38,12 @@ import java.io.IOException;
  *     <li>the ability to load schemas via URIs;</li>
  *     <li>the ability to address subschemas in a schema;</li>
  *     <li>the ability to detect schema versions via {@code $schema} (as in
- *     {@link org.eel.kitchen.jsonschema.examples.Example2}.</li>
+ *     {@link Example2}).</li>
  * </ul>
  *
- * <p>The implementation provides a {@code resource} scheme (used here) which
- * allows to load JSON from files in the classpath. It is strictly equivalent to
- * calling {@link Class#getResourceAsStream(String)}. The URI used is {@code
+ * <p>The implementation provides a {@code resource} scheme which allows to load
+ * JSON from files in the classpath. It is strictly equivalent to calling {@link
+ * Class#getResourceAsStream(String)}. The URI used is {@code
  * resource:/org/eel/kitchen/jsonschema/examples/fstab-sub.json}. Because we
  * want to validate against the {@code fstab} subschema, we use {@link
  * JsonSchemaFactory#fromURI(String, String)} to load the actual schema, with

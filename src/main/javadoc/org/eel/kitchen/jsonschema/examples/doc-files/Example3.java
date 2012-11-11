@@ -36,9 +36,7 @@ import java.io.IOException;
  *
  * <p>One thing to note is a difference in the validation messages: while
  * required properties were in charge of the {@code properties} keyword for
- * draft v3, it is now in charge of the {@code required} keyword. The schema
- * could also be simplified (the regex in {@code patternProperties} now
- * recognizes {@code /}).</p>
+ * draft v3, it is now in charge of the {@code required} keyword.</p>
  */
 public final class Example3
     extends ExampleBase
