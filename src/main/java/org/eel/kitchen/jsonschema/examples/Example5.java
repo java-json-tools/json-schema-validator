@@ -25,7 +25,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 
 import java.io.IOException;
 
-import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder;
+import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * Fifth example: setting a URI namespace; relative URI resolution

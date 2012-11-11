@@ -41,8 +41,6 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
 
-import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
-
 /**
  * Ninth example: augmenting schemas with custom keywords
  *
