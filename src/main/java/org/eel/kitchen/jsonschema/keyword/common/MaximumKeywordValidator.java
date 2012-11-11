@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
 import org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -66,7 +67,7 @@ public final class MaximumKeywordValidator
             return;
 
         msg.setMessage("number is not strictly lower than the required maximum")
-            .addInfo("exclusiveMaximum", nodeFactory.booleanNode(true));
+            .addInfo("exclusiveMaximum", BooleanNode.TRUE);
         report.addMessage(msg.build());
     }
 
@@ -95,7 +96,7 @@ public final class MaximumKeywordValidator
             return;
 
         msg.setMessage("number is not strictly lower than the required maximum")
-            .addInfo("exclusiveMaximum", nodeFactory.booleanNode(true));
+            .addInfo("exclusiveMaximum", BooleanNode.TRUE);
         report.addMessage(msg.build());
     }
 }

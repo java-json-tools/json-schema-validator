@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
 import org.eel.kitchen.jsonschema.keyword.NumericKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -64,7 +65,7 @@ public final class MinimumKeywordValidator
         if (!exclusive)
             return;
 
-        msg.addInfo("exclusiveMinimum", nodeFactory.booleanNode(true))
+        msg.addInfo("exclusiveMinimum", BooleanNode.TRUE)
             .setMessage("number is not strictly greater than the required " +
                 "minimum");
         report.addMessage(msg.build());
@@ -94,7 +95,7 @@ public final class MinimumKeywordValidator
         if (!exclusive)
             return;
 
-        msg.addInfo("exclusiveMinimum", nodeFactory.booleanNode(true))
+        msg.addInfo("exclusiveMinimum", BooleanNode.TRUE)
             .setMessage("number is not strictly greater than the required " +
                 "minimum");
         report.addMessage(msg.build());
