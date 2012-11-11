@@ -6,7 +6,7 @@ text.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>current development version: <b>1.3.2</b> (<a
+    <li>current development version: <b>1.3.3</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>current stable version: <b>1.2.2</b> (<a
@@ -16,16 +16,16 @@ text.</p>
     href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
 </ul>
 
+<p>Since 1.3.3, the javadoc contains complete usage examples in package
+<tt>org.eel.kitchen.jsonschema.examples</tt>.</p>
+
 <p>You can see what is new in 1.2.x <a
-href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a>
+href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p>
 
 <p><b>Note:</b> this implementation does not cover the full set of format attributes defined by the
-currently active draft, and this is on purpose. See <a
-href="https://github.com/fge/json-schema-formats">json-schema-formats</a>. If you need some format
-attributes not supported by this package, consider depending on the latter package instead, which
-depends on this one.</p>
-
-<p>Note: the javadoc contains code samples.</p>
+draft v3 (<tt>color</tt> and <tt>style</tt> are missing), and this is on purpose. Also see <a
+href="https://github.com/fge/json-schema-formats">json-schema-formats</a>, which contains additional
+format attributes not covered by this implementation.</p>
 
 <h2>Versioning scheme policy</h2>
 
@@ -48,6 +48,8 @@ is what you are looking for.<p>
 * <a href="https://github.com/fge/json-schema-validator/wiki/Performance">very
   fast</a>;
 * full draft v3 validation (however, see above for <tt>format</tt>);
+* draft v4 validation;
+* <tt>$schema</tt> detection;
 * full <tt>$ref</tt> support, including <tt>id</tt> resolving and loop detection;
 * validation of numeric JSON instances of arbitrary scale/precision;
 * ECMA 262 regexes (using Rhino);
