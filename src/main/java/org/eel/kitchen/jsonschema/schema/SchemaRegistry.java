@@ -85,11 +85,6 @@ public final class SchemaRegistry
             });
     }
 
-    public SchemaRegistry(final URIManager manager, final URI namespace)
-    {
-        this(manager, namespace, AddressingMode.CANONICAL);
-    }
-
     /**
      * Register a schema
      *

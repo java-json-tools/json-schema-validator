@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.schema.AddressingMode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIManager;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -58,7 +59,7 @@ public final class BasicKeywordValidatorTest
             = KeywordRegistries.defaultRegistry();
         final URIManager manager = new URIManager();
         final SchemaRegistry registry = new SchemaRegistry(manager,
-            URI.create(""));
+            URI.create(""), AddressingMode.CANONICAL);
         final JsonValidatorCache cache = new JsonValidatorCache(keywordRegistry,
             registry);
 

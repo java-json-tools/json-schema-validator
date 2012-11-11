@@ -51,7 +51,8 @@ public final class JsonResolverTest
     {
         final URIManager manager = new URIManager();
         final URI namespace = URI.create("");
-        registry = new SchemaRegistry(manager, namespace);
+        registry = new SchemaRegistry(manager, namespace,
+            AddressingMode.CANONICAL);
         resolver = new JsonResolver(registry);
     }
 

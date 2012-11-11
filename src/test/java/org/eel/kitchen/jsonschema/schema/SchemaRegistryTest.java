@@ -58,7 +58,8 @@ public final class SchemaRegistryTest
 
         final URI rootns = URI.create("foo:///bar/../bar/");
 
-        final SchemaRegistry registry = new SchemaRegistry(manager, rootns);
+        final SchemaRegistry registry = new SchemaRegistry(manager, rootns,
+            AddressingMode.CANONICAL);
 
         final URI uri = URI.create("../baz");
         registry.get(uri);
@@ -77,7 +78,7 @@ public final class SchemaRegistryTest
             JsonNodeFactory.instance.objectNode());
 
         final SchemaRegistry registry = new SchemaRegistry(new URIManager(),
-            URI.create("#"));
+            URI.create("#"), AddressingMode.CANONICAL);
 
         registry.addBundle(bundle);
 
@@ -92,7 +93,7 @@ public final class SchemaRegistryTest
     public void NonAbsoluteURIsAreRefused()
     {
         final SchemaRegistry registry = new SchemaRegistry(new URIManager(),
-            URI.create("#"));
+            URI.create("#"), AddressingMode.CANONICAL);
 
         final URI target = URI.create("moo#");
 
