@@ -45,6 +45,9 @@ import static org.eel.kitchen.jsonschema.util.NodeType.*;
 
 /**
  * Utility class for builtin syntax checkers
+ *
+ * <p>As for other similar classes, it provides methods to retrieve checkers
+ * defined by draft v3 and draft v4.</p>
  */
 
 public final class SyntaxCheckers

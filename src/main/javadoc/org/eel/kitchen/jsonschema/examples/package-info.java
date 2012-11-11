@@ -16,15 +16,12 @@
  */
 
 /**
- * "Metaschema" data
+ * API usage examples
  *
- * <p>This package centralizes all defined syntax checkers, keyword validators
- * and format attributes for a given JSON Schema version. Builtin versions are
- * draft v3 and (next to come) draft v4.</p>
+ * <p>This package contains examples on how to use all features of this API
+ * (including augmenting schemas, URI redirections etc).</p>
  *
- * <p>Packages in this class are also the basis for extending JSON Schema to
- * match your needs (adding keywords and format attributes).</p>
- *
- * <p>See also {@link org.eel.kitchen.jsonschema.examples}.</p>
+ * <p>All examples have a {@code main()} program, so you may run them and see
+ * the output. Suggestions welcome.</p>
  */
-package org.eel.kitchen.jsonschema.metaschema;
+package org.eel.kitchen.jsonschema.examples;

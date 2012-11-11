@@ -42,7 +42,7 @@
  *     <li>enabling validation features.</li>
  * </ul>
  *
- * <p>See {@link org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder}.</p>
+ * <p>See {@link org.eel.kitchen.jsonschema.examples}.</p>
  *
  */
 package org.eel.kitchen.jsonschema.main;

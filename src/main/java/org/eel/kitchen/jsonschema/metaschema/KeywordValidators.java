@@ -51,6 +51,9 @@ import java.util.Map;
 
 /**
  * Utility class for builtin keyword validators
+ *
+ * <p>As for other similar classes, it provides methods to retrieve validators
+ * defined by draft v3 and draft v4.</p>
  */
 
 public final class KeywordValidators
