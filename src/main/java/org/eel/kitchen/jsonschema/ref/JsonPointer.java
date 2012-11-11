@@ -30,9 +30,9 @@ import org.eel.kitchen.jsonschema.report.Message;
 import java.util.List;
 
 /**
- * Implementation of IETF JSON Pointer draft, version 4
+ * Implementation of IETF JSON Pointer draft, version 5
  *
- * <p><a href="http://tools.ietf.org/id/draft-ietf-appsawg-json-pointer-04.txt">
+ * <p><a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-05">
  * JSON Pointer</a> is an IETF draft defining a way to address paths within JSON
  * documents. Paths apply to containers, ie arrays or nodes. For objects, path
  * elements are member names. For arrays, they are indices in the array

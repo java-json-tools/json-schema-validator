@@ -4,13 +4,13 @@
 Applications Area Working Group                            P. Bryan, Ed.
 Internet-Draft                                            Salesforce.com
 Intended status: Informational                                    K. Zyp
-Expires: March 9, 2013                                     SitePen (USA)
+Expires: April 25, 2013                                    SitePen (USA)
                                                       M. Nottingham, Ed.
-                                                       September 5, 2012
+                                                        October 22, 2012
 
 
                               JSON Pointer
-                   draft-ietf-appsawg-json-pointer-04
+                   draft-ietf-appsawg-json-pointer-05
 
 Abstract
 
@@ -32,7 +32,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on March 9, 2013.
+   This Internet-Draft will expire on April 25, 2013.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Bryan, et al.             Expires March 9, 2013                 [Page 1]
+Bryan, et al.            Expires April 25, 2013                 [Page 1]
 
-Internet-Draft                JSON Pointer                September 2012
+Internet-Draft                JSON Pointer                  October 2012
 
 
 Table of Contents
@@ -108,9 +108,9 @@ Table of Contents
 
 
 
-Bryan, et al.             Expires March 9, 2013                 [Page 2]
+Bryan, et al.            Expires April 25, 2013                 [Page 2]
 
-Internet-Draft                JSON Pointer                September 2012
+Internet-Draft                JSON Pointer                  October 2012
 
 
 1.  Introduction
@@ -164,9 +164,9 @@ Internet-Draft                JSON Pointer                September 2012
 
 
 
-Bryan, et al.             Expires March 9, 2013                 [Page 3]
+Bryan, et al.            Expires April 25, 2013                 [Page 3]
 
-Internet-Draft                JSON Pointer                September 2012
+Internet-Draft                JSON Pointer                  October 2012
 
 
    occurrence of the sequence '~1' to '/', then transforming any
@@ -175,7 +175,7 @@ Internet-Draft                JSON Pointer                September 2012
    The reference token then modifies which value is referenced according
    to the following scheme:
 
-      If the currently referenced value is a JSON object, the new
+   o  If the currently referenced value is a JSON object, the new
       referenced value is the object member with the name identified by
       the reference token.  The member name is equal to the token if it
       has the same number of Unicode characters as token and their code
@@ -183,17 +183,26 @@ Internet-Draft                JSON Pointer                September 2012
       not unique in an object, the member that is referenced is
       undefined, and evaluation fails (see below).
 
-      If the currently referenced value is a JSON array, the reference
-      token MUST contain characters that represent an unsigned base-10
-      integer value (possibly with leading zeros), and the new
-      referenced value is the array element with the zero-based index
-      identified by the token.
+   o  If the currently referenced value is a JSON array, the reference
+      token MUST contain either:
+
+      *  characters that represent an unsigned base-10 integer value
+         (possibly with leading zeros), making the new referenced value
+         is the array element with the zero-based index identified by
+         the token, or
+
+      *  exactly the single character "-", making the new referenced
+         value the (non-existant) member after the last array element.
 
    If a reference token is being evaluated against a JSON document,
    implementations will evaluate each token against the document's
    contents, and terminate evaluation with an error condition if it
    fails to resolve a concrete value for any of the JSON pointer's
    reference tokens.  See Section 7 for details.
+
+   Note that the use of the "-" character to index an array will always
+   result in such an error; applications of JSON Pointer thus need to
+   specify how it is to be handled, if it is to be useful.
 
 
 5.  JSON String Representation
@@ -211,18 +220,9 @@ Internet-Draft                JSON Pointer                September 2012
 
 
 
-
-
-
-
-
-
-
-
-
-Bryan, et al.             Expires March 9, 2013                 [Page 4]
+Bryan, et al.            Expires April 25, 2013                 [Page 4]
 
-Internet-Draft                JSON Pointer                September 2012
+Internet-Draft                JSON Pointer                  October 2012
 
 
    {
@@ -276,9 +276,9 @@ Internet-Draft                JSON Pointer                September 2012
 
 
 
-Bryan, et al.             Expires March 9, 2013                 [Page 5]
+Bryan, et al.            Expires April 25, 2013                 [Page 5]
 
-Internet-Draft                JSON Pointer                September 2012
+Internet-Draft                JSON Pointer                  October 2012
 
 
     #                  // the whole document
@@ -332,9 +332,9 @@ Internet-Draft                JSON Pointer                September 2012
 
 
 
-Bryan, et al.             Expires March 9, 2013                 [Page 6]
+Bryan, et al.            Expires April 25, 2013                 [Page 6]
 
-Internet-Draft                JSON Pointer                September 2012
+Internet-Draft                JSON Pointer                  October 2012
 
 
 10.  Acknowledgements
@@ -388,9 +388,9 @@ Authors' Addresses
 
 
 
-Bryan, et al.             Expires March 9, 2013                 [Page 7]
+Bryan, et al.            Expires April 25, 2013                 [Page 7]
 
-Internet-Draft                JSON Pointer                September 2012
+Internet-Draft                JSON Pointer                  October 2012
 
 
    Kris Zyp
@@ -444,5 +444,5 @@ Internet-Draft                JSON Pointer                September 2012
 
 
 
-Bryan, et al.             Expires March 9, 2013                 [Page 8]
+Bryan, et al.            Expires April 25, 2013                 [Page 8]
 
