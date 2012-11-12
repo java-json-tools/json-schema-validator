@@ -26,7 +26,6 @@ import com.google.common.collect.Maps;
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.SortedMap;
 
 /**
  * <p>A small set of utility methods over Jackson.</p>
@@ -49,31 +48,6 @@ public final class JacksonUtils
     public static Map<String, JsonNode> nodeToMap(final JsonNode node)
     {
         final Map<String, JsonNode> ret = Maps.newHashMap();
-
-        final Iterator<Map.Entry<String, JsonNode>> iterator = node.fields();
-
-        Map.Entry<String, JsonNode> entry;
-        while (iterator.hasNext()) {
-            entry = iterator.next();
-            ret.put(entry.getKey(), entry.getValue());
-        }
-
-        return ret;
-    }
-
-    /**
-     * Return a sorted map out of an object instance
-     *
-     * <p>This is used by syntax validation especially: it is more convenient to
-     * present validation messages in key order.</p>
-     *
-     * @param node the node
-     * @return a mutable map made of the instance's entries
-     */
-    public static SortedMap<String, JsonNode> nodeToTreeMap(
-        final JsonNode node)
-    {
-        final SortedMap<String, JsonNode> ret = Maps.newTreeMap();
 
         final Iterator<Map.Entry<String, JsonNode>> iterator = node.fields();
 

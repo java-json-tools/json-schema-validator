@@ -18,16 +18,16 @@
 package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.Set;
 
 /**
  * Syntax validator for the {@code patternProperties} keyword
@@ -52,28 +52,25 @@ public final class PatternPropertiesSyntaxChecker
     public void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
-        final SortedMap<String, JsonNode> properties
-            = JacksonUtils.nodeToTreeMap(schema.get(keyword));
+        final JsonNode node = schema.get(keyword);
+        final Set<String> regexes = Sets.newHashSet(node.fieldNames());
 
-        String key;
-        JsonNode value;
+        NodeType type;
 
-        for (final Map.Entry<String, JsonNode> entry: properties.entrySet()) {
-            key = entry.getKey();
-            value = entry.getValue();
-            msg.clearInfo().addInfo("key", key);
-            if (!RhinoHelper.regexIsValid(entry.getKey())) {
+        for (final String regex: Ordering.natural().sortedCopy(regexes)) {
+            msg.clearInfo().addInfo("key", regex);
+            if (!RhinoHelper.regexIsValid(regex)) {
                 msg.setMessage("key is not a valid ECMA 262 regex");
                 messages.add(msg.build());
                 // No need to continue: even if we were to continue and check
                 // the value, the latter would never be picked up anyway.
                 continue;
             }
-            if (value.isObject())
+            type = NodeType.getNodeType(node.get(regex));
+            if (type == NodeType.OBJECT)
                 continue;
-            msg.setMessage("illegal key value")
-                .addInfo("expected", NodeType.OBJECT)
-                .addInfo("found", NodeType.getNodeType(value));
+            msg.setMessage("illegal key value").addInfo("found", type)
+                .addInfo("expected", NodeType.OBJECT);
             messages.add(msg.build());
         }
     }

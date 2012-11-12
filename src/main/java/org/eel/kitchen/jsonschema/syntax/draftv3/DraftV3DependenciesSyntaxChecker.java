@@ -18,16 +18,16 @@
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.Set;
 
 /**
  * Syntax checker for the {@code dependencies} keyword
@@ -64,77 +64,37 @@ public final class DraftV3DependenciesSyntaxChecker
          * a JSON Object, chances are very high that the schema will be written
          * with properties in order, so we might as well not confuse the user.
          */
-        final SortedMap<String, JsonNode> map
-            = JacksonUtils.nodeToTreeMap(schema.get(keyword));
+        final JsonNode node = schema.get(keyword);
+        final Set<String> fields = Sets.newHashSet(node.fieldNames());
 
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet())
-            analyzeDependency(entry, msg, messages);
-    }
-
-    /**
-     * Analyze one entry in a {@code dependency} object entry
-     *
-     * @param entry the JSON object entry (as a map entry)
-     * @param messages the validation message list
-     */
-    private static void analyzeDependency(
-        final Map.Entry<String, JsonNode> entry, final Message.Builder msg,
-        final List<Message> messages)
-    {
-        /**
-         * The key is the propery name in the map entry, the value is this
-         * property's value.
-         */
-        final String key = entry.getKey();
-        final JsonNode value = entry.getValue();
-
-        /*
-         * A text value or object value alone means a single property dependency
-         * or a schema dependency, respectively. These are all valid values
-         * at this level, let them through.
-         */
-        if (value.isTextual() || value.isObject())
-            return;
-
-        /*
-         * Add information to the message about the property key name.
-         */
-        msg.clearInfo().addInfo("property", key);
-
-        /*
-         * From now on, the only valid value type is an array. If it is not,
-         * complain.
-         */
-        if (!value.isArray()) {
-            msg.addInfo("found", NodeType.getNodeType(value))
-                .addInfo("expected", VALID_DEPENDENCY_TYPES)
-                .setMessage("dependency value has incorrect type");
-            messages.add(msg.build());
-            return;
-        }
-
-        /*
-         * If it _is_ an array (the only possible scenario at that point), all
-         * members in this array MUST be potential property names, ie JSON
-         * strings. If one isn't, record all of:
-         *
-         *  - the key name in dependencites;
-         *  - the value type encountered;
-         *  - the error message;
-         *  - the index in the array.
-         */
-        int idx = 0;
+        JsonNode element;
         NodeType type;
+        int size;
 
-        for (final JsonNode element: value) {
+        for (final String field: Ordering.natural().sortedCopy(fields)) {
+            msg.clearInfo().addInfo("property", field);
+            element = node.get(field);
             type = NodeType.getNodeType(element);
-            if (NodeType.STRING != type) {
-                msg.addInfo("index", idx).addInfo("found", type)
+            if (type == NodeType.OBJECT || type == NodeType.STRING)
+                continue;
+            if (type != NodeType.ARRAY) {
+                msg.addInfo("found", type)
+                    .addInfo("expected", VALID_DEPENDENCY_TYPES)
+                    .setMessage("dependency value has incorrect type");
+                messages.add(msg.build());
+                continue;
+            }
+            size = element.size();
+            for (int index = 0; index < size; index++) {
+                type = NodeType.getNodeType(element.get(index));
+                if (type == NodeType.STRING)
+                    continue;
+                msg.addInfo("index", index).addInfo("found", type)
                     .addInfo("expected", NodeType.STRING)
                     .setMessage("array dependency value has incorrect type");
                 messages.add(msg.build());
+
             }
-            idx++;
         }
     }
 }

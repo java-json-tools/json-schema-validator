@@ -18,15 +18,15 @@
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.Set;
 
 /**
  * Syntax validator for the {@code properties} keyword
@@ -51,26 +51,26 @@ public final class DraftV3PropertiesSyntaxChecker
     public void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
-        final SortedMap<String, JsonNode> map
-            = JacksonUtils.nodeToTreeMap(schema.get(keyword));
+        final JsonNode node = schema.get(keyword);
+        final Set<String> fields = Sets.newHashSet(node.fieldNames());
 
         NodeType type;
-        JsonNode value;
+        JsonNode element;
 
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            msg.addInfo("key", entry.getKey());
-            value = entry.getValue();
-            type = NodeType.getNodeType(entry.getValue());
-            if (!value.isObject()) {
+        for (final String field: Ordering.natural().sortedCopy(fields)) {
+            msg.addInfo("key", field);
+            element = node.get(field);
+            type = NodeType.getNodeType(element);
+            if (!element.isObject()) {
                 msg.setMessage("key value has incorrect type")
                     .addInfo("expected", NodeType.OBJECT)
                     .addInfo("found", type);
                 messages.add(msg.build());
                 continue;
             }
-            if (!value.has("required"))
+            if (!element.has("required"))
                 continue;
-            type = NodeType.getNodeType(value.get("required"));
+            type = NodeType.getNodeType(element.get("required"));
             if (type == NodeType.BOOLEAN)
                 continue;
             msg.setMessage("\"required\" attribute has incorrect type")
