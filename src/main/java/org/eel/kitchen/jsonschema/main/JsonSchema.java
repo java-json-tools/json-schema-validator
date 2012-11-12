@@ -64,11 +64,8 @@ public final class JsonSchema
      */
     public ValidationReport validate(final JsonNode instance)
     {
-        final ValidationContext context
-            = new ValidationContext(cache);
-
+        final ValidationContext context = new ValidationContext(cache);
         final ValidationReport report = new ValidationReport();
-
         final JsonValidator validator = cache.getValidator(schemaNode);
 
         validator.validate(context, report, instance);
