@@ -51,8 +51,7 @@ public final class DraftV3PropertiesKeywordValidator
 
         final Map<String, JsonNode> map
             = JacksonUtils.nodeToMap(schema.get(keyword));
-        final ImmutableSet.Builder<String> builder
-            = new ImmutableSet.Builder<String>();
+        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
             if (entry.getValue().path("required").asBoolean(false))

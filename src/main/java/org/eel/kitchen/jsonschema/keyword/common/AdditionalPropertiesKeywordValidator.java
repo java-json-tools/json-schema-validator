@@ -70,17 +70,10 @@ public final class AdditionalPropertiesKeywordValidator
             return;
         }
 
-        ImmutableSet.Builder<String> builder;
-
-        builder = new ImmutableSet.Builder<String>();
-        if (schema.has("properties"))
-            builder.addAll(schema.get("properties").fieldNames());
-        properties = builder.build();
-
-        builder = new ImmutableSet.Builder<String>();
-        if (schema.has("patternProperties"))
-            builder.addAll(schema.get("patternProperties").fieldNames());
-        patternProperties = builder.build();
+        properties = ImmutableSet.copyOf(schema.path("properties")
+            .fieldNames());
+        patternProperties = ImmutableSet.copyOf(schema.path("patternProperties")
+            .fieldNames());
     }
 
     @Override

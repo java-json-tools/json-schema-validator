@@ -63,7 +63,8 @@ public final class KeywordRegistryTest
 
         keywordRegistry.addSyntaxCheckers(checkers);
 
-        final Map<String, SyntaxChecker> map = keywordRegistry.getSyntaxCheckers();
+        final Map<String, SyntaxChecker> map
+            = keywordRegistry.getSyntaxCheckers();
 
         assertEquals(map.size(), 1);
         assertSame(map.get(KEYWORD), CHECKER);

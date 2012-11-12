@@ -47,8 +47,7 @@ public final class JsonPointerLookupTest
         String input, errmsg;
         JsonNode expected;
 
-        final ImmutableSet.Builder<Object[]> builder
-            = new ImmutableSet.Builder<Object[]>();
+        final ImmutableSet.Builder<Object[]> builder = ImmutableSet.builder();
 
         /*
          * Empty fragments

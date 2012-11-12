@@ -66,7 +66,7 @@ public final class DraftV3DependenciesKeywordValidator
             = ImmutableMap.builder();
 
         final ImmutableSetMultimap.Builder<String, String> simpleBuilder
-            = new ImmutableSetMultimap.Builder<String, String>();
+            = ImmutableSetMultimap.builder();
 
         String key;
         JsonNode value;

@@ -62,8 +62,7 @@ public abstract class AbstractTypeKeywordValidator
             return;
         }
 
-        final ImmutableList.Builder<JsonNode> builder
-            = new ImmutableList.Builder<JsonNode>();
+        final ImmutableList.Builder<JsonNode> builder = ImmutableList.builder();
 
         for (final JsonNode element: node)
             if (element.isTextual())

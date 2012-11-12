@@ -41,8 +41,7 @@ public final class ExtendsKeywordValidator
     {
         super("extends", NodeType.values());
         final JsonNode node = schema.get(keyword);
-        final ImmutableSet.Builder<JsonNode> builder
-            = new ImmutableSet.Builder<JsonNode>();
+        final ImmutableSet.Builder<JsonNode> builder = ImmutableSet.builder();
 
         /*
          * Again, the fact that syntax validation has ensured our schema's
