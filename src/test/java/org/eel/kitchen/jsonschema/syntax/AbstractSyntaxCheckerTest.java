@@ -45,7 +45,7 @@ public abstract class AbstractSyntaxCheckerTest
         final String input = "/syntax/" + resource + ".json";
         testData = JsonLoader.fromResource(input);
 
-        syntaxValidator = new SyntaxValidator(registry.getSyntaxCheckers());
+        syntaxValidator = new SyntaxValidator(registry);
     }
 
     @DataProvider

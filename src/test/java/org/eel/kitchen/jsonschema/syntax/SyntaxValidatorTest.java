@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Domain;
@@ -85,7 +84,7 @@ public final class SyntaxValidatorTest
     {
         final NodeType nodeType = NodeType.getNodeType(schema);
 
-        validator = new SyntaxValidator(Maps.<String, SyntaxChecker>newHashMap());
+        validator = new SyntaxValidator(new KeywordRegistry());
 
         validator.validate(messages, schema);
 
@@ -105,7 +104,7 @@ public final class SyntaxValidatorTest
 
         registry.addKeyword(k1);
 
-        validator = new SyntaxValidator(registry.getSyntaxCheckers());
+        validator = new SyntaxValidator(registry);
 
         validator.validate(messages, instance);
 
@@ -122,7 +121,7 @@ public final class SyntaxValidatorTest
         registry.addKeyword(k1);
         registry.addKeyword(k2);
 
-        validator = new SyntaxValidator(registry.getSyntaxCheckers());
+        validator = new SyntaxValidator(registry);
 
         validator.validate(messages, instance);
 
@@ -143,7 +142,7 @@ public final class SyntaxValidatorTest
 
         registry.addKeyword(k);
 
-        validator = new SyntaxValidator(registry.getSyntaxCheckers());
+        validator = new SyntaxValidator(registry);
 
         validator.validate(messages, instance);
 

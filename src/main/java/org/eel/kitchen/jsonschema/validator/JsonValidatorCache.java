@@ -80,9 +80,8 @@ public final class JsonValidatorCache
         final SchemaRegistry schemaRegistry)
     {
         resolver = new JsonResolver(schemaRegistry);
-        syntaxValidator = new SyntaxValidator(
-            keywordRegistry.getSyntaxCheckers());
-        keywordFactory = new KeywordFactory(keywordRegistry.getValidators());
+        syntaxValidator = new SyntaxValidator(keywordRegistry);
+        keywordFactory = new KeywordFactory(keywordRegistry);
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(cacheLoader());
         formatAttributes = keywordRegistry.getFormatAttributes();

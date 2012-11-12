@@ -93,18 +93,17 @@ public final class JsonSchemaFactory
 
         final ImmutableMap.Builder<JsonRef, JsonValidatorCache> cacheBuilder
             = ImmutableMap.builder();
+        final Map<JsonRef, KeywordRegistry> map = builder.keywordRegistries;
+
         JsonRef ref;
         JsonValidatorCache validatorCache;
 
-        final Map<JsonRef, KeywordRegistry> map = builder.keywordRegistries;
-
-        for (final Map.Entry<JsonRef, KeywordRegistry> entry:
-            map.entrySet()) {
+        for (final Map.Entry<JsonRef, KeywordRegistry> entry: map.entrySet()) {
             ref = entry.getKey();
-            validatorCache = new JsonValidatorCache(entry.getValue(),
-                registry);
+            validatorCache = new JsonValidatorCache(entry.getValue(), registry);
             cacheBuilder.put(ref, validatorCache);
         }
+
         validatorCaches = cacheBuilder.build();
     }
 

@@ -18,9 +18,9 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -54,10 +54,9 @@ public final class KeywordFactory
      */
     private final Map<String, Class<? extends KeywordValidator>> validators;
 
-    public KeywordFactory(
-        final Map<String, Class<? extends KeywordValidator>> validators)
+    public KeywordFactory(final KeywordRegistry registry)
     {
-        this.validators = ImmutableMap.copyOf(validators);
+        validators = registry.getValidators();
     }
 
     /**
