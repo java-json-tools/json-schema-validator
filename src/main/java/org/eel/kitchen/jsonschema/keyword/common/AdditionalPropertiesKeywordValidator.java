@@ -25,7 +25,6 @@ import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -80,7 +79,7 @@ public final class AdditionalPropertiesKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final Set<String> fields = JacksonUtils.fieldNames(instance);
+        final Set<String> fields = Sets.newHashSet(instance.fieldNames());
 
         fields.removeAll(properties);
 

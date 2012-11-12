@@ -48,7 +48,7 @@ public final class DraftV4DependenciesKeywordValidator
     protected void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final Set<String> fields = JacksonUtils.fieldNames(instance);
+        final Set<String> fields = Sets.newHashSet(instance.fieldNames());
         final Set<String> unsatisfied = Sets.newTreeSet();
 
         fields.retainAll(dependencies.keySet());

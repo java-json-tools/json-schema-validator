@@ -25,7 +25,6 @@ import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
@@ -69,7 +68,7 @@ public final class KeywordFactory
     {
         final Set<KeywordValidator> ret = Sets.newHashSet();
 
-        final Set<String> set = JacksonUtils.fieldNames(schema);
+        final Set<String> set = Sets.newHashSet(schema.fieldNames());
 
         set.retainAll(validators.keySet());
 

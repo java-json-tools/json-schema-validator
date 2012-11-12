@@ -105,7 +105,7 @@ public final class DraftV3DependenciesKeywordValidator
         /*
          * Grab the set of property names from the instance
          */
-        final Set<String> fields = JacksonUtils.fieldNames(instance);
+        final Set<String> fields = Sets.newHashSet(instance.fieldNames());
 
         /*
          * Simple dependencies: first try and see if it applies at all to this

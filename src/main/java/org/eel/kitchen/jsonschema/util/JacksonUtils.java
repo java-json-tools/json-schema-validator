@@ -22,12 +22,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedMap;
 
 /**
@@ -84,24 +82,6 @@ public final class JacksonUtils
             entry = iterator.next();
             ret.put(entry.getKey(), entry.getValue());
         }
-
-        return ret;
-    }
-
-    /**
-     * Return a set of field names in an object instance
-     *
-     * @param node the node
-     * @return a mutable set of the instance's keys
-     */
-    public static Set<String> fieldNames(final JsonNode node)
-    {
-        final Set<String> ret = Sets.newHashSet();
-
-        final Iterator<String> iterator = node.fieldNames();
-
-        while (iterator.hasNext())
-            ret.add(iterator.next());
 
         return ret;
     }

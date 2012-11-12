@@ -64,7 +64,7 @@ public final class DraftV3PropertiesKeywordValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final Set<String> fields = JacksonUtils.fieldNames(instance);
+        final Set<String> fields = Sets.newHashSet(instance.fieldNames());
 
         if (fields.containsAll(required))
             return;

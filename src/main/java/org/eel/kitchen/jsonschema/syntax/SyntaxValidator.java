@@ -18,10 +18,10 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
@@ -64,7 +64,7 @@ public final class SyntaxValidator
             return;
         }
 
-        final Set<String> keywords = JacksonUtils.fieldNames(schema);
+        final Set<String> keywords = Sets.newHashSet(schema.fieldNames());
 
         keywords.retainAll(checkers.keySet());
 
