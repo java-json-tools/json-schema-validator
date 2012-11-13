@@ -41,8 +41,8 @@
                 <version>2.9</version>
                 <configuration>
                     <links>
-                        <link>http://fasterxml.github.com/jackson-databind/javadoc/2.0.6/</link>
-                        <link>http://fasterxml.github.com/jackson-core/javadoc/2.0.6/</link>
+                        <link>http://fasterxml.github.com/jackson-databind/javadoc/2.1.1/</link>
+                        <link>http://fasterxml.github.com/jackson-core/javadoc/2.1.1/</link>
                         <link>http://docs.oracle.com/javase/6/docs/api</link>
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
