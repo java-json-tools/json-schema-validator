@@ -53,7 +53,8 @@ import java.util.Set;
 public final class AdditionalPropertiesKeywordValidator
     extends KeywordValidator
 {
-    private final Joiner TOSTRING_JOINER = Joiner.on("; or ");
+    private static final Joiner TOSTRING_JOINER = Joiner.on("; or ");
+
     private final boolean additionalOK;
     private final Set<String> properties;
     private final Set<String> patternProperties;
