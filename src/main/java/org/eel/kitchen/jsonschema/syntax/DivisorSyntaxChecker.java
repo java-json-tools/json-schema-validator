@@ -41,7 +41,7 @@ public final class DivisorSyntaxChecker
     }
 
     @Override
-    public final void checkValue(final Message.Builder msg,
+    public void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);

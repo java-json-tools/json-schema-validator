@@ -33,7 +33,7 @@ import java.util.Set;
  * <p>These keywords are monsters. Only {@code dependencies} comes close in
  * terms of complexity.</p>
  */
-public class DraftV3TypeKeywordSyntaxChecker
+public final class DraftV3TypeKeywordSyntaxChecker
     extends SimpleSyntaxChecker
 {
     private static final String ANY = "any";
@@ -46,7 +46,7 @@ public class DraftV3TypeKeywordSyntaxChecker
     }
 
     @Override
-    public final void checkValue(final Message.Builder msg,
+    public void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);

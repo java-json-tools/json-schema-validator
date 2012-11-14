@@ -31,7 +31,7 @@ import java.util.List;
  * strictly conformant with the specification, this implementation enforces
  * this.</p>
  */
-public class PositiveIntegerSyntaxChecker
+public final class PositiveIntegerSyntaxChecker
     extends SimpleSyntaxChecker
 {
     public PositiveIntegerSyntaxChecker(final String keyword)
@@ -40,7 +40,7 @@ public class PositiveIntegerSyntaxChecker
     }
 
     @Override
-    public final void checkValue(final Message.Builder msg,
+    public void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
