@@ -28,19 +28,14 @@ import java.util.List;
  * Syntax checker for the {@code divisibleBy} keyword (draft v3) and {@code
  * multipleOf} keyword (draft v4)
  *
- * <p>This is an abstract class to ensure that the value of the keyword is any
- * number and that it is strictly greater than 0.</p>
- *
- * <p>Draft v3 used {@code divisibleBy} for this, draft v4 uses {@code
- * multipleOf} instead.</p>
+ * <p>This class ensures that the value of the keyword is a number which is
+ * strictly greater than 0. Note that this include floating point numbers.</p>
  *
  */
-public class ModZeroSyntaxChecker
+public final class DivisorSyntaxChecker
     extends SimpleSyntaxChecker
 {
-    private static final BigDecimal ZERO = BigDecimal.ZERO;
-
-    protected ModZeroSyntaxChecker(final String keyword)
+    public DivisorSyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.INTEGER, NodeType.NUMBER);
     }
@@ -51,7 +46,7 @@ public class ModZeroSyntaxChecker
     {
         final JsonNode node = schema.get(keyword);
 
-        if (node.decimalValue().compareTo(ZERO) > 0)
+        if (node.decimalValue().compareTo(BigDecimal.ZERO) > 0)
             return;
 
         msg.setMessage(keyword + " is not strictly greater than 0")
