@@ -28,9 +28,8 @@ import java.math.BigDecimal;
 /**
  * Validator for the {@code maximum} keyword
  *
- * <p>It also pairs with {@code exclusiveMaximum}, if found. The latter has
- * no signification in and of itself without {@code maximum}.
- * </p>
+ * <p>It also pairs with {@code exclusiveMaximum}, if found. The latter has no
+ * signification in and of itself without {@code maximum}.</p>
  */
 public final class MaximumKeywordValidator
     extends NumericKeywordValidator

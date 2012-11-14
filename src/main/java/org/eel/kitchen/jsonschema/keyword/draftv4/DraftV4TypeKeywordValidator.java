@@ -24,6 +24,12 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+/**
+ * Keyword validator for the (draft v4) {@code type} keyword
+ *
+ * <p>Unlike draft v3, this keyword's value can now only be a single string,
+ * which is one of the seven types defined by the draft.</p>
+ */
 public final class DraftV4TypeKeywordValidator
     extends KeywordValidator
 {

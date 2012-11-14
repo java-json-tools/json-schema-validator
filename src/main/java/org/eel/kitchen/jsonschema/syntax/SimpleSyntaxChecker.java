@@ -25,7 +25,13 @@ import java.util.EnumSet;
 import java.util.List;
 
 /**
- * Simple type-only syntax checker
+ * Basic syntax checker
+ *
+ * <p>All other syntax checkers inherit from this class. Its only purpose is to
+ * check whether the type of the keyword's value is of the expected type(s).
+ * More advanced syntax checkers will override {@link #checkValue(
+ * Message.Builder, List, JsonNode)} to further check the anatomy of this value.
+ * </p>
  */
 public class SimpleSyntaxChecker
     implements SyntaxChecker

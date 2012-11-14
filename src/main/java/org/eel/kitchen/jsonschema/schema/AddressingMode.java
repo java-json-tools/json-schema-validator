@@ -38,15 +38,14 @@ import java.net.URI;
  * </pre>
  *
  * <p>What can happen here is that an implementation walks the schema and
- * determines that the URI of the root schema is {@code
- * some://where/schema.json}, which is pretty much normal. It <i>can</i> also
- * see the other {@code id} in subschema {@code /sub} and resolve the value of
- * this subschema against the root URI: this gives {@code
- * some://where/other.json}. This is called by this implementation {@link
- * #INLINE} addressing mode.</p>
+ * determines that the URI of the root schema is {@code some://where/schema.json
+ * }, which is pretty much normal. It <i>can</i> also see the other {@code id}
+ * in subschema {@code /sub} and resolve the value of this subschema against the
+ * root URI: this gives {@code some://where/other.json}. This is called by this
+ * implementation {@link #INLINE} addressing mode.</p>
  *
- * <p>By default, however, and for security reasons, the addressing mode is
- * {@link #CANONICAL}.</p>
+ * <p>By default, for security reasons, the addressing mode is {@link #CANONICAL
+ * }.</p>
  */
 public enum AddressingMode
 {

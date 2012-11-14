@@ -27,10 +27,9 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 /**
  * Validator for the {@code maxProperties} keyword
  *
- * <p>This keyword is not defined by draft v3, and a candidate for the next
- * draft. It places au upper constraint on the number of members of an object
- * instance in the same manner than {@code maxItems} does for array instances.
- * </p>
+ * <p>This keyword  places au upper constraint on the number of members of an
+ * object instance in the same manner than {@code maxItems} does for array
+ * instances</p>
  */
 public final class MaxPropertiesKeywordValidator
     extends PositiveIntegerKeywordValidator

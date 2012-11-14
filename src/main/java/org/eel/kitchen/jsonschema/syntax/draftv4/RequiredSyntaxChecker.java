@@ -27,6 +27,9 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Syntax validator for the (draft v4) {@code required} keyword
+ */
 public final class RequiredSyntaxChecker
     extends SimpleSyntaxChecker
 {

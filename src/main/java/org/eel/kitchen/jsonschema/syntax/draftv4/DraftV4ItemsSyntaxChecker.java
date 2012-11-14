@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.util.List;
 
 /**
- * Syntax validator for the {@code items} keyword
+ * Syntax validator for the (draft v4) {@code items} keyword
  */
 public final class DraftV4ItemsSyntaxChecker
     extends SimpleSyntaxChecker

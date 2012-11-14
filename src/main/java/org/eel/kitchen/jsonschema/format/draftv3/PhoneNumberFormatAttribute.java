@@ -30,14 +30,12 @@ import org.eel.kitchen.jsonschema.util.NodeType;
  * Attempt to validate the {@code phone} format attribute.
  *
  * <p>The draft says the phone MAY match E.123. Quite vague. Here we use
- * Google's <a href="http://code.google.com/p/libphonenumber/">
- * libphonenumber</a> as it is a library specialized in phone number
- * recognition.</p>
+ * Google's <a href="http://code.google.com/p/libphonenumber/">libphonenumber
+ * </a> as it is a library specialized in phone number recognition.</p>
  *
  * <p>It will only chek if this is a potential phone number, not whether it is
  * actually valid for your country! If you really want that, you will probably
  * want to write your own {@link KeywordValidator}.</p>
- *
  */
 //TODO: more tests?
 public final class PhoneNumberFormatAttribute

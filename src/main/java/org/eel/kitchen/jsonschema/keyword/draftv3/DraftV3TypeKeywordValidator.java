@@ -29,8 +29,8 @@ import java.util.EnumSet;
 /**
  * Validator for the {@code type} keyword
  *
- * <p>This keyword and its counterpart ({@code disallowed}) are two of the
- * most complex keywords.</p>
+ * <p>This keyword and its counterpart ({@code disallow}) are two of the most
+ * complex keywords.</p>
  */
 public final class DraftV3TypeKeywordValidator
     extends AbstractTypeKeywordValidator

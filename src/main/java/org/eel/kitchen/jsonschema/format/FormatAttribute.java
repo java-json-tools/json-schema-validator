@@ -42,6 +42,10 @@ import java.util.EnumSet;
  * <p>JSON Schema specifications allow for custom attributes to be added. This
  * implementation supports it.</p>
  *
+ * <p>Final note: even though you may register format attributes to validate
+ * container instances, drafts also explicitly says that you should not do so.
+ * </p>
+ *
  * @see KeywordRegistry
  */
 public abstract class FormatAttribute

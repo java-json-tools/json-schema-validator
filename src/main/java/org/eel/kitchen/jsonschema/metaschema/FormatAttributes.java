@@ -37,8 +37,8 @@ import java.util.Map;
  *
  * <p>Both attributes for draft v3 and draft v4 are bundled.</p>
  *
- * <p>You should not have to use this class directly: use {@link
- * KeywordRegistry} instead.</p>
+ * <p>You should not have to use this class directly: use {@link KeywordRegistry
+ * } instead.</p>
  *
  * @see KeywordRegistry
  * @see KeywordRegistries

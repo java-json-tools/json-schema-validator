@@ -23,9 +23,9 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import java.net.URI;
 
 /**
- * A JSON Schema container
+ * A canonical JSON Schema container
  *
- * <b>TODO: javadoc</b>
+ * @see AddressingMode
  */
 public final class CanonicalSchemaContainer
     extends SchemaContainer

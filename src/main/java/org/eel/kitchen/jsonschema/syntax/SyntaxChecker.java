@@ -13,11 +13,8 @@ import java.util.List;
  * recall, their role is to ensure the keyword values are well formed, so as to
  * ease the job of the associated keyword validator.</p>
  *
- * <p>You have the option to directly implement this interface, however there
- * exist a number of classes which you can extend.</p>
- *
- * @see SimpleSyntaxChecker
- * @see PositiveIntegerSyntaxChecker
+ * <p>You have the option to directly implement this interface, however you're
+ * probably better off extending {@link SimpleSyntaxChecker} instead.</p>
  */
 public interface SyntaxChecker
 {

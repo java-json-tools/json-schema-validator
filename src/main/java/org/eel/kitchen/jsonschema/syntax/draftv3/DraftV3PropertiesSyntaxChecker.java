@@ -30,6 +30,9 @@ import java.util.Set;
 
 /**
  * Syntax validator for the {@code properties} keyword
+ *
+ * <p>In fact, what this validator really does is check that a {@code required}
+ * member in a value, if any, is a boolean.</p>
  */
 public final class DraftV3PropertiesSyntaxChecker
     extends SimpleSyntaxChecker

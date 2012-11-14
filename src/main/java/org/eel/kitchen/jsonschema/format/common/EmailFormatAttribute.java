@@ -28,6 +28,8 @@ import javax.mail.internet.InternetAddress;
 
 /**
  * Validator for the {@code email} format attribute.
+ *
+ * <p>Note: emails are required to have a domain part.</p>
  */
 public final class EmailFormatAttribute
     extends FormatAttribute

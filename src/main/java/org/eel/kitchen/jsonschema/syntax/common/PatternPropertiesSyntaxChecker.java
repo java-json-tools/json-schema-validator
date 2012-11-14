@@ -31,6 +31,11 @@ import java.util.Set;
 
 /**
  * Syntax validator for the {@code patternProperties} keyword
+ *
+ * <p>This syntax checker does more than the metaschema itself, since it also
+ * checks that member names are valid regular expressions.</p>
+ *
+ * @see RhinoHelper
  */
 public final class PatternPropertiesSyntaxChecker
     extends SimpleSyntaxChecker

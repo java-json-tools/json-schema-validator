@@ -32,15 +32,14 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
  *
  * <p>The rules are:</p>
  * <ul>
- *     <li>if {@code items} is a schema, validation always succeeds,
- *     since all items in the array have to obey its schema;</li>
+ *     <li>if {@code items} is a schema, validation always succeeds, since all
+       items in the array have to obey its schema;</li>
  *     <li>if {@code additionalItems} is either {@code true} or a schema,
  *     validation succeeds;</li>
- *     <li>if {@code items} is an array of schemas (tuple validation)
- *     and {@code additionalItems} is {@code false}, validation succeeds if
- *     and only if the number of elements in the array instance is less than
- *     or equal to the number of schemas in {@code items}.
- *     </li>
+ *     <li>if {@code items} is an array of schemas (tuple validation) and {@code
+ *     additionalItems} is {@code false}, validation succeeds if and only if the
+ *     number of elements in the array instance is less than or equal to the
+ *     number of schemas in {@code items}.</li>
  * </ul>
  */
 public final class AdditionalItemsKeywordValidator

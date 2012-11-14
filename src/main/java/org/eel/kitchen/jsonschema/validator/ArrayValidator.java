@@ -37,6 +37,7 @@ import java.util.List;
  * <p>Array indices start at 0. For a given index:</p>
  *
  * <ul>
+ *     <li>if {@code items} is a schema, this schema matches all elements;</li>
  *     <li>if there is a schema at this index in {@code items}, there is a
  *     match;</li>
  *     <li>otherwise, {@code additionalItems} is considered (if {@code true} or

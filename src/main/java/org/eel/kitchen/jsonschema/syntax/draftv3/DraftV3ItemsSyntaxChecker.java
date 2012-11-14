@@ -26,7 +26,10 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.util.List;
 
 /**
- * Syntax validator for the {@code items} keyword
+ * Syntax validator for the {@code items} keyword as defined in draft v3
+ *
+ * <p>Unlike draft v4, in draft v3, it is not required that a schema array have
+ * at least one element.</p>
  */
 public final class DraftV3ItemsSyntaxChecker
     extends SimpleSyntaxChecker

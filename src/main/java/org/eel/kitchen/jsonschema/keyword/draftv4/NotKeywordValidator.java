@@ -24,6 +24,12 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+/**
+ * Validator for the {@code not} keyword
+ *
+ * <p>An instance is valid against that keyword if and only if it is not valid
+ * against the schema defined by this keyword.</p>
+ */
 public final class NotKeywordValidator
     extends KeywordValidator
 {

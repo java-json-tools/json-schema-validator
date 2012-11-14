@@ -24,6 +24,11 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 
+/**
+ * Common syntax validator for keywords having a schema array as an argument
+ *
+ * <p>These keywords are: {@code anyOf}, {@code allOf} and {@code oneOf}.</p>
+ */
 public final class SchemaArraySyntaxChecker
     extends SimpleSyntaxChecker
 {

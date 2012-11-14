@@ -24,13 +24,13 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import java.math.BigDecimal;
 
 /**
- * Abstract validator for the {@code disallow} (draft v3) and {@code multipleOf}
- * (draft v4) keywords
+ * Abstract validator for the {@code divisibleBy} (draft v3) and {@code
+ * multipleOf} (draft v4) keywords
  */
-public abstract class ModZeroKeywordValidator
+public abstract class DivisorKeywordValidator
     extends NumericKeywordValidator
 {
-    protected ModZeroKeywordValidator(final String keyword,
+    protected DivisorKeywordValidator(final String keyword,
         final JsonNode schema)
     {
         super(keyword, schema);

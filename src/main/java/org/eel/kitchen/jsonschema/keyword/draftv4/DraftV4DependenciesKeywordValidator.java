@@ -31,6 +31,12 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Keyword validator for the (draft v4) {@code dependencies} keyword
+ *
+ * <p>This keyword has been considerably simplified compared to draft v3: it now
+ * only contains schema dependencies.</p>
+ */
 public final class DraftV4DependenciesKeywordValidator
     extends KeywordValidator
 {

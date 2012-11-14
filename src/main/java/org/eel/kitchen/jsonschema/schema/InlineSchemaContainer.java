@@ -25,9 +25,10 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import java.util.Map;
 
 /**
- * A JSON Schema container
+ * An inline addressing JSON Schema container
  *
- * <b>TODO: javadoc</b>
+ * <p>This container will retrieve all {@code id} members in the schema
+ * (including subschemas).</p>
  */
 public final class InlineSchemaContainer
     extends SchemaContainer

@@ -29,6 +29,14 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.util.Set;
 
+/**
+ * Validator for the (draft v4) {@code required} keyword
+ *
+ * <p>In draft v3, this keyword was attached to a schema defined by the {@code
+ * properties} keyword. In draft v4, it is a "first-level" citizen. Its value
+ * is a set of property names which the object instance must contain in order
+ * to validate successfully.</p>
+ */
 public final class RequiredKeywordValidator
     extends KeywordValidator
 {

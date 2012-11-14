@@ -27,6 +27,8 @@ import java.util.List;
 
 /**
  * Syntax validator for the {@code pattern} keyword
+ *
+ * @see RhinoHelper
  */
 public final class PatternSyntaxChecker
     extends SimpleSyntaxChecker

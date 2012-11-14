@@ -39,8 +39,8 @@ import java.util.SortedSet;
 /**
  * Validator for the {@code dependencies} keyword
  *
- * <p>This validator covers both property dependencies and schema
- * dependencies.</p>
+ * <p>This validator covers both property dependencies and schema dependencies.
+ * </p>
  */
 public final class DraftV3DependenciesKeywordValidator
     extends KeywordValidator

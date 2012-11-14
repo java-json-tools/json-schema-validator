@@ -24,6 +24,11 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Set;
 
+/**
+ * Abstract class for all keywords taking a schema array as a value
+ *
+ * <p>This covers {@code anyOf}, {@code allOf} and {@code oneOf}.</p>
+ */
 public abstract class SchemaArrayKeywordValidator
     extends KeywordValidator
 {

@@ -29,6 +29,10 @@ import java.util.Set;
 
 /**
  * Validator for the {@code enum} keyword
+ *
+ * <p>Note: currently, validation using this keyword has a bug with numeric
+ * instances: {@code 1} and {@code 1.0} are not considered equal, even though
+ * they should.</p>
  */
 public final class EnumKeywordValidator
     extends KeywordValidator

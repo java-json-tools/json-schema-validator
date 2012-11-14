@@ -19,6 +19,8 @@ package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Sets;
+import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -29,6 +31,10 @@ import java.util.Set;
 
 /**
  * Syntax validator for the {@code enum} keyword
+ *
+ * <p>At the moment, this class has the same bug as {@link EnumKeywordValidator}
+ * and {@link UniqueItemsKeywordValidator} with regards to numeric instances.
+ * </p>
  */
 public final class EnumSyntaxChecker
     extends SimpleSyntaxChecker

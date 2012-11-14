@@ -18,13 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.ModZeroKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.DivisorKeywordValidator;
 
 /**
  * Validator for the {@code multipleOf} keyword
  */
 public final class MultipleOfKeywordValidator
-    extends ModZeroKeywordValidator
+    extends DivisorKeywordValidator
 {
     public MultipleOfKeywordValidator(final JsonNode schema)
     {

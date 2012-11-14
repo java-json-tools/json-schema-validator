@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Syntax checker for the {@code dependencies} keyword
+ * Syntax checker for the (draft v3) {@code dependencies} keyword
  */
 public final class DraftV3DependenciesSyntaxChecker
     extends SimpleSyntaxChecker

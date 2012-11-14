@@ -26,6 +26,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
+/**
+ * Syntax validator for keywords having a URI as a value
+ *
+ * <p>This includes {@code $schema}, {@code $ref} and {@code id}.</p>
+ */
 public final class URISyntaxChecker
     extends SimpleSyntaxChecker
 {

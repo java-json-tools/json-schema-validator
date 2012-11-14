@@ -26,7 +26,12 @@ import java.net.URI;
 /**
  * A JSON Schema container
  *
- * <b>TODO: Javadoc</b>
+ * <p>A schema container contains the JSON representation of a schema, plus its
+ * location (as a {@link JsonRef}).</p>
+ *
+ * <p>This class embodies the ability to tell whether a JSON reference is
+ * embodied within the schema itself. It is particularly important for
+ * {@link AddressingMode#INLINE} addressing mode.</p>
  */
 public abstract class SchemaContainer
 {

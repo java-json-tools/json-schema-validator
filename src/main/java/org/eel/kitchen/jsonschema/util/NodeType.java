@@ -29,6 +29,10 @@ import java.util.Map;
 /**
  * Enumeration for the different types of JSON instances which can be
  * encountered.
+ *
+ * <p>In addition to what the JSON RFC defines, JSON Schema has an {@code
+ * integer} type, which is a numeric value without any fraction or exponent
+ * part.</p>
  */
 
 public enum NodeType

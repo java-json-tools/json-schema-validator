@@ -41,8 +41,8 @@ import java.util.Set;
  * that is, after the following is true:</p>
  *
  * <ul>
- *     <li>the JSON document is not a JSON reference (ie, if it was,
- *     it has been resolved successfully);</li>
+ *     <li>the JSON document is not a JSON reference (ie, if it was, it has been
+ *     resolved successfully);</li>
  *     <li>it is syntactically valid (see {@link SyntaxValidator}).</li>
  * </ul>
  */

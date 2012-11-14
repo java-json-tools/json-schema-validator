@@ -40,8 +40,8 @@ import java.net.URL;
  * reasons but also because, to quote its documentation, "[the] Javascript
  * standard specifies that all number handling should be done using 64-bit IEEE
  * 754 floating point values" (therefore the equivalent of the {@code double}
- * primitive type). This is not JavaScript, however: this is JSON Schema.
- * </p>
+ * primitive type). This is not JavaScript, however: this is JSON, and JSON does
+ * not limit the precision/scale of numeric values.</p>
  */
 public final class JsonLoader
 {

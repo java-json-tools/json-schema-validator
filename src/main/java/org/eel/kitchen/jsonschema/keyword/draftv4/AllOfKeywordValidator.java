@@ -23,6 +23,12 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+/**
+ * Keyword validator for the {@code allOf} keyword
+ *
+ * <p>An instance is valid against this keyword if and only if it is valid
+ * against all schemas defined by its value.</p>
+ */
 public final class AllOfKeywordValidator
     extends SchemaArrayKeywordValidator
 {

@@ -29,6 +29,10 @@ import java.util.Set;
 
 /**
  * Validator for the {@code uniqueItems} keyword
+ *
+ * <p>Note: like {@link EnumKeywordValidator}, this keyword is buggy with
+ * regards to numeric instance validation. For instance, array {@code [ 1, 1.0 ]
+ * } will validate successfully but it should not.</p>
  */
 public final class UniqueItemsKeywordValidator
     extends KeywordValidator

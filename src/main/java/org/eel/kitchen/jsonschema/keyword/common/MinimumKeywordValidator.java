@@ -29,8 +29,7 @@ import java.math.BigDecimal;
  * Validator for the {@code minimum} keyword
  *
  * <p>This validator pairs with {@code exclusiveMinimum}. The latter has no
- * signification by itself without {@code minimum}.
- * </p>
+ * signification by itself without {@code minimum}</p>
  */
 public final class MinimumKeywordValidator
     extends NumericKeywordValidator

@@ -27,9 +27,9 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 /**
  * Validator for the {@code disallow} keyword
  *
- * <p>{@code disallow} is the exact opposite of {@code type},
- * and if the JSON instance matches either a primitive type or a schema
- * within this keyword's definition, validation fails.</p>
+ * <p>{@code disallow} is the exact opposite of {@code type}, and if the JSON
+ * instance matches either a primitive type or a schema within this keyword's
+ * definition, validation fails.</p>
  *
  */
 public final class DisallowKeywordValidator

@@ -29,8 +29,8 @@ import java.util.List;
 /**
  * Abstract validator for the {@code type} and {@code disallow} keywords
  *
- * <p>The structure of these two keywords are the same,
- * the only difference is the validation process.</p>
+ * <p>The structure of these two keywords are the same, the only difference is
+ * the validation process.</p>
  */
 public abstract class AbstractTypeKeywordValidator
     extends KeywordValidator

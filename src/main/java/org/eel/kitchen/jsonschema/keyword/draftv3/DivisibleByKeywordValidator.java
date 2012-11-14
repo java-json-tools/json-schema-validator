@@ -18,14 +18,14 @@
 package org.eel.kitchen.jsonschema.keyword.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.keyword.ModZeroKeywordValidator;
+import org.eel.kitchen.jsonschema.keyword.DivisorKeywordValidator;
 
 /**
- * Validator for the {@code disallow} keyword
+ * Validator for the {@code divisibleBy} keyword
  *
  */
 public final class DivisibleByKeywordValidator
-    extends ModZeroKeywordValidator
+    extends DivisorKeywordValidator
 {
     public DivisibleByKeywordValidator(final JsonNode schema)
     {

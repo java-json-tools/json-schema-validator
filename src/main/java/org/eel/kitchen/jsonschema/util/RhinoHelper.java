@@ -24,8 +24,8 @@ import org.mozilla.javascript.Scriptable;
 import java.util.regex.Pattern;
 
 /**
- * <p>ECMA 262 validation helper. Rhino is used instead of
- * {@link java.util.regex} because the latter doesn't comply with ECMA 262:</p>
+ * <p>ECMA 262 validation helper. Rhino is used instead of {@link
+ * java.util.regex} because the latter doesn't comply with ECMA 262:</p>
  *
  * <ul>
  *     <li>ECMA 262 doesn't have {@link Pattern#DOTALL};</li>
@@ -33,14 +33,13 @@ import java.util.regex.Pattern;
  *     {@code ?+}, etc);</li>
  *     <li>there is only one word delimiter in ECMA 262, which is {@code \b};
  *     {@code \<} (for beginning of word) and {@code \>} (for end of word) are
- *     not understood.
- *     </li>
+ *     not understood.</li>
  * </ul>
  *
  * <p>And many, many other things. See
- * <a href="http://www.regular-expressions.info/javascript.html">here</a>
- * for the full story. And if you don't yet have Jeffrey Friedl's "Mastering
- * regular expressions", just <a href="http://regex.info">buy it</a> :p</p>
+ * <a href="http://www.regular-expressions.info/javascript.html">here</a> for
+ * the full story. And if you don't yet have Jeffrey Friedl's "Mastering regular
+ * expressions", just <a href="http://regex.info">buy it</a> :p</p>
  */
 public final class RhinoHelper
 {
