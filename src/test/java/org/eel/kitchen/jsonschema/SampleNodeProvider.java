@@ -59,6 +59,13 @@ public final class SampleNodeProvider
         return doGetSamples(EnumSet.of(first, other));
     }
 
+    public static Iterator<Object[]> getSamplesExcept(final NodeType first,
+        final NodeType... other)
+    {
+        final Set<NodeType> types = EnumSet.of(first, other);
+        return doGetSamples(Sets.complementOf(types));
+    }
+
     private static Iterator<Object[]> doGetSamples(final Set<NodeType> types)
     {
         final Map<NodeType, JsonNode> map = Maps.newEnumMap(SAMPLE_DATA);
@@ -73,12 +80,5 @@ public final class SampleNodeProvider
                     return new Object[] { input };
                 }
             }).iterator();
-    }
-
-    public static Iterator<Object[]> getSamplesExcept(final NodeType first,
-        final NodeType... other)
-    {
-        final Set<NodeType> types = EnumSet.of(first, other);
-        return doGetSamples(Sets.complementOf(types));
     }
 }
