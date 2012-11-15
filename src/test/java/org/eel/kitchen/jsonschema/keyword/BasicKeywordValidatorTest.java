@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import org.eel.kitchen.jsonschema.SampleNodeProvider;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -32,8 +32,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.math.BigDecimal;
 import java.net.URI;
+import java.util.Iterator;
 
 import static org.mockito.Mockito.*;
 
@@ -46,8 +46,6 @@ public final class BasicKeywordValidatorTest
      * Note that we don't bother calling the full mechanism (ie,
      * build via reflection).
      */
-    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
-
     private ValidationContext context;
     private ValidationReport report;
     private KeywordValidator validator;
@@ -90,13 +88,10 @@ public final class BasicKeywordValidatorTest
     }
 
     @DataProvider
-    public Object[][] coveredInstances()
+    public Iterator<Object[]> coveredInstances()
     {
-        return new Object[][] {
-            { factory.numberNode(0) },
-            { factory.numberNode(new BigDecimal("1.1"))},
-            { factory.textNode("") }
-        };
+        return SampleNodeProvider.getSamples(NodeType.INTEGER,
+            NodeType.NUMBER, NodeType.STRING);
     }
 
     @Test(dataProvider = "coveredInstances")
@@ -107,14 +102,10 @@ public final class BasicKeywordValidatorTest
     }
 
     @DataProvider
-    public Object[][] ignoredInstances()
+    public Iterator<Object[]> ignoredInstances()
     {
-        return new Object[][] {
-            { factory.nullNode() },
-            { factory.arrayNode() },
-            { factory.objectNode() },
-            { factory.booleanNode(true) }
-        };
+        return SampleNodeProvider.getSamplesExcept(NodeType.INTEGER,
+            NodeType.NUMBER, NodeType.STRING);
     }
 
     @Test(dataProvider = "ignoredInstances")

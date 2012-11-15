@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.SampleNodeProvider;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.report.Domain;
@@ -68,14 +68,7 @@ public final class SyntaxValidatorTest
     @DataProvider
     private Iterator<Object[]> getNonSchemaJsonDocuments()
     {
-        return new ImmutableSet.Builder<Object[]>()
-            .add(new Object[] { factory.arrayNode() })
-            .add(new Object[] { factory.booleanNode(true) })
-            .add(new Object[] { factory.numberNode(1) })
-            .add(new Object[] { factory.numberNode(1.0) })
-            .add(new Object[] { factory.nullNode() })
-            .add(new Object[] { factory.textNode("") })
-            .build().iterator();
+        return SampleNodeProvider.getSamplesExcept(NodeType.OBJECT);
     }
 
 
