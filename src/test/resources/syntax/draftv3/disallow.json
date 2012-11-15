@@ -42,8 +42,8 @@
                 "domain": "syntax",
                 "keyword": "disallow",
                 "message": "unknown simple type",
-                "possible-values": [ "array", "boolean", "integer", "number",
-                    "null", "object", "string" ],
+                "possible-values": [ "array", "boolean", "integer", "null",
+                    "number", "object", "string" ],
                 "found": "hammer"
             }
         ]
@@ -67,8 +67,8 @@
                 "keyword": "disallow",
                 "message": "unknown simple type",
                 "index": 3,
-                "possible-values": [ "array", "boolean", "integer", "number",
-                    "null", "object", "string" ],
+                "possible-values": [ "array", "boolean", "integer", "null",
+                    "number", "object", "string" ],
                 "found": "foo"
             }
         ]

@@ -52,13 +52,13 @@ public enum NodeType
     /**
      * Number nodes (ie, decimal numbers)
      */
-    NUMBER("number"),
-    /**
-     * Null nodes
-     */
     NULL("null"),
     /**
      * Object nodes
+     */
+    NUMBER("number"),
+    /**
+     * Null nodes
      */
     OBJECT("object"),
     /**
