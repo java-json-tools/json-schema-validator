@@ -1,0 +1,16 @@
+{
+    "zero": 0,
+    "zeroDotZero": 0.0,
+    "one": 1,
+    "oneDotZero": 1.0,
+    "zero": 0,
+    "zeroDotZero": 0.0,
+    "intMin": -2147483648.0,
+    "intMinMinus1": -2147483649.0,
+    "intMax": 2147483647.0,
+    "intMaxPlus1": 2147483648.0,
+    "longMin": -9223372036854775808.0,
+    "longMinMinus1": 9223372036854775809.0,
+    "longMax": 9223372036854775807.0,
+    "longMaxPlus1": 9223372036854775808.0
+}
