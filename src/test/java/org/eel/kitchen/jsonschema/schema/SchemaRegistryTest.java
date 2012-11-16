@@ -17,13 +17,13 @@
 
 package org.eel.kitchen.jsonschema.schema;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -50,8 +50,8 @@ public final class SchemaRegistryTest
             {
                 if (!fullPath.equals(source))
                     throw new IOException();
-                return new ByteArrayInputStream(JsonNodeFactory.instance
-                    .objectNode().toString().getBytes());
+                return new ByteArrayInputStream(CustomJsonNodeFactory
+                    .getInstance().objectNode().toString().getBytes());
             }
         });
 
@@ -76,7 +76,7 @@ public final class SchemaRegistryTest
         final String location = "http://toto/a/../b";
 
         bundle = SchemaBundle.withRootSchema(location,
-            JsonNodeFactory.instance.objectNode());
+            CustomJsonNodeFactory.getInstance().objectNode());
 
         final SchemaRegistry registry = new SchemaRegistry(new URIManager(),
             URI.create("#"), AddressingMode.CANONICAL);

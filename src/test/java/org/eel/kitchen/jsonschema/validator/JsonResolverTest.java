@@ -30,6 +30,7 @@ import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIManager;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -39,7 +40,8 @@ import static org.testng.Assert.*;
 
 public final class JsonResolverTest
 {
-    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+    private static final JsonNodeFactory factory
+        = CustomJsonNodeFactory.getInstance();
 
     private SchemaRegistry registry;
     private JsonResolver resolver;

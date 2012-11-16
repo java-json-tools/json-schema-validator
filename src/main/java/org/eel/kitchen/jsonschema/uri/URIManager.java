@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
@@ -60,7 +61,8 @@ public final class URIManager
      * @see NumericKeywordValidator
      */
     private static final ObjectMapper mapper = new ObjectMapper()
-        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+        .setNodeFactory(CustomJsonNodeFactory.getInstance());
 
     /**
      * Map of downloaders (schemes as keys, {@link URIDownloader} instances

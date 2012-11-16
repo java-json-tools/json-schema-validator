@@ -18,11 +18,11 @@
 package org.eel.kitchen.jsonschema.uri;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -204,8 +204,8 @@ public final class URIManagerTest
         /*
          * The content we return
          */
-        final JsonNode expected = JsonNodeFactory.instance.objectNode()
-            .put("hello", "world");
+        final JsonNode expected = CustomJsonNodeFactory.getInstance()
+            .objectNode().put("hello", "world");
         final InputStream sampleStream
             = new ByteArrayInputStream(expected.toString().getBytes());
 

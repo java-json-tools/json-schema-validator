@@ -18,9 +18,9 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableSet;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -90,7 +90,7 @@ public final class ObjectValidatorTest
         ObjectNode node;
 
         for (final JsonNode element: actual) {
-            node = JsonNodeFactory.instance.objectNode();
+            node = CustomJsonNodeFactory.getInstance().objectNode();
             map = JacksonUtils.nodeToMap(element);
             node.putAll(map);
             actualSet.add(node);

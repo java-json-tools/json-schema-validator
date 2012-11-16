@@ -55,8 +55,21 @@
     },
     {
         "schema": {
-            "enum": [ true, null, {}, 32, 32.0, "32" ]
+            "enum": [ true, null, {}, 32, "32", 1.1 ]
         },
         "valid": true
+    },
+    {
+        "schema": {
+            "enum": [ 32, 32.0 ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "enum",
+                "message": "elements in the array are not unique"
+            }
+        ]
     }
 ]

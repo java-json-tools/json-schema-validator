@@ -49,7 +49,8 @@ public final class JsonLoader
      * The mapper which does everything behind the scenes...
      */
     private static final ObjectMapper mapper = new ObjectMapper()
-        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+        .setNodeFactory(CustomJsonNodeFactory.getInstance());
 
     /**
      * A shortcut: myself as a {@link Class} object.

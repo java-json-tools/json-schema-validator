@@ -28,6 +28,7 @@ import com.google.common.collect.Ordering;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 
 import java.util.Collection;
 import java.util.Comparator;
@@ -51,6 +52,8 @@ public final class ValidationReport
      */
     private static final JsonPointer ROOT;
 
+    private static final JsonNodeFactory factory
+        = CustomJsonNodeFactory.getInstance();
     private static final Ordering<Message> MESSAGE_ORDER
         = Ordering.from(MessageComparator.instance);
 
@@ -255,13 +258,13 @@ public final class ValidationReport
      */
     public JsonNode asJsonObject()
     {
-        final ObjectNode ret = JsonNodeFactory.instance.objectNode();
+        final ObjectNode ret = factory.objectNode();
 
         ArrayNode node;
         List<Message> messages;
 
         for (final JsonPointer ptr: msgMap.keySet()) {
-            node = JsonNodeFactory.instance.arrayNode();
+            node = factory.arrayNode();
             messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
             for (final Message message: messages)
                 node.add(message.toJsonNode());
@@ -287,7 +290,7 @@ public final class ValidationReport
      */
     public JsonNode asJsonArray()
     {
-        final ArrayNode ret = JsonNodeFactory.instance.arrayNode();
+        final ArrayNode ret = factory.arrayNode();
         ObjectNode node;
 
         final Iterable<JsonPointer> paths
@@ -298,7 +301,7 @@ public final class ValidationReport
         for (final JsonPointer ptr: paths) {
             messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
             for (final Message msg: messages) {
-                node = JsonNodeFactory.instance.objectNode()
+                node = factory.objectNode()
                 .put("path", ptr.toString());
                 // I hate to do that...
                 node.putAll((ObjectNode) msg.toJsonNode());

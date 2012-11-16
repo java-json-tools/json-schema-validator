@@ -23,6 +23,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.math.BigDecimal;
@@ -33,7 +34,8 @@ import java.util.Set;
 
 public final class SampleNodeProvider
 {
-    private static final JsonNodeFactory FACTORY = JsonNodeFactory.instance;
+    private static final JsonNodeFactory FACTORY
+        = CustomJsonNodeFactory.getInstance();
     private static final Map<NodeType, JsonNode> SAMPLE_DATA;
 
     private SampleNodeProvider()

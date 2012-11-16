@@ -28,6 +28,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 
 import java.util.ArrayList;
@@ -70,7 +71,8 @@ import java.util.Set;
  */
 public final class Message
 {
-    private static final JsonNodeFactory factory = JsonNodeFactory.instance;
+    private static final JsonNodeFactory factory
+        = CustomJsonNodeFactory.getInstance();
     private static final Joiner JOINER = Joiner.on("; ");
 
     private final Domain domain;

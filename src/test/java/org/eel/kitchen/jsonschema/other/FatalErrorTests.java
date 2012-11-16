@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
@@ -26,6 +25,7 @@ import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
+import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -94,7 +94,7 @@ public final class FatalErrorTests
             .addKeywordRegistry(JsonRef.emptyRef(), registry, true).build();
 
         // Create our schema, which will also be our data, we don't care
-        final JsonNode node = JsonNodeFactory.instance.objectNode()
+        final JsonNode node = CustomJsonNodeFactory.getInstance().objectNode()
             .put("foo", "bar");
 
         final JsonSchema schema = factory.fromSchema(node);
