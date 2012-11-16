@@ -55,9 +55,8 @@ public final class URIFormatAttribute
         try {
             new URI(value.textValue());
         } catch (URISyntaxException ignored) {
-            final Message.Builder msg = newMsg(fmt)
-                .setMessage("string is not a valid URI")
-                .addInfo("value", value);
+            final Message.Builder msg = newMsg(fmt).addInfo("value", value)
+                .setMessage("string is not a valid URI");
             report.addMessage(msg.build());
         }
     }

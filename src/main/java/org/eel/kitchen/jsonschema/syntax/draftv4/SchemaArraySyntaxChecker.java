@@ -43,23 +43,24 @@ public final class SchemaArraySyntaxChecker
     {
         final JsonNode node = schema.get(keyword);
 
-        if (node.size() == 0) {
+        final int size = node.size();
+
+        if (size == 0) {
             msg.setMessage("array must have at least one element");
             messages.add(msg.build());
             return;
         }
 
-        int index = 0;
-        NodeType elementType;
-        for (final JsonNode element: node) {
-            elementType = NodeType.getNodeType(element);
-            if (elementType != NodeType.OBJECT) {
-                msg.setMessage("incorrect type for array element")
-                    .addInfo("index", index).addInfo("found", elementType)
-                    .addInfo("expected", NodeType.OBJECT);
-                messages.add(msg.build());
-            }
-            index++;
+        NodeType type;
+
+        for (int index = 0; index < size; index++) {
+            type = NodeType.getNodeType(node.get(index));
+            if (type == NodeType.OBJECT)
+                continue;
+            msg.setMessage("incorrect type for array element")
+                .addInfo("index", index).addInfo("found", type)
+                .addInfo("expected", NodeType.OBJECT);
+            messages.add(msg.build());
         }
     }
 }

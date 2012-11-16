@@ -60,17 +60,17 @@ public final class DraftV3ItemsSyntaxChecker
          * If it is an array, check that its elements are all objects
          */
 
-        int index = 0;
-        NodeType elementType;
-        for (final JsonNode element: itemsNode) {
-            elementType = NodeType.getNodeType(element);
-            if (elementType != NodeType.OBJECT) {
-                msg.setMessage("incorrect type for array element")
-                    .addInfo("index", index).addInfo("found", elementType)
-                    .addInfo("expected", NodeType.OBJECT);
-                messages.add(msg.build());
-            }
-            index++;
+        final int size = itemsNode.size();
+        NodeType type;
+
+        for (int index = 0; index < size; index++) {
+            type = NodeType.getNodeType(itemsNode.get(index));
+            if (type == NodeType.OBJECT)
+                continue;
+            msg.setMessage("incorrect type for array element")
+                .addInfo("index", index).addInfo("found", type)
+                .addInfo("expected", NodeType.OBJECT);
+            messages.add(msg.build());
         }
     }
 }

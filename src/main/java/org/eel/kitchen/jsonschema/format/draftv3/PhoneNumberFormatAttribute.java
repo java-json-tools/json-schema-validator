@@ -79,9 +79,8 @@ public final class PhoneNumberFormatAttribute
             else
                 parser.parse(input, "FR");
         } catch (NumberParseException ignored) {
-            final Message.Builder msg = newMsg(fmt)
-                .setMessage("string is not a recognized phone number")
-                .addInfo("value", value);
+            final Message.Builder msg = newMsg(fmt).addInfo("value", value)
+                .setMessage("string is not a recognized phone number");
             report.addMessage(msg.build());
         }
     }

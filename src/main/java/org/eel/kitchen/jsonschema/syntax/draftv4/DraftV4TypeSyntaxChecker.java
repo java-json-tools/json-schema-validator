@@ -18,13 +18,14 @@
 package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import com.google.common.base.Functions;
+import com.google.common.collect.FluentIterable;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,16 +38,9 @@ public final class DraftV4TypeSyntaxChecker
     private static final SyntaxChecker instance
         = new DraftV4TypeSyntaxChecker();
 
-    private static final Set<String> VALID_TYPES;
-
-    static {
-        final Set<String> set = Sets.newTreeSet();
-
-        for (final NodeType type: NodeType.values())
-            set.add(type.toString());
-
-        VALID_TYPES = ImmutableSet.copyOf(set);
-    }
+    private static final Set<String> VALID_TYPES
+        = FluentIterable.from(EnumSet.allOf(NodeType.class))
+            .transform(Functions.toStringFunction()).toImmutableSet();
 
     public static SyntaxChecker getInstance()
     {

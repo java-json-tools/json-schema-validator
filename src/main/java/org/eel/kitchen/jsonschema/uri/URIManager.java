@@ -146,12 +146,12 @@ public final class URIManager
      */
     public void addRedirection(final String from, final String to)
     {
+        Preconditions.checkNotNull(from, "source URI is null");
+        Preconditions.checkNotNull(to, "destination URI is null");
+
         final URI sourceURI, destURI;
         JsonRef ref;
         String errmsg;
-
-        Preconditions.checkNotNull(from, "source URI is null");
-        Preconditions.checkNotNull(to, "destination URI is null");
 
         errmsg = "source URI " + from + " is not an absolute JSON reference";
         try {

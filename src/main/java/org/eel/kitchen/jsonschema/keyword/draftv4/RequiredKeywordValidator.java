@@ -27,6 +27,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -58,9 +59,8 @@ public final class RequiredKeywordValidator
     protected void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final Set<String> missing = Sets.newHashSet(required);
-
-        missing.removeAll(Sets.newHashSet(instance.fieldNames()));
+        final HashSet<String> fields = Sets.newHashSet(instance.fieldNames());
+        final Set<String> missing = Sets.difference(required, fields);
 
         if (missing.isEmpty())
             return;

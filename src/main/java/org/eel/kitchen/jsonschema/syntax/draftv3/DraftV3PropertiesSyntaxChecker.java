@@ -63,14 +63,21 @@ public final class DraftV3PropertiesSyntaxChecker
         for (final String field: Ordering.natural().sortedCopy(fields)) {
             msg.addInfo("key", field);
             element = node.get(field);
+            /*
+             * Check that member values are JSON objects (schemas)
+             */
             type = NodeType.getNodeType(element);
-            if (!element.isObject()) {
+            if (type != NodeType.OBJECT) {
                 msg.setMessage("key value has incorrect type")
                     .addInfo("expected", NodeType.OBJECT)
                     .addInfo("found", type);
                 messages.add(msg.build());
                 continue;
             }
+            /*
+             * If the subschema has a "required" member name, check that the
+             * value is a boolean
+             */
             if (!element.has("required"))
                 continue;
             type = NodeType.getNodeType(element.get("required"));

@@ -56,17 +56,17 @@ public final class ExtendsSyntaxChecker
          * If it is an array, check that its elements are all objects
          */
 
-        int index = 0;
-        NodeType elementType;
-        for (final JsonNode element: extendsNode) {
-            elementType = NodeType.getNodeType(element);
-            if (elementType != NodeType.OBJECT) {
-                msg.setMessage("incorrect type for array element")
-                    .addInfo("index", index).addInfo("found", elementType)
-                    .addInfo("expected", NodeType.OBJECT);
-                messages.add(msg.build());
-            }
-            index++;
+        final int size = extendsNode.size();
+        NodeType type;
+
+        for (int index = 0; index < size; index++) {
+            type = NodeType.getNodeType(extendsNode.get(index));
+            if (type == NodeType.OBJECT)
+                continue;
+            msg.setMessage("incorrect type for array element")
+                .addInfo("index", index).addInfo("found", type)
+                .addInfo("expected", NodeType.OBJECT);
+            messages.add(msg.build());
         }
     }
 }

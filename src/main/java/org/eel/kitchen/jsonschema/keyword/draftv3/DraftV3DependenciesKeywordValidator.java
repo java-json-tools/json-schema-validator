@@ -22,6 +22,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
@@ -144,17 +145,17 @@ public final class DraftV3DependenciesKeywordValidator
     private void computeSimpleDep(final String field, final Set<String> fields,
         final ValidationReport report)
     {
-        final Set<String> expected = simple.get(field);
-        final SortedSet<String> missing = Sets.newTreeSet(expected);
-        missing.removeAll(fields);
+        final Set<String> required = simple.get(field);
+        final Set<String> missing = Sets.difference(required, fields);
 
         if (missing.isEmpty())
             return;
 
         final Message.Builder msg = newMsg()
             .setMessage("missing property dependencies")
-            .addInfo("property", field).addInfo("missing", missing)
-            .addInfo("expected", Sets.newTreeSet(expected));
+            .addInfo("property", field)
+            .addInfo("missing", Ordering.natural().sortedCopy(missing))
+            .addInfo("expected", Ordering.natural().sortedCopy(required));
         report.addMessage(msg.build());
     }
 

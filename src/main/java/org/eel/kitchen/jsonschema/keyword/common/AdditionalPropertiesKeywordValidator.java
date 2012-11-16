@@ -30,7 +30,6 @@ import org.eel.kitchen.jsonschema.util.RhinoHelper;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.util.Collections;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -126,7 +125,7 @@ public final class AdditionalPropertiesKeywordValidator
 
         sb.append(", unless: ");
 
-        final Set<String> further = new LinkedHashSet<String>();
+        final Set<String> further = Sets.newLinkedHashSet();
 
         if (!properties.isEmpty())
             further.add("one property is any of: " + properties);

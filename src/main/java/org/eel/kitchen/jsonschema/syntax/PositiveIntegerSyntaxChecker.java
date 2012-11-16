@@ -53,10 +53,7 @@ public final class PositiveIntegerSyntaxChecker
             return;
         }
 
-        if (node.intValue() >= 0)
-            return;
-
-        messages.add(msg.setMessage("value cannot be negative")
-            .build());
+        if (node.intValue() < 0)
+            messages.add(msg.setMessage("value cannot be negative").build());
     }
 }

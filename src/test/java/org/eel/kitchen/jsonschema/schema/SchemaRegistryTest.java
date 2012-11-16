@@ -54,6 +54,7 @@ public final class SchemaRegistryTest
                     .objectNode().toString().getBytes());
             }
         });
+
         manager.registerScheme("foo", downloader);
 
         final URI rootns = URI.create("foo:///bar/../bar/");
@@ -82,8 +83,7 @@ public final class SchemaRegistryTest
 
         registry.addBundle(bundle);
 
-        final SchemaContainer container
-            = registry.get(URI.create(location));
+        final SchemaContainer container = registry.get(URI.create(location));
 
         assertEquals(container.getLocator().getLocator(),
             URI.create("http://toto/b#"));

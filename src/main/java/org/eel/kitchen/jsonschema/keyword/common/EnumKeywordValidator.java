@@ -54,9 +54,8 @@ public final class EnumKeywordValidator
         if (enumValues.contains(instance))
             return;
 
-        final Message.Builder msg = newMsg()
-            .setMessage("value not found in enum").addInfo("enum", enumNode)
-            .addInfo("value", instance);
+        final Message.Builder msg = newMsg().addInfo("value", instance)
+            .addInfo("enum", enumNode).setMessage("value not found in enum");
         report.addMessage(msg.build());
     }
 

@@ -55,9 +55,8 @@ public final class RegexFormatAttribute
         if (RhinoHelper.regexIsValid(value.textValue()))
             return;
 
-        final Message.Builder msg = newMsg(fmt)
-            .setMessage("string is not a valid ECMA 262 regular expression")
-            .addInfo("value", value);
+        final Message.Builder msg = newMsg(fmt).addInfo("value", value)
+            .setMessage("string is not a valid ECMA 262 regular expression");
         report.addMessage(msg.build());
     }
 }

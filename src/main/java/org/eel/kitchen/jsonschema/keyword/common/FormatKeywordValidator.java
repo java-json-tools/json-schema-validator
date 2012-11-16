@@ -58,10 +58,8 @@ public final class FormatKeywordValidator
     {
         final FormatAttribute attribute = context.getFormat(fmt);
 
-        if (attribute == null)
-            return;
-
-        attribute.validate(fmt, report, instance);
+        if (attribute != null)
+            attribute.validate(fmt, report, instance);
     }
 
     @Override

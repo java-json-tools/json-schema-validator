@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.keyword.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
@@ -65,16 +66,14 @@ public final class DraftV3PropertiesKeywordValidator
         final ValidationReport report, final JsonNode instance)
     {
         final Set<String> fields = Sets.newHashSet(instance.fieldNames());
+        final Set<String> missing = Sets.difference(required, fields);
 
-        if (fields.containsAll(required))
+        if (missing.isEmpty())
             return;
 
-        final Set<String> requiredSorted = Sets.newTreeSet(required);
-        final Set<String> missing = Sets.newTreeSet(required);
-        missing.removeAll(fields);
-
-        final Message.Builder msg = newMsg().addInfo("required", requiredSorted)
-            .addInfo("missing", missing)
+        final Message.Builder msg = newMsg()
+            .addInfo("required", Ordering.natural().sortedCopy(required))
+            .addInfo("missing", Ordering.natural().sortedCopy(missing))
             .setMessage("required property(ies) not found");
         report.addMessage(msg.build());
     }

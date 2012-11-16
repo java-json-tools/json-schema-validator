@@ -64,9 +64,8 @@ public final class MinimumKeywordValidator
         if (!exclusive)
             return;
 
-        msg.addInfo("exclusiveMinimum", BooleanNode.TRUE)
-            .setMessage("number is not strictly greater than the required " +
-                "minimum");
+        msg.addInfo("exclusiveMinimum", BooleanNode.TRUE).setMessage("number is"
+            + " not strictly greater than the required minimum");
         report.addMessage(msg.build());
     }
 
@@ -95,8 +94,8 @@ public final class MinimumKeywordValidator
             return;
 
         msg.addInfo("exclusiveMinimum", BooleanNode.TRUE)
-            .setMessage("number is not strictly greater than the required " +
-                "minimum");
+            .setMessage("number is not strictly greater than the required "
+                + "minimum");
         report.addMessage(msg.build());
     }
 }

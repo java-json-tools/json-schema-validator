@@ -61,11 +61,8 @@ public final class InlineSchemaContainer
 
     private static JsonRef extractLocator(final JsonNode node)
     {
-        if (!node.has("id"))
-            return JsonRef.emptyRef();
-
         try {
-            return JsonRef.fromNode(node.get("id"));
+            return JsonRef.fromNode(node.path("id"));
         } catch (JsonSchemaException ignored) {
             return JsonRef.emptyRef();
         }

@@ -56,9 +56,8 @@ public final class IPV4FormatAttribute
             .forString(ipaddr).getAddress().length == IPV4_LENGTH)
             return;
 
-        final Message.Builder msg = newMsg(fmt)
-            .setMessage("string is not a valid IPv4 address")
-            .addInfo("value", value);
+        final Message.Builder msg = newMsg(fmt).addInfo("value", value)
+            .setMessage("string is not a valid IPv4 address");
         report.addMessage(msg.build());
     }
 }
