@@ -26,7 +26,6 @@ import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.math.BigDecimal;
-import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -42,13 +41,14 @@ public final class SampleNodeProvider
     }
 
     static {
-        SAMPLE_DATA = new EnumMap<NodeType, JsonNode>(NodeType.class);
+        SAMPLE_DATA = Maps.newEnumMap(NodeType.class);
 
         SAMPLE_DATA.put(NodeType.ARRAY, FACTORY.arrayNode());
         SAMPLE_DATA.put(NodeType.BOOLEAN, FACTORY.booleanNode(true));
         SAMPLE_DATA.put(NodeType.INTEGER, FACTORY.numberNode(0));
         SAMPLE_DATA.put(NodeType.NULL, FACTORY.nullNode());
-        SAMPLE_DATA.put(NodeType.NUMBER, FACTORY.numberNode(BigDecimal.ZERO));
+        SAMPLE_DATA.put(NodeType.NUMBER,
+            FACTORY.numberNode(new BigDecimal("1.1")));
         SAMPLE_DATA.put(NodeType.OBJECT, FACTORY.objectNode());
         SAMPLE_DATA.put(NodeType.STRING, FACTORY.textNode(""));
     }
