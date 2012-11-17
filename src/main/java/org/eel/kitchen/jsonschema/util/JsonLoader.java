@@ -48,9 +48,8 @@ public final class JsonLoader
     /**
      * The mapper which does everything behind the scenes...
      */
-    private static final ObjectMapper mapper = new ObjectMapper()
-        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-        .setNodeFactory(CustomJsonNodeFactory.getInstance());
+    private static final ObjectMapper MAPPER
+        = CustomJsonNodeFactory.getMapper();
 
     /**
      * A shortcut: myself as a {@link Class} object.
@@ -82,7 +81,7 @@ public final class JsonLoader
         final JsonNode ret;
 
         try {
-            ret = mapper.readTree(in);
+            ret = MAPPER.readTree(in);
         } finally {
             in.close();
         }
@@ -100,7 +99,7 @@ public final class JsonLoader
     public static JsonNode fromURL(final URL url)
         throws IOException
     {
-        return mapper.readTree(url);
+        return MAPPER.readTree(url);
     }
 
     /**
@@ -118,7 +117,7 @@ public final class JsonLoader
         final FileInputStream in = new FileInputStream(path);
 
         try {
-            ret = mapper.readTree(in);
+            ret = MAPPER.readTree(in);
         } finally {
             in.close();
         }
@@ -141,7 +140,7 @@ public final class JsonLoader
 
         final FileInputStream in = new FileInputStream(file);
         try {
-            ret = mapper.readTree(in);
+            ret = MAPPER.readTree(in);
         } finally {
             in.close();
         }
@@ -159,7 +158,7 @@ public final class JsonLoader
     public static JsonNode fromReader(final Reader reader)
         throws IOException
     {
-        return mapper.readTree(reader);
+        return MAPPER.readTree(reader);
     }
 
     /**

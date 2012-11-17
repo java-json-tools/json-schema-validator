@@ -17,7 +17,9 @@
 
 package org.eel.kitchen.jsonschema.util;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.BigIntegerNode;
 import com.fasterxml.jackson.databind.node.DecimalNode;
 import com.fasterxml.jackson.databind.node.IntNode;
@@ -52,9 +54,18 @@ public final class CustomJsonNodeFactory
 {
     private static final JsonNodeFactory INSTANCE = new CustomJsonNodeFactory();
 
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+        .setNodeFactory(INSTANCE);
+
     public static JsonNodeFactory getInstance()
     {
         return INSTANCE;
+    }
+
+    public static ObjectMapper getMapper()
+    {
+        return MAPPER;
     }
 
     private CustomJsonNodeFactory()

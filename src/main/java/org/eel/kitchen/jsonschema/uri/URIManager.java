@@ -60,9 +60,8 @@ public final class URIManager
      *
      * @see NumericKeywordValidator
      */
-    private static final ObjectMapper mapper = new ObjectMapper()
-        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-        .setNodeFactory(CustomJsonNodeFactory.getInstance());
+    private static final ObjectMapper MAPPER
+        = CustomJsonNodeFactory.getMapper();
 
     /**
      * Map of downloaders (schemes as keys, {@link URIDownloader} instances
@@ -223,7 +222,7 @@ public final class URIManager
         try {
             // Note: ObjectMapper's .readTree() closes the InputStream after it
             // is done with it!
-            return mapper.readTree(in);
+            return MAPPER.readTree(in);
         } catch (IOException e) {
             msg.setMessage("content fetched from URI is not valid JSON");
             throw new JsonSchemaException(msg.build(), e);
