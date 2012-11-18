@@ -33,7 +33,7 @@ import java.util.List;
  *
  */
 public final class DivisorSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     public DivisorSyntaxChecker(final String keyword)
     {

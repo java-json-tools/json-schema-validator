@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -31,7 +31,7 @@ import java.util.Map;
  * Syntax validator for the (draft v4) {@code dependencies} keyword
  */
 public final class DraftV4DependenciesSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     private static final SyntaxChecker instance
         = new DraftV4DependenciesSyntaxChecker();

@@ -20,7 +20,7 @@ package org.eel.kitchen.jsonschema.syntax.draftv3;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
@@ -34,7 +34,7 @@ import java.util.Set;
  * terms of complexity.</p>
  */
 public final class DraftV3TypeKeywordSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     private static final String ANY = "any";
     private static final EnumSet<NodeType> VALID_TYPE_ARRAY_ELEMENTS

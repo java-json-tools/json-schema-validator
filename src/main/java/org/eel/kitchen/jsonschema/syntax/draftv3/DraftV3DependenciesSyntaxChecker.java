@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -33,7 +33,7 @@ import java.util.Set;
  * Syntax checker for the (draft v3) {@code dependencies} keyword
  */
 public final class DraftV3DependenciesSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     private static final EnumSet<NodeType> VALID_DEPENDENCY_TYPES
         = EnumSet.of(NodeType.OBJECT, NodeType.ARRAY, NodeType.STRING);

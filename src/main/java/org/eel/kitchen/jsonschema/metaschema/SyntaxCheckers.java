@@ -19,8 +19,8 @@ package org.eel.kitchen.jsonschema.metaschema;
 
 import org.eel.kitchen.jsonschema.syntax.DivisorSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.TypeOnlySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMinimumSyntaxChecker;
@@ -71,7 +71,7 @@ public final class SyntaxCheckers
 
         // Arrays
         keyword = "additionalItems";
-        checker = new SimpleSyntaxChecker(keyword, BOOLEAN, OBJECT);
+        checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN, OBJECT);
         common.put(keyword, checker);
 
         keyword = "minItems";
@@ -83,12 +83,12 @@ public final class SyntaxCheckers
         common.put(keyword, checker);
 
         keyword = "uniqueItems";
-        checker = new SimpleSyntaxChecker(keyword, BOOLEAN);
+        checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);
         common.put(keyword, checker);
 
         // Integer/number
         keyword = "minimum";
-        checker = new SimpleSyntaxChecker(keyword, INTEGER, NUMBER);
+        checker = new TypeOnlySyntaxChecker(keyword, INTEGER, NUMBER);
         common.put(keyword, checker);
 
         keyword = "exclusiveMinimum";
@@ -96,7 +96,7 @@ public final class SyntaxCheckers
         common.put(keyword, checker);
 
         keyword = "maximum";
-        checker = new SimpleSyntaxChecker(keyword, INTEGER, NUMBER);
+        checker = new TypeOnlySyntaxChecker(keyword, INTEGER, NUMBER);
         common.put(keyword, checker);
 
         keyword = "exclusiveMaximum";
@@ -105,7 +105,7 @@ public final class SyntaxCheckers
 
         // Object
         keyword = "additionalProperties";
-        checker = new SimpleSyntaxChecker(keyword, BOOLEAN, OBJECT);
+        checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN, OBJECT);
         common.put(keyword, checker);
 
         keyword = "patternProperties";
@@ -139,11 +139,11 @@ public final class SyntaxCheckers
         common.put(keyword, checker);
 
         keyword = "description";
-        checker = new SimpleSyntaxChecker(keyword, STRING);
+        checker = new TypeOnlySyntaxChecker(keyword, STRING);
         common.put(keyword, checker);
 
         keyword = "title";
-        checker = new SimpleSyntaxChecker(keyword, STRING);
+        checker = new TypeOnlySyntaxChecker(keyword, STRING);
         common.put(keyword, checker);
 
         keyword = "enum";
@@ -151,7 +151,7 @@ public final class SyntaxCheckers
         common.put(keyword, checker);
 
         keyword = "format";
-        checker = new SimpleSyntaxChecker(keyword, STRING);
+        checker = new TypeOnlySyntaxChecker(keyword, STRING);
         common.put(keyword, checker);
 
         // Build the map
@@ -246,7 +246,7 @@ public final class SyntaxCheckers
         draftv4.put(keyword, checker);
 
         keyword = "not";
-        checker = new SimpleSyntaxChecker(keyword, OBJECT);
+        checker = new TypeOnlySyntaxChecker(keyword, OBJECT);
         draftv4.put(keyword, checker);
 
         keyword = "type";

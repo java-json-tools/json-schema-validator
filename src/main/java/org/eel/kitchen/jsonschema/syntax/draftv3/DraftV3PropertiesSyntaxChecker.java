@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -35,7 +35,7 @@ import java.util.Set;
  * member in a value, if any, is a boolean.</p>
  */
 public final class DraftV3PropertiesSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     private static final SyntaxChecker instance
         = new DraftV3PropertiesSyntaxChecker();

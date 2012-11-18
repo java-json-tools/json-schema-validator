@@ -22,7 +22,7 @@ import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -37,7 +37,7 @@ import java.util.Set;
  * </p>
  */
 public final class EnumSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     private static final SyntaxChecker instance = new EnumSyntaxChecker();
 

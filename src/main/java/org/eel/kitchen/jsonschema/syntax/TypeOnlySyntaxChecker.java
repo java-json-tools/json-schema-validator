@@ -15,41 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax.common;
+package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 /**
- * Syntax validator for keywords having a URI as a value
+ * The simplest syntax checker
  *
- * <p>This includes {@code $schema}, {@code $ref} and {@code id}.</p>
+ * <p>Basic syntax checker which only checks the type of its keyword, without
+ * performing any further analysis.</p>
  */
-public final class URISyntaxChecker
+public final class TypeOnlySyntaxChecker
     extends AbstractSyntaxChecker
 {
-    public URISyntaxChecker(final String keyword)
+
+    public TypeOnlySyntaxChecker(final String keyword, final NodeType type,
+        final NodeType... types)
     {
-        super(keyword, NodeType.STRING);
+        super(keyword, type, types);
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
+    public void checkValue(Message.Builder msg, List<Message> messages,
+        JsonNode schema)
     {
-        final String value = schema.get(keyword).textValue();
-
-        try {
-            new URI(value);
-        } catch (URISyntaxException ignored) {
-            msg.setMessage("not a valid URI").addInfo("found", value);
-            messages.add(msg.build());
-        }
     }
 }

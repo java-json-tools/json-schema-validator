@@ -32,7 +32,7 @@ import java.util.List;
  * this.</p>
  */
 public final class PositiveIntegerSyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     public PositiveIntegerSyntaxChecker(final String keyword)
     {

@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
@@ -30,7 +30,7 @@ import java.util.List;
  * <p>These keywords are: {@code anyOf}, {@code allOf} and {@code oneOf}.</p>
  */
 public final class SchemaArraySyntaxChecker
-    extends SimpleSyntaxChecker
+    extends AbstractSyntaxChecker
 {
     public SchemaArraySyntaxChecker(final String keyword)
     {

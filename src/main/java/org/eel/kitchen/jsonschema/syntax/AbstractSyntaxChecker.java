@@ -33,13 +33,13 @@ import java.util.List;
  * Message.Builder, List, JsonNode)} to further check the anatomy of this value.
  * </p>
  */
-public class SimpleSyntaxChecker
+public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {
     protected final String keyword;
-    private final EnumSet<NodeType> validTypes;
+    protected final EnumSet<NodeType> validTypes;
 
-    public SimpleSyntaxChecker(final String keyword, final NodeType type,
+    protected AbstractSyntaxChecker(final String keyword, final NodeType type,
         final NodeType... types)
     {
         this.keyword = keyword;
@@ -62,8 +62,6 @@ public class SimpleSyntaxChecker
         checkValue(msg, messages, schema);
     }
 
-    public void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
-    {
-    }
+    public abstract void checkValue(final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema);
 }

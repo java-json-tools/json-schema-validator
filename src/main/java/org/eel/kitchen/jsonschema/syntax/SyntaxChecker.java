@@ -14,7 +14,7 @@ import java.util.List;
  * ease the job of the associated keyword validator.</p>
  *
  * <p>You have the option to directly implement this interface, however you're
- * probably better off extending {@link SimpleSyntaxChecker} instead.</p>
+ * probably better off extending {@link AbstractSyntaxChecker} instead.</p>
  */
 public interface SyntaxChecker
 {
