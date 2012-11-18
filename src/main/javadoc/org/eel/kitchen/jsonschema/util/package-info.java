@@ -18,14 +18,22 @@
 /**
  * Various utility classes
  *
- * <p>The one you will use the most often here is {@link
- * org.eel.kitchen.jsonschema.util.JsonLoader}: it contains various methods to
- * load JSON documents as {@link com.fasterxml.jackson.databind.JsonNode}
- * instances.</p>
+ * <p>There are five utility classes, all of which are important.</p>
  *
- * <p>You may want to have a look at {@link
- * org.eel.kitchen.jsonschema.util.RhinoHelper}, which is in charge of all regex
- * validation: as the standard dictates ECMA 262 regexes, using {@link
+ * <p>{@link org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory} is a
+ * subclass of Jackson's {@link
+ * com.fasterxml.jackson.databind.node.JsonNodeFactory}, which has special
+ * treatment for non-integer numeric instances: if the decimal part consists
+ * only of zeroes, it will generate an integer node instead of a decimal node.
+ * This is to conform with JSON Schema's definition of instance equality.</p>
+ *
+ * <p>{@link org.eel.kitchen.jsonschema.util.JsonLoader} contains various
+ * methods to load JSON documents as {@link
+ * com.fasterxml.jackson.databind.JsonNode} (schemas as well as instances to
+ * validate).</p>
+ *
+ * <p>{@link org.eel.kitchen.jsonschema.util.RhinoHelper} is in charge of all
+ * regex validation: as the standard dictates ECMA 262 regexes, using {@link
  * java.util.regex} is out of the question. See this class' description for more
  * details.</p>
  *

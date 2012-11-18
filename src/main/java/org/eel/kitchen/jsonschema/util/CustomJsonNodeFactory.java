@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.BigIntegerNode;
 import com.fasterxml.jackson.databind.node.DecimalNode;
@@ -31,23 +30,36 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
- * Custom {@link JsonNodeFactory}, for the needs of JSON Schema
+ * Custom {@link JsonNodeFactory} and {@link ObjectMapper}
  *
- * <p>Jackson's {@link JsonNode} has a sound {@code .equals()} and {@code
- * .hashCode()} implementation all around, for all nodes, for all inputs, which
- * is how it should be. However, there is one point where this is detrimental to
- * JSON Schema: numeric value equality.</p>
+ * <p>Jackson's default node factory and mapper fall short of conformant JSON
+ * Schema processing on two points:</p>
  *
- * <p>Specifically, for numeric values, two values should be considered equal if
- * they are <i>mathematically</i> equal. But the base implementation does not
- * consider, for instance, {@code 1.0} and {@code 1} to be the same. According
- * to JSON Schema, they are.</p>
+ * <ul>
+ *     <li>for floating point instances, {@code double} is used by default;
+ *     however, neither the <a href="http://tools.ietf.org/html/rfc4627>JSON
+ *     RFC</a> nor the JSON Schema specifications define limits on the scale
+ *     and/or precision of numeric values;</li>
+ *     <li>again for numeric values, equality is defined by JSON Schema as
+ *     mathematical equality, which means for instance {@code 1.0} and {@code 1}
+ *     are equal; but the default implementation considers them unequal (since
+ *     the first is a floating point number and the other is an integer).</li>
+ * </ul>
  *
- * <p>As such, we override the default node factory so as to strip all 0  decimal
- * digits off any floating point numeric instance, and if the resulting scale is
- * zero, we make it an appropriate integer type value instead (either of an
- * {@link IntNode}, a {@link LongNode} or a {@link BigIntegerNode} depending on
- * the precision.</p>
+ * <p>To work around this, this class extends upon both {@link JsonNodeFactory}
+ * and {@link ObjectMapper}:</p>
+ *
+ * <ul>
+ *     <li>it uses {@link DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS}
+ *     when creating the mapper; this allows to not lose any scale or precision
+ *     on arbitrarily large floating point instances;</li>
+ *     <li>it overrides {@link JsonNodeFactory#numberNode(BigDecimal)} to strip
+ *     any final zeroes and generates a (precision-dependent) integer node if
+ *     the resulting decimal part is empty.</li>
+ * </ul>
+ *
+ * @see BigDecimal#stripTrailingZeros()
+ * @see BigDecimal#scale()
  */
 public final class CustomJsonNodeFactory
     extends JsonNodeFactory
@@ -58,11 +70,21 @@ public final class CustomJsonNodeFactory
         .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
         .setNodeFactory(INSTANCE);
 
+    /**
+     * Get the only instance of the class
+     *
+     * @return the factory
+     */
     public static JsonNodeFactory getInstance()
     {
         return INSTANCE;
     }
 
+    /**
+     * Get the embedded {@link ObjectMapper}
+     *
+     * @return the mapper
+     */
     public static ObjectMapper getMapper()
     {
         return MAPPER;
