@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Joiner;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -129,16 +130,7 @@ public final class Message
     @Override
     public int hashCode()
     {
-        int ret = domain.hashCode();
-        ret *= 31;
-        ret += keyword.hashCode();
-        ret *= 31;
-        ret += message.hashCode();
-        ret *= 31;
-        ret += Boolean.valueOf(fatal).hashCode();
-        ret *= 31;
-        ret += info.hashCode();
-        return ret;
+        return Objects.hashCode(domain, keyword, message, fatal, info);
     }
 
     @Override

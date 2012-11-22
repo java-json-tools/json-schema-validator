@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
@@ -291,12 +292,11 @@ public final class ValidationReport
     public JsonNode asJsonArray()
     {
         final ArrayNode ret = factory.arrayNode();
-        ObjectNode node;
-
         final Iterable<JsonPointer> paths
             = Ordering.natural().sortedCopy(msgMap.keySet());
 
         List<Message> messages;
+        ObjectNode node;
 
         for (final JsonPointer ptr: paths) {
             messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
@@ -327,15 +327,11 @@ public final class ValidationReport
         @Override
         public int compare(final Message o1, final Message o2)
         {
-            int ret;
-
-            ret = o1.getDomain().compareTo(o2.getDomain());
-            if (ret != 0)
-                return ret;
-            ret = o1.getKeyword().compareTo(o2.getKeyword());
-            if (ret != 0)
-                return ret;
-            return o1.getMessage().compareTo(o2.getMessage());
+            return ComparisonChain.start()
+                .compare(o1.getDomain(), o2.getDomain())
+                .compare(o1.getKeyword(), o2.getKeyword())
+                .compare(o1.getMessage(), o2.getMessage())
+                .result();
         }
     }
 }
