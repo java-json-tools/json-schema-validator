@@ -22,18 +22,16 @@ import java.net.URI;
 /**
  * Special case of a JSON Reference with a JAR URL
  *
- * <p>These URLs are legal URIs, but they are very strange beasts. Basically:
- * </p>
+ * <p>These URLs are legal URIs; trouble is, while they are absolute, they are
+ * also opaque (meaning their path component does not start with a {@code /},
+ * see {@link URI}).</p>
  *
- * <ul>
- *     <li>they are always absolute (except with a non empty fragment);</li>
- *     <li>when resolving against another URI, we special case relative URIs
- *     so as to resolve them against the path/fragment part instead of the
- *     whole URI.</li>
- * </ul>
+ * <p>This class therefore adds a special case for URI resolution by extracting
+ * the "real" path component out of the JAR URL and applying path resolution
+ * against that extracted path. While this works, this is a violation of the
+ * URI RFC.</p>
  *
- * <p>The latter is because JAR URLs are opaque, and normally, resolving any
- * URI against an opaque URI gives the URI to be resolved.</p>
+ * @see HierarchicalJsonRef
  */
 final class JarJsonRef
     extends JsonRef

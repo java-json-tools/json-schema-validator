@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.ref;
 
 /**
- * A completely empty JSON Reference
+ * A completely empty JSON Reference (ie, {@code #})
  *
  * <p>This happens in a lot of situations, it is therefore beneficial to have
  * a dedicated class for it. For instance, resolving any other reference against

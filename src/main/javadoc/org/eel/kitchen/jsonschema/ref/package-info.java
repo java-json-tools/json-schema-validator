@@ -25,6 +25,6 @@
  * there is a dedicated {@link org.eel.kitchen.jsonschema.ref.JsonFragment}
  * class to help resolve a fragment into a JSON schema. Depending on the chosen
  * addressing mode ({@link org.eel.kitchen.jsonschema.schema.AddressingMode}),
- * a fragment can only be a JSON Pointer or an {@code id} reference.</p>
+ * a fragment can be a JSON Pointer or an {@code id} reference.</p>
  */
 package org.eel.kitchen.jsonschema.ref;
