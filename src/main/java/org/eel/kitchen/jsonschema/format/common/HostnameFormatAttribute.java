@@ -27,8 +27,10 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 /**
  * Validator for the {@code host-name} format attribute.
  *
- * <p>Note: a hostname is not required to have two or more components. As such,
- * {@code foo} <b>is</b> a valid hostname.</p>
+ * <p><b>Important note</b>: the basis for host name format validation is <a
+ * href="http://tools.ietf.org/html/rfc1034">RFC 1034</a>. The RFC does <b>not
+ * </b> require that a host name have more than one domain name component. As
+ * such, {@code foo} <b>is</b> a valid hostname.</p>
  *
  * <p>Guava's {@link InternetDomainName} is used for validation.</p>
  */
