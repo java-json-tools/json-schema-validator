@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.util;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -33,15 +32,8 @@ import java.net.URL;
  * Utility class to load JSON documents (schemas or instance) from various
  * sources as {@link JsonNode}s.
  *
- * <p>It should be noted here that the {@link ObjectMapper} used to read
- * everything has {@link DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS}
- * enabled. This is to be able to deal with floating point numbers of arbitrary
- * precision. Otherwise Jackson limits itself to {@code double}, for performance
- * reasons but also because, to quote its documentation, "[the] Javascript
- * standard specifies that all number handling should be done using 64-bit IEEE
- * 754 floating point values" (therefore the equivalent of the {@code double}
- * primitive type). This is not JavaScript, however: this is JSON, and JSON does
- * not limit the precision/scale of numeric values.</p>
+ * <p>This class uses {@link CustomJsonNodeFactory#getMapper()} as an {@link
+ * ObjectMapper} to parse JSON inputs.</p>
  */
 public final class JsonLoader
 {
