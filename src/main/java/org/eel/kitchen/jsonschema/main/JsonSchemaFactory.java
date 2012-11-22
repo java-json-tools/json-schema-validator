@@ -51,6 +51,7 @@ import java.util.Map;
  * <p>This class is thread safe and immutable.</p>
  *
  * @see JsonSchema
+ * @see org.eel.kitchen.jsonschema.examples
  */
 public final class JsonSchemaFactory
 {

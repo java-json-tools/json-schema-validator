@@ -30,19 +30,19 @@
  * instance to validate any amount of data. Typically, if you use a single
  * schema, you can make that one instante {@code private static final}.</p>
  *
- * <p>You can also customize your schema factory (via the builder) in several
- * ways:</p>
+ * <p>One important thing to remember is that {@code JsonSchema} also does
+ * syntax validation, and that syntax validation is done on demand. The reasons
+ * for this is as follows:</p>
  *
  * <ul>
- *     <li>URI manipulations: setting a default namespace, setting redirections,
- *     registering downloaders for arbitrary URI schemes;</li>
- *     <li>keywords: registering/unregistering keywords, creating your own
- *     bundles, replacing/merging them;</li>
- *     <li>format attributes: same as keywords;</li>
- *     <li>enabling validation features.</li>
+ *     <li>recursive schema validation would also require that JSON references
+ *     be processed, resolved, and recursively checked as well;</li>
+ *     <li>some parts of a schema may not be used at all during instance
+ *     validation.</li>
  * </ul>
  *
- * <p>See {@link org.eel.kitchen.jsonschema.examples}.</p>
+ * <p>You can also customize your schema factory (via the builder) in several
+ * ways. See {@link org.eel.kitchen.jsonschema.examples}.</p>
  *
  */
 package org.eel.kitchen.jsonschema.main;
