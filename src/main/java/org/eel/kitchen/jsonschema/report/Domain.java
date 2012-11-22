@@ -20,6 +20,10 @@ package org.eel.kitchen.jsonschema.report;
 /**
  * Enumeration of validation domains
  *
+ * <p>This implementation defines three validation domains: ref resolving,
+ * syntax validation and instance validation. This happens to be the order in
+ * which validation proceeds.</p>
+ *
  * @see Message
  */
 public enum Domain

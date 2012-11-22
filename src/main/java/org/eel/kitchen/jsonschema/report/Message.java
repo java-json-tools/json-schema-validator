@@ -49,6 +49,9 @@ import java.util.Set;
  *     <li>the validation message.</li>
  * </ul>
  *
+ * <p>Supplementary information can be added via the different {@code
+ * .addInfo()} methods.</p>
+ *
  * <p>Example of the JSON representation of one message:</p>
  *
  * <pre>
