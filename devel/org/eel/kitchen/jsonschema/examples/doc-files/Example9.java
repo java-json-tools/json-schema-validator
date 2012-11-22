@@ -31,7 +31,6 @@ import org.eel.kitchen.jsonschema.metaschema.SchemaURIs;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.syntax.SimpleSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
@@ -40,8 +39,6 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Set;
-
-import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * Ninth example: augmenting schemas with custom keywords
@@ -123,7 +120,7 @@ public final class Example9
      * Our custom syntax checker
      */
     private static final class DivisorsSyntaxChecker
-        extends SimpleSyntaxChecker
+        extends TypeOnlySyntaxChecker
     {
         private static final SyntaxChecker instance
             = new DivisorsSyntaxChecker();
@@ -147,7 +144,7 @@ public final class Example9
             final List<Message> messages, final JsonNode schema)
         {
             /*
-             * Using SimpleSyntaxChecker as a base, we know that when we reach
+             * Using AbstractSyntaxChecker as a base, we know that when we reach
              * this method, the value has already been validated as being of
              * the allowed primitive types (only array here).
              *
