@@ -30,9 +30,9 @@ import java.util.Set;
 /**
  * Validator for the {@code uniqueItems} keyword
  *
- * <p>Note: like {@link EnumKeywordValidator}, this keyword is buggy with
- * regards to numeric instance validation. For instance, array {@code [ 1, 1.0 ]
- * } will validate successfully but it should not.</p>
+ * <p>Note: validation of numeric array elements conform to the definition of
+ * equality by JSON Schema. That is, {@code 1} and {@code 1.0} are considered
+ * equal.</p>
  */
 public final class UniqueItemsKeywordValidator
     extends KeywordValidator

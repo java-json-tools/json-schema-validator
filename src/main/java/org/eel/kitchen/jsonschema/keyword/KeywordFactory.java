@@ -37,14 +37,18 @@ import java.util.Set;
  * Factory to provide a set of {@link KeywordValidator} instances for a given
  * schema
  *
- * <p>This class is only called once the schemas has been deemed valid,
- * that is, after the following is true:</p>
+ * <p>This class is only called once the schemas has been deemed valid, that is,
+ * the following is true:</p>
  *
  * <ul>
  *     <li>the JSON document is not a JSON reference (ie, if it was, it has been
  *     resolved successfully);</li>
  *     <li>it is syntactically valid (see {@link SyntaxValidator}).</li>
  * </ul>
+ *
+ * <p>Note that failing to build a keyword validator is considered a fatal error
+ * and stops validation immediately (reminder: keyword validators are built via
+ * reflection).</p>
  */
 public final class KeywordFactory
 {

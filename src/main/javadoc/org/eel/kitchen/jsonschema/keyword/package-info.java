@@ -19,7 +19,7 @@
  * Schema validation core elements: keyword validators
  *
  * <p>All keyword validators are built via reflection, since they are dependent
- * on the schema being passed as an argument.  Therefore, if you create a
+ * on the schema being passed as an argument. Therefore, if you create a
  * keyword validator of yours, you <b>must</b> provide a constructor with a
  * single argument of type {@link com.fasterxml.jackson.databind.JsonNode}.</p>
  *
