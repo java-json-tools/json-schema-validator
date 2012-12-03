@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
@@ -32,7 +31,6 @@ import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -55,9 +53,6 @@ public final class ValidationReport
 
     private static final JsonNodeFactory factory
         = CustomJsonNodeFactory.getInstance();
-    private static final Ordering<Message> MESSAGE_ORDER
-        = Ordering.from(MessageComparator.instance);
-
     static {
         try {
             ROOT = new JsonPointer("");
@@ -232,7 +227,7 @@ public final class ValidationReport
         List<Message> messages;
 
         for (final JsonPointer path: paths) {
-            messages = MESSAGE_ORDER.sortedCopy(msgMap.get(path));
+            messages = Ordering.natural().sortedCopy(msgMap.get(path));
             for (final Message msg: messages)
                 builder.add("\"" + path + "\": " + msg);
         }
@@ -266,7 +261,7 @@ public final class ValidationReport
 
         for (final JsonPointer ptr: msgMap.keySet()) {
             node = factory.arrayNode();
-            messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
+            messages = Ordering.natural().sortedCopy(msgMap.get(ptr));
             for (final Message message: messages)
                 node.add(message.toJsonNode());
             ret.put(ptr.toString(), node);
@@ -299,7 +294,7 @@ public final class ValidationReport
         ObjectNode node;
 
         for (final JsonPointer ptr: paths) {
-            messages = MESSAGE_ORDER.sortedCopy(msgMap.get(ptr));
+            messages = Ordering.natural().sortedCopy(msgMap.get(ptr));
             for (final Message msg: messages) {
                 node = factory.objectNode()
                 .put("path", ptr.toString());
@@ -316,22 +311,5 @@ public final class ValidationReport
     public String toString()
     {
         return "current path: \"" + path + "\"; " + msgMap.size() + " messages";
-    }
-
-    private static final class MessageComparator
-        implements Comparator<Message>
-    {
-        private static final Comparator<Message> instance
-            = new MessageComparator();
-
-        @Override
-        public int compare(final Message o1, final Message o2)
-        {
-            return ComparisonChain.start()
-                .compare(o1.getDomain(), o2.getDomain())
-                .compare(o1.getKeyword(), o2.getKeyword())
-                .compare(o1.getMessage(), o2.getMessage())
-                .result();
-        }
     }
 }

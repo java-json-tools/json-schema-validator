@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
@@ -74,6 +75,7 @@ import java.util.Set;
  * @see ValidationReport
  */
 public final class Message
+    implements Comparable<Message>
 {
     private static final JsonNodeFactory factory
         = CustomJsonNodeFactory.getInstance();
@@ -125,6 +127,26 @@ public final class Message
 
         ret.putAll(info);
         return ret;
+    }
+
+    /**
+     * Implementation of {@link Comparable} for this class
+     *
+     * <p>The compared fields are the three mandatory parameters. Note that
+     * whether the message is fatal has no influence here, since if a message is
+     * fatal it will be the only reported message.</p>
+     *
+     * @param o the message to compare to
+     * @return the result of the comparison
+     */
+    @Override
+    public int compareTo(final Message o)
+    {
+        return ComparisonChain.start()
+            .compare(domain, o.domain)
+            .compare(keyword, o.keyword)
+            .compare(message, o.message)
+            .result();
     }
 
     @Override
