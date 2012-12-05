@@ -84,7 +84,7 @@ public final class NumberNode
 
         final BigDecimal decimal = node.decimalValue();
 
-        if (node.asToken() == JsonToken.VALUE_NUMBER_INT) {
+        if (node.isIntegralNumber()) {
             this.node = (NumericNode) node;
             hashCode = decimal.hashCode();
             return;
@@ -188,8 +188,7 @@ public final class NumberNode
         if (getClass() != o.getClass())
             return false;
         final NumericNode otherNode = ((NumberNode) o).node;
-        if (node.asToken() == JsonToken.VALUE_NUMBER_INT
-            && otherNode.asToken() == JsonToken.VALUE_NUMBER_INT)
+        if (node.isIntegralNumber() && otherNode.isIntegralNumber())
             return node.equals(otherNode);
         // This works since decimal nodes are normalized
         return node.decimalValue().equals(otherNode.decimalValue());
