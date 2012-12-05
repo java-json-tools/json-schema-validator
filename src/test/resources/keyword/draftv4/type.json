@@ -58,6 +58,20 @@
     },
     {
         "schema": { "type": "integer" },
+        "data": 3.0,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "type",
+                "message": "instance has incorrect type",
+                "found": "number",
+                "expected": "integer"
+            }
+        ]
+    },
+    {
+        "schema": { "type": "integer" },
         "data": 3,
         "valid": true
     }

@@ -151,5 +151,19 @@
                 "found": "null"
             }
         ]
+    },
+    {
+        "schema": { "type": "integer" },
+        "data": 1.0,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "type",
+                "message": "instance does not match any allowed primitive type",
+                "allowed": [ "integer" ],
+                "found": "number"
+            }
+        ]
     }
 ]

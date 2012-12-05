@@ -19,12 +19,9 @@ package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.BigIntegerNode;
-import com.fasterxml.jackson.databind.node.DecimalNode;
-import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.LongNode;
 import com.fasterxml.jackson.databind.node.NumericNode;
+import com.fasterxml.jackson.databind.node.ValueNode;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -64,7 +61,8 @@ import java.math.BigInteger;
 public final class CustomJsonNodeFactory
     extends JsonNodeFactory
 {
-    private static final JsonNodeFactory INSTANCE = new CustomJsonNodeFactory();
+    private static final JsonNodeFactory INSTANCE
+        = new CustomJsonNodeFactory();
 
     private static final ObjectMapper MAPPER = new ObjectMapper()
         .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
@@ -95,41 +93,86 @@ public final class CustomJsonNodeFactory
     }
 
     @Override
+    public NumericNode numberNode(final byte v)
+    {
+        return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public ValueNode numberNode(final Byte value)
+    {
+        return new NumberNode(super.numberNode(value));
+    }
+
+    @Override
+    public NumericNode numberNode(final short v)
+    {
+        return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public ValueNode numberNode(final Short value)
+    {
+        return super.numberNode(value);
+    }
+
+    @Override
+    public NumericNode numberNode(final int v)
+    {
+        return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public ValueNode numberNode(final Integer value)
+    {
+        return new NumberNode(super.numberNode(value));
+    }
+
+    @Override
+    public NumericNode numberNode(final long v)
+    {
+        return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public ValueNode numberNode(final Long value)
+    {
+        return new NumberNode(super.numberNode(value));
+    }
+
+    @Override
+    public NumericNode numberNode(final BigInteger v)
+    {
+        return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public NumericNode numberNode(final float v)
+    {
+        return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public ValueNode numberNode(final Float value)
+    {
+        return new NumberNode(super.numberNode(value));
+    }
+
+    @Override
+    public NumericNode numberNode(final double v)
+    {
+        return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public ValueNode numberNode(final Double value)
+    {
+        return new NumberNode(super.numberNode(value));
+    }
+
+    @Override
     public NumericNode numberNode(final BigDecimal v)
     {
-        /*
-         * 0 is a particular case for BigDecimal: even new BigDecimal("0") has
-         * scale 1. We have to special case it.
-         */
-        if (v.compareTo(BigDecimal.ZERO) == 0)
-            return IntNode.valueOf(0);
-
-        /*
-         * Strip decimals. For anything other than 0, if there are no fraction
-         * digits or negative exponents, the scale will be 0, therefore it will
-         * be an integer value.
-         */
-        final BigDecimal decimal = v.stripTrailingZeros();
-        if (decimal.scale() != 0)
-            return DecimalNode.valueOf(decimal);
-
-        /*
-         * In which case we take the underlying BigInteger value...
-         */
-        final BigInteger value = decimal.toBigInteger();
-
-        /*
-         * And act according to its bit length.
-         */
-        final int relSize = value.bitLength() / 32;
-
-        switch (relSize) {
-            case 0:
-                return IntNode.valueOf(value.intValue());
-            case 1:
-                return LongNode.valueOf(value.longValue());
-            default:
-                return new BigIntegerNode(value);
-        }
+        return new NumberNode(super.numberNode(v));
     }
 }
