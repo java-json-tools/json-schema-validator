@@ -38,6 +38,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.SchemaArraySyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.FragmentResolutionSyntaxChecker;
 
 import java.util.Map;
 
@@ -53,6 +54,7 @@ import static org.eel.kitchen.jsonschema.util.NodeType.*;
 public final class SyntaxCheckers
 {
     private static final Map<String, SyntaxChecker> DRAFTV3;
+    private static final Map<String, SyntaxChecker> DRAFTV3_HYPERSCHEMA;
     private static final Map<String, SyntaxChecker> DRAFTV4;
 
     // No making new instances of this class
@@ -205,6 +207,22 @@ public final class SyntaxCheckers
         DRAFTV3 = builder.build();
 
         /*
+         * Draft v3 hyper schema
+         */
+        builder = ImmutableMap.builder();
+
+        // Inject all of draft v3 core keywords
+        builder.putAll(DRAFTV3);
+
+        // Inject hyper schema specific keywords
+        keyword = "fragmentResolution";
+        checker = FragmentResolutionSyntaxChecker.getInstance();
+        builder.put(keyword, checker);
+
+        // Build the map
+        DRAFTV3_HYPERSCHEMA = builder.build();
+
+        /*
          * Draft v4
          */
         builder = ImmutableMap.builder();
@@ -276,6 +294,15 @@ public final class SyntaxCheckers
         return DRAFTV3;
     }
 
+    /**
+     * Return an immutable map of syntax checkers for draft v3 hyper schema
+     *
+     * @return a map pairing keyword names and their syntax checkers
+     */
+    public static Map<String, SyntaxChecker> draftV3HyperSchema()
+    {
+        return DRAFTV3_HYPERSCHEMA;
+    }
     /**
      * Return an immutable map of syntax checkers for draft v4
      *

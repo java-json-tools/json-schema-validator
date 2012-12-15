@@ -26,6 +26,9 @@ package org.eel.kitchen.jsonschema.metaschema;
  * <p>Note: all methods return a {@link KeywordRegistry} instance, which is
  * mutable.</p>
  *
+ * <p>Note 2: there are registries for hyper schemas as well, however no
+ * processing of any sort is done on hyperlinks, only syntax checking.</p>
+ *
  * @see KeywordRegistry
  */
 public final class KeywordRegistries
@@ -49,6 +52,19 @@ public final class KeywordRegistries
         return ret;
     }
 
+    /**
+     * Return a registry for draft version 3 hyper schema
+     *
+     * @return a {@link KeywordRegistry}
+     */
+    public static KeywordRegistry draftV3HyperSchemaRegistry()
+    {
+        final KeywordRegistry ret = new KeywordRegistry();
+        ret.addSyntaxCheckers(SyntaxCheckers.draftV3HyperSchema());
+        ret.addValidators(KeywordValidators.draftV3());
+        ret.addFormatAttributes(FormatAttributes.draftV3());
+        return ret;
+    }
 
     /**
      * Return a registry for draft version 4

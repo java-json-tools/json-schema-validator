@@ -323,8 +323,13 @@ public final class JsonSchemaFactory
             // Metaschema related
             defaultSchemaURI = SchemaURIs.defaultURI();
             defaultKeywordRegistry = KeywordRegistries.defaultRegistry();
+
+            // Build keyword registries
             keywordRegistries = Maps.newHashMap();
+
             keywordRegistries.put(defaultSchemaURI, defaultKeywordRegistry);
+            keywordRegistries.put(SchemaURIs.draftV3HyperSchemaURI(),
+                KeywordRegistries.draftV3HyperSchemaRegistry());
             keywordRegistries.put(SchemaURIs.draftV4(),
                 KeywordRegistries.draftV4());
         }
