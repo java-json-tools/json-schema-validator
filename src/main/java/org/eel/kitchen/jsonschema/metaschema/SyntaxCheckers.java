@@ -219,6 +219,10 @@ public final class SyntaxCheckers
         checker = FragmentResolutionSyntaxChecker.getInstance();
         builder.put(keyword, checker);
 
+        keyword = "readonly";
+        checker = new TypeOnlySyntaxChecker("readonly", BOOLEAN);
+        builder.put(keyword, checker);
+
         // Build the map
         DRAFTV3_HYPERSCHEMA = builder.build();
 

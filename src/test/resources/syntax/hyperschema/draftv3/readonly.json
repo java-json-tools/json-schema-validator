@@ -1,0 +1,98 @@
+[
+    {
+        "schema": {
+            "readonly": ""
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "readonly",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "string"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "readonly": {}
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "readonly",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "readonly": 1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "readonly",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "integer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "readonly": 1.1
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "readonly",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "number"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "readonly": []
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "readonly",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "array"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "readonly": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "readonly",
+                "message": "incorrect type for value",
+                "expected": [ "boolean" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "readonly": true
+        },
+        "valid": true
+    }
+]
