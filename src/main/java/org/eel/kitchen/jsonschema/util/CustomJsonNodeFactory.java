@@ -113,7 +113,7 @@ public final class CustomJsonNodeFactory
     @Override
     public ValueNode numberNode(final Short value)
     {
-        return super.numberNode(value);
+        return new NumberNode(super.numberNode(value));
     }
 
     @Override
