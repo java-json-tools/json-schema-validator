@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
+import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.syntax.DivisorSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -60,7 +61,7 @@ public final class SyntaxCheckers
     }
 
     static {
-        final MapBuilder<SyntaxChecker> common = MapBuilder.create();
+        ImmutableMap.Builder<String, SyntaxChecker> builder;
 
         String keyword;
         SyntaxChecker checker;
@@ -68,195 +69,201 @@ public final class SyntaxCheckers
         /*
          * Common syntax checkers
          */
+        builder = ImmutableMap.builder();
 
         // Arrays
         keyword = "additionalItems";
         checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN, OBJECT);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "minItems";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "maxItems";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "uniqueItems";
         checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // Integer/number
         keyword = "minimum";
         checker = new TypeOnlySyntaxChecker(keyword, INTEGER, NUMBER);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "exclusiveMinimum";
         checker = ExclusiveMinimumSyntaxChecker.getInstance();
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "maximum";
         checker = new TypeOnlySyntaxChecker(keyword, INTEGER, NUMBER);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "exclusiveMaximum";
         checker = ExclusiveMaximumSyntaxChecker.getInstance();
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // Object
         keyword = "additionalProperties";
         checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN, OBJECT);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "patternProperties";
         checker = PatternPropertiesSyntaxChecker.getInstance();
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // String
         keyword = "minLength";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "maxLength";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "pattern";
         checker = PatternSyntaxChecker.getInstance();
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // All/none
         keyword = "$schema";
         checker = new URISyntaxChecker(keyword);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "$ref";
         checker = new URISyntaxChecker(keyword);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "id";
         checker = new URISyntaxChecker(keyword);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "description";
         checker = new TypeOnlySyntaxChecker(keyword, STRING);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "title";
         checker = new TypeOnlySyntaxChecker(keyword, STRING);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "enum";
         checker = EnumSyntaxChecker.getInstance();
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "format";
         checker = new TypeOnlySyntaxChecker(keyword, STRING);
-        common.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // Build the map
-        final Map<String, SyntaxChecker> commonCheckers = common.build();
+        final Map<String, SyntaxChecker> common= builder.build();
 
         /*
-         * Draft v3 specific syntax checkers
+         * Draft v3
          */
-        final MapBuilder<SyntaxChecker> draftv3 = MapBuilder.create();
+        builder = ImmutableMap.builder();
+
+        // Start by injecting syntax checkers common to all drafts
+        builder.putAll(common);
+
+        // Now, inject draft v3 specific syntax checkers
 
         // Array
         keyword = "items";
         checker = DraftV3ItemsSyntaxChecker.getInstance();
-        draftv3.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // Integer/number
         keyword = "divisibleBy";
         checker = new DivisorSyntaxChecker(keyword);
-        draftv3.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // Object
         keyword = "properties";
         checker = DraftV3PropertiesSyntaxChecker.getInstance();
-        draftv3.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "dependencies";
         checker = DraftV3DependenciesSyntaxChecker.getInstance();
-        draftv3.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // All/none
         keyword = "extends";
         checker = ExtendsSyntaxChecker.getInstance();
-        draftv3.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "type";
         checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
-        draftv3.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "disallow";
         checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
-        draftv3.put(keyword, checker);
+        builder.put(keyword, checker);
 
-
-        // Build the map: all checkers in common, plus draft v3 specific
-        // checkers
-        draftv3.putAll(commonCheckers);
-        DRAFTV3 = draftv3.build();
+        // Build the map
+        DRAFTV3 = builder.build();
 
         /*
-         * Draft v4 specific syntax checkers
+         * Draft v4
          */
-        final MapBuilder<SyntaxChecker> draftv4 = MapBuilder.create();
+        builder = ImmutableMap.builder();
+
+        // Start by injecting syntax checkers common to all drafts
+        builder.putAll(common);
+
+        // Now, inject draft v4 specific syntax checkers
 
         // Array
         keyword = "items";
         checker = DraftV4ItemsSyntaxChecker.getInstance();
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // Integer/number
         keyword = "multipleOf";
         checker = new DivisorSyntaxChecker(keyword);
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // Object
         keyword = "minProperties";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "maxProperties";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "required";
         checker = RequiredSyntaxChecker.getInstance();
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "dependencies";
         checker = DraftV4DependenciesSyntaxChecker.getInstance();
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         // All/none
         keyword = "anyOf";
         checker = new SchemaArraySyntaxChecker(keyword);
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "allOf";
         checker = new SchemaArraySyntaxChecker(keyword);
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "oneOf";
         checker = new SchemaArraySyntaxChecker(keyword);
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "not";
         checker = new TypeOnlySyntaxChecker(keyword, OBJECT);
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
         keyword = "type";
         checker = DraftV4TypeSyntaxChecker.getInstance();
-        draftv4.put(keyword, checker);
+        builder.put(keyword, checker);
 
-        // Build the map: all checkers in common, plus draft v4 specific
-        // checkers
-        draftv4.putAll(commonCheckers);
-        DRAFTV4 = draftv4.build();
+        // Build the map
+        DRAFTV4 = builder.build();
     }
 
     /**

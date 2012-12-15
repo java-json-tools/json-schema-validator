@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
+import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.format.IPV4FormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.DateTimeFormatAttribute;
@@ -54,46 +55,54 @@ public final class FormatAttributes
     }
 
     static {
-        final MapBuilder<FormatAttribute> common = MapBuilder.create();
+        ImmutableMap.Builder<String, FormatAttribute> builder;
 
         /*
          * Common format attributes
          */
-        common.put("date-time", DateTimeFormatAttribute.getInstance());
-        common.put("email", EmailFormatAttribute.getInstance());
-        common.put("host-name", HostnameFormatAttribute.getInstance());
-        common.put("ipv6", IPV6FormatAttribute.getInstance());
-        common.put("regex", RegexFormatAttribute.getInstance());
-        common.put("uri", URIFormatAttribute.getInstance());
+        builder = ImmutableMap.builder();
+
+        builder.put("date-time", DateTimeFormatAttribute.getInstance());
+        builder.put("email", EmailFormatAttribute.getInstance());
+        builder.put("host-name", HostnameFormatAttribute.getInstance());
+        builder.put("ipv6", IPV6FormatAttribute.getInstance());
+        builder.put("regex", RegexFormatAttribute.getInstance());
+        builder.put("uri", URIFormatAttribute.getInstance());
 
         // Build the map
-        final Map<String, FormatAttribute> commonMap = common.build();
+        final Map<String, FormatAttribute> common = builder.build();
 
         /*
          * Draft v3 specific format attributes
          */
-        final MapBuilder<FormatAttribute> draftV3 = MapBuilder.create();
+        builder = ImmutableMap.builder();
 
-        draftV3.put("date", DateFormatAttribute.getInstance());
-        draftV3.put("ip-address", IPV4FormatAttribute.getInstance());
-        draftV3.put("phone", PhoneNumberFormatAttribute.getInstance());
-        draftV3.put("time", TimeFormatAttribute.getInstance());
-        draftV3.put("utc-millisec", UnixEpochFormatAttribute.getInstance());
+        // Inject common format attributes
+        builder.putAll(common);
+
+        // Inject draft v3 specific format attributes
+        builder.put("date", DateFormatAttribute.getInstance());
+        builder.put("ip-address", IPV4FormatAttribute.getInstance());
+        builder.put("phone", PhoneNumberFormatAttribute.getInstance());
+        builder.put("time", TimeFormatAttribute.getInstance());
+        builder.put("utc-millisec", UnixEpochFormatAttribute.getInstance());
 
         // Build the map
-        draftV3.putAll(commonMap);
-        DRAFTV3 = draftV3.build();
+        DRAFTV3 = builder.build();
 
         /*
          * Draft v4 specific format attributes
          */
-        final MapBuilder<FormatAttribute> draftV4 = MapBuilder.create();
+        builder = ImmutableMap.builder();
 
-        draftV4.put("ipv4", IPV4FormatAttribute.getInstance());
+        // Inject common format attributes
+        builder.putAll(common);
+
+        // Inject draft v4 specific format attributes
+        builder.put("ipv4", IPV4FormatAttribute.getInstance());
 
         // Build the map
-        draftV4.putAll(commonMap);
-        DRAFTV4 = draftV4.build();
+        DRAFTV4 = builder.build();
     }
 
     /**

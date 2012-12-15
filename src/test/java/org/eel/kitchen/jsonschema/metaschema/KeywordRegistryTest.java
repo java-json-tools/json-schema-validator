@@ -73,11 +73,11 @@ public final class KeywordRegistryTest
     @Test
     public void canRegisterKeywordValidator()
     {
-        final MapBuilder<Class<? extends KeywordValidator>> validators
-            = MapBuilder.create();
-        validators.put(KEYWORD, KeywordValidator.class);
+        final Map<String, Class<? extends KeywordValidator>> validators
+            = ImmutableMap.<String, Class<? extends KeywordValidator>>builder()
+                .put(KEYWORD, KeywordValidator.class).build();
 
-        keywordRegistry.addValidators(validators.build());
+        keywordRegistry.addValidators(validators);
 
         final Map<String, Class<? extends KeywordValidator>> map
             = keywordRegistry.getValidators();

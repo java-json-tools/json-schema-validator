@@ -17,6 +17,7 @@
 
 package org.eel.kitchen.jsonschema.metaschema;
 
+import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.AdditionalPropertiesKeywordValidator;
@@ -67,8 +68,7 @@ public final class KeywordValidators
     }
 
     static {
-        final MapBuilder<Class<? extends KeywordValidator>> common
-            = MapBuilder.create();
+        ImmutableMap.Builder<String, Class<? extends KeywordValidator>> builder;
 
         String keyword;
         Class<? extends KeywordValidator> validator;
@@ -76,152 +76,160 @@ public final class KeywordValidators
         /*
          * Common keyword validators
          */
+        builder = ImmutableMap.builder();
+
         // Array
         keyword = "additionalItems";
         validator = AdditionalItemsKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "minItems";
         validator = MinItemsKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "maxItems";
         validator = MaxItemsKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "uniqueItems";
         validator = UniqueItemsKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // Integer/number
         keyword = "minimum";
         validator = MinimumKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "maximum";
         validator = MaximumKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // Object
         keyword = "additionalProperties";
         validator = AdditionalPropertiesKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // String
         keyword = "minLength";
         validator = MinLengthKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "maxLength";
         validator = MaxLengthKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "pattern";
         validator = PatternKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // All
         keyword = "enum";
         validator = EnumKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "format";
         validator = FormatKeywordValidator.class;
-        common.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // Build the map
-        final Map<String, Class<? extends KeywordValidator>> commonMap
-            = common.build();
+        final Map<String, Class<? extends KeywordValidator>> common
+            = builder.build();
 
         /*
          * Draft v3 specific keyword validators
          */
-        final MapBuilder<Class<? extends KeywordValidator>> draftv3
-            = MapBuilder.create();
+        builder = ImmutableMap.builder();
+
+        // Inject all common validators
+        builder.putAll(common);
+
+        // Now inject all draft v3 specific validators
 
         // Integer/number
         keyword = "divisibleBy";
         validator = DivisibleByKeywordValidator.class;
-        draftv3.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // Object
         keyword = "properties";
         validator = DraftV3PropertiesKeywordValidator.class;
-        draftv3.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "dependencies";
         validator = DraftV3DependenciesKeywordValidator.class;
-        draftv3.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // All
         keyword = "type";
         validator = DraftV3TypeKeywordValidator.class;
-        draftv3.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "disallow";
         validator = DisallowKeywordValidator.class;
-        draftv3.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "extends";
         validator = ExtendsKeywordValidator.class;
-        draftv3.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // Build the map
-        draftv3.putAll(commonMap);
-        DRAFTV3 = draftv3.build();
+        DRAFTV3 = builder.build();
 
         /*
          * Draft v4 specific keyword validators
          */
-        final MapBuilder<Class<? extends KeywordValidator>> draftv4
-            = MapBuilder.create();
+        builder = ImmutableMap.builder();
+
+        // Inject all common validators
+        builder.putAll(common);
+
+        // Now inject all draft v3 specific validators
 
         // Integer/number
         keyword = "multipleOf";
         validator = MultipleOfKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // Object
         keyword = "minProperties";
         validator = MinPropertiesKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "maxProperties";
         validator = MaxPropertiesKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "required";
         validator = RequiredKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "dependencies";
         validator = DraftV4DependenciesKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // All/none
         keyword = "anyOf";
         validator = AnyOfKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "allOf";
         validator = AllOfKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "oneOf";
         validator = OneOfKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "not";
         validator = NotKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         keyword = "type";
         validator = DraftV4TypeKeywordValidator.class;
-        draftv4.put(keyword, validator);
+        builder.put(keyword, validator);
 
         // Build the map
-        draftv4.putAll(commonMap);
-        DRAFTV4 = draftv4.build();
+        DRAFTV4 = builder.build();
     }
 
     /**
