@@ -195,5 +195,127 @@
             ]
         },
         "valid": true
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "schema": null
+                }
+            ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "incorrect type for schema member",
+                "expected": "object",
+                "found": "null",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "schema": {}
+                }
+            ]
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "enctype": "text/plain"
+                }
+            ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "enctype must be paired with method",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "enctype": [],
+                    "method": "GET"
+                }
+            ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "incorrect type for enctype",
+                "expected": "string",
+                "found": "array",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "enctype": "foo",
+                    "method": "GET"
+                }
+            ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "enctype is not a valid media type",
+                "value": "foo",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "enctype": "foo/bar",
+                    "method": true
+                }
+            ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "incorrect type for method",
+                "expected": "string",
+                "found": "boolean",
+                "index": 0
+            }
+        ]
     }
 ]

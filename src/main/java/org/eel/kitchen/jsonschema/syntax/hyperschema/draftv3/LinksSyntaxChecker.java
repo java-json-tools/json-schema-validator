@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.net.MediaType;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -114,6 +115,11 @@ public final class LinksSyntaxChecker
                 messages.add(msg.build());
             }
         }
+
+        /*
+         * Check submission links properties (section 6.1.1.4 of the draft)
+         */
+        checkSubmissionLink(msg, messages, ldo);
     }
 
     private static void checkRelation(final Message.Builder msg,
@@ -179,6 +185,71 @@ public final class LinksSyntaxChecker
         } catch (URISyntaxException ignored) {
             msg.setMessage("expanded href value is not a URI")
                 .addInfo("template", template);
+            messages.add(msg.build());
+        }
+    }
+
+    private static void checkSubmissionLink(final Message.Builder msg,
+        final List<Message> messages, final JsonNode ldo)
+    {
+        /*
+         * This is quite messy: in the hyper-schema document, there is no
+         * "schema", however, in the draft text, there is... Stick to the draft.
+         *
+         * And there is also "targetSchema" along with "schema"... Gee.
+         */
+        NodeType type;
+
+        if (ldo.has("schema")) {
+            type = NodeType.getNodeType(ldo.get("schema"));
+            if (type != NodeType.OBJECT) {
+                msg.setMessage("incorrect type for schema member")
+                    .addInfo("expected", NodeType.OBJECT)
+                    .addInfo("found", type);
+                messages.add(msg.build());
+            }
+        }
+
+        if (!ldo.has("enctype"))
+            // Nothing to do
+            return;
+
+        if (!ldo.has("method")) {
+            msg.setMessage("enctype must be paired with method");
+            messages.add(msg.build());
+            return;
+        }
+
+        JsonNode node;
+
+        /*
+         * Check enctype
+         */
+        node = ldo.get("enctype");
+        type = NodeType.getNodeType(node);
+
+        if (type != NodeType.STRING) {
+            msg.setMessage("incorrect type for enctype").addInfo("found", type)
+                .addInfo("expected", NodeType.STRING);
+            messages.add(msg.build());
+        } else
+            try {
+                MediaType.parse(node.textValue());
+            } catch (IllegalArgumentException ignored) {
+                msg.setMessage("enctype is not a valid media type")
+                    .addInfo("value", node);
+                messages.add(msg.build());
+            }
+
+        /*
+         * Check method
+         */
+
+        node = ldo.get("method");
+        type = NodeType.getNodeType(node);
+        if (type != NodeType.STRING) {
+            msg.setMessage("incorrect type for method").addInfo("found", type)
+                .addInfo("expected", NodeType.STRING);
             messages.add(msg.build());
         }
     }
