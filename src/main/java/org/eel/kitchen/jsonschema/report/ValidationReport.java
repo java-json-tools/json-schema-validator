@@ -226,10 +226,10 @@ public final class ValidationReport
 
         List<Message> messages;
 
-        for (final JsonPointer path: paths) {
-            messages = Ordering.natural().sortedCopy(msgMap.get(path));
+        for (final JsonPointer pointer: paths) {
+            messages = Ordering.natural().sortedCopy(msgMap.get(pointer));
             for (final Message msg: messages)
-                builder.add("\"" + path + "\": " + msg);
+                builder.add("\"" + pointer + "\": " + msg);
         }
 
         return builder.build();

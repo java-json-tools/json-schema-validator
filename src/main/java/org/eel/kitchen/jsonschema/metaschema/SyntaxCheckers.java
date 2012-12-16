@@ -223,7 +223,7 @@ public final class SyntaxCheckers
         builder.put(keyword, checker);
 
         keyword = "readonly";
-        checker = new TypeOnlySyntaxChecker("readonly", BOOLEAN);
+        checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);
         builder.put(keyword, checker);
 
         keyword = "contentEncoding";

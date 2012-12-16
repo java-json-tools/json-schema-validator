@@ -242,7 +242,7 @@ public final class Message
         /**
          * Is this error message fatal?
          */
-        boolean fatal = false;
+        private boolean fatal = false;
 
         Builder(final Domain domain)
         {
