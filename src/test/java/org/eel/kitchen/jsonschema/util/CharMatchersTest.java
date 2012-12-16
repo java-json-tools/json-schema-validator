@@ -26,7 +26,7 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
-public final class RFC2045TokenMatcherTest
+public final class CharMatchersTest
 {
     @DataProvider
     private Iterator<Object[]> notAToken()
@@ -43,6 +43,6 @@ public final class RFC2045TokenMatcherTest
     @Test(dataProvider = "notAToken")
     public void RFC2045NonTokenIsAcknowledgedAsSuch(final char c)
     {
-        assertFalse(RFC2045TokenMatcher.getInstance().matches(c));
+        assertFalse(CharMatchers.RFC2045_TOKEN.matches(c));
     }
 }

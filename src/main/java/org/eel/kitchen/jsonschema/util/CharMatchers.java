@@ -19,44 +19,31 @@ package org.eel.kitchen.jsonschema.util;
 
 import com.google.common.base.CharMatcher;
 
-/**
- * Utility class to match an RFC 2045 token
- *
- * <p>This class is a {@link CharMatcher} which recognizes what is called a
- * token in <a href="http://tools.ietf.org/html/rfc2045#section-6.1">RFC 2045,
- * section 6.1</a>.</p>
- */
-public final class RFC2045TokenMatcher
-    extends CharMatcher
+public final class CharMatchers
 {
-    private static final CharMatcher INSTANCE = new RFC2045TokenMatcher();
-
-    private final CharMatcher matcher;
-
-    private RFC2045TokenMatcher()
+    private CharMatchers()
     {
+    }
+
+    public static final CharMatcher LOALPHA;
+
+    public static final CharMatcher REL_TOKEN;
+
+    public static final CharMatcher RFC2045_TOKEN;
+
+    static {
+        final CharMatcher loAlpha = CharMatcher.inRange('a', 'z');
+        final CharMatcher relToken = loAlpha.or(CharMatcher.inRange('0', '9'))
+            .or(CharMatcher.anyOf(".-"));
+
+        LOALPHA = loAlpha.precomputed();
+        REL_TOKEN = relToken.precomputed();
+
         final CharMatcher tspecial = CharMatcher.anyOf("()<>@,;:\\\"/[]?=");
         final CharMatcher ctlOrSpace
             = CharMatcher.JAVA_ISO_CONTROL.or(CharMatcher.WHITESPACE);
         final CharMatcher notToken = tspecial.or(ctlOrSpace).negate();
 
-        matcher = CharMatcher.ASCII.and(notToken).precomputed();
-    }
-
-    public static CharMatcher getInstance()
-    {
-        return INSTANCE;
-    }
-
-    @Override
-    public boolean matches(final char c)
-    {
-        return matcher.matches(c);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "RFC 2045 token matcher";
+        RFC2045_TOKEN = CharMatcher.ASCII.and(notToken).precomputed();
     }
 }

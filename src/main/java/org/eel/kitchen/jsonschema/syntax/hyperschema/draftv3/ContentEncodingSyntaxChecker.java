@@ -18,13 +18,12 @@
 package org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.CharMatcher;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.util.CharMatchers;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.util.RFC2045TokenMatcher;
 
 import java.util.List;
 import java.util.Set;
@@ -46,9 +45,6 @@ public final class ContentEncodingSyntaxChecker
 
     private static final Set<String> ENCODINGS = ImmutableSet.of("7bit", "8bit",
         "binary", "quoted-printable", "base64");
-
-    private static final CharMatcher TOKEN_MATCHER
-        = RFC2045TokenMatcher.getInstance();
 
     public static SyntaxChecker getInstance()
     {
@@ -100,7 +96,7 @@ public final class ContentEncodingSyntaxChecker
             return;
         }
 
-        if (!TOKEN_MATCHER.matchesAllOf(s)) {
+        if (!CharMatchers.RFC2045_TOKEN.matchesAllOf(s)) {
             msg.setMessage("illegal content encoding: illegal token in custom"
                 + " content encoding");
             messages.add(msg.build());
