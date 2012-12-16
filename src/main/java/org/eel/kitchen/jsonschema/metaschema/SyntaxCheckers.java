@@ -38,6 +38,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.SchemaArraySyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.ContentEncodingSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.FragmentResolutionSyntaxChecker;
 
 import java.util.Map;
@@ -221,6 +222,10 @@ public final class SyntaxCheckers
 
         keyword = "readonly";
         checker = new TypeOnlySyntaxChecker("readonly", BOOLEAN);
+        builder.put(keyword, checker);
+
+        keyword = "contentEncoding";
+        checker = ContentEncodingSyntaxChecker.getInstance();
         builder.put(keyword, checker);
 
         // Build the map
