@@ -26,15 +26,22 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.CharMatchers;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.regex.Pattern;
 
 public final class LinksSyntaxChecker
     extends AbstractSyntaxChecker
 {
     private static final Set<String> LDO_REQUIRED_MEMBERS
         = ImmutableSet.of("href", "rel");
+
+    // FIXME: does not account for { or } within templates
+    private static final Pattern HREF_TEMPLATE
+        = Pattern.compile("\\{[^{}]*\\}");
 
     private static final SyntaxChecker INSTANCE = new LinksSyntaxChecker();
 
@@ -96,6 +103,7 @@ public final class LinksSyntaxChecker
          */
 
         checkRelation(msg, messages, ldo);
+        checkHref(msg, messages, ldo);
     }
 
     private static void checkRelation(final Message.Builder msg,
@@ -134,6 +142,33 @@ public final class LinksSyntaxChecker
 
         if (!CharMatchers.REL_TOKEN.matchesAllOf(relation.substring(1))) {
             msg.setMessage("illegal token in \"rel\" member value");
+            messages.add(msg.build());
+        }
+    }
+
+    private static void checkHref(final Message.Builder msg,
+        final List<Message> messages, final JsonNode ldo)
+    {
+        final JsonNode hrefNode = ldo.get("href");
+        final NodeType type = NodeType.getNodeType(hrefNode);
+
+        if (type != NodeType.STRING) {
+            msg.setMessage("wrong node type for \"href\" member")
+                .addInfo("expected", NodeType.STRING).addInfo("found", type);
+            messages.add(msg.build());
+            return;
+        }
+
+        // We must expand templates with a value which is valid in all places
+        // of a URI. ASCII lowercase letters are always valid, use that.
+        final String template = hrefNode.textValue();
+        final String uri = HREF_TEMPLATE.matcher(template).replaceAll("foo");
+
+        try {
+            new URI(uri);
+        } catch (URISyntaxException ignored) {
+            msg.setMessage("expanded href value is not a URI")
+                .addInfo("template", template);
             messages.add(msg.build());
         }
     }

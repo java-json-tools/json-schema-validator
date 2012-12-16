@@ -124,5 +124,42 @@
                 "index": 0
             }
         ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": "self", "href": [ true, 1 ] } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "wrong node type for \"href\" member",
+                "index": 0,
+                "expected": "string",
+                "found": "array"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": "self", "href": "foo://bar/{baz}}" } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "expanded href value is not a URI",
+                "template": "foo://bar/{baz}}",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": "self", "href": "foo://bar/{baz}" } ]
+        },
+        "valid": true
     }
 ]
