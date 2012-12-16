@@ -66,5 +66,63 @@
                 "missing": [ "href" ]
             }
         ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": 1.0, "href": "foo://bar/{baz}" } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "wrong node type for \"rel\" member",
+                "index": 0,
+                "expected": "string",
+                "found": "number"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": "", "href": "foo://bar/{baz}" } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "\"rel\" member value must not be empty",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": "équarrissage/", "href": "foo://bar/{baz}" } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "illegal \"rel\" member value: must start with a lowercase ASCII letter",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": "a/b", "href": "foo://bar/{baz}" } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "illegal token in \"rel\" member value",
+                "index": 0
+            }
+        ]
     }
 ]

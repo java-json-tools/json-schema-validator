@@ -23,6 +23,7 @@ import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.util.CharMatchers;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
@@ -54,12 +55,12 @@ public final class LinksSyntaxChecker
         final JsonNode value = schema.get(keyword);
         final int size = value.size();
 
-        JsonNode node;
+        JsonNode ldo;
         NodeType type;
 
         for (int index = 0; index < size; index++) {
-            node = value.get(index);
-            type = NodeType.getNodeType(node);
+            ldo = value.get(index);
+            type = NodeType.getNodeType(ldo);
             msg.addInfo("index", index);
             if (type != NodeType.OBJECT) {
                 msg.addInfo("expected", NodeType.OBJECT).addInfo("found", type)
@@ -67,26 +68,73 @@ public final class LinksSyntaxChecker
                 messages.add(msg.build());
                 continue;
             }
-            checkLDOSyntax(msg, messages, node);
+            checkLDOSyntax(msg, messages, ldo);
         }
     }
 
-    private void checkLDOSyntax(final Message.Builder msg,
-        final List<Message> messages, final JsonNode node)
+    private static void checkLDOSyntax(final Message.Builder msg,
+        final List<Message> messages, final JsonNode ldo)
     {
-        final Set<String> memberNames = Sets.newHashSet(node.fieldNames());
+        final Set<String> memberNames = Sets.newHashSet(ldo.fieldNames());
 
-        if (memberNames.containsAll(LDO_REQUIRED_MEMBERS))
+        if (!memberNames.containsAll(LDO_REQUIRED_MEMBERS)) {
+            final SortedSet<String> missing
+                = Sets.newTreeSet(LDO_REQUIRED_MEMBERS);
+
+            missing.removeAll(memberNames);
+
+            msg.addInfo("required", LDO_REQUIRED_MEMBERS)
+                .addInfo("missing", missing)
+                .setMessage("missing required properties in link description "
+                    + "object");
+            messages.add(msg.build());
             return;
+        }
 
-        final SortedSet<String> missing = Sets.newTreeSet(LDO_REQUIRED_MEMBERS);
+        /*
+         * Check correctness of the "rel" member
+         */
 
-        missing.removeAll(memberNames);
+        checkRelation(msg, messages, ldo);
+    }
 
-        msg.addInfo("required", LDO_REQUIRED_MEMBERS)
-            .addInfo("missing", missing)
-            .setMessage("missing required properties in link description "
-                + "object");
-        messages.add(msg.build());
+    private static void checkRelation(final Message.Builder msg,
+        final List<Message> messages, final JsonNode ldo)
+    {
+        /*
+         * FIXME: whether it describes a real relation is actually not checked.
+         *
+         * We check that the syntax of the relation matches the "reg-rel-type"
+         * grammar token defined in RFC 5988, section 5.
+         */
+        final JsonNode relNode = ldo.get("rel");
+        final NodeType type = NodeType.getNodeType(relNode);
+
+        if (type != NodeType.STRING) {
+            msg.setMessage("wrong node type for \"rel\" member")
+                .addInfo("expected", NodeType.STRING).addInfo("found", type);
+            messages.add(msg.build());
+            return;
+        }
+
+        final String relation = relNode.textValue();
+
+        if (relation.isEmpty()) {
+            msg.setMessage("\"rel\" member value must not be empty");
+            messages.add(msg.build());
+            return;
+        }
+
+        if (!CharMatchers.LOALPHA.matches(relation.charAt(0))) {
+            msg.setMessage("illegal \"rel\" member value: must start with a "
+                + "lowercase ASCII letter");
+            messages.add(msg.build());
+            return;
+        }
+
+        if (!CharMatchers.REL_TOKEN.matchesAllOf(relation.substring(1))) {
+            msg.setMessage("illegal token in \"rel\" member value");
+            messages.add(msg.build());
+        }
     }
 }
