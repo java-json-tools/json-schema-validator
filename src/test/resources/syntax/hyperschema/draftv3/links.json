@@ -1,0 +1,70 @@
+[
+    {
+        "schema": {
+            "links": {}
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "incorrect type for value",
+                "expected": [ "array" ],
+                "found": "object"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": []
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "links": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "incorrect type for value",
+                "expected": [ "array" ],
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [ null ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "incorrect array element type",
+                "index": 0,
+                "expected": "object",
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [ { "rel": "self" } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "missing required properties in link description object",
+                "index": 0,
+                "required": [ "href", "rel" ],
+                "missing": [ "href" ]
+            }
+        ]
+    }
+]

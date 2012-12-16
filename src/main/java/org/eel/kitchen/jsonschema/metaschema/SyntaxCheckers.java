@@ -40,6 +40,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.SchemaArraySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.ContentEncodingSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.FragmentResolutionSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.LinksSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.MediaTypeSyntaxChecker;
 
 import java.util.Map;
@@ -235,6 +236,10 @@ public final class SyntaxCheckers
 
         keyword = "mediaType";
         checker = MediaTypeSyntaxChecker.getInstance();
+        builder.put(keyword, checker);
+
+        keyword = "links";
+        checker = LinksSyntaxChecker.getInstance();
         builder.put(keyword, checker);
 
         // Build the map
