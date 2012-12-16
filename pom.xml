@@ -109,12 +109,12 @@
         <dependency>
             <groupId>com.googlecode.libphonenumber</groupId>
             <artifactId>libphonenumber</artifactId>
-            <version>5.1</version>
+            <version>5.2</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.3.1</version>
+            <version>6.8</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
