@@ -99,11 +99,21 @@ public final class LinksSyntaxChecker
         }
 
         /*
-         * Check correctness of the "rel" member
+         * Check correctness of the "rel" and "href" members
          */
 
         checkRelation(msg, messages, ldo);
         checkHref(msg, messages, ldo);
+
+        if (ldo.has("targetSchema")) {
+            final NodeType type = NodeType.getNodeType(ldo.get("targetSchema"));
+            if (type != NodeType.OBJECT) {
+                msg.setMessage("incorrect type for targetSchema member")
+                    .addInfo("expected", NodeType.OBJECT)
+                    .addInfo("found", type);
+                messages.add(msg.build());
+            }
+        }
     }
 
     private static void checkRelation(final Message.Builder msg,

@@ -161,5 +161,39 @@
             "links": [ { "rel": "self", "href": "foo://bar/{baz}" } ]
         },
         "valid": true
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "targetSchema": null
+                }
+            ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "links",
+                "message": "incorrect type for targetSchema member",
+                "expected": "object",
+                "found": "null",
+                "index": 0
+            }
+        ]
+    },
+    {
+        "schema": {
+            "links": [
+                {
+                    "rel": "self",
+                    "href": "foo://bar/{baz}",
+                    "targetSchema": {}
+                }
+            ]
+        },
+        "valid": true
     }
 ]
