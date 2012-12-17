@@ -30,15 +30,7 @@
                 "message": "incorrect type for dependency value",
                 "property": "a",
                 "found": "string",
-                "expected": "object"
-            },
-            {
-                "domain": "syntax",
-                "keyword": "dependencies",
-                "message": "incorrect type for dependency value",
-                "property": "xx",
-                "found": "array",
-                "expected": "object"
+                "expected": [ "array", "object" ]
             }
         ]
     },
@@ -47,6 +39,65 @@
             "dependencies": {
                 "a": {},
                 "b": {}
+            }
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": []
+            }
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "message": "property dependency array must not be empty",
+                "property": "p"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": [ "a", null ]
+            }
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "message": "incorrect type for property dependency value",
+                "property": "p",
+                "index": 1,
+                "expected": "string",
+                "found": "null"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": [ "a", "a", null ]
+            }
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "dependencies",
+                "message": "elements in property array dependency must be unique",
+                "property": "p"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "xx": [ "a", "b", "c" ]
             }
         },
         "valid": true

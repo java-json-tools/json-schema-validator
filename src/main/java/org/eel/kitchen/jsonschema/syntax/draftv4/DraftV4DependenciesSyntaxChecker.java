@@ -18,14 +18,17 @@
 package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Syntax validator for the (draft v4) {@code dependencies} keyword
@@ -53,17 +56,60 @@ public final class DraftV4DependenciesSyntaxChecker
         final Map<String, JsonNode> map
             = JacksonUtils.nodeToMap(schema.get(keyword));
 
+        JsonNode depValue;
         NodeType type;
 
-        msg.setMessage("incorrect type for dependency value");
-
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            type = NodeType.getNodeType(entry.getValue());
-            if (type == NodeType.OBJECT)
-                continue;
-            msg.addInfo("property", entry.getKey()).addInfo("found", type)
-                .addInfo("expected", NodeType.OBJECT);
+            msg.addInfo("property", entry.getKey());
+            depValue = entry.getValue();
+            type = NodeType.getNodeType(depValue);
+            switch (type) {
+                case ARRAY:
+                    checkPropertyDependency(msg, messages, depValue);
+                    // Fall through
+                case OBJECT:
+                    break;
+                default:
+                    msg.setMessage("incorrect type for dependency value")
+                        .addInfo("found", type)
+                        .addInfo("expected",
+                            EnumSet.of(NodeType.ARRAY, NodeType.OBJECT));
+                    messages.add(msg.build());
+            }
+        }
+    }
+
+    private static void checkPropertyDependency(final Message.Builder msg,
+        final List<Message> messages, final JsonNode depValue)
+    {
+        final int size = depValue.size();
+
+        if (size == 0) {
+            msg.setMessage("property dependency array must not be empty");
             messages.add(msg.build());
+        }
+
+        final Set<JsonNode> set = Sets.newHashSet();
+
+        JsonNode node;
+        NodeType type;
+
+        for (int index = 0; index < size; index++) {
+            node = depValue.get(index);
+            type = NodeType.getNodeType(node);
+            if (type != NodeType.STRING) {
+                msg.setMessage("incorrect type for property dependency value")
+                    .addInfo("index", index)
+                    .addInfo("expected", NodeType.STRING)
+                    .addInfo("found", type);
+                messages.add(msg.build());
+            }
+            if (!set.add(node)) {
+                msg.setMessage("elements in property array dependency must be "
+                    + "unique");
+                messages.add(msg.build());
+                return;
+            }
         }
     }
 }
