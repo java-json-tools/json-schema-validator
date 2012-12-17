@@ -6,7 +6,7 @@ text.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>current development version: <b>1.3.4</b> (<a
+    <li>current development version: <b>1.3.5</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>current stable version: <b>1.2.2</b> (<a
@@ -56,7 +56,8 @@ is what you are looking for.<p>
 * ability to register/unregister URI handlers for arbitrary URI schemes;
 * ability to set a default URI namespace;
 * ability to define URI redirections;
-* ability to register/unregister keywords and format attributes.
+* ability to register/unregister keywords and format attributes;
+* draft v3 hyper-schema syntax validation.
 
 <h2>Relevant documents</h2>
 
