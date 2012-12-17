@@ -52,50 +52,7 @@ import java.util.Map;
  */
 public final class SchemaBundle
 {
-    private final JsonNode rootSchema;
     private final Map<URI, JsonNode> schemas = Maps.newHashMap();
-
-    private SchemaBundle(final URI uri, final JsonNode schema)
-    {
-        rootSchema = schema;
-        schemas.put(uri, schema);
-    }
-
-    public static SchemaBundle withRootSchema(final URI uri,
-        final JsonNode schema)
-    {
-        final JsonRef ref = JsonRef.fromURI(uri);
-        if (!ref.isAbsolute())
-            throw new IllegalArgumentException("Provided URI " + uri + " is not"
-                + " an absolute schema URI");
-
-        return new SchemaBundle(ref.getLocator(), schema);
-    }
-
-    public static SchemaBundle withRootSchema(final String uriAsString,
-        final JsonNode schema)
-    {
-        return withRootSchema(URI.create(uriAsString), schema);
-    }
-
-    public static SchemaBundle withRootSchema(final JsonNode schema)
-    {
-        if (!schema.has("id"))
-            throw new IllegalArgumentException("schema has no \"id\" member");
-
-        final JsonRef ref;
-        try {
-            ref = JsonRef.fromNode(schema.get("id"));
-            if (!ref.isAbsolute())
-                throw new IllegalArgumentException("schema's id is not a valid"
-                    + " schema locator");
-        } catch (JsonSchemaException ignored) {
-            throw new IllegalArgumentException("schema's id is not a valid"
-                + " schema locator");
-        }
-
-        return new SchemaBundle(ref.getLocator(), schema);
-    }
 
     public void addSchema(final URI uri, final JsonNode schema)
     {
@@ -129,11 +86,6 @@ public final class SchemaBundle
         }
 
         schemas.put(ref.getLocator(), schema);
-    }
-
-    public JsonNode getRootSchema()
-    {
-        return rootSchema;
     }
 
     public Map<URI, JsonNode> getSchemas()

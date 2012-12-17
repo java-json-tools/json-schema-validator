@@ -72,10 +72,10 @@ public final class SchemaRegistryTest
     public void URIsAreNormalizedBehindTheScenes()
         throws JsonSchemaException
     {
-        final SchemaBundle bundle;
+        final SchemaBundle bundle = new SchemaBundle();
         final String location = "http://toto/a/../b";
 
-        bundle = SchemaBundle.withRootSchema(location,
+        bundle.addSchema(location,
             CustomJsonNodeFactory.getInstance().objectNode());
 
         final SchemaRegistry registry = new SchemaRegistry(new URIManager(),

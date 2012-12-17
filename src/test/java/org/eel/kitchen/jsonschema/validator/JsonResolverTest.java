@@ -178,7 +178,8 @@ public final class JsonResolverTest
         node = factory.objectNode().put("$ref", ref1);
         schema1.put("a", node);
 
-        bundle = SchemaBundle.withRootSchema(location1, schema1);
+        bundle = new SchemaBundle();
+        bundle.addSchema(location1, schema1);
 
         final ObjectNode schema2 = factory.objectNode();
         schema2.put("id", location2);
@@ -225,7 +226,8 @@ public final class JsonResolverTest
         node = factory.objectNode().put("$ref", ref1);
         schema1.put("a", node);
 
-        bundle = SchemaBundle.withRootSchema(location1, schema1);
+        bundle = new SchemaBundle();
+        bundle.addSchema(location1, schema1);
 
         final ObjectNode schema2 = factory.objectNode();
         schema2.put("id", location2);
