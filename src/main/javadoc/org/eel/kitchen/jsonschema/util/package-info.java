@@ -20,12 +20,13 @@
  *
  * <p>There are five utility classes, all of which are important.</p>
  *
- * <p>{@link org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory} is a
- * subclass of Jackson's {@link
- * com.fasterxml.jackson.databind.node.JsonNodeFactory}, which has special
- * treatment for non-integer numeric instances: if the decimal part consists
- * only of zeroes, it will generate an integer node instead of a decimal node.
- * This is to conform with JSON Schema's definition of instance equality.</p>
+ * <p>The two most important of them are {@link
+ * org.eel.kitchen.jsonschema.util.NumberNode} and {@link
+ * org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory}. They help enforce
+ * numeric value equality as defined by JSON Schema, since for instance, Jackson
+ * does not consider {@code 1.0} and {@code 1} as being equal. This
+ * implementation does consider them as equal, all the while retaining the node
+ * type.</p>
  *
  * <p>{@link org.eel.kitchen.jsonschema.util.JsonLoader} contains various
  * methods to load JSON documents as {@link
@@ -42,8 +43,12 @@
  * com.fasterxml.jackson.databind.JsonNode} is an essential part of the
  * validation process.</p>
  *
- * <p>Finally, the {@link org.eel.kitchen.jsonschema.util.JacksonUtils} class
- * provides useful methods to perform common operations on exsting {@link
+ * <p>The {@link org.eel.kitchen.jsonschema.util.JacksonUtils} class provides
+ * useful methods to perform common operations on exsting {@link
  * com.fasterxml.jackson.databind.JsonNode} instances.</p>
+ *
+ * <p>Finally, {@link org.eel.kitchen.jsonschema.util.CharMatchers} contains a
+ * set of custom {@link com.google.common.base.CharMatcher}s for hyper schema
+ * syntax validation.</p>
  */
 package org.eel.kitchen.jsonschema.util;

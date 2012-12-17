@@ -18,17 +18,35 @@
 package org.eel.kitchen.jsonschema.util;
 
 import com.google.common.base.CharMatcher;
+import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.LinksSyntaxChecker;
 
+/**
+ * A collection of dedicated {@link CharMatcher}s
+ */
 public final class CharMatchers
 {
     private CharMatchers()
     {
     }
 
+    /**
+     * Match lowercase US ASCII letters
+     */
     public static final CharMatcher LOALPHA;
 
+    /**
+     * Match any character valid in a link relation apart from the first one
+     *
+     * @see LinksSyntaxChecker
+     */
     public static final CharMatcher REL_TOKEN;
 
+    /**
+     * Match any character valid as a token by RFC 2045
+     *
+     * <p>This matches any character as defined by the {@code token} grammar
+     * specification in RFC 2045, section 5.1.</p>
+     */
     public static final CharMatcher RFC2045_TOKEN;
 
     static {
