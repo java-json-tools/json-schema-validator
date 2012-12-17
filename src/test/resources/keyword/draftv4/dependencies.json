@@ -123,5 +123,29 @@
                 "unsatisfied": [ "p", "q" ]
             }
         ]
+    },
+    {
+        "schema": {
+            "dependencies": {
+                "p": [ "a", "b" ]
+            }
+        },
+        "data": {
+            "p": null,
+            "a": null,
+            "r": null,
+            "s": null
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "dependencies",
+                "message": "unsatisfied property dependencies",
+                "property": "p",
+                "required": [ "a", "b" ],
+                "missing": [ "b" ]
+            }
+        ]
     }
 ]
