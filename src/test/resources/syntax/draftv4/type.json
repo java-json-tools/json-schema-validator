@@ -9,7 +9,7 @@
                 "domain": "syntax",
                 "keyword": "type",
                 "message": "incorrect type for value",
-                "expected": [ "string" ],
+                "expected": [ "array", "string" ],
                 "found": "boolean"
             }
         ]
@@ -24,7 +24,7 @@
                 "domain": "syntax",
                 "keyword": "type",
                 "message": "incorrect type for value",
-                "expected": [ "string" ],
+                "expected": [ "array", "string" ],
                 "found": "object"
             }
         ]
@@ -39,7 +39,7 @@
                 "domain": "syntax",
                 "keyword": "type",
                 "message": "incorrect type for value",
-                "expected": [ "string" ],
+                "expected": [ "array", "string" ],
                 "found": "integer"
             }
         ]
@@ -54,7 +54,7 @@
                 "domain": "syntax",
                 "keyword": "type",
                 "message": "incorrect type for value",
-                "expected": [ "string" ],
+                "expected": [ "array", "string" ],
                 "found": "number"
             }
         ]
@@ -68,9 +68,7 @@
             {
                 "domain": "syntax",
                 "keyword": "type",
-                "message": "incorrect type for value",
-                "expected": [ "string" ],
-                "found": "array"
+                "message": "type array must not be empty"
             }
         ]
     },
@@ -84,7 +82,7 @@
                 "domain": "syntax",
                 "keyword": "type",
                 "message": "incorrect type for value",
-                "expected": [ "string" ],
+                "expected": [ "array", "string" ],
                 "found": "null"
             }
         ]
@@ -146,5 +144,51 @@
             "type": "string"
         },
         "valid": true
+    },
+    {
+        "schema": {
+            "type": [ "array", 1 ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "incorrect type for type array element",
+                "index": 1,
+                "found": "integer",
+                "expected": "string"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": [ "array", "array" ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "elements in type array must be unique"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "type": [ "array", "foo" ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "type",
+                "message": "unknown simple type",
+                "index": 1,
+                "value": "foo",
+                "valid": [ "array", "boolean", "integer", "null", "number",
+                    "object", "string" ]
+            }
+        ]
     }
 ]

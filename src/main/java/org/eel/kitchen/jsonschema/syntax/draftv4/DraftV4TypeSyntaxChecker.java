@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.syntax.draftv4;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Functions;
 import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -49,21 +50,64 @@ public final class DraftV4TypeSyntaxChecker
 
     private DraftV4TypeSyntaxChecker()
     {
-        super("type", NodeType.STRING);
+        super("type", NodeType.ARRAY, NodeType.STRING);
     }
 
     @Override
     public void checkValue(final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
-        final String value = schema.get(keyword).textValue();
+        final JsonNode typeNode = schema.get(keyword);
 
-        if (VALID_TYPES.contains(value))
+        if (typeNode.isTextual()) {
+            checkSimpleType(msg, messages, typeNode.textValue());
             return;
+        }
 
-        msg.setMessage("unknown simple type").addInfo("value", value)
-            .addInfo("valid", VALID_TYPES);
+        // If it is not a string it is an array: cycle through the elements,
+        // and also check that the array is not empty
 
-        messages.add(msg.build());
+        final int size = typeNode.size();
+
+        if (size == 0) {
+            msg.setMessage("type array must not be empty");
+            messages.add(msg.build());
+            return;
+        }
+
+        final Set<JsonNode> set = Sets.newHashSet();
+
+        JsonNode node;
+        NodeType type;
+
+        for (int index = 0; index < size; index++) {
+            msg.addInfo("index", index);
+            node = typeNode.get(index);
+            type = NodeType.getNodeType(node);
+            if (type != NodeType.STRING) {
+                msg.setMessage("incorrect type for type array element")
+                    .addInfo("found", type)
+                    .addInfo("expected", NodeType.STRING);
+                messages.add(msg.build());
+            } else
+                checkSimpleType(msg, messages, node.textValue());
+            if (!set.add(node)) {
+                msg.clearInfo()
+                    .setMessage("elements in type array must be unique");
+                messages.add(msg.build());
+                return;
+            }
+        }
     }
+
+    private static void checkSimpleType(final Message.Builder msg,
+        final List<Message> messages, final String s)
+    {
+        if (!VALID_TYPES.contains(s)) {
+            msg.setMessage("unknown simple type").addInfo("value", s)
+                .addInfo("valid", VALID_TYPES);
+            messages.add(msg.build());
+        }
+    }
+
 }
