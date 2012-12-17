@@ -24,6 +24,8 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
+import java.util.EnumSet;
+
 /**
  * Keyword validator for the (draft v4) {@code type} keyword
  *
@@ -33,12 +35,23 @@ import org.eel.kitchen.jsonschema.validator.ValidationContext;
 public final class DraftV4TypeKeywordValidator
     extends KeywordValidator
 {
-    private final NodeType expected;
+    private final EnumSet<NodeType> expected = EnumSet.noneOf(NodeType.class);
 
     public DraftV4TypeKeywordValidator(final JsonNode schema)
     {
         super("type", NodeType.values());
-        expected = NodeType.fromName(schema.get(keyword).textValue());
+
+        final JsonNode typeNode = schema.get(keyword);
+
+        if (typeNode.isTextual()) {
+            addSimpleType(typeNode);
+            return;
+        }
+
+        // Array of simple types
+
+        for (final JsonNode node: typeNode)
+            addSimpleType(node);
     }
 
     @Override
@@ -47,10 +60,7 @@ public final class DraftV4TypeKeywordValidator
     {
         final NodeType type = NodeType.getNodeType(instance);
 
-        if (type == expected)
-            return;
-
-        if (type == NodeType.INTEGER && expected == NodeType.NUMBER)
+        if (expected.contains(type))
             return;
 
         final Message msg = newMsg().setMessage("instance has incorrect type")
@@ -62,5 +72,14 @@ public final class DraftV4TypeKeywordValidator
     public String toString()
     {
         return "type: " + expected;
+    }
+
+    private void addSimpleType(final JsonNode node)
+    {
+        final NodeType type = NodeType.fromName(node.textValue());
+        expected.add(type);
+
+        if (type == NodeType.NUMBER)
+            expected.add(NodeType.INTEGER);
     }
 }

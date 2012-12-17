@@ -14,7 +14,7 @@
                 "keyword": "type",
                 "message": "instance has incorrect type",
                 "found": "array",
-                "expected": "string"
+                "expected": [ "string" ]
             }
         ]
     },
@@ -28,7 +28,7 @@
                 "keyword": "type",
                 "message": "instance has incorrect type",
                 "found": "null",
-                "expected": "string"
+                "expected": [ "string" ]
             }
         ]
     },
@@ -52,7 +52,7 @@
                 "keyword": "type",
                 "message": "instance has incorrect type",
                 "found": "number",
-                "expected": "integer"
+                "expected": [ "integer" ]
             }
         ]
     },
@@ -66,7 +66,7 @@
                 "keyword": "type",
                 "message": "instance has incorrect type",
                 "found": "number",
-                "expected": "integer"
+                "expected": [ "integer" ]
             }
         ]
     },
@@ -74,5 +74,48 @@
         "schema": { "type": "integer" },
         "data": 3,
         "valid": true
+    },
+    {
+        "schema": { "type": [ "integer", "null" ] },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "schema": { "type": "number" },
+        "data": null,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "type",
+                "message": "instance has incorrect type",
+                "found": "null",
+                "expected": [ "integer", "number" ]
+            }
+        ]
+    },
+    {
+        "schema": { "type": [ "object", "null" ] },
+        "data": null,
+        "valid": true
+    },
+    {
+        "schema": { "type": [ "object", "null" ] },
+        "data": {},
+        "valid": true
+    },
+    {
+        "schema": { "type": [ "object", "null" ] },
+        "data": false,
+        "valid": false,
+        "messages": [
+            {
+                "domain": "validation",
+                "keyword": "type",
+                "message": "instance has incorrect type",
+                "found": "boolean",
+                "expected": [ "null", "object" ]
+            }
+        ]
     }
 ]
