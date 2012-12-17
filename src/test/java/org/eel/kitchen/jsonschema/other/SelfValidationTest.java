@@ -19,12 +19,10 @@ package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.internal.annotations.Sets;
@@ -38,40 +36,53 @@ import static org.testng.Assert.*;
 
 public final class SelfValidationTest
 {
-    private JsonNode draftv3;
-    private JsonSchema draftV3Schema;
+    private static final JsonSchemaFactory FACTORY;
+    private static final JsonSchema DEFAULT_SCHEMA;
 
-    private JsonNode draftv4;
-    private JsonSchema draftV4Schema;
+    static {
+        final JsonNode node;
 
-    private final JsonSchemaFactory factory
-        = JsonSchemaFactory.defaultFactory();
+        try {
+            node = JsonLoader.fromResource("/schema-draftv3.json");
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
+        }
 
-    @BeforeClass
-    public void setUp()
-        throws IOException, JsonSchemaException
-    {
-        draftv3 = JsonLoader.fromResource("/schema-draftv3.json");
-        draftV3Schema = factory.fromSchema(draftv3);
-
-        draftv4 = JsonLoader.fromResource("/schema-draftv4.json");
-        draftV4Schema = factory.fromSchema(draftv4);
+        FACTORY = JsonSchemaFactory.defaultFactory();
+        DEFAULT_SCHEMA = FACTORY.fromSchema(node);
     }
 
-    @Test(invocationCount = 5, threadPoolSize = 3)
-    public void testDraftV3SchemaValidatesItself()
+    @DataProvider
+    private Iterator<Object[]> getBaseSchemas()
+        throws IOException
     {
-        final ValidationReport report = draftV3Schema.validate(draftv3);
+        final Set<Object[]> set = Sets.newHashSet();
 
-        assertTrue(report.isSuccess());
+        String title;
+        JsonNode schemaNode;
+
+        title = "draft v3 core schema";
+        schemaNode = JsonLoader.fromResource("/schema-draftv3.json");
+        set.add(new Object[] { title, schemaNode });
+
+        title = "draft v4 core schema";
+        schemaNode = JsonLoader.fromResource("/schema-draftv4.json");
+        set.add(new Object[] { title, schemaNode });
+
+        return set.iterator();
     }
 
-    @Test(invocationCount = 5, threadPoolSize = 3)
-    public void testDraftV4SchemaValidatesItself()
+    @Test(
+        dataProvider = "getBaseSchemas",
+        invocationCount = 5,
+        threadPoolSize = 3
+    )
+    public void schemaValidatesItself(final String title,
+        final JsonNode schemaNode)
     {
-        final ValidationReport report = draftV4Schema.validate(draftv4);
-
-        assertTrue(report.isSuccess());
+        final JsonSchema schema = FACTORY.fromSchema(schemaNode);
+        final ValidationReport report = schema.validate(schemaNode);
+        assertTrue(report.isSuccess(), title + " failed to validate itself");
     }
 
     @DataProvider
@@ -98,7 +109,7 @@ public final class SelfValidationTest
     )
     public void testGoogleSchemas(final String name, final JsonNode node)
     {
-        final ValidationReport report = draftV3Schema.validate(node);
+        final ValidationReport report = DEFAULT_SCHEMA.validate(node);
 
         assertTrue(report.isSuccess(), "Google schema " + name + " failed to "
             + "validate");
