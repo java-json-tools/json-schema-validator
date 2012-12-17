@@ -276,17 +276,18 @@ public final class JsonSchemaFactory
         /**
          * Addressing mode
          */
-        private AddressingMode addressingMode;
+        private AddressingMode addressingMode = AddressingMode.CANONICAL;
 
         /**
          * Default schema URI
          */
-        private JsonRef defaultSchemaURI;
+        private JsonRef defaultSchemaURI = SchemaURIs.defaultURI();
 
         /**
          * Default keyword registry
          */
-        private KeywordRegistry defaultKeywordRegistry;
+        private KeywordRegistry defaultKeywordRegistry
+            = KeywordRegistries.defaultRegistry();
 
         /**
          * Keyword registries
@@ -296,34 +297,18 @@ public final class JsonSchemaFactory
         /**
          * The URI manager
          */
-        private final URIManager uriManager;
+        private final URIManager uriManager = new URIManager();
 
         /**
          * The namespace
          */
-        private URI namespace;
-
-        /*
-         * Deprecated instance fields
-         */
+        private URI namespace = URI.create("");
 
         /**
          * Constructor
          */
         public Builder()
         {
-            /*
-             * Initialize all default values
-             */
-            // URI related
-            namespace = URI.create("");
-            uriManager = new URIManager();
-            addressingMode = AddressingMode.CANONICAL;
-
-            // Metaschema related
-            defaultSchemaURI = SchemaURIs.defaultURI();
-            defaultKeywordRegistry = KeywordRegistries.defaultRegistry();
-
             // Build keyword registries
             keywordRegistries = Maps.newHashMap();
 
