@@ -29,8 +29,8 @@ import java.util.EnumSet;
 /**
  * Keyword validator for the (draft v4) {@code type} keyword
  *
- * <p>Unlike draft v3, this keyword's value can now only be a single string,
- * which is one of the seven types defined by the draft.</p>
+ * <p>Unlike draft v3, this keyword's value cannot have embedded schemas
+ * anymore.</p>
  */
 public final class DraftV4TypeKeywordValidator
     extends KeywordValidator

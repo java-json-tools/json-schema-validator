@@ -35,8 +35,8 @@ import java.util.Set;
 /**
  * Keyword validator for the (draft v4) {@code dependencies} keyword
  *
- * <p>This keyword has been considerably simplified compared to draft v3: it now
- * only contains schema dependencies.</p>
+ * <p>Unlike in draft v3, property dependencies can now only be arrays of
+ * strings.</p>
  */
 public final class DraftV4DependenciesKeywordValidator
     extends KeywordValidator
