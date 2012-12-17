@@ -26,6 +26,12 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 
+/**
+ * Syntax validator for the {@code mediaType} hyper-schema keyword
+ *
+ * <p>The only requirement is that it be a media type as defined by RFC 2045 and
+ * 2046. Guava helps here since it has {@link MediaType}, which we use here.</p>
+ */
 public final class MediaTypeSyntaxChecker
     extends AbstractSyntaxChecker
 {

@@ -66,6 +66,11 @@ public final class SchemaURIs
         return DRAFTV3;
     }
 
+    /**
+     * Return the defined URI for draft v3 hyper schema
+     *
+     * @return the URI as a {@link JsonRef}
+     */
     public static JsonRef draftV3HyperSchemaURI()
     {
         return DRAFTV3_HYPERSCHEMA;

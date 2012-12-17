@@ -34,6 +34,13 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.regex.Pattern;
 
+/**
+ * Syntax validator for hyper shema's {@code links} keyword
+ *
+ * <p>This keyword is quite the monster, and what is more, the JSON file does
+ * not agree with the spec on all points. It is chosen here to follow the
+ * specification.</p>
+ */
 public final class LinksSyntaxChecker
     extends AbstractSyntaxChecker
 {

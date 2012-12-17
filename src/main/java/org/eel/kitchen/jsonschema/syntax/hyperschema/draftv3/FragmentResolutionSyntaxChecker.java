@@ -27,6 +27,11 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Hyper-schema {@code fragmentResolution} syntax checker
+ *
+ * <p>Easy enough, it can only take two values.</p>
+ */
 public final class FragmentResolutionSyntaxChecker
     extends AbstractSyntaxChecker
 {

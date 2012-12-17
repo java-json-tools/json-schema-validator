@@ -318,7 +318,7 @@ public final class SyntaxCheckers
     }
 
     /**
-     * Return an immutable map of syntax checkers for draft v3 hyper schema
+     * Return an immutable map of syntax checkers for draft v3 hyper-schema
      *
      * @return a map pairing keyword names and their syntax checkers
      */
