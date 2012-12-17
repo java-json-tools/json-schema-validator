@@ -44,7 +44,7 @@ public final class MiniPerfTest2
 
         final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
         final JsonSchema schema
-            = factory.fromURI("resource:/schema-draftv3.json");
+            = factory.fromURI("resource:/draftv3/schema");
 
         long begin, current;
         begin = System.currentTimeMillis();

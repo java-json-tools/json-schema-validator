@@ -43,7 +43,7 @@ public final class SelfValidationTest
         final JsonNode node;
 
         try {
-            node = JsonLoader.fromResource("/schema-draftv3.json");
+            node = JsonLoader.fromResource("/draftv3/schema");
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -62,11 +62,11 @@ public final class SelfValidationTest
         JsonNode schemaNode;
 
         title = "draft v3 core schema";
-        schemaNode = JsonLoader.fromResource("/schema-draftv3.json");
+        schemaNode = JsonLoader.fromResource("/draftv3/schema");
         set.add(new Object[] { title, schemaNode });
 
         title = "draft v4 core schema";
-        schemaNode = JsonLoader.fromResource("/schema-draftv4.json");
+        schemaNode = JsonLoader.fromResource("/draftv4/schema");
         set.add(new Object[] { title, schemaNode });
 
         return set.iterator();
