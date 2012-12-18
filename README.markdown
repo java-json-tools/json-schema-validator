@@ -6,7 +6,7 @@ text.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>current development version: <b>1.3.5</b> (<a
+    <li>current development version: <b>1.3.6</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>current stable version: <b>1.2.2</b> (<a
@@ -47,10 +47,10 @@ is what you are looking for.<p>
 * thread safe, concurrent-friendly validation;
 * <a href="https://github.com/fge/json-schema-validator/wiki/Performance">very
   fast</a>;
-* full draft v3 validation (however, see above for <tt>format</tt>);
+* full draft v3 validation;
 * draft v4 validation;
 * <tt>$schema</tt> detection;
-* full <tt>$ref</tt> support, including <tt>id</tt> resolving and loop detection;
+* full schema addressing support;
 * validation of numeric JSON instances of arbitrary scale/precision;
 * ECMA 262 regexes (using Rhino);
 * ability to register/unregister URI handlers for arbitrary URI schemes;
