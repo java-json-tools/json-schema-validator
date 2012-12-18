@@ -35,7 +35,7 @@ import java.net.URISyntaxException;
 public final class URIFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance
+    private static final FormatAttribute INSTANCE
         = new URIFormatAttribute();
 
     private URIFormatAttribute()
@@ -45,7 +45,7 @@ public final class URIFormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

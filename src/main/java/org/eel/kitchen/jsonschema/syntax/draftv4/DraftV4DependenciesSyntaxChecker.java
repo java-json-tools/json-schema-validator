@@ -36,12 +36,12 @@ import java.util.Set;
 public final class DraftV4DependenciesSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker instance
+    private static final SyntaxChecker INSTANCE
         = new DraftV4DependenciesSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     private DraftV4DependenciesSyntaxChecker()

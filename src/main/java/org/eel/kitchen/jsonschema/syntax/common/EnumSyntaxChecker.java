@@ -39,7 +39,7 @@ import java.util.Set;
 public final class EnumSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker instance = new EnumSyntaxChecker();
+    private static final SyntaxChecker INSTANCE = new EnumSyntaxChecker();
 
     private EnumSyntaxChecker()
     {
@@ -48,7 +48,7 @@ public final class EnumSyntaxChecker
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

@@ -31,11 +31,11 @@ import java.util.List;
 public final class ExtendsSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker instance = new ExtendsSyntaxChecker();
+    private static final SyntaxChecker INSTANCE = new ExtendsSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     private ExtendsSyntaxChecker()

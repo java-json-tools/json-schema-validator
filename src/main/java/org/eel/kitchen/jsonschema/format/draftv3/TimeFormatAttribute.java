@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.format.FormatAttribute;
 public final class TimeFormatAttribute
     extends AbstractDateFormatAttribute
 {
-    private static final FormatAttribute instance
+    private static final FormatAttribute INSTANCE
         = new TimeFormatAttribute();
 
     private TimeFormatAttribute()
@@ -36,6 +36,6 @@ public final class TimeFormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 }

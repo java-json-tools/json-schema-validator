@@ -26,11 +26,11 @@ import org.eel.kitchen.jsonschema.format.FormatAttribute;
 public final class DateFormatAttribute
     extends AbstractDateFormatAttribute
 {
-    private static final FormatAttribute instance = new DateFormatAttribute();
+    private static final FormatAttribute INSTANCE = new DateFormatAttribute();
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     private DateFormatAttribute()

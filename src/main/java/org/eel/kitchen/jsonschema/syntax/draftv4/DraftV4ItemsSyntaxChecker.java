@@ -31,12 +31,12 @@ import java.util.List;
 public final class DraftV4ItemsSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker instance
+    private static final SyntaxChecker INSTANCE
         = new DraftV4ItemsSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     private DraftV4ItemsSyntaxChecker()

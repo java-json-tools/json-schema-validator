@@ -33,11 +33,11 @@ import java.util.Set;
 public final class RequiredSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker instance = new RequiredSyntaxChecker();
+    private static final SyntaxChecker INSTANCE = new RequiredSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     private RequiredSyntaxChecker()

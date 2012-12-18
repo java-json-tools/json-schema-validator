@@ -40,7 +40,7 @@ import java.util.Set;
 public final class PatternPropertiesSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker instance
+    private static final SyntaxChecker INSTANCE
         = new PatternPropertiesSyntaxChecker();
 
     private PatternPropertiesSyntaxChecker()
@@ -50,7 +50,7 @@ public final class PatternPropertiesSyntaxChecker
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

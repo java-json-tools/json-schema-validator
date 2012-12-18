@@ -37,7 +37,7 @@ import java.math.BigInteger;
 public final class UnixEpochFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance
+    private static final FormatAttribute INSTANCE
         = new UnixEpochFormatAttribute();
 
     /**
@@ -57,7 +57,7 @@ public final class UnixEpochFormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

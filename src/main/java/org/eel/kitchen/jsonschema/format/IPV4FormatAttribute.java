@@ -32,7 +32,7 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 public final class IPV4FormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance = new IPV4FormatAttribute();
+    private static final FormatAttribute INSTANCE = new IPV4FormatAttribute();
 
     private static final int IPV4_LENGTH = 4;
 
@@ -43,7 +43,7 @@ public final class IPV4FormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

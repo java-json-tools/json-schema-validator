@@ -33,12 +33,12 @@ import java.util.List;
 public final class PatternSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final PatternSyntaxChecker instance
+    private static final PatternSyntaxChecker INSTANCE
         = new PatternSyntaxChecker();
 
     public static PatternSyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     private PatternSyntaxChecker()

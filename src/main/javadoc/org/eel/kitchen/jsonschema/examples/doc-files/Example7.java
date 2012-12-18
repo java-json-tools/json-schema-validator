@@ -80,7 +80,7 @@ public final class Example7
         implements URIDownloader
     {
         private static final String PREFIX;
-        private static final URIDownloader instance = new CustomDownloader();
+        private static final URIDownloader INSTANCE = new CustomDownloader();
 
         static {
             final String pkgname = CustomDownloader.class.getPackage()
@@ -90,7 +90,7 @@ public final class Example7
 
         public static URIDownloader getInstance()
         {
-            return instance;
+            return INSTANCE;
         }
 
         @Override

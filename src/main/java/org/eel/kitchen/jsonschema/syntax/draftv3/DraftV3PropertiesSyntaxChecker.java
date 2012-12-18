@@ -37,7 +37,7 @@ import java.util.Set;
 public final class DraftV3PropertiesSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker instance
+    private static final SyntaxChecker INSTANCE
         = new DraftV3PropertiesSyntaxChecker();
 
     private DraftV3PropertiesSyntaxChecker()
@@ -47,7 +47,7 @@ public final class DraftV3PropertiesSyntaxChecker
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

@@ -37,7 +37,7 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 public final class HostnameFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance
+    private static final FormatAttribute INSTANCE
         = new HostnameFormatAttribute();
 
     private HostnameFormatAttribute()
@@ -47,7 +47,7 @@ public final class HostnameFormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

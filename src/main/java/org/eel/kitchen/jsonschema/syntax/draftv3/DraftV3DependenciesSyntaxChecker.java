@@ -38,7 +38,7 @@ public final class DraftV3DependenciesSyntaxChecker
     private static final EnumSet<NodeType> VALID_DEPENDENCY_TYPES
         = EnumSet.of(NodeType.OBJECT, NodeType.ARRAY, NodeType.STRING);
 
-    private static final SyntaxChecker instance
+    private static final SyntaxChecker INSTANCE
         = new DraftV3DependenciesSyntaxChecker();
 
     private DraftV3DependenciesSyntaxChecker()
@@ -48,7 +48,7 @@ public final class DraftV3DependenciesSyntaxChecker
 
     public static SyntaxChecker getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

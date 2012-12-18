@@ -39,7 +39,7 @@ public final class ResourceURIDownloader
     private static final Class<ResourceURIDownloader> myself
         = ResourceURIDownloader.class;
 
-    private static final URIDownloader instance = new ResourceURIDownloader();
+    private static final URIDownloader INSTANCE = new ResourceURIDownloader();
 
     private ResourceURIDownloader()
     {
@@ -47,7 +47,7 @@ public final class ResourceURIDownloader
 
     public static URIDownloader getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

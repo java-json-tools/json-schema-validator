@@ -37,7 +37,7 @@ import java.net.URL;
 public final class DefaultURIDownloader
     implements URIDownloader
 {
-    private static final URIDownloader instance
+    private static final URIDownloader INSTANCE
         = new DefaultURIDownloader();
 
     private DefaultURIDownloader()
@@ -46,7 +46,7 @@ public final class DefaultURIDownloader
 
     public static URIDownloader getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

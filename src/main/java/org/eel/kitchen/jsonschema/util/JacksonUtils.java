@@ -76,11 +76,11 @@ public final class JacksonUtils
     private static final class EmptySchema
         extends ObjectNode
     {
-        private static final JsonNode instance = new EmptySchema();
+        private static final JsonNode INSTANCE = new EmptySchema();
 
         private static JsonNode getInstance()
         {
-            return instance;
+            return INSTANCE;
         }
 
         private EmptySchema()

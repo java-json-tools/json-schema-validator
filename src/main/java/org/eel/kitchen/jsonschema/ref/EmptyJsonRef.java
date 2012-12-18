@@ -27,7 +27,7 @@ package org.eel.kitchen.jsonschema.ref;
 final class EmptyJsonRef
     extends JsonRef
 {
-    private static final JsonRef instance = new EmptyJsonRef();
+    private static final JsonRef INSTANCE = new EmptyJsonRef();
 
     private EmptyJsonRef()
     {
@@ -36,7 +36,7 @@ final class EmptyJsonRef
 
     static JsonRef getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

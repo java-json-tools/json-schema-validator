@@ -103,7 +103,7 @@ public final class Example8
     private static final class UUIDFormatAttribute
         extends FormatAttribute
     {
-        private static final FormatAttribute instance
+        private static final FormatAttribute INSTANCE
             = new UUIDFormatAttribute();
 
         private UUIDFormatAttribute()
@@ -113,7 +113,7 @@ public final class Example8
 
         public static FormatAttribute getInstance()
         {
-            return instance;
+            return INSTANCE;
         }
 
         @Override

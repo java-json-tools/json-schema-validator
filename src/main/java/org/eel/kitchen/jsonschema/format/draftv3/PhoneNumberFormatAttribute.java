@@ -41,7 +41,7 @@ import org.eel.kitchen.jsonschema.util.NodeType;
 public final class PhoneNumberFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance
+    private static final FormatAttribute INSTANCE
         = new PhoneNumberFormatAttribute();
 
     private static final PhoneNumberUtil parser = PhoneNumberUtil.getInstance();
@@ -53,7 +53,7 @@ public final class PhoneNumberFormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

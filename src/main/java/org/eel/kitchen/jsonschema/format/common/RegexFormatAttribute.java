@@ -35,7 +35,7 @@ import org.eel.kitchen.jsonschema.util.RhinoHelper;
 public final class RegexFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance
+    private static final FormatAttribute INSTANCE
         = new RegexFormatAttribute();
 
     private RegexFormatAttribute()
@@ -45,7 +45,7 @@ public final class RegexFormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override

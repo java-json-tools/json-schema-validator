@@ -122,12 +122,12 @@ public final class Example9
     private static final class DivisorsSyntaxChecker
         extends TypeOnlySyntaxChecker
     {
-        private static final SyntaxChecker instance
+        private static final SyntaxChecker INSTANCE
             = new DivisorsSyntaxChecker();
 
         public static SyntaxChecker getInstance()
         {
-            return instance;
+            return INSTANCE;
         }
 
         private DivisorsSyntaxChecker()

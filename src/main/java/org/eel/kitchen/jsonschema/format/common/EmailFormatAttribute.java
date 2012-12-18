@@ -38,7 +38,7 @@ import javax.mail.internet.InternetAddress;
 public final class EmailFormatAttribute
     extends FormatAttribute
 {
-    private static final FormatAttribute instance = new EmailFormatAttribute();
+    private static final FormatAttribute INSTANCE = new EmailFormatAttribute();
 
     private EmailFormatAttribute()
     {
@@ -47,7 +47,7 @@ public final class EmailFormatAttribute
 
     public static FormatAttribute getInstance()
     {
-        return instance;
+        return INSTANCE;
     }
 
     @Override
