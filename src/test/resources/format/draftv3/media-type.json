@@ -1,0 +1,14 @@
+[
+    {
+        "data": "text/plain",
+        "valid": true
+    },
+    {
+        "data": "text/plain; charset=utf-8",
+        "valid": true
+    },
+    {
+        "data": "foo",
+        "valid": false
+    }
+]

@@ -27,6 +27,7 @@ import org.eel.kitchen.jsonschema.format.common.IPV6FormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.RegexFormatAttribute;
 import org.eel.kitchen.jsonschema.format.common.URIFormatAttribute;
 import org.eel.kitchen.jsonschema.format.draftv3.DateFormatAttribute;
+import org.eel.kitchen.jsonschema.format.draftv3.MediaTypeFormatAttribute;
 import org.eel.kitchen.jsonschema.format.draftv3.PhoneNumberFormatAttribute;
 import org.eel.kitchen.jsonschema.format.draftv3.TimeFormatAttribute;
 import org.eel.kitchen.jsonschema.format.draftv3.UnixEpochFormatAttribute;
@@ -86,6 +87,7 @@ public final class FormatAttributes
         builder.put("phone", PhoneNumberFormatAttribute.getInstance());
         builder.put("time", TimeFormatAttribute.getInstance());
         builder.put("utc-millisec", UnixEpochFormatAttribute.getInstance());
+        builder.put("media-type", MediaTypeFormatAttribute.getInstance());
 
         // Build the map
         DRAFTV3 = builder.build();
