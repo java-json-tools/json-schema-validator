@@ -77,11 +77,9 @@ public final class SelfValidationTest
         // It is assumed that all builtin schemas have a $schema
         final String dollarSchema = rawSchema.get("$schema").textValue();
         final JsonSchema schema = factory.fromURI(dollarSchema);
-        final ValidationReport report
-            = schema.validate(rawSchema);
-        assertTrue(report.isSuccess(),
-            builtinSchema + " failed to validate itself: "
-                + report.getMessages());
+        final ValidationReport report = schema.validate(rawSchema);
+        assertTrue(report.isSuccess(), builtinSchema + " failed to validate "
+            + "itself: " + report.getMessages());
     }
 
     @DataProvider
