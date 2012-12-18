@@ -45,7 +45,9 @@
  * </ul>
  *
  * <p>Additionally, there is an attribute named {@code ip-address} in draft v3,
- * and {@code ipv4} in draft v4, which can validate IP addresses.</p>
+ * and {@code ipv4} in draft v4, which can validate IP addresses. This
+ * implementation also adds {@code media-type} to allow further self-validation
+ * of draft v3's links schema.</p>
  *
  * <p>Other format attributes not defined by any of these drafts can be found
  * in a sister project: <a

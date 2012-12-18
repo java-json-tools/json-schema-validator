@@ -24,6 +24,14 @@ import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+/**
+ * {@code media-type} format attribute
+ *
+ * <p>This is not defined by the specification itself, however it is mentioned
+ * into draft v3's link schema.</p>
+ *
+ * <p>Fortunately enough, Guava has {@link MediaType} to help us out.</p>
+ */
 public final class MediaTypeFormatAttribute
     extends FormatAttribute
 {
