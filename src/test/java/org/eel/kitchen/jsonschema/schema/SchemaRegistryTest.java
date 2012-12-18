@@ -108,4 +108,25 @@ public final class SchemaRegistryTest
             assertEquals(e.getValidationMessage(), expectedMessage);
         }
     }
+
+    @Test
+    public void injectedSchemasAreNotFetchedAgain()
+        throws JsonSchemaException, IOException
+    {
+        final URI uri = URI.create("http://foo.bar/baz#");
+        final SchemaBundle bundle = new SchemaBundle();
+
+        bundle.addSchema(uri, CustomJsonNodeFactory.getInstance().objectNode());
+
+        final URIDownloader mock = mock(URIDownloader.class);
+        final URIManager manager = new URIManager();
+        manager.registerScheme("http", mock);
+
+        final SchemaRegistry registry = new SchemaRegistry(manager,
+            URI.create("#"), AddressingMode.CANONICAL);
+        registry.addBundle(bundle);
+
+        registry.get(uri);
+        verify(mock, never()).fetch(uri);
+    }
 }
