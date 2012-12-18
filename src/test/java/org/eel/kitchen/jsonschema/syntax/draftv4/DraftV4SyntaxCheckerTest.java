@@ -28,6 +28,6 @@ public abstract class DraftV4SyntaxCheckerTest
     protected DraftV4SyntaxCheckerTest(final String resourceName)
         throws IOException
     {
-        super(resourceName, KeywordRegistries.draftV4());
+        super(resourceName, KeywordRegistries.draftV4Core());
     }
 }

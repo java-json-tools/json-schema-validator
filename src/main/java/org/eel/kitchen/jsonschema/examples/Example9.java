@@ -56,9 +56,9 @@ import java.util.Set;
  * value of this keyword is {@code [2, 3]}, then 6 validates successfully but
  * 14 does not (it is divisible by 2 but not 3).</p>
  *
- * <p>The principle is the same as adding format attributes (see {@link Example8
- * }), with the difference that the keyword is built using the {@link Keyword}
- * class. You need three elements to add a custom keyword:</p>
+ * <p>The principle is the same as adding format attributes (see {@link
+ * Example8}), with the difference that the keyword is built using the {@link
+ * Keyword} class. You need three elements to add a custom keyword:</p>
  *
  * <ul>
  *     <li>its name (obviously enough),</li>
@@ -93,8 +93,8 @@ public final class Example9
         final JsonNode good = loadResource("/custom-keyword-good.json");
         final JsonNode bad = loadResource("/custom-keyword-bad.json");
 
-        final JsonRef ref = SchemaURIs.draftV4();
-        final KeywordRegistry registry = KeywordRegistries.draftV4();
+        final JsonRef ref = SchemaURIs.draftV4Core();
+        final KeywordRegistry registry = KeywordRegistries.draftV4Core();
 
         final Keyword keyword = Keyword.withName("divisors")
             .withSyntaxChecker(DivisorsSyntaxChecker.getInstance())

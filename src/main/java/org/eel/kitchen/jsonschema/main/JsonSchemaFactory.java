@@ -284,13 +284,13 @@ public final class JsonSchemaFactory
         /**
          * Default schema URI
          */
-        private JsonRef defaultSchemaURI = SchemaURIs.defaultURI();
+        private JsonRef defaultSchemaURI = SchemaURIs.draftV3HyperSchema();
 
         /**
          * Default keyword registry
          */
         private KeywordRegistry defaultKeywordRegistry
-            = KeywordRegistries.defaultRegistry();
+            = KeywordRegistries.draftV3HyperSchema();
 
         /**
          * Keyword registries
@@ -321,10 +321,10 @@ public final class JsonSchemaFactory
             keywordRegistries = Maps.newHashMap();
 
             keywordRegistries.put(defaultSchemaURI, defaultKeywordRegistry);
-            keywordRegistries.put(SchemaURIs.draftV3HyperSchemaURI(),
-                KeywordRegistries.draftV3HyperSchemaRegistry());
-            keywordRegistries.put(SchemaURIs.draftV4(),
-                KeywordRegistries.draftV4());
+            keywordRegistries.put(SchemaURIs.draftV3Core(),
+                KeywordRegistries.draftV3Core());
+            keywordRegistries.put(SchemaURIs.draftV4Core(),
+                KeywordRegistries.draftV4Core());
         }
 
         /**

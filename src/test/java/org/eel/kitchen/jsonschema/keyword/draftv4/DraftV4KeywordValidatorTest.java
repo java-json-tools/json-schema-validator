@@ -28,6 +28,6 @@ public abstract class DraftV4KeywordValidatorTest
     protected DraftV4KeywordValidatorTest(final String resourceName)
         throws IOException
     {
-        super(KeywordRegistries.draftV4(), resourceName);
+        super(KeywordRegistries.draftV4Core(), resourceName);
     }
 }

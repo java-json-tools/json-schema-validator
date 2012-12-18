@@ -28,6 +28,6 @@ public abstract class DraftV4FormatAttributeTest
     protected DraftV4FormatAttributeTest(final String fmt)
         throws IOException
     {
-        super(KeywordRegistries.draftV4(), "draftv4", fmt);
+        super(KeywordRegistries.draftV4Core(), "draftv4", fmt);
     }
 }

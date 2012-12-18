@@ -56,9 +56,9 @@ import static org.eel.kitchen.jsonschema.util.NodeType.*;
 
 public final class SyntaxCheckers
 {
-    private static final Map<String, SyntaxChecker> DRAFTV3;
+    private static final Map<String, SyntaxChecker> DRAFTV3_CORE;
     private static final Map<String, SyntaxChecker> DRAFTV3_HYPERSCHEMA;
-    private static final Map<String, SyntaxChecker> DRAFTV4;
+    private static final Map<String, SyntaxChecker> DRAFTV4_CORE;
 
     // No making new instances of this class
     private SyntaxCheckers()
@@ -207,7 +207,7 @@ public final class SyntaxCheckers
         builder.put(keyword, checker);
 
         // Build the map
-        DRAFTV3 = builder.build();
+        DRAFTV3_CORE = builder.build();
 
         /*
          * Draft v3 hyper schema
@@ -215,7 +215,7 @@ public final class SyntaxCheckers
         builder = ImmutableMap.builder();
 
         // Inject all of draft v3 core keywords
-        builder.putAll(DRAFTV3);
+        builder.putAll(DRAFTV3_CORE);
 
         // Inject hyper schema specific keywords
         keyword = "fragmentResolution";
@@ -304,7 +304,7 @@ public final class SyntaxCheckers
         builder.put(keyword, checker);
 
         // Build the map
-        DRAFTV4 = builder.build();
+        DRAFTV4_CORE = builder.build();
     }
 
     /**
@@ -312,9 +312,9 @@ public final class SyntaxCheckers
      *
      * @return a map pairing keyword names and their syntax checkers
      */
-    public static Map<String, SyntaxChecker> draftV3()
+    public static Map<String, SyntaxChecker> draftV3Core()
     {
-        return DRAFTV3;
+        return DRAFTV3_CORE;
     }
 
     /**
@@ -331,8 +331,8 @@ public final class SyntaxCheckers
      *
      * @return a map pairing keyword names and their syntax checkers
      */
-    public static Map<String, SyntaxChecker> draftV4()
+    public static Map<String, SyntaxChecker> draftV4Core()
     {
-        return DRAFTV4;
+        return DRAFTV4_CORE;
     }
 }

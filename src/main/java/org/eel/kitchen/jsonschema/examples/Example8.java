@@ -54,10 +54,11 @@ import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
  * </ul>
  *
  * <p>Here, we choose to augment draft v3. We can fetch the URI and default
- * keyword registry for this version using {@link KeywordRegistries#draftV3()}
- * and {@link SchemaURIs#draftV3()} respectively. Note that the third argument
- * to {@link Builder#addKeywordRegistry(JsonRef, KeywordRegistry, boolean)} is
- * {@code true}, since we want to make this schema the default.</p>
+ * keyword registry for this version using {@link
+ * KeywordRegistries#draftV3Core()} and {@link SchemaURIs#draftV3Core()}
+ * respectively. Note that the third argument to {@link
+ * Builder#addKeywordRegistry(JsonRef, KeywordRegistry, boolean)} is {@code
+ * true}, since we want to make this schema the default.</p>
  *
  * <p>Note also that the schema has no {@code $schema} defined; as a result, the
  * default schema is used (it is <b>not</b> recommended to omit {@code $schema}
@@ -81,8 +82,8 @@ public final class Example8
         final JsonNode good = loadResource("/custom-fmt-good.json");
         final JsonNode bad = loadResource("/custom-fmt-bad.json");
 
-        final JsonRef ref = SchemaURIs.draftV3();
-        final KeywordRegistry registry = KeywordRegistries.draftV3();
+        final JsonRef ref = SchemaURIs.draftV3Core();
+        final KeywordRegistry registry = KeywordRegistries.draftV3Core();
 
         registry.addFormatAttribute("uuid", UUIDFormatAttribute.getInstance());
 

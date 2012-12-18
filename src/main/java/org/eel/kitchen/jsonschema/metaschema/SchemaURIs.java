@@ -32,9 +32,9 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 
 public final class SchemaURIs
 {
-    private static final JsonRef DRAFTV3;
+    private static final JsonRef DRAFTV3_CORE;
     private static final JsonRef DRAFTV3_HYPERSCHEMA;
-    private static final JsonRef DRAFTV4;
+    private static final JsonRef DRAFTV4_CORE;
 
     // No making new instances of this class
     private SchemaURIs()
@@ -46,11 +46,11 @@ public final class SchemaURIs
         try {
             // Draft v3
             uri = "http://json-schema.org/draft-03/schema#";
-            DRAFTV3 = JsonRef.fromString(uri);
+            DRAFTV3_CORE = JsonRef.fromString(uri);
             uri = "http://json-schema.org/draft-03/hyper-schema#";
             DRAFTV3_HYPERSCHEMA = JsonRef.fromString(uri);
             uri = "http://json-schema.org/draft-04/schema#";
-            DRAFTV4 = JsonRef.fromString(uri);
+            DRAFTV4_CORE = JsonRef.fromString(uri);
         } catch (JsonSchemaException e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -61,9 +61,9 @@ public final class SchemaURIs
      *
      * @return the URI as a {@link JsonRef}
      */
-    public static JsonRef draftV3()
+    public static JsonRef draftV3Core()
     {
-        return DRAFTV3;
+        return DRAFTV3_CORE;
     }
 
     /**
@@ -71,7 +71,7 @@ public final class SchemaURIs
      *
      * @return the URI as a {@link JsonRef}
      */
-    public static JsonRef draftV3HyperSchemaURI()
+    public static JsonRef draftV3HyperSchema()
     {
         return DRAFTV3_HYPERSCHEMA;
     }
@@ -81,20 +81,8 @@ public final class SchemaURIs
      *
      * @return the URI as a {@link JsonRef}
      */
-    public static JsonRef draftV4()
+    public static JsonRef draftV4Core()
     {
-        return DRAFTV4;
-    }
-
-    /**
-     * Return the default URI
-     *
-     * <p>Buggy: currently returns the same result as {@link #draftV3()}</p>
-     *
-     * @return the URI as a {@link JsonRef}
-     */
-    public static JsonRef defaultURI()
-    {
-        return draftV3();
+        return DRAFTV4_CORE;
     }
 }

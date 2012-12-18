@@ -28,6 +28,6 @@ public abstract class DraftV3HyperSchemaSyntaxCheckerTest
     protected DraftV3HyperSchemaSyntaxCheckerTest(final String resourceName)
         throws IOException
     {
-        super(resourceName, KeywordRegistries.draftV3HyperSchemaRegistry());
+        super(resourceName, KeywordRegistries.draftV3HyperSchema());
     }
 }

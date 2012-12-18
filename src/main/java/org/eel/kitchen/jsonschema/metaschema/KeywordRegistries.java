@@ -39,14 +39,14 @@ public final class KeywordRegistries
     }
 
     /**
-     * Return a registry for draft version 3
+     * Return a registry for draft version 3 core schema
      *
      * @return a {@link KeywordRegistry}
      */
-    public static KeywordRegistry draftV3()
+    public static KeywordRegistry draftV3Core()
     {
         final KeywordRegistry ret = new KeywordRegistry();
-        ret.addSyntaxCheckers(SyntaxCheckers.draftV3());
+        ret.addSyntaxCheckers(SyntaxCheckers.draftV3Core());
         ret.addValidators(KeywordValidators.draftV3());
         ret.addFormatAttributes(FormatAttributes.draftV3());
         return ret;
@@ -57,7 +57,7 @@ public final class KeywordRegistries
      *
      * @return a {@link KeywordRegistry}
      */
-    public static KeywordRegistry draftV3HyperSchemaRegistry()
+    public static KeywordRegistry draftV3HyperSchema()
     {
         final KeywordRegistry ret = new KeywordRegistry();
         ret.addSyntaxCheckers(SyntaxCheckers.draftV3HyperSchema());
@@ -71,10 +71,10 @@ public final class KeywordRegistries
      *
      * @return a {@link KeywordRegistry}
      */
-    public static KeywordRegistry draftV4()
+    public static KeywordRegistry draftV4Core()
     {
         final KeywordRegistry ret = new KeywordRegistry();
-        ret.addSyntaxCheckers(SyntaxCheckers.draftV4());
+        ret.addSyntaxCheckers(SyntaxCheckers.draftV4Core());
         ret.addValidators(KeywordValidators.draftV4());
         ret.addFormatAttributes(FormatAttributes.draftV4());
         return ret;
@@ -87,6 +87,6 @@ public final class KeywordRegistries
      */
     public static KeywordRegistry defaultRegistry()
     {
-        return draftV3();
+        return draftV3Core();
     }
 }

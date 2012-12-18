@@ -28,6 +28,6 @@ public abstract class DraftV3FormatAttributeTest
     protected DraftV3FormatAttributeTest(final String fmt)
         throws IOException
     {
-        super(KeywordRegistries.draftV3(), "draftv3", fmt);
+        super(KeywordRegistries.draftV3Core(), "draftv3", fmt);
     }
 }
