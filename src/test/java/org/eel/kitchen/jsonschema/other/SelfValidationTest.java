@@ -19,10 +19,13 @@ package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchema;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.internal.annotations.Sets;
@@ -36,20 +39,18 @@ import static org.testng.Assert.*;
 
 public final class SelfValidationTest
 {
-    private static final JsonSchemaFactory FACTORY;
-    private static final JsonSchema DEFAULT_SCHEMA;
+    private JsonSchemaFactory factory;
 
-    static {
-        final JsonNode node;
+    @BeforeClass
+    public void initFactory()
+    {
+        final JsonSchemaFactory.Builder builder
+            = new JsonSchemaFactory.Builder();
 
-        try {
-            node = JsonLoader.fromResource("/draftv3/schema");
-        } catch (IOException e) {
-            throw new ExceptionInInitializerError(e);
-        }
+        for (final BuiltinSchema schema: BuiltinSchema.values())
+            builder.addSchema(schema.getURI(), schema.getRawSchema());
 
-        FACTORY = JsonSchemaFactory.defaultFactory();
-        DEFAULT_SCHEMA = FACTORY.fromSchema(node);
+        factory = builder.build();
     }
 
     @DataProvider
@@ -58,16 +59,8 @@ public final class SelfValidationTest
     {
         final Set<Object[]> set = Sets.newHashSet();
 
-        String title;
-        JsonNode schemaNode;
-
-        title = "draft v3 core schema";
-        schemaNode = JsonLoader.fromResource("/draftv3/schema");
-        set.add(new Object[] { title, schemaNode });
-
-        title = "draft v4 core schema";
-        schemaNode = JsonLoader.fromResource("/draftv4/schema");
-        set.add(new Object[] { title, schemaNode });
+        for (final BuiltinSchema schema: BuiltinSchema.values())
+            set.add(new Object[] { schema });
 
         return set.iterator();
     }
@@ -77,12 +70,14 @@ public final class SelfValidationTest
         invocationCount = 5,
         threadPoolSize = 3
     )
-    public void schemaValidatesItself(final String title,
-        final JsonNode schemaNode)
+    public void schemaValidatesItself(final BuiltinSchema builtinSchema)
+        throws JsonSchemaException
     {
-        final JsonSchema schema = FACTORY.fromSchema(schemaNode);
-        final ValidationReport report = schema.validate(schemaNode);
-        assertTrue(report.isSuccess(), title + " failed to validate itself");
+        final JsonSchema schema = factory.fromURI(builtinSchema.getURI());
+        final ValidationReport report
+            = schema.validate(builtinSchema.getRawSchema());
+        assertTrue(report.isSuccess(),
+            builtinSchema + " failed to validate itself");
     }
 
     @DataProvider
@@ -108,8 +103,11 @@ public final class SelfValidationTest
         threadPoolSize = 3
     )
     public void testGoogleSchemas(final String name, final JsonNode node)
+        throws JsonSchemaException
     {
-        final ValidationReport report = DEFAULT_SCHEMA.validate(node);
+        final JsonSchema schema
+            = factory.fromURI(BuiltinSchema.DEFAULT_CORE.getURI());
+        final ValidationReport report = schema.validate(node);
 
         assertTrue(report.isSuccess(), "Google schema " + name + " failed to "
             + "validate");
