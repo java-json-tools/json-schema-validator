@@ -347,6 +347,12 @@ public final class JsonSchemaFactory
             return this;
         }
 
+        /**
+         * Sets the addressing mode for this factory
+         *
+         * @param addressingMode the addressing mode
+         * @return the builder
+         */
         public Builder addressingMode(final AddressingMode addressingMode)
         {
             this.addressingMode = addressingMode;
@@ -393,6 +399,15 @@ public final class JsonSchemaFactory
             return this;
         }
 
+        /**
+         * Add a keyword registry to the factory
+         *
+         * @param schemaURI the URI for the new registry
+         * @param keywordRegistry the keyword registry
+         * @param byDefault whether this registry will be the default
+         * @return the builder
+         * @throws NullPointerException the URI or registry are null
+         */
         public Builder addKeywordRegistry(final JsonRef schemaURI,
             final KeywordRegistry keywordRegistry, final boolean byDefault)
         {

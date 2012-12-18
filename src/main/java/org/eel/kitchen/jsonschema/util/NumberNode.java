@@ -74,7 +74,8 @@ public final class NumberNode
      *
      * @param node the node
      * @throws IllegalArgumentException the node is not a numeric node ({@link
-     * JsonNode#isNumber()} returns {@code false})
+     * JsonNode#isNumber()} returns {@code false}), or it is a non-integer node
+     * which is not a {@link DecimalNode}
      */
     public NumberNode(final JsonNode node)
     {
