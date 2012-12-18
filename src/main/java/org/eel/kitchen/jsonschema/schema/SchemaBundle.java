@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
@@ -32,29 +31,34 @@ import java.util.Map;
  * A schema bundle
  *
  * <p>You can use this class to register a set of schemas and pass it to your
- * schema factory. The first schema you will put into a bundle will be
- * considered to be the main schema, so insertion order is significant.</p>
+ * schema factory via a builder.</p>
  *
- * <p>A bundle associates URIs with schemas using the following rules:</p>
+ * <p>Note that URIs must be valid, absolute JSON references, which means that
+ * not only the URI itself must be absolute, but also have no fragment or an
+ * empty fragment.</p>
  *
- * <ul>
- *     <li>the URI must be absolute, and have no, or an empty, fragment part;
- *     </li>
- *     <li>if you submit a schema without a URI, it is expected that this schema
- *     has an {@code id} member, and that the value of this member is a URI
- *     following the same rules as above.</li>
- * </ul>
+ * <p>Note also that the validity of the schemas is <b>not</b> checked at this
+ * stage.</p>
  *
- * <p>The set of schemas in a bundle will be injected into the schema registry
- * associated to the factory.</p>
- *
- * @see JsonSchemaFactory
- * @see SchemaRegistry
+ * @see JsonSchemaFactory.Builder#addSchema(URI, JsonNode)
+ * @see JsonSchemaFactory.Builder#addSchema(String, JsonNode)
+ * @see SchemaRegistry#addBundle(SchemaBundle)
  */
 public final class SchemaBundle
 {
+    /**
+     * Map of schemas
+     */
     private final Map<URI, JsonNode> schemas = Maps.newHashMap();
 
+    /**
+     * Add a schema to the bundle
+     *
+     * @param uri the URI of this schema
+     * @param schema the schema as a JSON document
+     * @throws IllegalArgumentException the URI is not an absolute JSON
+     * Reference
+     */
     public void addSchema(final URI uri, final JsonNode schema)
     {
         final JsonRef ref = JsonRef.fromURI(uri);
@@ -64,27 +68,17 @@ public final class SchemaBundle
         schemas.put(ref.getLocator(), schema);
     }
 
-    public void addSchema(final String uriAsString, final JsonNode schema)
+    /**
+     * Add a schema to the bundle
+     *
+     * @param uri the URI of this schema as a string
+     * @param schema the schema as a JSON document
+     * @throws IllegalArgumentException {@code uri} is not a URI, or the
+     * generated URI is not an absolute JSON Reference
+     */
+    public void addSchema(final String uri, final JsonNode schema)
     {
-        addSchema(URI.create(uriAsString), schema);
-    }
-
-    public void addSchema(final JsonNode schema)
-    {
-        Preconditions.checkArgument(schema.has("id"),
-            "schema has no \"id\" member");
-
-        final JsonRef ref;
-        try {
-            ref = JsonRef.fromNode(schema.get("id"));
-            Preconditions.checkArgument(ref.isAbsolute(),
-                "schema's id is not a valid schema locator");
-        } catch (JsonSchemaException ignored) {
-            throw new IllegalArgumentException("schema's id is not a valid"
-                + " schema locator");
-        }
-
-        schemas.put(ref.getLocator(), schema);
+        addSchema(URI.create(uri), schema);
     }
 
     public Map<URI, JsonNode> getSchemas()
