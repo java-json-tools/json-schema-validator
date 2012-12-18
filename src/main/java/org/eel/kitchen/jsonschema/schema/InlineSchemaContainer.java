@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
@@ -46,6 +47,15 @@ public final class InlineSchemaContainer
         schemas = builder.build();
     }
 
+    private static JsonRef refFromNode(final JsonNode node)
+        throws JsonSchemaException
+    {
+        Preconditions.checkNotNull(node, "node must not be null");
+
+        return node.isTextual() ? JsonRef.fromString(node.textValue())
+            : JsonRef.emptyRef();
+    }
+
     @Override
     public boolean contains(final JsonRef other)
     {
@@ -62,7 +72,7 @@ public final class InlineSchemaContainer
     private static JsonRef extractLocator(final JsonNode node)
     {
         try {
-            return JsonRef.fromNode(node.path("id"));
+            return refFromNode(node.path("id"));
         } catch (JsonSchemaException ignored) {
             return JsonRef.emptyRef();
         }
@@ -80,7 +90,7 @@ public final class InlineSchemaContainer
         for (final JsonNode child: node) {
             if (child.has("id"))
                 try {
-                    idRef = JsonRef.fromNode(child.get("id"));
+                    idRef = refFromNode(child.get("id"));
                     resolvedRef = baseRef.resolve(idRef);
                     builder.put(resolvedRef, cleanup(child));
                 } catch (JsonSchemaException ignored) {

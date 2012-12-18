@@ -312,7 +312,7 @@ public final class SyntaxCheckers
      *
      * @return a map pairing keyword names and their syntax checkers
      */
-    public static Map<String, SyntaxChecker> draftV3Core()
+    static Map<String, SyntaxChecker> draftV3Core()
     {
         return DRAFTV3_CORE;
     }
@@ -322,7 +322,7 @@ public final class SyntaxCheckers
      *
      * @return a map pairing keyword names and their syntax checkers
      */
-    public static Map<String, SyntaxChecker> draftV3HyperSchema()
+    static Map<String, SyntaxChecker> draftV3HyperSchema()
     {
         return DRAFTV3_HYPERSCHEMA;
     }
@@ -331,7 +331,7 @@ public final class SyntaxCheckers
      *
      * @return a map pairing keyword names and their syntax checkers
      */
-    public static Map<String, SyntaxChecker> draftV4Core()
+    static Map<String, SyntaxChecker> draftV4Core()
     {
         return DRAFTV4_CORE;
     }

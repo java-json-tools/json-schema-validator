@@ -112,7 +112,7 @@ public final class FormatAttributes
      *
      * @return a map pairing format attribute names and their implementation
      */
-    public static Map<String, FormatAttribute> draftV3()
+    static Map<String, FormatAttribute> draftV3()
     {
         return DRAFTV3;
     }
@@ -122,7 +122,7 @@ public final class FormatAttributes
      *
      * @return a map pairing format attribute names and their implementation
      */
-    public static Map<String, FormatAttribute> draftV4()
+    static Map<String, FormatAttribute> draftV4()
     {
         return DRAFTV4;
     }

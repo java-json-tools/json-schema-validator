@@ -35,7 +35,7 @@ public abstract class ExampleBase
 
     static {
         final String pkgName = ExampleBase.class.getPackage().getName();
-        PKGBASE = "/" + pkgName.replace(".", "/");
+        PKGBASE = '/' + pkgName.replace(".", "/");
         WRITER = new ObjectMapper().writerWithDefaultPrettyPrinter();
     }
 

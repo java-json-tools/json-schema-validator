@@ -17,7 +17,6 @@
 
 package org.eel.kitchen.jsonschema.ref;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
@@ -175,27 +174,6 @@ public abstract class JsonRef
                 .setKeyword("N/A").addInfo("uri", s).setMessage("invalid URI");
             throw new JsonSchemaException(msg.build(), e);
         }
-    }
-
-    /**
-     * Build a JSON Reference from a {@link JsonNode}
-     *
-     * <p>If the node is not textual, this returns an empty reference.
-     * Otherwise, it calls {@link #fromString(String)} with this node's text
-     * value.</p>
-     *
-     * @param node the node
-     * @return the reference
-     * @throws JsonSchemaException see {@link #fromString(String)}
-     * @throws NullPointerException provided node is null
-     */
-    public static JsonRef fromNode(final JsonNode node)
-        throws JsonSchemaException
-    {
-        Preconditions.checkNotNull(node, "node must not be null");
-
-        return node.isTextual() ? fromString(node.textValue())
-            : EmptyJsonRef.getInstance();
     }
 
     /**

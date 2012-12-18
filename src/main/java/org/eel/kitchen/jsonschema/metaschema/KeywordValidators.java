@@ -237,7 +237,7 @@ public final class KeywordValidators
      *
      * @return a map pairing keyword names and their validator classes
      */
-    public static Map<String, Class<? extends KeywordValidator>> draftV3()
+    static Map<String, Class<? extends KeywordValidator>> draftV3()
     {
         return DRAFTV3;
     }
@@ -247,7 +247,7 @@ public final class KeywordValidators
      *
      * @return a map pairing keyword names and their validator classes
      */
-    public static Map<String, Class<? extends KeywordValidator>> draftV4()
+    static Map<String, Class<? extends KeywordValidator>> draftV4()
     {
         return DRAFTV4;
     }

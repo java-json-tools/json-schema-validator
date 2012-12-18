@@ -70,7 +70,8 @@ public final class KeywordFactory
      */
     public Set<KeywordValidator> getValidators(final JsonNode schema)
     {
-        final Set<KeywordValidator> ret = Sets.newHashSet();
+        final ImmutableSet.Builder<KeywordValidator> builder
+            = ImmutableSet.builder();
 
         final Set<String> set = Sets.newHashSet(schema.fieldNames());
 
@@ -81,10 +82,10 @@ public final class KeywordFactory
         for (final String keyword: set) {
             validator = buildValidator(validators.get(keyword), schema);
             if (!validator.alwaysTrue())
-                ret.add(validator);
+                builder.add(validator);
         }
 
-        return ImmutableSet.copyOf(ret);
+        return builder.build();
     }
 
     /**
