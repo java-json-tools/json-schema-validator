@@ -28,6 +28,7 @@ import org.eel.kitchen.jsonschema.ref.JsonFragment;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.schema.AddressingMode;
+import org.eel.kitchen.jsonschema.schema.SchemaBundle;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
@@ -90,6 +91,8 @@ public final class JsonSchemaFactory
     {
         registry = new SchemaRegistry(builder.uriManager, builder.namespace,
             builder.addressingMode);
+        registry.addBundle(builder.bundle);
+
         defaultSchemaURI = builder.defaultSchemaURI;
 
         final ImmutableMap.Builder<JsonRef, JsonValidatorCache> cacheBuilder
@@ -305,6 +308,11 @@ public final class JsonSchemaFactory
         private URI namespace = URI.create("");
 
         /**
+         * Schema bundle
+         */
+        private final SchemaBundle bundle = new SchemaBundle();
+
+        /**
          * Constructor
          */
         public Builder()
@@ -421,6 +429,36 @@ public final class JsonSchemaFactory
                 defaultKeywordRegistry = keywordRegistry;
             }
 
+            return this;
+        }
+
+        /**
+         * Register a schema
+         *
+         * @param uri the URI of this schema
+         * @param schema the schema
+         * @return the builder
+         *
+         * @see SchemaBundle#addSchema(URI, JsonNode)
+         */
+        public Builder addSchema(final URI uri, final JsonNode schema)
+        {
+            bundle.addSchema(uri, schema);
+            return this;
+        }
+
+        /**
+         * Register a schema
+         *
+         * @param uri the URI of this schema
+         * @param schema the schema
+         * @return the builder
+         *
+         * @see SchemaBundle#addSchema(String, JsonNode)
+         */
+        public Builder addSchema(final String uri, final JsonNode schema)
+        {
+            bundle.addSchema(uri, schema);
             return this;
         }
 
