@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
@@ -57,9 +58,8 @@ public final class SchemaBundle
     public void addSchema(final URI uri, final JsonNode schema)
     {
         final JsonRef ref = JsonRef.fromURI(uri);
-        if (!ref.isAbsolute())
-            throw new IllegalArgumentException("Provided URI " + uri + " is not"
-                + " an absolute schema URI");
+        Preconditions.checkArgument(ref.isAbsolute(),
+            "provided URI " + uri + " is not an absolute schema URI");
 
         schemas.put(ref.getLocator(), schema);
     }
@@ -71,15 +71,14 @@ public final class SchemaBundle
 
     public void addSchema(final JsonNode schema)
     {
-        if (!schema.has("id"))
-            throw new IllegalArgumentException("schema has no \"id\" member");
+        Preconditions.checkArgument(schema.has("id"),
+            "schema has no \"id\" member");
 
         final JsonRef ref;
         try {
             ref = JsonRef.fromNode(schema.get("id"));
-            if (!ref.isAbsolute())
-                throw new IllegalArgumentException("schema's id is not a valid"
-                    + " schema locator");
+            Preconditions.checkArgument(ref.isAbsolute(),
+                "schema's id is not a valid schema locator");
         } catch (JsonSchemaException ignored) {
             throw new IllegalArgumentException("schema's id is not a valid"
                 + " schema locator");

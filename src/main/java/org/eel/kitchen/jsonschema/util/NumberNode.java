@@ -78,9 +78,8 @@ public final class NumberNode
      */
     public NumberNode(final JsonNode node)
     {
-        if (!node.isNumber())
-            throw new IllegalArgumentException("only numeric nodes are "
-                + "supported");
+        Preconditions.checkArgument(node.isNumber(),
+            "only numeric nodes are supported");
 
         final BigDecimal decimal = node.decimalValue();
 
