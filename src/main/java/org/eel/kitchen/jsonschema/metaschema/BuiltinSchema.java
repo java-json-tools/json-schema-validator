@@ -44,7 +44,22 @@ public enum BuiltinSchema
      * Draft v4 core schema
      */
     DRAFTV4_CORE("http://json-schema.org/draft-04/schema#", "/draftv4/schema",
-        "draft v4 core schema");
+        "draft v4 core schema"),
+    /**
+     * Draft v3 LDO (Link Description Object) schema
+     */
+    DRAFTV3_LINKS("http://json-schema.org/draft-03/links#", "/draftv3/links",
+        "draft v3 link description object (LDO) schema"),
+    /**
+     * Draft v3 hyper-schema
+     */
+    DRAFTV3_HYPERSCHEMA("http://json-schema.org/draft-03/hyper-schema#",
+        "/draftv3/hyper-schema", "draft v3 hyper schema"),
+    /**
+     * Default hyper-schema
+     */
+    DEFAULT_HYPERSCHEMA("http://json-schema.org/hyper-schema#",
+        "/draftv3/hyper-schema", "default hyper schema");
 
     private final JsonRef locator;
     private final JsonNode rawSchema;

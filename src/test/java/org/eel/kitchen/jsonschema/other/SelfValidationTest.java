@@ -73,11 +73,15 @@ public final class SelfValidationTest
     public void schemaValidatesItself(final BuiltinSchema builtinSchema)
         throws JsonSchemaException
     {
-        final JsonSchema schema = factory.fromURI(builtinSchema.getURI());
+        final JsonNode rawSchema = builtinSchema.getRawSchema();
+        // It is assumed that all builtin schemas have a $schema
+        final String dollarSchema = rawSchema.get("$schema").textValue();
+        final JsonSchema schema = factory.fromURI(dollarSchema);
         final ValidationReport report
-            = schema.validate(builtinSchema.getRawSchema());
+            = schema.validate(rawSchema);
         assertTrue(report.isSuccess(),
-            builtinSchema + " failed to validate itself");
+            builtinSchema + " failed to validate itself: "
+                + report.getMessages());
     }
 
     @DataProvider
