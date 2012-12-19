@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class ReadOnlySyntaxCheckerTest
     extends DraftV3HyperSchemaSyntaxCheckerTest
 {
-    public ReadOnlySyntaxCheckerTest()
+    ReadOnlySyntaxCheckerTest()
         throws IOException
     {
         super("hyperschema/draftv3/readonly");

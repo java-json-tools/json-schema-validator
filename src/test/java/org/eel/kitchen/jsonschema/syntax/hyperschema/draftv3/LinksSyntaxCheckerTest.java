@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class LinksSyntaxCheckerTest
     extends DraftV3HyperSchemaSyntaxCheckerTest
 {
-    public LinksSyntaxCheckerTest()
+    LinksSyntaxCheckerTest()
         throws IOException
     {
         super("hyperschema/draftv3/links");

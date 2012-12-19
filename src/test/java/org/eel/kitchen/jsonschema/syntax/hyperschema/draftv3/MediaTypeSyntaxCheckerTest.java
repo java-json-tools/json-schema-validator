@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class MediaTypeSyntaxCheckerTest
     extends DraftV3HyperSchemaSyntaxCheckerTest
 {
-    public MediaTypeSyntaxCheckerTest()
+    MediaTypeSyntaxCheckerTest()
         throws IOException
     {
         super("hyperschema/draftv3/mediaType");

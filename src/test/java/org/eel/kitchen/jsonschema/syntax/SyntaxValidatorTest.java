@@ -94,8 +94,7 @@ public final class SyntaxValidatorTest
     @Test
     public void shouldInvokeRelevantCheckers()
     {
-        final JsonNode instance = factory.objectNode()
-            .put("k1", "");
+        final JsonNode instance = factory.objectNode().put("k1", "");
 
         registry.addKeyword(k1);
 
@@ -122,9 +121,8 @@ public final class SyntaxValidatorTest
 
         verify(checker1).checkSyntax(any(Message.Builder.class), eq(messages),
             eq(instance));
-        verify(checker2, never())
-            .checkSyntax(any(Message.Builder.class), eq(messages),
-                eq(instance));
+        verify(checker2, never()).checkSyntax(any(Message.Builder.class),
+            eq(messages), eq(instance));
     }
 
     @Test

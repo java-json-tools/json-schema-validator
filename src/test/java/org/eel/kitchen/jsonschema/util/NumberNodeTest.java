@@ -64,7 +64,6 @@ public final class NumberNodeTest
         assertTrue(integerZero.equals(decimalZero));
         assertTrue(decimalZero.equals(integerZero));
 
-
         // Null test
         assertFalse(integerZero.equals(null));
 
@@ -86,7 +85,6 @@ public final class NumberNodeTest
         // Symmetry
         assertTrue(integerOne.equals(decimalOne));
         assertTrue(decimalOne.equals(integerOne));
-
 
         // Null test
         assertFalse(integerOne.equals(null));

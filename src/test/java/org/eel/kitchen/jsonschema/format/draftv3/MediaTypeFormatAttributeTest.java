@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class MediaTypeFormatAttributeTest
     extends DraftV3FormatAttributeTest
 {
-    public MediaTypeFormatAttributeTest()
+    MediaTypeFormatAttributeTest()
         throws IOException
     {
         super("media-type");

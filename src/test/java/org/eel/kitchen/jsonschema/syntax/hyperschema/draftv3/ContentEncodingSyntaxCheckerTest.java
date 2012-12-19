@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class ContentEncodingSyntaxCheckerTest
     extends DraftV3HyperSchemaSyntaxCheckerTest
 {
-    public ContentEncodingSyntaxCheckerTest()
+    ContentEncodingSyntaxCheckerTest()
         throws IOException
     {
         super("hyperschema/draftv3/contentEncoding");

@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class FragmentResolutionSyntaxCheckerTest
     extends DraftV3HyperSchemaSyntaxCheckerTest
 {
-    public FragmentResolutionSyntaxCheckerTest()
+    FragmentResolutionSyntaxCheckerTest()
         throws IOException
     {
         super("hyperschema/draftv3/fragmentResolution");

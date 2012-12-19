@@ -57,9 +57,10 @@ public final class URIManagerTest
 
         manager.registerScheme("foo", mock);
 
-        manager.getContent(URI.create("foo://bar"));
+        final URI uri = URI.create("foo://bar");
 
-        assertTrue(true);
+        manager.getContent(uri);
+        verify(mock, times(1)).fetch(uri);
     }
 
     @Test(dependsOnMethods = "shouldBeAbleToRegisterScheme")

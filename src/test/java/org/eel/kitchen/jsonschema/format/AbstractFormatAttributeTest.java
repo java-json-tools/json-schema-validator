@@ -66,8 +66,7 @@ public abstract class AbstractFormatAttributeTest
             set.add(new Object[] {
                 node.get("data"),
                 node.get("valid").booleanValue()
-            }
-            );
+            });
 
         return set.iterator();
     }

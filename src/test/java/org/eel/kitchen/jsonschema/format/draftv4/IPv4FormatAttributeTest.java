@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class IPv4FormatAttributeTest
     extends DraftV4FormatAttributeTest
 {
-    public IPv4FormatAttributeTest(final String fmt)
+    IPv4FormatAttributeTest()
         throws IOException
     {
         super("ipv4");

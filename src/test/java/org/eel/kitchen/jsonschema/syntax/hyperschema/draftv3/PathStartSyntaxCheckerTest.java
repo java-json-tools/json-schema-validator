@@ -22,7 +22,7 @@ import java.io.IOException;
 public final class PathStartSyntaxCheckerTest
     extends DraftV3HyperSchemaSyntaxCheckerTest
 {
-    public PathStartSyntaxCheckerTest()
+    PathStartSyntaxCheckerTest()
         throws IOException
     {
         super("hyperschema/draftv3/pathStart");
