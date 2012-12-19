@@ -51,4 +51,10 @@ public final class MinPropertiesKeywordValidator
             .setMessage("not enough members in object");
         report.addMessage(msg.build());
     }
+
+    @Override
+    public boolean alwaysTrue()
+    {
+        return intValue == 0;
+    }
 }

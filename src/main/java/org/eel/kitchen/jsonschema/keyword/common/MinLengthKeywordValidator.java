@@ -47,4 +47,10 @@ public final class MinLengthKeywordValidator
             .addInfo("found", len).setMessage("string is too short");
         report.addMessage(msg.build());
     }
+
+    @Override
+    public boolean alwaysTrue()
+    {
+        return intValue == 0;
+    }
 }

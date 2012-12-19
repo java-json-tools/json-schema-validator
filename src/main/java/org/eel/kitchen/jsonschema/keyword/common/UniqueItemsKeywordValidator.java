@@ -64,6 +64,12 @@ public final class UniqueItemsKeywordValidator
     }
 
     @Override
+    public boolean alwaysTrue()
+    {
+        return !uniqueItems;
+    }
+
+    @Override
     public String toString()
     {
         return keyword + ": " + uniqueItems;

@@ -47,4 +47,10 @@ public final class MinItemsKeywordValidator
             .setMessage("not enough elements in array");
         report.addMessage(msg.build());
     }
+
+    @Override
+    public boolean alwaysTrue()
+    {
+        return intValue == 0;
+    }
 }
