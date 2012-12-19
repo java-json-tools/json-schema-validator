@@ -18,15 +18,17 @@ text.</p>
     href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
 </ul>
 
-<p>You can see what is new in 1.4.x <a
+<p>If you are looking for a quick start, see the <a
+href="http://fge.github.com/json-schema-validator/devel/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
+examples</a>. You can see what is new in 1.4.x <a
 href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p>
 
 <h2>Versioning scheme policy</h2>
 
-<p>The versioning scheme is defined by the middle number of the version number:</p>
+<p>The versioning scheme is defined by the middle digit of the version number:</p>
 
 * if this number is <b>even</b>, then this is the <b>stable</b> version; no new features will be
-  added to such versions, and the user API will only see incremental changes, never modifications;
+  added to such versions, and the user API will not change (save for some additions if requested).
 * if this number is <b>odd</b>, then this is the <b>development</b> version; new features will be
   added to those versions only, and the user API may change.
 
