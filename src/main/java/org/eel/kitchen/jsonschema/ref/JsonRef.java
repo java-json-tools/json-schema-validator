@@ -220,7 +220,7 @@ public abstract class JsonRef
     /**
      * Return this JSON Reference's locator
      *
-     * <p>The locator of a fragment is the URI with an empty fragment.</p>
+     * <p>This returns the reference with an empty fragment.</p>
      *
      * @return an URI
      */
