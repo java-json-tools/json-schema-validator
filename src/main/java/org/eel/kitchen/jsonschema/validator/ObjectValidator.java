@@ -23,7 +23,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
 
 import java.util.Collections;

@@ -21,8 +21,8 @@
  * <p>There are five utility classes, all of which are important.</p>
  *
  * <p>The two most important of them are {@link
- * org.eel.kitchen.jsonschema.util.NumberNode} and {@link
- * org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory}. They help enforce
+ * org.eel.kitchen.jsonschema.util.jackson.NumberNode} and {@link
+ * org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory}. They help enforce
  * numeric value equality as defined by JSON Schema, since for instance, Jackson
  * does not consider {@code 1.0} and {@code 1} as being equal. This
  * implementation does consider them as equal, all the while retaining the node
@@ -43,7 +43,7 @@
  * com.fasterxml.jackson.databind.JsonNode} is an essential part of the
  * validation process.</p>
  *
- * <p>The {@link org.eel.kitchen.jsonschema.util.JacksonUtils} class provides
+ * <p>The {@link org.eel.kitchen.jsonschema.util.jackson.JacksonUtils} class provides
  * useful methods to perform common operations on exsting {@link
  * com.fasterxml.jackson.databind.JsonNode} instances.</p>
  *

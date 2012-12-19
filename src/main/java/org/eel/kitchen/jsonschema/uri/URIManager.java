@@ -28,7 +28,7 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
-import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 
 import java.io.IOException;

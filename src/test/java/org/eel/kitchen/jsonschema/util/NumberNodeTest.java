@@ -20,6 +20,8 @@ package org.eel.kitchen.jsonschema.util;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.SampleNodeProvider;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.NumberNode;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

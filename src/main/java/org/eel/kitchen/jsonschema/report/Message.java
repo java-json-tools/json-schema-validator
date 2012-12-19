@@ -30,8 +30,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

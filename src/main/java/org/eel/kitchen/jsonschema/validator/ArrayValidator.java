@@ -22,7 +22,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.Collections;
 import java.util.List;

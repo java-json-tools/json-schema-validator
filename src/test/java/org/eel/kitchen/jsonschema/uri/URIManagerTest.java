@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

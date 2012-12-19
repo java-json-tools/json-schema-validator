@@ -23,7 +23,7 @@ import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;

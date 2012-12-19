@@ -33,7 +33,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.jsonschema.util.JacksonUtils;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.List;
 import java.util.Map;

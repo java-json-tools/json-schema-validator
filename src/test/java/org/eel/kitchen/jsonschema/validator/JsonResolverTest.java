@@ -30,7 +30,7 @@ import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.util.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
