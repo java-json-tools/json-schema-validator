@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -27,7 +26,6 @@ import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import static org.testng.Assert.*;
@@ -70,15 +68,6 @@ public final class ArrayValidatorTest
     {
         final ArrayValidator validator = new ArrayValidator(schema);
         final JsonNode actual = validator.getSchema(index);
-
-        // This is ugly, I know... But ObjectNode's .equals() basically forbids
-        // inheritance, so I have to resort to that, since JacksonUtils'
-        // .emptyMap() is NOT an ObjectNode :(
-        final Map<String, JsonNode> expectedMap
-            = JacksonUtils.nodeToMap(expected);
-        final Map<String, JsonNode> actualMap
-            = JacksonUtils.nodeToMap(actual);
-
-        assertEquals(expectedMap, actualMap);
+        assertEquals(expected, actual);
     }
 }

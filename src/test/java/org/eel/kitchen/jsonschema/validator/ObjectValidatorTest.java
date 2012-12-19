@@ -18,10 +18,7 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.ImmutableSet;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
-import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -30,7 +27,6 @@ import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.Set;
 
 import static org.testng.Assert.*;
@@ -69,33 +65,12 @@ public final class ObjectValidatorTest
 
     @Test(dataProvider = "getData")
     public void objectChildrenSchemasAreCorrectlyComputed(final JsonNode schema,
-        final String member, final JsonNode expected)
+        final String member, final JsonNode node)
     {
         final ObjectValidator validator = new ObjectValidator(schema);
         final Set<JsonNode> actual = validator.getSchemas(member);
+        final Set<JsonNode> expected = ImmutableSet.copyOf(node);
 
-        checkNodeAndPaths(actual, expected);
-    }
-
-    // FIXME: necessary because of ObjectNode and .equals()
-    private static void checkNodeAndPaths(final Set<JsonNode> actual,
-        final JsonNode expected)
-    {
-        assertEquals(actual.size(), expected.size());
-
-        final Set<JsonNode> expectedSet = ImmutableSet.copyOf(expected);
-        final Set<JsonNode> actualSet = Sets.newHashSet();
-
-        Map<String, JsonNode> map;
-        ObjectNode node;
-
-        for (final JsonNode element: actual) {
-            node = CustomJsonNodeFactory.getInstance().objectNode();
-            map = JacksonUtils.nodeToMap(element);
-            node.putAll(map);
-            actualSet.add(node);
-        }
-
-        assertEqualsNoOrder(actualSet.toArray(), expectedSet.toArray());
+        assertEquals(actual, expected);
     }
 }
