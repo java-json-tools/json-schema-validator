@@ -115,8 +115,6 @@ public final class JsonValidatorCache
             @Override
             public JsonValidator load(final SchemaNode key)
             {
-                // We can do that: we ask JacksonUtils to return an empty schema
-                // each time we have to return one.
                 if (key.getNode().size() == 0)
                     return ALWAYS_TRUE;
 

@@ -43,10 +43,6 @@
  * com.fasterxml.jackson.databind.JsonNode} is an essential part of the
  * validation process.</p>
  *
- * <p>The {@link org.eel.kitchen.jsonschema.util.jackson.JacksonUtils} class provides
- * useful methods to perform common operations on exsting {@link
- * com.fasterxml.jackson.databind.JsonNode} instances.</p>
- *
  * <p>Finally, {@link org.eel.kitchen.jsonschema.util.CharMatchers} contains a
  * set of custom {@link com.google.common.base.CharMatcher}s for hyper schema
  * syntax validation.</p>

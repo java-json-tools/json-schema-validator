@@ -18,12 +18,12 @@
 package org.eel.kitchen.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.metaschema.BuiltinSchema;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -89,7 +89,7 @@ public final class SelfValidationTest
         final JsonNode googleAPI
             = JsonLoader.fromResource("/other/google-json-api.json");
         final Map<String, JsonNode> schemas
-            = JacksonUtils.nodeToMap(googleAPI.get("schemas"));
+            = ((ObjectNode) googleAPI.get("schemas")).asMap();
 
         final Set<Object[]> set = Sets.newHashSet();
 

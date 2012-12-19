@@ -18,14 +18,14 @@
 package org.eel.kitchen.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
-import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 
 import java.util.Collections;
 import java.util.Map;
@@ -65,11 +65,11 @@ final class ObjectValidator
             : CustomJsonNodeFactory.emptyObject();
 
         node = schema.path("properties");
-        properties = node.isObject() ? JacksonUtils.nodeToMap(node)
+        properties = node.isObject() ? ((ObjectNode) node).asMap()
             : Collections.<String, JsonNode>emptyMap();
 
         node = schema.path("patternProperties");
-        patternProperties = node.isObject() ? JacksonUtils.nodeToMap(node)
+        patternProperties = node.isObject() ? ((ObjectNode) node).asMap()
             : Collections.<String, JsonNode>emptyMap();
     }
 
@@ -78,7 +78,7 @@ final class ObjectValidator
         final ValidationReport report, final JsonNode instance)
     {
         final JsonPointer pwd = report.getPath();
-        final Map<String, JsonNode> map = JacksonUtils.nodeToMap(instance);
+        final Map<String, JsonNode> map = ((ObjectNode) instance).asMap();
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
             report.setPath(pwd.append(entry.getKey()));

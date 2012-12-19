@@ -49,6 +49,11 @@ public final class ObjectNode
         return ret;
     }
 
+    public Map<String, JsonNode> asMap()
+    {
+        return Maps.newHashMap(members);
+    }
+
     /*
     /**********************************************************
     /* Implementation of core JsonNode API

@@ -18,10 +18,10 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -53,7 +53,7 @@ public final class JsonPointerTest
 
     private static Iterator<Object[]> nodeToDataProvider(final JsonNode node)
     {
-        final Map<String, JsonNode> map = JacksonUtils.nodeToMap(node);
+        final Map<String, JsonNode> map = ((ObjectNode) node).asMap();
 
         final Set<Object[]> set = Sets.newHashSet();
 
@@ -117,7 +117,7 @@ public final class JsonPointerTest
             .setKeyword("$ref").setMessage("illegal JSON Pointer");
 
         final Map<String, JsonNode> map
-            = JacksonUtils.nodeToMap(node.get("info"));
+            = ((ObjectNode) node.get("info")).asMap();
 
         for (final Map.Entry<String, JsonNode> entry: map.entrySet())
             msg.addInfo(entry.getKey(), entry.getValue());
