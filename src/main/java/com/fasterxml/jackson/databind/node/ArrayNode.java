@@ -128,7 +128,7 @@ public final class ArrayNode
         throws IOException
     {
         typeSer.writeTypePrefixForArray(this, jgen);
-        for (final JsonNode n : elements)
+        for (final JsonNode n: elements)
             ((JsonSerializable) n).serialize(jgen, provider);
         typeSer.writeTypeSuffixForArray(this, jgen);
     }
@@ -163,7 +163,7 @@ public final class ArrayNode
     public List<String> findValuesAsText(final String fieldName,
         List<String> foundSoFar)
     {
-        for (final JsonNode node : elements)
+        for (final JsonNode node: elements)
             foundSoFar = node.findValuesAsText(fieldName, foundSoFar);
         return foundSoFar;
     }
@@ -183,7 +183,7 @@ public final class ArrayNode
     public List<JsonNode> findParents(final String fieldName,
         List<JsonNode> foundSoFar)
     {
-        for (final JsonNode node : elements)
+        for (final JsonNode node: elements)
             foundSoFar = node.findParents(fieldName, foundSoFar);
         return foundSoFar;
     }
