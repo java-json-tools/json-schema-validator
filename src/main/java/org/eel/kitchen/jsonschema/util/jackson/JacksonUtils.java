@@ -29,9 +29,6 @@ import java.util.Map;
 
 public final class JacksonUtils
 {
-    private static final JsonNode EMPTY_SCHEMA
-        = CustomJsonNodeFactory.getInstance().objectNode();
-
     private JacksonUtils()
     {
     }
@@ -55,15 +52,5 @@ public final class JacksonUtils
         }
 
         return ret;
-    }
-
-    /**
-     * Return an empty schema
-     *
-     * @return a statically created, empty, JSON object.
-     */
-    public static JsonNode emptySchema()
-    {
-        return EMPTY_SCHEMA;
     }
 }

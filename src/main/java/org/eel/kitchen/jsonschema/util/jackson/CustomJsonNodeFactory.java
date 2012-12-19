@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.NumericNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.ValueNode;
 
 import java.math.BigDecimal;
@@ -68,6 +69,8 @@ public final class CustomJsonNodeFactory
         .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
         .setNodeFactory(INSTANCE);
 
+    private static final ObjectNode EMPTY_OBJECT = INSTANCE.objectNode();
+
     /**
      * Get the only instance of the class
      *
@@ -86,6 +89,18 @@ public final class CustomJsonNodeFactory
     public static ObjectMapper getMapper()
     {
         return MAPPER;
+    }
+
+    /**
+     * Return a statically created empty object
+     *
+     * <p>WARNING: this instance is mutable, but please don't do that!</p>
+     *
+     * @return an {@link ObjectNode}
+     */
+    public static ObjectNode emptyObject()
+    {
+        return EMPTY_OBJECT;
     }
 
     private CustomJsonNodeFactory()

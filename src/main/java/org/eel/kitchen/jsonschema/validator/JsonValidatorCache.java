@@ -33,7 +33,6 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
-import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -118,7 +117,7 @@ public final class JsonValidatorCache
             {
                 // We can do that: we ask JacksonUtils to return an empty schema
                 // each time we have to return one.
-                if (key.getNode() == JacksonUtils.emptySchema())
+                if (key.getNode().size() == 0)
                     return ALWAYS_TRUE;
 
                 final SchemaNode realNode;
