@@ -19,6 +19,7 @@ package org.eel.kitchen.jsonschema.util.jackson;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.NumericNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -55,6 +56,9 @@ import java.math.BigInteger;
  *     any final zeroes and generates a (precision-dependent) integer node if
  *     the resulting decimal part is empty.</li>
  * </ul>
+ *
+ * <p>This class also uses custom implementations for {@link ObjectNode} and
+ * {@link ArrayNode}.</p>
  *
  * @see BigDecimal#stripTrailingZeros()
  * @see BigDecimal#scale()
