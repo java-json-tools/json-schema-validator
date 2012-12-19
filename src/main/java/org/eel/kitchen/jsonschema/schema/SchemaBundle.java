@@ -21,11 +21,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
 import java.net.URI;
 import java.util.Map;
+
+import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * A schema bundle
@@ -40,8 +41,8 @@ import java.util.Map;
  * <p>Note also that the validity of the schemas is <b>not</b> checked at this
  * stage.</p>
  *
- * @see JsonSchemaFactory.Builder#addSchema(URI, JsonNode)
- * @see JsonSchemaFactory.Builder#addSchema(String, JsonNode)
+ * @see Builder#addSchema(URI, JsonNode)
+ * @see Builder#addSchema(String, JsonNode)
  * @see SchemaRegistry#addBundle(SchemaBundle)
  */
 public final class SchemaBundle
