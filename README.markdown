@@ -19,7 +19,7 @@ text.</p>
 </ul>
 
 <p>If you are looking for a quick start, see the <a
-href="http://fge.github.com/json-schema-validator/devel/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
+href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
 examples</a>. You can see what is new in 1.4.x <a
 href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p>
 
