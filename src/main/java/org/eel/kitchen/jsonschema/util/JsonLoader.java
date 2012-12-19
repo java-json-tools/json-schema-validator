@@ -33,7 +33,7 @@ import java.net.URL;
  * Utility class to load JSON documents (schemas or instance) from various
  * sources as {@link JsonNode}s.
  *
- * <p>This class uses {@link org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory#getMapper()} as an {@link
+ * <p>This class uses {@link CustomJsonNodeFactory#getMapper()} as an {@link
  * ObjectMapper} to parse JSON inputs.</p>
  */
 public final class JsonLoader
