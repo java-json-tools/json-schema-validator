@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
@@ -45,15 +44,6 @@ public final class InlineSchemaContainer
         builder.put(locator, this.schema);
         fillURIMap(locator, this.schema, builder);
         schemas = builder.build();
-    }
-
-    private static JsonRef refFromNode(final JsonNode node)
-        throws JsonSchemaException
-    {
-        Preconditions.checkNotNull(node, "node must not be null");
-
-        return node.isTextual() ? JsonRef.fromString(node.textValue())
-            : JsonRef.emptyRef();
     }
 
     @Override
@@ -98,5 +88,12 @@ public final class InlineSchemaContainer
                 }
             fillURIMap(baseRef, cleanup(child), builder);
         }
+    }
+
+    private static JsonRef refFromNode(final JsonNode node)
+        throws JsonSchemaException
+    {
+        return node.isTextual() ? JsonRef.fromString(node.textValue())
+            : JsonRef.emptyRef();
     }
 }
