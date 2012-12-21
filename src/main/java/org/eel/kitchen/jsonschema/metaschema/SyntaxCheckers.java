@@ -35,6 +35,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker
 import org.eel.kitchen.jsonschema.syntax.draftv3.ExtendsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4DependenciesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.SchemaArraySyntaxChecker;
@@ -272,6 +273,10 @@ public final class SyntaxCheckers
 
         keyword = "maxProperties";
         checker = new PositiveIntegerSyntaxChecker(keyword);
+        builder.put(keyword, checker);
+
+        keyword = "properties";
+        checker = DraftV4PropertiesSyntaxChecker.getInstance();
         builder.put(keyword, checker);
 
         keyword = "required";
