@@ -108,11 +108,6 @@ public final class OfficialTestSuite
         assertEquals(report.isSuccess(), valid, "test failure: " + desc);
     }
 
-    @Test
-    public void dummy()
-    {
-    }
-
     @AfterClass
     public void deleteSuite()
         throws IOException
