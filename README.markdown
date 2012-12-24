@@ -62,8 +62,8 @@ is used on the Internet nonetheless. This implementation is based on the followi
   3</a>;
 * <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON Reference Internet draft,
   version 3</a>;
-* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-05">JSON Pointer Internet
-  draft, version 5</a>.
+* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-07">JSON Pointer Internet
+  draft, version 7</a>.
 
 <h2>More...</h2>
 
