@@ -59,8 +59,7 @@ public final class Example10
     public static void main(final String... args)
         throws IOException, JsonSchemaException
     {
-        final JsonSchemaFactory.Builder builder
-            = new JsonSchemaFactory.Builder();
+        final JsonSchemaFactory.Builder builder = JsonSchemaFactory.builder();
 
         JsonNode node;
         String uri;

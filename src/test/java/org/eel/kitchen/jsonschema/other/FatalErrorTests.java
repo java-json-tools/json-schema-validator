@@ -90,7 +90,7 @@ public final class FatalErrorTests
 
         // Build a new factory with that only keyword
 
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
             .addKeywordRegistry(JsonRef.emptyRef(), registry, true).build();
 
         // Create our schema, which will also be our data, we don't care

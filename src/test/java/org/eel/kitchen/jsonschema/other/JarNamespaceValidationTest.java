@@ -66,7 +66,7 @@ public final class JarNamespaceValidationTest
     @BeforeTest
     public void setBuilder()
     {
-        builder = new JsonSchemaFactory.Builder();
+        builder = JsonSchemaFactory.builder();
     }
 
     @Test

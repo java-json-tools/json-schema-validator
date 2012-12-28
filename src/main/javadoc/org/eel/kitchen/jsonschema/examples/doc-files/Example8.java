@@ -87,7 +87,7 @@ public final class Example8
 
         registry.addFormatAttribute("uuid", UUIDFormatAttribute.getInstance());
 
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
             .addKeywordRegistry(ref, registry, true).build();
 
         final JsonSchema schema = factory.fromSchema(customSchema);

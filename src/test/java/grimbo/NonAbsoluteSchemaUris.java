@@ -38,7 +38,7 @@ public final class NonAbsoluteSchemaUris
     public void beforeTest()
         throws JsonSchemaException
     {
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
             .setNamespace("resource:/grimbo/").build();
         schema = factory.fromURI("child1/child.json");
     }

@@ -81,6 +81,11 @@ public final class JsonSchemaFactory
         return new Builder().build();
     }
 
+    public static Builder builder()
+    {
+        return new Builder();
+    }
+
     /**
      * Constructor, private by design
      *

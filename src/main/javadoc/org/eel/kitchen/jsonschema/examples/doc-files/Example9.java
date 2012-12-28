@@ -103,7 +103,7 @@ public final class Example9
 
         registry.addKeyword(keyword);
 
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
+        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
             .addKeywordRegistry(ref, registry, false).build();
 
         final JsonSchema schema = factory.fromSchema(customSchema);

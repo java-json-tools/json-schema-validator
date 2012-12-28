@@ -44,8 +44,7 @@ public final class SelfValidationTest
     @BeforeClass
     public void initFactory()
     {
-        final JsonSchemaFactory.Builder builder
-            = new JsonSchemaFactory.Builder();
+        final JsonSchemaFactory.Builder builder = JsonSchemaFactory.builder();
 
         for (final BuiltinSchema schema: BuiltinSchema.values())
             builder.addSchema(schema.getURI(), schema.getRawSchema());

@@ -57,9 +57,8 @@ public final class Example7
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-            .registerScheme("foobar", CustomDownloader.getInstance())
-            .build();
+        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
+            .registerScheme("foobar", CustomDownloader.getInstance()).build();
 
         final JsonSchema schema
             = factory.fromURI("foobar:/fstab-draftv4.json#");
