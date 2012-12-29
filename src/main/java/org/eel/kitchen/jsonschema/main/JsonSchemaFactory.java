@@ -292,12 +292,6 @@ public final class JsonSchemaFactory
         private JsonRef defaultSchemaURI = SchemaURIs.draftV3HyperSchema();
 
         /**
-         * Default keyword registry
-         */
-        private KeywordRegistry defaultKeywordRegistry
-            = KeywordRegistries.draftV3HyperSchema();
-
-        /**
          * Keyword registries
          */
         private final Map<JsonRef, KeywordRegistry> keywordRegistries;
@@ -325,7 +319,8 @@ public final class JsonSchemaFactory
             // Build keyword registries
             keywordRegistries = Maps.newHashMap();
 
-            keywordRegistries.put(defaultSchemaURI, defaultKeywordRegistry);
+            keywordRegistries.put(SchemaURIs.draftV3HyperSchema(),
+                KeywordRegistries.draftV3HyperSchema());
             keywordRegistries.put(SchemaURIs.draftV3Core(),
                 KeywordRegistries.draftV3Core());
             keywordRegistries.put(SchemaURIs.draftV4Core(),
@@ -429,10 +424,8 @@ public final class JsonSchemaFactory
                 "keyword registry cannot be null");
 
             keywordRegistries.put(schemaURI, keywordRegistry);
-            if (byDefault) {
+            if (byDefault)
                 defaultSchemaURI = schemaURI;
-                defaultKeywordRegistry = keywordRegistry;
-            }
 
             return this;
         }
