@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.metaschema.BuiltinSchema;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -46,8 +46,8 @@ public final class SelfValidationTest
     {
         final JsonSchemaFactory.Builder builder = JsonSchemaFactory.builder();
 
-        for (final BuiltinSchema schema: BuiltinSchema.values())
-            builder.addSchema(schema.getURI(), schema.getRawSchema());
+        for (final BuiltinSchemas builtin: BuiltinSchemas.values())
+            builder.addSchema(builtin.getURI(), builtin.getRawSchema());
 
         factory = builder.build();
     }
@@ -58,8 +58,8 @@ public final class SelfValidationTest
     {
         final Set<Object[]> set = Sets.newHashSet();
 
-        for (final BuiltinSchema schema: BuiltinSchema.values())
-            set.add(new Object[] { schema });
+        for (final BuiltinSchemas builtin: BuiltinSchemas.values())
+            set.add(new Object[] { builtin });
 
         return set.iterator();
     }
@@ -69,15 +69,15 @@ public final class SelfValidationTest
         invocationCount = 5,
         threadPoolSize = 3
     )
-    public void schemaValidatesItself(final BuiltinSchema builtinSchema)
+    public void schemaValidatesItself(final BuiltinSchemas builtin)
         throws JsonSchemaException
     {
-        final JsonNode rawSchema = builtinSchema.getRawSchema();
+        final JsonNode rawSchema = builtin.getRawSchema();
         // It is assumed that all builtin schemas have a $schema
         final String dollarSchema = rawSchema.get("$schema").textValue();
         final JsonSchema schema = factory.fromURI(dollarSchema);
         final ValidationReport report = schema.validate(rawSchema);
-        assertTrue(report.isSuccess(), builtinSchema + " failed to validate "
+        assertTrue(report.isSuccess(), builtin + " failed to validate "
             + "itself: " + report.getMessages());
     }
 
@@ -107,7 +107,7 @@ public final class SelfValidationTest
         throws JsonSchemaException
     {
         final JsonSchema schema
-            = factory.fromURI(BuiltinSchema.DEFAULT_CORE.getURI());
+            = factory.fromURI(BuiltinSchemas.byDefault().getURI());
         final ValidationReport report = schema.validate(node);
 
         assertTrue(report.isSuccess(), "Google schema " + name + " failed to "

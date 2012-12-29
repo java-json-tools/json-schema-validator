@@ -81,6 +81,12 @@ public enum BuiltinSchemas
         formatAttributes = registry.getFormatAttributes();
     }
 
+    // Change when default changes
+    public static BuiltinSchemas byDefault()
+    {
+        return DRAFTV3_HYPERSCHEMA;
+    }
+
     /**
      * Get the locator for this schema
      *
