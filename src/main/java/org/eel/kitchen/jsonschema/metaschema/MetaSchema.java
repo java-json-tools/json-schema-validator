@@ -23,8 +23,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
+import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.TypeOnlySyntaxChecker;
+import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.Map;
 
@@ -79,11 +83,74 @@ public final class MetaSchema
 
         private Builder(final BuiltinSchemas builtin)
         {
-            dollarSchema = JsonRef.fromURI(builtin.getURI());
-            rawSchema = builtin.getRawSchema();
             syntaxCheckers = Maps.newHashMap(builtin.checkers);
             validators = Maps.newHashMap(builtin.validators);
             formatAttributes = Maps.newHashMap(builtin.formatAttributes);
+        }
+
+        public Builder withURI(final String uri)
+            throws JsonSchemaException
+        {
+            dollarSchema = JsonRef.fromString(uri);
+            return this;
+        }
+
+        public Builder withRawSchema(final JsonNode rawSchema)
+        {
+            this.rawSchema = rawSchema;
+            return this;
+        }
+
+        public Builder withNewKeyword(final Keyword keyword)
+        {
+            final String name = keyword.getName();
+            final SyntaxChecker checker = keyword.getSyntaxChecker();
+            final Class<? extends KeywordValidator> validator
+                = keyword.getValidatorClass();
+
+            if (checker != null)
+                syntaxCheckers.put(name, checker);
+            if (validator != null)
+                validators.put(name, validator);
+
+            return this;
+        }
+
+        public Builder withNewKeyword(final String name, final NodeType first,
+            final NodeType... other)
+        {
+            Preconditions.checkNotNull(name, "name must not be null");
+            syntaxCheckers.put(name, new TypeOnlySyntaxChecker(name,
+                first, other));
+            validators.remove(name);
+            return this;
+        }
+
+        public Builder withoutKeyword(final String name)
+        {
+            Preconditions.checkNotNull(name, "name must not be null");
+            syntaxCheckers.remove(name);
+            validators.remove(name);
+            return this;
+        }
+
+        public Builder withNewFormatAttribute(final String fmt,
+            final FormatAttribute formatAttribute)
+        {
+            Preconditions.checkNotNull(fmt, "format attribute name must not " +
+                "be null");
+            Preconditions.checkNotNull(formatAttribute,
+                "format attribute implementation must not be null");
+            formatAttributes.put(fmt, formatAttribute);
+            return this;
+        }
+
+        public Builder withoutFormatAttribute(final String fmt)
+        {
+            Preconditions.checkNotNull(fmt, "format attribute name must not " +
+                "be null");
+            formatAttributes.remove(fmt);
+            return this;
         }
 
         public MetaSchema build()
