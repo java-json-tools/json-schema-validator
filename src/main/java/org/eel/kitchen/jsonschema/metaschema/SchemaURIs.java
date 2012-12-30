@@ -28,6 +28,8 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
  * <p>Note that it is currently buggy: the default URI is supposed to be {@code
  * http://json-schema.org/schema#}, but this URI is not accounted for at this
  * time.</p>
+ *
+ * @deprecated use {@link MetaSchema} instead
  */
 
 public final class SchemaURIs

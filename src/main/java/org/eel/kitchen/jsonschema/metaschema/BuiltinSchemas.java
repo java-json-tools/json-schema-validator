@@ -29,6 +29,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.Map;
 
+/**
+ * Enumeration of builtin metaschemas
+ *
+ * <p>This enum centralizes all metaschemas defined by the different JSON Schema
+ * specifications (draft v3 and draft v4).</p>
+ */
 public enum BuiltinSchemas
 {
     /**
@@ -57,6 +63,8 @@ public enum BuiltinSchemas
     private final JsonRef locator;
     private final JsonNode rawSchema;
     private final String desc;
+
+    // The following are package-visible to allow direct access by MetaSchema
     final Map<String, SyntaxChecker> checkers;
     final Map<String, Class<? extends KeywordValidator>> validators;
     final Map<String, FormatAttribute> formatAttributes;
@@ -81,7 +89,11 @@ public enum BuiltinSchemas
         formatAttributes = registry.getFormatAttributes();
     }
 
-    // Change when default changes
+    /**
+     * Return the default metaschema (currently {@link #DRAFTV3_HYPERSCHEMA}
+     *
+     * @return a BuiltinSchemas instance
+     */
     public static BuiltinSchemas byDefault()
     {
         return DRAFTV3_HYPERSCHEMA;

@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
+import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -30,6 +31,27 @@ import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import java.net.URI;
 import java.util.Map;
 
+/**
+ * Metaschema main class
+ *
+ * <p>This class centralizes all elements necessary to define a working
+ * metaschema. Its elements are:</p>
+ *
+ * <ul>
+ *     <li>the URI of that metaschema (ie, what schemas written against that
+ *     metaschema refer to using {@code $schema};</li>
+ *     <li>(optionally) a raw JSON document representing that metaschema;</li>
+ *     <li>a set of keywords and format attributes.</li>
+ * </ul>
+ *
+ * <p>This is the base for all metaschema customizations you might want to do,
+ * such as adding custom keywords and format attributes. You can either build
+ * a completely new metaschema (using {@link #builder()} or base yourself on an
+ * already existing metaschema (using {@link #basedOn(BuiltinSchemas)}.</p>
+ *
+ * @see JsonSchemaFactory.Builder#addMetaSchema(MetaSchema, boolean)
+ * @see BuiltinSchemas
+ */
 public final class MetaSchema
 {
     private final JsonRef dollarSchema;
@@ -52,36 +74,73 @@ public final class MetaSchema
         formatAttributes = ImmutableMap.copyOf(builder.formatAttributes);
     }
 
+    /**
+     * Return a new builder for a totally empty metaschema
+     *
+     * @return a {@link Builder}
+     */
     public static Builder builder()
     {
         return new Builder();
     }
 
+    /**
+     * Return a new builder based on an existing, builtin metaschema
+     *
+     * @param builtin the builtin metaschema used as a base
+     * @return a {@link Builder}
+     */
     public static Builder basedOn(final BuiltinSchemas builtin)
     {
         return new Builder(builtin);
     }
 
+    /**
+     * Return a complete copy of a builtin metaschema
+     *
+     * @param builtin the builtin metaschema
+     * @return a ready-to-use metaschema
+     */
     public static MetaSchema copyOf(final BuiltinSchemas builtin)
     {
         return new Builder(builtin).build();
     }
 
+    /**
+     * Return the URI of that metaschema
+     *
+     * @return the URI as a {@link JsonRef}
+     */
     public JsonRef getDollarSchema()
     {
         return dollarSchema;
     }
 
+    /**
+     * Return the list of keyword validators for that metaschema
+     *
+     * @return an immutable map
+     */
     public Map<String, Class<? extends KeywordValidator>> getValidators()
     {
         return validators;
     }
 
+    /**
+     * Return the list of syntax checkers for that metaschema
+     *
+     * @return an immutable map
+     */
     public Map<String, SyntaxChecker> getSyntaxCheckers()
     {
         return syntaxCheckers;
     }
 
+    /**
+     * Return the list of format attributes for that metaschema
+     *
+     * @return an immutable map
+     */
     public Map<String, FormatAttribute> getFormatAttributes()
     {
         return formatAttributes;
@@ -112,24 +171,54 @@ public final class MetaSchema
             formatAttributes = Maps.newHashMap(builtin.formatAttributes);
         }
 
+        /**
+         * Set a new URI for the metaschema
+         *
+         * @param uri the URI as a string
+         * @return this
+         * @throws IllegalArgumentException provided string is not a URI
+         */
         public Builder withURI(final String uri)
         {
+            Preconditions.checkNotNull(uri, "URI cannot be null");
             dollarSchema = JsonRef.fromURI(URI.create(uri));
             return this;
         }
 
+        /**
+         * Assign a JSON representation of that metaschema
+         *
+         * <p>Note: correctness of the representation is not checked</p>
+         *
+         * @param rawSchema the JSON
+         * @return this
+         */
         public Builder withRawSchema(final JsonNode rawSchema)
         {
             this.rawSchema = rawSchema;
             return this;
         }
 
+        /**
+         * Add a new keyword to that metaschema
+         *
+         * <p>Note: if a keyword by the same name already existed, this method
+         * overrides it completely without warning.</p>
+         *
+         * @param keyword the new keyword
+         * @return this
+         * @throws NullPointerException keyword is null
+         */
         public Builder addKeyword(final Keyword keyword)
         {
+            Preconditions.checkNotNull(keyword, "keyword must not be null");
             final String name = keyword.getName();
             final SyntaxChecker checker = keyword.getSyntaxChecker();
             final Class<? extends KeywordValidator> validator
                 = keyword.getValidatorClass();
+
+            syntaxCheckers.remove(name);
+            validators.remove(name);
 
             if (checker != null)
                 syntaxCheckers.put(name, checker);
@@ -139,6 +228,16 @@ public final class MetaSchema
             return this;
         }
 
+        /**
+         * Remove a keyword from that metaschema
+         *
+         * <p>If the keyword did not previously exist, this operation has no
+         * effect.</p>
+         *
+         * @param name the name of the keyword to rename
+         * @return this
+         * @throws NullPointerException name is null
+         */
         public Builder removeKeyword(final String name)
         {
             Preconditions.checkNotNull(name, "name must not be null");
@@ -147,6 +246,18 @@ public final class MetaSchema
             return this;
         }
 
+        /**
+         * Add a format attribute to the metaschema
+         *
+         * <p>If a format attribute by that name already existed, this method
+         * overrides the previous attribute without warning.</p>
+         *
+         * @param fmt the name of the attribute
+         * @param formatAttribute the implementation of the attribute
+         * @return this
+         * @throws NullPointerException the attribute name, or implementation,
+         * are null
+         */
         public Builder addFormatAttribute(final String fmt,
             final FormatAttribute formatAttribute)
         {
@@ -158,6 +269,16 @@ public final class MetaSchema
             return this;
         }
 
+        /**
+         * Remove a format attribute from this metaschema
+         *
+         * <p>If the format attribute did not exist previously, this method has
+         * no effect.</p>
+         *
+         * @param fmt the attribute name to remove
+         * @return this
+         * @throws NullPointerException the attribute name is null
+         */
         public Builder removeFormatAttribute(final String fmt)
         {
             Preconditions.checkNotNull(fmt, "format attribute name must not " +
@@ -166,7 +287,14 @@ public final class MetaSchema
             return this;
         }
 
-        // DO NOT USE
+        /**
+         * Add a keyword registry to that metaschema
+         *
+         * <p><b>DO NOT USE</b></p>
+         *
+         * @param registry the registry
+         * @return this
+         */
         public Builder addKeywordRegistry(final KeywordRegistry registry)
         {
             syntaxCheckers.putAll(registry.getSyntaxCheckers());
@@ -175,6 +303,15 @@ public final class MetaSchema
             return this;
         }
 
+        /**
+         * Build the metaschema
+         *
+         * @return a metaschema
+         * @throws NullPointerException no URI has been provided for that
+         * metaschema
+         * @throws IllegalArgumentException provided URI for that metaschema
+         * is not an absolute JSON Reference
+         */
         public MetaSchema build()
         {
             return new MetaSchema(this);

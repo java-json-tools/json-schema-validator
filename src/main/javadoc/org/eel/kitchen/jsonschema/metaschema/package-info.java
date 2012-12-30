@@ -16,14 +16,15 @@
  */
 
 /**
- * "Metaschema" data
+ * Metaschema data
  *
  * <p>This package centralizes all defined syntax checkers, keyword validators
  * and format attributes for a given JSON Schema version. Builtin versions are
  * draft v3 and (next to come) draft v4.</p>
  *
- * <p>Packages in this class are also the basis for extending JSON Schema to
- * match your needs (adding keywords and format attributes).</p>
+ * <p>The class of real interest here is {@link
+ * org.eel.kitchen.jsonschema.metaschema.MetaSchema}. Do not use any other class
+ * directly.</p>
  *
  * <p>See also {@link org.eel.kitchen.jsonschema.examples}.</p>
  */

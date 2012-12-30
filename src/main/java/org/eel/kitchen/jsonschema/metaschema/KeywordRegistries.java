@@ -20,16 +20,7 @@ package org.eel.kitchen.jsonschema.metaschema;
 /**
  * Builtin keyword and format attribute registries
  *
- * <p>The {@link #defaultRegistry()} method returns the latest published draft
- * (right now, it is draft v3).</p>
- *
- * <p>Note: all methods return a {@link KeywordRegistry} instance, which is
- * mutable.</p>
- *
- * <p>Note 2: there are registries for hyper schemas as well, however no
- * processing of any sort is done on hyperlinks, only syntax checking.</p>
- *
- * @see KeywordRegistry
+ * <p>Do not use this class directly: use {@link MetaSchema} instead.</p>
  */
 public final class KeywordRegistries
 {

@@ -30,9 +30,7 @@ import java.util.Map;
 /**
  * Class holder for schema keywords and format attributes
  *
- * <p>This is the base class to use if you want to customize your schemas. You
- * can also take as a base existing registries as defined by {@link
- * KeywordRegistries}.</p>
+ * <p>Do not use this class anymore: use {@link MetaSchema} instead</p>
  *
  * @see KeywordRegistries
  */
