@@ -64,6 +64,21 @@ public final class MetaSchema
         return new Builder(builtin);
     }
 
+    public Map<String, Class<? extends KeywordValidator>> getValidators()
+    {
+        return validators;
+    }
+
+    public Map<String, SyntaxChecker> getSyntaxCheckers()
+    {
+        return syntaxCheckers;
+    }
+
+    public Map<String, FormatAttribute> getFormatAttributes()
+    {
+        return formatAttributes;
+    }
+
     public static final class Builder
     {
         private JsonRef dollarSchema;

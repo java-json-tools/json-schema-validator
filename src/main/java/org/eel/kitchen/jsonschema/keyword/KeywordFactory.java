@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -56,6 +57,11 @@ public final class KeywordFactory
      * Our existing set of keyword validators
      */
     private final Map<String, Class<? extends KeywordValidator>> validators;
+
+    public KeywordFactory(final MetaSchema metaSchema)
+    {
+        validators = metaSchema.getValidators();
+    }
 
     public KeywordFactory(final KeywordRegistry registry)
     {
