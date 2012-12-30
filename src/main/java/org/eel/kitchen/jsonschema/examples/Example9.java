@@ -25,10 +25,8 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.Keyword;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
-import org.eel.kitchen.jsonschema.metaschema.SchemaURIs;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
@@ -93,18 +91,17 @@ public final class Example9
         final JsonNode good = loadResource("/custom-keyword-good.json");
         final JsonNode bad = loadResource("/custom-keyword-bad.json");
 
-        final JsonRef ref = SchemaURIs.draftV4Core();
-        final KeywordRegistry registry = KeywordRegistries.draftV4Core();
-
         final Keyword keyword = Keyword.withName("divisors")
             .withSyntaxChecker(DivisorsSyntaxChecker.getInstance())
             .withValidatorClass(DivisorsKeywordValidator.class)
             .build();
 
-        registry.addKeyword(keyword);
+        final MetaSchema metaSchema
+            = MetaSchema.basedOn(BuiltinSchemas.DRAFTV4_CORE)
+                .addKeyword(keyword).build();
 
         final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .addKeywordRegistry(ref, registry, false).build();
+            .addMetaSchema(metaSchema, false).build();
 
         final JsonSchema schema = factory.fromSchema(customSchema);
 

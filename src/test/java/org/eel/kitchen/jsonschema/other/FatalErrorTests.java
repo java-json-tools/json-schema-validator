@@ -23,12 +23,11 @@ import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.Keyword;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -87,14 +86,11 @@ public final class FatalErrorTests
         final Keyword foo = Keyword.withName("foo")
             .withValidatorClass(Foo.class).build();
 
-        final KeywordRegistry registry = new KeywordRegistry();
-        registry.addKeyword(foo);
-
-        // Build a new factory with that only keyword
-        final JsonRef dollarSchema = JsonRef.fromString("foo://bar");
+        final MetaSchema metaSchema = MetaSchema.builder()
+            .withURI("foo://bar").addKeyword(foo).build();
 
         final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .addKeywordRegistry(dollarSchema, registry, true).build();
+            .addMetaSchema(metaSchema, true).build();
 
         // Create our schema, which will also be our data, we don't care
         final JsonNode node = CustomJsonNodeFactory.getInstance().objectNode()
