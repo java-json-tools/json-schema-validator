@@ -420,6 +420,7 @@ public final class JsonSchemaFactory
          *
          * @deprecated
          */
+        @Deprecated
         public Builder addKeywordRegistry(final JsonRef schemaURI,
             final KeywordRegistry keywordRegistry, final boolean byDefault)
         {

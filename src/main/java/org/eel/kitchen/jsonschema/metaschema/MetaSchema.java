@@ -26,8 +26,6 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.TypeOnlySyntaxChecker;
-import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.net.URI;
 import java.util.Map;
@@ -126,7 +124,7 @@ public final class MetaSchema
             return this;
         }
 
-        public Builder withNewKeyword(final Keyword keyword)
+        public Builder addKeyword(final Keyword keyword)
         {
             final String name = keyword.getName();
             final SyntaxChecker checker = keyword.getSyntaxChecker();
@@ -141,17 +139,7 @@ public final class MetaSchema
             return this;
         }
 
-        public Builder withNewKeyword(final String name, final NodeType first,
-            final NodeType... other)
-        {
-            Preconditions.checkNotNull(name, "name must not be null");
-            syntaxCheckers.put(name, new TypeOnlySyntaxChecker(name,
-                first, other));
-            validators.remove(name);
-            return this;
-        }
-
-        public Builder withoutKeyword(final String name)
+        public Builder removeKeyword(final String name)
         {
             Preconditions.checkNotNull(name, "name must not be null");
             syntaxCheckers.remove(name);
@@ -159,7 +147,7 @@ public final class MetaSchema
             return this;
         }
 
-        public Builder withNewFormatAttribute(final String fmt,
+        public Builder addFormatAttribute(final String fmt,
             final FormatAttribute formatAttribute)
         {
             Preconditions.checkNotNull(fmt, "format attribute name must not " +
@@ -170,7 +158,7 @@ public final class MetaSchema
             return this;
         }
 
-        public Builder withoutFormatAttribute(final String fmt)
+        public Builder removeFormatAttribute(final String fmt)
         {
             Preconditions.checkNotNull(fmt, "format attribute name must not " +
                 "be null");

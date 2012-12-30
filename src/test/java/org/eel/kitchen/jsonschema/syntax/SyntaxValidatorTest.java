@@ -96,7 +96,7 @@ public final class SyntaxValidatorTest
     {
         final JsonNode instance = factory.objectNode().put("k1", "");
 
-        metaSchemaBuilder.withNewKeyword(k1);
+        metaSchemaBuilder.addKeyword(k1);
 
         validator = new SyntaxValidator(metaSchemaBuilder.build());
 
@@ -112,7 +112,7 @@ public final class SyntaxValidatorTest
         final JsonNode instance = factory.objectNode()
             .put("k1", "");
 
-        metaSchemaBuilder.withNewKeyword(k1).withNewKeyword(k2);
+        metaSchemaBuilder.addKeyword(k1).addKeyword(k2);
 
         validator = new SyntaxValidator(metaSchemaBuilder.build());
 
@@ -132,7 +132,7 @@ public final class SyntaxValidatorTest
         // No syntax checker
         final Keyword k = Keyword.withName("k1").build();
 
-        metaSchemaBuilder.withNewKeyword(k);
+        metaSchemaBuilder.addKeyword(k);
 
         validator = new SyntaxValidator(metaSchemaBuilder.build());
 
