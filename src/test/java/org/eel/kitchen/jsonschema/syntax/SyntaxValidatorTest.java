@@ -21,11 +21,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.SampleNodeProvider;
 import org.eel.kitchen.jsonschema.main.Keyword;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -42,7 +42,7 @@ public final class SyntaxValidatorTest
     private static final JsonNodeFactory factory
         = CustomJsonNodeFactory.getInstance();
 
-    private KeywordRegistry registry;
+    private MetaSchema.Builder metaSchemaBuilder;
     private SyntaxValidator validator;
 
     private Keyword k1;
@@ -56,7 +56,7 @@ public final class SyntaxValidatorTest
     @BeforeMethod
     public void setUp()
     {
-        registry = new KeywordRegistry();
+        metaSchemaBuilder = MetaSchema.builder().withURI("foo://bar");
 
         checker1 = mock(SyntaxChecker.class);
         k1 = Keyword.withName("k1").withSyntaxChecker(checker1).build();
@@ -79,7 +79,7 @@ public final class SyntaxValidatorTest
     {
         final NodeType nodeType = NodeType.getNodeType(schema);
 
-        validator = new SyntaxValidator(new KeywordRegistry());
+        validator = new SyntaxValidator(metaSchemaBuilder.build());
 
         validator.validate(messages, schema);
 
@@ -96,9 +96,9 @@ public final class SyntaxValidatorTest
     {
         final JsonNode instance = factory.objectNode().put("k1", "");
 
-        registry.addKeyword(k1);
+        metaSchemaBuilder.withNewKeyword(k1);
 
-        validator = new SyntaxValidator(registry);
+        validator = new SyntaxValidator(metaSchemaBuilder.build());
 
         validator.validate(messages, instance);
 
@@ -112,10 +112,9 @@ public final class SyntaxValidatorTest
         final JsonNode instance = factory.objectNode()
             .put("k1", "");
 
-        registry.addKeyword(k1);
-        registry.addKeyword(k2);
+        metaSchemaBuilder.withNewKeyword(k1).withNewKeyword(k2);
 
-        validator = new SyntaxValidator(registry);
+        validator = new SyntaxValidator(metaSchemaBuilder.build());
 
         validator.validate(messages, instance);
 
@@ -133,9 +132,9 @@ public final class SyntaxValidatorTest
         // No syntax checker
         final Keyword k = Keyword.withName("k1").build();
 
-        registry.addKeyword(k);
+        metaSchemaBuilder.withNewKeyword(k);
 
-        validator = new SyntaxValidator(registry);
+        validator = new SyntaxValidator(metaSchemaBuilder.build());
 
         validator.validate(messages, instance);
 
