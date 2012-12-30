@@ -69,6 +69,11 @@ public final class MetaSchema
         return new Builder(builtin).build();
     }
 
+    public JsonRef getDollarSchema()
+    {
+        return dollarSchema;
+    }
+
     public Map<String, Class<? extends KeywordValidator>> getValidators()
     {
         return validators;
@@ -170,6 +175,15 @@ public final class MetaSchema
             Preconditions.checkNotNull(fmt, "format attribute name must not " +
                 "be null");
             formatAttributes.remove(fmt);
+            return this;
+        }
+
+        // DO NOT USE
+        public Builder addKeywordRegistry(final KeywordRegistry registry)
+        {
+            syntaxCheckers.putAll(registry.getSyntaxCheckers());
+            validators.putAll(registry.getValidators());
+            formatAttributes.putAll(registry.getFormatAttributes());
             return this;
         }
 

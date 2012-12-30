@@ -21,8 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.metaschema.SchemaURIs;
 import org.eel.kitchen.jsonschema.ref.JsonFragment;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
@@ -102,12 +103,12 @@ public final class JsonSchemaFactory
 
         final ImmutableMap.Builder<JsonRef, JsonValidatorCache> cacheBuilder
             = ImmutableMap.builder();
-        final Map<JsonRef, KeywordRegistry> map = builder.keywordRegistries;
+        final Map<JsonRef, MetaSchema> map = builder.metaSchemas;
 
         JsonRef ref;
         JsonValidatorCache validatorCache;
 
-        for (final Map.Entry<JsonRef, KeywordRegistry> entry: map.entrySet()) {
+        for (final Map.Entry<JsonRef, MetaSchema> entry: map.entrySet()) {
             ref = entry.getKey();
             validatorCache = new JsonValidatorCache(entry.getValue(), registry);
             cacheBuilder.put(ref, validatorCache);
@@ -294,7 +295,7 @@ public final class JsonSchemaFactory
         /**
          * Keyword registries
          */
-        private final Map<JsonRef, KeywordRegistry> keywordRegistries;
+        private final Map<JsonRef, MetaSchema> metaSchemas;
 
         /**
          * The URI manager
@@ -317,14 +318,15 @@ public final class JsonSchemaFactory
         public Builder()
         {
             // Build keyword registries
-            keywordRegistries = Maps.newHashMap();
+            metaSchemas = Maps.newHashMap();
 
-            keywordRegistries.put(SchemaURIs.draftV3HyperSchema(),
-                KeywordRegistries.draftV3HyperSchema());
-            keywordRegistries.put(SchemaURIs.draftV3Core(),
-                KeywordRegistries.draftV3Core());
-            keywordRegistries.put(SchemaURIs.draftV4Core(),
-                KeywordRegistries.draftV4Core());
+            JsonRef ref;
+            MetaSchema metaSchema;
+            for (final BuiltinSchemas builtin: BuiltinSchemas.values()) {
+                ref = JsonRef.fromURI(builtin.getURI());
+                metaSchema = MetaSchema.copyOf(builtin);
+                metaSchemas.put(ref, metaSchema);
+            }
         }
 
         /**
@@ -415,6 +417,8 @@ public final class JsonSchemaFactory
          * @param byDefault whether this registry will be the default
          * @return the builder
          * @throws NullPointerException the URI or registry are null
+         *
+         * @deprecated
          */
         public Builder addKeywordRegistry(final JsonRef schemaURI,
             final KeywordRegistry keywordRegistry, final boolean byDefault)
@@ -423,10 +427,24 @@ public final class JsonSchemaFactory
             Preconditions.checkNotNull(keywordRegistry,
                 "keyword registry cannot be null");
 
-            keywordRegistries.put(schemaURI, keywordRegistry);
+            final MetaSchema metaSchema = MetaSchema.builder()
+                .withURI(schemaURI.toString())
+                .addKeywordRegistry(keywordRegistry).build();
+
+            metaSchemas.put(schemaURI, metaSchema);
             if (byDefault)
                 defaultSchemaURI = schemaURI;
 
+            return this;
+        }
+
+        public Builder addMetaSchema(final MetaSchema metaSchema,
+            final boolean byDefault)
+        {
+            final JsonRef dollarSchema = metaSchema.getDollarSchema();
+            metaSchemas.put(dollarSchema, metaSchema);
+            if (byDefault)
+                defaultSchemaURI = dollarSchema;
             return this;
         }
 

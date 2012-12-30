@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.other;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
+import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
@@ -81,6 +82,7 @@ public final class FatalErrorTests
 
     @Test(invocationCount = 5, threadPoolSize = 3)
     public void keywordBuildFailureRaisesFatalError()
+        throws JsonSchemaException
     {
         final Keyword foo = Keyword.withName("foo")
             .withValidatorClass(Foo.class).build();
@@ -89,9 +91,10 @@ public final class FatalErrorTests
         registry.addKeyword(foo);
 
         // Build a new factory with that only keyword
+        final JsonRef dollarSchema = JsonRef.fromString("foo://bar");
 
         final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .addKeywordRegistry(JsonRef.emptyRef(), registry, true).build();
+            .addKeywordRegistry(dollarSchema, registry, true).build();
 
         // Create our schema, which will also be our data, we don't care
         final JsonNode node = CustomJsonNodeFactory.getInstance().objectNode()
