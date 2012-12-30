@@ -57,6 +57,7 @@ import java.util.Map;
  * defined by draft v3 and draft v4.</p>
  */
 
+// TODO: make package private in next version
 public final class KeywordValidators
 {
     private static final Map<String, Class<? extends KeywordValidator>> DRAFTV3;

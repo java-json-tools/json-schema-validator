@@ -32,6 +32,7 @@ import org.eel.kitchen.jsonschema.ref.JsonRef;
  * @deprecated use {@link MetaSchema} instead
  */
 
+// TODO: remove in next version
 public final class SchemaURIs
 {
     private static final JsonRef DRAFTV3_CORE;

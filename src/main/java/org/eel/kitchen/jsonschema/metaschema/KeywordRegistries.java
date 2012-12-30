@@ -22,6 +22,7 @@ package org.eel.kitchen.jsonschema.metaschema;
  *
  * <p>Do not use this class directly: use {@link MetaSchema} instead.</p>
  */
+// TODO: make package private in next version
 public final class KeywordRegistries
 {
     // No instantiation

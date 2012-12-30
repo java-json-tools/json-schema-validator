@@ -35,6 +35,7 @@ import java.util.Map;
  * @see KeywordRegistries
  */
 
+// TODO: make package private in next version
 public final class KeywordRegistry
 {
     private final Map<String, SyntaxChecker> syntaxCheckers;

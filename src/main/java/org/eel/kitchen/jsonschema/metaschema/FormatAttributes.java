@@ -42,6 +42,7 @@ import java.util.Map;
  * <p>You should not have to use this class directly: use {@link MetaSchema}
  * instead.</p>
  */
+// TODO: make package private in next version
 public final class FormatAttributes
 {
     private static final Map<String, FormatAttribute> DRAFTV3;
