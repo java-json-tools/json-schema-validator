@@ -23,13 +23,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeOnlySyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
+import java.net.URI;
 import java.util.Map;
 
 public final class MetaSchema
@@ -64,7 +64,6 @@ public final class MetaSchema
         return new Builder(builtin);
     }
 
-
     public static final class Builder
     {
         private JsonRef dollarSchema;
@@ -89,9 +88,8 @@ public final class MetaSchema
         }
 
         public Builder withURI(final String uri)
-            throws JsonSchemaException
         {
-            dollarSchema = JsonRef.fromString(uri);
+            dollarSchema = JsonRef.fromURI(URI.create(uri));
             return this;
         }
 
