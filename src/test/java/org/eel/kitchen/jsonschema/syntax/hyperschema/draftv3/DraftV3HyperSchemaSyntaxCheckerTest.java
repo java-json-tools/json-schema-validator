@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3;
 
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
 
 import java.io.IOException;
@@ -28,6 +28,6 @@ public abstract class DraftV3HyperSchemaSyntaxCheckerTest
     protected DraftV3HyperSchemaSyntaxCheckerTest(final String resourceName)
         throws IOException
     {
-        super(resourceName, KeywordRegistries.draftV3HyperSchema());
+        super(resourceName, BuiltinSchemas.DRAFTV3_HYPERSCHEMA);
     }
 }

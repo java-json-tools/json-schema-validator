@@ -64,6 +64,11 @@ public final class MetaSchema
         return new Builder(builtin);
     }
 
+    public static MetaSchema copyOf(final BuiltinSchemas builtin)
+    {
+        return new Builder(builtin).build();
+    }
+
     public Map<String, Class<? extends KeywordValidator>> getValidators()
     {
         return validators;
@@ -97,6 +102,8 @@ public final class MetaSchema
 
         private Builder(final BuiltinSchemas builtin)
         {
+            dollarSchema = JsonRef.fromURI(builtin.getURI());
+            rawSchema = builtin.getRawSchema();
             syntaxCheckers = Maps.newHashMap(builtin.checkers);
             validators = Maps.newHashMap(builtin.validators);
             formatAttributes = Maps.newHashMap(builtin.formatAttributes);

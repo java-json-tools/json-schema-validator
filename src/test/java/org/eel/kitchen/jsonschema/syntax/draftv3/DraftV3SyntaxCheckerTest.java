@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax.draftv3;
 
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
 
 import java.io.IOException;
@@ -28,6 +28,6 @@ public abstract class DraftV3SyntaxCheckerTest
     protected DraftV3SyntaxCheckerTest(final String resourceName)
         throws IOException
     {
-        super(resourceName, KeywordRegistries.draftV3Core());
+        super(resourceName, BuiltinSchemas.DRAFTV3_CORE);
     }
 }

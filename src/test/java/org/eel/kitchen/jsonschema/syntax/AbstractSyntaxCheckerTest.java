@@ -20,7 +20,8 @@ package org.eel.kitchen.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.DataProvider;
@@ -39,13 +40,13 @@ public abstract class AbstractSyntaxCheckerTest
     private final JsonNode testData;
 
     protected AbstractSyntaxCheckerTest(final String resource,
-        final KeywordRegistry registry)
+        final BuiltinSchemas builtin)
         throws IOException
     {
         final String input = "/syntax/" + resource + ".json";
         testData = JsonLoader.fromResource(input);
 
-        syntaxValidator = new SyntaxValidator(registry);
+        syntaxValidator = new SyntaxValidator(MetaSchema.copyOf(builtin));
     }
 
     @DataProvider

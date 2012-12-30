@@ -17,7 +17,7 @@
 
 package org.eel.kitchen.jsonschema.syntax.common;
 
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxCheckerTest;
 
 import java.io.IOException;
@@ -28,6 +28,6 @@ public abstract class CommonSyntaxCheckerTest
     protected CommonSyntaxCheckerTest(final String resourceName)
         throws IOException
     {
-        super(resourceName, KeywordRegistries.defaultRegistry());
+        super(resourceName, BuiltinSchemas.byDefault());
     }
 }
