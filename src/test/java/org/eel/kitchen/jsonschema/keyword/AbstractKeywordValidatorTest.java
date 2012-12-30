@@ -19,7 +19,8 @@ package org.eel.kitchen.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Lists;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.schema.AddressingMode;
 import org.eel.kitchen.jsonschema.schema.SchemaContainer;
@@ -50,13 +51,14 @@ public abstract class AbstractKeywordValidatorTest
     private final SchemaRegistry schemaRegistry;
     private final JsonNode testData;
 
-    protected AbstractKeywordValidatorTest(final KeywordRegistry registry,
+    protected AbstractKeywordValidatorTest(final BuiltinSchemas builtin,
         final String resourceName)
         throws IOException
     {
+        final MetaSchema metaSchema = MetaSchema.copyOf(builtin);
         schemaRegistry = new SchemaRegistry(new URIManager(), BASE_URI,
             AddressingMode.CANONICAL);
-        validatorCache = new JsonValidatorCache(registry, schemaRegistry);
+        validatorCache = new JsonValidatorCache(metaSchema, schemaRegistry);
         testData = JsonLoader.fromResource("/keyword/" + resourceName
             + ".json");
     }

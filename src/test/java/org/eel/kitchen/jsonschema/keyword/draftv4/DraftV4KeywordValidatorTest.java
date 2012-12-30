@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword.draftv4;
 
 import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
 
 import java.io.IOException;
 
@@ -28,6 +28,6 @@ public abstract class DraftV4KeywordValidatorTest
     protected DraftV4KeywordValidatorTest(final String resourceName)
         throws IOException
     {
-        super(KeywordRegistries.draftV4Core(), resourceName);
+        super(BuiltinSchemas.DRAFTV4_CORE, resourceName);
     }
 }

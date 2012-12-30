@@ -18,7 +18,7 @@
 package org.eel.kitchen.jsonschema.keyword.common;
 
 import org.eel.kitchen.jsonschema.keyword.AbstractKeywordValidatorTest;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
 
 import java.io.IOException;
 
@@ -28,6 +28,6 @@ public abstract class CommonKeywordValidatorTest
     protected CommonKeywordValidatorTest(final String resourceName)
         throws IOException
     {
-        super(KeywordRegistries.defaultRegistry(), resourceName);
+        super(BuiltinSchemas.byDefault(), resourceName);
     }
 }
