@@ -21,10 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistries;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
-import org.eel.kitchen.jsonschema.metaschema.SchemaURIs;
-import org.eel.kitchen.jsonschema.ref.JsonRef;
+import org.eel.kitchen.jsonschema.metaschema.BuiltinSchemas;
+import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -47,22 +45,23 @@ import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
  * <p>This kind of customization requires three steps:</p>
  *
  * <ul>
- *     <li>grabbing a {@link KeywordRegistry};</li>
+ *     <li>grabbing a {@link MetaSchema.Builder};</li>
  *     <li>augmenting it as needed;</li>
- *     <li>registering this registry to the {@link JsonSchemaFactory} (via a
- *     {@link Builder}, as for all customizations) with a matching URI.</li>
+ *     <li>registering it to the {@link JsonSchemaFactory} (via a {@link
+ *     Builder}, as for all customizations).</li>
  * </ul>
  *
- * <p>Here, we choose to augment draft v3. We can fetch the URI and default
- * keyword registry for this version using {@link
- * KeywordRegistries#draftV3Core()} and {@link SchemaURIs#draftV3Core()}
- * respectively. Note that the third argument to {@link
- * Builder#addKeywordRegistry(JsonRef, KeywordRegistry, boolean)} is {@code
- * true}, since we want to make this schema the default.</p>
+ * <p>Here, we choose to augment the draft v3 core schema. We can base our new
+ * meta-schema by using {@link MetaSchema#basedOn(BuiltinSchemas)} with
+ * {@link BuiltinSchemas#DRAFTV3_CORE} as an argument, add our format attribute
+ * to it, build it and add it to our factory, using {@link
+ * JsonSchemaFactory.Builder#addMetaSchema(MetaSchema, boolean)}. Note that the
+ * second argument is {@code true} so that our new meta-schema is regarded as
+ * the default.</p>
  *
  * <p>Note also that the schema has no {@code $schema} defined; as a result, the
- * default schema is used (it is <b>not</b> recommended to omit {@code $schema}
- * in your own schemas).</p>
+ * default meta-schema is used (it is <b>not</b> recommended to omit {@code
+ * $schema} in your own schemas).</p>
  *
  * <p>Adding a custom format attribute is done by extending the {@link
  * FormatAttribute} class.</p>
@@ -82,13 +81,13 @@ public final class Example8
         final JsonNode good = loadResource("/custom-fmt-good.json");
         final JsonNode bad = loadResource("/custom-fmt-bad.json");
 
-        final JsonRef ref = SchemaURIs.draftV3Core();
-        final KeywordRegistry registry = KeywordRegistries.draftV3Core();
+        final MetaSchema metaSchema
+            = MetaSchema.basedOn(BuiltinSchemas.DRAFTV3_CORE)
+                .addFormatAttribute("uuid", UUIDFormatAttribute.getInstance())
+                .build();
 
-        registry.addFormatAttribute("uuid", UUIDFormatAttribute.getInstance());
-
-        final JsonSchemaFactory factory = new JsonSchemaFactory.Builder()
-            .addKeywordRegistry(ref, registry, true).build();
+        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
+            .addMetaSchema(metaSchema, true).build();
 
         final JsonSchema schema = factory.fromSchema(customSchema);
 

@@ -1,3 +1,4 @@
+com.fasterxml.jackson.databind.node
 org.eel.kitchen.jsonschema.examples
 org.eel.kitchen.jsonschema.format
 org.eel.kitchen.jsonschema.format.common
@@ -19,4 +20,5 @@ org.eel.kitchen.jsonschema.syntax.hyperschema
 org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3
 org.eel.kitchen.jsonschema.uri
 org.eel.kitchen.jsonschema.util
+org.eel.kitchen.jsonschema.util.jackson
 org.eel.kitchen.jsonschema.validator
