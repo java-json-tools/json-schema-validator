@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.keyword.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -26,6 +25,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
@@ -49,7 +49,7 @@ public final class DraftV4DependenciesKeywordValidator
         super("dependencies", NodeType.OBJECT);
 
         final Map<String, JsonNode> map
-            = ((ObjectNode) schema.get(keyword)).asMap();
+            = JacksonUtils.asMap(schema.get(keyword));
 
         String key;
         JsonNode value;

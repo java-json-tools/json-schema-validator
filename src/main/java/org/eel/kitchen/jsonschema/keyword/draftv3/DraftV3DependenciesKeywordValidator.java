@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.keyword.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -30,6 +29,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.validator.JsonValidator;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
@@ -61,7 +61,7 @@ public final class DraftV3DependenciesKeywordValidator
     {
         super("dependencies", NodeType.OBJECT);
         final Map<String, JsonNode> fields
-            = ((ObjectNode) schema.get("dependencies")).asMap();
+            = JacksonUtils.asMap(schema.get("dependencies"));
 
         final ImmutableMap.Builder<String, JsonNode> schemaBuilder
             = ImmutableMap.builder();
