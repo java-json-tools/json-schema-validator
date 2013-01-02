@@ -18,12 +18,12 @@
 package org.eel.kitchen.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.io.IOException;
 import java.util.Map;
@@ -40,7 +40,7 @@ public final class MiniPerfTest2
         final JsonNode googleAPI
             = JsonLoader.fromResource("/other/google-json-api.json");
         final Map<String, JsonNode> schemas
-            = ((ObjectNode) googleAPI.get("schemas")).asMap();
+            = JacksonUtils.asMap(googleAPI.get("schemas"));
 
         final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
         final JsonSchema schema

@@ -18,12 +18,12 @@
 package org.eel.kitchen.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -54,7 +54,7 @@ public final class DraftV4DependenciesSyntaxChecker
         final List<Message> messages, final JsonNode schema)
     {
         final Map<String, JsonNode> map
-            = ((ObjectNode) schema.get(keyword)).asMap();
+            = JacksonUtils.asMap(schema.get(keyword));
 
         JsonNode depValue;
         NodeType type;
