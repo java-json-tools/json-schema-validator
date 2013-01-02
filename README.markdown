@@ -9,7 +9,7 @@ text.</p>
     <li>current development version: <b>1.5.0</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
-    <li>current stable version: <b>1.4.1</b> (<a
+    <li>current stable version: <b>1.4.2</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>);</li>
     <li>old stable version: <b>1.2.2</b> (<a
