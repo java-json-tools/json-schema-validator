@@ -47,9 +47,9 @@ import java.util.Map;
  * <p>This is the base for all metaschema customizations you might want to do,
  * such as adding custom keywords and format attributes. You can either build
  * a completely new metaschema (using {@link #builder()} or base yourself on an
- * already existing metaschema (using {@link #basedOn(BuiltinSchemas)}.</p>
+ * already existing metaschema (using {@link #basedOn(BuiltinSchemas)}).</p>
  *
- * @see JsonSchemaFactory.Builder#addMetaSchema(MetaSchema, boolean)
+ * @see org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder#addMetaSchema(MetaSchema, boolean)
  * @see BuiltinSchemas
  */
 public final class MetaSchema
@@ -290,11 +290,12 @@ public final class MetaSchema
         /**
          * Add a keyword registry to that metaschema
          *
-         * <p><b>DO NOT USE</b></p>
-         *
          * @param registry the registry
          * @return this
+         * @deprecated This is {@code public} only because {@link
+         * JsonSchemaFactory} needs it
          */
+        @Deprecated
         public Builder addKeywordRegistry(final KeywordRegistry registry)
         {
             syntaxCheckers.putAll(registry.getSyntaxCheckers());
