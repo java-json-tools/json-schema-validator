@@ -194,4 +194,16 @@ public final class CustomJsonNodeFactory
     {
         return new NumberNode(super.numberNode(v));
     }
+
+    @Override
+    public ArrayNode arrayNode()
+    {
+        return new JsonArray(this);
+    }
+
+    @Override
+    public ObjectNode objectNode()
+    {
+        return new JsonObject(this);
+    }
 }
