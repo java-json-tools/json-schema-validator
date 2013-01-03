@@ -18,7 +18,7 @@
 /**
  * Utility classes for Jackson
  *
- * <p>There are two utility classes:</p>
+ * <p>There are five utility classes:</p>
  *
  * <ul>
  *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.NumberNode} is a
@@ -27,12 +27,20 @@
  *     Schema's definition of numeric equality (ie, {@code 1.0} is equal to
  *     {@code 1}), all the while retaining type detection (ie, {@code 1.0} is
  *     not an integer);</li>
+ *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.JsonArray} and {@link
+ *     org.eel.kitchen.jsonschema.util.jackson.JsonObject} are implementations
+ *     overriding Jackson's {@link
+ *     com.fasterxml.jackson.databind.node.ArrayNode} and {@link
+ *     com.fasterxml.jackson.databind.node.ObjectNode} respectively;
  *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory}
  *     is a custom implementation of {@link
  *     com.fasterxml.jackson.databind.node.JsonNodeFactory} which generates
  *     numeric nodes using the class above, but also this package's overriden
  *     {@link com.fasterxml.jackson.databind.node.ArrayNode} and {@link
- *     com.fasterxml.jackson.databind.node.ObjectNode}.</li>
+ *     com.fasterxml.jackson.databind.node.ObjectNode};</li>
+ *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.JacksonUtils} contains
+ *     a single method generating a {@link java.util.Map} out of an object's
+ *     members.</li>
  * </ul>
  *
  * <p>The custom node factory also provides a custom {@link

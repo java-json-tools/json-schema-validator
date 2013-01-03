@@ -58,7 +58,8 @@ import java.math.BigInteger;
  * </ul>
  *
  * <p>This class also uses custom implementations for {@link ObjectNode} and
- * {@link ArrayNode}.</p>
+ * {@link ArrayNode} ({@link JsonObject} and {@link JsonArray} respectively).
+ * </p>
  *
  * @see BigDecimal#stripTrailingZeros()
  * @see BigDecimal#scale()
