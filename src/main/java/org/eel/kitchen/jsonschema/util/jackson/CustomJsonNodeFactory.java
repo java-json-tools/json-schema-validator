@@ -58,7 +58,8 @@ import java.math.BigInteger;
  * </ul>
  *
  * <p>This class also uses custom implementations for {@link ObjectNode} and
- * {@link ArrayNode}.</p>
+ * {@link ArrayNode} ({@link JsonObject} and {@link JsonArray} respectively).
+ * </p>
  *
  * @see BigDecimal#stripTrailingZeros()
  * @see BigDecimal#scale()
@@ -193,5 +194,17 @@ public final class CustomJsonNodeFactory
     public NumericNode numberNode(final BigDecimal v)
     {
         return new NumberNode(super.numberNode(v));
+    }
+
+    @Override
+    public ArrayNode arrayNode()
+    {
+        return new JsonArray(this);
+    }
+
+    @Override
+    public ObjectNode objectNode()
+    {
+        return new JsonObject(this);
     }
 }
