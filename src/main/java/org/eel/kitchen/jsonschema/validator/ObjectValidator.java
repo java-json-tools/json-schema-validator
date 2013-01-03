@@ -27,7 +27,6 @@ import org.eel.kitchen.jsonschema.util.RhinoHelper;
 import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
@@ -65,12 +64,10 @@ final class ObjectValidator
             : CustomJsonNodeFactory.emptyObject();
 
         node = schema.path("properties");
-        properties = node.isObject() ? JacksonUtils.asMap(node)
-            : Collections.<String, JsonNode>emptyMap();
+        properties = JacksonUtils.asMap(node);
 
         node = schema.path("patternProperties");
-        patternProperties = node.isObject() ? JacksonUtils.asMap(node)
-            : Collections.<String, JsonNode>emptyMap();
+        patternProperties = JacksonUtils.asMap(node);
     }
 
     @Override
