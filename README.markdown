@@ -37,9 +37,9 @@ href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p
 <h2>What it is</h2>
 
 <p>This is an implementation of all validation aspects (schema syntax validation; instance, aka JSON
-data, validation) of the <a href="https://github.com/json-schema/json-schema">JSON Schema
-specification</a> written in pure Java. This allows pure server side JSON schema validation if this
-is what you are looking for.<p>
+data, validation) of the <a href="http://json-schema.org">JSON Schema specification</a> written in
+pure Java. This allows pure server side JSON schema validation if this is what you are looking
+for.<p>
 
 <p>This implementation has the following features:</p>
 
@@ -60,6 +60,8 @@ is what you are looking for.<p>
 <p>Currently, JSON Schema is not an official RFC. In fact, the existing draft is obsolete -- but it
 is used on the Internet nonetheless. This implementation is based on the following drafts:</p>
 
+* draft v4 as currently defined by the <a href="https://github.com/json-schema/json-schema">JSON
+  Schema working group</a>;
 * <a href="http://tools.ietf.org/html/draft-zyp-json-schema-03">JSON Schema Internet draft, version
   3</a>;
 * <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON Reference Internet draft,
