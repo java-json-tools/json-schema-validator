@@ -3,6 +3,10 @@
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
+<p>This project has a dedicated <a
+href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
+group</a>.</p>
+
 <p>Versions:</p>
 
 <ul>
