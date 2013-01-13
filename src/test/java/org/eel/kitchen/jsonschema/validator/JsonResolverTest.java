@@ -30,7 +30,7 @@ import org.eel.kitchen.jsonschema.schema.SchemaContainer;
 import org.eel.kitchen.jsonschema.schema.SchemaNode;
 import org.eel.kitchen.jsonschema.schema.SchemaRegistry;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -40,8 +40,7 @@ import static org.testng.Assert.*;
 
 public final class JsonResolverTest
 {
-    private static final JsonNodeFactory factory
-        = CustomJsonNodeFactory.getInstance();
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     private SchemaRegistry registry;
     private JsonResolver resolver;
@@ -61,12 +60,12 @@ public final class JsonResolverTest
     @Test
     public void simpleRefLoopIsDetected()
     {
-        final JsonNode schema = factory.objectNode().put("$ref", "#");
+        final JsonNode schema = FACTORY.objectNode().put("$ref", "#");
         container = registry.register(schema);
         schemaNode = new SchemaNode(container, schema);
 
         final Message expectedMessage = newMsg().setMessage("ref loop detected")
-            .addInfo("path", factory.arrayNode().add("#")).build();
+            .addInfo("path", FACTORY.arrayNode().add("#")).build();
 
         try {
             resolver.resolve(schemaNode);
@@ -80,18 +79,18 @@ public final class JsonResolverTest
     public void multipleRefLoopIsDetected()
     {
         JsonNode node;
-        final ObjectNode schema = factory.objectNode();
-        final ArrayNode path = factory.arrayNode();
+        final ObjectNode schema = FACTORY.objectNode();
+        final ArrayNode path = FACTORY.arrayNode();
 
-        node = factory.objectNode().put("$ref", "#/b");
+        node = FACTORY.objectNode().put("$ref", "#/b");
         schema.put("a", node);
         path.add("#/b");
 
-        node = factory.objectNode().put("$ref", "#/c");
+        node = FACTORY.objectNode().put("$ref", "#/c");
         schema.put("b", node);
         path.add("#/c");
 
-        node = factory.objectNode().put("$ref", "#/a");
+        node = FACTORY.objectNode().put("$ref", "#/a");
         schema.put("c", node);
         path.add("#/a");
 
@@ -112,7 +111,7 @@ public final class JsonResolverTest
     @Test
     public void simpleDanglingRefIsDetected()
     {
-        final JsonNode schema = factory.objectNode().put("$ref", "#foo");
+        final JsonNode schema = FACTORY.objectNode().put("$ref", "#foo");
 
         container = AddressingMode.CANONICAL.forSchema(schema);
         schemaNode = new SchemaNode(container, schema);
@@ -132,12 +131,12 @@ public final class JsonResolverTest
     public void multipleDangligRefIsDetected()
     {
         JsonNode node;
-        final ObjectNode schema = factory.objectNode();
+        final ObjectNode schema = FACTORY.objectNode();
 
-        node = factory.objectNode().put("$ref", "#/b");
+        node = FACTORY.objectNode().put("$ref", "#/b");
         schema.put("a", node);
 
-        node = factory.objectNode().put("$ref", "#/c");
+        node = FACTORY.objectNode().put("$ref", "#/c");
         schema.put("b", node);
 
         container = AddressingMode.CANONICAL.forSchema(schema);
@@ -160,7 +159,7 @@ public final class JsonResolverTest
         throws JsonSchemaException
     {
         final SchemaBundle bundle;
-        final ArrayNode path = factory.arrayNode();
+        final ArrayNode path = FACTORY.arrayNode();
 
         JsonNode node;
 
@@ -172,19 +171,19 @@ public final class JsonResolverTest
         path.add(ref1);
         path.add(ref2);
 
-        final ObjectNode schema1 = factory.objectNode();
+        final ObjectNode schema1 = FACTORY.objectNode();
         schema1.put("id", location1);
 
-        node = factory.objectNode().put("$ref", ref1);
+        node = FACTORY.objectNode().put("$ref", ref1);
         schema1.put("a", node);
 
         bundle = new SchemaBundle();
         bundle.addSchema(location1, schema1);
 
-        final ObjectNode schema2 = factory.objectNode();
+        final ObjectNode schema2 = FACTORY.objectNode();
         schema2.put("id", location2);
 
-        node = factory.objectNode().put("$ref", ref2);
+        node = FACTORY.objectNode().put("$ref", ref2);
         schema2.put("x", node);
 
         bundle.addSchema(location2, schema2);
@@ -220,19 +219,19 @@ public final class JsonResolverTest
         final String ref1 = location2 + "/x";
         final String ref2 = location1 + "#/b";
 
-        final ObjectNode schema1 = factory.objectNode();
+        final ObjectNode schema1 = FACTORY.objectNode();
         schema1.put("id", location1);
 
-        node = factory.objectNode().put("$ref", ref1);
+        node = FACTORY.objectNode().put("$ref", ref1);
         schema1.put("a", node);
 
         bundle = new SchemaBundle();
         bundle.addSchema(location1, schema1);
 
-        final ObjectNode schema2 = factory.objectNode();
+        final ObjectNode schema2 = FACTORY.objectNode();
         schema2.put("id", location2);
 
-        node = factory.objectNode().put("$ref", ref2);
+        node = FACTORY.objectNode().put("$ref", ref2);
         schema2.put("x", node);
 
         bundle.addSchema(location2, schema2);

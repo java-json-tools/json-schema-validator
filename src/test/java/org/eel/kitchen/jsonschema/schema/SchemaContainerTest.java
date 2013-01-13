@@ -21,21 +21,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
 public final class SchemaContainerTest
 {
-    private static final JsonNodeFactory factory
-        = CustomJsonNodeFactory.getInstance();
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     @Test
     public void shouldConsiderRelativeIdAsAnonymousSchema()
         throws JsonSchemaException
     {
-        final JsonNode node = factory.objectNode().put("id", "foo");
+        final JsonNode node = FACTORY.objectNode().put("id", "foo");
         final SchemaContainer container
             = AddressingMode.CANONICAL.forSchema(node);
         assertSame(container.getLocator(), JsonRef.emptyRef());
@@ -45,8 +44,8 @@ public final class SchemaContainerTest
     public void twoContainersBuiltFromTheSameInputAreEqual()
         throws JsonSchemaException
     {
-        final JsonNode n1 = factory.objectNode().put("id", "a://b/c#");
-        final JsonNode n2 = factory.objectNode().put("id", "a://b/c#");
+        final JsonNode n1 = FACTORY.objectNode().put("id", "a://b/c#");
+        final JsonNode n2 = FACTORY.objectNode().put("id", "a://b/c#");
 
         final SchemaContainer c1 = AddressingMode.CANONICAL.forSchema(n1);
         final SchemaContainer c2 = AddressingMode.CANONICAL.forSchema(n2);
@@ -59,8 +58,8 @@ public final class SchemaContainerTest
     public void noFragmentOrEmptyFragmentIsTheSame()
         throws JsonSchemaException
     {
-        final JsonNode n1 = factory.objectNode().put("id", "a://c");
-        final JsonNode n2 = factory.objectNode().put("id", "a://c#");
+        final JsonNode n1 = FACTORY.objectNode().put("id", "a://c");
+        final JsonNode n2 = FACTORY.objectNode().put("id", "a://c#");
 
         final SchemaContainer c1 = AddressingMode.CANONICAL.forSchema(n1);
         final SchemaContainer c2 = AddressingMode.CANONICAL.forSchema(n2);

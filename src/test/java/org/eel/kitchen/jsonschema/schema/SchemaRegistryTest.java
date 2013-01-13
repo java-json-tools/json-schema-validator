@@ -23,7 +23,7 @@ import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.uri.URIDownloader;
 import org.eel.kitchen.jsonschema.uri.URIManager;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.Test;
 
 import java.io.ByteArrayInputStream;
@@ -50,8 +50,8 @@ public final class SchemaRegistryTest
             {
                 if (!fullPath.equals(source))
                     throw new IOException();
-                return new ByteArrayInputStream(CustomJsonNodeFactory
-                    .getInstance().objectNode().toString().getBytes());
+                return new ByteArrayInputStream(JacksonUtils.nodeFactory()
+                    .objectNode().toString().getBytes());
             }
         });
 
@@ -75,8 +75,7 @@ public final class SchemaRegistryTest
         final SchemaBundle bundle = new SchemaBundle();
         final String location = "http://toto/a/../b";
 
-        bundle.addSchema(location,
-            CustomJsonNodeFactory.getInstance().objectNode());
+        bundle.addSchema(location, JacksonUtils.nodeFactory().objectNode());
 
         final SchemaRegistry registry = new SchemaRegistry(new URIManager(),
             URI.create("#"), AddressingMode.CANONICAL);
@@ -116,7 +115,7 @@ public final class SchemaRegistryTest
         final URI uri = URI.create("http://foo.bar/baz#");
         final SchemaBundle bundle = new SchemaBundle();
 
-        bundle.addSchema(uri, CustomJsonNodeFactory.getInstance().objectNode());
+        bundle.addSchema(uri, JacksonUtils.nodeFactory().objectNode());
 
         final URIDownloader mock = mock(URIDownloader.class);
         final URIManager manager = new URIManager();

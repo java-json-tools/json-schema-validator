@@ -19,7 +19,7 @@ package org.eel.kitchen.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -33,7 +33,7 @@ import java.net.URL;
  * Utility class to load JSON documents (schemas or instance) from various
  * sources as {@link JsonNode}s.
  *
- * <p>This class uses {@link CustomJsonNodeFactory#getMapper()} as an {@link
+ * <p>This class uses {@link JacksonUtils#getMapper()} as an {@link
  * ObjectMapper} to parse JSON inputs.</p>
  */
 public final class JsonLoader
@@ -41,8 +41,7 @@ public final class JsonLoader
     /**
      * The mapper which does everything behind the scenes...
      */
-    private static final ObjectMapper MAPPER
-        = CustomJsonNodeFactory.getMapper();
+    private static final ObjectMapper MAPPER = JacksonUtils.getMapper();
 
     /**
      * A shortcut: myself as a {@link Class} object.

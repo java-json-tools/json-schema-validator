@@ -22,7 +22,7 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -205,8 +205,8 @@ public final class URIManagerTest
         /*
          * The content we return
          */
-        final JsonNode expected = CustomJsonNodeFactory.getInstance()
-            .objectNode().put("hello", "world");
+        final JsonNode expected = JacksonUtils.nodeFactory().objectNode()
+            .put("hello", "world");
         final InputStream sampleStream
             = new ByteArrayInputStream(expected.toString().getBytes());
 

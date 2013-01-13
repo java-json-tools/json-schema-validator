@@ -25,7 +25,7 @@ import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -39,8 +39,7 @@ import static org.testng.Assert.*;
 
 public final class SyntaxValidatorTest
 {
-    private static final JsonNodeFactory factory
-        = CustomJsonNodeFactory.getInstance();
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     private MetaSchema.Builder metaSchemaBuilder;
     private SyntaxValidator validator;
@@ -94,7 +93,7 @@ public final class SyntaxValidatorTest
     @Test
     public void shouldInvokeRelevantCheckers()
     {
-        final JsonNode instance = factory.objectNode().put("k1", "");
+        final JsonNode instance = FACTORY.objectNode().put("k1", "");
 
         metaSchemaBuilder.addKeyword(k1);
 
@@ -109,7 +108,7 @@ public final class SyntaxValidatorTest
     @Test
     public void shouldIgnoreIrrelevantCheckers()
     {
-        final JsonNode instance = factory.objectNode()
+        final JsonNode instance = FACTORY.objectNode()
             .put("k1", "");
 
         metaSchemaBuilder.addKeyword(k1).addKeyword(k2);
@@ -127,7 +126,7 @@ public final class SyntaxValidatorTest
     @Test
     public void shouldIgnoreKeywordsWithNoSyntaxChecker()
     {
-        final JsonNode instance = factory.objectNode().put("k1", "");
+        final JsonNode instance = FACTORY.objectNode().put("k1", "");
 
         // No syntax checker
         final Keyword k = Keyword.withName("k1").build();

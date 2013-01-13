@@ -28,7 +28,7 @@ import com.google.common.collect.Ordering;
 import org.eel.kitchen.jsonschema.main.JsonSchema;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.Collection;
 import java.util.List;
@@ -51,8 +51,7 @@ public final class ValidationReport
      */
     private static final JsonPointer ROOT;
 
-    private static final JsonNodeFactory factory
-        = CustomJsonNodeFactory.getInstance();
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     static {
         try {
             ROOT = new JsonPointer("");
@@ -254,13 +253,13 @@ public final class ValidationReport
      */
     public JsonNode asJsonObject()
     {
-        final ObjectNode ret = factory.objectNode();
+        final ObjectNode ret = FACTORY.objectNode();
 
         ArrayNode node;
         List<Message> messages;
 
         for (final JsonPointer ptr: msgMap.keySet()) {
-            node = factory.arrayNode();
+            node = FACTORY.arrayNode();
             messages = Ordering.natural().sortedCopy(msgMap.get(ptr));
             for (final Message message: messages)
                 node.add(message.toJsonNode());
@@ -286,7 +285,7 @@ public final class ValidationReport
      */
     public JsonNode asJsonArray()
     {
-        final ArrayNode ret = factory.arrayNode();
+        final ArrayNode ret = FACTORY.arrayNode();
         final Iterable<JsonPointer> paths
             = Ordering.natural().sortedCopy(msgMap.keySet());
 
@@ -296,7 +295,7 @@ public final class ValidationReport
         for (final JsonPointer ptr: paths) {
             messages = Ordering.natural().sortedCopy(msgMap.get(ptr));
             for (final Message msg: messages) {
-                node = factory.objectNode()
+                node = FACTORY.objectNode()
                 .put("path", ptr.toString());
                 // I hate to do that...
                 node.putAll((ObjectNode) msg.toJsonNode());

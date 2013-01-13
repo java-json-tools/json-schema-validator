@@ -23,8 +23,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.math.BigDecimal;
 import java.util.EnumSet;
@@ -34,8 +34,7 @@ import java.util.Set;
 
 public final class SampleNodeProvider
 {
-    private static final JsonNodeFactory FACTORY
-        = CustomJsonNodeFactory.getInstance();
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final Map<NodeType, JsonNode> SAMPLE_DATA;
 
     private SampleNodeProvider()

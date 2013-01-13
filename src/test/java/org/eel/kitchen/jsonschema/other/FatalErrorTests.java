@@ -27,7 +27,7 @@ import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.eel.kitchen.jsonschema.util.NodeType;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -93,7 +93,7 @@ public final class FatalErrorTests
             .addMetaSchema(metaSchema, true).build();
 
         // Create our schema, which will also be our data, we don't care
-        final JsonNode node = CustomJsonNodeFactory.getInstance().objectNode()
+        final JsonNode node = JacksonUtils.nodeFactory().objectNode()
             .put("foo", "bar");
 
         final JsonSchema schema = factory.fromSchema(node);
