@@ -1,6 +1,9 @@
 package org.eel.kitchen.jsonschema.util.jackson;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.google.common.collect.Maps;
 
 import java.util.Collections;
@@ -12,8 +15,32 @@ import java.util.Map;
  */
 public final class JacksonUtils
 {
+    private static final JsonNodeFactory FACTORY
+        = JsonNodeFactory.withExactBigDecimals(false);
+
+    private static final JsonNode EMPTY_OBJECT = FACTORY.objectNode();
+
+    private static final ObjectMapper MAPPER = new ObjectMapper()
+        .setNodeFactory(FACTORY)
+        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+
     private JacksonUtils()
     {
+    }
+
+    public static ObjectMapper getMapper()
+    {
+        return MAPPER;
+    }
+
+    public static JsonNodeFactory nodeFactory()
+    {
+        return FACTORY;
+    }
+
+    public static JsonNode emptyObject()
+    {
+        return EMPTY_OBJECT;
     }
 
     /**
