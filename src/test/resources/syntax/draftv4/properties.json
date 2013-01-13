@@ -2,10 +2,7 @@
     {
         "schema": {
             "properties": {
-                "p1": {},
-                "p2": {
-                    "required": true
-                }
+                "p1": {}
             }
         },
         "valid": true
@@ -29,9 +26,7 @@
         "schema": {
             "properties": {
                 "p1": 3,
-                "p2": {
-                    "required": "yes"
-                }
+                "p2": {}
             }
         },
         "valid": false,
@@ -42,6 +37,23 @@
                 "message": "key value has incorrect type",
                 "key": "p1",
                 "expected": "object",
+                "found": "integer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": { "additionalItems": 1 }
+            }
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "additionalItems",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "object" ],
                 "found": "integer"
             }
         ]

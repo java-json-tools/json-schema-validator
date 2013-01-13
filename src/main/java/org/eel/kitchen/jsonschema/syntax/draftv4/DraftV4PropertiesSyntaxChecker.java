@@ -66,12 +66,13 @@ public final class DraftV4PropertiesSyntaxChecker
              * Check that member values are JSON objects (schemas)
              */
             type = NodeType.getNodeType(element);
-            if (type == NodeType.OBJECT)
+            if (type != NodeType.OBJECT) {
+                msg.setMessage("key value has incorrect type")
+                    .addInfo("expected", NodeType.OBJECT).addInfo("found", type);
+                messages.add(msg.build());
                 continue;
-            msg.setMessage("key value has incorrect type")
-                .addInfo("expected", NodeType.OBJECT)
-                .addInfo("found", type);
-            messages.add(msg.build());
+            }
+            validator.validate(messages, element);
         }
     }
 }
