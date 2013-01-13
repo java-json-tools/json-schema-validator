@@ -85,12 +85,13 @@ public final class LinksSyntaxChecker
                 messages.add(msg.build());
                 continue;
             }
-            checkLDOSyntax(msg, messages, ldo);
+            checkLDOSyntax(validator, msg, messages, ldo);
         }
     }
 
-    private static void checkLDOSyntax(final Message.Builder msg,
-        final List<Message> messages, final JsonNode ldo)
+    private static void checkLDOSyntax(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode ldo)
     {
         final Set<String> memberNames = Sets.newHashSet(ldo.fieldNames());
 
@@ -116,13 +117,15 @@ public final class LinksSyntaxChecker
         checkHref(msg, messages, ldo);
 
         if (ldo.has("targetSchema")) {
-            final NodeType type = NodeType.getNodeType(ldo.get("targetSchema"));
+            final JsonNode node = ldo.get("targetSchema");
+            final NodeType type = NodeType.getNodeType(node);
             if (type != NodeType.OBJECT) {
                 msg.setMessage("incorrect type for targetSchema member")
                     .addInfo("expected", NodeType.OBJECT)
                     .addInfo("found", type);
                 messages.add(msg.build());
-            }
+            } else
+                validator.validate(messages, node);
         }
 
         /*
