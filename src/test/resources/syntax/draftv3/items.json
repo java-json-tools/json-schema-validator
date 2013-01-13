@@ -55,5 +55,35 @@
                 "found": "boolean"
             }
         ]
+    },
+    {
+        "schema": {
+            "items": { "additionalItems": 1 }
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "additionalItems",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "object" ],
+                "found": "integer"
+            }
+        ]
+    },
+    {
+        "schema": {
+            "items": [ { "additionalItems": 1 } ]
+        },
+        "valid": false,
+        "messages": [
+            {
+                "domain": "syntax",
+                "keyword": "additionalItems",
+                "message": "incorrect type for value",
+                "expected": [ "boolean", "object" ],
+                "found": "integer"
+            }
+        ]
     }
 ]
