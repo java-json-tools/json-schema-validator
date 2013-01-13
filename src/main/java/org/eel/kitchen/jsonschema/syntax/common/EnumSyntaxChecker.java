@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.keyword.common.EnumKeywordValidator;
 import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
@@ -25,6 +26,7 @@ import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.JsonNodeEquivalence;
 
 import java.util.List;
 import java.util.Set;
@@ -39,6 +41,9 @@ import java.util.Set;
 public final class EnumSyntaxChecker
     extends AbstractSyntaxChecker
 {
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonNodeEquivalence.getInstance();
+
     private static final SyntaxChecker INSTANCE = new EnumSyntaxChecker();
 
     private EnumSyntaxChecker()
@@ -71,10 +76,10 @@ public final class EnumSyntaxChecker
          * TODO: we may do with displaying the index in the array, that's better
          * than nothing...
          */
-        final Set<JsonNode> values = Sets.newHashSet();
+        final Set<Equivalence.Wrapper<JsonNode>> values = Sets.newHashSet();
 
         for (final JsonNode value: enumNode) {
-            if (values.add(value))
+            if (values.add(EQUIVALENCE.wrap(value)))
                 continue;
             msg.setMessage("elements in the array are not unique");
             messages.add(msg.build());
