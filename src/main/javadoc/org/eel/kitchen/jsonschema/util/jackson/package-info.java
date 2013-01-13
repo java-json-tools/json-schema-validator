@@ -18,35 +18,27 @@
 /**
  * Utility classes for Jackson
  *
- * <p>There are five utility classes:</p>
+ * <p>There are two utility classes.</p>
  *
- * <ul>
- *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.NumberNode} is a
- *     wrapper class over {@link
- *     com.fasterxml.jackson.databind.node.NumericNode} which respects JSON
- *     Schema's definition of numeric equality (ie, {@code 1.0} is equal to
- *     {@code 1}), all the while retaining type detection (ie, {@code 1.0} is
- *     not an integer);</li>
- *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.JsonArray} and {@link
- *     org.eel.kitchen.jsonschema.util.jackson.JsonObject} are implementations
- *     overriding Jackson's {@link
- *     com.fasterxml.jackson.databind.node.ArrayNode} and {@link
- *     com.fasterxml.jackson.databind.node.ObjectNode} respectively;
- *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory}
- *     is a custom implementation of {@link
- *     com.fasterxml.jackson.databind.node.JsonNodeFactory} which generates
- *     numeric nodes using the class above, but also this package's overriden
- *     {@link com.fasterxml.jackson.databind.node.ArrayNode} and {@link
- *     com.fasterxml.jackson.databind.node.ObjectNode};</li>
- *     <li>{@link org.eel.kitchen.jsonschema.util.jackson.JacksonUtils} contains
- *     a single method generating a {@link java.util.Map} out of an object's
- *     members.</li>
- * </ul>
+ * <p>{@link org.eel.kitchen.jsonschema.util.jackson.JacksonUtils} is a
+ * utility class with methods to return an appropriate {@link
+ * com.fasterxml.jackson.databind.node.JsonNodeFactory} and {@link
+ * com.fasterxml.jackson.databind.ObjectMapper} for the needs of JSON Schema.
+ * While the first is not that important, the second ensures that decimal
+ * number nodes are read using {@link java.math.BigDecimal} instead of {@code
+ * double}, so that there is no precision loss for numeric comparisons
+ * (especially important for divisibility tests). It also contains a method
+ * for returning an empty object, and another one to render an {@link
+ * com.fasterxml.jackson.databind.node.ObjectNode} as a {@link java.util.Map}.
+ * </p>
  *
- * <p>The custom node factory also provides a custom {@link
- * com.fasterxml.jackson.databind.ObjectMapper}, since we always deserialize
- * floating point numbers using {@link java.math.BigDecimal}, which is not the
- * default.</p>
+ * <p>{@link org.eel.kitchen.jsonschema.util.jackson.JsonNodeEquivalence} is an
+ * implementation of Guava's {@link com.google.common.base.Equivalence} for
+ * {@link com.fasterxml.jackson.databind.JsonNode} instances. It exists solely
+ * for the purpose of conforming to the JSON Schema definition of equality,
+ * which requires that two numeric instances are equal if their mathematical
+ * value is the same (that is, {@code 1.0} and {@code 1} are the same). This is
+ * not the case by default with Jackson.</p>
  */
 package org.eel.kitchen.jsonschema.util.jackson;
 
