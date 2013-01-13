@@ -18,11 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.JsonNodeEquivalence;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.util.Set;
@@ -37,21 +39,31 @@ import java.util.Set;
 public final class EnumKeywordValidator
     extends KeywordValidator
 {
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonNodeEquivalence.getInstance();
+
     private final JsonNode enumNode;
-    private final Set<JsonNode> enumValues;
+    private final Set<Equivalence.Wrapper<JsonNode>> enumValues;
 
     public EnumKeywordValidator(final JsonNode schema)
     {
         super("enum", NodeType.values());
         enumNode = schema.get(keyword);
-        enumValues = ImmutableSet.copyOf(enumNode);
+
+        final ImmutableSet.Builder<Equivalence.Wrapper<JsonNode>> builder
+            = ImmutableSet.builder();
+
+        for (final JsonNode value: enumNode)
+            builder.add(EQUIVALENCE.wrap(value));
+
+        enumValues = builder.build();
     }
 
     @Override
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        if (enumValues.contains(instance))
+        if (enumValues.contains(EQUIVALENCE.wrap(instance)))
             return;
 
         final Message.Builder msg = newMsg().addInfo("value", instance)
