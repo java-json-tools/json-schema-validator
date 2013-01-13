@@ -19,10 +19,10 @@ package org.eel.kitchen.jsonschema.syntax.common;
 
 import java.io.IOException;
 
-public final class AdditionalPropertiesCheckerTest
+public final class AdditionalPropertiesSyntaxCheckerTest
     extends CommonSyntaxCheckerTest
 {
-    AdditionalPropertiesCheckerTest()
+    AdditionalPropertiesSyntaxCheckerTest()
         throws IOException
     {
         super("common/additionalProperties");
