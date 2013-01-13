@@ -54,7 +54,7 @@ public final class DraftV3TypeKeywordSyntaxChecker
         final JsonNode node = schema.get(keyword);
 
         if (!node.isArray()) {
-            validateOne(msg, messages, node);
+            validateOne(validator, msg, messages, node);
             return;
         }
 
@@ -69,17 +69,20 @@ public final class DraftV3TypeKeywordSyntaxChecker
                 messages.add(msg.build());
                 continue;
             }
-            validateOne(msg, messages, value);
+            validateOne(validator, msg, messages, value);
         }
     }
 
-    private static void validateOne(final Message.Builder msg,
-        final List<Message> messages, final JsonNode value)
+    private static void validateOne(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode value)
     {
         // Cannot happen in the event of single property validation (will
         // always be a string)
-        if (value.isObject())
+        if (value.isObject()) {
+            validator.validate(messages, value);
             return;
+        }
 
         // See above
         if (!value.isTextual()) {
