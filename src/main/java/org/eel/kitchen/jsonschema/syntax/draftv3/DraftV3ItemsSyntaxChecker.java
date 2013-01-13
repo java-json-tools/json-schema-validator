@@ -70,7 +70,6 @@ public final class DraftV3ItemsSyntaxChecker
         JsonNode subSchema;
 
         for (int index = 0; index < size; index++) {
-            msg.clearInfo();
             subSchema = itemsNode.get(index);
             type = NodeType.getNodeType(subSchema);
             if (type != NodeType.OBJECT) {
