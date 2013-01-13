@@ -22,7 +22,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
+import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.Collections;
 import java.util.List;
@@ -61,7 +61,7 @@ final class ArrayValidator
         if (!node.isArray()) {
             // Either it is missing or it is an object
             additionalItems = node.isObject() ? node
-                : CustomJsonNodeFactory.emptyObject();
+                : JacksonUtils.emptyObject();
             items = Collections.emptyList();
             return;
         }
@@ -70,8 +70,8 @@ final class ArrayValidator
 
         node = schema.path("additionalItems");
 
-        additionalItems = node.isObject() ? node
-            :CustomJsonNodeFactory.emptyObject();
+        additionalItems = node.isObject() ? node : JacksonUtils.emptyObject();
+
     }
 
     @Override

@@ -24,7 +24,6 @@ import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.ref.JsonPointer;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.RhinoHelper;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.Collections;
@@ -62,7 +61,7 @@ final class ObjectValidator
 
         node = schema.path("additionalProperties");
         additionalProperties = node.isObject() ? node
-            : CustomJsonNodeFactory.emptyObject();
+            : JacksonUtils.emptyObject();
 
         node = schema.path("properties");
         properties = node.isObject() ? JacksonUtils.asMap(node)

@@ -30,7 +30,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.util.jackson.CustomJsonNodeFactory;
 import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.ArrayList;
@@ -77,8 +76,7 @@ import java.util.Set;
 public final class Message
     implements Comparable<Message>
 {
-    private static final JsonNodeFactory factory
-        = CustomJsonNodeFactory.getInstance();
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final Joiner JOINER = Joiner.on("; ");
 
     private final Domain domain;
@@ -118,7 +116,7 @@ public final class Message
 
     public JsonNode toJsonNode()
     {
-        final ObjectNode ret = factory.objectNode()
+        final ObjectNode ret = FACTORY.objectNode()
             .put("domain", domain.toString()).put("keyword", keyword)
             .put("message", message);
 
@@ -237,7 +235,7 @@ public final class Message
         /**
          * Further information associated with the error message
          */
-        private final ObjectNode info = factory.objectNode();
+        private final ObjectNode info = FACTORY.objectNode();
 
         /**
          * Is this error message fatal?
@@ -334,7 +332,7 @@ public final class Message
          */
         public <T> Builder addInfo(final String key, final Collection<T> values)
         {
-            final ArrayNode node = factory.arrayNode();
+            final ArrayNode node = FACTORY.arrayNode();
 
             for (final T value: values)
                 node.add(value.toString());
