@@ -1,4 +1,3 @@
-com.fasterxml.jackson.databind.node
 org.eel.kitchen.jsonschema.examples
 org.eel.kitchen.jsonschema.format
 org.eel.kitchen.jsonschema.format.common
