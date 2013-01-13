@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.metaschema;
 
 import com.google.common.collect.ImmutableMap;
+import org.eel.kitchen.jsonschema.syntax.AdditionalItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.DivisorSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
@@ -80,7 +81,7 @@ public final class SyntaxCheckers
 
         // Arrays
         keyword = "additionalItems";
-        checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN, OBJECT);
+        checker = AdditionalItemsSyntaxChecker.getInstance();
         builder.put(keyword, checker);
 
         keyword = "minItems";

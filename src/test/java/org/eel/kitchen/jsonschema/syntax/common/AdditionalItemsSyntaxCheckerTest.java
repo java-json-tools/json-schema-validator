@@ -19,10 +19,10 @@ package org.eel.kitchen.jsonschema.syntax.common;
 
 import java.io.IOException;
 
-public final class AdditionalItemsCheckerTest
+public final class AdditionalItemsSyntaxCheckerTest
     extends CommonSyntaxCheckerTest
 {
-    AdditionalItemsCheckerTest()
+    AdditionalItemsSyntaxCheckerTest()
         throws IOException
     {
         super("common/additionalItems");
