@@ -51,24 +51,31 @@ public final class ExtendsSyntaxChecker
     {
         final JsonNode extendsNode = schema.get(keyword);
 
-        if (!extendsNode.isArray())
+        if (!extendsNode.isArray()) {
+            validator.validate(messages, extendsNode);
             return;
+        }
 
         /*
          * If it is an array, check that its elements are all objects
          */
 
         final int size = extendsNode.size();
+
+        JsonNode subSchema;
         NodeType type;
 
         for (int index = 0; index < size; index++) {
-            type = NodeType.getNodeType(extendsNode.get(index));
-            if (type == NodeType.OBJECT)
+            subSchema = extendsNode.get(index);
+            type = NodeType.getNodeType(subSchema);
+            if (type != NodeType.OBJECT) {
+                msg.setMessage("incorrect type for array element")
+                    .addInfo("index", index).addInfo("found", type)
+                    .addInfo("expected", NodeType.OBJECT);
+                messages.add(msg.build());
                 continue;
-            msg.setMessage("incorrect type for array element")
-                .addInfo("index", index).addInfo("found", type)
-                .addInfo("expected", NodeType.OBJECT);
-            messages.add(msg.build());
+            }
+            validator.validate(messages, subSchema);
         }
     }
 }
