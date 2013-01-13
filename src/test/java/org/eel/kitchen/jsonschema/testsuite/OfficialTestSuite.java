@@ -22,7 +22,7 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class OfficialTestSuite
 {

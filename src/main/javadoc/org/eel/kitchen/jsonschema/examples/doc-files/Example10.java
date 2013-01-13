@@ -27,7 +27,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import java.io.IOException;
 import java.net.URI;
 
-import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.Builder;
+import static org.eel.kitchen.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * Tenth example: registering schemas
