@@ -68,8 +68,9 @@ public final class DraftV4DependenciesSyntaxChecker
             switch (type) {
                 case ARRAY:
                     checkPropertyDependency(msg, messages, depValue);
-                    // Fall through
+                    break;
                 case OBJECT:
+                    validator.validate(messages, depValue);
                     break;
                 default:
                     msg.setMessage("incorrect type for dependency value")
