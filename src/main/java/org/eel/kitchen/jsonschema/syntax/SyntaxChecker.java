@@ -27,10 +27,10 @@ public interface SyntaxChecker
      *
      * @see Message
      *
+     * @param validator the syntax validator to use
      * @param msg the validation message template
      * @param messages message list to fill in the event of a failure
-     * @param schema schema to analyze
-     */
-    void checkSyntax(final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema);
+     * @param schema schema to analyze    */
+    void checkSyntax(final SyntaxValidator validator, final Message.Builder msg,
+        final List<Message> messages, final JsonNode schema);
 }

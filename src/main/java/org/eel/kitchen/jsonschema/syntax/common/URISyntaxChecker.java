@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.syntax.common;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.net.URI;
@@ -40,8 +41,9 @@ public final class URISyntaxChecker
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
+    public void checkValue(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
     {
         final String value = schema.get(keyword).textValue();
 

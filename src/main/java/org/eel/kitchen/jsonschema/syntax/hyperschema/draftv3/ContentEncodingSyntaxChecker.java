@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.CharMatchers;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -57,8 +58,9 @@ public final class ContentEncodingSyntaxChecker
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
+    public void checkValue(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
     {
         /*
          * RFC 2045 explicitly says that the value for content encoding is case

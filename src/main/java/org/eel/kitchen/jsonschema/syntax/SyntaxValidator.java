@@ -80,7 +80,7 @@ public final class SyntaxValidator
         for (final String keyword: keywords) {
             msg = Domain.SYNTAX.newMessage().setKeyword(keyword);
             checker = checkers.get(keyword);
-            checker.checkSyntax(msg, messages, schema);
+            checker.checkSyntax(this, msg, messages, schema);
         }
     }
 }

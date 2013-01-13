@@ -29,8 +29,7 @@ import java.util.List;
  *
  * <p>All other syntax checkers inherit from this class. Its only purpose is to
  * check whether the type of the keyword's value is of the expected type(s).
- * More advanced syntax checkers will override {@link #checkValue(
- * Message.Builder, List, JsonNode)} to further check the anatomy of this value.
+ * More advanced syntax checkers will override {@link #checkValue(SyntaxValidator, org.eel.kitchen.jsonschema.report.Message.Builder, java.util.List} to further check the anatomy of this value.
  * </p>
  */
 public abstract class AbstractSyntaxChecker
@@ -47,8 +46,9 @@ public abstract class AbstractSyntaxChecker
     }
 
     @Override
-    public final void checkSyntax(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
+    public final void checkSyntax(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
     {
         final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
 
@@ -59,9 +59,10 @@ public abstract class AbstractSyntaxChecker
             return;
         }
 
-        checkValue(msg, messages, schema);
+        checkValue(validator, msg, messages, schema);
     }
 
-    public abstract void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema);
+    public abstract void checkValue(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema);
 }

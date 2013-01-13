@@ -22,6 +22,7 @@ import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.jackson.JacksonUtils;
 
@@ -50,8 +51,9 @@ public final class DraftV4DependenciesSyntaxChecker
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
+    public void checkValue(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
     {
         final Map<String, JsonNode> map
             = JacksonUtils.asMap(schema.get(keyword));

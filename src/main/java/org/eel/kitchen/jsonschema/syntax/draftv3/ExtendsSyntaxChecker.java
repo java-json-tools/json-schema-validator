@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
@@ -44,8 +45,9 @@ public final class ExtendsSyntaxChecker
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
+    public void checkValue(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
     {
         final JsonNode extendsNode = schema.get(keyword);
 

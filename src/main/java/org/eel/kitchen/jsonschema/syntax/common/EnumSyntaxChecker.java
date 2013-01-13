@@ -25,6 +25,7 @@ import org.eel.kitchen.jsonschema.keyword.common.UniqueItemsKeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.util.jackson.JsonNodeEquivalence;
 
@@ -57,8 +58,9 @@ public final class EnumSyntaxChecker
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
-        final List<Message> messages, final JsonNode schema)
+    public void checkValue(final SyntaxValidator validator,
+        final Message.Builder msg, final List<Message> messages,
+        final JsonNode schema)
     {
         final JsonNode enumNode = schema.get(keyword);
 

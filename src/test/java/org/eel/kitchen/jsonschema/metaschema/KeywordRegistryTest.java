@@ -24,6 +24,7 @@ import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.Keyword;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -40,7 +41,7 @@ public final class KeywordRegistryTest
         = new SyntaxChecker()
     {
         @Override
-        public void checkSyntax(final Message.Builder msg,
+        public void checkSyntax(SyntaxValidator validator, final Message.Builder msg,
             final List<Message> messages, final JsonNode schema)
         {
         }

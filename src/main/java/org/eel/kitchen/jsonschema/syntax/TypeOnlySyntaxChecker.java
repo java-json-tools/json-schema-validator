@@ -40,7 +40,7 @@ public final class TypeOnlySyntaxChecker
     }
 
     @Override
-    public void checkValue(final Message.Builder msg,
+    public void checkValue(SyntaxValidator validator, final Message.Builder msg,
         final List<Message> messages, final JsonNode schema)
     {
     }
