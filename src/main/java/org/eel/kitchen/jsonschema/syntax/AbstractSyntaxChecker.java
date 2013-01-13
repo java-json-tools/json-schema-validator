@@ -29,8 +29,9 @@ import java.util.List;
  *
  * <p>All other syntax checkers inherit from this class. Its only purpose is to
  * check whether the type of the keyword's value is of the expected type(s).
- * More advanced syntax checkers will override {@link #checkValue(SyntaxValidator, org.eel.kitchen.jsonschema.report.Message.Builder, java.util.List} to further check the anatomy of this value.
- * </p>
+ * More advanced syntax checkers will override {@link
+ * #checkValue(SyntaxValidator, Message.Builder, List, JsonNode)} to further
+ * check the anatomy of this value.</p>
  */
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
