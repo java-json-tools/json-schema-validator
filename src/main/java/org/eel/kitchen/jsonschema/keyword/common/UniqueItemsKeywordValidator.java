@@ -18,11 +18,13 @@
 package org.eel.kitchen.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.NodeType;
+import org.eel.kitchen.jsonschema.util.jackson.JsonNodeEquivalence;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
 import java.util.Set;
@@ -37,6 +39,9 @@ import java.util.Set;
 public final class UniqueItemsKeywordValidator
     extends KeywordValidator
 {
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonNodeEquivalence.getInstance();
+
     private final boolean uniqueItems;
 
     public UniqueItemsKeywordValidator(final JsonNode schema)
@@ -52,10 +57,10 @@ public final class UniqueItemsKeywordValidator
         if (!uniqueItems)
             return;
 
-        final Set<JsonNode> set = Sets.newHashSet();
+        final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
 
         for (final JsonNode element: instance)
-            if (!set.add(element)) {
+            if (!set.add(EQUIVALENCE.wrap(element))) {
                 final Message.Builder msg = newMsg()
                     .setMessage("duplicate elements in array");
                 report.addMessage(msg.build());
