@@ -52,8 +52,10 @@ public final class DraftV4ItemsSyntaxChecker
     {
         final JsonNode itemsNode = schema.get(keyword);
 
-        if (!itemsNode.isArray())
+        if (!itemsNode.isArray()) {
+            validator.validate(messages, itemsNode);
             return;
+        }
 
         /*
          * If it is an array:
@@ -70,16 +72,20 @@ public final class DraftV4ItemsSyntaxChecker
             return;
         }
 
+        JsonNode subSchema;
         NodeType type;
 
         for (int index = 0; index < size; index++) {
+            subSchema = itemsNode.get(index);
             type = NodeType.getNodeType(itemsNode.get(index));
-            if (type == NodeType.OBJECT)
+            if (type != NodeType.OBJECT) {
+                msg.setMessage("incorrect type for array element")
+                    .addInfo("index", index).addInfo("found", type)
+                    .addInfo("expected", NodeType.OBJECT);
+                messages.add(msg.build());
                 continue;
-            msg.setMessage("incorrect type for array element")
-                .addInfo("index", index).addInfo("found", type)
-                .addInfo("expected", NodeType.OBJECT);
-            messages.add(msg.build());
+            }
+            validator.validate(messages, subSchema);
         }
     }
 }
