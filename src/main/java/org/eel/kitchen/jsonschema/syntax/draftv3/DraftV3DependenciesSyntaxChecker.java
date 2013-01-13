@@ -77,14 +77,20 @@ public final class DraftV3DependenciesSyntaxChecker
             msg.clearInfo().addInfo("property", field);
             element = node.get(field);
             type = NodeType.getNodeType(element);
-            if (type == NodeType.OBJECT || type == NodeType.STRING)
-                continue;
-            if (type != NodeType.ARRAY) {
-                msg.addInfo("found", type)
-                    .addInfo("expected", VALID_DEPENDENCY_TYPES)
-                    .setMessage("dependency value has incorrect type");
-                messages.add(msg.build());
-                continue;
+            switch (type) {
+                case OBJECT:
+                    validator.validate(messages, element);
+                    // Fall through
+                case STRING:
+                    continue;
+                case ARRAY:
+                    break;
+                default:
+                    msg.addInfo("found", type)
+                        .addInfo("expected", VALID_DEPENDENCY_TYPES)
+                        .setMessage("dependency value has incorrect type");
+                    messages.add(msg.build());
+                    continue;
             }
             size = element.size();
             for (int index = 0; index < size; index++) {
