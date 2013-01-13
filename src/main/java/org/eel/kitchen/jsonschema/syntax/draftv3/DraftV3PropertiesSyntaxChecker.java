@@ -80,15 +80,17 @@ public final class DraftV3PropertiesSyntaxChecker
              * If the subschema has a "required" member name, check that the
              * value is a boolean
              */
-            if (!element.has("required"))
-                continue;
-            type = NodeType.getNodeType(element.get("required"));
-            if (type == NodeType.BOOLEAN)
-                continue;
-            msg.setMessage("\"required\" attribute has incorrect type")
-                .addInfo("expected", NodeType.BOOLEAN)
-                .addInfo("found", type);
-            messages.add(msg.build());
+            if (element.has("required")) {
+                type = NodeType.getNodeType(element.get("required"));
+                if (type != NodeType.BOOLEAN) {
+                    msg.setMessage("\"required\" attribute has incorrect type")
+                        .addInfo("expected", NodeType.BOOLEAN)
+                        .addInfo("found", type);
+                    messages.add(msg.build());
+                    continue;
+                }
+            }
+            validator.validate(messages, element);
         }
     }
 }
