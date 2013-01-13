@@ -63,6 +63,7 @@ public final class PatternPropertiesSyntaxChecker
         final Set<String> regexes = Sets.newHashSet(node.fieldNames());
 
         NodeType type;
+        JsonNode subSchema;
 
         for (final String regex: Ordering.natural().sortedCopy(regexes)) {
             msg.clearInfo().addInfo("key", regex);
@@ -73,12 +74,15 @@ public final class PatternPropertiesSyntaxChecker
                 // the value, the latter would never be picked up anyway.
                 continue;
             }
-            type = NodeType.getNodeType(node.get(regex));
-            if (type == NodeType.OBJECT)
+            subSchema = node.get(regex);
+            type = NodeType.getNodeType(subSchema);
+            if (type != NodeType.OBJECT) {
+                msg.setMessage("illegal key value").addInfo("found", type)
+                    .addInfo("expected", NodeType.OBJECT);
+                messages.add(msg.build());
                 continue;
-            msg.setMessage("illegal key value").addInfo("found", type)
-                .addInfo("expected", NodeType.OBJECT);
-            messages.add(msg.build());
+            }
+            validator.validate(messages, subSchema);
         }
     }
 }
