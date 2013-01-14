@@ -18,12 +18,10 @@
 package org.eel.kitchen.jsonschema.util.jackson;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.DecimalNode;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
-import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -44,12 +42,6 @@ import java.util.Set;
 public final class JsonNodeEquivalence
     extends Equivalence<JsonNode>
 {
-    /*
-     * Hashcode for all zero numeric instances
-     */
-    private static final int ZERO_HASHCODE
-        = new DecimalNode(BigDecimal.ZERO).hashCode();
-
     private static final Equivalence<JsonNode> INSTANCE
         = new JsonNodeEquivalence();
 
@@ -104,14 +96,12 @@ public final class JsonNodeEquivalence
     protected int doHash(final JsonNode t)
     {
         /*
-         * If this is a numeric node, we want a unique hashcode for all possible
-         * number nodes. Delegate to BigDecimal, and special case zero.
+         * If this is a numeric node, we want the same hashcode for the same
+         * mathematical values. Go with double, its range is good enough for
+         * 99+% of use cases.
          */
-        if (t.isNumber()) {
-            final BigDecimal decimal = t.decimalValue();
-            return decimal.compareTo(BigDecimal.ZERO) == 0
-                ? ZERO_HASHCODE : decimal.hashCode();
-        }
+        if (t.isNumber())
+            return Double.valueOf(t.doubleValue()).hashCode();
 
         /*
          * If this is a primitive type (other than numbers, handled above),
