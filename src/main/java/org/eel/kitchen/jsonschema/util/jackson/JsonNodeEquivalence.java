@@ -18,7 +18,6 @@
 package org.eel.kitchen.jsonschema.util.jackson;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.DecimalNode;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 import org.eel.kitchen.jsonschema.util.NodeType;
@@ -44,12 +43,6 @@ import java.util.Set;
 public final class JsonNodeEquivalence
     extends Equivalence<JsonNode>
 {
-    /*
-     * Hashcode for all zero numeric instances
-     */
-    private static final int ZERO_HASHCODE
-        = new DecimalNode(BigDecimal.ZERO).hashCode();
-
     private static final Equivalence<JsonNode> INSTANCE
         = new JsonNodeEquivalence();
 
@@ -109,8 +102,11 @@ public final class JsonNodeEquivalence
          */
         if (t.isNumber()) {
             final BigDecimal decimal = t.decimalValue();
-            return decimal.compareTo(BigDecimal.ZERO) == 0
-                ? ZERO_HASHCODE : decimal.hashCode();
+            try {
+                return decimal.toBigIntegerExact().hashCode();
+            } catch (ArithmeticException ignored) {
+                return decimal.stripTrailingZeros().hashCode();
+            }
         }
 
         /*
