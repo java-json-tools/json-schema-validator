@@ -116,6 +116,37 @@ public final class JsonNodeEquivalenceTest
             n1 + " and " + n2 + " should be equivalent");
     }
 
+    @DataProvider
+    public Iterator<Object[]> decimalSamples()
+    {
+        final JsonNode
+            n1 = FACTORY.numberNode(new BigDecimal("923.2323e3")),
+            n2 = FACTORY.numberNode(new BigDecimal("923232.3")),
+            n3 = FACTORY.numberNode(new BigDecimal("92323230e-2")),
+            n4 = FACTORY.numberNode(new BigDecimal("0.9232323e6")),
+            n5 = FACTORY.numberNode(new BigDecimal("923232.3000"));
+
+        return ImmutableSet.of(
+            pair(n1, n2),
+            pair(n2, n3),
+            pair(n3, n4),
+            pair(n4, n5),
+            pair(n5, n1)
+        ).iterator();
+    }
+
+    @Test(dataProvider = "decimalSamples")
+    public void decimalsAreCorrectlyHandled(final JsonNode n1,
+        final JsonNode n2)
+    {
+        final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
+
+        set.add(EQUIVALENCE.wrap(n1));
+
+        assertFalse(set.add(EQUIVALENCE.wrap(n2)),
+            n1 + " and " + n2 + " should be equivalent");
+    }
+
     private static Object[] pair(final JsonNode n1, final JsonNode n2)
     {
         return new Object[] { n1, n2 };
