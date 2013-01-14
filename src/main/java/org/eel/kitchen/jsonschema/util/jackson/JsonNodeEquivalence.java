@@ -119,6 +119,12 @@ public final class JsonNodeEquivalence
         int ret = 0;
 
         /*
+         * If the container is empty, just return
+         */
+        if (t.size() == 0)
+            return ret;
+
+        /*
          * Array
          */
         if (t.isArray()) {
