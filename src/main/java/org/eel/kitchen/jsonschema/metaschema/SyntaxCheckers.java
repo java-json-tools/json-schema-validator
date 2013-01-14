@@ -39,6 +39,7 @@ import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4DependenciesSyntaxChecke
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4PropertiesSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.draftv4.NotSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.draftv4.SchemaArraySyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.hyperschema.draftv3.ContentEncodingSyntaxChecker;
@@ -304,7 +305,7 @@ public final class SyntaxCheckers
         builder.put(keyword, checker);
 
         keyword = "not";
-        checker = new TypeOnlySyntaxChecker(keyword, OBJECT);
+        checker = NotSyntaxChecker.getInstance();
         builder.put(keyword, checker);
 
         keyword = "type";
