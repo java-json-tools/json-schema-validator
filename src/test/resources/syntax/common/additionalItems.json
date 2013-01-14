@@ -88,7 +88,7 @@
     },
     {
         "schema": {
-            "additionalItems": { "additionalItems": 1  }
+            "additionalItems": { "additionalItems": 1 }
         },
         "valid": false,
         "messages": [

@@ -57,7 +57,7 @@
     {
         "schema": {
             "dependencies": {
-                "p": { "additionalItems": 1  }
+                "p": { "additionalItems": 1 }
             }
         },
         "valid": false,
