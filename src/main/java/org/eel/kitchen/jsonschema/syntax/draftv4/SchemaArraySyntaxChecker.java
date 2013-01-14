@@ -53,16 +53,20 @@ public final class SchemaArraySyntaxChecker
             return;
         }
 
+        JsonNode subSchema;
         NodeType type;
 
         for (int index = 0; index < size; index++) {
-            type = NodeType.getNodeType(node.get(index));
-            if (type == NodeType.OBJECT)
+            subSchema = node.get(index);
+            type = NodeType.getNodeType(subSchema);
+            if (type != NodeType.OBJECT) {
+                msg.setMessage("incorrect type for array element")
+                    .addInfo("index", index).addInfo("found", type)
+                    .addInfo("expected", NodeType.OBJECT);
+                messages.add(msg.build());
                 continue;
-            msg.setMessage("incorrect type for array element")
-                .addInfo("index", index).addInfo("found", type)
-                .addInfo("expected", NodeType.OBJECT);
-            messages.add(msg.build());
+            }
+            validator.validate(messages, subSchema);
         }
     }
 }
