@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -15,63 +15,68 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.eel.kitchen.jsonschema.syntax.draftv3;
+package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
-import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 
 /**
- * Syntax validator for the {@code extends} keyword
+ * Syntax validator common for {@code items} (draft v3 and v4) and {@code
+ * extends} (draft v3)
  */
-public final class ExtendsSyntaxChecker
+public final class SchemaOrSchemaArraySyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker INSTANCE = new ExtendsSyntaxChecker();
+    private final boolean allowEmptyArrays;
 
-    public static SyntaxChecker getInstance()
+    public SchemaOrSchemaArraySyntaxChecker(final String keyword,
+        final boolean allowEmptyArrays)
     {
-        return INSTANCE;
-    }
-
-    private ExtendsSyntaxChecker()
-    {
-        super("extends", NodeType.ARRAY, NodeType.OBJECT);
+        super(keyword, NodeType.ARRAY, NodeType.OBJECT);
+        this.allowEmptyArrays = allowEmptyArrays;
     }
 
     @Override
     public void checkValue(final SyntaxValidator validator,
         final List<Message> messages, final JsonNode schema)
     {
-        final JsonNode extendsNode = schema.get(keyword);
+        final JsonNode node = schema.get(keyword);
+        final Message.Builder msg = newMsg();
 
-        if (!extendsNode.isArray()) {
-            validator.validate(messages, extendsNode);
+        if (!node.isArray()) {
+            validator.validate(messages, node);
             return;
         }
 
         /*
-         * If it is an array, check that its elements are all objects
+         * If it is an array:
+         *
+         * - if we do not allow empty arrays, check that the array is not empty;
+         * - check that each item of this array is a schema
          */
 
-        final int size = extendsNode.size();
+        final int size = node.size();
+
+        if (size == 0 && !allowEmptyArrays) {
+            msg.setMessage("array must have at least one element");
+            messages.add(msg.build());
+            return;
+        }
 
         JsonNode subSchema;
         NodeType type;
 
         for (int index = 0; index < size; index++) {
-            subSchema = extendsNode.get(index);
-            type = NodeType.getNodeType(subSchema);
+            subSchema = node.get(index);
+            type = NodeType.getNodeType(node.get(index));
             if (type != NodeType.OBJECT) {
-                messages.add(newMsg()
-                    .setMessage("incorrect type for array element")
+                msg.setMessage("incorrect type for array element")
                     .addInfo("index", index).addInfo("found", type)
-                    .addInfo("expected", NodeType.OBJECT).build());
+                    .addInfo("expected", NodeType.OBJECT);
+                messages.add(msg.build());
                 continue;
             }
             validator.validate(messages, subSchema);
