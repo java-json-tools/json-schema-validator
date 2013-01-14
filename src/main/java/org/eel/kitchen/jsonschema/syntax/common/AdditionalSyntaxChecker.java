@@ -20,26 +20,21 @@ package org.eel.kitchen.jsonschema.syntax.common;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
 import java.util.List;
 
-public final class AdditionalPropertiesSyntaxChecker
+/**
+ * Syntax checker common to {@code additionalItems} and {@code
+ * additionalProperties}
+ */
+public final class AdditionalSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker INSTANCE
-        = new AdditionalPropertiesSyntaxChecker();
-
-    private AdditionalPropertiesSyntaxChecker()
+    public AdditionalSyntaxChecker(final String keyword)
     {
-        super("additionalProperties", NodeType.BOOLEAN, NodeType.OBJECT);
-    }
-
-    public static SyntaxChecker getInstance()
-    {
-        return INSTANCE;
+        super(keyword, NodeType.BOOLEAN, NodeType.OBJECT);
     }
 
     @Override

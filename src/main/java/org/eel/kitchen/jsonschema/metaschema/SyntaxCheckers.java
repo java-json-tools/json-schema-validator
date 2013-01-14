@@ -22,8 +22,7 @@ import org.eel.kitchen.jsonschema.syntax.DivisorSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.TypeOnlySyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.common.AdditionalItemsSyntaxChecker;
-import org.eel.kitchen.jsonschema.syntax.common.AdditionalPropertiesSyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.common.AdditionalSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.EnumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMaximumSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.common.ExclusiveMinimumSyntaxChecker;
@@ -83,7 +82,7 @@ public final class SyntaxCheckers
 
         // Arrays
         keyword = "additionalItems";
-        checker = AdditionalItemsSyntaxChecker.getInstance();
+        checker = new AdditionalSyntaxChecker(keyword);
         builder.put(keyword, checker);
 
         keyword = "minItems";
@@ -117,7 +116,7 @@ public final class SyntaxCheckers
 
         // Object
         keyword = "additionalProperties";
-        checker = AdditionalPropertiesSyntaxChecker.getInstance();
+        checker = new AdditionalSyntaxChecker(keyword);
         builder.put(keyword, checker);
 
         keyword = "patternProperties";
