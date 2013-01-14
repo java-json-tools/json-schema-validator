@@ -56,17 +56,17 @@ public final class PatternPropertiesSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
         final Set<String> regexes = Sets.newHashSet(node.fieldNames());
 
         NodeType type;
         JsonNode subSchema;
+        Message.Builder msg;
 
         for (final String regex: Ordering.natural().sortedCopy(regexes)) {
-            msg.clearInfo().addInfo("key", regex);
+            msg = newMsg().addInfo("key", regex);
             if (!RhinoHelper.regexIsValid(regex)) {
                 msg.setMessage("key is not a valid ECMA 262 regex");
                 messages.add(msg.build());

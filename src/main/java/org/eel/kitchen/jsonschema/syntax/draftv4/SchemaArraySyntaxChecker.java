@@ -40,10 +40,10 @@ public final class SchemaArraySyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
+        final Message.Builder msg = newMsg();
 
         final int size = node.size();
 

@@ -74,13 +74,11 @@ public final class SyntaxValidator
 
         keywords.retainAll(checkers.keySet());
 
-        Message.Builder msg;
         SyntaxChecker checker;
 
         for (final String keyword: keywords) {
-            msg = Domain.SYNTAX.newMessage().setKeyword(keyword);
             checker = checkers.get(keyword);
-            checker.checkSyntax(this, msg, messages, schema);
+            checker.checkSyntax(this, messages, schema);
         }
     }
 }

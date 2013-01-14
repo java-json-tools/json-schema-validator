@@ -41,8 +41,8 @@ public final class KeywordRegistryTest
         = new SyntaxChecker()
     {
         @Override
-        public void checkSyntax(SyntaxValidator validator, final Message.Builder msg,
-            final List<Message> messages, final JsonNode schema)
+        public void checkSyntax(SyntaxValidator validator, final List<Message> messages,
+            final JsonNode schema)
         {
         }
     };

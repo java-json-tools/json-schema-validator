@@ -50,11 +50,11 @@ public final class DraftV4PropertiesSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
         final Set<String> fields = Sets.newHashSet(node.fieldNames());
+        final Message.Builder msg = newMsg();
 
         NodeType type;
         JsonNode element;

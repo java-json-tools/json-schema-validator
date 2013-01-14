@@ -54,8 +54,7 @@ public final class DraftV3DependenciesSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         /*
          * At that point, we know this is an array. Build a map out of it and
@@ -71,10 +70,11 @@ public final class DraftV3DependenciesSyntaxChecker
 
         JsonNode element;
         NodeType type;
+        Message.Builder msg;
         int size;
 
         for (final String field: Ordering.natural().sortedCopy(fields)) {
-            msg.clearInfo().addInfo("property", field);
+            msg = newMsg().addInfo("property", field);
             element = node.get(field);
             type = NodeType.getNodeType(element);
             switch (type) {

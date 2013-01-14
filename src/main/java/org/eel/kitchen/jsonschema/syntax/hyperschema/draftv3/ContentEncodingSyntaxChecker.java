@@ -59,8 +59,7 @@ public final class ContentEncodingSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         /*
          * RFC 2045 explicitly says that the value for content encoding is case
@@ -81,7 +80,7 @@ public final class ContentEncodingSyntaxChecker
          * does not start with x, it is illegal.
          */
 
-        msg.addInfo("value", value);
+        final Message.Builder msg = newMsg().addInfo("value", value);
 
         if (!protocol.startsWith("x-")) {
             msg.setMessage("illegal content encoding");

@@ -41,8 +41,7 @@ public final class URISyntaxChecker
     }
 
     @Override
-    public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
+    public void checkValue(final SyntaxValidator validator, final List<Message> messages,
         final JsonNode schema)
     {
         final String value = schema.get(keyword).textValue();
@@ -50,8 +49,8 @@ public final class URISyntaxChecker
         try {
             new URI(value);
         } catch (URISyntaxException ignored) {
-            msg.setMessage("not a valid URI").addInfo("found", value);
-            messages.add(msg.build());
+            messages.add(newMsg().setMessage("not a valid URI")
+                .addInfo("found", value).build());
         }
     }
 }

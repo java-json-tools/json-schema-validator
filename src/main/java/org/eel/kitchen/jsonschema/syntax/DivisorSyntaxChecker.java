@@ -42,16 +42,15 @@ public final class DivisorSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
 
         if (node.decimalValue().compareTo(BigDecimal.ZERO) > 0)
             return;
 
-        msg.setMessage(keyword + " is not strictly greater than 0")
-            .addInfo("value", node);
+        final Message.Builder msg = newMsg().addInfo("value", node)
+            .setMessage(keyword + " is not strictly greater than 0");
 
         messages.add(msg.build());
     }

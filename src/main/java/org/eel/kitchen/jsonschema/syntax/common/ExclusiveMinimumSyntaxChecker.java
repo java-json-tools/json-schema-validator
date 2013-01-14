@@ -47,13 +47,13 @@ public final class ExclusiveMinimumSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         if (schema.has("minimum"))
             return;
 
-        messages.add(msg.setMessage(keyword + " must be paired with minimum")
-            .build());
+        messages.add(
+            newMsg().setMessage(keyword + " must be paired with minimum")
+                .build());
     }
 }

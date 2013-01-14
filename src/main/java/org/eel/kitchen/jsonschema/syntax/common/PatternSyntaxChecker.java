@@ -49,16 +49,13 @@ public final class PatternSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final String value = schema.get(keyword).textValue();
         if (RhinoHelper.regexIsValid(value))
             return;
 
-        msg.setMessage("pattern is not a valid ECMA 262 regex")
-            .addInfo("found", value);
-
-        messages.add(msg.build());
+        messages.add(newMsg().addInfo("found", value)
+            .setMessage("pattern is not a valid ECMA 262 regex").build());
     }
 }

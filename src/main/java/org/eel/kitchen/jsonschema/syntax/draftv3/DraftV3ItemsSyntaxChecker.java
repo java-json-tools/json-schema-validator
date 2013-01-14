@@ -50,8 +50,7 @@ public final class DraftV3ItemsSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode itemsNode = schema.get(keyword);
 
@@ -73,10 +72,10 @@ public final class DraftV3ItemsSyntaxChecker
             subSchema = itemsNode.get(index);
             type = NodeType.getNodeType(subSchema);
             if (type != NodeType.OBJECT) {
-                msg.setMessage("incorrect type for array element")
-                    .addInfo("index", index).addInfo("found", type)
-                    .addInfo("expected", NodeType.OBJECT);
-                messages.add(msg.build());
+                messages.add(newMsg().addInfo("index", index)
+                    .addInfo("found", type).addInfo("expected", NodeType.OBJECT)
+                    .setMessage("incorrect type for array element")
+                    .build());
                 continue;
             }
             validator.validate(messages, subSchema);

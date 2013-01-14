@@ -43,8 +43,7 @@ public final class NotSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         validator.validate(messages, schema.get(keyword));
     }

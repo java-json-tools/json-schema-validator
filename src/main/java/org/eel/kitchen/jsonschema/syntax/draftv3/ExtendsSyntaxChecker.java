@@ -46,8 +46,7 @@ public final class ExtendsSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode extendsNode = schema.get(keyword);
 
@@ -69,10 +68,10 @@ public final class ExtendsSyntaxChecker
             subSchema = extendsNode.get(index);
             type = NodeType.getNodeType(subSchema);
             if (type != NodeType.OBJECT) {
-                msg.setMessage("incorrect type for array element")
+                messages.add(newMsg()
+                    .setMessage("incorrect type for array element")
                     .addInfo("index", index).addInfo("found", type)
-                    .addInfo("expected", NodeType.OBJECT);
-                messages.add(msg.build());
+                    .addInfo("expected", NodeType.OBJECT).build());
                 continue;
             }
             validator.validate(messages, subSchema);

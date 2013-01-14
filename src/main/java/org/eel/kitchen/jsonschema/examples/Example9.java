@@ -140,8 +140,7 @@ public final class Example9
 
         @Override
         public void checkValue(final SyntaxValidator validator,
-            final Message.Builder msg, final List<Message> messages,
-            final JsonNode schema)
+            final List<Message> messages, final JsonNode schema)
         {
             /*
              * Using AbstractSyntaxChecker as a base, we know that when we reach
@@ -157,6 +156,8 @@ public final class Example9
              * the array contains no duplicates.
              */
             final JsonNode node = schema.get(keyword);
+            final Message.Builder msg = newMsg();
+
             final int size = node.size();
 
             if (size == 0) {

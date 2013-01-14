@@ -53,17 +53,17 @@ public final class DraftV3PropertiesSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
         final Set<String> fields = Sets.newHashSet(node.fieldNames());
 
         NodeType type;
         JsonNode element;
+        Message.Builder msg;
 
         for (final String field: Ordering.natural().sortedCopy(fields)) {
-            msg.addInfo("key", field);
+            msg = newMsg().addInfo("key", field);
             element = node.get(field);
             /*
              * Check that member values are JSON objects (schemas)

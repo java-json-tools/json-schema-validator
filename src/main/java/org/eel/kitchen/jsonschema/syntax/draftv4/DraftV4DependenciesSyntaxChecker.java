@@ -52,11 +52,11 @@ public final class DraftV4DependenciesSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final Map<String, JsonNode> map
             = JacksonUtils.asMap(schema.get(keyword));
+        final Message.Builder msg = newMsg();
 
         JsonNode depValue;
         NodeType type;

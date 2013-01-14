@@ -50,8 +50,7 @@ public final class MediaTypeSyntaxChecker
     }
 
     @Override
-    public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
+    public void checkValue(final SyntaxValidator validator, final List<Message> messages,
         final JsonNode schema)
     {
         final String input = schema.get(keyword).textValue();
@@ -59,8 +58,8 @@ public final class MediaTypeSyntaxChecker
         try {
             MediaType.parse(input);
         } catch (IllegalArgumentException ignored) {
-            msg.setMessage("incorrect media type").addInfo("value", input);
-            messages.add(msg.build());
+            messages.add(newMsg().setMessage("incorrect media type")
+                .addInfo("value", input).build());
         }
     }
 }

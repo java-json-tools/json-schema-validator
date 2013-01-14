@@ -54,17 +54,15 @@ public final class FragmentResolutionSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final String protocol = schema.get(keyword).textValue();
 
         if (PROTOCOLS.contains(protocol))
             return;
 
-        msg.setMessage("unknown fragment resolution protocol")
-            .addInfo("possible-values", PROTOCOLS)
-            .addInfo("found", protocol);
-        messages.add(msg.build());
+        messages.add(newMsg().addInfo("possible-values", PROTOCOLS)
+            .setMessage("unknown fragment resolution protocol")
+            .addInfo("found", protocol).build());
     }
 }

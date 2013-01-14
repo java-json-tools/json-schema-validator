@@ -41,11 +41,10 @@ public final class PositiveIntegerSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode node = schema.get(keyword);
-        msg.addInfo("found", node);
+        final Message.Builder msg = newMsg().addInfo("found", node);
 
         if (!node.canConvertToInt()) {
             msg.setMessage("integer value is too large")

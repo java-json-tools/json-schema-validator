@@ -1,7 +1,6 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 
 import java.util.List;
@@ -21,16 +20,9 @@ public interface SyntaxChecker
     /**
      * Check the syntax for this keyword
      *
-     * <p>When entering this function, the message template passed as an
-     * argument will have already been filled with the matching validation
-     * domain (here, {@link Domain#SYNTAX}) and the keyword.</p>
-     *
-     * @see Message
-     *
      * @param validator the syntax validator to use
-     * @param msg the validation message template
      * @param messages message list to fill in the event of a failure
-     * @param schema schema to analyze    */
-    void checkSyntax(final SyntaxValidator validator, final Message.Builder msg,
+     * @param schema schema to analyze       */
+    void checkSyntax(final SyntaxValidator validator,
         final List<Message> messages, final JsonNode schema);
 }

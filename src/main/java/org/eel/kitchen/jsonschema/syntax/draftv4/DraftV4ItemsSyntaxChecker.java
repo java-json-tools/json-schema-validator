@@ -47,10 +47,10 @@ public final class DraftV4ItemsSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode itemsNode = schema.get(keyword);
+        final Message.Builder msg = newMsg();
 
         if (!itemsNode.isArray()) {
             validator.validate(messages, itemsNode);

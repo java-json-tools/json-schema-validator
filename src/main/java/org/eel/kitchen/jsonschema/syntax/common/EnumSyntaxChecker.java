@@ -59,10 +59,10 @@ public final class EnumSyntaxChecker
 
     @Override
     public void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final JsonNode enumNode = schema.get(keyword);
+        final Message.Builder msg = newMsg();
 
         if (enumNode.size() == 0) {
             msg.setMessage("an enum array must have at least one element");

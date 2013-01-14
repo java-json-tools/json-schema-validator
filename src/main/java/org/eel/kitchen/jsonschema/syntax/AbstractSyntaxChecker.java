@@ -18,6 +18,7 @@
 package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.util.NodeType;
 
@@ -30,8 +31,8 @@ import java.util.List;
  * <p>All other syntax checkers inherit from this class. Its only purpose is to
  * check whether the type of the keyword's value is of the expected type(s).
  * More advanced syntax checkers will override {@link
- * #checkValue(SyntaxValidator, Message.Builder, List, JsonNode)} to further
- * check the anatomy of this value.</p>
+ * #checkValue(SyntaxValidator, List, JsonNode)} to further check the anatomy of
+ * this value.</p>
  */
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
@@ -48,22 +49,25 @@ public abstract class AbstractSyntaxChecker
 
     @Override
     public final void checkSyntax(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema)
+        final List<Message> messages, final JsonNode schema)
     {
         final NodeType nodeType = NodeType.getNodeType(schema.get(keyword));
 
         if (!validTypes.contains(nodeType)) {
-            msg.addInfo("expected", validTypes).addInfo("found", nodeType)
-                .setKeyword(keyword).setMessage("incorrect type for value");
-            messages.add(msg.build());
+            messages.add(newMsg().setMessage("incorrect type for value")
+                .addInfo("expected", validTypes).addInfo("found", nodeType)
+                .build());
             return;
         }
 
-        checkValue(validator, msg, messages, schema);
+        checkValue(validator, messages, schema);
     }
 
     public abstract void checkValue(final SyntaxValidator validator,
-        final Message.Builder msg, final List<Message> messages,
-        final JsonNode schema);
+        final List<Message> messages, final JsonNode schema);
+
+    protected final Message.Builder newMsg()
+    {
+        return Domain.SYNTAX.newMessage().setKeyword(keyword);
+    }
 }
