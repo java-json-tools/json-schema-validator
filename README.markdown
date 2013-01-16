@@ -3,8 +3,10 @@
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
-<p>This project has a dedicated <a
-href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
+<p>A sample web application using this library is available <a
+href="http://json-schema-validator.herokuapp.com">here</a> (source of this webapp <a
+href="https://github.com/fge/json-schema-validator-demo">here</a>). This project also has a
+dedicated <a href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
 group</a>.</p>
 
 <p>Versions:</p>
