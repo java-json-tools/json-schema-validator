@@ -26,7 +26,7 @@ import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -63,7 +63,7 @@ public final class JarNamespaceValidationTest
         namespace = new URI("jar", tmp, null).toString();
     }
 
-    @BeforeTest
+    @BeforeMethod
     public void setBuilder()
     {
         builder = JsonSchemaFactory.builder();

@@ -23,7 +23,7 @@ import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.util.JsonLoader;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ public final class NonAbsoluteSchemaUris
 {
     private JsonSchema schema;
 
-    @BeforeTest
+    @BeforeMethod
     public void beforeTest()
         throws JsonSchemaException
     {
