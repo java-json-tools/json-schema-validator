@@ -31,6 +31,7 @@ import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
 import org.eel.kitchen.jsonschema.syntax.AbstractSyntaxChecker;
 import org.eel.kitchen.jsonschema.syntax.SyntaxChecker;
+import org.eel.kitchen.jsonschema.syntax.SyntaxValidator;
 import org.eel.kitchen.jsonschema.util.NodeType;
 import org.eel.kitchen.jsonschema.validator.ValidationContext;
 
@@ -138,7 +139,7 @@ public final class Example9
         }
 
         @Override
-        public void checkValue(final Message.Builder msg,
+        public void checkValue(final SyntaxValidator validator,
             final List<Message> messages, final JsonNode schema)
         {
             /*
@@ -155,6 +156,8 @@ public final class Example9
              * the array contains no duplicates.
              */
             final JsonNode node = schema.get(keyword);
+            final Message.Builder msg = newMsg();
+
             final int size = node.size();
 
             if (size == 0) {
