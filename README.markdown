@@ -30,7 +30,7 @@ above):</p>
 
 ```
 <dependency>
-    <groupId>org.kithcne-eel</groupId>
+    <groupId>org.kitchen-eel</groupId>
     <artifactId>json-schema-validator</artifactId>
     <version>your-version-here</version>
 </dependency>
