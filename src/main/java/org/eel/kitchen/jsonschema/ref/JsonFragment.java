@@ -127,6 +127,8 @@ public abstract class JsonFragment
     {
         if (obj == null)
             return false;
+        if (this == obj)
+            return true;
         if (!(obj instanceof JsonFragment))
             return false;
 
