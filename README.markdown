@@ -12,20 +12,29 @@ group</a>.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>current development version: <b>1.5.2</b> (<a
+    <li>development version: <b>1.5.2</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
-    <li>current stable version: <b>1.4.6</b> (<a
+    <li>stable version: <b>1.4.6</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
-    href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>);</li>
-    <li>old stable version: <b>1.2.2</b> (<a
-    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
+    href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
 </ul>
 
 <p>If you are looking for a quick start, see the <a
 href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
 examples</a>. You can see what is new in 1.4.x <a
 href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p>
+
+<p>This project is available on Maven (substitute <tt>your-version-here</tt> for one of the
+above):</p>
+
+```
+<dependency>
+    <groupId>org.kithcne-eel</groupId>
+    <artifactId>json-schema-validator</artifactId>
+    <version>your-version-here</version>
+</dependency>
+```
 
 <h2>Versioning scheme policy</h2>
 
@@ -68,8 +77,8 @@ is used on the Internet nonetheless. This implementation is based on the followi
   3</a>;
 * <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON Reference Internet draft,
   version 3</a>;
-* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-07">JSON Pointer Internet
-  draft, version 7</a>.
+* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-08">JSON Pointer Internet
+  draft, version 8</a>.
 
 <h2>More...</h2>
 

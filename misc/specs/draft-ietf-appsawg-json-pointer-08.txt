@@ -3,20 +3,20 @@
 
 Applications Area Working Group                            P. Bryan, Ed.
 Internet-Draft                                            Salesforce.com
-Intended status: Informational                                    K. Zyp
-Expires: June 14, 2013                                     SitePen (USA)
+Intended status: Standards Track                                  K. Zyp
+Expires: July 8, 2013                                      SitePen (USA)
                                                       M. Nottingham, Ed.
                                                                   Akamai
-                                                       December 11, 2012
+                                                         January 4, 2013
 
 
-                              JSON Pointer
-                   draft-ietf-appsawg-json-pointer-07
+               JavaScript Object Notation (JSON) Pointer
+                   draft-ietf-appsawg-json-pointer-08
 
 Abstract
 
    JSON Pointer defines a string syntax for identifying a specific value
-   within a JSON document.
+   within a JavaScript Object Notation (JSON) document.
 
 Status of this Memo
 
@@ -33,11 +33,11 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 14, 2013.
+   This Internet-Draft will expire on July 8, 2013.
 
 Copyright Notice
 
-   Copyright (c) 2012 IETF Trust and the persons identified as the
+   Copyright (c) 2013 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Bryan, et al.             Expires June 14, 2013                 [Page 1]
+Bryan, et al.             Expires July 8, 2013                  [Page 1]
 
-Internet-Draft                JSON Pointer                 December 2012
+Internet-Draft                JSON Pointer                  January 2013
 
 
 Table of Contents
@@ -63,15 +63,15 @@ Table of Contents
    2.  Conventions . . . . . . . . . . . . . . . . . . . . . . . . . . 3
    3.  Syntax  . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
    4.  Evaluation  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
-   5.  JSON String Representation  . . . . . . . . . . . . . . . . . . 4
-   6.  URI Fragment Identifier Representation  . . . . . . . . . . . . 5
+   5.  JSON String Representation  . . . . . . . . . . . . . . . . . . 5
+   6.  URI Fragment Identifier Representation  . . . . . . . . . . . . 6
    7.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . . . 6
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 6
+   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 7
    9.  Security Considerations . . . . . . . . . . . . . . . . . . . . 7
    10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 7
    11. References  . . . . . . . . . . . . . . . . . . . . . . . . . . 7
      11.1.  Normative References . . . . . . . . . . . . . . . . . . . 7
-     11.2.  Informative References . . . . . . . . . . . . . . . . . . 7
+     11.2.  Informative References . . . . . . . . . . . . . . . . . . 8
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . 8
 
 
@@ -108,9 +108,9 @@ Table of Contents
 
 
 
-Bryan, et al.             Expires June 14, 2013                 [Page 2]
+Bryan, et al.             Expires July 8, 2013                  [Page 2]
 
-Internet-Draft                JSON Pointer                 December 2012
+Internet-Draft                JSON Pointer                  January 2013
 
 
 1.  Introduction
@@ -155,29 +155,32 @@ Internet-Draft                JSON Pointer                 December 2012
    It is an error condition if a JSON Pointer value does not conform to
    this syntax (see Section 7).
 
+   Note that JSON Pointers are specified in characters, not as bytes.
+
 
 4.  Evaluation
 
    Evaluation of a JSON Pointer begins with a reference to the root
+
+
+
+Bryan, et al.             Expires July 8, 2013                  [Page 3]
+
+Internet-Draft                JSON Pointer                  January 2013
+
+
    value of a JSON document and completes with a reference to some value
    within the document.  Each reference token in the JSON Pointer is
-
-
-
-Bryan, et al.             Expires June 14, 2013                 [Page 3]
-
-Internet-Draft                JSON Pointer                 December 2012
-
-
-   sequentially evaluated.  By performing the substitutions in this
-   order, an implementation avoids the error of turning '~01' first into
-   '~1' and then into '/', which would be incorrect (the string '~01'
-   correctly becomes '~1' after transformation).
+   sequentially evaluated.
 
    Evaluation of each reference token begins by decoding any escaped
    character sequence; this is performed by first transforming any
    occurrence of the sequence '~1' to '/', then transforming any
-   occurrence of the sequence '~0' to '~'.
+   occurrence of the sequence '~0' to '~'.  By performing the
+   substitutions in this order, an implementation avoids the error of
+   turning '~01' first into '~1' and then into '/', which would be
+   incorrect (the string '~01' correctly becomes '~1' after
+   transformation).
 
    The reference token then modifies which value is referenced according
    to the following scheme:
@@ -194,19 +197,33 @@ Internet-Draft                JSON Pointer                 December 2012
    o  If the currently referenced value is a JSON array, the reference
       token MUST contain either:
 
-      *  characters that represent an unsigned base-10 integer value
-         (possibly with leading zeros), making the new referenced value
-         the array element with the zero-based index identified by the
+      *  characters comprised of digits (see ABNF below; note that
+         leading zeros are not allowed) that represent an unsigned
+         base-10 integer value, making the new referenced value the
+         array element with the zero-based index identified by the
          token, or
 
       *  exactly the single character "-", making the new referenced
          value the (non-existant) member after the last array element.
 
-   If a reference token is being evaluated against a JSON document,
-   implementations will evaluate each token against the document's
-   contents, and terminate evaluation with an error condition if it
-   fails to resolve a concrete value for any of the JSON pointer's
-   reference tokens.  See Section 7 for details.
+   The ABNF syntax for array indices is:
+
+   array-index = %x30 / ( %x31-39 *(%x30-39) )
+                 ; "0", or digits without a leading "0"
+
+   Implementations will evaluate each reference token against the
+   document's contents, and terminate evaluation with an error condition
+   if it fails to resolve a concrete value for any of the JSON pointer's
+   reference tokens.  For example, if an array is referenced with a non-
+   numeric token, it will fail.  See Section 7 for details.
+
+
+
+
+Bryan, et al.             Expires July 8, 2013                  [Page 4]
+
+Internet-Draft                JSON Pointer                  January 2013
+
 
    Note that the use of the "-" character to index an array will always
    result in such an error; applications of JSON Pointer thus need to
@@ -217,14 +234,6 @@ Internet-Draft                JSON Pointer                 December 2012
 
    A JSON Pointer can be represented in a JSON string value.  Per
    [RFC4627], Section 2.5, all instances of quotation mark '"' (%x22),
-
-
-
-Bryan, et al.             Expires June 14, 2013                 [Page 4]
-
-Internet-Draft                JSON Pointer                 December 2012
-
-
    reverse solidus '\' (%x5C) and control (%x00-1F) characters MUST be
    escaped.
 
@@ -250,9 +259,9 @@ Internet-Draft                JSON Pointer                 December 2012
    Then the following JSON strings evaluate to the accompanying values:
 
 
-    ""         // the whole document
+    ""           // the whole document
     "/foo"       ["bar", "baz"]
-    "/foo/0"    "bar"
+    "/foo/0"     "bar"
     "/"          0
     "/a~1b"      1
     "/c%d"       2
@@ -264,23 +273,23 @@ Internet-Draft                JSON Pointer                 December 2012
     "/m~0n"      8
 
 
+
+
+
+Bryan, et al.             Expires July 8, 2013                  [Page 5]
+
+Internet-Draft                JSON Pointer                  January 2013
+
+
 6.  URI Fragment Identifier Representation
 
    A JSON Pointer can be represented in a URI fragment identifier by
-   encoding it into octets, using UTF-8 [RFC3629], percent-encoding
-   those characters not allowed by the fragment rule in [RFC3986].
+   encoding it into octets using UTF-8 [RFC3629], percent-encoding those
+   characters not allowed by the fragment rule in [RFC3986].
 
-   Note that a given media type needs to nominate JSON Pointer as its
+   Note that a given media type needs to specify JSON Pointer as its
    fragment identifier syntax explicitly (usually, in its registration
    [RFC4288]); i.e., just because a document is JSON does not imply that
-
-
-
-Bryan, et al.             Expires June 14, 2013                 [Page 5]
-
-Internet-Draft                JSON Pointer                 December 2012
-
-
    JSON Pointer can be used as its fragment identifier syntax.  In
    particular, the fragment identifier syntax for application/json is
    not JSON Pointer.
@@ -289,18 +298,18 @@ Internet-Draft                JSON Pointer                 December 2012
    identifiers evaluate to the accompanying values:
 
 
-    #                  // the whole document
-    #/foo            ["bar", "baz"]
-    #/foo/0         "bar"
-    #/               0
-    #/a~1b           1
-    #/c%25d          2
-    #/e%5Ef          3
-    #/g%7Ch          4
-    #/i%5Cj          5
-    #/k%22l          6
-    #/%20            7
-    #/m~0n           8
+    #            // the whole document
+    #/foo        ["bar", "baz"]
+    #/foo/0      "bar"
+    #/           0
+    #/a~1b       1
+    #/c%25d      2
+    #/e%5Ef      3
+    #/g%7Ch      4
+    #/i%5Cj      5
+    #/k%22l      6
+    #/%20        7
+    #/m~0n       8
 
 
 7.  Error Handling
@@ -320,21 +329,20 @@ Internet-Draft                JSON Pointer                 December 2012
 
    For example, some applications might stop pointer processing upon an
    error; others may attempt to recover from missing values by inserting
+
+
+
+Bryan, et al.             Expires July 8, 2013                  [Page 6]
+
+Internet-Draft                JSON Pointer                  January 2013
+
+
    default ones.
 
 
 8.  IANA Considerations
 
    This document has no impact upon IANA.
-
-
-
-
-
-
-Bryan, et al.             Expires June 14, 2013                 [Page 6]
-
-Internet-Draft                JSON Pointer                 December 2012
 
 
 9.  Security Considerations
@@ -377,20 +385,20 @@ Internet-Draft                JSON Pointer                 December 2012
               JavaScript Object Notation (JSON)", RFC 4627, July 2006.
 
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
+
+
+
+Bryan, et al.             Expires July 8, 2013                  [Page 7]
+
+Internet-Draft                JSON Pointer                  January 2013
+
+
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
 
 11.2.  Informative References
 
    [RFC4288]  Freed, N. and J. Klensin, "Media Type Specifications and
               Registration Procedures", BCP 13, RFC 4288, December 2005.
-
-
-
-
-
-Bryan, et al.             Expires June 14, 2013                 [Page 7]
-
-Internet-Draft                JSON Pointer                 December 2012
 
 
 Authors' Addresses
@@ -436,13 +444,5 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-Bryan, et al.             Expires June 14, 2013                 [Page 8]
+Bryan, et al.             Expires July 8, 2013                  [Page 8]
 
