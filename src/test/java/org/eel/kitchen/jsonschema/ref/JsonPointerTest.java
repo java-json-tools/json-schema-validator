@@ -18,6 +18,8 @@
 package org.eel.kitchen.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
@@ -135,5 +137,16 @@ public final class JsonPointerTest
         } catch (JsonSchemaException e) {
             assertEquals(e.getValidationMessage(), msg);
         }
+    }
+
+    @Test
+    public void zeroPrefixedIntegersAreNotValidArrayPointers()
+        throws JsonSchemaException
+    {
+        final JsonPointer ptr = new JsonPointer("/00");
+        final ArrayNode node = JsonNodeFactory.instance.arrayNode()
+            .add(false);
+
+        assertTrue(ptr.resolve(node).isMissingNode());
     }
 }
