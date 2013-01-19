@@ -49,6 +49,7 @@ public final class SyntaxValidator
         checkers = metaSchema.getSyntaxCheckers();
     }
 
+    @Deprecated
     public SyntaxValidator(final KeywordRegistry registry)
     {
         checkers = registry.getSyntaxCheckers();

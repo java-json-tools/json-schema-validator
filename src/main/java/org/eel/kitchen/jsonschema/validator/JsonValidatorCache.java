@@ -88,6 +88,7 @@ public final class JsonValidatorCache
             .build(cacheLoader());
     }
 
+    @Deprecated
     public JsonValidatorCache(final KeywordRegistry keywordRegistry,
         final SchemaRegistry schemaRegistry)
     {

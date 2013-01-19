@@ -63,6 +63,7 @@ public final class KeywordFactory
         validators = metaSchema.getValidators();
     }
 
+    @Deprecated
     public KeywordFactory(final KeywordRegistry registry)
     {
         validators = registry.getValidators();
