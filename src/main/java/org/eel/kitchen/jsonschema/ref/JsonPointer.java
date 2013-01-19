@@ -72,6 +72,7 @@ public final class JsonPointer
 
     private static final CharMatcher ESCAPED = CharMatcher.anyOf("01");
     private static final CharMatcher SPECIAL = CharMatcher.anyOf("~/");
+    private static final CharMatcher ZERO = CharMatcher.is('0');
 
     /**
      * The list of individual elements in the pointer.
@@ -137,14 +138,9 @@ public final class JsonPointer
         for (final String pathElement : elements) {
             if (!ret.isContainerNode())
                 return MissingNode.getInstance();
-            if (ret.isObject())
-                ret = ret.path(pathElement);
-            else
-                try {
-                    ret = ret.path(Integer.parseInt(pathElement));
-                } catch (NumberFormatException ignored) {
-                    return MissingNode.getInstance();
-                }
+            ret = ret.isObject()
+                ? ret.path(pathElement)
+                : ret.path(arrayIndexFor(pathElement));
             if (ret.isMissingNode())
                 break;
         }
@@ -321,5 +317,37 @@ public final class JsonPointer
     {
         return Domain.REF_RESOLVING.newMessage().setKeyword("$ref")
             .setMessage("illegal JSON Pointer").addInfo("reason", reason);
+    }
+
+    /**
+     * Return an array index corresponding to the given path element
+     *
+     * @param pathElement the path element as a string
+     * @return the index, or -1 if the index is invalid
+     */
+    private static int arrayIndexFor(final String pathElement)
+    {
+        /*
+         * Empty? No dice.
+         */
+        if (pathElement.isEmpty())
+            return -1;
+        /*
+         * Leading zeroes are not allowed in number-only elements for arrays.
+         * But then, 0 followed by anything else than a number is invalid as
+         * well. So, if the string starts with '0', return 0 if the token length
+         * is 1 or -1 otherwise.
+         */
+        if (ZERO.matches(pathElement.charAt(0)))
+            return pathElement.length() == 1 ? 0 : -1;
+
+        /*
+         * Otherwise, parse as an int. If we can't, -1.
+         */
+        try {
+            return Integer.parseInt(pathElement);
+        } catch (NumberFormatException ignored) {
+            return -1;
+        }
     }
 }
