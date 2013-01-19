@@ -136,7 +136,7 @@ public final class SchemaRegistry
             msg.addInfo("exception-class", cause.getClass().getName())
                 .addInfo("exception-message", cause.getMessage())
                 .setMessage("failed to load schema from URI");
-            throw new JsonSchemaException(msg.build());
+            throw JsonSchemaException.wrap(msg.build(), cause);
         }
     }
 
