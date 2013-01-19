@@ -215,7 +215,7 @@ public final class URIManager
             in = downloader.fetch(target);
         } catch (IOException e) {
             msg.setMessage("cannot fetch content from URI");
-            throw new JsonSchemaException(msg.build(), e);
+            throw JsonSchemaException.wrap(msg.build(), e);
         }
 
         try {
@@ -224,7 +224,7 @@ public final class URIManager
             return MAPPER.readTree(in);
         } catch (IOException e) {
             msg.setMessage("content fetched from URI is not valid JSON");
-            throw new JsonSchemaException(msg.build(), e);
+            throw JsonSchemaException.wrap(msg.build(), e);
         }
     }
 }

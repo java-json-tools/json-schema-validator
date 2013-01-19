@@ -30,10 +30,24 @@ public final class JsonSchemaException
 {
     private final Message message;
 
-    public JsonSchemaException(final Message message, final Exception e)
+    private JsonSchemaException(final Message message, final Throwable e)
     {
         super(message.getMessage(), e);
         this.message = message;
+    }
+
+    public static JsonSchemaException wrap(final Message message,
+        final Throwable e)
+    {
+        if (!(e instanceof JsonSchemaException))
+            return new JsonSchemaException(message, e);
+
+        final JsonSchemaException wrapped = (JsonSchemaException) e;
+        final Throwable cause = wrapped.getCause();
+
+        return cause == null
+            ? wrapped
+            : new JsonSchemaException(wrapped.message, cause);
     }
 
     public JsonSchemaException(final Message message)

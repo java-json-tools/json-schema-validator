@@ -172,7 +172,7 @@ public abstract class JsonRef
         } catch (URISyntaxException e) {
             final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
                 .setKeyword("N/A").addInfo("uri", s).setMessage("invalid URI");
-            throw new JsonSchemaException(msg.build(), e);
+            throw JsonSchemaException.wrap(msg.build(), e);
         }
     }
 
