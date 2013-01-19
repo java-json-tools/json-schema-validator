@@ -19,7 +19,6 @@ package org.eel.kitchen.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.Sets;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
@@ -47,12 +46,6 @@ public final class SyntaxValidator
     public SyntaxValidator(final MetaSchema metaSchema)
     {
         checkers = metaSchema.getSyntaxCheckers();
-    }
-
-    @Deprecated
-    public SyntaxValidator(final KeywordRegistry registry)
-    {
-        checkers = registry.getSyntaxCheckers();
     }
 
     /**

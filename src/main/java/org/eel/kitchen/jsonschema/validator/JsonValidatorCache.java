@@ -27,7 +27,6 @@ import org.eel.kitchen.jsonschema.format.FormatAttribute;
 import org.eel.kitchen.jsonschema.keyword.KeywordFactory;
 import org.eel.kitchen.jsonschema.keyword.KeywordValidator;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Message;
 import org.eel.kitchen.jsonschema.report.ValidationReport;
@@ -86,18 +85,6 @@ public final class JsonValidatorCache
         formatAttributes = metaSchema.getFormatAttributes();
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(cacheLoader());
-    }
-
-    @Deprecated
-    public JsonValidatorCache(final KeywordRegistry keywordRegistry,
-        final SchemaRegistry schemaRegistry)
-    {
-        resolver = new JsonResolver(schemaRegistry);
-        syntaxValidator = new SyntaxValidator(keywordRegistry);
-        keywordFactory = new KeywordFactory(keywordRegistry);
-        cache = CacheBuilder.newBuilder().maximumSize(100L)
-            .build(cacheLoader());
-        formatAttributes = keywordRegistry.getFormatAttributes();
     }
 
     public Map<String, FormatAttribute> getFormatAttributes()

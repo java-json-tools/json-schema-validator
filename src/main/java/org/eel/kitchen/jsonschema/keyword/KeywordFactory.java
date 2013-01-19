@@ -20,7 +20,6 @@ package org.eel.kitchen.jsonschema.keyword;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.eel.kitchen.jsonschema.metaschema.KeywordRegistry;
 import org.eel.kitchen.jsonschema.metaschema.MetaSchema;
 import org.eel.kitchen.jsonschema.report.Domain;
 import org.eel.kitchen.jsonschema.report.Message;
@@ -61,12 +60,6 @@ public final class KeywordFactory
     public KeywordFactory(final MetaSchema metaSchema)
     {
         validators = metaSchema.getValidators();
-    }
-
-    @Deprecated
-    public KeywordFactory(final KeywordRegistry registry)
-    {
-        validators = registry.getValidators();
     }
 
     /**
