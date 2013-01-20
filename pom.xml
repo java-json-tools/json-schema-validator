@@ -28,20 +28,6 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.4</version>
-                <configuration>
-                    <localCheckout>true</localCheckout>
-                    <suppressCommitBeforeTag>true</suppressCommitBeforeTag>
-                    <remoteTagging>false</remoteTagging>
-                    <tagNameFormat>@{version}</tagNameFormat>
-                    <pushChanges>false</pushChanges>
-                    <dryRun>true</dryRun>
-                    <scmCommentPrefix>RELEASE: </scmCommentPrefix>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.0</version>
                 <configuration>
