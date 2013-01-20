@@ -18,6 +18,8 @@
 package com.github.fge.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
@@ -70,5 +72,22 @@ public final class InlineSchemaContainerTest
 
         final JsonNode subSchema = container.resolve(ref);
         assertEquals(subSchema.get("pointer").textValue(), pointer);
+    }
+
+    @Test
+    public void containerIsUnfazedByDuplicateIDs()
+    {
+        final JsonNodeFactory factory = JsonNodeFactory.instance;
+        final ObjectNode inner = factory.objectNode();
+
+        inner.put("id", "#foo");
+
+        final ObjectNode schema = factory.objectNode();
+
+        schema.put("schema1", inner);
+        schema.put("schema2", inner);
+
+        new InlineSchemaContainer(schema);
+        assertTrue(true);
     }
 }
