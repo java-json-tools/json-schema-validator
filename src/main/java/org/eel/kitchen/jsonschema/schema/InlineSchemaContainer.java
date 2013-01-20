@@ -20,6 +20,7 @@ package org.eel.kitchen.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import org.eel.kitchen.jsonschema.main.JsonSchemaException;
 import org.eel.kitchen.jsonschema.ref.JsonRef;
 
@@ -30,6 +31,9 @@ import java.util.Map;
  *
  * <p>This container will retrieve all {@code id} members in the schema
  * (including subschemas).</p>
+ *
+ * <p><b>NOTE:</b> if a duplicate {@code id} value is found within the schema,
+ * the actual matching schema is <b>UNDEFINED</b>.</p>
  */
 public final class InlineSchemaContainer
     extends SchemaContainer
@@ -39,12 +43,11 @@ public final class InlineSchemaContainer
     InlineSchemaContainer(final JsonNode schema)
     {
         super(extractLocator(schema).toURI(), schema);
-        final ImmutableMap.Builder<JsonRef, JsonNode> builder
-            = ImmutableMap.builder();
+        final Map<JsonRef, JsonNode> map = Maps.newHashMap();
 
-        builder.put(locator, this.schema);
-        fillURIMap(locator, this.schema, builder);
-        schemas = builder.build();
+        map.put(locator, this.schema);
+        fillURIMap(locator, this.schema, map);
+        schemas = ImmutableMap.copyOf(map);
     }
 
     private static JsonRef refFromNode(final JsonNode node)
@@ -79,7 +82,7 @@ public final class InlineSchemaContainer
     }
 
     private static void fillURIMap(final JsonRef baseRef, final JsonNode node,
-        final ImmutableMap.Builder<JsonRef, JsonNode> builder)
+        final Map<JsonRef, JsonNode> map)
     {
         // Do nothing if the node is not an object
         if (!node.isObject())
@@ -92,11 +95,11 @@ public final class InlineSchemaContainer
                 try {
                     idRef = refFromNode(child.get("id"));
                     resolvedRef = baseRef.resolve(idRef);
-                    builder.put(resolvedRef, cleanup(child));
+                    map.put(resolvedRef, cleanup(child));
                 } catch (JsonSchemaException ignored) {
                     // Do nothing
                 }
-            fillURIMap(baseRef, cleanup(child), builder);
+            fillURIMap(baseRef, cleanup(child), map);
         }
     }
 }
