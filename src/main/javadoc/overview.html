@@ -52,7 +52,7 @@ application; this library has no dependencies on anything Web-related.</p>
 
 <h1>Sample usage</h1>
 
-<p>See the {@link org.eel.kitchen.jsonschema.examples} package: it contains
+<p>See the {@link com.github.fge.jsonschema.examples} package: it contains
 example usages for nearly all situations. This includes:</p>
 
 <ul>
@@ -73,8 +73,8 @@ example usages for nearly all situations. This includes:</p>
 </ul>
 
 <p>The core package for the validation process is {@link
-org.eel.kitchen.jsonschema.validator}, and in particular {@link
-org.eel.kitchen.jsonschema.validator.JsonValidatorCache}. This class is
+com.github.fge.jsonschema.validator}, and in particular {@link
+com.github.fge.jsonschema.validator.JsonValidatorCache}. This class is
 instantiated by a schema factory and uses a {@link
 com.google.common.cache.LoadingCache} to store already computed validators.
 There is one such cache per schema version.</p>
@@ -114,11 +114,11 @@ means it may not even be a JSON Object, therefore not a JSON Schema. This basic
 check is done at that level.</p>
 
 <p>The syntax validation process implies a {@link
-org.eel.kitchen.jsonschema.syntax.SyntaxValidator} instance, which checks that
+com.github.fge.jsonschema.syntax.SyntaxValidator} instance, which checks that
 all keywords are syntactically correct using a series of {@link
-org.eel.kitchen.jsonschema.syntax.SyntaxChecker} objects.</p>
+com.github.fge.jsonschema.syntax.SyntaxChecker} objects.</p>
 
-<p>The role of {@link org.eel.kitchen.jsonschema.syntax.SyntaxChecker} objects
+<p>The role of {@link com.github.fge.jsonschema.syntax.SyntaxChecker} objects
 in particular is very important: for a given keyword, a syntax checker ensures
 that the value of this keyword is well formed. This is what allows the next step
 in the process to be easier to implement.</p>
@@ -129,8 +129,8 @@ in the process to be easier to implement.</p>
 is valid.</p>
 
 <p>The process begins with an instance of {@link
-org.eel.kitchen.jsonschema.validator.InstanceValidator}. It will query, via the
-factory, a set of {@link org.eel.kitchen.jsonschema.keyword.KeywordValidator}
+com.github.fge.jsonschema.validator.InstanceValidator}. It will query, via the
+factory, a set of {@link com.github.fge.jsonschema.keyword.KeywordValidator}
 instances. All of these keyword validators will then be called in turn to
 validate the data.</p>
 
@@ -143,8 +143,8 @@ is it has children nodes, which is the case of objects and arrays, then a
 further validation step is issued so that all children get validated.</p>
 
 <p>The two classes responsible for this, {@link
-org.eel.kitchen.jsonschema.validator.ArrayValidator} and {@link
-org.eel.kitchen.jsonschema.validator.ObjectValidator}, take responsibility
+com.github.fge.jsonschema.validator.ArrayValidator} and {@link
+com.github.fge.jsonschema.validator.ObjectValidator}, take responsibility
 from this point and will restart the validation process from scratch for each of
 the instance children.</p>
 

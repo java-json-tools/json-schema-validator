@@ -18,11 +18,11 @@
 package grimbo;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.eel.kitchen.jsonschema.main.JsonSchema;
-import org.eel.kitchen.jsonschema.main.JsonSchemaException;
-import org.eel.kitchen.jsonschema.main.JsonSchemaFactory;
-import org.eel.kitchen.jsonschema.report.ValidationReport;
-import org.eel.kitchen.jsonschema.util.JsonLoader;
+import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
