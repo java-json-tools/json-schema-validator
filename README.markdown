@@ -12,7 +12,7 @@ group</a>.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>development version: <b>1.5.2</b> (<a
+    <li>development version: <b>1.5.3</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>stable version: <b>1.4.7</b> (<a
@@ -25,10 +25,25 @@ href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitc
 examples</a>. You can see what is new in 1.4.x <a
 href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p>
 
-<p>This project is available on Maven (substitute <tt>your-version-here</tt> for one of the
-above):</p>
+<h2>Maven artifacts</h2>
 
+<p><b>Warning: the artifact and package namespace has changed starting with version 1.5.3</b></p>
+
+<p>In the examples below, substitute <tt>your-version-here</tt> for the version you want.</p>
+
+<h3>Versions 1.5.3 and above</h3>
+
+```xml
+<dependency>
+    <groupId>com.github.fge</groupId>
+    <artifactId>json-schema-validator</artifactId>
+    <version>your-version-here</version>
+</dependency>
 ```
+
+<h3>Versions 1.5.2 and below</h3>
+
+```xml
 <dependency>
     <groupId>org.kitchen-eel</groupId>
     <artifactId>json-schema-validator</artifactId>
