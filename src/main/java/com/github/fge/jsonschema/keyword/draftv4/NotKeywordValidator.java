@@ -50,10 +50,15 @@ public final class NotKeywordValidator
 
         validator.validate(context, subReport, instance);
 
-        if (subReport.isSuccess())
+        if (subReport.isSuccess()) {
             report.addMessage(newMsg()
                 .setMessage("instance validates against a forbidden schema")
                 .build());
+            return;
+        }
+
+        if (subReport.hasFatalError())
+            report.mergeWith(subReport);
     }
 
     @Override
