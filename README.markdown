@@ -12,10 +12,10 @@ group</a>.</p>
 <p>Versions:</p>
 
 <ul>
-    <li>development version: <b>1.5.3</b> (<a
+    <li>development version: <b>1.5.4</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
-    <li>stable version: <b>1.4.7</b> (<a
+    <li>stable version: <b>1.4.8</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
 </ul>
