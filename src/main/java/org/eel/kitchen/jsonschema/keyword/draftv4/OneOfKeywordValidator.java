@@ -40,6 +40,7 @@ public final class OneOfKeywordValidator
     {
         super("oneOf", schema);
     }
+
     @Override
     protected void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
@@ -53,6 +54,10 @@ public final class OneOfKeywordValidator
             validator = context.newValidator(subSchema);
             subReport = new ValidationReport();
             validator.validate(context, subReport, instance);
+            if (subReport.hasFatalError()) {
+                report.mergeWith(subReport);
+                return;
+            }
             if (subReport.isSuccess())
                 matches++;
         }

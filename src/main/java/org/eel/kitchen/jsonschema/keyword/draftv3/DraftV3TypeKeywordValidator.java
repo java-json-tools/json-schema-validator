@@ -52,8 +52,12 @@ public final class DraftV3TypeKeywordValidator
 
         if (!schemas.isEmpty()) {
             trySchemas(context, schemaReport, instance);
-            if (schemaReport.isSuccess() || schemaReport.hasFatalError())
+            if (schemaReport.isSuccess())
                 return;
+            if (schemaReport.hasFatalError()) {
+                report.mergeWith(schemaReport);
+                return;
+            }
         }
 
         /*
