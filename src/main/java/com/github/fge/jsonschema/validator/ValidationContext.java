@@ -21,6 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
+import com.google.common.collect.Queues;
+
+import java.util.Deque;
 
 /**
  * A validation context
@@ -39,7 +42,7 @@ import com.github.fge.jsonschema.schema.SchemaNode;
 public final class ValidationContext
 {
     private final JsonValidatorCache cache;
-    private SchemaContext schemaContext;
+    private final Deque<SchemaContext> contextQueue = Queues.newArrayDeque();
 
     /**
      * Create a validation context with an empty feature set
@@ -51,14 +54,14 @@ public final class ValidationContext
         this.cache = cache;
     }
 
-    SchemaContext getSchemaContext()
+    void pushContext(final SchemaContext context)
     {
-        return schemaContext;
+        contextQueue.addFirst(context);
     }
 
-    void setSchemaContext(final SchemaContext schemaContext)
+    void popContext()
     {
-        this.schemaContext = schemaContext;
+        contextQueue.removeFirst();
     }
 
     /**
@@ -76,13 +79,14 @@ public final class ValidationContext
      * Build a new validator out of a JSON document
      *
      * <p>This calls {@link JsonValidatorCache#getValidator(SchemaNode)} with
-     * this context's {@link com.github.fge.jsonschema.schema.SchemaContext} used as a schema context.</p>
+     * this context's {@link SchemaContext} used as a schema context.</p>
      *
      * @param node the node (a subnode of the schema)
      * @return a validator
      */
     public JsonValidator newValidator(final JsonNode node)
     {
+        final SchemaContext schemaContext = contextQueue.getFirst();
         final SchemaNode schemaNode = new SchemaNode(schemaContext, node);
         return cache.getValidator(schemaNode);
     }
@@ -90,6 +94,6 @@ public final class ValidationContext
     @Override
     public String toString()
     {
-        return "current: " + schemaContext;
+        return "current: " + contextQueue.peekFirst();
     }
 }
