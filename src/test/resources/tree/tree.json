@@ -18,6 +18,11 @@
         },
         "schema3": {
             "id": "some://where.else/completely#"
+        },
+        "schema4": {
+            "schema5": {
+                "foo": "bar"
+            }
         }
     },
     "lookups": [
@@ -48,6 +53,14 @@
         {
             "pointer": "/schema3",
             "scope": "some://where.else/completely#"
+        },
+        {
+            "pointer": "/schema4/schema5",
+            "scope": "http://x.y.z/rootschema.json#"
+        },
+        {
+            "pointer": "/I don't exist",
+            "scope": "http://x.y.z/rootschema.json#"
         }
     ]
 }
