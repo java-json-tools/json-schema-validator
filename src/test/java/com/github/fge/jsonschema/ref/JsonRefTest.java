@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.ref;
 
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
+import com.google.common.collect.Sets;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 

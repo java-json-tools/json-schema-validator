@@ -18,8 +18,6 @@
 package com.github.fge.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
@@ -27,6 +25,8 @@ import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.validator.ValidationContext;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

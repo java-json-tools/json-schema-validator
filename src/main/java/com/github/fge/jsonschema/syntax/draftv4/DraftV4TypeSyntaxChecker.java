@@ -18,14 +18,14 @@
 package com.github.fge.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Functions;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.base.Functions;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Sets;
 
 import java.util.EnumSet;
 import java.util.List;

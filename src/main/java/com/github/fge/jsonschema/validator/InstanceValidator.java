@@ -18,11 +18,11 @@
 package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.schema.SchemaContainer;
 import com.github.fge.jsonschema.schema.SchemaNode;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Set;
 

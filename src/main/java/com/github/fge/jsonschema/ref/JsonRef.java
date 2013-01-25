@@ -17,12 +17,12 @@
 
 package com.github.fge.jsonschema.ref;
 
-import com.google.common.base.Preconditions;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.schema.AddressingMode;
 import com.github.fge.jsonschema.schema.InlineSchemaContainer;
+import com.google.common.base.Preconditions;
 
 import java.net.URI;
 import java.net.URISyntaxException;

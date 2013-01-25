@@ -19,7 +19,7 @@ import org.testng.annotations.Test;
 import java.net.URI;
 import java.util.Iterator;
 
-import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.*;
 
 public final class JsonValidatorCacheTest
 {

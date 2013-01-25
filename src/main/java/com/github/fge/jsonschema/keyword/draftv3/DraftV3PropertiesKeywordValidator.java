@@ -18,15 +18,15 @@
 package com.github.fge.jsonschema.keyword.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.github.fge.jsonschema.validator.ValidationContext;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 import java.util.Map;
 import java.util.Set;

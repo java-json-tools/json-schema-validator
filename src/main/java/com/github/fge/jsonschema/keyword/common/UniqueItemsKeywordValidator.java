@@ -18,14 +18,14 @@
 package com.github.fge.jsonschema.keyword.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Equivalence;
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JsonNodeEquivalence;
 import com.github.fge.jsonschema.validator.ValidationContext;
+import com.google.common.base.Equivalence;
+import com.google.common.collect.Sets;
 
 import java.util.Set;
 

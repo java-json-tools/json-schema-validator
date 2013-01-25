@@ -18,10 +18,10 @@
 package com.github.fge.jsonschema.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.net.InetAddresses;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.net.InetAddresses;
 
 /**
  * Validator for both the {@code ip-address} (draft v3) and {@code ipv4} (draft

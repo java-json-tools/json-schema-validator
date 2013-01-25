@@ -18,10 +18,10 @@
 package com.github.fge.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.github.fge.jsonschema.ref.JsonRef;
 
 import java.net.URI;
 import java.util.Map;

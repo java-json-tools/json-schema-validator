@@ -18,11 +18,11 @@
 package com.github.fge.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.net.InternetDomainName;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.net.InternetDomainName;
 
 /**
  * Validator for the {@code host-name} format attribute.

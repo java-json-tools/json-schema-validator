@@ -20,8 +20,6 @@ package com.github.fge.jsonschema.uri;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import com.github.fge.jsonschema.keyword.NumericKeywordValidator;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -30,6 +28,8 @@ import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.metaschema;
 
-import com.google.common.collect.ImmutableMap;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.common.AdditionalPropertiesKeywordValidator;
@@ -47,6 +46,7 @@ import com.github.fge.jsonschema.keyword.draftv4.MultipleOfKeywordValidator;
 import com.github.fge.jsonschema.keyword.draftv4.NotKeywordValidator;
 import com.github.fge.jsonschema.keyword.draftv4.OneOfKeywordValidator;
 import com.github.fge.jsonschema.keyword.draftv4.RequiredKeywordValidator;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 

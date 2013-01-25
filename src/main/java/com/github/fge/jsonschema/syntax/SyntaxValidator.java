@@ -18,11 +18,11 @@
 package com.github.fge.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.collect.Sets;
 
 import java.util.List;
 import java.util.Map;

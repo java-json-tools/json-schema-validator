@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.metaschema;
 
-import com.google.common.collect.ImmutableMap;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.IPV4FormatAttribute;
 import com.github.fge.jsonschema.format.common.DateTimeFormatAttribute;
@@ -31,6 +30,7 @@ import com.github.fge.jsonschema.format.draftv3.MediaTypeFormatAttribute;
 import com.github.fge.jsonschema.format.draftv3.PhoneNumberFormatAttribute;
 import com.github.fge.jsonschema.format.draftv3.TimeFormatAttribute;
 import com.github.fge.jsonschema.format.draftv3.UnixEpochFormatAttribute;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 

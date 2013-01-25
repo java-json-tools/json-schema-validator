@@ -18,15 +18,15 @@
 package com.github.fge.jsonschema.metaschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.Keyword;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.util.Map;

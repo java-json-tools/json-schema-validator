@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.metaschema;
 
-import com.google.common.collect.ImmutableMap;
 import com.github.fge.jsonschema.syntax.DivisorSyntaxChecker;
 import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SchemaOrSchemaArraySyntaxChecker;
@@ -43,6 +42,7 @@ import com.github.fge.jsonschema.syntax.hyperschema.draftv3.ContentEncodingSynta
 import com.github.fge.jsonschema.syntax.hyperschema.draftv3.FragmentResolutionSyntaxChecker;
 import com.github.fge.jsonschema.syntax.hyperschema.draftv3.LinksSyntaxChecker;
 import com.github.fge.jsonschema.syntax.hyperschema.draftv3.MediaTypeSyntaxChecker;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 

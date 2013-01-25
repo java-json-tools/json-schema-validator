@@ -18,9 +18,6 @@
 package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.KeywordRegistry;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
@@ -36,6 +33,9 @@ import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.URIDownloader;
 import com.github.fge.jsonschema.uri.URIManager;
 import com.github.fge.jsonschema.validator.JsonValidatorCache;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.util.Map;

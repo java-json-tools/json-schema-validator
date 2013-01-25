@@ -18,13 +18,13 @@
 package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.RhinoHelper;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 
 import java.util.Map;
 import java.util.Set;

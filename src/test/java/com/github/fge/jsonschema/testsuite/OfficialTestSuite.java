@@ -1,12 +1,12 @@
 package com.github.fge.jsonschema.testsuite;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Sets;
-import com.google.common.io.Files;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.JsonLoader;
+import com.google.common.collect.Sets;
+import com.google.common.io.Files;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;

@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
 import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
 import com.github.fge.jsonschema.report.ValidationReport;
@@ -31,6 +30,7 @@ import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.validator.JsonValidator;
 import com.github.fge.jsonschema.validator.JsonValidatorCache;
 import com.github.fge.jsonschema.validator.ValidationContext;
+import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import org.testng.internal.annotations.Sets;

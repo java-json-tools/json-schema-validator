@@ -18,13 +18,13 @@
 package com.github.fge.jsonschema.syntax.hyperschema.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.util.CharMatchers;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
 import java.util.Set;

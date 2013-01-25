@@ -18,9 +18,9 @@
 package com.github.fge.jsonschema.keyword.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableList;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.collect.ImmutableList;
 
 import java.util.Collections;
 import java.util.EnumSet;

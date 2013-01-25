@@ -18,12 +18,12 @@
 package com.github.fge.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.util.JsonLoader;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
