@@ -111,6 +111,8 @@ public abstract class JsonSchemaTree
         return currentRef.resolve(other);
     }
 
+    public abstract boolean contains(final JsonRef ref);
+
     @VisibleForTesting
     final JsonRef getCurrentRef()
     {

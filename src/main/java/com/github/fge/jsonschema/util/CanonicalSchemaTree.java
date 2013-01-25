@@ -33,4 +33,10 @@ public final class CanonicalSchemaTree
     {
         super(baseNode);
     }
+
+    @Override
+    public boolean contains(final JsonRef ref)
+    {
+        return loadingRef.contains(ref);
+    }
 }

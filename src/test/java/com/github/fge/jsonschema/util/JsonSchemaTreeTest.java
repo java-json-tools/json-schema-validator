@@ -155,4 +155,17 @@ public final class JsonSchemaTreeTest
         tree.pushd(0);
         assertEquals(tree.getCurrentRef(), ref);
     }
+
+    @Test(dataProvider = "getContexts")
+    public void canonicalSchemaTreeContainsNoInlineContexts(final String path,
+        final String s)
+        throws JsonSchemaException
+    {
+        final JsonRef loadingRef = JsonRef.fromString("foo://bar");
+        final JsonRef scope = JsonRef.fromString(s);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(loadingRef, schema);
+
+        assertTrue(tree.contains(loadingRef));
+        assertFalse(tree.contains(scope));
+    }
 }
