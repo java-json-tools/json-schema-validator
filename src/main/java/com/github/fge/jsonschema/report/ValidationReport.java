@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.ArrayListMultimap;
@@ -46,19 +45,8 @@ import java.util.List;
  */
 public final class ValidationReport
 {
-    /**
-     * Root JSON Pointer (ie, {@code #})
-     */
-    private static final JsonPointer ROOT;
 
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
-    static {
-        try {
-            ROOT = new JsonPointer("");
-        } catch (JsonSchemaException e) {
-            throw new RuntimeException("WTF??", e);
-        }
-    }
 
     /**
      * Message list
@@ -74,11 +62,12 @@ public final class ValidationReport
     private boolean fatal = false;
 
     /**
-     * Create a new validation report with {@link #ROOT} as an instance path
+     * Create a new validation report with {@link JsonPointer#empty()} as an
+     * instance path
      */
     public ValidationReport()
     {
-        this(ROOT);
+        this(JsonPointer.empty());
     }
 
     /**
