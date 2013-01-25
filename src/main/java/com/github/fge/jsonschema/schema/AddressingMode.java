@@ -52,28 +52,28 @@ public enum AddressingMode
     CANONICAL
         {
             @Override
-            public SchemaContainer forSchema(final URI uri,
+            public SchemaContext forSchema(final URI uri,
                 final JsonNode schema)
             {
-                return new CanonicalSchemaContainer(uri, schema);
+                return new CanonicalSchemaContext(uri, schema);
             }
         },
     INLINE
         {
             @Override
-            public SchemaContainer forSchema(final URI uri,
+            public SchemaContext forSchema(final URI uri,
                 final JsonNode schema)
             {
-                return new InlineSchemaContainer(schema);
+                return new InlineSchemaContext(schema);
             }
         };
 
     private static final URI EMPTY = URI.create("#");
 
-    public abstract SchemaContainer forSchema(final URI uri,
+    public abstract SchemaContext forSchema(final URI uri,
         final JsonNode schema);
 
-    public final SchemaContainer forSchema(final JsonNode schema)
+    public final SchemaContext forSchema(final JsonNode schema)
     {
         return forSchema(EMPTY, schema);
     }

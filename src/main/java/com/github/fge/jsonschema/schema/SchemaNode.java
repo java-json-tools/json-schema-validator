@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.validator.JsonValidatorCache;
  * Representation of a schema node
  *
  * <p>A schema node is the actual schema (as a {@link JsonNode} and the schema
- * context (as a {@link SchemaContainer}).</p>
+ * context (as a {@link SchemaContext}).</p>
  *
  * <p>This class has a critical performance role, as it is used as keys to the
  * validator cache. It is therefore important that it have very efficient
@@ -37,18 +37,18 @@ import com.github.fge.jsonschema.validator.JsonValidatorCache;
  */
 public final class SchemaNode
 {
-    private final SchemaContainer container;
+    private final SchemaContext container;
     private final JsonNode node;
     private final int hashCode;
 
-    public SchemaNode(final SchemaContainer container, final JsonNode node)
+    public SchemaNode(final SchemaContext container, final JsonNode node)
     {
         this.container = container;
         this.node = node;
         hashCode = 31 * container.hashCode() + node.hashCode();
     }
 
-    public SchemaContainer getContainer()
+    public SchemaContext getContainer()
     {
         return container;
     }

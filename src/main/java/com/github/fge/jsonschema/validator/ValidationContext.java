@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 
 /**
@@ -39,7 +39,7 @@ import com.github.fge.jsonschema.schema.SchemaNode;
 public final class ValidationContext
 {
     private final JsonValidatorCache cache;
-    private SchemaContainer container;
+    private SchemaContext schemaContext;
 
     /**
      * Create a validation context with an empty feature set
@@ -51,14 +51,14 @@ public final class ValidationContext
         this.cache = cache;
     }
 
-    SchemaContainer getContainer()
+    SchemaContext getSchemaContext()
     {
-        return container;
+        return schemaContext;
     }
 
-    void setContainer(final SchemaContainer container)
+    void setSchemaContext(final SchemaContext schemaContext)
     {
-        this.container = container;
+        this.schemaContext = schemaContext;
     }
 
     /**
@@ -76,20 +76,20 @@ public final class ValidationContext
      * Build a new validator out of a JSON document
      *
      * <p>This calls {@link JsonValidatorCache#getValidator(SchemaNode)} with
-     * this context's {@link SchemaContainer} used as a schema context.</p>
+     * this context's {@link com.github.fge.jsonschema.schema.SchemaContext} used as a schema context.</p>
      *
      * @param node the node (a subnode of the schema)
      * @return a validator
      */
     public JsonValidator newValidator(final JsonNode node)
     {
-        final SchemaNode schemaNode = new SchemaNode(container, node);
+        final SchemaNode schemaNode = new SchemaNode(schemaContext, node);
         return cache.getValidator(schemaNode);
     }
 
     @Override
     public String toString()
     {
-        return "current: " + container;
+        return "current: " + schemaContext;
     }
 }

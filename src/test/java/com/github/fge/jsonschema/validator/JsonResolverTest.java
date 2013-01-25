@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.schema.AddressingMode;
 import com.github.fge.jsonschema.schema.SchemaBundle;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.URIManager;
@@ -44,7 +44,7 @@ public final class JsonResolverTest
 
     private SchemaRegistry registry;
     private JsonResolver resolver;
-    private SchemaContainer container;
+    private SchemaContext container;
     private SchemaNode schemaNode;
 
     @BeforeMethod

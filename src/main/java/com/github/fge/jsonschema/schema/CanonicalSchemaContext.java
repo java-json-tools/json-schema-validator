@@ -27,10 +27,10 @@ import java.net.URI;
  *
  * @see AddressingMode
  */
-public final class CanonicalSchemaContainer
-    extends SchemaContainer
+public final class CanonicalSchemaContext
+    extends SchemaContext
 {
-    CanonicalSchemaContainer(final URI uri, final JsonNode node)
+    CanonicalSchemaContext(final URI uri, final JsonNode node)
     {
         super(uri, node);
     }

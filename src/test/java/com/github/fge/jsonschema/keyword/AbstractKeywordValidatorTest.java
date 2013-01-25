@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.schema.AddressingMode;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.URIManager;
@@ -88,7 +88,7 @@ public abstract class AbstractKeywordValidatorTest
     public final void testKeyword(final JsonNode schema, final JsonNode data,
         final boolean valid, final JsonNode messages)
     {
-        final SchemaContainer container = schemaRegistry.register(schema);
+        final SchemaContext container = schemaRegistry.register(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
         final ValidationReport report = new ValidationReport();
         final JsonValidator validator = validatorCache.getValidator(schemaNode);

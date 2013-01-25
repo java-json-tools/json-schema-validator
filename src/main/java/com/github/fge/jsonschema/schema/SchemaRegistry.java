@@ -53,7 +53,7 @@ public final class SchemaRegistry
     /**
      * Schema cache
      */
-    private final LoadingCache<URI, SchemaContainer> cache;
+    private final LoadingCache<URI, SchemaContext> cache;
 
     /**
      * Addressing mode
@@ -73,10 +73,10 @@ public final class SchemaRegistry
         this.addressingMode = addressingMode;
         this.namespace = JsonRef.fromURI(namespace);
         cache = CacheBuilder.newBuilder().maximumSize(100L)
-            .build(new CacheLoader<URI, SchemaContainer>()
+            .build(new CacheLoader<URI, SchemaContext>()
             {
                 @Override
-                public SchemaContainer load(final URI key)
+                public SchemaContext load(final URI key)
                     throws JsonSchemaException
                 {
                     return addressingMode.forSchema(key,
@@ -91,11 +91,11 @@ public final class SchemaRegistry
      * @param schema the schema to register
      * @return a schema container
      */
-    public SchemaContainer register(final JsonNode schema)
+    public SchemaContext register(final JsonNode schema)
     {
         Preconditions.checkNotNull(schema, "cannot register null schema");
 
-        final SchemaContainer container = addressingMode.forSchema(schema);
+        final SchemaContext container = addressingMode.forSchema(schema);
 
         final JsonRef ref = container.getLocator();
 
@@ -115,7 +115,7 @@ public final class SchemaRegistry
      * @return a schema container
      * @throws JsonSchemaException impossible to get content at this URI
      */
-    public SchemaContainer get(final URI uri)
+    public SchemaContext get(final URI uri)
         throws JsonSchemaException
     {
         final JsonRef ref = namespace.resolve(JsonRef.fromURI(uri));
@@ -150,7 +150,7 @@ public final class SchemaRegistry
     {
         final Map<URI, JsonNode> map = bundle.getSchemas();
 
-        SchemaContainer container;
+        SchemaContext container;
         URI uri;
         JsonNode schema;
         for (final Map.Entry<URI, JsonNode> entry: map.entrySet()) {

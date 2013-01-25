@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.schema.AddressingMode;
 import com.github.fge.jsonschema.schema.SchemaBundle;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.URIDownloader;
@@ -146,7 +146,7 @@ public final class JsonSchemaFactory
      */
     public JsonSchema fromSchema(final JsonNode schema, final String path)
     {
-        final SchemaContainer container = registry.register(schema);
+        final SchemaContext container = registry.register(schema);
         final JsonNode subSchema = JsonFragment.fromFragment(path)
             .resolve(container.getSchema());
         return createSchema(container, subSchema);
@@ -184,7 +184,7 @@ public final class JsonSchemaFactory
     public JsonSchema fromURI(final URI uri, final String path)
         throws JsonSchemaException
     {
-        final SchemaContainer container = registry.get(uri);
+        final SchemaContext container = registry.get(uri);
         final JsonNode subSchema = JsonFragment.fromFragment(path)
             .resolve(container.getSchema());
         return createSchema(container, subSchema);
@@ -248,7 +248,7 @@ public final class JsonSchemaFactory
      * @param schema the subschema
      * @return a {@link JsonSchema} instance
      */
-    private JsonSchema createSchema(final SchemaContainer container,
+    private JsonSchema createSchema(final SchemaContext container,
         final JsonNode schema)
     {
         final SchemaNode schemaNode = new SchemaNode(container, schema);

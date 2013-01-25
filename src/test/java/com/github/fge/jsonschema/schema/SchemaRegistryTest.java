@@ -82,7 +82,7 @@ public final class SchemaRegistryTest
 
         registry.addBundle(bundle);
 
-        final SchemaContainer container = registry.get(URI.create(location));
+        final SchemaContext container = registry.get(URI.create(location));
 
         assertEquals(container.getLocator().getLocator(),
             URI.create("http://toto/b#"));

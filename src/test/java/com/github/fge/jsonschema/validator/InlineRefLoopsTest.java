@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.schema.AddressingMode;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.URIManager;
@@ -75,7 +75,7 @@ public final class InlineRefLoopsTest
             EMPTY, AddressingMode.INLINE);
         final JsonResolver resolver = new JsonResolver(registry);
 
-        final SchemaContainer container = registry.register(schema);
+        final SchemaContext container = registry.register(schema);
         final Message expectedMessage = buildMessage(path);
 
         final SchemaNode schemaNode = new SchemaNode(container,

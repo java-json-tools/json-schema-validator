@@ -21,7 +21,6 @@ import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.schema.AddressingMode;
-import com.github.fge.jsonschema.schema.InlineSchemaContainer;
 import com.google.common.base.Preconditions;
 
 import java.net.URI;
@@ -72,7 +71,7 @@ import java.net.URISyntaxException;
  * <p>This class is thread safe and immutable.</p>
  *
  * @see AddressingMode#INLINE
- * @see InlineSchemaContainer
+ * @see com.github.fge.jsonschema.schema.InlineSchemaContext
  */
 
 public abstract class JsonRef

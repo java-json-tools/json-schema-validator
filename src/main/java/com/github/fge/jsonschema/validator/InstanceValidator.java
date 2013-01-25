@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.ValidationReport;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.google.common.collect.ImmutableSet;
 
@@ -65,8 +65,8 @@ final class InstanceValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final SchemaContainer orig = context.getContainer();
-        context.setContainer(schemaNode.getContainer());
+        final SchemaContext orig = context.getSchemaContext();
+        context.setSchemaContext(schemaNode.getContainer());
 
         for (final KeywordValidator validator: validators) {
             validator.validateInstance(context, report, instance);
@@ -90,6 +90,6 @@ final class InstanceValidator
 
             validator.validate(context, report, instance);
         }
-        context.setContainer(orig);
+        context.setSchemaContext(orig);
     }
 }

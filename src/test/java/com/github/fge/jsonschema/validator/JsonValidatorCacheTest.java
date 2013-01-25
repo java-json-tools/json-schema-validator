@@ -6,7 +6,7 @@ import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.schema.AddressingMode;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.URIManager;
@@ -46,7 +46,7 @@ public final class JsonValidatorCacheTest
     @Test(dataProvider = "invalidSchemas")
     public void illegalSchemasTriggerFailingValidator(final JsonNode schema)
     {
-        final SchemaContainer container = addressingMode.forSchema(schema);
+        final SchemaContext container = addressingMode.forSchema(schema);
         final SchemaNode schemaNode = new SchemaNode(container, schema);
 
         final JsonValidator validator = cache.getValidator(schemaNode);

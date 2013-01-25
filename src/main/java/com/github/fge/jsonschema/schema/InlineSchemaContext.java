@@ -34,12 +34,12 @@ import java.util.Map;
  * <p><b>NOTE:</b> if a duplicate {@code id} value is found within the schema,
  * the actual matching schema is <b>UNDEFINED</b>.</p>
  */
-public final class InlineSchemaContainer
-    extends SchemaContainer
+public final class InlineSchemaContext
+    extends SchemaContext
 {
     private final Map<JsonRef, JsonNode> schemas;
 
-    InlineSchemaContainer(final JsonNode schema)
+    InlineSchemaContext(final JsonNode schema)
     {
         super(extractLocator(schema).toURI(), schema);
         final Map<JsonRef, JsonNode> map = Maps.newHashMap();

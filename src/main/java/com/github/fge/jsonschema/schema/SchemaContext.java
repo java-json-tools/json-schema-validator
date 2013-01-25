@@ -33,7 +33,7 @@ import java.net.URI;
  * embodied within the schema itself. It is particularly important for
  * {@link AddressingMode#INLINE} addressing mode.</p>
  */
-public abstract class SchemaContainer
+public abstract class SchemaContext
 {
     protected final JsonNode schema;
     protected final JsonRef locator;
@@ -47,7 +47,7 @@ public abstract class SchemaContainer
      * @param uri the URI
      * @param node the schema
      */
-    protected SchemaContainer(final URI uri, final JsonNode node)
+    protected SchemaContext(final URI uri, final JsonNode node)
     {
         locator = JsonRef.fromURI(uri);
         schema = cleanup(node);
@@ -93,10 +93,10 @@ public abstract class SchemaContainer
         if (this == obj)
             return true;
 
-        if (!(obj instanceof SchemaContainer))
+        if (!(obj instanceof SchemaContext))
             return false;
 
-        final SchemaContainer other = (SchemaContainer) obj;
+        final SchemaContext other = (SchemaContext) obj;
 
         // Yes, this works: right now there is a 1-1 relationship between URIs
         // and JsonNodes.

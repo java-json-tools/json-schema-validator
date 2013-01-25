@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -26,7 +26,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public final class SchemaContainerTest
+public final class SchemaContextTest
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
@@ -35,7 +35,7 @@ public final class SchemaContainerTest
         throws JsonSchemaException
     {
         final JsonNode node = FACTORY.objectNode().put("id", "foo");
-        final SchemaContainer container
+        final SchemaContext container
             = AddressingMode.CANONICAL.forSchema(node);
         assertSame(container.getLocator(), JsonRef.emptyRef());
     }
@@ -47,8 +47,8 @@ public final class SchemaContainerTest
         final JsonNode n1 = FACTORY.objectNode().put("id", "a://b/c#");
         final JsonNode n2 = FACTORY.objectNode().put("id", "a://b/c#");
 
-        final SchemaContainer c1 = AddressingMode.CANONICAL.forSchema(n1);
-        final SchemaContainer c2 = AddressingMode.CANONICAL.forSchema(n2);
+        final SchemaContext c1 = AddressingMode.CANONICAL.forSchema(n1);
+        final SchemaContext c2 = AddressingMode.CANONICAL.forSchema(n2);
 
         assertEquals(c1.getLocator(), c2.getLocator());
         assertEquals(c1.getSchema(), c2.getSchema());
@@ -61,8 +61,8 @@ public final class SchemaContainerTest
         final JsonNode n1 = FACTORY.objectNode().put("id", "a://c");
         final JsonNode n2 = FACTORY.objectNode().put("id", "a://c#");
 
-        final SchemaContainer c1 = AddressingMode.CANONICAL.forSchema(n1);
-        final SchemaContainer c2 = AddressingMode.CANONICAL.forSchema(n2);
+        final SchemaContext c1 = AddressingMode.CANONICAL.forSchema(n1);
+        final SchemaContext c2 = AddressingMode.CANONICAL.forSchema(n2);
 
         assertEquals(c1.getLocator(), c2.getLocator());
         assertEquals(c1.getSchema(), c2.getSchema());

@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
-import com.github.fge.jsonschema.schema.SchemaContainer;
+import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 
@@ -67,7 +67,7 @@ final class JsonResolver
          * These two elements might change during ref resolving. Set them to
          * their initial values.
          */
-        SchemaContainer container = schemaNode.getContainer();
+        SchemaContext container = schemaNode.getContainer();
         JsonNode node = schemaNode.getNode();
 
         /*
