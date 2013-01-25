@@ -39,17 +39,10 @@ public abstract class JsonSchemaTree
         super(baseNode);
         this.loadingRef = currentRef = loadingRef;
 
-        final JsonNode node = baseNode.path("id");
+        final JsonRef ref = idFromNode(baseNode);
 
-        if (!node.isTextual())
-            return;
-
-        try {
-            final JsonRef ref = JsonRef.fromString(node.textValue());
+        if (ref != null)
             currentRef = currentRef.resolve(ref);
-        } catch (JsonSchemaException ignored) {
-            currentRef = loadingRef;
-        }
     }
 
     protected JsonSchemaTree(final JsonNode baseNode)
@@ -61,5 +54,17 @@ public abstract class JsonSchemaTree
     final JsonRef getCurrentRef()
     {
         return currentRef;
+    }
+
+    private static JsonRef idFromNode(final JsonNode node)
+    {
+        if (!node.path("id").isTextual())
+            return null;
+
+        try {
+            return JsonRef.fromString(node.get("id").textValue());
+        } catch (JsonSchemaException ignored) {
+            return null;
+        }
     }
 }
