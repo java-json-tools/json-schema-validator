@@ -19,13 +19,13 @@ package com.github.fge.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.report.Domain;
+import com.github.fge.jsonschema.report.Message;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
-import com.github.fge.jsonschema.main.JsonSchemaException;
-import com.github.fge.jsonschema.report.Domain;
-import com.github.fge.jsonschema.report.Message;
 
 import java.util.List;
 
@@ -56,29 +56,72 @@ import java.util.List;
  * <p>The latter example is the reason why a JSON Pointer is <b>always</b>
  * absolute.</p>
  *
- * <p>All instances of this class are thread safe and immutable.</p>
+ * <p>All instances of this class are immutable (and therefore thread safe).</p>
  */
 
 public final class JsonPointer
     extends JsonFragment
 {
+    private static final JsonPointer EMPTY
+        = new JsonPointer("", ImmutableList.<String>of());
+
+    /*
+     * Reference token separator
+     */
     private static final CharMatcher SLASH = CharMatcher.is('/');
+
+    /*
+     * Escape character in a "cooked" element
+     */
     private static final CharMatcher ESCAPE_CHAR = CharMatcher.is('~');
 
+    /*
+     * "0": for array index reference token needs
+     */
+    private static final CharMatcher ZERO = CharMatcher.is('0');
+
+    /*
+     * Replacement map for getting a raw reference token out of a cooked one
+     * ("~0" becomes "~" and "~1" becomes "/".
+     *
+     * This is a BiMap so that it can also be used in the reverse situation.
+     */
     private static final BiMap<Character, Character> ESCAPE_REPLACEMENT_MAP
         = new ImmutableBiMap.Builder<Character, Character>()
             .put('0', '~')
             .put('1', '/')
             .build();
 
-    private static final CharMatcher ESCAPED = CharMatcher.anyOf("01");
-    private static final CharMatcher SPECIAL = CharMatcher.anyOf("~/");
-    private static final CharMatcher ZERO = CharMatcher.is('0');
+    private static final CharMatcher ESCAPED;
+    private static final CharMatcher SPECIAL;
+
+    static {
+        CharMatcher escaped = CharMatcher.NONE, special = CharMatcher.NONE;
+
+        for (final Character c1: ESCAPE_REPLACEMENT_MAP.keySet())
+            escaped = escaped.or(CharMatcher.is(c1));
+
+        for (final Character c2: ESCAPE_REPLACEMENT_MAP.values())
+            special = special.or(CharMatcher.is(c2));
+
+        ESCAPED = escaped.precomputed();
+        SPECIAL = special.precomputed();
+    }
 
     /**
      * The list of individual elements in the pointer.
      */
     private final List<String> elements;
+
+    /**
+     * Return an empty pointer
+     *
+     * @return a statically created empty JSON Pointer
+     */
+    public static JsonPointer empty()
+    {
+        return EMPTY;
+    }
 
     /**
      * Constructor
@@ -103,6 +146,20 @@ public final class JsonPointer
     }
 
     /**
+     * Append a pointer to the current pointer
+     *
+     * @param other the other pointer
+     * @return a new instance with the pointer appended
+     */
+    public JsonPointer append(final JsonPointer other)
+    {
+        final List<String> newElements = ImmutableList.<String>builder()
+            .addAll(elements).addAll(other.elements).build();
+        final String newPath = asString + other.asString;
+        return new JsonPointer(newPath, newElements);
+    }
+
+    /**
      * Append a path element to this pointer. Returns a new instance.
      *
      * @param element the element to append
@@ -110,7 +167,7 @@ public final class JsonPointer
      */
     public JsonPointer append(final String element)
     {
-        final List<String> newElements = new ImmutableList.Builder<String>()
+        final List<String> newElements = ImmutableList.<String>builder()
             .addAll(elements).add(element).build();
 
         return new JsonPointer(asString + '/' + refTokenEncode(element),
