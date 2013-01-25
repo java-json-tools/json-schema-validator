@@ -95,7 +95,7 @@ public abstract class JsonSchemaTree
     @Override
     public void popd()
     {
-        // TODO
+        currentRef = refStack.pop();
         super.popd();
     }
 

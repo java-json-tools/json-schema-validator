@@ -115,8 +115,11 @@ public final class JsonSchemaTreeTest
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final JsonRef origRef = tree.getCurrentRef();
 
         tree.pushd(ptr);
         assertEquals(tree.getCurrentRef(), scope);
+        tree.popd();
+        assertSame(tree.getCurrentRef(), origRef);
     }
 }
