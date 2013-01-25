@@ -17,23 +17,39 @@
 
 package com.github.fge.jsonschema.util;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.ImmutableSet;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.internal.annotations.Sets;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.Iterator;
+import java.util.Set;
 
 import static org.testng.Assert.*;
 
 public final class JsonSchemaTreeTest
 {
     private final JsonNodeFactory factory = JacksonUtils.nodeFactory();
+    private JsonNode data;
+    private JsonNode schema;
+
+    @BeforeClass
+    public void init()
+        throws IOException
+    {
+        data = JsonLoader.fromResource("/tree/tree.json");
+        schema = data.get("schema");
+    }
 
     @Test
     public void loadingRefIsReturnedWhenNoIdAtTopLevel()
@@ -74,5 +90,33 @@ public final class JsonSchemaTreeTest
 
         final JsonSchemaTree tree = new CanonicalSchemaTree(loadingRef, node);
         assertEquals(tree.getCurrentRef(), resolved);
+    }
+
+    @DataProvider
+    public Iterator<Object[]> getContexts()
+    {
+        final JsonNode node = data.get("lookups");
+
+        final Set<Object[]> set = Sets.newHashSet();
+
+        for (final JsonNode element: node)
+            set.add(new Object[] {
+                element.get("pointer").textValue(),
+                element.get("scope").textValue()
+            });
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "getContexts")
+    public void contextsAreCorrectlyComputed(final String path, final String s)
+        throws JsonSchemaException
+    {
+        final JsonPointer ptr = new JsonPointer(path);
+        final JsonRef scope = JsonRef.fromString(s);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+
+        tree.pushd(ptr);
+        assertEquals(tree.getCurrentRef(), scope);
     }
 }
