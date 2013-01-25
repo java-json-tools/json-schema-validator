@@ -207,6 +207,12 @@ public final class JsonPointer
     }
 
     @Override
+    public boolean isEmpty()
+    {
+        return asString.isEmpty();
+    }
+
+    @Override
     public boolean isPointer()
     {
         return true;

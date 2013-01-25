@@ -64,6 +64,9 @@ public abstract class JsonFragment
      */
     public static JsonFragment fromFragment(final String fragment)
     {
+        if (fragment.isEmpty())
+            return JsonPointer.empty();
+
         try {
             return new JsonPointer(fragment);
         } catch (JsonSchemaException ignored) {
@@ -87,11 +90,7 @@ public abstract class JsonFragment
      * @see JsonRef#isAbsolute()
      * @return true if this fragment is empty
      */
-    public final boolean isEmpty()
-    {
-        // This works: we always return EMPTY with a null fragment
-        return asString.isEmpty();
-    }
+    public abstract boolean isEmpty();
 
     /**
      * Tell whether this fragment is a valid JSON Pointer

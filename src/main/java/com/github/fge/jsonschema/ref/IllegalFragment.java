@@ -45,6 +45,12 @@ final class IllegalFragment
     }
 
     @Override
+    public boolean isEmpty()
+    {
+        return false;
+    }
+
+    @Override
     public boolean isPointer()
     {
         return false;
