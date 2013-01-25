@@ -88,8 +88,8 @@ public abstract class AbstractKeywordValidatorTest
     public final void testKeyword(final JsonNode schema, final JsonNode data,
         final boolean valid, final JsonNode messages)
     {
-        final SchemaContext container = schemaRegistry.register(schema);
-        final SchemaNode schemaNode = new SchemaNode(container, schema);
+        final SchemaContext schemaContext = schemaRegistry.register(schema);
+        final SchemaNode schemaNode = new SchemaNode(schemaContext, schema);
         final ValidationReport report = new ValidationReport();
         final JsonValidator validator = validatorCache.getValidator(schemaNode);
         final ValidationContext ctx = new ValidationContext(validatorCache);

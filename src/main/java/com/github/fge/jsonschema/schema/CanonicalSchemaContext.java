@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import java.net.URI;
 
 /**
- * A canonical JSON Schema container
+ * A canonical JSON Schema context
  *
  * @see AddressingMode
  */

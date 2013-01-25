@@ -26,7 +26,7 @@ import com.google.common.collect.Maps;
 import java.util.Map;
 
 /**
- * An inline addressing JSON Schema container
+ * An inline addressing JSON Schema context
  *
  * <p>This container will retrieve all {@code id} members in the schema
  * (including subschemas).</p>

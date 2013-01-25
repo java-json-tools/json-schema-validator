@@ -89,30 +89,30 @@ public final class SchemaRegistry
      * Register a schema
      *
      * @param schema the schema to register
-     * @return a schema container
+     * @return a schema context
      */
     public SchemaContext register(final JsonNode schema)
     {
         Preconditions.checkNotNull(schema, "cannot register null schema");
 
-        final SchemaContext container = addressingMode.forSchema(schema);
+        final SchemaContext schemaContext = addressingMode.forSchema(schema);
 
-        final JsonRef ref = container.getLocator();
+        final JsonRef ref = schemaContext.getLocator();
 
         if (ref.isAbsolute())
-            cache.put(ref.getLocator(), container);
+            cache.put(ref.getLocator(), schemaContext);
 
-        return container;
+        return schemaContext;
     }
 
     /**
-     * Get a schema container from the given URI
+     * Get a schema context from the given URI
      *
      * <p>Note that if the URI is relative, it will be resolved against this
      * registry's namespace, if any.</p>
      *
      * @param uri the URI
-     * @return a schema container
+     * @return a schema context
      * @throws JsonSchemaException impossible to get content at this URI
      */
     public SchemaContext get(final URI uri)
@@ -150,14 +150,14 @@ public final class SchemaRegistry
     {
         final Map<URI, JsonNode> map = bundle.getSchemas();
 
-        SchemaContext container;
+        SchemaContext schemaContext;
         URI uri;
         JsonNode schema;
         for (final Map.Entry<URI, JsonNode> entry: map.entrySet()) {
             uri = entry.getKey();
             schema = entry.getValue();
-            container = addressingMode.forSchema(uri, schema);
-            cache.put(uri, container);
+            schemaContext = addressingMode.forSchema(uri, schema);
+            cache.put(uri, schemaContext);
         }
     }
 }

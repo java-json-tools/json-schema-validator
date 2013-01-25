@@ -146,10 +146,10 @@ public final class JsonSchemaFactory
      */
     public JsonSchema fromSchema(final JsonNode schema, final String path)
     {
-        final SchemaContext container = registry.register(schema);
+        final SchemaContext schemaContext = registry.register(schema);
         final JsonNode subSchema = JsonFragment.fromFragment(path)
-            .resolve(container.getSchema());
-        return createSchema(container, subSchema);
+            .resolve(schemaContext.getSchema());
+        return createSchema(schemaContext, subSchema);
     }
 
     /**
@@ -184,10 +184,10 @@ public final class JsonSchemaFactory
     public JsonSchema fromURI(final URI uri, final String path)
         throws JsonSchemaException
     {
-        final SchemaContext container = registry.get(uri);
+        final SchemaContext schemaContext = registry.get(uri);
         final JsonNode subSchema = JsonFragment.fromFragment(path)
-            .resolve(container.getSchema());
-        return createSchema(container, subSchema);
+            .resolve(schemaContext.getSchema());
+        return createSchema(schemaContext, subSchema);
     }
 
     /**
@@ -244,16 +244,16 @@ public final class JsonSchemaFactory
     /**
      * Create a {@link JsonSchema} instance
      *
-     * @param container the schema container
+     * @param schemaContext the schema container
      * @param schema the subschema
      * @return a {@link JsonSchema} instance
      */
-    private JsonSchema createSchema(final SchemaContext container,
+    private JsonSchema createSchema(final SchemaContext schemaContext,
         final JsonNode schema)
     {
-        final SchemaNode schemaNode = new SchemaNode(container, schema);
+        final SchemaNode schemaNode = new SchemaNode(schemaContext, schema);
         final JsonValidatorCache cache
-            = getValidatorCache(container.getSchema());
+            = getValidatorCache(schemaContext.getSchema());
         return new JsonSchema(cache, schemaNode);
     }
 

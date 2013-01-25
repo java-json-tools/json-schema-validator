@@ -37,7 +37,7 @@ import static org.testng.Assert.*;
 public final class InlineSchemaContainerTest
 {
     private JsonNode lookups;
-    private InlineSchemaContext container;
+    private InlineSchemaContext schemaContext;
 
     @BeforeClass
     public void initialize()
@@ -45,7 +45,7 @@ public final class InlineSchemaContainerTest
     {
         final JsonNode testData
             = JsonLoader.fromResource("/schema/idBased.json");
-        container = new InlineSchemaContext(testData.get("schema"));
+        schemaContext = new InlineSchemaContext(testData.get("schema"));
         lookups = testData.get("lookups");
     }
 
@@ -68,9 +68,9 @@ public final class InlineSchemaContainerTest
         throws JsonSchemaException
     {
         final JsonRef ref = JsonRef.fromString(id);
-        assertTrue(container.contains(ref));
+        assertTrue(schemaContext.contains(ref));
 
-        final JsonNode subSchema = container.resolve(ref);
+        final JsonNode subSchema = schemaContext.resolve(ref);
         assertEquals(subSchema.get("pointer").textValue(), pointer);
     }
 

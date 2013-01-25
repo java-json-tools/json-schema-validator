@@ -64,7 +64,7 @@ final class InstanceValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        context.pushContext(schemaNode.getContainer());
+        context.pushContext(schemaNode.getSchemaContext());
 
         for (final KeywordValidator validator: validators) {
             validator.validateInstance(context, report, instance);

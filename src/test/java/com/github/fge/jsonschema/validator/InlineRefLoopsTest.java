@@ -75,11 +75,11 @@ public final class InlineRefLoopsTest
             EMPTY, AddressingMode.INLINE);
         final JsonResolver resolver = new JsonResolver(registry);
 
-        final SchemaContext container = registry.register(schema);
+        final SchemaContext schemaContext = registry.register(schema);
         final Message expectedMessage = buildMessage(path);
 
-        final SchemaNode schemaNode = new SchemaNode(container,
-            container.getSchema());
+        final SchemaNode schemaNode = new SchemaNode(schemaContext,
+            schemaContext.getSchema());
 
         try {
             resolver.resolve(schemaNode);

@@ -46,8 +46,8 @@ public final class JsonValidatorCacheTest
     @Test(dataProvider = "invalidSchemas")
     public void illegalSchemasTriggerFailingValidator(final JsonNode schema)
     {
-        final SchemaContext container = addressingMode.forSchema(schema);
-        final SchemaNode schemaNode = new SchemaNode(container, schema);
+        final SchemaContext schemaContext = addressingMode.forSchema(schema);
+        final SchemaNode schemaNode = new SchemaNode(schemaContext, schema);
 
         final JsonValidator validator = cache.getValidator(schemaNode);
 

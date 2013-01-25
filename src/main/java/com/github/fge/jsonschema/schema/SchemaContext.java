@@ -24,9 +24,9 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import java.net.URI;
 
 /**
- * A JSON Schema container
+ * A JSON Schema context
  *
- * <p>A schema container contains the JSON representation of a schema, plus its
+ * <p>A schema context contains the JSON representation of a schema, plus its
  * location (as a {@link JsonRef}).</p>
  *
  * <p>This class embodies the ability to tell whether a JSON reference is
@@ -58,7 +58,7 @@ public abstract class SchemaContext
     public abstract JsonNode resolve(final JsonRef ref);
 
     /**
-     * Get this container's locator
+     * Get this context's locator
      *
      * @return the locator
      */
@@ -68,7 +68,7 @@ public abstract class SchemaContext
     }
 
     /**
-     * Get this container's underlying schema
+     * Get this context's underlying schema
      *
      * @return the underlying {@link JsonNode}
      */

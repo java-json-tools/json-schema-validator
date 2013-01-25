@@ -37,20 +37,20 @@ import com.github.fge.jsonschema.validator.JsonValidatorCache;
  */
 public final class SchemaNode
 {
-    private final SchemaContext container;
+    private final SchemaContext schemaContext;
     private final JsonNode node;
     private final int hashCode;
 
-    public SchemaNode(final SchemaContext container, final JsonNode node)
+    public SchemaNode(final SchemaContext schemaContext, final JsonNode node)
     {
-        this.container = container;
+        this.schemaContext = schemaContext;
         this.node = node;
-        hashCode = 31 * container.hashCode() + node.hashCode();
+        hashCode = 31 * schemaContext.hashCode() + node.hashCode();
     }
 
-    public SchemaContext getContainer()
+    public SchemaContext getSchemaContext()
     {
-        return container;
+        return schemaContext;
     }
 
     public JsonNode getNode()
@@ -61,7 +61,7 @@ public final class SchemaNode
     @Override
     public String toString()
     {
-        return "locator: " + container.getLocator() + "; schema: " + node;
+        return "locator: " + schemaContext.getLocator() + "; schema: " + node;
     }
 
     @Override
@@ -77,7 +77,7 @@ public final class SchemaNode
 
         final SchemaNode other = (SchemaNode) obj;
 
-        return container.equals(other.container)
+        return schemaContext.equals(other.schemaContext)
             && node.equals(other.node);
     }
 

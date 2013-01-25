@@ -67,7 +67,7 @@ final class JsonResolver
          * These two elements might change during ref resolving. Set them to
          * their initial values.
          */
-        SchemaContext container = schemaNode.getContainer();
+        SchemaContext schemaContext = schemaNode.getSchemaContext();
         JsonNode node = schemaNode.getNode();
 
         /*
@@ -109,7 +109,7 @@ final class JsonResolver
              * Compute the target ref. Try and insert it into the set of refs
              * already seen: if it has been already seen, there is a ref loop.
              */
-            source = container.getLocator();
+            source = schemaContext.getLocator();
             target = source.resolve(ref);
             if (!refs.add(target)) {
                 msg.setMessage("ref loop detected").addInfo("path", refs);
@@ -117,17 +117,17 @@ final class JsonResolver
             }
             /*
              * Should we change schema context? We should if the source ref (the
-             * one in the current container) does not contain the target ref. In
-             * this case, get the new container from our schema registry. If we
+             * one in the current context) does not contain the target ref. In
+             * this case, get the new context from our schema registry. If we
              * cannot do that, this is an error condition, bail out.
              */
-            if (!container.contains(target))
-                container = registry.get(target.getLocator());
+            if (!schemaContext.contains(target))
+                schemaContext = registry.get(target.getLocator());
             /*
              * Finally, compute the next node in the process. If it is missing,
              * we have a dangling JSON Pointer: this is an error condition.
              */
-            node = container.resolve(target);
+            node = schemaContext.resolve(target);
             if (node.isMissingNode()) {
                 msg.setMessage("dangling JSON Reference")
                     .addInfo("ref", target);
@@ -135,6 +135,6 @@ final class JsonResolver
             }
         }
 
-        return new SchemaNode(container, node);
+        return new SchemaNode(schemaContext, node);
     }
 }

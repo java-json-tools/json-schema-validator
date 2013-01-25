@@ -44,7 +44,7 @@ public final class JsonResolverTest
 
     private SchemaRegistry registry;
     private JsonResolver resolver;
-    private SchemaContext container;
+    private SchemaContext schemaContext;
     private SchemaNode schemaNode;
 
     @BeforeMethod
@@ -61,8 +61,8 @@ public final class JsonResolverTest
     public void simpleRefLoopIsDetected()
     {
         final JsonNode schema = FACTORY.objectNode().put("$ref", "#");
-        container = registry.register(schema);
-        schemaNode = new SchemaNode(container, schema);
+        schemaContext = registry.register(schema);
+        schemaNode = new SchemaNode(schemaContext, schema);
 
         final Message expectedMessage = newMsg().setMessage("ref loop detected")
             .addInfo("path", FACTORY.arrayNode().add("#")).build();
@@ -94,8 +94,8 @@ public final class JsonResolverTest
         schema.put("c", node);
         path.add("#/a");
 
-        container = AddressingMode.CANONICAL.forSchema(schema);
-        schemaNode = new SchemaNode(container, schema.get("a"));
+        schemaContext = AddressingMode.CANONICAL.forSchema(schema);
+        schemaNode = new SchemaNode(schemaContext, schema.get("a"));
 
         final Message expectedMessage = newMsg().setMessage("ref loop detected")
             .addInfo("path", path).build();
@@ -113,8 +113,8 @@ public final class JsonResolverTest
     {
         final JsonNode schema = FACTORY.objectNode().put("$ref", "#foo");
 
-        container = AddressingMode.CANONICAL.forSchema(schema);
-        schemaNode = new SchemaNode(container, schema);
+        schemaContext = AddressingMode.CANONICAL.forSchema(schema);
+        schemaNode = new SchemaNode(schemaContext, schema);
 
         final Message expectedMessage = newMsg().addInfo("ref", "#foo")
             .setMessage("dangling JSON Reference").build();
@@ -139,8 +139,8 @@ public final class JsonResolverTest
         node = FACTORY.objectNode().put("$ref", "#/c");
         schema.put("b", node);
 
-        container = AddressingMode.CANONICAL.forSchema(schema);
-        schemaNode = new SchemaNode(container, schema.get("a"));
+        schemaContext = AddressingMode.CANONICAL.forSchema(schema);
+        schemaNode = new SchemaNode(schemaContext, schema.get("a"));
 
         final Message expectedMessage = newMsg()
             .setMessage("dangling JSON Reference").addInfo("ref", "#/c")
@@ -190,9 +190,9 @@ public final class JsonResolverTest
 
         registry.addBundle(bundle);
 
-        container = registry.get(URI.create(location1));
+        schemaContext = registry.get(URI.create(location1));
 
-        schemaNode = new SchemaNode(container, schema1.get("a"));
+        schemaNode = new SchemaNode(schemaContext, schema1.get("a"));
 
         final Message expectedMessage = newMsg().setMessage("ref loop detected")
             .addInfo("path", path).build();
@@ -238,9 +238,9 @@ public final class JsonResolverTest
 
         registry.addBundle(bundle);
 
-        container = registry.get(URI.create(location1));
+        schemaContext = registry.get(URI.create(location1));
 
-        schemaNode = new SchemaNode(container, schema1.get("a"));
+        schemaNode = new SchemaNode(schemaContext, schema1.get("a"));
 
         final Message expectedMessage = newMsg().addInfo("ref", ref2)
             .setMessage("dangling JSON Reference").build();

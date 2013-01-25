@@ -35,9 +35,9 @@ public final class SchemaContextTest
         throws JsonSchemaException
     {
         final JsonNode node = FACTORY.objectNode().put("id", "foo");
-        final SchemaContext container
+        final SchemaContext schemaContext
             = AddressingMode.CANONICAL.forSchema(node);
-        assertSame(container.getLocator(), JsonRef.emptyRef());
+        assertSame(schemaContext.getLocator(), JsonRef.emptyRef());
     }
 
     @Test
