@@ -93,10 +93,15 @@ public abstract class JsonSchemaTree
     }
 
     @Override
-    public void popd()
+    public final void popd()
     {
         currentRef = refStack.pop();
         super.popd();
+    }
+
+    public final JsonRef resolve(final JsonRef other)
+    {
+        return currentRef.resolve(other);
     }
 
     @VisibleForTesting
