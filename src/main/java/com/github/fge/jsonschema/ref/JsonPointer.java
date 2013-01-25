@@ -216,9 +216,9 @@ public final class JsonPointer
      * Return this pointer as a series of JSON Pointers starting from the
      * beginning
      *
-     * @return an unmodifiable iterable
+     * @return an unmodifiable list
      */
-    public Iterable<JsonPointer> asElements()
+    public List<JsonPointer> asElements()
     {
         final ImmutableList.Builder<JsonPointer> builder
             = ImmutableList.builder();
