@@ -206,6 +206,12 @@ public final class JsonPointer
         return ret;
     }
 
+    @Override
+    public boolean isPointer()
+    {
+        return true;
+    }
+
     /**
      * Return this pointer as a series of JSON Pointers starting from the
      * beginning

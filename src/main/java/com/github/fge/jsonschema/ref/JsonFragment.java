@@ -39,18 +39,6 @@ public abstract class JsonFragment
     implements Comparable<JsonFragment>
 {
     /**
-     * Special case fragment (empty)
-     */
-    private static final JsonFragment EMPTY = new JsonFragment("")
-    {
-        @Override
-        public JsonNode resolve(final JsonNode node)
-        {
-            return node;
-        }
-    };
-
-    /**
      * This fragment as a string value
      */
     protected final String asString;
@@ -69,16 +57,13 @@ public abstract class JsonFragment
      * The only static factory method to obtain a fragment
      *
      * <p>Depending on the situation, this method will either return a
-     * {@link JsonPointer}, an {@link IllegalFragment} or {@link #EMPTY}.</p>
+     * {@link JsonPointer} or an {@link IllegalFragment}.</p>
      *
      * @param fragment the fragment as a string
      * @return the fragment
      */
     public static JsonFragment fromFragment(final String fragment)
     {
-        if (fragment.isEmpty())
-            return EMPTY;
-
         try {
             return new JsonPointer(fragment);
         } catch (JsonSchemaException ignored) {
@@ -100,14 +85,20 @@ public abstract class JsonFragment
      * Tell whether this fragment is empty
      *
      * @see JsonRef#isAbsolute()
-     * @return true if this fragment is (reference wise) equal to {@link
-     * #EMPTY}
+     * @return true if this fragment is empty
      */
     public final boolean isEmpty()
     {
         // This works: we always return EMPTY with a null fragment
-        return this == EMPTY;
+        return asString.isEmpty();
     }
+
+    /**
+     * Tell whether this fragment is a valid JSON Pointer
+     *
+     * @return true if this fragment is an instance of {@link JsonPointer}
+     */
+    public abstract boolean isPointer();
 
     @Override
     public final int compareTo(final JsonFragment o)

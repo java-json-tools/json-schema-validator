@@ -43,4 +43,10 @@ final class IllegalFragment
     {
         return MissingNode.getInstance();
     }
+
+    @Override
+    public boolean isPointer()
+    {
+        return false;
+    }
 }
