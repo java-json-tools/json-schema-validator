@@ -55,13 +55,20 @@ public abstract class JsonSchemaTree
     public final void pushd(final String pathElement)
     {
         super.pushd(pathElement);
+        refStack.push(currentRef);
+        final JsonRef ref = idFromNode(currentNode);
+        if (ref != null)
+            currentRef = currentRef.resolve(ref);
     }
 
     @Override
     public final void pushd(final int index)
     {
-        // TODO
         super.pushd(index);
+        refStack.push(currentRef);
+        final JsonRef ref = idFromNode(currentNode);
+        if (ref != null)
+            currentRef = currentRef.resolve(ref);
     }
 
     @Override
