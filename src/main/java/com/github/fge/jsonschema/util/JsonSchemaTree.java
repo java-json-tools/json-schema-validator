@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Queues;
@@ -48,6 +49,54 @@ public abstract class JsonSchemaTree
     protected JsonSchemaTree(final JsonNode baseNode)
     {
         this(JsonRef.emptyRef(), baseNode);
+    }
+
+    @Override
+    public final void pushd(final String pathElement)
+    {
+        super.pushd(pathElement);
+    }
+
+    @Override
+    public final void pushd(final int index)
+    {
+        // TODO
+        super.pushd(index);
+    }
+
+    @Override
+    public final void pushd(final JsonPointer ptr)
+    {
+        /*
+         * We can push all old elements and set the new pwd right away. However,
+         * we need to walk the nodes in order to correctly calculate the new URI
+         * context.
+         */
+        dirStack.push(pwd);
+        nodeStack.push(currentNode);
+        refStack.push(currentRef);
+
+        pwd = pwd.append(ptr);
+
+        JsonRef nextRef = currentRef, id;
+        JsonNode nextNode = currentNode;
+
+        for (final JsonPointer p: ptr.asElements()) {
+            nextNode = p.resolve(nextNode);
+            id = idFromNode(nextNode);
+            if (id != null)
+                nextRef = nextRef.resolve(id);
+        }
+
+        currentRef = nextRef;
+        currentNode = nextNode;
+    }
+
+    @Override
+    public void popd()
+    {
+        // TODO
+        super.popd();
     }
 
     @VisibleForTesting

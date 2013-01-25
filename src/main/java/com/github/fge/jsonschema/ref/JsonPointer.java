@@ -207,6 +207,29 @@ public final class JsonPointer
     }
 
     /**
+     * Return this pointer as a series of JSON Pointers starting from the
+     * beginning
+     *
+     * @return an unmodifiable iterable
+     */
+    public Iterable<JsonPointer> asElements()
+    {
+        final ImmutableList.Builder<JsonPointer> builder
+            = ImmutableList.builder();
+
+        JsonPointer ptr;
+        String fullptr;
+
+        for (final String raw: elements) {
+            fullptr = '/' + refTokenEncode(raw);
+            ptr = new JsonPointer(fullptr, ImmutableList.of(raw));
+            builder.add(ptr);
+        }
+
+        return builder.build();
+    }
+
+    /**
      * Initialize the object
      *
      * <p>We read the string sequentially, a slash, then a reference token,

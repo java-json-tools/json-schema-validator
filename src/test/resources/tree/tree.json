@@ -42,7 +42,7 @@
             "scope": "http://x.y.z/t/inner.json#a"
         },
         {
-            "pointer": "/schema2/alsonested",
+            "pointer": "/schema2/alsonested/deeplynested",
             "scope": "http://x.y.z/t/whatever#"
         },
         {
