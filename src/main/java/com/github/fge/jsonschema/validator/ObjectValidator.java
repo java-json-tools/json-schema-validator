@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.RhinoHelper;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
@@ -73,16 +72,17 @@ final class ObjectValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final JsonPointer pwd = report.getPath();
         final Map<String, JsonNode> map = JacksonUtils.asMap(instance);
 
+        boolean keepGoing;
+
         for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
-            report.setPath(pwd.append(entry.getKey()));
-            if (!validateOne(context, report, entry))
+            report.pushd(entry.getKey());
+            keepGoing = validateOne(context, report, entry);
+            report.popd();
+            if (!keepGoing)
                 break;
         }
-
-        report.setPath(pwd);
     }
 
     private boolean validateOne(final ValidationContext context,

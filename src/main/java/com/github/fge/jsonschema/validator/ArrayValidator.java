@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.annotations.VisibleForTesting;
@@ -78,22 +77,19 @@ final class ArrayValidator
     public void validate(final ValidationContext context,
         final ValidationReport report, final JsonNode instance)
     {
-        final JsonPointer pwd = report.getPath();
-
         JsonNode subSchema, element;
         JsonValidator validator;
 
         for (int i = 0; i < instance.size(); i++) {
-            report.setPath(pwd.append(i));
+            report.pushd(i);
             element = instance.get(i);
             subSchema = getSchema(i);
             validator = context.newValidator(subSchema);
             validator.validate(context, report, element);
+            report.popd();
             if (report.hasFatalError())
                 break;
         }
-
-        report.setPath(pwd);
     }
 
     @VisibleForTesting

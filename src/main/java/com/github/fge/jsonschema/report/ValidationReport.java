@@ -28,8 +28,10 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Ordering;
+import com.google.common.collect.Queues;
 
 import java.util.Collection;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -55,9 +57,14 @@ public final class ValidationReport
         = ArrayListMultimap.create();
 
     /**
+     * The queue of paths seen so far
+     */
+    private final Deque<JsonPointer> paths = Queues.newArrayDeque();
+
+    /**
      * The current path
      */
-    private JsonPointer path;
+    private JsonPointer pwd;
 
     private boolean fatal = false;
 
@@ -77,35 +84,32 @@ public final class ValidationReport
      */
     private ValidationReport(final JsonPointer path)
     {
-        this.path = path;
+        pwd = path;
+        paths.addFirst(pwd);
     }
 
-    /**
-     * Get the current path of this report
-     *
-     * @return the path
-     */
-    public JsonPointer getPath()
+    public void pushd(final String refToken)
     {
-        return path;
+        pwd = pwd.append(refToken);
+        paths.addFirst(pwd);
     }
 
-    /**
-     * Set the current path of this report
-     *
-     * @param path the path
-     */
-    public void setPath(final JsonPointer path)
+    public void pushd(final int index)
     {
-        this.path = path;
+        pwd = pwd.append(index);
+        paths.addFirst(pwd);
+    }
+
+    public void popd()
+    {
+        pwd = paths.removeFirst();
     }
 
     /**
      * Add one validation message to the report
      *
      * <p>The message will be added to the already existing list of messages for
-     * the current path (see {@link #getPath()}, {@link #setPath(JsonPointer)}).
-     * </p>
+     * the current path.</p>
      *
      * @param message the message
      * @return true if the added message is fatal, or if {@link #fatal} is
@@ -120,7 +124,7 @@ public final class ValidationReport
             fatal = true;
             msgMap.clear();
         }
-        msgMap.put(path, message);
+        msgMap.put(pwd, message);
         return fatal;
     }
 
@@ -189,7 +193,7 @@ public final class ValidationReport
      */
     public ValidationReport copy()
     {
-        return new ValidationReport(path);
+        return new ValidationReport(pwd);
     }
 
     /**
@@ -207,14 +211,14 @@ public final class ValidationReport
      */
     public List<String> getMessages()
     {
-        final Iterable<JsonPointer> paths
+        final Iterable<JsonPointer> pointers
             = Ordering.natural().sortedCopy(msgMap.keySet());
 
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
 
         List<Message> messages;
 
-        for (final JsonPointer pointer: paths) {
+        for (final JsonPointer pointer: pointers) {
             messages = Ordering.natural().sortedCopy(msgMap.get(pointer));
             for (final Message msg: messages)
                 builder.add("\"" + pointer + "\": " + msg);
@@ -275,17 +279,16 @@ public final class ValidationReport
     public JsonNode asJsonArray()
     {
         final ArrayNode ret = FACTORY.arrayNode();
-        final Iterable<JsonPointer> paths
+        final Iterable<JsonPointer> pointers
             = Ordering.natural().sortedCopy(msgMap.keySet());
 
         List<Message> messages;
         ObjectNode node;
 
-        for (final JsonPointer ptr: paths) {
+        for (final JsonPointer ptr: pointers) {
             messages = Ordering.natural().sortedCopy(msgMap.get(ptr));
             for (final Message msg: messages) {
-                node = FACTORY.objectNode()
-                .put("path", ptr.toString());
+                node = FACTORY.objectNode().put("path", ptr.toString());
                 // I hate to do that...
                 node.putAll((ObjectNode) msg.toJsonNode());
                 ret.add(node);
@@ -298,6 +301,6 @@ public final class ValidationReport
     @Override
     public String toString()
     {
-        return "current path: \"" + path + "\"; " + msgMap.size() + " messages";
+        return "current path: \"" + pwd + "\"; " + msgMap.size() + " messages";
     }
 }
