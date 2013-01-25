@@ -44,6 +44,8 @@ public final class ValidationContext
     private final JsonValidatorCache cache;
     private final Deque<SchemaContext> contextQueue = Queues.newArrayDeque();
 
+    private SchemaContext currentContext;
+
     /**
      * Create a validation context with an empty feature set
      *
@@ -56,12 +58,13 @@ public final class ValidationContext
 
     void pushContext(final SchemaContext context)
     {
+        currentContext = context;
         contextQueue.addFirst(context);
     }
 
     void popContext()
     {
-        contextQueue.removeFirst();
+        currentContext = contextQueue.removeFirst();
     }
 
     /**
@@ -86,14 +89,13 @@ public final class ValidationContext
      */
     public JsonValidator newValidator(final JsonNode node)
     {
-        final SchemaContext schemaContext = contextQueue.getFirst();
-        final SchemaNode schemaNode = new SchemaNode(schemaContext, node);
+        final SchemaNode schemaNode = new SchemaNode(currentContext, node);
         return cache.getValidator(schemaNode);
     }
 
     @Override
     public String toString()
     {
-        return "current: " + contextQueue.peekFirst();
+        return "current: " + currentContext;
     }
 }
