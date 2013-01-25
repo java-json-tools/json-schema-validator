@@ -119,7 +119,7 @@ public abstract class JsonSchemaTree
         return currentRef;
     }
 
-    private static JsonRef idFromNode(final JsonNode node)
+    protected static JsonRef idFromNode(final JsonNode node)
     {
         if (!node.path("id").isTextual())
             return null;
