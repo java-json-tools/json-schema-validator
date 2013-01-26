@@ -4,14 +4,14 @@
 Applications Area Working Group                            P. Bryan, Ed.
 Internet-Draft                                            Salesforce.com
 Intended status: Standards Track                                  K. Zyp
-Expires: July 8, 2013                                      SitePen (USA)
+Expires: July 26, 2013                                     SitePen (USA)
                                                       M. Nottingham, Ed.
                                                                   Akamai
-                                                         January 4, 2013
+                                                        January 22, 2013
 
 
                JavaScript Object Notation (JSON) Pointer
-                   draft-ietf-appsawg-json-pointer-08
+                   draft-ietf-appsawg-json-pointer-09
 
 Abstract
 
@@ -33,7 +33,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 8, 2013.
+   This Internet-Draft will expire on July 26, 2013.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Bryan, et al.             Expires July 8, 2013                  [Page 1]
+Bryan, et al.             Expires July 26, 2013                 [Page 1]
 
 Internet-Draft                JSON Pointer                  January 2013
 
@@ -65,12 +65,12 @@ Table of Contents
    4.  Evaluation  . . . . . . . . . . . . . . . . . . . . . . . . . . 3
    5.  JSON String Representation  . . . . . . . . . . . . . . . . . . 5
    6.  URI Fragment Identifier Representation  . . . . . . . . . . . . 6
-   7.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . . . 6
+   7.  Error Handling  . . . . . . . . . . . . . . . . . . . . . . . . 7
    8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . . . 7
    9.  Security Considerations . . . . . . . . . . . . . . . . . . . . 7
    10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . . . 7
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . . . 7
-     11.1.  Normative References . . . . . . . . . . . . . . . . . . . 7
+   11. References  . . . . . . . . . . . . . . . . . . . . . . . . . . 8
+     11.1.  Normative References . . . . . . . . . . . . . . . . . . . 8
      11.2.  Informative References . . . . . . . . . . . . . . . . . . 8
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . . . 8
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Bryan, et al.             Expires July 8, 2013                  [Page 2]
+Bryan, et al.             Expires July 26, 2013                 [Page 2]
 
 Internet-Draft                JSON Pointer                  January 2013
 
@@ -164,7 +164,7 @@ Internet-Draft                JSON Pointer                  January 2013
 
 
 
-Bryan, et al.             Expires July 8, 2013                  [Page 3]
+Bryan, et al.             Expires July 26, 2013                 [Page 3]
 
 Internet-Draft                JSON Pointer                  January 2013
 
@@ -188,8 +188,8 @@ Internet-Draft                JSON Pointer                  January 2013
    o  If the currently referenced value is a JSON object, the new
       referenced value is the object member with the name identified by
       the reference token.  The member name is equal to the token if it
-      has the same number of Unicode characters as token and their code
-      points are position-wise equal.  No Unicode character
+      has the same number of Unicode characters as the token and their
+      code points are position-wise equal.  No Unicode character
       normalization is performed.  If a referenced member name is not
       unique in an object, the member that is referenced is undefined,
       and evaluation fails (see below).
@@ -212,22 +212,27 @@ Internet-Draft                JSON Pointer                  January 2013
                  ; "0", or digits without a leading "0"
 
    Implementations will evaluate each reference token against the
-   document's contents, and terminate evaluation with an error condition
-   if it fails to resolve a concrete value for any of the JSON pointer's
-   reference tokens.  For example, if an array is referenced with a non-
-   numeric token, it will fail.  See Section 7 for details.
+   document's contents, and will raise an error condition if it fails to
+   resolve a concrete value for any of the JSON pointer's reference
+   tokens.  For example, if an array is referenced with a non-numeric
+   token, an error condition will be raised.  See Section 7 for details.
 
 
 
 
-Bryan, et al.             Expires July 8, 2013                  [Page 4]
+Bryan, et al.             Expires July 26, 2013                 [Page 4]
 
 Internet-Draft                JSON Pointer                  January 2013
 
 
    Note that the use of the "-" character to index an array will always
-   result in such an error; applications of JSON Pointer thus need to
-   specify how it is to be handled, if it is to be useful.
+   result in such an error condition because by definition it refers to
+   a non-existent array element.  Applications of JSON Pointer thus need
+   to specify how it is to be handled, if it is to be useful.
+
+   Any error condition that does not have a specific action defined for
+   it by the JSON Pointer application results in termination of
+   evaluation.
 
 
 5.  JSON String Representation
@@ -259,6 +264,23 @@ Internet-Draft                JSON Pointer                  January 2013
    Then the following JSON strings evaluate to the accompanying values:
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+Bryan, et al.             Expires July 26, 2013                 [Page 5]
+
+Internet-Draft                JSON Pointer                  January 2013
+
+
     ""           // the whole document
     "/foo"       ["bar", "baz"]
     "/foo/0"     "bar"
@@ -271,14 +293,6 @@ Internet-Draft                JSON Pointer                  January 2013
     "/k\"l"      6
     "/ "         7
     "/m~0n"      8
-
-
-
-
-
-Bryan, et al.             Expires July 8, 2013                  [Page 5]
-
-Internet-Draft                JSON Pointer                  January 2013
 
 
 6.  URI Fragment Identifier Representation
@@ -312,6 +326,17 @@ Internet-Draft                JSON Pointer                  January 2013
     #/m~0n       8
 
 
+
+
+
+
+
+
+Bryan, et al.             Expires July 26, 2013                 [Page 6]
+
+Internet-Draft                JSON Pointer                  January 2013
+
+
 7.  Error Handling
 
    In the event of an error condition, evaluation of the JSON Pointer
@@ -329,14 +354,6 @@ Internet-Draft                JSON Pointer                  January 2013
 
    For example, some applications might stop pointer processing upon an
    error; others may attempt to recover from missing values by inserting
-
-
-
-Bryan, et al.             Expires July 8, 2013                  [Page 6]
-
-Internet-Draft                JSON Pointer                  January 2013
-
-
    default ones.
 
 
@@ -369,6 +386,13 @@ Internet-Draft                JSON Pointer                  January 2013
 
 11.  References
 
+
+
+Bryan, et al.             Expires July 26, 2013                 [Page 7]
+
+Internet-Draft                JSON Pointer                  January 2013
+
+
 11.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -385,14 +409,6 @@ Internet-Draft                JSON Pointer                  January 2013
               JavaScript Object Notation (JSON)", RFC 4627, July 2006.
 
    [RFC5234]  Crocker, D. and P. Overell, "Augmented BNF for Syntax
-
-
-
-Bryan, et al.             Expires July 8, 2013                  [Page 7]
-
-Internet-Draft                JSON Pointer                  January 2013
-
-
               Specifications: ABNF", STD 68, RFC 5234, January 2008.
 
 11.2.  Informative References
@@ -428,21 +444,5 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Bryan, et al.             Expires July 8, 2013                  [Page 8]
+Bryan, et al.             Expires July 26, 2013                 [Page 8]
 

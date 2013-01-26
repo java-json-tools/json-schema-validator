@@ -31,15 +31,15 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Implementation of IETF JSON Pointer draft, version 8
+ * Implementation of IETF JSON Pointer draft, version 9
  *
- * <p><a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-08">
+ * <p><a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-09">
  * JSON Pointer</a> is an IETF draft defining a way to address paths within JSON
- * documents.</p>
+ * values (including non container values).</p>
  *
  * <p>An individual entry of a JSON Pointer is called a reference token. For
  * JSON Objects, a reference token is a member name. For arrays, it is an index.
- * Indices start at 0. Note that array indices writteh with a leading 0 are
+ * Indices start at 0. Note that array indices written with a leading 0 are
  * considered to be failing (ie, {@code 0} is OK but {@code 00} is not).</p>
  *
  * <p>The general syntax is {@code /reference/tokens/here}. A JSON Pointer

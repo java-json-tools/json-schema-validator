@@ -92,8 +92,8 @@ is used on the Internet nonetheless. This implementation is based on the followi
   3</a>;
 * <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON Reference Internet draft,
   version 3</a>;
-* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-08">JSON Pointer Internet
-  draft, version 8</a>.
+* <a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-09">JSON Pointer Internet
+  draft, version 9</a>.
 
 <h2>More...</h2>
 
