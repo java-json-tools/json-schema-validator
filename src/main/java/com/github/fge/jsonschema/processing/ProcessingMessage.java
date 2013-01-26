@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.processing;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Maps;
@@ -37,11 +38,29 @@ public final class ProcessingMessage
         put("instancePointer", tree.getCurrentPointer());
     }
 
+    public ProcessingMessage(final JsonSchemaTree schemaTree,
+        final JsonTree tree)
+    {
+        this(tree);
+        final ObjectNode schemaInfo = FACTORY.objectNode();
+
+        schemaInfo.put("location", schemaTree.getLoadingRef().toString());
+        schemaInfo.put("pointer", schemaTree.getCurrentPointer().toString());
+        schemaInfo.put("uriContext", schemaTree.getCurrentRef().toString());
+        put("schema", schemaInfo);
+    }
+
     public ObjectNode asJson()
     {
         final ObjectNode ret = FACTORY.objectNode();
         ret.putAll(map);
         return ret;
+    }
+
+    public ProcessingMessage put(final String key, final JsonNode value)
+    {
+        map.put(key, value);
+        return this;
     }
 
     public <T> ProcessingMessage put(final String key, final T value)
