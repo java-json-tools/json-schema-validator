@@ -35,12 +35,15 @@ import java.util.List;
  *
  * <p><a href="http://tools.ietf.org/html/draft-ietf-appsawg-json-pointer-08">
  * JSON Pointer</a> is an IETF draft defining a way to address paths within JSON
- * documents. Paths apply to containers, ie arrays or nodes. For objects, path
- * elements are member names. For arrays, they are indices in the array
- * (starting from 0).</p>
+ * documents.</p>
  *
- * <p>The general syntax is {@code #/path/elements/here}. A path element is
- * referred to as a "reference token" in the specification.</p>
+ * <p>An individual entry of a JSON Pointer is called a reference token. For
+ * JSON Objects, a reference token is a member name. For arrays, it is an index.
+ * Indices start at 0. Note that array indices writteh with a leading 0 are
+ * considered to be failing (ie, {@code 0} is OK but {@code 00} is not).</p>
+ *
+ * <p>The general syntax is {@code /reference/tokens/here}. A JSON Pointer
+ * <i>may</i> be empty, in which case this refers to the JSON value itself.</p>
  *
  * <p>The difficulty solved by JSON Pointer is that any JSON String is valid as
  * an object member name. These are all valid object member names, and all of
@@ -63,29 +66,41 @@ import java.util.List;
 public final class JsonPointer
     extends JsonFragment
 {
+    /**
+     * The empty pointer
+     *
+     * <p>This is what will be returned by {@link
+     * JsonFragment#fromFragment(String)} if the submitted fragment is empty.
+     * </p>
+     */
     private static final JsonPointer EMPTY
         = new JsonPointer("", ImmutableList.<String>of());
 
-    /*
+    /**
      * Reference token separator
      */
     private static final CharMatcher SLASH = CharMatcher.is('/');
 
-    /*
+    /**
      * Escape character in a "cooked" element
      */
     private static final CharMatcher ESCAPE_CHAR = CharMatcher.is('~');
 
-    /*
+    /**
      * "0": for array index reference token needs
      */
     private static final CharMatcher ZERO = CharMatcher.is('0');
 
-    /*
+    /**
      * Replacement map for getting a raw reference token out of a cooked one
-     * ("~0" becomes "~" and "~1" becomes "/".
      *
-     * This is a BiMap so that it can also be used in the reverse situation.
+     * <p>{@code ~0} becomes {@code ~} and {@code ~1} becomes {@code /}.</p>
+     *
+     * <p>This is a {@link BiMap} so that it can also be used in the reverse
+     * situation.</p>
+     *
+     * @see #refTokenEncode(String)
+     * @see #refTokenDecode(String)
      */
     private static final BiMap<Character, Character> ESCAPE_REPLACEMENT_MAP
         = new ImmutableBiMap.Builder<Character, Character>()
@@ -93,7 +108,22 @@ public final class JsonPointer
             .put('1', '/')
             .build();
 
+    /**
+     * Character matcher for an escaped reference token
+     *
+     * <p>This is built from {@link #ESCAPE_REPLACEMENT_MAP}'s keys.</p>
+     *
+     * @see #refTokenDecode(String)
+     */
     private static final CharMatcher ESCAPED;
+
+    /**
+     * Character matcher for a raw reference token
+     *
+     * <p>This is built from {@link #ESCAPE_REPLACEMENT_MAP}'s values.</p>
+     *
+     * @see #refTokenEncode(String)
+     */
     private static final CharMatcher SPECIAL;
 
     static {
@@ -110,9 +140,9 @@ public final class JsonPointer
     }
 
     /**
-     * The list of individual elements in the pointer.
+     * The list of individual reference tokens, in order.
      */
-    private final List<String> elements;
+    private final List<String> refTokens;
 
     /**
      * Return an empty pointer
@@ -128,7 +158,7 @@ public final class JsonPointer
      * Constructor
      *
      * @param input The input string, guaranteed not to be JSON encoded
-     * @throws JsonSchemaException Illegal JSON Pointer
+     * @throws JsonSchemaException illegal JSON Pointer
      */
     public JsonPointer(final String input)
         throws JsonSchemaException
@@ -137,23 +167,40 @@ public final class JsonPointer
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
         decode(input, builder);
 
-        elements = builder.build();
+        refTokens = builder.build();
     }
 
-    private JsonPointer(final String fullPointer, final List<String> elements)
+    /**
+     * Private constructor for building a pointer with all pointer elements
+     * (reference tokens, full string representation) already computed
+     *
+     * @param fullPointer the pointer as a string
+     * @param refTokens the reference tokens
+     */
+    private JsonPointer(final String fullPointer, final List<String> refTokens)
     {
         super(fullPointer);
-        this.elements = elements;
+        this.refTokens = refTokens;
     }
 
-    private static JsonPointer fromElements(final List<String> elements)
+    /**
+     * Static private constructor to build a pointer out of a list of reference
+     * tokens
+     *
+     * @param refTokens the list of reference tokens
+     * @return a newly constructed JSON Pointer
+     */
+    private static JsonPointer fromElements(final List<String> refTokens)
     {
+        if (refTokens.isEmpty())
+            return empty();
+
         final StringBuilder sb = new StringBuilder();
 
-        for (final String raw: elements)
+        for (final String raw: refTokens)
             sb.append('/').append(refTokenEncode(raw));
 
-        return new JsonPointer(sb.toString(), elements);
+        return new JsonPointer(sb.toString(), refTokens);
     }
 
     /**
@@ -165,13 +212,15 @@ public final class JsonPointer
     public JsonPointer append(final JsonPointer other)
     {
         final List<String> newElements = ImmutableList.<String>builder()
-            .addAll(elements).addAll(other.elements).build();
+            .addAll(refTokens).addAll(other.refTokens).build();
+        if (newElements.isEmpty())
+            return empty();
         final String newPath = asString + other.asString;
         return new JsonPointer(newPath, newElements);
     }
 
     /**
-     * Append a path element to this pointer. Returns a new instance.
+     * Append a reference token as a string to this pointer.
      *
      * @param element the element to append
      * @return a new instance with the element appended
@@ -179,17 +228,17 @@ public final class JsonPointer
     public JsonPointer append(final String element)
     {
         final List<String> newElements = ImmutableList.<String>builder()
-            .addAll(elements).add(element).build();
+            .addAll(refTokens).add(element).build();
 
         return new JsonPointer(asString + '/' + refTokenEncode(element),
             newElements);
     }
 
     /**
-     * Append an array index to this pointer. Returns a new instance.
+     * Append an array index to this pointer.
      *
-     * <p>Note that the index validity is NOT checked for (ie,
-     * you can append {@code -1} if you want to -- don't do that)</p>
+     * <p>Note that the index validity is NOT checked for (ie, you can append
+     * {@code -1} if you want to -- don't do that)</p>
      *
      * @param index the index to add
      * @return a new instance with the index appended
@@ -199,12 +248,21 @@ public final class JsonPointer
         return append(Integer.toString(index));
     }
 
+    /**
+     * Apply the pointer to a JSON value and return the result
+     *
+     * <p>If the pointer fails to look up a value, a {@link MissingNode} is
+     * returned.</p>
+     *
+     * @param node the node to apply the pointer to
+     * @return the resulting node
+     */
     @Override
     public JsonNode resolve(final JsonNode node)
     {
         JsonNode ret = node;
 
-        for (final String pathElement : elements) {
+        for (final String pathElement : refTokens) {
             if (!ret.isContainerNode())
                 return MissingNode.getInstance();
             ret = ret.isObject()
@@ -233,14 +291,14 @@ public final class JsonPointer
      * Return this pointer as a series of JSON Pointers starting from the
      * beginning
      *
-     * @return an unmodifiable list
+     * @return an unmodifiable list of JSON Pointers
      */
     public List<JsonPointer> asElements()
     {
         final ImmutableList.Builder<JsonPointer> builder
             = ImmutableList.builder();
 
-        for (final String raw: elements)
+        for (final String raw: refTokens)
             builder.add(fromElements(ImmutableList.of(raw)));
 
         return builder.build();
@@ -250,22 +308,40 @@ public final class JsonPointer
      * Return true if this JSON Pointer is "parent" of another one
      *
      * <p>That is, its number of reference tokens is less than, or equal to,
-     * the other pointer's, and its first elements are the same.</p>
+     * the other pointer's, and its first reference tokens are the same.</p>
+     *
+     * <p>This means that this will also return true if the pointers are equal.
+     * </p>
      *
      * @param other the other pointer
      * @return true if this pointer is the parent of the other
      */
     public boolean isParentOf(final JsonPointer other)
     {
-        return Collections.indexOfSubList(other.elements, elements) == 0;
+        return Collections.indexOfSubList(other.refTokens, refTokens) == 0;
     }
 
+    /**
+     * Relativize a pointer to the current pointer
+     *
+     * <p>If {@link #isParentOf(JsonPointer)} returns false, this will return
+     * the other pointer.</p>
+     *
+     * <p>Otherwise, it will return a pointer containing all reference tokens
+     * following this pointer's reference tokens. For instance, relativizing
+     * {@code /a/b} against {@code /a/b/c} gives {@code /c}.</p>
+     *
+     * <p>If the pointers are the same, it will return an empty pointer.</p>
+     *
+     * @param other the pointer to relativize this pointer to
+     * @return a relativized pointer
+     */
     public JsonPointer relativize(final JsonPointer other)
     {
         if (!isParentOf(other))
             return other;
-        final List<String> list = other.elements.subList(elements.size(),
-            other.elements.size());
+        final List<String> list = other.refTokens.subList(refTokens.size(),
+            other.refTokens.size());
         return fromElements(list);
     }
 
@@ -304,7 +380,7 @@ public final class JsonPointer
             victim = victim.substring(cooked.length());
 
             /*
-             * Decode it, push it in the elements list
+             * Decode it, push it in the refTokens list
              */
             raw = refTokenDecode(cooked);
             builder.add(raw);
@@ -314,11 +390,10 @@ public final class JsonPointer
     /**
      * Grab a (cooked) reference token from an input string
      *
-     * <p>This method is only called from
-     * {@link #decode(String, ImmutableList.Builder)}, after a delimiter
-     * ({@code /}) has been swallowed up. The input string is therefore
-     * guaranteed to start with a reference token, which may be empty.
-     * </p>
+     * <p>This method is only called from {@link #decode(String,
+     * ImmutableList.Builder)}, after a delimiter ({@code /}) has been swallowed
+     * up. The input string is therefore guaranteed to start with a reference
+     * token, which may be empty.</p>
      *
      * @param input the input string
      * @return the cooked reference token
@@ -373,8 +448,8 @@ public final class JsonPointer
      * <p>This means we replace all occurrences of {@code ~0} with {@code ~},
      * and all occurrences of {@code ~1} with {@code /}.</p>
      *
-     * <p>It is called from {@link #decode}, in order to push a token into
-     * {@link #elements}.</p>
+     * <p>It is called from {@link #decode}, in order to push a reference token
+     * into {@link #refTokens}.</p>
      *
      * @param cooked the cooked token
      * @return the raw token
@@ -384,8 +459,8 @@ public final class JsonPointer
         final StringBuilder sb = new StringBuilder(cooked.length());
 
         /*
-         * Replace all occurrences of "~0" with "~", and all occurrences of
-         * "~1" with "/".
+         * Replace all occurrences of "~0" with "~", and all occurrences of "~1"
+         * with "/".
          *
          * The input is guaranteed to be well formed.
          */
@@ -410,7 +485,7 @@ public final class JsonPointer
     }
 
     /**
-     * Make a cooked reference token out of a raw element token
+     * Make a cooked reference token out of a raw reference token
      *
      * @param raw the raw token
      * @return the cooked token
@@ -441,7 +516,11 @@ public final class JsonPointer
     }
 
     /**
-     * Return an array index corresponding to the given path element
+     * Return an array index corresponding to the given reference token
+     *
+     * <p>If no array index can be found, -1 is returned. As the result is used
+     * with {@link JsonNode#path(int)}, we are guaranteed correct results, since
+     * this will return a {@link MissingNode} in this case.</p>
      *
      * @param pathElement the path element as a string
      * @return the index, or -1 if the index is invalid
@@ -454,7 +533,7 @@ public final class JsonPointer
         if (pathElement.isEmpty())
             return -1;
         /*
-         * Leading zeroes are not allowed in number-only elements for arrays.
+         * Leading zeroes are not allowed in number-only refTokens for arrays.
          * But then, 0 followed by anything else than a number is invalid as
          * well. So, if the string starts with '0', return 0 if the token length
          * is 1 or -1 otherwise.
