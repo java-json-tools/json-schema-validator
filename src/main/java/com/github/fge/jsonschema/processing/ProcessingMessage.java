@@ -68,4 +68,10 @@ public final class ProcessingMessage
         map.put(key, FACTORY.textNode(value.toString()));
         return this;
     }
+
+    @Override
+    public String toString()
+    {
+        return map.toString();
+    }
 }
