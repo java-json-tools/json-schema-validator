@@ -44,6 +44,8 @@ import java.util.Deque;
  * is used for addressing in JSON Schema.</p>
  *
  * @see JsonRef
+ * @see CanonicalSchemaTree
+ * @see InlineSchemaTree
  */
 public abstract class JsonSchemaTree
     extends JsonTree
@@ -66,7 +68,7 @@ public abstract class JsonSchemaTree
     protected JsonRef currentRef;
 
     /**
-     * Protected constructor
+     * The main constructor
      *
      * @param loadingRef the loading reference
      * @param baseNode the base node
@@ -83,9 +85,13 @@ public abstract class JsonSchemaTree
     }
 
     /**
-     * Protected constructor for a schema tree loaded without a reference
+     * Constructor for a schema tree loaded without a reference
+     *
+     * <p>This calls {@link #JsonSchemaTree(JsonRef, JsonNode)} with an empty
+     * reference as the loading reference.</p>
      *
      * @param baseNode the base node
+     * @see JsonRef#emptyRef()
      */
     protected JsonSchemaTree(final JsonNode baseNode)
     {

@@ -18,8 +18,25 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.ref.JsonFragment;
 import com.github.fge.jsonschema.ref.JsonRef;
 
+/**
+ * A {@link JsonSchemaTree} using canonical dereferencing
+ *
+ * <p>When using canonical dereferencing, a (fully resolved) JSON Reference is
+ * contained within the tree if and only if:</p>
+ *
+ * <ul>
+ *     <li>this reference without a fragment part is the same as this tree's
+ *     loading reference without a fragment part;</li>
+ *     <li>this reference's fragment part, if any, is a JSON Pointer.</li>
+ * </ul>
+ *
+ * @see JsonSchemaTree
+ * @see JsonRef#contains(JsonRef)
+ * @see JsonFragment#isPointer()
+ */
 public final class CanonicalSchemaTree
     extends JsonSchemaTree
 {

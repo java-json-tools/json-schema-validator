@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.ref.JsonFragment;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
@@ -28,10 +27,32 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
+/**
+ * A {@link JsonSchemaTree} using inline dereferencing
+ *
+ * <p>When using inline dereferencing, a (fully resolved) reference is contained
+ * within the tree if it is relative to one of the URI resolution contexts in
+ * this tree, or to the loading URI itself.</p>
+ *
+ * <p>And this makes things quite hairy to handle. Consider, for instance, that
+ * {@code foo://bar#/a/b/c} is contained within such a tree if the tree has a
+ * resolution context with URI {@code foo://bar#/a/b}!</p>
+ *
+ * <p>This implementaiton correctly handles this kind of corner cases. For
+ * resolution contexts whose fragment part is not a JSON Pointer, an exact
+ * reference equality is required.</p>
+ */
 public final class InlineSchemaTree
     extends JsonSchemaTree
 {
+    /**
+     * The list of contexts whose URIs bear a JSON Pointer as a fragment part
+     */
     private final Map<JsonRef, JsonPointer> ptrRefs;
+
+    /**
+     * The list of contexts whose URIs bear a non JSON Pointer fragment part
+     */
     private final Map<JsonRef, JsonPointer> otherRefs;
 
     public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
@@ -50,6 +71,29 @@ public final class InlineSchemaTree
         this(JsonRef.emptyRef(), baseNode);
     }
 
+    /**
+     * Tell whether a full resolved reference is contained within this tree
+     *
+     * <p>Given the pecularity of inline dereferencing, this operation is not
+     * as simple as for canonical trees. The algorithm is as follows:</p>
+     *
+     * <ul>
+     *     <li>if the fragment part of the target reference is not a JSON
+     *     Pointer, only non JSON Pointer resolution contexts are considered,
+     *     and return {@code true} if and only if an exact match is found,
+     *     {@code false} otherwise;</li>
+     *     <li>at this point, we know the fragment part is a JSON Pointer;
+     *     compare the reference without a fragment part to all "JSON Pointer
+     *     enabled" resolution contexts, without a fragment part: if there is
+     *     no match, return {@code false};</li>
+     *     <li>on a match, return {@code true} if the JSON Pointer of the
+     *     matched context is a parent of the ref's JSON Pointer.</li>
+     * </ul>
+     *
+     * @param ref the target reference
+     * @return see description
+     * @see JsonPointer#isParentOf(JsonPointer)
+     */
     @Override
     public boolean contains(final JsonRef ref)
     {
@@ -63,6 +107,16 @@ public final class InlineSchemaTree
         return ptr == null ? MissingNode.getInstance() : ptr.resolve(baseNode);
     }
 
+    /**
+     * Return a matching pointer in this tree for a fully resolved reference
+     *
+     * <p>Depending on whether the reference's fragment is a JSON Pointer,
+     * this will call either {@link #refMatchingPointer(JsonRef)} or {@link
+     * #otherMatchingPointer(JsonRef)}.</p>
+     *
+     * @param ref the reference
+     * @return the matching pointer, or {@code null} if not found
+     */
     private JsonPointer matchingPointer(final JsonRef ref)
     {
         return ref.getFragment().isPointer()
@@ -70,7 +124,15 @@ public final class InlineSchemaTree
             : otherMatchingPointer(ref);
     }
 
-    // Called when the target ref is JSON Pointer terminated
+    /**
+     * Return a matching pointer for a JSON Pointer terminated fully resolved
+     * reference
+     *
+     * <p>This includes the loading URI.</p>
+     *
+     * @param ref the target reference
+     * @return the matching pointer, or {@code null} if not found
+     */
     private JsonPointer refMatchingPointer(final JsonRef ref)
     {
         final JsonPointer refPtr = (JsonPointer) ref.getFragment();
@@ -95,12 +157,40 @@ public final class InlineSchemaTree
         return null;
     }
 
-    // Called when the target ref is not JSON Pointer terminated
+    /**
+     * Return a matching pointer for a non JSON Pointer terminated, fully
+     * resolved reference
+     *
+     * <p>This simply tries and retrieves a value from {@link #otherRefs},
+     * since an exact matching is required in such a case.</p>
+     *
+     * @param ref the target reference
+     * @return the matching pointer, or {@code null} if not found
+     */
     private JsonPointer otherMatchingPointer(final JsonRef ref)
     {
         return otherRefs.get(ref);
     }
 
+    /**
+     * Walk a JSON document to collect URI contexts
+     *
+     * <p>Unlike what happens with a canonical schema tree, we <i>must</i> walk
+     * the whole tree in advance here. This is necessary for {@link
+     * #contains(JsonRef)} and {@link #retrieve(JsonRef)} to work.</p>
+     *
+     * <p>This method is called recursively. Its furst invocation is from the
+     * constructor, with {@link #loadingRef} as a reference, {@link #baseNode}
+     * as a JSON document and an empty pointer as the document pointer.</p>
+     *
+     * @param baseRef the current context
+     * @param node the current document
+     * @param ptr the current pointer into the base document
+     * @param ptrMap a "JSON Pointer context" map to fill
+     * @param otherMap a non JSON Pointer context map to fill
+     *
+     * @see #idFromNode(JsonNode)
+     */
     private static void walk(final JsonRef baseRef, final JsonNode node,
         final JsonPointer ptr, final Map<JsonRef, JsonPointer> ptrMap,
         final Map<JsonRef, JsonPointer> otherMap)
@@ -124,36 +214,5 @@ public final class InlineSchemaTree
         for (final Map.Entry<String, JsonNode> entry: tmp.entrySet())
             walk(nextRef, entry.getValue(), ptr.append(entry.getKey()), ptrMap,
                 otherMap);
-    }
-
-    private static boolean refContains(final JsonRef inlineRef,
-        final JsonRef ref)
-    {
-        /*
-         * No need to check further if they don't have the same locator
-         */
-        if (!inlineRef.contains(ref))
-            return false;
-
-        /*
-         * Compare fragments
-         */
-        final JsonFragment inlineFragment = inlineRef.getFragment();
-        final JsonFragment refFragment = ref.getFragment();
-
-        /*
-         * If equal, match
-         */
-        if (inlineFragment.equals(refFragment))
-            return true;
-
-        /*
-         * If none of them is a pointer, no match
-         */
-        if (!(inlineFragment.isPointer() && refFragment.isPointer()))
-            return false;
-
-        return ((JsonPointer) inlineFragment)
-            .isParentOf((JsonPointer) refFragment);
     }
 }
