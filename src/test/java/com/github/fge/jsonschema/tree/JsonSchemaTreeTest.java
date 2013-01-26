@@ -124,9 +124,9 @@ public final class JsonSchemaTreeTest
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
         final JsonRef origRef = tree.getCurrentRef();
 
-        tree.pushd(ptr);
+        tree.append(ptr);
         assertEquals(tree.getCurrentRef(), scope);
-        tree.popd();
+        tree.pop();
         assertSame(tree.getCurrentRef(), origRef);
     }
 
@@ -142,7 +142,7 @@ public final class JsonSchemaTreeTest
         node.put("child", child);
 
         final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        tree.pushd("child");
+        tree.append("child");
         assertEquals(tree.getCurrentRef(), ref);
     }
 
@@ -158,7 +158,7 @@ public final class JsonSchemaTreeTest
         node.add(child);
 
         final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        tree.pushd(0);
+        tree.append(0);
         assertEquals(tree.getCurrentRef(), ref);
     }
 

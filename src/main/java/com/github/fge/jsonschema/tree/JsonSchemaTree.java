@@ -52,9 +52,9 @@ public abstract class JsonSchemaTree
     }
 
     @Override
-    public final void pushd(final String pathElement)
+    public final void append(final String refToken)
     {
-        super.pushd(pathElement);
+        super.append(refToken);
         refStack.push(currentRef);
         final JsonRef ref = idFromNode(currentNode);
         if (ref != null)
@@ -62,9 +62,9 @@ public abstract class JsonSchemaTree
     }
 
     @Override
-    public final void pushd(final int index)
+    public final void append(final int index)
     {
-        super.pushd(index);
+        super.append(index);
         refStack.push(currentRef);
         final JsonRef ref = idFromNode(currentNode);
         if (ref != null)
@@ -72,7 +72,7 @@ public abstract class JsonSchemaTree
     }
 
     @Override
-    public final void pushd(final JsonPointer ptr)
+    public final void append(final JsonPointer ptr)
     {
         /*
          * We can push all old elements and set the new pwd right away. However,
@@ -100,10 +100,10 @@ public abstract class JsonSchemaTree
     }
 
     @Override
-    public final void popd()
+    public final void pop()
     {
         currentRef = refStack.pop();
-        super.popd();
+        super.pop();
     }
 
     public final JsonRef resolve(final JsonRef other)

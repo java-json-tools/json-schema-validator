@@ -61,7 +61,7 @@ public final class JsonTreeTest
     public void pushdOfPathElementWorks()
     {
         final JsonTree tree = new SimpleJsonTree(testNode);
-        tree.pushd("object");
+        tree.append("object");
         assertSame(tree.getCurrentNode(), childObject);
     }
 
@@ -69,8 +69,8 @@ public final class JsonTreeTest
     public void pushdOfArrayIndexWorks()
     {
         final JsonTree tree = new SimpleJsonTree(testNode);
-        tree.pushd("array");
-        tree.pushd(0);
+        tree.append("array");
+        tree.append(0);
         assertSame(tree.getCurrentNode(), childArray.get(0));
     }
 
@@ -80,7 +80,7 @@ public final class JsonTreeTest
         final JsonTree tree = new SimpleJsonTree(testNode);
         final JsonPointer ptr = JsonPointer.empty().append("object")
             .append("a");
-        tree.pushd(ptr);
+        tree.append(ptr);
         assertSame(tree.getCurrentNode(), childObject.get("a"));
     }
 
@@ -92,11 +92,11 @@ public final class JsonTreeTest
     public void popdWorks()
     {
         final JsonTree tree = new SimpleJsonTree(testNode);
-        tree.pushd("object");
-        tree.pushd("a");
-        tree.popd();
+        tree.append("object");
+        tree.append("a");
+        tree.pop();
         assertSame(tree.getCurrentNode(), childObject);
-        tree.popd();
+        tree.pop();
         assertSame(tree.getCurrentNode(), testNode);
     }
 }
