@@ -38,7 +38,7 @@ public final class ProcessingMessageTest
         when(tree.getCurrentPointer()).thenReturn(ptr);
 
         final ProcessingMessage msg = new ProcessingMessage(tree);
-        final JsonNode node = msg.asJson().path("instancePointer");
+        final JsonNode node = msg.asJson().path("pointer");
 
         assertTrue(node.isTextual());
         assertEquals(node.textValue(), ptr.toString());
@@ -51,10 +51,10 @@ public final class ProcessingMessageTest
         final JsonRef loadingRef = JsonRef.fromString("zoo://my.zoo/x.json");
         final JsonRef ctx = JsonRef.fromString("meh://I/am/there#/a");
         final JsonPointer schemaPointer = new JsonPointer("/a/b/c/");
-        final JsonPointer instancePointer = JsonPointer.empty();
+        final JsonPointer pointer = JsonPointer.empty();
 
         final JsonTree tree = mock(JsonTree.class);
-        when(tree.getCurrentPointer()).thenReturn(instancePointer);
+        when(tree.getCurrentPointer()).thenReturn(pointer);
 
         final JsonSchemaTree schemaTree = mock(JsonSchemaTree.class);
         when(schemaTree.getLoadingRef()).thenReturn(loadingRef);
@@ -64,11 +64,11 @@ public final class ProcessingMessageTest
         final ProcessingMessage msg = new ProcessingMessage(schemaTree, tree);
 
         final JsonNode msgNode = msg.asJson();
-        final JsonNode instanceNode = msgNode.path("instancePointer");
+        final JsonNode instanceNode = msgNode.path("pointer");
         final JsonNode schemaInfo = msgNode.path("schema");
 
         assertTrue(instanceNode.isTextual());
-        assertEquals(instanceNode.textValue(), instancePointer.toString());
+        assertEquals(instanceNode.textValue(), pointer.toString());
 
         assertTrue(schemaInfo.isObject());
 

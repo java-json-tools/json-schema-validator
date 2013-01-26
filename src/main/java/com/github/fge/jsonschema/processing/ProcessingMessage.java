@@ -35,7 +35,7 @@ public final class ProcessingMessage
 
     public ProcessingMessage(final JsonTree tree)
     {
-        put("instancePointer", tree.getCurrentPointer());
+        put("pointer", tree.getCurrentPointer());
     }
 
     public ProcessingMessage(final JsonSchemaTree schemaTree,
