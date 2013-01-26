@@ -219,4 +219,18 @@ public final class JsonSchemaTreeTest
 
         assertEquals(tree.retrieve(ref), expected);
     }
+
+    @Test(dataProvider = "retrievalData")
+    public void inlineTreeRetrievesDataCorrectly(final JsonRef id,
+        final JsonPointer ptr)
+        throws URISyntaxException
+    {
+        final URI baseUri = new URI("x", "y", "/z", null);
+        final JsonRef baseRef = JsonRef.fromURI(baseUri);
+        final JsonSchemaTree tree = new InlineSchemaTree(baseRef, schema2);
+
+        final JsonNode expected = ptr.resolve(schema2);
+
+        assertEquals(tree.retrieve(id), expected);
+    }
 }

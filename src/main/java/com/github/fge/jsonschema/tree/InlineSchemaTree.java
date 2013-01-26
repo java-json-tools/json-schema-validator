@@ -63,8 +63,35 @@ public final class InlineSchemaTree
     @Override
     public JsonNode retrieve(final JsonRef ref)
     {
-        // TODO
-        return MissingNode.getInstance();
+        final JsonPointer ptr = matchingPointer(ref);
+        return ptr == null ? MissingNode.getInstance() : ptr.resolve(baseNode);
+    }
+
+    private JsonPointer matchingPointer(final JsonRef target)
+    {
+        // Note: we are guaranteed that the loading reference will never have
+        // a fragment part
+
+        final JsonFragment fragment = target.getFragment();
+        final boolean isPointer = fragment.isPointer();
+
+        if (loadingRef.contains(target))
+            return isPointer ? (JsonPointer) fragment : null;
+
+        JsonRef inlineRef;
+        JsonPointer ptr;
+
+        for (final Map.Entry<JsonRef, JsonPointer> entry:
+            inlineRefs.entrySet()) {
+            inlineRef = entry.getKey();
+            ptr = entry.getValue();
+            if (!refContains(inlineRef, target))
+                continue;
+            if (!isPointer)
+                return ptr;
+        }
+
+        return null;
     }
 
     private static void walk(final JsonRef baseRef, final JsonNode node,
