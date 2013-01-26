@@ -33,6 +33,10 @@ public final class ProcessingMessage
 
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
 
+    public ProcessingMessage()
+    {
+    }
+
     public ProcessingMessage(final JsonTree tree)
     {
         put("pointer", tree.getCurrentPointer());
@@ -55,6 +59,12 @@ public final class ProcessingMessage
         final ObjectNode ret = FACTORY.objectNode();
         ret.putAll(map);
         return ret;
+    }
+
+    public ProcessingMessage setLogThreshold(final LogThreshold threshold)
+    {
+        put("level", threshold);
+        return this;
     }
 
     public ProcessingMessage put(final String key, final JsonNode value)
