@@ -34,6 +34,7 @@ public final class ProcessingMessage
 
     public ProcessingMessage(final JsonTree tree)
     {
+        put("instancePointer", tree.getCurrentPointer());
     }
 
     public ObjectNode asJson()
@@ -41,5 +42,11 @@ public final class ProcessingMessage
         final ObjectNode ret = FACTORY.objectNode();
         ret.putAll(map);
         return ret;
+    }
+
+    public <T> ProcessingMessage put(final String key, final T value)
+    {
+        map.put(key, FACTORY.textNode(value.toString()));
+        return this;
     }
 }
