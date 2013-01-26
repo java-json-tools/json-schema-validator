@@ -31,15 +31,18 @@ import java.util.Map;
 public final class InlineSchemaTree
     extends JsonSchemaTree
 {
-    private final Map<JsonRef, JsonPointer> inlineRefs;
+    private final Map<JsonRef, JsonPointer> ptrRefs;
+    private final Map<JsonRef, JsonPointer> otherRefs;
 
     public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
     {
         super(loadingRef, baseNode);
 
-        final Map<JsonRef, JsonPointer> map = Maps.newHashMap();
-        walk(currentRef, currentNode, JsonPointer.empty(), map);
-        inlineRefs = ImmutableMap.copyOf(map);
+        final Map<JsonRef, JsonPointer> ptrMap = Maps.newHashMap();
+        final Map<JsonRef, JsonPointer> otherMap = Maps.newHashMap();
+        walk(currentRef, currentNode, JsonPointer.empty(), ptrMap, otherMap);
+        ptrRefs = ImmutableMap.copyOf(ptrMap);
+        otherRefs = ImmutableMap.copyOf(otherMap);
     }
 
     public InlineSchemaTree(final JsonNode baseNode)
@@ -50,14 +53,7 @@ public final class InlineSchemaTree
     @Override
     public boolean contains(final JsonRef ref)
     {
-        if (loadingRef.contains(ref))
-            return true;
-
-        for (final JsonRef inlineRef: inlineRefs.keySet())
-            if (refContains(inlineRef, ref))
-                return true;
-
-        return false;
+        return matchingPointer(ref) != null;
     }
 
     @Override
@@ -67,51 +63,67 @@ public final class InlineSchemaTree
         return ptr == null ? MissingNode.getInstance() : ptr.resolve(baseNode);
     }
 
-    private JsonPointer matchingPointer(final JsonRef target)
+    private JsonPointer matchingPointer(final JsonRef ref)
     {
-        // Note: we are guaranteed that the loading reference will never have
-        // a fragment part
+        return ref.getFragment().isPointer()
+            ? refMatchingPointer(ref)
+            : otherMatchingPointer(ref);
+    }
 
-        final JsonFragment fragment = target.getFragment();
-        final boolean isPointer = fragment.isPointer();
+    // Called when the target ref is JSON Pointer terminated
+    private JsonPointer refMatchingPointer(final JsonRef ref)
+    {
+        final JsonPointer refPtr = (JsonPointer) ref.getFragment();
 
-        if (loadingRef.contains(target))
-            return isPointer ? (JsonPointer) fragment : null;
+        // Note: we are guaranteed that loadingRef has an empty fragment
+        if (loadingRef.contains(ref))
+            return refPtr;
 
         JsonRef inlineRef;
-        JsonPointer ptr;
+        JsonPointer inlinePtr;
 
-        for (final Map.Entry<JsonRef, JsonPointer> entry:
-            inlineRefs.entrySet()) {
+        for (final Map.Entry<JsonRef, JsonPointer> entry: ptrRefs.entrySet()) {
             inlineRef = entry.getKey();
-            ptr = entry.getValue();
-            if (!refContains(inlineRef, target))
+            if (!entry.getKey().contains(ref))
                 continue;
-            if (!isPointer)
-                return ptr;
+            inlinePtr = (JsonPointer) inlineRef.getFragment();
+            if (!inlinePtr.isParentOf(refPtr))
+                continue;
+            return entry.getValue().append(inlinePtr.relativize(refPtr));
         }
 
         return null;
     }
 
+    // Called when the target ref is not JSON Pointer terminated
+    private JsonPointer otherMatchingPointer(final JsonRef ref)
+    {
+        return otherRefs.get(ref);
+    }
+
     private static void walk(final JsonRef baseRef, final JsonNode node,
-        final JsonPointer ptr, final Map<JsonRef, JsonPointer> map)
+        final JsonPointer ptr, final Map<JsonRef, JsonPointer> ptrMap,
+        final Map<JsonRef, JsonPointer> otherMap)
     {
         if (!node.isObject())
             return;
 
-        JsonRef nextRef = baseRef;
         final JsonRef ref = idFromNode(node);
+        final Map<JsonRef, JsonPointer> targetMap;
+
+        JsonRef nextRef = baseRef;
 
         if (ref != null) {
             nextRef = baseRef.resolve(ref);
-            map.put(nextRef, ptr);
+            targetMap = nextRef.getFragment().isPointer() ? ptrMap : otherMap;
+            targetMap.put(nextRef, ptr);
         }
 
         final Map<String, JsonNode> tmp = JacksonUtils.asMap(node);
 
         for (final Map.Entry<String, JsonNode> entry: tmp.entrySet())
-            walk(nextRef, entry.getValue(), ptr.append(entry.getKey()), map);
+            walk(nextRef, entry.getValue(), ptr.append(entry.getKey()), ptrMap,
+                otherMap);
     }
 
     private static boolean refContains(final JsonRef inlineRef,
