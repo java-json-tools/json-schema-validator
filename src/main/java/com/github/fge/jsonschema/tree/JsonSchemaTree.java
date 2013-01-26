@@ -83,6 +83,12 @@ public interface JsonSchemaTree
     JsonNode retrieve(final JsonRef ref);
 
     /**
+     * Get the loading URI for that schema
+     *
+     * @return the loading URI as a {@link JsonRef}
+     */
+    JsonRef getLoadingRef();
+    /**
      * Get the current resolution context
      *
      * @return the context as a {@link JsonRef}

@@ -136,17 +136,16 @@ public abstract class BaseJsonSchemaTree
         super.pop();
     }
 
-    /**
-     * Resolve a JSON Reference against the current resolution context
-     *
-     * @param other the JSON Reference to resolve
-     * @return the resolved reference
-     * @see JsonRef#resolve(JsonRef)
-     */
     @Override
     public final JsonRef resolve(final JsonRef other)
     {
         return currentRef.resolve(other);
+    }
+
+    @Override
+    public final JsonRef getLoadingRef()
+    {
+        return loadingRef;
     }
 
     @Override
