@@ -126,11 +126,11 @@ public abstract class JsonSchemaTree
          * we need to walk the nodes in order to correctly calculate the new URI
          * context.
          */
-        dirStack.push(pwd);
+        dirStack.push(currentPointer);
         nodeStack.push(currentNode);
         refStack.push(currentRef);
 
-        pwd = pwd.append(ptr);
+        currentPointer = currentPointer.append(ptr);
 
         JsonRef nextRef = currentRef, id;
         JsonNode nextNode = currentNode;

@@ -65,7 +65,7 @@ public abstract class JsonTree
     /**
      * The current JSON Pointer into the node. Starts empty.
      */
-    protected JsonPointer pwd = JsonPointer.empty();
+    protected JsonPointer currentPointer = JsonPointer.empty();
 
     /**
      * The current node.
@@ -92,8 +92,8 @@ public abstract class JsonTree
      */
     public void append(final String refToken)
     {
-        dirStack.push(pwd);
-        pwd = pwd.append(refToken);
+        dirStack.push(currentPointer);
+        currentPointer = currentPointer.append(refToken);
         nodeStack.push(currentNode);
         currentNode = currentNode.path(refToken);
     }
@@ -106,8 +106,8 @@ public abstract class JsonTree
      */
     public void append(final int index)
     {
-        dirStack.push(pwd);
-        pwd = pwd.append(index);
+        dirStack.push(currentPointer);
+        currentPointer = currentPointer.append(index);
         nodeStack.push(currentNode);
         currentNode = currentNode.path(index);
     }
@@ -120,10 +120,10 @@ public abstract class JsonTree
      */
     public void append(final JsonPointer ptr)
     {
-        dirStack.push(pwd);
-        pwd = pwd.append(ptr);
+        dirStack.push(currentPointer);
+        currentPointer = currentPointer.append(ptr);
         nodeStack.push(currentNode);
-        currentNode = pwd.resolve(currentNode);
+        currentNode = currentPointer.resolve(currentNode);
     }
 
     /**
@@ -134,8 +134,18 @@ public abstract class JsonTree
      */
     public void pop()
     {
-        pwd = dirStack.pop();
+        currentPointer = dirStack.pop();
         currentNode = nodeStack.pop();
+    }
+
+    /**
+     * Get the current JSON Pointer into the tree
+     *
+     * @return the pointer
+     */
+    public final JsonPointer getCurrentPointer()
+    {
+        return currentPointer;
     }
 
     /**
@@ -152,7 +162,8 @@ public abstract class JsonTree
     @Override
     public String toString()
     {
-        return "pwd = \"" + pwd + "\"; current = " + currentNode;
+        return "current pointer: \"" + currentPointer
+            + "\"; current node: " + currentNode;
     }
 }
 
