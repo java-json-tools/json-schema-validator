@@ -27,6 +27,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -239,6 +240,11 @@ public final class JsonPointer
         }
 
         return builder.build();
+    }
+
+    public boolean isParentOf(final JsonPointer other)
+    {
+        return Collections.indexOfSubList(other.elements, elements) == 0;
     }
 
     /**

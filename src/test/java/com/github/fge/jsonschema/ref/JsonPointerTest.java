@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.collect.ImmutableSet;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -148,5 +149,28 @@ public final class JsonPointerTest
             .add(false);
 
         assertTrue(ptr.resolve(node).isMissingNode());
+    }
+
+    @DataProvider
+    public Iterator<Object[]> parentData()
+    {
+        return ImmutableSet.of(
+            new Object[] { "", "", true },
+            new Object[] { "/a", "", false },
+            new Object[] { "/a", "/b", false },
+            new Object[] { "/a", "/a/b", true },
+            new Object[] { "/x/00/t", "/x/00/t/", true },
+            new Object[] { "/a/b", "//a/b", false }
+        ).iterator();
+    }
+
+    @Test(dataProvider = "parentData")
+    public void parentRelationshipsAreCorrectlyDetected(final String s1,
+        final String s2, final boolean isParent)
+        throws JsonSchemaException
+    {
+        final JsonPointer ptr1 = new JsonPointer(s1);
+        final JsonPointer ptr2 = new JsonPointer(s2);
+        assertEquals(ptr1.isParentOf(ptr2), isParent);
     }
 }

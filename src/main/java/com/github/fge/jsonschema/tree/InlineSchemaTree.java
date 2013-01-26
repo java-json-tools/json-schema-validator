@@ -25,7 +25,6 @@ import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
-import java.util.List;
 import java.util.Map;
 
 public final class InlineSchemaTree
@@ -107,28 +106,7 @@ public final class InlineSchemaTree
         if (!(inlineFragment.isPointer() && refFragment.isPointer()))
             return false;
 
-        /*
-         * Grab the list of elements
-         */
-        final List<JsonPointer> inlineElements
-            = ((JsonPointer) inlineFragment).asElements();
-        final List<JsonPointer> refElements
-            = ((JsonPointer) refFragment).asElements();
-
-        /*
-         * If the list of elements of the inline pointer is greater, no match
-         */
-        final int size = inlineElements.size();
-        if (size > refElements.size())
-            return false;
-
-        /*
-         * Compare elements one by one
-         */
-        for (int index = 0; index < size; index++)
-            if (!inlineElements.get(index).equals(refElements.get(index)))
-                return false;
-
-        return true;
+        return ((JsonPointer) inlineFragment)
+            .isParentOf((JsonPointer) refFragment);
     }
 }
