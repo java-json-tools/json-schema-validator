@@ -154,23 +154,26 @@ public final class JsonPointerTest
     @DataProvider
     public Iterator<Object[]> parentData()
     {
-        return ImmutableSet.of(
-            new Object[] { "", "", true },
-            new Object[] { "/a", "", false },
-            new Object[] { "/a", "/b", false },
-            new Object[] { "/a", "/a/b", true },
-            new Object[] { "/x/00/t", "/x/00/t/", true },
-            new Object[] { "/a/b", "//a/b", false }
+        return ImmutableSet.<Object[]>of(
+            new Object[] { "", "", "", true },
+            new Object[] { "/a", "", "", false },
+            new Object[] { "/a", "/b", "/b", false },
+            new Object[] { "/a", "/a/b", "/b", true },
+            new Object[] { "/x/00/t", "/x/00/t/", "/", true },
+            new Object[] { "/a/b", "//a/b", "//a/b", false },
+            new Object[] { "/definitions/a", "/definitions/a/b", "/b", true }
         ).iterator();
     }
 
     @Test(dataProvider = "parentData")
-    public void parentRelationshipsAreCorrectlyDetected(final String s1,
-        final String s2, final boolean isParent)
+    public void parentRelationshipsAreCorrectlyProcessed(final String source,
+        final String target, final String ret, final boolean isParent)
         throws JsonSchemaException
     {
-        final JsonPointer ptr1 = new JsonPointer(s1);
-        final JsonPointer ptr2 = new JsonPointer(s2);
-        assertEquals(ptr1.isParentOf(ptr2), isParent);
+        final JsonPointer sourcePtr = new JsonPointer(source);
+        final JsonPointer targetPtr = new JsonPointer(target);
+        final JsonPointer retPtr = new JsonPointer(ret);
+        assertEquals(sourcePtr.isParentOf(targetPtr), isParent);
+        assertEquals(sourcePtr.relativize(targetPtr), retPtr);
     }
 }

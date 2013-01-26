@@ -260,6 +260,15 @@ public final class JsonPointer
         return Collections.indexOfSubList(other.elements, elements) == 0;
     }
 
+    public JsonPointer relativize(final JsonPointer other)
+    {
+        if (!isParentOf(other))
+            return other;
+        final List<String> list = other.elements.subList(elements.size(),
+            other.elements.size());
+        return fromElements(list);
+    }
+
     /**
      * Initialize the object
      *
