@@ -38,7 +38,7 @@ import com.github.fge.jsonschema.ref.JsonRef;
  * @see JsonFragment#isPointer()
  */
 public final class CanonicalSchemaTree
-    extends JsonSchemaTree
+    extends BaseJsonSchemaTree
 {
     public CanonicalSchemaTree(final JsonRef loadingRef,
         final JsonNode baseNode)

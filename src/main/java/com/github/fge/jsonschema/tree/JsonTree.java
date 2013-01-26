@@ -20,9 +20,6 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.ref.JsonPointer;
-import com.google.common.collect.Queues;
-
-import java.util.Deque;
 
 /**
  * A JSON value decorated with JSON Pointer information
@@ -45,58 +42,15 @@ import java.util.Deque;
  *
  * @see JsonPointer
  */
-public abstract class JsonTree
+public interface JsonTree
 {
-    /**
-     * The initial node
-     */
-    protected final JsonNode baseNode;
-
-    /**
-     * The queue of JSON Pointers
-     */
-    protected final Deque<JsonPointer> dirStack = Queues.newArrayDeque();
-
-    /**
-     * The queue of nodes
-     */
-    protected final Deque<JsonNode> nodeStack = Queues.newArrayDeque();
-
-    /**
-     * The current JSON Pointer into the node. Starts empty.
-     */
-    protected JsonPointer currentPointer = JsonPointer.empty();
-
-    /**
-     * The current node.
-     */
-    protected JsonNode currentNode;
-
-    /**
-     * Protected constructor
-     *
-     * <p>A newly constructed tree start at the root of the document.</p>
-     *
-     * @param baseNode the base node
-     */
-    protected JsonTree(final JsonNode baseNode)
-    {
-        this.baseNode = currentNode = baseNode;
-    }
-
     /**
      * Append a reference token to the current path
      *
      * @param refToken the reference token
      * @see JsonPointer#append(String)
      */
-    public void append(final String refToken)
-    {
-        dirStack.push(currentPointer);
-        currentPointer = currentPointer.append(refToken);
-        nodeStack.push(currentNode);
-        currentNode = currentNode.path(refToken);
-    }
+    void append(final String refToken);
 
     /**
      * Append an array index to the current path
@@ -104,13 +58,7 @@ public abstract class JsonTree
      * @param index the index
      * @see JsonPointer#append(int)
      */
-    public void append(final int index)
-    {
-        dirStack.push(currentPointer);
-        currentPointer = currentPointer.append(index);
-        nodeStack.push(currentNode);
-        currentNode = currentNode.path(index);
-    }
+    void append(final int index);
 
     /**
      * Append a JSON Pointer to the current pointer
@@ -118,13 +66,7 @@ public abstract class JsonTree
      * @param ptr the pointer to append
      * @see JsonPointer#append(JsonPointer)
      */
-    public void append(final JsonPointer ptr)
-    {
-        dirStack.push(currentPointer);
-        currentPointer = currentPointer.append(ptr);
-        nodeStack.push(currentNode);
-        currentNode = currentPointer.resolve(currentNode);
-    }
+    void append(final JsonPointer ptr);
 
     /**
      * Reverts the last append
@@ -132,21 +74,14 @@ public abstract class JsonTree
      * <p>Note: this operation will fail badly if you haven't appended any token
      * yet, so use with care!</p>
      */
-    public void pop()
-    {
-        currentPointer = dirStack.pop();
-        currentNode = nodeStack.pop();
-    }
+    void pop();
 
     /**
      * Get the current JSON Pointer into the tree
      *
      * @return the pointer
      */
-    public final JsonPointer getCurrentPointer()
-    {
-        return currentPointer;
-    }
+    JsonPointer getCurrentPointer();
 
     /**
      * Get the node at the current pointer
@@ -154,16 +89,6 @@ public abstract class JsonTree
      * @return the matching node (a {@link MissingNode} if there is no matching
      * node at that pointer)
      */
-    public final JsonNode getCurrentNode()
-    {
-        return currentNode;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "current pointer: \"" + currentPointer
-            + "\"; current node: " + currentNode;
-    }
+    JsonNode getCurrentNode();
 }
 

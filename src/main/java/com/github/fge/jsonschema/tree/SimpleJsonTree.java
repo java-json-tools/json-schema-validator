@@ -19,8 +19,11 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * A simple {@link JsonTree}
+ */
 public final class SimpleJsonTree
-    extends JsonTree
+    extends BaseJsonTree
 {
     public SimpleJsonTree(final JsonNode baseNode)
     {
