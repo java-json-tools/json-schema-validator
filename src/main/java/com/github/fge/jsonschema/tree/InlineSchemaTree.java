@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.ref.JsonFragment;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -57,6 +58,13 @@ public final class InlineSchemaTree
                 return true;
 
         return false;
+    }
+
+    @Override
+    public JsonNode retrieve(final JsonRef ref)
+    {
+        // TODO
+        return MissingNode.getInstance();
     }
 
     private static void walk(final JsonRef baseRef, final JsonNode node,

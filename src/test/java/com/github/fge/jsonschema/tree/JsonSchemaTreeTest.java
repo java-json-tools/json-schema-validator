@@ -34,6 +34,7 @@ import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -44,6 +45,8 @@ public final class JsonSchemaTreeTest
     private final JsonNodeFactory factory = JacksonUtils.nodeFactory();
     private JsonNode data;
     private JsonNode schema;
+    private JsonNode data2;
+    private JsonNode schema2;
 
     @BeforeClass
     public void init()
@@ -51,6 +54,8 @@ public final class JsonSchemaTreeTest
     {
         data = JsonLoader.fromResource("/tree/tree.json");
         schema = data.get("schema");
+        data2 = JsonLoader.fromResource("/tree/retrieval.json");
+        schema2 = data2.get("schema");
     }
 
     @Test
@@ -181,5 +186,37 @@ public final class JsonSchemaTreeTest
 
         assertTrue(tree.contains(loadingRef));
         assertTrue(tree.contains(scope));
+    }
+
+    @DataProvider
+    public Iterator<Object[]> retrievalData()
+        throws JsonSchemaException
+    {
+        final JsonNode node = data2.get("retrievals");
+        final Set<Object[]> set = Sets.newHashSet();
+
+        for (final JsonNode element: node)
+            set.add(new Object[] {
+                JsonRef.fromString(element.get("id").textValue()),
+                new JsonPointer(element.get("ptr").textValue())
+            });
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "retrievalData")
+    public void canonicalTreeRetrievesDataCorrectly(final JsonRef id,
+        final JsonPointer ptr)
+        throws URISyntaxException
+    {
+        final URI baseUri = new URI("x", "y", "/z", null);
+        final JsonRef baseRef = JsonRef.fromURI(baseUri);
+        final URI uri = new URI("x", "y", "/z", ptr.toString());
+        final JsonRef ref = JsonRef.fromURI(uri);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(baseRef, schema2);
+
+        final JsonNode expected = ptr.resolve(schema2);
+
+        assertEquals(tree.retrieve(ref), expected);
     }
 }

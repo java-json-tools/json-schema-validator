@@ -39,4 +39,10 @@ public final class CanonicalSchemaTree
     {
         return loadingRef.contains(ref);
     }
+
+    @Override
+    public JsonNode retrieve(final JsonRef ref)
+    {
+        return ref.getFragment().resolve(baseNode);
+    }
 }
