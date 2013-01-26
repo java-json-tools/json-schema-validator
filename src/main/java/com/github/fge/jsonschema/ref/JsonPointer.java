@@ -242,6 +242,15 @@ public final class JsonPointer
         return builder.build();
     }
 
+    /**
+     * Return true if this JSON Pointer is "parent" of another one
+     *
+     * <p>That is, its number of reference tokens is less than, or equal to,
+     * the other pointer's, and its first elements are the same.</p>
+     *
+     * @param other the other pointer
+     * @return true if this pointer is the parent of the other
+     */
     public boolean isParentOf(final JsonPointer other)
     {
         return Collections.indexOfSubList(other.elements, elements) == 0;
