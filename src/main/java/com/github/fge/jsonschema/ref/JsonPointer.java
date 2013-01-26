@@ -146,6 +146,16 @@ public final class JsonPointer
         this.elements = elements;
     }
 
+    private static JsonPointer fromElements(final List<String> elements)
+    {
+        final StringBuilder sb = new StringBuilder();
+
+        for (final String raw: elements)
+            sb.append('/').append(refTokenEncode(raw));
+
+        return new JsonPointer(sb.toString(), elements);
+    }
+
     /**
      * Append a pointer to the current pointer
      *
@@ -230,14 +240,8 @@ public final class JsonPointer
         final ImmutableList.Builder<JsonPointer> builder
             = ImmutableList.builder();
 
-        JsonPointer ptr;
-        String fullptr;
-
-        for (final String raw: elements) {
-            fullptr = '/' + refTokenEncode(raw);
-            ptr = new JsonPointer(fullptr, ImmutableList.of(raw));
-            builder.add(ptr);
-        }
+        for (final String raw: elements)
+            builder.add(fromElements(ImmutableList.of(raw)));
 
         return builder.build();
     }
