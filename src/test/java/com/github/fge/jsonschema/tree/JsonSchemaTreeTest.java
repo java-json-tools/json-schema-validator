@@ -161,4 +161,20 @@ public final class JsonSchemaTreeTest
         tree.pop();
         assertSame(tree.getCurrentRef(), origRef);
     }
+
+    @Test(dataProvider = "getContexts")
+    public void pointerSetCorrectlyCalculatesContext(final String path,
+        final String s)
+        throws JsonSchemaException
+    {
+        final JsonPointer ptr = new JsonPointer(path);
+        final JsonRef scope = JsonRef.fromString(s);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final JsonRef origRef = tree.getCurrentRef();
+
+        tree.setPointer(ptr);
+        assertEquals(tree.getCurrentRef(), scope);
+        tree.pop();
+        assertSame(tree.getCurrentRef(), origRef);
+    }
 }

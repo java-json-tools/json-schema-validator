@@ -40,6 +40,14 @@ public abstract class BaseJsonSchemaTree
     protected final JsonRef loadingRef;
 
     /**
+     * The JSON Reference representing the context at the root of the schema
+     *
+     * <p>It will defer from {@link #loadingRef} if there is an {@code id} at
+     * the top level.</p>
+     */
+    protected final JsonRef startingRef;
+
+    /**
      * The stack of resolution contexts
      */
     protected final Deque<JsonRef> refStack = Queues.newArrayDeque();
@@ -65,6 +73,8 @@ public abstract class BaseJsonSchemaTree
 
         if (ref != null)
             currentRef = currentRef.resolve(ref);
+
+        startingRef = currentRef;
     }
 
     /**
@@ -84,51 +94,22 @@ public abstract class BaseJsonSchemaTree
     @Override
     public final void append(final String refToken)
     {
-        pushPointer(currentPointer.append(refToken));
-        pushNode(currentNode.path(refToken));
-        refStack.push(currentRef);
-        final JsonRef ref = idFromNode(currentNode);
-        if (ref != null)
-            currentRef = currentRef.resolve(ref);
+        append(JsonPointer.empty().append(refToken));
     }
 
     @Override
     public final void append(final int index)
     {
-        pushPointer(currentPointer.append(index));
-        pushNode(currentNode.path(index));
-        refStack.push(currentRef);
-        final JsonRef ref = idFromNode(currentNode);
-        if (ref != null)
-            currentRef = currentRef.resolve(ref);
+        append(JsonPointer.empty().append(index));
     }
 
     @Override
     public final void append(final JsonPointer ptr)
     {
-        /*
-         * We can push all old elements and set the new pwd right away. However,
-         * we need to walk the nodes in order to correctly calculate the new URI
-         * context.
-         */
-        pointerStack.push(currentPointer);
-        nodeStack.push(currentNode);
         refStack.push(currentRef);
-
-        currentPointer = currentPointer.append(ptr);
-
-        JsonRef nextRef = currentRef, id;
-        JsonNode nextNode = currentNode;
-
-        for (final JsonPointer p: ptr.asElements()) {
-            nextNode = p.resolve(nextNode);
-            id = idFromNode(nextNode);
-            if (id != null)
-                nextRef = nextRef.resolve(id);
-        }
-
-        currentRef = nextRef;
-        currentNode = nextNode;
+        currentRef = nextRef(currentRef, ptr.asElements(), currentNode);
+        pushPointer(currentPointer.append(ptr));
+        pushNode(ptr.resolve(currentNode));
     }
 
     @Override
@@ -137,6 +118,15 @@ public abstract class BaseJsonSchemaTree
         currentRef = refStack.pop();
         popPointer();
         popNode();
+    }
+
+    @Override
+    public final void setPointer(final JsonPointer pointer)
+    {
+        refStack.push(currentRef);
+        currentRef = nextRef(startingRef, pointer.asElements(), baseNode);
+        pushPointer(pointer);
+        pushNode(pointer.resolve(baseNode));
     }
 
     @Override
@@ -183,6 +173,31 @@ public abstract class BaseJsonSchemaTree
         } catch (JsonSchemaException ignored) {
             return null;
         }
+    }
+
+    /**
+     * Calculate the next URI context from a starting reference and node
+     *
+     * @param startingRef the starting reference
+     * @param pointers the list of JSON Pointers
+     * @param startingNode the starting node
+     * @return the calculated reference
+     */
+    private static JsonRef nextRef(final JsonRef startingRef,
+        final Iterable<JsonPointer> pointers, final JsonNode startingNode)
+    {
+        JsonRef ret = startingRef;
+        JsonRef idRef;
+        JsonNode node = startingNode;
+
+        for (final JsonPointer pointer: pointers) {
+            node = pointer.resolve(node);
+            idRef = idFromNode(node);
+            if (idRef != null)
+                ret = ret.resolve(idRef);
+        }
+
+        return ret;
     }
 
     @Override

@@ -43,6 +43,8 @@ import com.github.fge.jsonschema.ref.JsonRef;
 public interface JsonSchemaTree
     extends JsonTree
 {
+    void setPointer(final JsonPointer pointer);
+
     /**
      * Resolve a JSON Reference against the current resolution context
      *
