@@ -84,7 +84,8 @@ public abstract class BaseJsonSchemaTree
     @Override
     public final void append(final String refToken)
     {
-        super.append(refToken);
+        pushPointer(currentPointer.append(refToken));
+        pushNode(currentNode.path(refToken));
         refStack.push(currentRef);
         final JsonRef ref = idFromNode(currentNode);
         if (ref != null)
@@ -94,7 +95,8 @@ public abstract class BaseJsonSchemaTree
     @Override
     public final void append(final int index)
     {
-        super.append(index);
+        pushPointer(currentPointer.append(index));
+        pushNode(currentNode.path(index));
         refStack.push(currentRef);
         final JsonRef ref = idFromNode(currentNode);
         if (ref != null)
@@ -109,7 +111,7 @@ public abstract class BaseJsonSchemaTree
          * we need to walk the nodes in order to correctly calculate the new URI
          * context.
          */
-        dirStack.push(currentPointer);
+        pointerStack.push(currentPointer);
         nodeStack.push(currentNode);
         refStack.push(currentRef);
 
@@ -133,7 +135,8 @@ public abstract class BaseJsonSchemaTree
     public final void pop()
     {
         currentRef = refStack.pop();
-        super.pop();
+        popPointer();
+        popNode();
     }
 
     @Override

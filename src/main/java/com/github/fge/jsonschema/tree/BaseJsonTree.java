@@ -40,7 +40,7 @@ public abstract class BaseJsonTree
     /**
      * The queue of JSON Pointers
      */
-    protected final Deque<JsonPointer> dirStack = Queues.newArrayDeque();
+    protected final Deque<JsonPointer> pointerStack = Queues.newArrayDeque();
 
     /**
      * The queue of nodes
@@ -70,40 +70,6 @@ public abstract class BaseJsonTree
     }
 
     @Override
-    public void append(final String refToken)
-    {
-        dirStack.push(currentPointer);
-        currentPointer = currentPointer.append(refToken);
-        nodeStack.push(currentNode);
-        currentNode = currentNode.path(refToken);
-    }
-
-    @Override
-    public void append(final int index)
-    {
-        dirStack.push(currentPointer);
-        currentPointer = currentPointer.append(index);
-        nodeStack.push(currentNode);
-        currentNode = currentNode.path(index);
-    }
-
-    @Override
-    public void append(final JsonPointer ptr)
-    {
-        dirStack.push(currentPointer);
-        currentPointer = currentPointer.append(ptr);
-        nodeStack.push(currentNode);
-        currentNode = currentPointer.resolve(currentNode);
-    }
-
-    @Override
-    public void pop()
-    {
-        currentPointer = dirStack.pop();
-        currentNode = nodeStack.pop();
-    }
-
-    @Override
     public final JsonPointer getCurrentPointer()
     {
         return currentPointer;
@@ -113,6 +79,28 @@ public abstract class BaseJsonTree
     public final JsonNode getCurrentNode()
     {
         return currentNode;
+    }
+
+    protected final void pushPointer(final JsonPointer pointer)
+    {
+        pointerStack.push(currentPointer);
+        currentPointer = pointer;
+    }
+
+    protected final void pushNode(final JsonNode node)
+    {
+        nodeStack.push(currentNode);
+        currentNode = node;
+    }
+
+    protected final void popPointer()
+    {
+        currentPointer = pointerStack.pop();
+    }
+
+    protected final void popNode()
+    {
+        currentNode = nodeStack.pop();
     }
 
     @Override

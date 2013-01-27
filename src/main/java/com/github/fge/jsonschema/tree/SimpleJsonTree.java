@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.ref.JsonPointer;
 
 /**
  * A simple {@link JsonTree}
@@ -31,10 +32,31 @@ public final class SimpleJsonTree
     }
 
     @Override
-    public String toString()
+    public void append(final String refToken)
     {
-        return "current pointer: \"" + currentPointer
-            + "\"; current node: \"" + currentNode;
+        pushPointer(currentPointer.append(refToken));
+        pushNode(currentNode.path(refToken));
+    }
+
+    @Override
+    public void append(final int index)
+    {
+        pushPointer(currentPointer.append(index));
+        pushNode(currentNode.path(index));
+    }
+
+    @Override
+    public void append(final JsonPointer ptr)
+    {
+        pushNode(ptr.resolve(currentNode));
+        pushPointer(currentPointer.append(ptr));
+    }
+
+    @Override
+    public void pop()
+    {
+        popPointer();
+        popNode();
     }
 
     @Override
@@ -42,5 +64,12 @@ public final class SimpleJsonTree
     {
         return FACTORY.objectNode()
             .set("pointer", FACTORY.textNode(currentPointer.toString()));
+    }
+
+    @Override
+    public String toString()
+    {
+        return "current pointer: \"" + currentPointer
+            + "\"; current node: \"" + currentNode;
     }
 }
