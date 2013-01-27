@@ -171,8 +171,8 @@ public final class JsonSchemaTreeTest
         final JsonRef scope = JsonRef.fromString(s);
         final JsonSchemaTree tree = new CanonicalSchemaTree(loadingRef, schema);
 
-        assertTrue(tree.contains(loadingRef));
-        assertFalse(tree.contains(scope));
+        assertTrue(tree.containsRef(loadingRef));
+        assertFalse(tree.containsRef(scope));
     }
 
     @Test(dataProvider = "getContexts")
@@ -184,8 +184,8 @@ public final class JsonSchemaTreeTest
         final JsonRef scope = JsonRef.fromString(s);
         final JsonSchemaTree tree = new InlineSchemaTree(loadingRef, schema);
 
-        assertTrue(tree.contains(loadingRef));
-        assertTrue(tree.contains(scope));
+        assertTrue(tree.containsRef(loadingRef));
+        assertTrue(tree.containsRef(scope));
     }
 
     @DataProvider
@@ -215,9 +215,7 @@ public final class JsonSchemaTreeTest
         final JsonRef ref = JsonRef.fromURI(uri);
         final JsonSchemaTree tree = new CanonicalSchemaTree(baseRef, schema2);
 
-        final JsonNode expected = ptr.resolve(schema2);
-
-        assertEquals(tree.retrieve(ref), expected);
+        assertEquals(tree.matchingPointer(ref), ptr);
     }
 
     @Test(dataProvider = "retrievalData")
@@ -229,8 +227,6 @@ public final class JsonSchemaTreeTest
         final JsonRef baseRef = JsonRef.fromURI(baseUri);
         final JsonSchemaTree tree = new InlineSchemaTree(baseRef, schema2);
 
-        final JsonNode expected = ptr.resolve(schema2);
-
-        assertEquals(tree.retrieve(id), expected);
+        assertEquals(tree.matchingPointer(id), ptr);
     }
 }

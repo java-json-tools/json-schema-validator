@@ -17,8 +17,7 @@
 
 package com.github.fge.jsonschema.tree;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 
 /**
@@ -67,20 +66,18 @@ public interface JsonSchemaTree
      * @return see description
      * @see #resolve(JsonRef)
      */
-    boolean contains(final JsonRef ref);
+    boolean containsRef(final JsonRef ref);
 
     /**
-     * Try and retrieve a node in this tree from a JSON Reference
+     * Return a matching pointer in this tree for a fully resolved reference
      *
-     * <p>This method must be called if and only if {@link #contains(JsonRef)}
-     * returns {@code true} for this reference.</p>
-     *
-     * <p>This method is <i>not</i> guaranteed to succeed!</p>
+     * <p>This must be called <b>only</b> when {@link #containsRef(JsonRef)}
+     * returns {@code true}.</p>
      *
      * @param ref the reference
-     * @return the node (a {@link MissingNode} if not found)
+     * @return the matching pointer, or {@code null} if not found
      */
-    JsonNode retrieve(final JsonRef ref);
+    JsonPointer matchingPointer(final JsonRef ref);
 
     /**
      * Get the loading URI for that schema
@@ -88,6 +85,7 @@ public interface JsonSchemaTree
      * @return the loading URI as a {@link JsonRef}
      */
     JsonRef getLoadingRef();
+
     /**
      * Get the current resolution context
      *

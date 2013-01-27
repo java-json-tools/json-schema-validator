@@ -18,7 +18,10 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.ref.JsonFragment;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 
 /**
@@ -52,14 +55,52 @@ public final class CanonicalSchemaTree
     }
 
     @Override
-    public boolean contains(final JsonRef ref)
+    public boolean containsRef(final JsonRef ref)
     {
         return loadingRef.contains(ref);
     }
 
+    /**
+     * Return a matching pointer in this tree for a fully resolved reference
+     *
+     * <p>Here, it is easy enough:</p>
+     *
+     * <ul>
+     *     <li>if the fragment is not a JSON Pointer, no match;</li>
+     *     <li>otherwise, check whether resolving the fragment yields any other
+     *     node than a {@link MissingNode}.</li>
+     * </ul>
+     *
+     * @param ref the reference
+     * @return the matching pointer, or {@code null} if not found
+     */
     @Override
-    public JsonNode retrieve(final JsonRef ref)
+    public JsonPointer matchingPointer(final JsonRef ref)
     {
-        return ref.getFragment().resolve(baseNode);
+        final JsonFragment fragment = ref.getFragment();
+
+        return fragment.resolve(baseNode).isMissingNode()
+            ? null : (JsonPointer) fragment;
+    }
+
+    @Override
+    public JsonNode asJson()
+    {
+        final ObjectNode ret = FACTORY.objectNode();
+
+        ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
+        ret.put("pointer", FACTORY.textNode(currentPointer.toString()));
+        ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
+        ret.put("referencing", FACTORY.textNode("canonical"));
+
+        return ret;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "(canonical) loadingRef: \"" + loadingRef
+            + "\"; current pointer: \"" + currentPointer
+            + "\"; current context: \"" + currentRef + '"';
     }
 }

@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -96,16 +95,9 @@ public final class InlineSchemaTree
      * @see JsonPointer#isParentOf(JsonPointer)
      */
     @Override
-    public boolean contains(final JsonRef ref)
+    public boolean containsRef(final JsonRef ref)
     {
         return matchingPointer(ref) != null;
-    }
-
-    @Override
-    public JsonNode retrieve(final JsonRef ref)
-    {
-        final JsonPointer ptr = matchingPointer(ref);
-        return ptr == null ? MissingNode.getInstance() : ptr.resolve(baseNode);
     }
 
     /**
@@ -118,11 +110,13 @@ public final class InlineSchemaTree
      * @param ref the reference
      * @return the matching pointer, or {@code null} if not found
      */
-    private JsonPointer matchingPointer(final JsonRef ref)
+    @Override
+    public JsonPointer matchingPointer(final JsonRef ref)
     {
-        return ref.getFragment().isPointer()
+        final JsonPointer ret = ref.getFragment().isPointer()
             ? refMatchingPointer(ref)
             : otherMatchingPointer(ref);
+        return ret.resolve(baseNode).isMissingNode() ? null : ret;
     }
 
     /**
@@ -178,7 +172,7 @@ public final class InlineSchemaTree
      *
      * <p>Unlike what happens with a canonical schema tree, we <i>must</i> walk
      * the whole tree in advance here. This is necessary for {@link
-     * #contains(JsonRef)} and {@link #retrieve(JsonRef)} to work.</p>
+     * #containsRef(JsonRef)} and {@link #matchingPointer(JsonRef)} to work.</p>
      *
      * <p>This method is called recursively. Its furst invocation is from the
      * constructor, with {@link #loadingRef} as a reference, {@link #baseNode}
@@ -225,6 +219,7 @@ public final class InlineSchemaTree
         ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
         ret.put("pointer", FACTORY.textNode(currentPointer.toString()));
         ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
+        ret.put("referencing", FACTORY.textNode("inline"));
 
         return ret;
     }
@@ -232,6 +227,8 @@ public final class InlineSchemaTree
     @Override
     public String toString()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return "(inline) loadingRef: \"" + loadingRef
+            + "\"; current pointer: \"" + currentPointer
+            + "\"; current context: \"" + currentRef + '"';
     }
 }
