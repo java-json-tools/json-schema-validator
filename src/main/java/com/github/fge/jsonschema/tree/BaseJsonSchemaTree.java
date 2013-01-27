@@ -181,4 +181,10 @@ public abstract class BaseJsonSchemaTree
             return null;
         }
     }
+
+    @Override
+    public final String toString()
+    {
+        return asJson().toString();
+    }
 }

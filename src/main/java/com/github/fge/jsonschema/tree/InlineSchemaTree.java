@@ -222,16 +222,8 @@ public final class InlineSchemaTree
         ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
         ret.put("pointer", FACTORY.textNode(currentPointer.toString()));
         ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
-        ret.put("referencing", FACTORY.textNode("inline"));
+        ret.put("dereferencing", FACTORY.textNode("inline"));
 
         return ret;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "(inline) loadingRef: \"" + loadingRef
-            + "\"; current pointer: \"" + currentPointer
-            + "\"; current context: \"" + currentRef + '"';
     }
 }

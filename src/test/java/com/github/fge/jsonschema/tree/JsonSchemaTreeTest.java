@@ -27,14 +27,13 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import org.testng.internal.annotations.Sets;
 
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -42,20 +41,20 @@ import static org.testng.Assert.*;
 
 public final class JsonSchemaTreeTest
 {
+    /*
+     * This class only tests that the context information is calculated
+     * correctly
+     */
     private final JsonNodeFactory factory = JacksonUtils.nodeFactory();
     private JsonNode data;
     private JsonNode schema;
-    private JsonNode data2;
-    private JsonNode schema2;
 
     @BeforeClass
     public void init()
         throws IOException
     {
-        data = JsonLoader.fromResource("/tree/tree.json");
+        data = JsonLoader.fromResource("/tree/context.json");
         schema = data.get("schema");
-        data2 = JsonLoader.fromResource("/tree/retrieval.json");
-        schema2 = data2.get("schema");
     }
 
     @Test
@@ -99,6 +98,38 @@ public final class JsonSchemaTreeTest
         assertEquals(tree.getCurrentRef(), resolved);
     }
 
+    @Test
+    public void pathElementAppendCalculatesContext()
+        throws JsonSchemaException
+    {
+        final ObjectNode node = factory.objectNode();
+        final ObjectNode child = factory.objectNode();
+        final String id = "foo#";
+        final JsonRef ref = JsonRef.fromString(id);
+        child.put("id", id);
+        node.put("child", child);
+
+        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
+        tree.append("child");
+        assertEquals(tree.getCurrentRef(), ref);
+    }
+
+    @Test
+    public void arrayIndexAppendCalcuatesContext()
+        throws JsonSchemaException
+    {
+        final ArrayNode node = factory.arrayNode();
+        final ObjectNode child = factory.objectNode();
+        final String id = "foo#";
+        final JsonRef ref = JsonRef.fromString(id);
+        child.put("id", id);
+        node.add(child);
+
+        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
+        tree.append(0);
+        assertEquals(tree.getCurrentRef(), ref);
+    }
+
     @DataProvider
     public Iterator<Object[]> getContexts()
     {
@@ -116,7 +147,8 @@ public final class JsonSchemaTreeTest
     }
 
     @Test(dataProvider = "getContexts")
-    public void contextsAreCorrectlyComputed(final String path, final String s)
+    public void pointerAppendCorrectlyCalculatesContext(final String path,
+        final String s)
         throws JsonSchemaException
     {
         final JsonPointer ptr = new JsonPointer(path);
@@ -128,105 +160,5 @@ public final class JsonSchemaTreeTest
         assertEquals(tree.getCurrentRef(), scope);
         tree.pop();
         assertSame(tree.getCurrentRef(), origRef);
-    }
-
-    @Test
-    public void pathElementPushCalculatesContext()
-        throws JsonSchemaException
-    {
-        final ObjectNode node = factory.objectNode();
-        final ObjectNode child = factory.objectNode();
-        final String id = "foo#";
-        final JsonRef ref = JsonRef.fromString(id);
-        child.put("id", id);
-        node.put("child", child);
-
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        tree.append("child");
-        assertEquals(tree.getCurrentRef(), ref);
-    }
-
-    @Test
-    public void arrayIndexPushCalcuatesContext()
-        throws JsonSchemaException
-    {
-        final ArrayNode node = factory.arrayNode();
-        final ObjectNode child = factory.objectNode();
-        final String id = "foo#";
-        final JsonRef ref = JsonRef.fromString(id);
-        child.put("id", id);
-        node.add(child);
-
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        tree.append(0);
-        assertEquals(tree.getCurrentRef(), ref);
-    }
-
-    @Test(dataProvider = "getContexts")
-    public void canonicalSchemaTreeContainsNoInlineContexts(final String path,
-        final String s)
-        throws JsonSchemaException
-    {
-        final JsonRef loadingRef = JsonRef.fromString("foo://bar");
-        final JsonRef scope = JsonRef.fromString(s);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(loadingRef, schema);
-
-        assertTrue(tree.containsRef(loadingRef));
-        assertFalse(tree.containsRef(scope));
-    }
-
-    @Test(dataProvider = "getContexts")
-    public void inlineSchemaTreeContainsInlineContexts(final String path,
-        final String s)
-        throws JsonSchemaException
-    {
-        final JsonRef loadingRef = JsonRef.fromString("foo://bar");
-        final JsonRef scope = JsonRef.fromString(s);
-        final JsonSchemaTree tree = new InlineSchemaTree(loadingRef, schema);
-
-        assertTrue(tree.containsRef(loadingRef));
-        assertTrue(tree.containsRef(scope));
-    }
-
-    @DataProvider
-    public Iterator<Object[]> retrievalData()
-        throws JsonSchemaException
-    {
-        final JsonNode node = data2.get("retrievals");
-        final Set<Object[]> set = Sets.newHashSet();
-
-        for (final JsonNode element: node)
-            set.add(new Object[] {
-                JsonRef.fromString(element.get("id").textValue()),
-                new JsonPointer(element.get("ptr").textValue())
-            });
-
-        return set.iterator();
-    }
-
-    @Test(dataProvider = "retrievalData")
-    public void canonicalTreeRetrievesDataCorrectly(final JsonRef id,
-        final JsonPointer ptr)
-        throws URISyntaxException
-    {
-        final URI baseUri = new URI("x", "y", "/z", null);
-        final JsonRef baseRef = JsonRef.fromURI(baseUri);
-        final URI uri = new URI("x", "y", "/z", ptr.toString());
-        final JsonRef ref = JsonRef.fromURI(uri);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(baseRef, schema2);
-
-        assertEquals(tree.matchingPointer(ref), ptr);
-    }
-
-    @Test(dataProvider = "retrievalData")
-    public void inlineTreeRetrievesDataCorrectly(final JsonRef id,
-        final JsonPointer ptr)
-        throws URISyntaxException
-    {
-        final URI baseUri = new URI("x", "y", "/z", null);
-        final JsonRef baseRef = JsonRef.fromURI(baseUri);
-        final JsonSchemaTree tree = new InlineSchemaTree(baseRef, schema2);
-
-        assertEquals(tree.matchingPointer(id), ptr);
     }
 }

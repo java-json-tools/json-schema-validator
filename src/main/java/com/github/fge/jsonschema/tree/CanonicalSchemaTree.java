@@ -91,16 +91,8 @@ public final class CanonicalSchemaTree
         ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
         ret.put("pointer", FACTORY.textNode(currentPointer.toString()));
         ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
-        ret.put("referencing", FACTORY.textNode("canonical"));
+        ret.put("dereferencing", FACTORY.textNode("canonical"));
 
         return ret;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "(canonical) loadingRef: \"" + loadingRef
-            + "\"; current pointer: \"" + currentPointer
-            + "\"; current context: \"" + currentRef + '"';
     }
 }
