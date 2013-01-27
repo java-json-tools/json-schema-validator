@@ -18,11 +18,14 @@
 package com.github.fge.jsonschema.processing;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
+import java.util.Collection;
 import java.util.Map;
 
 public final class ProcessingMessage
@@ -31,29 +34,93 @@ public final class ProcessingMessage
 
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
 
-    public ObjectNode asJson()
+    private LogThreshold threshold;
+
+    public ProcessingMessage()
+    {
+        setLogThreshold(LogThreshold.INFO);
+    }
+
+    public ProcessingMessage setLogThreshold(final LogThreshold threshold)
+    {
+        this.threshold = Preconditions.checkNotNull(threshold,
+            "log threshold cannot be null");
+        return put("level", threshold);
+    }
+
+    public ProcessingMessage msg(final String message)
+    {
+        return put("message", message);
+    }
+
+    public ProcessingMessage put(final String key, final JsonNode value)
+    {
+        if (value == null)
+            return putNull(key);
+        map.put(key, value.deepCopy());
+        return this;
+    }
+
+    public ProcessingMessage put(final String key, final String value)
+    {
+        return value == null ? putNull(key) : put(key, FACTORY.textNode(value));
+    }
+
+    public <T> ProcessingMessage put(final String key, final T value)
+    {
+        return value == null
+            ? putNull(key)
+            : put(key, FACTORY.textNode(value.toString()));
+    }
+
+    public <T> ProcessingMessage put(final String key,
+        final Collection<T> values)
+    {
+        if (values == null)
+            return putNull(key);
+        final ArrayNode node = FACTORY.arrayNode();
+        for (final T value: values)
+            node.add(value == null
+                ? FACTORY.nullNode()
+                : FACTORY.textNode(value.toString()));
+        return put(key, node);
+    }
+
+    public LogThreshold getThreshold()
+    {
+        return threshold;
+    }
+
+    public JsonNode asJson()
     {
         final ObjectNode ret = FACTORY.objectNode();
         ret.putAll(map);
         return ret;
     }
 
-    public ProcessingMessage setLogThreshold(final LogThreshold threshold)
+    @Override
+    public int hashCode()
     {
-        put("level", threshold);
+        return map.hashCode();
+    }
+
+    private ProcessingMessage putNull(final String key)
+    {
+        map.put(key, FACTORY.nullNode());
         return this;
     }
 
-    public ProcessingMessage put(final String key, final JsonNode value)
+    @Override
+    public boolean equals(final Object obj)
     {
-        map.put(key, value);
-        return this;
-    }
-
-    public <T> ProcessingMessage put(final String key, final T value)
-    {
-        map.put(key, FACTORY.textNode(value.toString()));
-        return this;
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+        final ProcessingMessage other = (ProcessingMessage) obj;
+        return map.equals(other.map);
     }
 
     @Override
