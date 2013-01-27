@@ -164,6 +164,12 @@ public final class ProcessingContextTest
         }
 
         @Override
+        public ProcessingMessage newMessage()
+        {
+            return null;
+        }
+
+        @Override
         public Object getOutput()
         {
             return null;

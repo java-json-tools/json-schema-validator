@@ -87,5 +87,7 @@ public abstract class ProcessingContext<T>
             log(msg.setLogThreshold(threshold));
     }
 
+    public abstract ProcessingMessage newMessage();
+
     public abstract T getOutput();
 }
