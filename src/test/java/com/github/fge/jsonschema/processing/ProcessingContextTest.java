@@ -18,30 +18,38 @@
 package com.github.fge.jsonschema.processing;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
-import java.util.Set;
+import java.util.List;
 
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class ProcessingContextTest
 {
-    private static final LogThreshold[] THRESHOLDS = LogThreshold.values();
+    /*
+     * All thresholds except fatal
+     */
+    private static final EnumSet<LogThreshold> THRESHOLDS
+        = EnumSet.complementOf(EnumSet.of(LogThreshold.FATAL));
 
     @DataProvider
     public Iterator<Object[]> getLogThresholds()
     {
-        final Set<Object[]> set = Sets.newHashSet();
+        final List<Object[]> list = Lists.newArrayList();
 
-        for (final LogThreshold threshold: LogThreshold.values())
-            set.add(new Object[] { threshold });
+        for (final LogThreshold threshold: THRESHOLDS)
+            list.add(new Object[] { threshold });
 
-        return set.iterator();
+        // We don't want the values in the same order repeatedly, so...
+        Collections.shuffle(list);
+
+        return list.iterator();
     }
 
     @Test(dataProvider = "getLogThresholds")
@@ -49,7 +57,7 @@ public final class ProcessingContextTest
         throws ProcessingException
     {
         final ProcessingMessage msg = new ProcessingMessage();
-        final int nrInvocations  = THRESHOLDS.length - logThreshold.ordinal();
+        final int nrInvocations  = THRESHOLDS.size() - logThreshold.ordinal();
         final ProcessingContext<Object> ctx = spy(new TestProcessingContext());
 
         ctx.setLogThreshold(logThreshold);
@@ -83,6 +91,7 @@ public final class ProcessingContextTest
     {
         final ProcessingContext<Object> ctx = new TestProcessingContext();
         final ProcessingMessage msg = new ProcessingMessage();
+        ctx.setLogThreshold(threshold);
         ctx.doLog(threshold, msg);
 
         final JsonNode node = msg.asJson().path("level");
@@ -93,8 +102,8 @@ public final class ProcessingContextTest
     @Test(dataProvider = "getLogThresholds")
     public void exceptionThresholdIsObeyed(final LogThreshold logThreshold)
     {
-        final EnumSet<LogThreshold> notThrown =
-            EnumSet.noneOf(LogThreshold.class);
+        final EnumSet<LogThreshold> notThrown
+            = EnumSet.noneOf(LogThreshold.class);
 
         for (final LogThreshold threshold: THRESHOLDS) {
             if (threshold.compareTo(logThreshold) >= 0)
@@ -124,6 +133,19 @@ public final class ProcessingContextTest
                     + " whereas exception threshold is " + logThreshold + '!');
             } catch (ProcessingException ignored) {
             }
+    }
+
+    @Test
+    public void fatalAlwaysThrowsAnException()
+    {
+        final ProcessingMessage msg = new ProcessingMessage();
+        final ProcessingContext<Object> ctx = new TestProcessingContext();
+
+        try {
+            ctx.fatal(msg);
+            fail("No exception thrown!");
+        } catch (ProcessingException ignored) {
+        }
     }
 
     private static class TestProcessingContext

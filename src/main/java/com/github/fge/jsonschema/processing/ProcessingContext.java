@@ -18,15 +18,12 @@
 package com.github.fge.jsonschema.processing;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
-
-import java.util.Comparator;
 
 public abstract class ProcessingContext<T>
 {
-    protected LogThreshold currentThreshold = null;
-    protected LogThreshold logThreshold = null;
-    protected LogThreshold exceptionThreshold = null;
+    protected LogThreshold currentThreshold = LogThreshold.DEBUG;
+    protected LogThreshold logThreshold = LogThreshold.INFO;
+    protected LogThreshold exceptionThreshold = LogThreshold.FATAL;
 
     public final void setLogThreshold(final LogThreshold threshold)
     {
@@ -70,7 +67,7 @@ public abstract class ProcessingContext<T>
 
     public final boolean isSuccess()
     {
-        return CMP.compare(LogThreshold.ERROR, currentThreshold) > 0;
+        return currentThreshold.compareTo(LogThreshold.ERROR) < 0;
     }
 
     public abstract void log(final ProcessingMessage msg);
@@ -82,34 +79,13 @@ public abstract class ProcessingContext<T>
     final void doLog(final LogThreshold threshold, final ProcessingMessage msg)
         throws ProcessingException
     {
-        if (exceptionThreshold != null
-            && threshold.compareTo(exceptionThreshold) >= 0)
+        if (threshold.compareTo(exceptionThreshold) >= 0)
             throw buildException(msg);
-        if (CMP.compare(threshold, currentThreshold) > 0)
+        if (threshold.compareTo(currentThreshold) > 0)
             currentThreshold = threshold;
-        if (CMP.compare(threshold, logThreshold) >= 0)
+        if (threshold.compareTo(logThreshold) >= 0)
             log(msg.setLogThreshold(threshold));
     }
 
     public abstract T getOutput();
-
-    /**
-     * Custom comparator for log thresholds
-     *
-     * <p>The first argument is not allowed to be {@code null}. The second can
-     * be. {@code null} is "lower" than any other value.</p>
-     *
-     * <p>This means the comparator contract is violated, but then this
-     * comparator is only used internally, within this class.</p>
-     */
-    private static final Comparator<LogThreshold> CMP
-        = new Comparator<LogThreshold>()
-    {
-        @Override
-        public int compare(final LogThreshold o1, final LogThreshold o2)
-        {
-            Preconditions.checkNotNull(o1);
-            return o2 == null ? 1 : o1.compareTo(o2);
-        }
-    };
 }
