@@ -174,7 +174,7 @@ public final class JsonSchemaTreeTest
 
         tree.setPointer(ptr);
         assertEquals(tree.getCurrentRef(), scope);
-        tree.pop();
+        tree.setPointer(JsonPointer.empty());
         assertSame(tree.getCurrentRef(), origRef);
     }
 }
