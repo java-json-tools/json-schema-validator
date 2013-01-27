@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.google.common.base.Objects;
 import com.google.common.collect.Queues;
 
 import java.util.Deque;
@@ -32,6 +33,11 @@ public abstract class BaseJsonSchemaTree
     extends BaseJsonTree
     implements JsonSchemaTree
 {
+    /**
+     * Whether inline dereferencing is used
+     */
+    protected final boolean inline;
+
     /**
      * The JSON Reference from which this node has been loaded
      *
@@ -64,9 +70,10 @@ public abstract class BaseJsonSchemaTree
      * @param baseNode the base node
      */
     protected BaseJsonSchemaTree(final JsonRef loadingRef,
-        final JsonNode baseNode)
+        final JsonNode baseNode, final boolean  inline)
     {
         super(baseNode);
+        this.inline = inline;
         this.loadingRef = currentRef = loadingRef;
 
         final JsonRef ref = idFromNode(baseNode);
@@ -80,15 +87,16 @@ public abstract class BaseJsonSchemaTree
     /**
      * Constructor for a schema tree loaded without a reference
      *
-     * <p>This calls {@link #BaseJsonSchemaTree(JsonRef, JsonNode)} with an empty
+     * <p>This calls {@link
+     * #BaseJsonSchemaTree(JsonRef, JsonNode, boolean)} with an empty
      * reference as the loading reference.</p>
      *
      * @param baseNode the base node
      * @see JsonRef#emptyRef()
      */
-    protected BaseJsonSchemaTree(final JsonNode baseNode)
+    protected BaseJsonSchemaTree(final JsonNode baseNode, final boolean inline)
     {
-        this(JsonRef.emptyRef(), baseNode);
+        this(JsonRef.emptyRef(), baseNode, inline);
     }
 
     @Override
@@ -147,6 +155,18 @@ public abstract class BaseJsonSchemaTree
         return currentRef;
     }
 
+    public final JsonSchemaTree copy()
+    {
+        final BaseJsonSchemaTree ret = inline
+            ? new InlineSchemaTree(loadingRef, baseNode)
+            : new CanonicalSchemaTree(loadingRef, baseNode);
+
+        ret.currentRef = currentRef;
+        ret.currentPointer = currentPointer;
+        ret.currentNode = currentNode;
+        return ret;
+    }
+
     /**
      * Build a JSON Reference from a node
      *
@@ -198,6 +218,30 @@ public abstract class BaseJsonSchemaTree
         }
 
         return ret;
+    }
+
+    /*
+     * Note about .equals()/.hashCode(): we don't check whether the container
+     * uses inline dereferencing. The loading mechanisms don't care.
+     */
+    @Override
+    public final int hashCode()
+    {
+        return Objects.hashCode(loadingRef, baseNode);
+    }
+
+    @Override
+    public final boolean equals(final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof BaseJsonSchemaTree))
+            return false;
+        final BaseJsonSchemaTree other = (BaseJsonSchemaTree) obj;
+        return loadingRef.equals(other.loadingRef)
+            && baseNode.equals(other.baseNode);
     }
 
     @Override

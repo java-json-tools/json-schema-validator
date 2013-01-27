@@ -94,4 +94,11 @@ public interface JsonSchemaTree
      * @return the context as a {@link JsonRef}
      */
     JsonRef getCurrentRef();
+
+    /**
+     * Return a copy of this tree at its current state but with an empty stack
+     *
+     * @return the copy
+     */
+    JsonSchemaTree copy();
 }

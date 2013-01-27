@@ -104,6 +104,12 @@ public abstract class BaseJsonTree
     }
 
     @Override
+    public abstract int hashCode();
+
+    @Override
+    public abstract boolean equals(final Object obj);
+
+    @Override
     public abstract String toString();
 }
 

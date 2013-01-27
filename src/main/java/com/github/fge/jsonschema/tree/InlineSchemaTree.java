@@ -57,7 +57,7 @@ public final class InlineSchemaTree
 
     public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
     {
-        super(loadingRef, baseNode);
+        super(loadingRef, baseNode, true);
 
         final Map<JsonRef, JsonPointer> ptrMap = Maps.newHashMap();
         final Map<JsonRef, JsonPointer> otherMap = Maps.newHashMap();

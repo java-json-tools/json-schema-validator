@@ -46,12 +46,12 @@ public final class CanonicalSchemaTree
     public CanonicalSchemaTree(final JsonRef loadingRef,
         final JsonNode baseNode)
     {
-        super(loadingRef, baseNode);
+        super(loadingRef, baseNode, false);
     }
 
     public CanonicalSchemaTree(final JsonNode baseNode)
     {
-        super(baseNode);
+        this(JsonRef.emptyRef(), baseNode);
     }
 
     @Override
