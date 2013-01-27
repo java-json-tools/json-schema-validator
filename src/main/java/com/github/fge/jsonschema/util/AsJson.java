@@ -15,32 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.tree;
+package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-/**
- * A simple {@link JsonTree}
- */
-public final class SimpleJsonTree
-    extends BaseJsonTree
+public interface AsJson
 {
-    public SimpleJsonTree(final JsonNode baseNode)
-    {
-        super(baseNode);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "current pointer: \"" + currentPointer
-            + "\"; current node: \"" + currentNode;
-    }
-
-    @Override
-    public JsonNode asJson()
-    {
-        return FACTORY.objectNode()
-            .set("pointer", FACTORY.textNode(currentPointer.toString()));
-    }
+    JsonNode asJson();
 }

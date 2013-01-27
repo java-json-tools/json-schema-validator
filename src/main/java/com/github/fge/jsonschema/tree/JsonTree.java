@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.util.AsJson;
 
 /**
  * A JSON value decorated with JSON Pointer information
@@ -43,6 +44,7 @@ import com.github.fge.jsonschema.ref.JsonPointer;
  * @see JsonPointer
  */
 public interface JsonTree
+    extends AsJson
 {
     /**
      * Append a reference token to the current path

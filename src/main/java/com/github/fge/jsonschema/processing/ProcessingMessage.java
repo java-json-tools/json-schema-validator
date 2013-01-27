@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
@@ -29,6 +30,7 @@ import java.util.Collection;
 import java.util.Map;
 
 public final class ProcessingMessage
+    implements AsJson
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
@@ -61,6 +63,11 @@ public final class ProcessingMessage
         return this;
     }
 
+    public ProcessingMessage put(final String key, final AsJson asJson)
+    {
+        return put(key, asJson.asJson());
+    }
+
     public ProcessingMessage put(final String key, final String value)
     {
         return value == null ? putNull(key) : put(key, FACTORY.textNode(value));
@@ -91,17 +98,18 @@ public final class ProcessingMessage
         return threshold;
     }
 
+    private ProcessingMessage putNull(final String key)
+    {
+        map.put(key, FACTORY.nullNode());
+        return this;
+    }
+
+    @Override
     public JsonNode asJson()
     {
         final ObjectNode ret = FACTORY.objectNode();
         ret.putAll(map);
         return ret;
-    }
-
-    private ProcessingMessage putNull(final String key)
-    {
-        map.put(key, FACTORY.nullNode());
-        return this;
     }
 
     @Override

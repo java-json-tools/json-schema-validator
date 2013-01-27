@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
@@ -214,5 +215,23 @@ public final class InlineSchemaTree
         for (final Map.Entry<String, JsonNode> entry: tmp.entrySet())
             walk(nextRef, entry.getValue(), ptr.append(entry.getKey()), ptrMap,
                 otherMap);
+    }
+
+    @Override
+    public JsonNode asJson()
+    {
+        final ObjectNode ret = FACTORY.objectNode();
+
+        ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
+        ret.put("pointer", FACTORY.textNode(currentPointer.toString()));
+        ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
+
+        return ret;
+    }
+
+    @Override
+    public String toString()
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

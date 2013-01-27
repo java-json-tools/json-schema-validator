@@ -18,7 +18,9 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Queues;
 
 import java.util.Deque;
@@ -29,6 +31,7 @@ import java.util.Deque;
 public abstract class BaseJsonTree
     implements JsonTree
 {
+    protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     /**
      * The initial node
      */
@@ -113,10 +116,6 @@ public abstract class BaseJsonTree
     }
 
     @Override
-    public String toString()
-    {
-        return "current pointer: \"" + currentPointer
-            + "\"; current node: " + currentNode;
-    }
+    public abstract String toString();
 }
 

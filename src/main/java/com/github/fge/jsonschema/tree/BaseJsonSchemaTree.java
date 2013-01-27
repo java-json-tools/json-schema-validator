@@ -181,12 +181,4 @@ public abstract class BaseJsonSchemaTree
             return null;
         }
     }
-
-    @Override
-    public final String toString()
-    {
-        return "loading URI: \"" + loadingRef
-            + "\" ; current context: \"" + currentRef
-            + "; " + super.toString();
-    }
 }
