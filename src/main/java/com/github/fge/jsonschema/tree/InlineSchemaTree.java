@@ -116,6 +116,9 @@ public final class InlineSchemaTree
         final JsonPointer ret = ref.getFragment().isPointer()
             ? refMatchingPointer(ref)
             : otherMatchingPointer(ref);
+        if (ret == null)
+            return null;
+
         return ret.resolve(baseNode).isMissingNode() ? null : ret;
     }
 
