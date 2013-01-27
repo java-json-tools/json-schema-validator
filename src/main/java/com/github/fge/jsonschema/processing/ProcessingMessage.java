@@ -98,16 +98,16 @@ public final class ProcessingMessage
         return ret;
     }
 
-    @Override
-    public int hashCode()
-    {
-        return map.hashCode();
-    }
-
     private ProcessingMessage putNull(final String key)
     {
         map.put(key, FACTORY.nullNode());
         return this;
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return map.hashCode();
     }
 
     @Override
