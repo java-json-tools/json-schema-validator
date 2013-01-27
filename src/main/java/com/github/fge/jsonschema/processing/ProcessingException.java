@@ -20,4 +20,38 @@ package com.github.fge.jsonschema.processing;
 public final class ProcessingException
     extends Exception
 {
+    private final ProcessingMessage processingMessage;
+
+    public ProcessingException()
+    {
+        this(new ProcessingMessage());
+    }
+
+    public ProcessingException(final String message)
+    {
+        this(new ProcessingMessage().msg(message));
+    }
+
+    public ProcessingException(final ProcessingMessage processingMessage)
+    {
+        this.processingMessage = processingMessage
+            .setLogThreshold(LogThreshold.FATAL);
+    }
+
+    @Override
+    public String getMessage()
+    {
+        return processingMessage.toString();
+    }
+
+    @Override
+    public String getLocalizedMessage()
+    {
+        return getMessage();
+    }
+
+    public ProcessingMessage getProcessingMessage()
+    {
+        return processingMessage;
+    }
 }
