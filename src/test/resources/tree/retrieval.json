@@ -214,7 +214,7 @@
         },
         "default": {}
     },
-    "retrievals": [
+    "lookups": [
         {
             "id": "http://json-schema.org/draft-04/schema#/description",
             "ptr": "/description"
