@@ -88,7 +88,7 @@ public abstract class RefResolverProcessorTest
             tree.append(ptr);
             ref = node.get("ref");
             path = node.get("path");
-            list.add(new Object[] { tree, ref, path } );
+            list.add(new Object[] { tree, ref, path });
         }
 
         return list.iterator();
@@ -110,6 +110,52 @@ public abstract class RefResolverProcessorTest
                 "JSON Reference loop detected");
             assertEquals(msgNode.get("ref"), ref);
             assertEquals(msgNode.get("path"), path);
+        }
+    }
+
+    @DataProvider
+    protected final Iterator<Object[]> danglingData()
+        throws JsonSchemaException
+    {
+        final JsonPointer basePtr = JsonPointer.empty()
+            .append(dereferencing.toString()).append("404");
+        final JsonNode data = basePtr.resolve(baseSchema);
+        final Map<String, JsonNode> map = JacksonUtils.asMap(data);
+        final List<Object[]> list = Lists.newArrayList();
+
+        JsonSchemaTree tree;
+        JsonPointer ptr;
+        JsonNode node, ref;
+        String name;
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            name = entry.getKey();
+            node = entry.getValue();
+            ptr = basePtr.append(name);
+            tree = dereferencing.newTree(LOADING_REF, baseSchema);
+            tree.append(ptr);
+            ref = node.get("ref");
+            list.add(new Object[] { tree, ref });
+        }
+
+        return list.iterator();
+    }
+
+    @Test(dataProvider = "danglingData")
+    public final void danglingRefsAreCorrectlyReported(
+        final JsonSchemaTree tree, final JsonNode ref)
+    {
+        final JsonSchemaContext context = new JsonSchemaContext(tree);
+        final JsonNode msgNode;
+
+        try {
+            processor.process(context);
+            fail("No exception thrown!");
+        } catch (ProcessingException e) {
+            msgNode = e.getProcessingMessage().asJson();
+            assertEquals(msgNode.get("message").textValue(),
+                "unresolvable JSON Reference");
+            assertEquals(msgNode.get("ref"), ref);
         }
     }
 }

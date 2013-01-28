@@ -40,6 +40,12 @@
                     "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop4"
                 ]
             }
+        },
+        "404": {
+            "loop1": {
+                "$ref": "#/404",
+                "ref": "resource:/processing/ref/repo/schema1.json#/404"
+            }
         }
     },
     "inline": {
@@ -107,6 +113,12 @@
                 "a": {
                     "$ref": "resource:/processing/ref/repo/schema1.json#/inline/loops/loop7"
                 }
+            }
+        },
+        "404": {
+            "loop1": {
+                "$ref": "#/404",
+                "ref": "resource:/processing/ref/repo/schema1.json#/404"
             }
         }
     }
