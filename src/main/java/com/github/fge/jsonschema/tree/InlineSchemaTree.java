@@ -97,29 +97,24 @@ public final class InlineSchemaTree
     @Override
     public boolean containsRef(final JsonRef ref)
     {
-        return matchingPointer(ref) != null;
+        return getMatchingPointer(ref) != null;
     }
 
-    /**
-     * Return a matching pointer in this tree for a fully resolved reference
-     *
-     * <p>Depending on whether the reference's fragment is a JSON Pointer,
-     * this will call either {@link #refMatchingPointer(JsonRef)} or {@link
-     * #otherMatchingPointer(JsonRef)}.</p>
-     *
-     * @param ref the reference
-     * @return the matching pointer, or {@code null} if not found
-     */
     @Override
     public JsonPointer matchingPointer(final JsonRef ref)
     {
-        final JsonPointer ret = ref.getFragment().isPointer()
-            ? refMatchingPointer(ref)
-            : otherMatchingPointer(ref);
+        final JsonPointer ret = getMatchingPointer(ref);
         if (ret == null)
             return null;
 
         return ret.resolve(baseNode).isMissingNode() ? null : ret;
+    }
+
+    private JsonPointer getMatchingPointer(final JsonRef ref)
+    {
+        return ref.getFragment().isPointer()
+            ? refMatchingPointer(ref)
+            : otherMatchingPointer(ref);
     }
 
     /**
