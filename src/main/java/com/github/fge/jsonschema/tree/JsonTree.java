@@ -47,22 +47,6 @@ public interface JsonTree
     extends AsJson
 {
     /**
-     * Append a reference token to the current path
-     *
-     * @param refToken the reference token
-     * @see JsonPointer#append(String)
-     */
-    void append(final String refToken);
-
-    /**
-     * Append an array index to the current path
-     *
-     * @param index the index
-     * @see JsonPointer#append(int)
-     */
-    void append(final int index);
-
-    /**
      * Append a JSON Pointer to the current pointer
      *
      * @param ptr the pointer to append

@@ -32,20 +32,6 @@ public final class SimpleJsonTree
     }
 
     @Override
-    public void append(final String refToken)
-    {
-        pushPointer(currentPointer.append(refToken));
-        pushNode(currentNode.path(refToken));
-    }
-
-    @Override
-    public void append(final int index)
-    {
-        pushPointer(currentPointer.append(index));
-        pushNode(currentNode.path(index));
-    }
-
-    @Override
     public void append(final JsonPointer ptr)
     {
         pushNode(ptr.resolve(currentNode));

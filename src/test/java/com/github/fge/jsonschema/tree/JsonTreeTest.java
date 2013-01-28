@@ -58,23 +58,6 @@ public final class JsonTreeTest
     }
 
     @Test
-    public void pushdOfPathElementWorks()
-    {
-        final JsonTree tree = new SimpleJsonTree(testNode);
-        tree.append("object");
-        assertSame(tree.getCurrentNode(), childObject);
-    }
-
-    @Test
-    public void pushdOfArrayIndexWorks()
-    {
-        final JsonTree tree = new SimpleJsonTree(testNode);
-        tree.append("array");
-        tree.append(0);
-        assertSame(tree.getCurrentNode(), childArray.get(0));
-    }
-
-    @Test
     public void pushdOfJsonPointerWorks()
     {
         final JsonTree tree = new SimpleJsonTree(testNode);
@@ -84,16 +67,12 @@ public final class JsonTreeTest
         assertSame(tree.getCurrentNode(), childObject.get("a"));
     }
 
-    @Test(dependsOnMethods = {
-        "pushdOfPathElementWorks",
-        "pushdOfArrayIndexWorks",
-        "pushdOfJsonPointerWorks"
-    })
+    @Test(dependsOnMethods = "pushdOfJsonPointerWorks")
     public void popdWorks()
     {
         final JsonTree tree = new SimpleJsonTree(testNode);
-        tree.append("object");
-        tree.append("a");
+        tree.append(JsonPointer.empty().append("object"));
+        tree.append(JsonPointer.empty().append("a"));
         tree.pop();
         assertSame(tree.getCurrentNode(), childObject);
         tree.pop();

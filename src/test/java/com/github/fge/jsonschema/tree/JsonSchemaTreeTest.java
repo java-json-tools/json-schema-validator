@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
@@ -96,38 +95,6 @@ public final class JsonSchemaTreeTest
 
         final JsonSchemaTree tree = new CanonicalSchemaTree(loadingRef, node);
         assertEquals(tree.getCurrentRef(), resolved);
-    }
-
-    @Test
-    public void pathElementAppendCalculatesContext()
-        throws JsonSchemaException
-    {
-        final ObjectNode node = factory.objectNode();
-        final ObjectNode child = factory.objectNode();
-        final String id = "foo#";
-        final JsonRef ref = JsonRef.fromString(id);
-        child.put("id", id);
-        node.put("child", child);
-
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        tree.append("child");
-        assertEquals(tree.getCurrentRef(), ref);
-    }
-
-    @Test
-    public void arrayIndexAppendCalcuatesContext()
-        throws JsonSchemaException
-    {
-        final ArrayNode node = factory.arrayNode();
-        final ObjectNode child = factory.objectNode();
-        final String id = "foo#";
-        final JsonRef ref = JsonRef.fromString(id);
-        child.put("id", id);
-        node.add(child);
-
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        tree.append(0);
-        assertEquals(tree.getCurrentRef(), ref);
     }
 
     @DataProvider

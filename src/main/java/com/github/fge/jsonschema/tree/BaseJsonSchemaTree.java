@@ -84,33 +84,6 @@ public abstract class BaseJsonSchemaTree
         startingRef = currentRef;
     }
 
-    /**
-     * Constructor for a schema tree loaded without a reference
-     *
-     * <p>This calls {@link
-     * #BaseJsonSchemaTree(JsonRef, JsonNode, boolean)} with an empty
-     * reference as the loading reference.</p>
-     *
-     * @param baseNode the base node
-     * @see JsonRef#emptyRef()
-     */
-    protected BaseJsonSchemaTree(final JsonNode baseNode, final boolean inline)
-    {
-        this(JsonRef.emptyRef(), baseNode, inline);
-    }
-
-    @Override
-    public final void append(final String refToken)
-    {
-        append(JsonPointer.empty().append(refToken));
-    }
-
-    @Override
-    public final void append(final int index)
-    {
-        append(JsonPointer.empty().append(index));
-    }
-
     @Override
     public final void append(final JsonPointer ptr)
     {
@@ -155,6 +128,7 @@ public abstract class BaseJsonSchemaTree
         return currentRef;
     }
 
+    @Override
     public final JsonSchemaTree copy()
     {
         final BaseJsonSchemaTree ret = inline
