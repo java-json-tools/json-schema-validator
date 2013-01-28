@@ -40,6 +40,7 @@ import static org.testng.Assert.*;
 public final class RefResolverProcessorTest
 {
     private JsonNode loops;
+    private JsonNode dangling;
     private SchemaLoader loader;
     private RefResolverProcessor processor;
 
@@ -48,12 +49,14 @@ public final class RefResolverProcessorTest
         throws IOException
     {
         loops = JsonLoader.fromResource("/processing/ref/canonical/loops.json");
+        dangling = JsonLoader.fromResource("/processing/ref/canonical"
+            + "/dangling.json");
         loader = new SchemaLoader(new URIManager(), URI.create(""), false);
         processor = new RefResolverProcessor(loader);
     }
 
     @DataProvider
-    public Iterator<Object[]> getData()
+    public Iterator<Object[]> getLoops()
         throws JsonSchemaException
     {
         final Set<Object[]> set = Sets.newHashSet();
@@ -69,7 +72,7 @@ public final class RefResolverProcessorTest
         return set.iterator();
     }
 
-    @Test(dataProvider = "getData")
+    @Test(dataProvider = "getLoops")
     public void refLoopsAreDetected(final JsonNode schema,
         final JsonPointer pointer, final String ref, final JsonNode pathNode)
     {
@@ -77,13 +80,56 @@ public final class RefResolverProcessorTest
         tree.setPointer(pointer);
         final JsonSchemaContext context = new JsonSchemaContext(tree);
 
+        final JsonNode node;
+
         try {
             processor.process(context);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
             final ProcessingMessage msg = e.getProcessingMessage();
-            assertEquals(msg.asJson().get("ref").textValue(), ref);
-            assertEquals(msg.asJson().get("path"), pathNode);
+            node = msg.asJson();
+            assertEquals(node.get("message").textValue(),
+                "JSON Reference loop detected");
+            assertEquals(node.get("ref").textValue(), ref);
+            assertEquals(node.get("path"), pathNode);
+        }
+    }
+
+    @DataProvider
+    public Iterator<Object[]> getDangling()
+        throws JsonSchemaException
+    {
+        final Set<Object[]> set = Sets.newHashSet();
+
+        for (final JsonNode element: dangling)
+            set.add(new Object[] {
+                element.get("schema"),
+                new JsonPointer(element.get("pointer").textValue()),
+                element.get("ref").textValue()
+            });
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "getDangling")
+    public void danglingRefsAreDetected(final JsonNode schema,
+        final JsonPointer pointer, final String ref)
+    {
+        final JsonSchemaTree tree = loader.load(schema);
+        tree.setPointer(pointer);
+        final JsonSchemaContext context = new JsonSchemaContext(tree);
+
+        final JsonNode node;
+
+        try {
+            processor.process(context);
+            fail("No exception thrown!");
+        } catch (ProcessingException e) {
+            final ProcessingMessage msg = e.getProcessingMessage();
+            node = msg.asJson();
+            assertEquals(node.get("message").textValue(),
+                "unresolvable JSON Reference");
+            assertEquals(node.get("ref").textValue(), ref);
         }
     }
 }

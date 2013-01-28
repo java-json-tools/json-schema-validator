@@ -95,7 +95,7 @@ public final class RefResolverProcessor
              */
             if (!refs.add(ref))
                 throw new ProcessingException(msg
-                    .msg("JSON reference loop detected")
+                    .msg("JSON Reference loop detected")
                     .put("ref", ref).put("path", refs));
             /*
              * Check whether ref is resolvable within the current tree. If not,
@@ -113,8 +113,7 @@ public final class RefResolverProcessor
             ptr = tree.matchingPointer(ref);
             if (ptr == null)
                 throw new ProcessingException(msg
-                    .msg("unresolvable JSON reference")
-                    .put("ref", ref).put("path", refs));
+                    .msg("unresolvable JSON Reference").put("ref", ref));
             tree.setPointer(ptr);
         }
 
