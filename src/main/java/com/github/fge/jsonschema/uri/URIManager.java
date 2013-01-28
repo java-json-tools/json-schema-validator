@@ -17,10 +17,9 @@
 
 package com.github.fge.jsonschema.uri;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonschema.keyword.NumericKeywordValidator;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.Domain;
@@ -52,15 +51,9 @@ import java.util.Map;
 public final class URIManager
 {
     /**
-     * Our object mapper
-     *
-     * <p>Note that it uses {@link
-     * DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS} to deserialize, for
-     * accuracy reasons.</p>
-     *
-     * @see NumericKeywordValidator
+     * Our object reader
      */
-    private static final ObjectMapper MAPPER = JacksonUtils.getMapper();
+    private static final ObjectReader READER = JacksonUtils.getReader();
 
     /**
      * Map of downloaders (schemes as keys, {@link URIDownloader} instances
@@ -219,9 +212,9 @@ public final class URIManager
         }
 
         try {
-            // Note: ObjectMapper's .readTree() closes the InputStream after it
+            // Note: ObjectReader's .readTree() closes the InputStream after it
             // is done with it!
-            return MAPPER.readTree(in);
+            return READER.readTree(in);
         } catch (IOException e) {
             msg.setMessage("content fetched from URI is not valid JSON");
             throw JsonSchemaException.wrap(msg.build(), e);

@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
 import java.io.File;
@@ -33,20 +33,15 @@ import java.net.URL;
  * Utility class to load JSON documents (schemas or instance) from various
  * sources as {@link JsonNode}s.
  *
- * <p>This class uses {@link JacksonUtils#getMapper()} as an {@link
- * ObjectMapper} to parse JSON inputs.</p>
+ * <p>This class uses {@link JacksonUtils#getReader()} as an {@link
+ * ObjectReader} to parse JSON inputs.</p>
  */
 public final class JsonLoader
 {
     /**
      * The mapper which does everything behind the scenes...
      */
-    private static final ObjectMapper MAPPER = JacksonUtils.getMapper();
-
-    /**
-     * A shortcut: myself as a {@link Class} object.
-     */
-    private static final Class<JsonLoader> myself = JsonLoader.class;
+    private static final ObjectReader READER = JacksonUtils.getReader();
 
     private JsonLoader()
     {
@@ -65,7 +60,8 @@ public final class JsonLoader
     public static JsonNode fromResource(final String resource)
         throws IOException
     {
-        final InputStream in = myself.getResourceAsStream(resource);
+        final InputStream in
+            = JsonLoader.class.getResourceAsStream(resource);
 
         if (in == null)
             throw new IOException("resource " + resource + " not found");
@@ -73,7 +69,7 @@ public final class JsonLoader
         final JsonNode ret;
 
         try {
-            ret = MAPPER.readTree(in);
+            ret = READER.readTree(in);
         } finally {
             in.close();
         }
@@ -91,7 +87,7 @@ public final class JsonLoader
     public static JsonNode fromURL(final URL url)
         throws IOException
     {
-        return MAPPER.readTree(url);
+        return READER.readTree(url.openStream());
     }
 
     /**
@@ -109,7 +105,7 @@ public final class JsonLoader
         final FileInputStream in = new FileInputStream(path);
 
         try {
-            ret = MAPPER.readTree(in);
+            ret = READER.readTree(in);
         } finally {
             in.close();
         }
@@ -132,7 +128,7 @@ public final class JsonLoader
 
         final FileInputStream in = new FileInputStream(file);
         try {
-            ret = MAPPER.readTree(in);
+            ret = READER.readTree(in);
         } finally {
             in.close();
         }
@@ -150,7 +146,7 @@ public final class JsonLoader
     public static JsonNode fromReader(final Reader reader)
         throws IOException
     {
-        return MAPPER.readTree(reader);
+        return READER.readTree(reader);
     }
 
     /**

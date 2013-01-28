@@ -18,10 +18,9 @@
 package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.fge.jsonschema.keyword.NumericKeywordValidator;
+import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ProcessingMessage;
@@ -56,15 +55,9 @@ import java.util.Map;
 public final class URIManager
 {
     /**
-     * Our object mapper
-     *
-     * <p>Note that it uses {@link
-     * DeserializationFeature#USE_BIG_DECIMAL_FOR_FLOATS} to deserialize, for
-     * accuracy reasons.</p>
-     *
-     * @see NumericKeywordValidator
+     * Our object reader
      */
-    private static final ObjectMapper MAPPER = JacksonUtils.getMapper();
+    private static final ObjectReader READER = JacksonUtils.getReader();
 
     /**
      * Map of downloaders (schemes as keys, {@link URIDownloader} instances
@@ -212,7 +205,7 @@ public final class URIManager
 
         try {
             in = downloader.fetch(target);
-            return MAPPER.readTree(in);
+            return READER.readTree(in);
         } catch (JsonProcessingException e) {
             throw new ProcessingException(msg
                 .msg("content at URI is not valid JSON")

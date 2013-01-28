@@ -3,6 +3,10 @@
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
+<p>Should you wonder about it, this library is reported to <a
+href="http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema">work
+on Android</a> :)</p>
+
 <p>Quick start:</p>
 
 <ul>
