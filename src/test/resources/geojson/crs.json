@@ -1,0 +1,54 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "crs",
+    "description": "a Coordinate Reference System object",
+    "type": [ "object", "null" ],
+    "required": [ "type", "properties" ],
+    "properties": {
+        "type": { "type": "string" },
+        "properties": { "type": "object" }
+    },
+    "additionalProperties": false,
+    "oneOf": [
+        { "$ref": "#/definitions/namedCrs" },
+        { "$ref": "#/definitions/linkedCrs" }
+    ],
+    "definitions": {
+        "namedCrs": {
+            "properties": {
+                "type": { "enum": [ "name" ] },
+                "properties": {
+                    "required": [ "name" ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "name": {
+                            "type": "string",
+                            "FIXME": "semantic validation necessary"
+                        }
+                    }
+                }
+            }
+        },
+        "linkObject": {
+            "type": "object",
+            "required": [ "href" ],
+            "properties": {
+                "href": {
+                    "type": "string",
+                    "format": "uri",
+                    "FIXME": "spec says \"dereferenceable\", cannot enforce that"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Suggested values: proj4, ogjwkt, esriwkt"
+                }
+            }
+        },
+        "linkedCRS": {
+            "properties": {
+                "type": { "enum": [ "link" ] },
+                "properties": { "$ref": "#/definitions/linkedObject" }
+            }
+        }
+    }
+}

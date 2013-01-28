@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "http://json-schema.org/geojson/geojson.json#",
+    "title": "Geo JSON object",
+    "description": "Schema for a Geo JSON object",
+    "type": "object",
+    "required": [ "type" ],
+    "properties": {
+        "crs": { "$ref": "http://json-schema.org/geojson/crs.json#" },
+        "bbox": { "$ref": "http://json-schema.org/geojson/bbox.json#" }
+    },
+    "oneOf": [
+        { "$ref": "http://json-schema.org/geojson/geometry.json#" },
+        { "$ref": "#/definitions/geometryCollection" },
+        { "$ref": "#/definitions/feature" },
+        { "$ref": "#/definitions/featureCollection" }
+    ],
+    "definitions": {
+        "geometryCollection": {
+            "title": "GeometryCollection",
+            "description": "A collection of geometry objects",
+            "required": [ "geometries" ],
+            "properties": {
+                "type": { "enum": [ "GeometryCollection" ] },
+                "geometries": {
+                    "type": "array",
+                    "items": { "$ref": "http://json-schema.org/geojson/geometry.json#" }
+                }
+            }
+        },
+        "feature": {
+            "title": "Feature",
+            "description": "A Geo JSON feature object",
+            "required": [ "geometry", "properties" ],
+            "properties": {
+                "type": { "enum": [ "Feature" ] },
+                "geometry": {
+                    "oneOf": [
+                        { "type": "null" },
+                        { "$ref": "http://json-schema.org/geojson/geometry.json#" }
+                    ]
+                },
+                "properties": { "type": [ "object", "null" ] },
+                "id": { "FIXME": "may be there, type not known (string? number?)" }
+            }
+        },
+        "featureCollection": {
+            "title": "FeatureCollection",
+            "description": "A Geo JSON feature collection",
+            "required": [ "features" ],
+            "properties": {
+                "type": { "enum": [ "FeatureCollection" ] },
+                "features": {
+                    "type": "array",
+                    "items": { "$ref": "#/definitions/feature" }
+                }
+            }
+        }
+    }
+}
+
