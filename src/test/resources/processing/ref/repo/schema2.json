@@ -1,0 +1,8 @@
+{
+    "id": "resource:/processing/ref/repo/schema2.json",
+    "canonical": {
+        "loopback": {
+            "$ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop4"
+        }
+    }
+}
