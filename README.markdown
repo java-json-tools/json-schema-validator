@@ -3,16 +3,28 @@
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
-<p>A sample web application using this library is available <a
-href="http://json-schema-validator.herokuapp.com">here</a> (source of this webapp <a
-href="https://github.com/fge/json-schema-validator-demo">here</a>). This project also has a
-dedicated <a href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
+<p>Quick start:</p>
+
+<ul>
+    <li>you can <a href="http://json-schema-validator.herokuapp.com">test this library online</a>
+    (note: latest <b>development</b> version); you can even <a
+    href="https://github.com/fge/json-schema-validator-demo">fork it and run it yourself</a>;</li>
+    <li>you can have a look at the code samples: <a
+    href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">stable
+    version</a>, <a
+    href="http://fge.github.com/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html">development
+    version</a>.</li>
+</ul>
+
+
+<p>This project also has a dedicated <a
+href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
 group</a>.</p>
 
 <p>Versions:</p>
 
 <ul>
-    <li>development version: <b>1.5.4</b> (<a
+    <li>development version: <b>1.99.0</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>stable version: <b>1.4.9</b> (<a
@@ -20,18 +32,13 @@ group</a>.</p>
     href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
 </ul>
 
-<p>If you are looking for a quick start, see the <a
-href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
-examples</a>. You can see what is new in 1.4.x <a
-href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p>
-
 <h2>Maven artifacts</h2>
 
 <p><b>Warning: the artifact and package namespace has changed starting with version 1.5.3</b></p>
 
 <p>In the examples below, substitute <tt>your-version-here</tt> for the version you want.</p>
 
-<h3>Versions 1.5.3 and above</h3>
+<h3>Versions 1.5.3, 1.5.4, 1.99.x and future versions</h3>
 
 ```xml
 <dependency>
@@ -53,7 +60,7 @@ href="https://github.com/fge/json-schema-validator/wiki/What's-new">here.</a></p
 
 <h2>Versioning scheme policy</h2>
 
-<p>The versioning scheme is defined by the middle digit of the version number:</p>
+<p>The versioning scheme is defined by the <b>middle digit</b> of the version number:</p>
 
 * if this number is <b>even</b>, then this is the <b>stable</b> version; no new features will be
   added to such versions, and the user API will not change (save for some additions if requested).
