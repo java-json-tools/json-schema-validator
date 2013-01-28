@@ -3,11 +3,13 @@
     "canonical": {
         "loops": {
             "loop1": {
+                "description": "inline self loop",
                 "$ref": "#/canonical/loops/loop1",
                 "ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1",
                 "path": [ "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1" ]
             },
             "loop2": {
+                "description": "dereferenced self loop",
                 "$ref": "#/canonical/loops/loop1",
                 "ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1",
                 "path": [
@@ -15,6 +17,7 @@
                 ]
             },
             "loop3": {
+                "description": "multi level inline self loop",
                 "$ref": "#/canonical/loops/loop3/a",
                 "a": {
                     "$ref": "#/canonical/loops/loop3/b"
@@ -33,6 +36,7 @@
                 ]
             },
             "loop4": {
+                "description": "piggyback self loop",
                 "$ref": "schema2.json#/canonical/loopback",
                 "ref": "resource:/processing/ref/repo/schema2.json#/canonical/loopback",
                 "path": [
@@ -51,11 +55,13 @@
     "inline": {
         "loops": {
             "loop1": {
+                "description": "inline self loop",
                 "$ref": "#/canonical/loops/loop1",
                 "ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1",
                 "path": [ "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1" ]
             },
             "loop2": {
+                "description": "dereferenced self loop",
                 "$ref": "#/canonical/loops/loop1",
                 "ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1",
                 "path": [
@@ -63,6 +69,7 @@
                 ]
             },
             "loop3": {
+                "description": "multi level inline self loop",
                 "$ref": "#/canonical/loops/loop3/a",
                 "a": {
                     "$ref": "#/canonical/loops/loop3/b"
@@ -81,6 +88,7 @@
                 ]
             },
             "loop4": {
+                "description": "piggyback self loop",
                 "$ref": "schema2.json#/canonical/loopback",
                 "ref": "resource:/processing/ref/repo/schema2.json#/canonical/loopback",
                 "path": [
@@ -89,12 +97,14 @@
                 ]
             },
             "loop5": {
+                "description": "context induced self loop",
                 "id": "#a",
                 "$ref": "#a",
                 "ref": "resource:/processing/ref/repo/schema1.json#a",
                 "path": [ "resource:/processing/ref/repo/schema1.json#a" ]
             },
             "loop6": {
+                "description": "remote self loop",
                 "$ref": "schema2.json#/inline/loopback",
                 "ref": "resource:/processing/ref/repo/schema1#foo",
                 "path": [
@@ -103,6 +113,7 @@
                 ]
             },
             "loop7": {
+                "description": "context induced, doubly addressed self loop",
                 "id": "where:/am/I?no=where",
                 "$ref": "#/a",
                 "ref": "where:/am/I?no=where#/a",
