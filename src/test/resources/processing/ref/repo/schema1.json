@@ -41,5 +41,47 @@
                 ]
             }
         }
+    },
+    "inline": {
+        "loops": {
+            "loop1": {
+                "$ref": "#/canonical/loops/loop1",
+                "ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1",
+                "path": [ "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1" ]
+            },
+            "loop2": {
+                "$ref": "#/canonical/loops/loop1",
+                "ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1",
+                "path": [
+                    "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop1"
+                ]
+            },
+            "loop3": {
+                "$ref": "#/canonical/loops/loop3/a",
+                "a": {
+                    "$ref": "#/canonical/loops/loop3/b"
+                },
+                "b": {
+                    "$ref": "#/canonical/loops/loop3/c"
+                },
+                "c": {
+                    "$ref": "#/canonical/loops/loop3/a"
+                },
+                "ref": "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop3/a",
+                "path": [
+                    "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop3/a",
+                    "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop3/b",
+                    "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop3/c"
+                ]
+            },
+            "loop4": {
+                "$ref": "schema2.json#/canonical/loopback",
+                "ref": "resource:/processing/ref/repo/schema2.json#/canonical/loopback",
+                "path": [
+                    "resource:/processing/ref/repo/schema2.json#/canonical/loopback",
+                    "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop4"
+                ]
+            }
+        }
     }
 }
