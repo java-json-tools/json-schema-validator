@@ -81,6 +81,32 @@
                     "resource:/processing/ref/repo/schema2.json#/canonical/loopback",
                     "resource:/processing/ref/repo/schema1.json#/canonical/loops/loop4"
                 ]
+            },
+            "loop5": {
+                "id": "#a",
+                "$ref": "#a",
+                "ref": "resource:/processing/ref/repo/schema1.json#a",
+                "path": [ "resource:/processing/ref/repo/schema1.json#a" ]
+            },
+            "loop6": {
+                "$ref": "schema2.json#/inline/loopback",
+                "ref": "resource:/processing/ref/repo/schema1#foo",
+                "path": [
+                    "resource:/processing/ref/repo/schema2.json#/inline/loopback",
+                    "resource:/processing/ref/repo/schema1#foo"
+                ]
+            },
+            "loop7": {
+                "id": "where:/am/I?no=where",
+                "$ref": "#/a",
+                "ref": "where:/am/I?no=where#/a",
+                "path": [
+                    "where:/am/I?no=where#/a",
+                    "resource:/processing/ref/repo/schema1.json#/inline/loops/loop7"
+                ],
+                "a": {
+                    "$ref": "resource:/processing/ref/repo/schema1.json#/inline/loops/loop7"
+                }
             }
         }
     }
