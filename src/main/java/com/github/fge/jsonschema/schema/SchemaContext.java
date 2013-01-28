@@ -37,6 +37,7 @@ public abstract class SchemaContext
 {
     protected final JsonNode schema;
     protected final JsonRef locator;
+    protected final int hashCode;
 
     /**
      * Return a new container based on an URI and a schema
@@ -51,6 +52,7 @@ public abstract class SchemaContext
     {
         locator = JsonRef.fromURI(uri);
         schema = cleanup(node);
+        hashCode = 31 * locator.hashCode() + schema.hashCode();
     }
 
     public abstract boolean contains(final JsonRef other);
@@ -80,9 +82,7 @@ public abstract class SchemaContext
     @Override
     public final int hashCode()
     {
-        // Yes, this works: right now there is a 1-1 relationship between URIs
-        // and JsonNodes.
-        return locator.hashCode();
+        return hashCode;
     }
 
     @Override
@@ -98,9 +98,8 @@ public abstract class SchemaContext
 
         final SchemaContext other = (SchemaContext) obj;
 
-        // Yes, this works: right now there is a 1-1 relationship between URIs
-        // and JsonNodes.
-        return locator.equals(other.locator);
+        return locator.equals(other.locator)
+            && schema.equals(other.schema);
     }
 
     @Override
