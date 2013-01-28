@@ -85,24 +85,24 @@ public final class ValidationReport
     private ValidationReport(final JsonPointer path)
     {
         pwd = path;
-        paths.addFirst(pwd);
+        paths.push(pwd);
     }
 
     public void pushd(final String refToken)
     {
+        paths.push(pwd);
         pwd = pwd.append(refToken);
-        paths.addFirst(pwd);
     }
 
     public void pushd(final int index)
     {
+        paths.push(pwd);
         pwd = pwd.append(index);
-        paths.addFirst(pwd);
     }
 
     public void popd()
     {
-        pwd = paths.removeFirst();
+        pwd = paths.pop();
     }
 
     /**

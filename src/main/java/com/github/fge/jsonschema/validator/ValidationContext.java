@@ -19,10 +19,13 @@ package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
+import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Queues;
 
+import java.net.URI;
 import java.util.Deque;
 
 /**
@@ -41,10 +44,27 @@ import java.util.Deque;
  */
 public final class ValidationContext
 {
+    private static final SchemaContext DUMMY_CONTEXT
+        = new SchemaContext(URI.create("#"),
+        JacksonUtils.nodeFactory().nullNode())
+    {
+        @Override
+        public boolean contains(final JsonRef other)
+        {
+            throw new RuntimeException("How did I get there??");
+        }
+
+        @Override
+        public JsonNode resolve(final JsonRef ref)
+        {
+            throw new RuntimeException("How did I get there??");
+        }
+    };
+
     private final JsonValidatorCache cache;
     private final Deque<SchemaContext> contextQueue = Queues.newArrayDeque();
 
-    private SchemaContext currentContext;
+    private SchemaContext currentContext = DUMMY_CONTEXT;
 
     /**
      * Create a validation context with an empty feature set
@@ -58,13 +78,13 @@ public final class ValidationContext
 
     void pushContext(final SchemaContext context)
     {
+        contextQueue.push(currentContext);
         currentContext = context;
-        contextQueue.addFirst(context);
     }
 
     void popContext()
     {
-        currentContext = contextQueue.removeFirst();
+        currentContext = contextQueue.pop();
     }
 
     /**
