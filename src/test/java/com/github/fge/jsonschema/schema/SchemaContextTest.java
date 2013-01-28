@@ -67,4 +67,16 @@ public final class SchemaContextTest
         assertEquals(c1.getLocator(), c2.getLocator());
         assertEquals(c1.getSchema(), c2.getSchema());
     }
+
+    @Test
+    public void anonymousContextsWithDifferentSchemasShouldNotBeEqual()
+    {
+        final JsonNode schema1 = FACTORY.objectNode().put("a", "b");
+        final JsonNode schema2 = FACTORY.objectNode().put("c", "d");
+
+        final SchemaContext c1 = AddressingMode.CANONICAL.forSchema(schema1);
+        final SchemaContext c2 = AddressingMode.CANONICAL.forSchema(schema2);
+
+        assertFalse(c1.equals(c2));
+    }
 }
