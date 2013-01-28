@@ -25,16 +25,20 @@ import com.github.fge.jsonschema.util.AsJson;
 /**
  * A JSON value decorated with JSON Pointer information
  *
- * <p>This is a {@link JsonNode} wrapped with pointer information as a {@link
- * JsonPointer}. The available methods allow to append individual reference
- * tokens and retrieve the node at the current pointer. The {@code pop()}
- * operation reverts the last append.</p>
+ * <p>This is a {@link JsonNode} with an internal, modifiable path represented
+ * as a {@link JsonPointer}. The current path and node are retrievable.</p>
  *
- * <p>You can append individual strings, array indices or full JSON Pointers.
- * </p>
+ * <p>There are two operations to modify the current path:</p>
  *
- * <p>If the current pointer leads to a non existent value in the JSON value,
- * the current node is a {@link MissingNode}.</p>
+ * <ul>
+ *     <li>{@link #append(JsonPointer)} will append a pointer to the current
+ *     path (like a relative {@code cd});</li>
+ *     <li>{@link #pop()} will get back to the previous path.</li>
+ * </ul>
+ *
+ * <p>An initialized tree always starts at the root of the wrapped JSON
+ * document. If the current pointer points to a non existent path in the
+ * document, the retrieved node is a {@link MissingNode}.</p>
  *
  * <p>Finally, remember that <b>JSON Pointers are always absolute,</b> which
  * means that <b>appending {@code ..} over {@code /a/b} will not lead to {@code
@@ -47,7 +51,7 @@ public interface JsonTree
     extends AsJson
 {
     /**
-     * Append a JSON Pointer to the current pointer
+     * Append a JSON Pointer to the current path
      *
      * @param ptr the pointer to append
      * @see JsonPointer#append(JsonPointer)
@@ -57,20 +61,20 @@ public interface JsonTree
     /**
      * Reverts the last append
      *
-     * <p>Note: this operation will fail badly if you haven't appended any token
-     * yet, so use with care!</p>
+     * <p>Note: this operation will fail badly if you haven't appended anything,
+     * so use with care!</p>
      */
     void pop();
 
     /**
-     * Get the current JSON Pointer into the tree
+     * Get the current path into the document
      *
-     * @return the pointer
+     * @return the path as a JSON Pointer
      */
     JsonPointer getCurrentPointer();
 
     /**
-     * Get the node at the current pointer
+     * Get the node at the current path
      *
      * @return the matching node (a {@link MissingNode} if there is no matching
      * node at that pointer)

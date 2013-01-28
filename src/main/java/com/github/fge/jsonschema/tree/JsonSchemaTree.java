@@ -23,15 +23,9 @@ import com.github.fge.jsonschema.ref.JsonRef;
 /**
  * A {@link JsonTree} carrying URI resolution context information
  *
- * <p>In addition to what {@link JsonTree} does, this (abstract) class also
- * carries URI resolution context information when changing the pointer into
- * the node, and includes additional methods related to that resolution
- * context.</p>
- *
- * <p>The URI context information carries not only the URI from which the node
- * has been loaded, but also any encounters of the {@code id} keyword along the
- * way. When you {@code append()} or {@code pop()}, the resolution context will
- * change accordingly.</p>
+ * <p>In addition to what {@link JsonTree} does, this tree also modifies URI
+ * resolution context information when changing paths, and adds methods in order
+ * to query this resolution context.</p>
  *
  * <p>All context information is carried as JSON References, since this is what
  * is used for addressing in JSON Schema.</p>
@@ -74,7 +68,7 @@ public interface JsonSchemaTree
      * Return a matching pointer in this tree for a fully resolved reference
      *
      * <p>This must be called <b>only</b> when {@link #containsRef(JsonRef)}
-     * returns {@code true}.</p>
+     * returns {@code true}. Otherwise, its result is undefined.</p>
      *
      * @param ref the reference
      * @return the matching pointer, or {@code null} if not found
