@@ -18,7 +18,9 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.base.Objects;
@@ -46,7 +48,7 @@ public abstract class JsonSchemaTree
     /**
      * Whether inline dereferencing is used
      */
-    protected final boolean inline;
+    private final Dereferencing dereferencing;
 
     /**
      * The JSON Reference from which this node has been loaded
@@ -80,10 +82,10 @@ public abstract class JsonSchemaTree
      * @param baseNode the base node
      */
     protected JsonSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
-        final boolean inline)
+        final Dereferencing dereferencing)
     {
         super(baseNode);
-        this.inline = inline;
+        this.dereferencing = dereferencing;
         this.loadingRef = currentRef = loadingRef;
 
         final JsonRef ref = idFromNode(baseNode);
@@ -185,9 +187,7 @@ public abstract class JsonSchemaTree
      */
     public final JsonSchemaTree copy()
     {
-        final JsonSchemaTree ret = inline
-            ? new InlineSchemaTree(loadingRef, baseNode)
-            : new CanonicalSchemaTree(loadingRef, baseNode);
+        final JsonSchemaTree ret = dereferencing.newTree(loadingRef, baseNode);
 
         ret.currentRef = currentRef;
         ret.currentPointer = currentPointer;
@@ -270,6 +270,20 @@ public abstract class JsonSchemaTree
         final JsonSchemaTree other = (JsonSchemaTree) obj;
         return loadingRef.equals(other.loadingRef)
             && baseNode.equals(other.baseNode);
+    }
+
+
+    @Override
+    public final JsonNode asJson()
+    {
+        final ObjectNode ret = FACTORY.objectNode();
+
+        ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
+        ret.put("pointer", FACTORY.textNode(currentPointer.toString()));
+        ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
+        ret.put("dereferencing", FACTORY.textNode(dereferencing.toString()));
+
+        return ret;
     }
 
     @Override

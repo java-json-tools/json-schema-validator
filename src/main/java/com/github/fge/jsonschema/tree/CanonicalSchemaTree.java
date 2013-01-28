@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonFragment;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -46,7 +47,7 @@ public final class CanonicalSchemaTree
     public CanonicalSchemaTree(final JsonRef loadingRef,
         final JsonNode baseNode)
     {
-        super(loadingRef, baseNode, false);
+        super(loadingRef, baseNode, Dereferencing.CANONICAL);
     }
 
     public CanonicalSchemaTree(final JsonNode baseNode)
@@ -81,18 +82,5 @@ public final class CanonicalSchemaTree
 
         return fragment.resolve(baseNode).isMissingNode()
             ? null : (JsonPointer) fragment;
-    }
-
-    @Override
-    public JsonNode asJson()
-    {
-        final ObjectNode ret = FACTORY.objectNode();
-
-        ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
-        ret.put("pointer", FACTORY.textNode(currentPointer.toString()));
-        ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
-        ret.put("dereferencing", FACTORY.textNode("canonical"));
-
-        return ret;
     }
 }
