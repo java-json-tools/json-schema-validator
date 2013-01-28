@@ -32,6 +32,7 @@ import com.github.fge.jsonschema.syntax.common.URISyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv3.DraftV3DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv3.DraftV3TypeKeywordSyntaxChecker;
+import com.github.fge.jsonschema.syntax.draftv4.DefinitionsSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4PropertiesSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
@@ -307,6 +308,10 @@ public final class SyntaxCheckers
 
         keyword = "type";
         checker = DraftV4TypeSyntaxChecker.getInstance();
+        builder.put(keyword, checker);
+
+        keyword = "definitions";
+        checker = DefinitionsSyntaxChecker.getInstance();
         builder.put(keyword, checker);
 
         // Build the map
