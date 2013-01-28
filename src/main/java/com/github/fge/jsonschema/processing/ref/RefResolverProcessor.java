@@ -93,10 +93,11 @@ public final class RefResolverProcessor
             /*
              * If we have seen this ref already, this is a ref loop.
              */
-            if (!refs.add(ref))
-                throw new ProcessingException(msg
-                    .msg("JSON Reference loop detected")
-                    .put("ref", ref).put("path", refs));
+            if (!refs.add(ref)) {
+                msg.msg("JSON Reference loop detected").put("ref", ref)
+                    .put("path", refs);
+                throw new ProcessingException(msg);
+            }
             /*
              * Check whether ref is resolvable within the current tree. If not,
              * fetch the new tree.
@@ -111,9 +112,10 @@ public final class RefResolverProcessor
              * a dangling reference.
              */
             ptr = tree.matchingPointer(ref);
-            if (ptr == null)
-                throw new ProcessingException(msg
-                    .msg("unresolvable JSON Reference").put("ref", ref));
+            if (ptr == null) {
+                msg.msg("unresolvable JSON Reference").put("ref", ref);
+                throw new ProcessingException(msg);
+            }
             tree.setPointer(ptr);
         }
 

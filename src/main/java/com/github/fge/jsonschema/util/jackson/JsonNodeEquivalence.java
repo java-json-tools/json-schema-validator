@@ -58,7 +58,7 @@ public final class JsonNodeEquivalence
     protected boolean doEquivalent(final JsonNode a, final JsonNode b)
     {
         /*
-         * If both are numbers, delegate to appropriate method
+         * If both are numbers, delegate to the helper method
          */
         if (a.isNumber() && b.isNumber())
             return numEquals(a, b);
@@ -80,7 +80,7 @@ public final class JsonNodeEquivalence
 
         /*
          * OK, so they are containers (either both arrays or objects due to the
-         * test on types above). They are obviously not equals if they do not
+         * test on types above). They are obviously not equal if they do not
          * have the same number of elements/members.
          */
         if (a.size() != b.size())
