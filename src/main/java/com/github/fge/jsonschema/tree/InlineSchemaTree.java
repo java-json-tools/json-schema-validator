@@ -43,7 +43,7 @@ import java.util.Map;
  * reference equality is required.</p>
  */
 public final class InlineSchemaTree
-    extends BaseJsonSchemaTree
+    extends JsonSchemaTree
 {
     /**
      * The list of contexts whose URIs bear a JSON Pointer as a fragment part

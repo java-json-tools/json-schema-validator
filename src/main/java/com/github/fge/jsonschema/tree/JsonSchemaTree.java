@@ -17,8 +17,14 @@
 
 package com.github.fge.jsonschema.tree;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.google.common.base.Objects;
+import com.google.common.collect.Queues;
+
+import java.util.Deque;
 
 /**
  * A {@link JsonTree} carrying URI resolution context information
@@ -34,10 +40,84 @@ import com.github.fge.jsonschema.ref.JsonRef;
  * @see CanonicalSchemaTree
  * @see InlineSchemaTree
  */
-public interface JsonSchemaTree
-    extends JsonTree
+public abstract class JsonSchemaTree
+    extends BaseJsonTree
 {
-    void setPointer(final JsonPointer pointer);
+    /**
+     * Whether inline dereferencing is used
+     */
+    protected final boolean inline;
+
+    /**
+     * The JSON Reference from which this node has been loaded
+     *
+     * <p>If loaded without a URI, this will be the empty reference.</p>
+     */
+    protected final JsonRef loadingRef;
+
+    /**
+     * The JSON Reference representing the context at the root of the schema
+     *
+     * <p>It will defer from {@link #loadingRef} if there is an {@code id} at
+     * the top level.</p>
+     */
+    protected final JsonRef startingRef;
+
+    /**
+     * The stack of resolution contexts
+     */
+    protected final Deque<JsonRef> refStack = Queues.newArrayDeque();
+
+    /**
+     * The current resolution context
+     */
+    protected JsonRef currentRef;
+
+    /**
+     * The main constructor
+     *
+     * @param loadingRef the loading reference
+     * @param baseNode the base node
+     */
+    protected JsonSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
+        final boolean inline)
+    {
+        super(baseNode);
+        this.inline = inline;
+        this.loadingRef = currentRef = loadingRef;
+
+        final JsonRef ref = idFromNode(baseNode);
+
+        if (ref != null)
+            currentRef = currentRef.resolve(ref);
+
+        startingRef = currentRef;
+    }
+
+    @Override
+    public final void append(final JsonPointer ptr)
+    {
+        refStack.push(currentRef);
+        currentRef = nextRef(currentRef, ptr.asElements(), currentNode);
+        pushPointer(currentPointer.append(ptr));
+        pushNode(ptr.resolve(currentNode));
+    }
+
+    @Override
+    public final void pop()
+    {
+        currentRef = refStack.pop();
+        popPointer();
+        popNode();
+    }
+
+    public final void setPointer(final JsonPointer pointer)
+    {
+        refStack.push(currentRef);
+        currentRef = nextRef(startingRef, pointer.asElements(), baseNode);
+        pushPointer(pointer);
+        pushNode(pointer.resolve(baseNode));
+    }
 
     /**
      * Resolve a JSON Reference against the current resolution context
@@ -46,7 +126,10 @@ public interface JsonSchemaTree
      * @return the resolved reference
      * @see JsonRef#resolve(JsonRef)
      */
-    JsonRef resolve(final JsonRef other);
+    public final JsonRef resolve(final JsonRef other)
+    {
+        return currentRef.resolve(other);
+    }
 
     /**
      * Tell whether a JSON Reference is contained within this schema tree
@@ -62,7 +145,7 @@ public interface JsonSchemaTree
      * @return see description
      * @see #resolve(JsonRef)
      */
-    boolean containsRef(final JsonRef ref);
+    public abstract boolean containsRef(final JsonRef ref);
 
     /**
      * Return a matching pointer in this tree for a fully resolved reference
@@ -73,26 +156,125 @@ public interface JsonSchemaTree
      * @param ref the reference
      * @return the matching pointer, or {@code null} if not found
      */
-    JsonPointer matchingPointer(final JsonRef ref);
+    public abstract JsonPointer matchingPointer(final JsonRef ref);
 
     /**
      * Get the loading URI for that schema
      *
      * @return the loading URI as a {@link JsonRef}
      */
-    JsonRef getLoadingRef();
+    public final JsonRef getLoadingRef()
+    {
+        return loadingRef;
+    }
 
     /**
      * Get the current resolution context
      *
      * @return the context as a {@link JsonRef}
      */
-    JsonRef getCurrentRef();
+    public final JsonRef getCurrentRef()
+    {
+        return currentRef;
+    }
 
     /**
      * Return a copy of this tree at its current state but with an empty stack
      *
      * @return the copy
      */
-    JsonSchemaTree copy();
+    public final JsonSchemaTree copy()
+    {
+        final JsonSchemaTree ret = inline
+            ? new InlineSchemaTree(loadingRef, baseNode)
+            : new CanonicalSchemaTree(loadingRef, baseNode);
+
+        ret.currentRef = currentRef;
+        ret.currentPointer = currentPointer;
+        ret.currentNode = currentNode;
+        return ret;
+    }
+
+    /**
+     * Build a JSON Reference from a node
+     *
+     * <p>This will return {@code null} if the reference could not be built. The
+     * conditions for a successful build are as follows:</p>
+     *
+     * <ul>
+     *     <li>the node is an object;</li>
+     *     <li>it has a member named {@code id};</li>
+     *     <li>the value of this member is a string;</li>
+     *     <li>this string is a valid URI.</li>
+     * </ul>
+     *
+     * @param node the node
+     * @return a JSON Reference, or {@code null}
+     */
+    protected static JsonRef idFromNode(final JsonNode node)
+    {
+        if (!node.path("id").isTextual())
+            return null;
+
+        try {
+            return JsonRef.fromString(node.get("id").textValue());
+        } catch (JsonSchemaException ignored) {
+            return null;
+        }
+    }
+
+    /**
+     * Calculate the next URI context from a starting reference and node
+     *
+     * @param startingRef the starting reference
+     * @param pointers the list of JSON Pointers
+     * @param startingNode the starting node
+     * @return the calculated reference
+     */
+    private static JsonRef nextRef(final JsonRef startingRef,
+        final Iterable<JsonPointer> pointers, final JsonNode startingNode)
+    {
+        JsonRef ret = startingRef;
+        JsonRef idRef;
+        JsonNode node = startingNode;
+
+        for (final JsonPointer pointer: pointers) {
+            node = pointer.resolve(node);
+            idRef = idFromNode(node);
+            if (idRef != null)
+                ret = ret.resolve(idRef);
+        }
+
+        return ret;
+    }
+
+    /*
+     * Note about .equals()/.hashCode(): we don't check whether the container
+     * uses inline dereferencing. The loading mechanisms don't care.
+     */
+    @Override
+    public final int hashCode()
+    {
+        return Objects.hashCode(loadingRef, baseNode);
+    }
+
+    @Override
+    public final boolean equals(final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (!(obj instanceof JsonSchemaTree))
+            return false;
+        final JsonSchemaTree other = (JsonSchemaTree) obj;
+        return loadingRef.equals(other.loadingRef)
+            && baseNode.equals(other.baseNode);
+    }
+
+    @Override
+    public final String toString()
+    {
+        return asJson().toString();
+    }
 }
