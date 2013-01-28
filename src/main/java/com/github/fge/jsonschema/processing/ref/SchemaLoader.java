@@ -22,8 +22,6 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ProcessingMessage;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.schema.SchemaBundle;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
@@ -57,21 +55,21 @@ public final class SchemaLoader
     private final LoadingCache<URI, JsonNode> cache;
 
     /**
-     * Whether we want inline dereferencing
+     * Our dereferencing mode
      */
-    private final boolean inline;
+    private final Dereferencing dereferencing;
 
     /**
      * Constructor
      *
      * @param manager the URI manager to use
      * @param namespace this registry's namespace
-     * @param inline whether to use inline dereferencing
+     * @param dereferencing our {@link Dereferencing} mode
      */
     public SchemaLoader(final URIManager manager, final URI namespace,
-        final boolean inline)
+        final Dereferencing dereferencing)
     {
-        this.inline = inline;
+        this.dereferencing = dereferencing;
         this.namespace = JsonRef.fromURI(namespace);
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(new CacheLoader<URI, JsonNode>()
@@ -88,10 +86,7 @@ public final class SchemaLoader
     public JsonSchemaTree load(final JsonNode schema)
     {
         Preconditions.checkNotNull(schema, "cannot register null schema");
-
-        return inline
-            ? new InlineSchemaTree(schema)
-            : new CanonicalSchemaTree(schema);
+        return dereferencing.newTree(schema);
     }
 
     /**
@@ -118,9 +113,7 @@ public final class SchemaLoader
 
         try {
             final JsonNode node = cache.get(realURI);
-            return inline
-                ? new InlineSchemaTree(ref, node)
-                : new CanonicalSchemaTree(ref, node);
+            return dereferencing.newTree(ref, node);
         } catch (ExecutionException e) {
             throw (ProcessingException) e.getCause();
         }

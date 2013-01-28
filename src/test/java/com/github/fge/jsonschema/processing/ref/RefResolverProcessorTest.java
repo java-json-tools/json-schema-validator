@@ -23,8 +23,6 @@ import com.github.fge.jsonschema.processing.JsonSchemaContext;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
@@ -61,7 +59,7 @@ public abstract class RefResolverProcessorTest
         throws IOException
     {
         final SchemaLoader loader = new SchemaLoader(new URIManager(),
-            URI.create("#"), dereferencing.useInline);
+            URI.create("#"), dereferencing);
         this.dereferencing = dereferencing;
         processor = new RefResolverProcessor(loader);
         baseSchema = JsonLoader.fromResource(RESOURCE);
@@ -72,7 +70,7 @@ public abstract class RefResolverProcessorTest
         throws JsonSchemaException
     {
         final JsonPointer basePtr = JsonPointer.empty()
-            .append(dereferencing.name).append("loops");
+            .append(dereferencing.toString()).append("loops");
         final JsonNode data = basePtr.resolve(baseSchema);
         final Map<String, JsonNode> map = JacksonUtils.asMap(data);
         final List<Object[]> list = Lists.newArrayList();
@@ -112,37 +110,6 @@ public abstract class RefResolverProcessorTest
                 "JSON Reference loop detected");
             assertEquals(msgNode.get("ref"), ref);
             assertEquals(msgNode.get("path"), path);
-        }
-    }
-
-    public enum Dereferencing
-    {
-        CANONICAL("canonical", false)
-        {
-            @Override
-            JsonSchemaTree newTree(final JsonRef ref, final JsonNode node)
-            {
-                return new CanonicalSchemaTree(ref, node);
-            }
-        },
-        INLINE("inline", true)
-        {
-            @Override
-            JsonSchemaTree newTree(final JsonRef ref, final JsonNode node)
-            {
-                return new InlineSchemaTree(ref, node);
-            }
-        };
-
-        private final String name;
-        private final boolean useInline;
-
-        abstract JsonSchemaTree newTree(final JsonRef ref, final JsonNode node);
-
-        Dereferencing(final String name, final boolean useInline)
-        {
-            this.name = name;
-            this.useInline = useInline;
         }
     }
 }
