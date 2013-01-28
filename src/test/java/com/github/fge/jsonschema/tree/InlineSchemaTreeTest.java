@@ -18,10 +18,13 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
+import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -71,4 +74,45 @@ public final class InlineSchemaTreeTest
         assertTrue(schemaTree.containsRef(ref));
         assertEquals(schemaTree.matchingPointer(ref), ptr);
     }
+
+    @DataProvider
+    public Iterator<Object[]> cornerCases()
+    {
+        final Set<Object[]> set = Sets.newHashSet();
+        final JsonPointer empty = JsonPointer.empty();
+
+        set.add(new Object[] { "foo#", "foo#a", false, null } );
+        set.add(new Object[] { "foo#a", "foo#a", true, empty } );
+        set.add(new Object[] { "foo#a", "foo#b", false, null } );
+        set.add(new Object[] { "foo#a", "foo#a/b", false, null } );
+        set.add(new Object[] { "foo#", "foo#/a", true, null } );
+        set.add(new Object[] { "foo#/a", "foo#/a", true, empty } );
+        set.add(new Object[] { "foo#/a/b", "foo#/a", false, null } );
+        set.add(new Object[] { "foo#/a/b", "foo#/a/c", false, null } );
+        set.add(new Object[] { "foo#/a/b", "foo#/a/b", true, empty } );
+        set.add(new Object[] { "foo#/a/b", "foo#/a/b/c", true, null } );
+
+        return set.iterator();
+    }
+
+    @Test(dataProvider = "cornerCases")
+    public void cornerCasesAreHandledCorrectly(final String id,
+        final String refAsString, final boolean resolvable,
+        final JsonPointer ptr)
+        throws JsonSchemaException
+    {
+        final JsonNodeFactory factory = JacksonUtils.nodeFactory();
+        final ObjectNode schema = factory.objectNode();
+
+        JsonRef ref;
+
+        ref = JsonRef.fromString(id);
+        schema.put("id", factory.textNode(ref.toString()));
+        final JsonSchemaTree tree = new InlineSchemaTree(schema);
+
+        ref = JsonRef.fromString(refAsString);
+        assertEquals(tree.containsRef(ref), resolvable);
+        assertEquals(tree.matchingPointer(ref), ptr);
+    }
+
 }
