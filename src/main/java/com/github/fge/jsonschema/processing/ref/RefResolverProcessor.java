@@ -31,7 +31,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 
 public final class RefResolverProcessor
-    implements Processor<RefResolverResult, JsonSchemaContext>
+    implements Processor<JsonSchemaTree, JsonSchemaContext>
 {
     private final SchemaLoader loader;
 
@@ -40,17 +40,36 @@ public final class RefResolverProcessor
         this.loader = loader;
     }
 
+    /**
+     * Resolve JSON Reference for the current schema context
+     *
+     * <p>All errors encountered at this level are fatal.</p>
+     *
+     * @param context the context
+     * @return a new schema tree
+     * @throws ProcessingException ref loop, unresolvable ref, not JSON, etc
+     */
     @Override
-    public RefResolverResult process(final JsonSchemaContext context)
+    public JsonSchemaTree process(final JsonSchemaContext context)
         throws ProcessingException
     {
-        final JsonSchemaTree orig = context.getSchemaTree();
-        final JsonPointer origPtr = orig.getCurrentPointer();
-        final Set<JsonRef> refs = Sets.newLinkedHashSet();
+        /*
+         * Start by grabbing a new message
+         */
         final ProcessingMessage msg = context.newMessage();
 
-        JsonSchemaTree current = orig.copy();
-        boolean pointerChanged = false;
+        /*
+         * The set of refs we see during ref resolution, necessary to detect ref
+         * loops. We make it linked since we want the ref path reported in the
+         * order where refs have been encountered.
+         */
+        final Set<JsonRef> refs = Sets.newLinkedHashSet();
+
+        /*
+         * Make a copy of the original tree which will be our initial return
+         * value if no ref is found.
+         */
+        JsonSchemaTree tree = context.getSchemaTree().copy();
 
         JsonPointer ptr;
         JsonRef ref;
@@ -58,54 +77,48 @@ public final class RefResolverProcessor
 
         while(true) {
             /*
-             * See if the current node is a JSON Reference
+             * See if the current node is a JSON Reference.
              */
-            node = current.getCurrentNode();
+            node = tree.getCurrentNode();
             /*
              * If it isn't, we are done
              */
             ref = nodeAsRef(node);
             if (ref == null)
-                break; // Done
+                break;
             /*
-             * Resolve the reference against the current context
+             * Resolve the reference against the current tree.
              */
-            ref = current.resolve(ref);
+            ref = tree.resolve(ref);
             /*
-             * If we have seen this ref already, this is a ref loop
+             * If we have seen this ref already, this is a ref loop.
              */
             if (!refs.add(ref))
                 throw new ProcessingException(msg
                     .msg("JSON reference loop detected")
                     .put("ref", ref).put("path", refs));
             /*
-             * Check if that ref is resolvable within the current tree. If not,
+             * Check whether ref is resolvable within the current tree. If not,
              * fetch the new tree.
              *
-             * This may fail, in which case we exit here.
+             * This may fail, in which case we exit here since SchemaLoader's
+             * .get() throws a ProcessingException if it fails.
              */
-            if (!current.containsRef(ref))
-                current = loader.get(ref.getLocator());
+            if (!tree.containsRef(ref))
+                tree = loader.get(ref.getLocator());
             /*
              * Get the appropriate pointer into the tree. If none, this means
-             * a dangling reference
+             * a dangling reference.
              */
-            ptr = current.matchingPointer(ref);
+            ptr = tree.matchingPointer(ref);
             if (ptr == null)
                 throw new ProcessingException(msg
                     .msg("unresolvable JSON reference")
                     .put("ref", ref).put("path", refs));
-            current.setPointer(ptr);
-            if (!(pointerChanged || ptr.equals(origPtr)))
-                pointerChanged = true;
+            tree.setPointer(ptr);
         }
 
-        if (current.equals(orig)) {
-            orig.setPointer(current.getCurrentPointer());
-            current = orig;
-        }
-        return new RefResolverResult(current, current.equals(orig),
-            pointerChanged);
+        return tree;
     }
 
     private static JsonRef nodeAsRef(final JsonNode node)
