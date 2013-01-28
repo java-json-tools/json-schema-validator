@@ -188,6 +188,10 @@ public final class InlineSchemaTree
         final JsonPointer ptr, final Map<JsonRef, JsonPointer> ptrMap,
         final Map<JsonRef, JsonPointer> otherMap)
     {
+        /*
+         * FIXME: this means we won't go through schemas in keywords such as
+         * "anyOf" and friends. No idea whether this is a concern. It may be.
+         */
         if (!node.isObject())
             return;
 
