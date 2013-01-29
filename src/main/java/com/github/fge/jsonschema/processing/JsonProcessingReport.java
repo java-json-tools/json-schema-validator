@@ -17,13 +17,18 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.report.MessageProvider;
+import com.google.common.collect.Lists;
 
-public interface Processor<
-    IN extends MessageProvider,
-    OUT extends MessageProvider
->
+import java.util.List;
+
+public final class JsonProcessingReport
+    extends ProcessingReport
 {
-    OUT process(final ProcessingReport report, final IN input)
-        throws ProcessingException;
+    private final List<ProcessingMessage> messages = Lists.newArrayList();
+
+    @Override
+    public void log(final ProcessingMessage msg)
+    {
+        messages.add(msg);
+    }
 }

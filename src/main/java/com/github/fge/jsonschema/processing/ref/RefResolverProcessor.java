@@ -19,10 +19,11 @@ package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
-import com.github.fge.jsonschema.processing.JsonSchemaContext;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ProcessingMessage;
+import com.github.fge.jsonschema.processing.ProcessingReport;
 import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
@@ -31,7 +32,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 
 public final class RefResolverProcessor
-    implements Processor<JsonSchemaTree, JsonSchemaContext>
+    implements Processor<ValidationData, ValidationData>
 {
     private final SchemaLoader loader;
 
@@ -45,18 +46,25 @@ public final class RefResolverProcessor
      *
      * <p>All errors encountered at this level are fatal.</p>
      *
-     * @param context the context
+     * @param report the context
      * @return a new schema tree
      * @throws ProcessingException ref loop, unresolvable ref, not JSON, etc
      */
     @Override
-    public JsonSchemaTree process(final JsonSchemaContext context)
+    public ValidationData process(final ProcessingReport report,
+        final ValidationData input)
         throws ProcessingException
     {
         /*
          * Start by grabbing a new message
          */
-        final ProcessingMessage msg = context.newMessage();
+        final ProcessingMessage msg = input.newMessage();
+
+        /*
+         * Our result
+         */
+        final ValidationData ret = new ValidationData();
+        ret.setInstance(input.getInstance());
 
         /*
          * The set of refs we see during ref resolution, necessary to detect ref
@@ -69,7 +77,7 @@ public final class RefResolverProcessor
          * Make a copy of the original tree which will be our initial return
          * value if no ref is found.
          */
-        JsonSchemaTree tree = context.getSchemaTree().copy();
+        JsonSchemaTree tree = input.getSchema().copy();
 
         JsonPointer ptr;
         JsonRef ref;
@@ -119,7 +127,8 @@ public final class RefResolverProcessor
             tree.setPointer(ptr);
         }
 
-        return tree;
+        ret.setSchema(tree);
+        return ret;
     }
 
     private static JsonRef nodeAsRef(final JsonNode node)

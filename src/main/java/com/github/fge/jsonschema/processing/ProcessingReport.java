@@ -17,32 +17,70 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.github.fge.jsonschema.util.AsJson;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
-import com.google.common.collect.Lists;
+import com.google.common.annotations.VisibleForTesting;
 
-import java.util.List;
-
-public final class ProcessingReport
-    implements AsJson
+public abstract class ProcessingReport
 {
-    private final List<ProcessingMessage> messages = Lists.newArrayList();
+    protected LogLevel currentLevel = LogLevel.DEBUG;
+    protected LogLevel logLevel = LogLevel.INFO;
+    protected LogLevel exceptionThreshold = LogLevel.FATAL;
 
-    public void addMessage(final ProcessingMessage msg)
+    public final void setLogLevel(final LogLevel threshold)
     {
-        messages.add(msg);
+        logLevel = threshold;
     }
 
-    @Override
-    public JsonNode asJson()
+    public final void setExceptionThreshold(final LogLevel threshold)
     {
-        final ArrayNode ret = JacksonUtils.nodeFactory().arrayNode();
+        exceptionThreshold = threshold;
+    }
 
-        for (final ProcessingMessage msg: messages)
-            ret.add(msg.asJson());
+    public final void debug(final ProcessingMessage msg)
+        throws ProcessingException
+    {
+        doLog(LogLevel.DEBUG, msg);
+    }
 
-        return ret;
+    public final void info(final ProcessingMessage msg)
+        throws ProcessingException
+    {
+        doLog(LogLevel.INFO, msg);
+    }
+
+    public final void warn(final ProcessingMessage msg)
+        throws ProcessingException
+    {
+        doLog(LogLevel.WARNING, msg);
+    }
+
+    public final void error(final ProcessingMessage msg)
+        throws ProcessingException
+    {
+        doLog(LogLevel.ERROR, msg);
+    }
+
+    public final void fatal(final ProcessingMessage msg)
+        throws ProcessingException
+    {
+        doLog(LogLevel.FATAL, msg);
+    }
+
+    public final boolean isSuccess()
+    {
+        return currentLevel.compareTo(LogLevel.ERROR) < 0;
+    }
+
+    public abstract void log(final ProcessingMessage msg);
+
+    @VisibleForTesting
+    final void doLog(final LogLevel level, final ProcessingMessage msg)
+        throws ProcessingException
+    {
+        if (level.compareTo(exceptionThreshold) >= 0)
+            throw new ProcessingException(msg);
+        if (level.compareTo(currentLevel) > 0)
+            currentLevel = level;
+        if (level.compareTo(logLevel) >= 0)
+            log(msg.setLogLevel(level));
     }
 }

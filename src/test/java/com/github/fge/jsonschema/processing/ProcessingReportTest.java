@@ -30,7 +30,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public final class ProcessingContextTest
+public final class ProcessingReportTest
 {
     /*
      * All thresholds except fatal
@@ -58,7 +58,7 @@ public final class ProcessingContextTest
     {
         final ProcessingMessage msg = new ProcessingMessage();
         final int nrInvocations  = THRESHOLDS.size() - logLevel.ordinal();
-        final ProcessingContext<Object> ctx = spy(new TestProcessingContext());
+        final ProcessingReport ctx = spy(new TestProcessingReport());
 
         ctx.setLogLevel(logLevel);
 
@@ -72,7 +72,7 @@ public final class ProcessingContextTest
     public void successIsCorrectlyReported(final LogLevel threshold)
         throws ProcessingException
     {
-        final ProcessingContext<Object> ctx = new TestProcessingContext();
+        final ProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
         final boolean expected = threshold.compareTo(LogLevel.ERROR) < 0;
@@ -89,7 +89,7 @@ public final class ProcessingContextTest
     public void levelIsCorrectlySetInMessages(final LogLevel threshold)
         throws ProcessingException
     {
-        final ProcessingContext<Object> ctx = new TestProcessingContext();
+        final ProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
         ctx.setLogLevel(threshold);
         ctx.doLog(threshold, msg);
@@ -113,7 +113,7 @@ public final class ProcessingContextTest
 
         final EnumSet<LogLevel> thrown = EnumSet.complementOf(notThrown);
 
-        final ProcessingContext<Object> ctx = new TestProcessingContext();
+        final ProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
         ctx.setExceptionThreshold(logLevel);
@@ -139,7 +139,7 @@ public final class ProcessingContextTest
     public void fatalAlwaysThrowsAnException()
     {
         final ProcessingMessage msg = new ProcessingMessage();
-        final ProcessingContext<Object> ctx = new TestProcessingContext();
+        final ProcessingReport ctx = new TestProcessingReport();
 
         try {
             ctx.fatal(msg);
@@ -148,31 +148,13 @@ public final class ProcessingContextTest
         }
     }
 
-    private static class TestProcessingContext
-        extends ProcessingContext<Object>
+    private static class TestProcessingReport
+        extends ProcessingReport
     {
 
         @Override
         public void log(final ProcessingMessage msg)
         {
-        }
-
-        @Override
-        public ProcessingException buildException(final ProcessingMessage msg)
-        {
-            return new ProcessingException();
-        }
-
-        @Override
-        public ProcessingMessage newMessage()
-        {
-            return null;
-        }
-
-        @Override
-        public Object getOutput()
-        {
-            return null;
         }
     }
 }
