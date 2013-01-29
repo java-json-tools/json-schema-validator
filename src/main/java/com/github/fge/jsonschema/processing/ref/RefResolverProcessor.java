@@ -31,6 +31,9 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
+/**
+ * Processor for ref resolving
+ */
 public final class RefResolverProcessor
     implements Processor<ValidationData, ValidationData>
 {
@@ -63,8 +66,6 @@ public final class RefResolverProcessor
         /*
          * Our result
          */
-        final ValidationData ret = new ValidationData();
-        ret.setInstance(input.getInstance());
 
         /*
          * The set of refs we see during ref resolution, necessary to detect ref
@@ -127,8 +128,7 @@ public final class RefResolverProcessor
             tree.setPointer(ptr);
         }
 
-        ret.setSchema(tree);
-        return ret;
+        return new ValidationData(tree, input.getInstance());
     }
 
     private static JsonRef nodeAsRef(final JsonNode node)

@@ -15,14 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processor;
+package com.github.fge.jsonschema.processing;
 
-public final class ProcessorChain<IN, OUT>
+import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingReport;
+
+public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
     implements Processor<IN, OUT>
 {
     private final Processor<IN, OUT> p;
 
-    public static <X, Y> ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
+    public static <X extends MessageProvider, Y extends MessageProvider>
+        ProcessorChain<X, Y> startWith(final Processor<X, Y> p)
     {
         return new ProcessorChain<X, Y>(p);
     }
@@ -32,27 +36,29 @@ public final class ProcessorChain<IN, OUT>
         this.p = p;
     }
 
-    public <NEWOUT> ProcessorChain<IN, NEWOUT> chainWith(
-        final Processor<OUT, NEWOUT> p2)
+    public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
+        chainWith(final Processor<OUT, NEWOUT> p2)
     {
         return new ProcessorChain<IN, NEWOUT>(merge(p, p2));
     }
 
     @Override
-    public OUT process(final IN input)
+    public OUT process(final ProcessingReport report, final IN input)
+        throws ProcessingException
     {
-        return p.process(input);
+        return p.process(report, input);
     }
 
-    private static <X, Y, Z> Processor<X, Z> merge(
-        final Processor<X, Y> p1, final Processor<Y, Z> p2)
+    private static <X extends MessageProvider, Y extends MessageProvider, Z extends MessageProvider>
+        Processor<X, Z> merge(final Processor<X, Y> p1, final Processor<Y, Z> p2)
     {
         return new Processor<X, Z>()
         {
             @Override
-            public Z process(final X input)
+            public Z process(final ProcessingReport report, final X input)
+                throws ProcessingException
             {
-                return p2.process(p1.process(input));
+                return p2.process(report, p1.process(report, input));
             }
         };
     }
