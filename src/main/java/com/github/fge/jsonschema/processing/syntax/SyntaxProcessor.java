@@ -49,6 +49,31 @@ public final class SyntaxProcessor
         return input;
     }
 
+    /*
+     * TODO: find out how to cache results
+     *
+     * Since we do recursive syntax validations, we need to find a way not to
+     * validate the same schema again and again.
+     *
+     * And we cannot cache the full node and call it a day because of this:
+     *
+     * {
+     *     "type": "object",
+     *     "foo": {
+     *         "type": null
+     *     }
+     * }
+     *
+     * If someone looks up JSON Pointer "/foo" here, she will have an invalid
+     * schema on hand and we want to detect that.
+     *
+     * We have "isParentOf" in JSON Pointer, so one solution would be to walk
+     * the schema, cache all pointers which we have _not_ resolved, and when
+     * this schema comes again with a different current pointer, we look up the
+     * schema again and see if the pointer is a child of an "untouched" path.
+     *
+     * And all of this must, of course, be thread safe. Ouch.
+     */
     public void validate(final ProcessingReport report,
         final ValidationData data)
     {
