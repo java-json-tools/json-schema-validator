@@ -17,8 +17,6 @@
 
 package com.github.fge.jsonschema.processor;
 
-import java.math.BigInteger;
-
 public final class ProcessorChain<IN, OUT>
     implements Processor<IN, OUT>
 {
@@ -57,16 +55,5 @@ public final class ProcessorChain<IN, OUT>
                 return p2.process(p1.process(input));
             }
         };
-    }
-
-    public static void main(final String... args)
-    {
-        final Processor<String, Integer> p1 = new ProcessorImpl();
-        final Processor<Integer, BigInteger> p2 = new ProcessorImpl2();
-
-        final ProcessorChain<String, BigInteger> chain
-            = ProcessorChain.startWith(p1).chainWith(p2);
-
-        System.out.println(chain.process("32"));
     }
 }
