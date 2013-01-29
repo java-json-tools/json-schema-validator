@@ -19,8 +19,8 @@ package com.github.fge.jsonschema.processing.ref;
 
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.ProcessingMessage;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.schema.SchemaBundle;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.uri.URIDownloader;

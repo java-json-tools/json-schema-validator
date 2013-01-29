@@ -15,12 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing;
+package com.github.fge.jsonschema.report;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;

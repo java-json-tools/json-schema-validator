@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 public interface Processor<
     IN extends MessageProvider,

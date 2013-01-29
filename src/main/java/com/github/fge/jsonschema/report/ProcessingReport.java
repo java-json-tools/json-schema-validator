@@ -15,8 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing;
+package com.github.fge.jsonschema.report;
 
+import com.github.fge.jsonschema.processing.LogLevel;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.google.common.annotations.VisibleForTesting;
 
 public abstract class ProcessingReport

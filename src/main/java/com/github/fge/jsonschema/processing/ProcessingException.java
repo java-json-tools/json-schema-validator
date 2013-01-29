@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.report.ProcessingMessage;
+
 public final class ProcessingException
     extends Exception
 {

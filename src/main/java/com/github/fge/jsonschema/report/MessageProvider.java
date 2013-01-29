@@ -17,8 +17,6 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.processing.ProcessingMessage;
-
 public interface MessageProvider
 {
     ProcessingMessage newMessage();
