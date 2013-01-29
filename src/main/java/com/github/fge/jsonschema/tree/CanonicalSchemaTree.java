@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonFragment;
 import com.github.fge.jsonschema.ref.JsonPointer;
