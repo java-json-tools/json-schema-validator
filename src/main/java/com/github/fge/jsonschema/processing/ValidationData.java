@@ -40,6 +40,11 @@ public final class ValidationData
         this.instance = instance;
     }
 
+    public ValidationData(final JsonSchemaTree schema)
+    {
+        this(schema, null);
+    }
+
     public JsonSchemaTree getSchema()
     {
         return schema;
