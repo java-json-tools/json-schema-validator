@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.processing.ref;
 
-import com.github.fge.jsonschema.processing.LogThreshold;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ProcessingMessage;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -99,7 +99,7 @@ public final class SchemaLoaderTest
         final URI target = URI.create("moo#");
 
         final ProcessingMessage msg = new ProcessingMessage()
-            .setLogThreshold(LogThreshold.FATAL).put("uri", target)
+            .setLogLevel(LogLevel.FATAL).put("uri", target)
             .msg("URI is not absolute");
 
         try {

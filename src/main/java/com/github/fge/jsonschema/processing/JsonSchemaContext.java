@@ -41,7 +41,7 @@ public final class JsonSchemaContext
     public JsonSchemaContext(final JsonSchemaTree schemaTree,
         final JsonTree tree)
     {
-        setLogThreshold(LogThreshold.INFO);
+        setLogLevel(LogLevel.INFO);
         this.schemaTree = schemaTree;
         this.tree = tree;
     }

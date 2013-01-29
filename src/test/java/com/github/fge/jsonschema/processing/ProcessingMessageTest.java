@@ -36,13 +36,13 @@ public final class ProcessingMessageTest
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     @Test
-    public void defaultLogThresholdIsInfo()
+    public void defaultLogLevelIsInfo()
     {
         final ProcessingMessage msg = new ProcessingMessage();
         final JsonNode node = msg.asJson().get("level");
 
-        assertSame(msg.getThreshold(), LogThreshold.INFO);
-        assertEquals(node.textValue(), LogThreshold.INFO.toString());
+        assertSame(msg.getLogLevel(), LogLevel.INFO);
+        assertEquals(node.textValue(), LogLevel.INFO.toString());
     }
 
     @Test
@@ -52,10 +52,10 @@ public final class ProcessingMessageTest
 
         JsonNode node;
 
-        for (final LogThreshold threshold: LogThreshold.values()) {
-            msg.setLogThreshold(threshold);
+        for (final LogLevel threshold: LogLevel.values()) {
+            msg.setLogLevel(threshold);
             node = msg.asJson().get("level");
-            assertSame(msg.getThreshold(), threshold);
+            assertSame(msg.getLogLevel(), threshold);
             assertEquals(node.textValue(), threshold.toString());
         }
     }
@@ -66,10 +66,10 @@ public final class ProcessingMessageTest
         final ProcessingMessage msg = new ProcessingMessage();
 
         try {
-            msg.setLogThreshold(null);
+            msg.setLogLevel(null);
             fail("No exception thrown!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), "log threshold cannot be null");
+            assertEquals(e.getMessage(), "log level cannot be null");
         }
     }
 

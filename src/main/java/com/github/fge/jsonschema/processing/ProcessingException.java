@@ -35,7 +35,7 @@ public final class ProcessingException
     public ProcessingException(final ProcessingMessage processingMessage)
     {
         this.processingMessage = processingMessage
-            .setLogThreshold(LogThreshold.FATAL);
+            .setLogLevel(LogLevel.FATAL);
     }
 
     @Override

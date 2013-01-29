@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.processing;
 
-public enum LogThreshold
+public enum LogLevel
 {
     DEBUG("debug"),
     INFO("info"),
@@ -27,7 +27,7 @@ public enum LogThreshold
 
     private final String s;
 
-    LogThreshold(final String s)
+    LogLevel(final String s)
     {
         this.s = s;
     }

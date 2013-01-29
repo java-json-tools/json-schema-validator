@@ -21,16 +21,16 @@ import com.google.common.annotations.VisibleForTesting;
 
 public abstract class ProcessingContext<T>
 {
-    protected LogThreshold currentThreshold = LogThreshold.DEBUG;
-    protected LogThreshold logThreshold = LogThreshold.INFO;
-    protected LogThreshold exceptionThreshold = LogThreshold.FATAL;
+    protected LogLevel currentLevel = LogLevel.DEBUG;
+    protected LogLevel logLevel = LogLevel.INFO;
+    protected LogLevel exceptionThreshold = LogLevel.FATAL;
 
-    public final void setLogThreshold(final LogThreshold threshold)
+    public final void setLogLevel(final LogLevel threshold)
     {
-        logThreshold = threshold;
+        logLevel = threshold;
     }
 
-    public final void setExceptionThreshold(final LogThreshold threshold)
+    public final void setExceptionThreshold(final LogLevel threshold)
     {
         exceptionThreshold = threshold;
     }
@@ -38,36 +38,36 @@ public abstract class ProcessingContext<T>
     public final void debug(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogThreshold.DEBUG, msg);
+        doLog(LogLevel.DEBUG, msg);
     }
 
     public final void info(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogThreshold.INFO, msg);
+        doLog(LogLevel.INFO, msg);
     }
 
     public final void warn(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogThreshold.WARNING, msg);
+        doLog(LogLevel.WARNING, msg);
     }
 
     public final void error(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogThreshold.ERROR, msg);
+        doLog(LogLevel.ERROR, msg);
     }
 
     public final void fatal(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogThreshold.FATAL, msg);
+        doLog(LogLevel.FATAL, msg);
     }
 
     public final boolean isSuccess()
     {
-        return currentThreshold.compareTo(LogThreshold.ERROR) < 0;
+        return currentLevel.compareTo(LogLevel.ERROR) < 0;
     }
 
     public abstract void log(final ProcessingMessage msg);
@@ -76,15 +76,15 @@ public abstract class ProcessingContext<T>
         final ProcessingMessage msg);
 
     @VisibleForTesting
-    final void doLog(final LogThreshold threshold, final ProcessingMessage msg)
+    final void doLog(final LogLevel level, final ProcessingMessage msg)
         throws ProcessingException
     {
-        if (threshold.compareTo(exceptionThreshold) >= 0)
+        if (level.compareTo(exceptionThreshold) >= 0)
             throw buildException(msg);
-        if (threshold.compareTo(currentThreshold) > 0)
-            currentThreshold = threshold;
-        if (threshold.compareTo(logThreshold) >= 0)
-            log(msg.setLogThreshold(threshold));
+        if (level.compareTo(currentLevel) > 0)
+            currentLevel = level;
+        if (level.compareTo(logLevel) >= 0)
+            log(msg.setLogLevel(level));
     }
 
     public abstract ProcessingMessage newMessage();

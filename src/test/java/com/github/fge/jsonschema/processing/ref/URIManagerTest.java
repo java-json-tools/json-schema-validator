@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.processing.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
-import com.github.fge.jsonschema.processing.LogThreshold;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ProcessingMessage;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -83,7 +83,7 @@ public final class URIManagerTest
 
         final ProcessingMessage msg = new ProcessingMessage()
             .msg("cannot handle scheme").put("scheme", "foo")
-            .setLogThreshold(LogThreshold.FATAL).put("uri", uri);
+            .setLogLevel(LogLevel.FATAL).put("uri", uri);
 
         try {
             manager.getContent(uri);
@@ -147,7 +147,7 @@ public final class URIManagerTest
 
         final ProcessingMessage msg = new ProcessingMessage()
             .msg("cannot handle scheme").put("scheme", "bar")
-            .setLogThreshold(LogThreshold.FATAL).put("uri", uri);
+            .setLogLevel(LogLevel.FATAL).put("uri", uri);
         try {
             manager.getContent(uri);
         } catch (ProcessingException e) {
@@ -167,7 +167,7 @@ public final class URIManagerTest
         manager.registerScheme("foo", mock);
 
         final ProcessingMessage msg = new ProcessingMessage()
-            .setLogThreshold(LogThreshold.FATAL).put("uri", uri)
+            .setLogLevel(LogLevel.FATAL).put("uri", uri)
             .msg("cannot dereference URI (IOException)")
             .put("exceptionMessage", "foo");
 
@@ -191,7 +191,7 @@ public final class URIManagerTest
         manager.registerScheme("foo", mock);
 
         final ProcessingMessage msg = new ProcessingMessage().put("uri", uri)
-            .setLogThreshold(LogThreshold.FATAL)
+            .setLogLevel(LogLevel.FATAL)
             .msg("content at URI is not valid JSON");
         final JsonNode expected = msg.asJson();
 

@@ -36,18 +36,18 @@ public final class ProcessingMessage
 
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
 
-    private LogThreshold threshold;
+    private LogLevel level;
 
     public ProcessingMessage()
     {
-        setLogThreshold(LogThreshold.INFO);
+        setLogLevel(LogLevel.INFO);
     }
 
-    public ProcessingMessage setLogThreshold(final LogThreshold threshold)
+    public ProcessingMessage setLogLevel(final LogLevel level)
     {
-        this.threshold = Preconditions.checkNotNull(threshold,
-            "log threshold cannot be null");
-        return put("level", threshold);
+        this.level = Preconditions.checkNotNull(level,
+            "log level cannot be null");
+        return put("level", level);
     }
 
     public ProcessingMessage msg(final String message)
@@ -93,9 +93,9 @@ public final class ProcessingMessage
         return put(key, node);
     }
 
-    public LogThreshold getThreshold()
+    public LogLevel getLogLevel()
     {
-        return threshold;
+        return level;
     }
 
     private ProcessingMessage putNull(final String key)
