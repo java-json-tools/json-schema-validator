@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.ref.JsonPointer;
@@ -33,7 +32,6 @@ public final class JsonTreeTest
     private final JsonNodeFactory factory = JacksonUtils.nodeFactory();
     private JsonNode testNode;
     private ObjectNode childObject;
-    private ArrayNode childArray;
 
     @BeforeClass
     public void init()
@@ -41,20 +39,17 @@ public final class JsonTreeTest
         childObject = factory.objectNode();
         childObject.put("a", "b");
 
-        childArray = factory.arrayNode();
-        childArray.add("c");
-
         final ObjectNode rootNode = factory.objectNode();
         rootNode.put("object", childObject);
-        rootNode.put("array", childArray);
         testNode = rootNode;
     }
 
     @Test
-    public void initializedNodeTreeReturnsCorrectNode()
+    public void initializedNodeTreeReturnsCorrectNodeAndPointer()
     {
         final JsonTree tree = new SimpleJsonTree(testNode);
         assertSame(tree.getCurrentNode(), testNode);
+        assertEquals(tree.getCurrentPointer(), JsonPointer.empty());
     }
 
     @Test
@@ -65,6 +60,7 @@ public final class JsonTreeTest
             .append("a");
         tree.append(ptr);
         assertSame(tree.getCurrentNode(), childObject.get("a"));
+        assertEquals(tree.getCurrentPointer(), ptr);
     }
 
     @Test(dependsOnMethods = "pushdOfJsonPointerWorks")
