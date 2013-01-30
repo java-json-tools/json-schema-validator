@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
@@ -27,12 +28,12 @@ import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.processing.syntax.SyntaxProcessor.EQUIVALENCE;
-import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.*;
 
 public final class SyntaxProcessorTest
 {
     @Test
-    public void treesWithTheSameContentAndPointerAreEqual()
+    public void treesWithTheSameContentAndPointerAreEquivalent()
         throws JsonSchemaException
     {
         final JsonNode schema = JacksonUtils.emptyObject();
@@ -46,5 +47,18 @@ public final class SyntaxProcessorTest
         assertTrue(EQUIVALENCE.equivalent(canonical1, canonical2));
         assertTrue(EQUIVALENCE.equivalent(canonical2, inline1));
         assertTrue(EQUIVALENCE.equivalent(inline1, inline2));
+        assertTrue(EQUIVALENCE.equivalent(inline2, canonical1));
+    }
+
+    @Test
+    public void treesWithTheSameContentAndDifferentPointersAreNotEquivalent()
+    {
+        final JsonNode schema = JacksonUtils.emptyObject();
+
+        final JsonSchemaTree tree1 = new CanonicalSchemaTree(schema);
+        final JsonSchemaTree tree2 = tree1.copy();
+        tree2.setPointer(JsonPointer.empty().append("foobar"));
+
+        assertFalse(EQUIVALENCE.equivalent(tree1, tree2));
     }
 }
