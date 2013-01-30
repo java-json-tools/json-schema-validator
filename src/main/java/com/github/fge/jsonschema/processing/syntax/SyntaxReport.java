@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.processing.syntax;
 
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -27,15 +28,22 @@ import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Set;
 
-public final class SyntaxValidationResults
+public final class SyntaxReport
+    extends ProcessingReport
 {
     private final List<ProcessingMessage> messages = Lists.newArrayList();
 
     private final Set<JsonPointer> ignoredPaths = Sets.newLinkedHashSet();
 
-    public void addMessage(final ProcessingMessage message)
+    public SyntaxReport()
     {
-        messages.add(message);
+        setLogLevel(LogLevel.DEBUG);
+    }
+
+    @Override
+    public void log(final ProcessingMessage msg)
+    {
+        messages.add(msg);
     }
 
     public void addIgnoredPath(final JsonPointer pointer)

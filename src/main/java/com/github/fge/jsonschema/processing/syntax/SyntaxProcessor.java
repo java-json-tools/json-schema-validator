@@ -62,8 +62,7 @@ public final class SyntaxProcessor
 
     private final Map<String, SyntaxChecker> checkers = Maps.newTreeMap();
 
-    private final LoadingCache<Equivalence.Wrapper<JsonSchemaTree>,
-        SyntaxValidationResults> cache;
+    private final LoadingCache<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport> cache;
 
     public SyntaxProcessor()
     {
@@ -85,17 +84,16 @@ public final class SyntaxProcessor
         return input;
     }
 
-    private CacheLoader<Equivalence.Wrapper<JsonSchemaTree>,
-        SyntaxValidationResults> loader()
+    private CacheLoader<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport> loader()
     {
-        return new CacheLoader<Equivalence.Wrapper<JsonSchemaTree>, SyntaxValidationResults>()
+        return new CacheLoader<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport>()
         {
             @Override
-            public SyntaxValidationResults load(
+            public SyntaxReport load(
                 final Equivalence.Wrapper<JsonSchemaTree> key)
                 throws ProcessingException
             {
-                return new SyntaxValidationResults();
+                return new SyntaxReport();
             }
         };
     }
