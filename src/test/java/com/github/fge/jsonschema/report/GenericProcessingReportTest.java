@@ -137,19 +137,6 @@ public final class GenericProcessingReportTest
             }
     }
 
-    @Test
-    public void fatalAlwaysThrowsAnException()
-    {
-        final ProcessingMessage msg = new ProcessingMessage();
-        final ProcessingReport ctx = new TestProcessingReport();
-
-        try {
-            ctx.fatal(msg);
-            fail("No exception thrown!");
-        } catch (ProcessingException ignored) {
-        }
-    }
-
     private static class TestProcessingReport
         extends GenericProcessingReport
     {

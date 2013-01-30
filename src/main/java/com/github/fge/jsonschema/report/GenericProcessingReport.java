@@ -67,13 +67,6 @@ public abstract class GenericProcessingReport
     }
 
     @Override
-    public final void fatal(final ProcessingMessage msg)
-        throws ProcessingException
-    {
-        doLog(LogLevel.FATAL, msg);
-    }
-
-    @Override
     public final boolean isSuccess()
     {
         return currentLevel.compareTo(LogLevel.ERROR) < 0;

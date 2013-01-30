@@ -33,8 +33,5 @@ public interface ProcessingReport
     void error(ProcessingMessage msg)
         throws ProcessingException;
 
-    void fatal(ProcessingMessage msg)
-        throws ProcessingException;
-
     boolean isSuccess();
 }
