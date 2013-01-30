@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 public final class JsonProcessingReport
-    extends ProcessingReport
+    extends GenericProcessingReport
 {
     private final List<ProcessingMessage> messages = Lists.newArrayList();
 

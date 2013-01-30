@@ -17,72 +17,24 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.google.common.annotations.VisibleForTesting;
 
-public abstract class ProcessingReport
+public interface ProcessingReport
 {
-    protected LogLevel currentLevel = LogLevel.DEBUG;
-    protected LogLevel logLevel = LogLevel.INFO;
-    protected LogLevel exceptionThreshold = LogLevel.FATAL;
+    void debug(ProcessingMessage msg)
+        throws ProcessingException;
 
-    public final void setLogLevel(final LogLevel threshold)
-    {
-        logLevel = threshold;
-    }
+    void info(ProcessingMessage msg)
+        throws ProcessingException;
 
-    public final void setExceptionThreshold(final LogLevel threshold)
-    {
-        exceptionThreshold = threshold;
-    }
+    void warn(ProcessingMessage msg)
+        throws ProcessingException;
 
-    public final void debug(final ProcessingMessage msg)
-        throws ProcessingException
-    {
-        doLog(LogLevel.DEBUG, msg);
-    }
+    void error(ProcessingMessage msg)
+        throws ProcessingException;
 
-    public final void info(final ProcessingMessage msg)
-        throws ProcessingException
-    {
-        doLog(LogLevel.INFO, msg);
-    }
+    void fatal(ProcessingMessage msg)
+        throws ProcessingException;
 
-    public final void warn(final ProcessingMessage msg)
-        throws ProcessingException
-    {
-        doLog(LogLevel.WARNING, msg);
-    }
-
-    public final void error(final ProcessingMessage msg)
-        throws ProcessingException
-    {
-        doLog(LogLevel.ERROR, msg);
-    }
-
-    public final void fatal(final ProcessingMessage msg)
-        throws ProcessingException
-    {
-        doLog(LogLevel.FATAL, msg);
-    }
-
-    public final boolean isSuccess()
-    {
-        return currentLevel.compareTo(LogLevel.ERROR) < 0;
-    }
-
-    public abstract void log(final ProcessingMessage msg);
-
-    @VisibleForTesting
-    final void doLog(final LogLevel level, final ProcessingMessage msg)
-        throws ProcessingException
-    {
-        if (level.compareTo(exceptionThreshold) >= 0)
-            throw new ProcessingException(msg);
-        if (level.compareTo(currentLevel) > 0)
-            currentLevel = level;
-        if (level.compareTo(logLevel) >= 0)
-            log(msg.setLogLevel(level));
-    }
+    boolean isSuccess();
 }

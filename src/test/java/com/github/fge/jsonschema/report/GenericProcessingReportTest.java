@@ -32,7 +32,7 @@ import java.util.List;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public final class ProcessingReportTest
+public final class GenericProcessingReportTest
 {
     /*
      * All thresholds except fatal
@@ -60,7 +60,7 @@ public final class ProcessingReportTest
     {
         final ProcessingMessage msg = new ProcessingMessage();
         final int nrInvocations  = THRESHOLDS.size() - logLevel.ordinal();
-        final ProcessingReport ctx = spy(new TestProcessingReport());
+        final GenericProcessingReport ctx = spy(new TestProcessingReport());
 
         ctx.setLogLevel(logLevel);
 
@@ -74,7 +74,7 @@ public final class ProcessingReportTest
     public void successIsCorrectlyReported(final LogLevel threshold)
         throws ProcessingException
     {
-        final ProcessingReport ctx = new TestProcessingReport();
+        final GenericProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
         final boolean expected = threshold.compareTo(LogLevel.ERROR) < 0;
@@ -91,7 +91,7 @@ public final class ProcessingReportTest
     public void levelIsCorrectlySetInMessages(final LogLevel threshold)
         throws ProcessingException
     {
-        final ProcessingReport ctx = new TestProcessingReport();
+        final GenericProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
         ctx.setLogLevel(threshold);
         ctx.doLog(threshold, msg);
@@ -115,7 +115,7 @@ public final class ProcessingReportTest
 
         final EnumSet<LogLevel> thrown = EnumSet.complementOf(notThrown);
 
-        final ProcessingReport ctx = new TestProcessingReport();
+        final GenericProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
         ctx.setExceptionThreshold(logLevel);
@@ -151,7 +151,7 @@ public final class ProcessingReportTest
     }
 
     private static class TestProcessingReport
-        extends ProcessingReport
+        extends GenericProcessingReport
     {
 
         @Override
