@@ -17,56 +17,36 @@
 
 package com.github.fge.jsonschema.processing.syntax;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Ordering;
+import com.google.common.collect.Sets;
 
 import java.util.Map;
+import java.util.Set;
 
 public final class SyntaxProcessor
     implements Processor<ValidationData, ValidationData>
 {
-    /**
-     * Equivalence specifically defined for syntax checking
-     *
-     * <p>By default, {@link JsonSchemaTree}'s equality is based on the loading
-     * JSON Reference and schema. But for syntax checking we need to compare the
-     * schema with the current location in it, so that we can accurately report
-     * non visited paths and look up these as keys.</p>
-     */
-    private static final Equivalence<JsonSchemaTree> EQUIVALENCE
-        = new Equivalence<JsonSchemaTree>()
-    {
-        @Override
-        protected boolean doEquivalent(final JsonSchemaTree a,
-            final JsonSchemaTree b)
-        {
-            return a.getCurrentRef().equals(b.getCurrentRef())
-                && a.getBaseNode().equals(b.getBaseNode());
-        }
-
-        @Override
-        protected int doHash(final JsonSchemaTree t)
-        {
-            return 31 * t.getCurrentRef().hashCode()
-                + t.getBaseNode().hashCode();
-        }
-    };
-
-    private final Map<String, SyntaxChecker> checkers = Maps.newTreeMap();
+    private final Map<String, SyntaxChecker> checkers;
 
     private final LoadingCache<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport> cache;
 
-    public SyntaxProcessor()
+    public SyntaxProcessor(final Map<String, SyntaxChecker> checkers)
     {
+        this.checkers = ImmutableMap.copyOf(checkers);
         cache = CacheBuilder.newBuilder().build(loader());
     }
     /**
@@ -120,7 +100,71 @@ public final class SyntaxProcessor
     }
 
     private void validate(final SyntaxReport report, final JsonSchemaTree tree)
+        throws ProcessingException
     {
+        final JsonNode node = tree.getCurrentNode();
 
+        /*
+         * First check whether the node we have is actually a JSON object. Meh.
+         */
+        final NodeType type = NodeType.getNodeType(node);
+        if (type != NodeType.OBJECT) {
+            final ProcessingMessage msg = newMsg(tree)
+                .msg("document is not a JSON Schema: not an object")
+                .put("found", type);
+            report.error(msg);
+            return;
+        }
+
+        /*
+         * Warn about ignored keywords
+         */
+        final Set<String> fieldNames = Sets.newHashSet(node.fieldNames());
+        final Set<String> ignored = Sets.newHashSet(fieldNames);
+        ignored.removeAll(checkers.keySet());
+        if (!ignored.isEmpty()) {
+            final JsonPointer pointer = tree.getCurrentPointer();
+            for (final String name: ignored)
+                report.addIgnoredPath(pointer.append(name));
+            report.warn(newMsg(tree).msg("unknown keyword(s) found; ignored")
+                .put("ignored", Ordering.natural().sortedCopy(ignored)));
+        }
+
+        final Set<String> setView = Sets.difference(fieldNames, ignored);
+        for (final String field: Ordering.natural().sortedCopy(setView))
+            checkers.get(field).checkSyntax(this, report, tree);
     }
+
+    private static ProcessingMessage newMsg(final JsonSchemaTree tree)
+    {
+        return new ProcessingMessage().put("schema", tree)
+            .put("domain", "syntax");
+    }
+
+    /**
+     * Equivalence specifically defined for syntax checking
+     *
+     * <p>By default, {@link JsonSchemaTree}'s equality is based on the loading
+     * JSON Reference and schema. But for syntax checking we need to compare the
+     * schema with the current location in it, so that we can accurately report
+     * non visited paths and look up these as keys.</p>
+     */
+    private static final Equivalence<JsonSchemaTree> EQUIVALENCE
+        = new Equivalence<JsonSchemaTree>()
+    {
+        @Override
+        protected boolean doEquivalent(final JsonSchemaTree a,
+            final JsonSchemaTree b)
+        {
+            return a.getCurrentRef().equals(b.getCurrentRef())
+                && a.getBaseNode().equals(b.getBaseNode());
+        }
+
+        @Override
+        protected int doHash(final JsonSchemaTree t)
+        {
+            return 31 * t.getCurrentRef().hashCode()
+                + t.getBaseNode().hashCode();
+        }
+    };
 }
