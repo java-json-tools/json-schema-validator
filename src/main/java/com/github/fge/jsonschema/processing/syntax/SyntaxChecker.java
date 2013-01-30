@@ -17,51 +17,13 @@
 
 package com.github.fge.jsonschema.processing.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.util.NodeType;
 
-import java.util.EnumSet;
-
-public abstract class SyntaxChecker
+public interface SyntaxChecker
 {
-    protected final String keyword;
-    protected final EnumSet<NodeType> types;
-
-    protected SyntaxChecker(final String keyword, final NodeType first,
-        final NodeType... other)
-    {
-        this.keyword = keyword;
-        types = EnumSet.of(first, other);
-    }
-
-    public final void checkSyntax(final SyntaxProcessor processor,
-        final ProcessingReport report, final JsonSchemaTree tree)
-        throws ProcessingException
-    {
-        final JsonNode node = tree.getCurrentNode().get(keyword);
-        final NodeType type = NodeType.getNodeType(node);
-
-        if (!types.contains(type)) {
-            report.error(newMsg(tree, "invalid primitive type for keyword")
-                .put("allowed", types).put("found", type));
-            return;
-        }
-
-        checkValue(processor, report, tree);
-    }
-
-    protected abstract void checkValue(final SyntaxProcessor processor,
-        final ProcessingReport report, final JsonSchemaTree tree)
+    void checkSyntax(SyntaxProcessor processor, ProcessingReport report,
+        JsonSchemaTree tree)
         throws ProcessingException;
-
-    protected final ProcessingMessage newMsg(final JsonSchemaTree tree,
-        final String msg)
-    {
-        return new ProcessingMessage().put("domain", "syntax")
-            .put("schema", tree).put("keyword", keyword).msg(msg);
-    }
 }

@@ -37,7 +37,7 @@ import java.util.Iterator;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.assertEquals;
 
-public final class SyntaxCheckerTest
+public final class AbstractSyntaxCheckerTest
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String KEYWORD = "foo";
@@ -53,7 +53,7 @@ public final class SyntaxCheckerTest
     public void syntaxCheckingSucceedsOnValidTypes(final JsonNode node)
         throws ProcessingException
     {
-        final SyntaxChecker checker = spy(new DummyChecker());
+        final AbstractSyntaxChecker checker = spy(new DummyChecker());
         final ProcessingReport report = mock(ProcessingReport.class);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
@@ -75,7 +75,7 @@ public final class SyntaxCheckerTest
     public void syntaxCheckingFailsOnValidTypes(final JsonNode node)
         throws ProcessingException
     {
-        final SyntaxChecker checker = spy(new DummyChecker());
+        final AbstractSyntaxChecker checker = spy(new DummyChecker());
         final ProcessingReport report = mock(ProcessingReport.class);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
@@ -95,7 +95,7 @@ public final class SyntaxCheckerTest
     }
 
     private static class DummyChecker
-        extends SyntaxChecker
+        extends AbstractSyntaxChecker
     {
         private DummyChecker()
         {
