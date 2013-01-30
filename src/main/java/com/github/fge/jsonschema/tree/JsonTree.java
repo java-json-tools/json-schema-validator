@@ -51,6 +51,15 @@ public interface JsonTree
     extends AsJson
 {
     /**
+     * Return the node this tree was created with
+     *
+     * <p>Note: in current Jackson versions, this node is unfortunately mutable,
+     * so be careful...</p>
+     *
+     * @return the node
+     */
+    JsonNode getBaseNode();
+    /**
      * Append a JSON Pointer to the current path
      *
      * @param ptr the pointer to append

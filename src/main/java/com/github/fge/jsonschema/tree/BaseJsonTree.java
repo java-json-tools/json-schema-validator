@@ -69,6 +69,19 @@ public abstract class BaseJsonTree
         this.baseNode = currentNode = baseNode;
     }
 
+    /**
+     * Return the node this tree was created with
+     * <p>Note: in current Jackson versions, this node is unfortunately mutable,
+     * so be careful...</p>
+     *
+     * @return the node
+     */
+    @Override
+    public final JsonNode getBaseNode()
+    {
+        return baseNode;
+    }
+
     @Override
     public final JsonPointer getCurrentPointer()
     {
