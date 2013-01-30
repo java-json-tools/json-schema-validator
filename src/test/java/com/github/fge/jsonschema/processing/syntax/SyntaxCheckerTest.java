@@ -91,6 +91,7 @@ public final class SyntaxCheckerTest
         final JsonNode msg = captor.getValue().asJson();
         assertEquals(msg.get("message").textValue(),
             "invalid primitive type for keyword");
+        assertEquals(msg.get("keyword").textValue(), KEYWORD);
     }
 
     private static class DummyChecker
