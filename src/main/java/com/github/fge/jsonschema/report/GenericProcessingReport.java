@@ -41,28 +41,28 @@ public abstract class GenericProcessingReport
     public final void debug(final ProcessingMessage msg)
         throws ProcessingException
     {
-        log(msg);
+        log(msg.setLogLevel(LogLevel.DEBUG));
     }
 
     @Override
     public final void info(final ProcessingMessage msg)
         throws ProcessingException
     {
-        log(msg);
+        log(msg.setLogLevel(LogLevel.INFO));
     }
 
     @Override
     public final void warn(final ProcessingMessage msg)
         throws ProcessingException
     {
-        log(msg);
+        log(msg.setLogLevel(LogLevel.WARNING));
     }
 
     @Override
     public final void error(final ProcessingMessage msg)
         throws ProcessingException
     {
-        log(msg);
+        log(msg.setLogLevel(LogLevel.ERROR));
     }
 
     @Override

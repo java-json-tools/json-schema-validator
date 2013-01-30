@@ -18,8 +18,11 @@
 package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
@@ -36,6 +39,7 @@ import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -105,5 +109,63 @@ public final class SyntaxProcessorTest
         final JsonNode msgNode = captor.getValue().asJson();
         assertEquals(msgNode.get("message").textValue(),
             "document is not a JSON Schema: not an object");
+    }
+
+    @Test
+    public void unknownKeywordsAreReportedAsWarnings()
+        throws ProcessingException
+    {
+        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        node.put(K1, K1);
+
+        final ProcessingReport report = mock(ProcessingReport.class);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
+        final ValidationData data = new ValidationData(tree);
+
+        final Map<String, SyntaxChecker> map = Maps.newHashMap();
+        final SyntaxProcessor processor = new SyntaxProcessor(map);
+
+        final ArrayNode ignored = JacksonUtils.nodeFactory().arrayNode();
+        ignored.add(K1);
+
+        final ArgumentCaptor<ProcessingMessage> captor
+            = ArgumentCaptor.forClass(ProcessingMessage.class);
+
+        processor.process(report, data);
+        verify(report).log(captor.capture());
+
+        final ProcessingMessage message = captor.getValue();
+        assertEquals(message.getLogLevel(), LogLevel.WARNING);
+
+        final JsonNode msgNode = message.asJson();
+        assertEquals(msgNode.get("message").textValue(),
+            "unknown keyword(s) found; ignored");
+        assertEquals(msgNode.get("ignored"), ignored);
+    }
+
+    // This one is probably not needed, but...
+    @Test
+    public void equivalentSchemasAreNotCheckedTwice()
+        throws ProcessingException
+    {
+        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        node.put(K1, K1);
+
+        final ProcessingReport report = mock(ProcessingReport.class);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
+        final ValidationData data = new ValidationData(tree);
+
+        final SyntaxChecker checker = mock(SyntaxChecker.class);
+        final HashMap<String,SyntaxChecker> map = Maps.newHashMap();
+        map.put(K1, checker);
+
+        final SyntaxProcessor processor = new SyntaxProcessor(map);
+
+        processor.process(report, data);
+        processor.process(report, data);
+
+        verify(checker).checkSyntax(any(SyntaxProcessor.class),
+            any(ProcessingReport.class), any(JsonSchemaTree.class));
+
     }
 }
