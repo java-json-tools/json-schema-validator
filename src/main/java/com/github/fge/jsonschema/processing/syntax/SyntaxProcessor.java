@@ -21,6 +21,8 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -43,41 +45,33 @@ public final class SyntaxProcessor
         final ValidationData input)
         throws ProcessingException
     {
-        final ValidationData data
-            = new ValidationData(input.getSchema().copy());
-        validate(report, data);
         return input;
     }
 
-    /*
-     * TODO: find out how to cache results
+    /**
+     * Equivalence class specifically defined for syntax checking
      *
-     * Since we do recursive syntax validations, we need to find a way not to
-     * validate the same schema again and again.
-     *
-     * And we cannot cache the full node and call it a day because of this:
-     *
-     * {
-     *     "type": "object",
-     *     "foo": {
-     *         "type": null
-     *     }
-     * }
-     *
-     * If someone looks up JSON Pointer "/foo" here, she will have an invalid
-     * schema on hand and we want to detect that.
-     *
-     * We have "isParentOf" in JSON Pointer, so one solution would be to walk
-     * the schema, cache all pointers which we have _not_ resolved, and when
-     * this schema comes again with a different current pointer, we look up the
-     * schema again and see if the pointer is a child of an "untouched" path.
-     *
-     * And all of this must, of course, be thread safe. Ouch.
+     * <p>By default, {@link JsonSchemaTree}'s equality is based on the loading
+     * JSON Reference and schema. But for syntax checking we need to compare the
+     * schema with the current location in it, so that we can accurately report
+     * non visited paths and look up these as keys.</p>
      */
-    public void validate(final ProcessingReport report,
-        final ValidationData data)
+    private static final class SyntaxEquivalence
+        extends Equivalence<JsonSchemaTree>
     {
-        // TODO
+        @Override
+        protected boolean doEquivalent(final JsonSchemaTree a,
+            final JsonSchemaTree b)
+        {
+            return a.getCurrentRef().equals(b.getCurrentRef())
+                && a.getBaseNode().equals(b.getBaseNode());
+        }
+
+        @Override
+        protected int doHash(final JsonSchemaTree t)
+        {
+            return 31 * t.getCurrentRef().hashCode() + t.getBaseNode().hashCode();
+        }
 
     }
 }
