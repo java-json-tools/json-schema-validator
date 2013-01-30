@@ -58,7 +58,7 @@ public final class SyntaxCheckerTest
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
 
         checker.checkSyntax(null, report, tree);
-        verify(checker).checkSyntax(null, report, tree);
+        verify(checker).checkValue(null, report, tree);
         verify(report, never()).error(any(ProcessingMessage.class));
     }
 
@@ -80,7 +80,7 @@ public final class SyntaxCheckerTest
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
 
         checker.checkSyntax(null, report, tree);
-        verify(checker, never()).checkSyntax(null, report, tree);
+        verify(checker, never()).checkValue(null, report, tree);
         verify(report).error(any(ProcessingMessage.class));
     }
 
