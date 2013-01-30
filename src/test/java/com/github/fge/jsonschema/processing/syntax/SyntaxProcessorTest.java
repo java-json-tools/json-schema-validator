@@ -18,20 +18,36 @@
 package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.collect.Maps;
+import org.mockito.ArgumentCaptor;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.processing.syntax.SyntaxProcessor.EQUIVALENCE;
+import java.util.Iterator;
+import java.util.Map;
+
+import static com.github.fge.jsonschema.processing.syntax.SyntaxProcessor.*;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class SyntaxProcessorTest
 {
+    private static final String K1 = "k1";
+    private static final String K2 = "k2";
+
     @Test
     public void treesWithTheSameContentAndPointerAreEquivalent()
         throws JsonSchemaException
@@ -60,5 +76,34 @@ public final class SyntaxProcessorTest
         tree2.setPointer(JsonPointer.empty().append("foobar"));
 
         assertFalse(EQUIVALENCE.equivalent(tree1, tree2));
+    }
+
+    @DataProvider
+    public Iterator<Object[]> notSchemas()
+    {
+        return SampleNodeProvider.getSamplesExcept(NodeType.OBJECT);
+    }
+
+    @Test(dataProvider = "notSchemas")
+    public void syntaxProcessorYellsOnNonSchemas(final JsonNode node)
+        throws ProcessingException
+    {
+        final ArgumentCaptor<ProcessingMessage> captor
+            = ArgumentCaptor.forClass(ProcessingMessage.class);
+
+        final ProcessingReport report = mock(ProcessingReport.class);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
+        final ValidationData data = new ValidationData(tree);
+
+        final Map<String, SyntaxChecker> map = Maps.newHashMap();
+        final SyntaxProcessor processor = new SyntaxProcessor(map);
+
+        processor.process(report, data);
+
+        verify(report).error(captor.capture());
+
+        final JsonNode msgNode = captor.getValue().asJson();
+        assertEquals(msgNode.get("message").textValue(),
+            "document is not a JSON Schema: not an object");
     }
 }
