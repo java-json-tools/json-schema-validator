@@ -88,6 +88,11 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         return new ProcessorChain<IN, NEWOUT>(merge(p, p2));
     }
 
+    public Processor<IN, OUT> end()
+    {
+        return this;
+    }
+
     @Override
     public OUT process(final ProcessingReport report, final IN input)
         throws ProcessingException
@@ -120,3 +125,4 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         };
     }
 }
+
