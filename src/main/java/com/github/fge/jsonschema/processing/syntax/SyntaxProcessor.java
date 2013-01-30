@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.processing.syntax;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.google.common.base.Equivalence;
@@ -81,6 +82,24 @@ public final class SyntaxProcessor
         final ValidationData input)
         throws ProcessingException
     {
+        final JsonSchemaTree inputSchema = input.getSchema();
+        final JsonSchemaTree tree = inputSchema.copy();
+        final JsonPointer pointer = inputSchema.getCurrentPointer();
+        tree.setPointer(JsonPointer.empty());
+
+        /*
+         * The logic is as follows:
+         *
+         * - fetch the syntax report for this schema at the root;
+         * - if the provided pointer is reported as not being validated, trigger
+         *   another validation for this same schema at that pointer.
+         */
+        SyntaxReport syntaxReport = cache.getUnchecked(EQUIVALENCE.wrap(tree));
+        if (syntaxReport.hasIgnoredPath(pointer)) {
+            tree.setPointer(pointer);
+            syntaxReport = cache.getUnchecked(EQUIVALENCE.wrap(tree));
+        }
+        syntaxReport.injectMessages(report);
         return input;
     }
 
@@ -93,8 +112,15 @@ public final class SyntaxProcessor
                 final Equivalence.Wrapper<JsonSchemaTree> key)
                 throws ProcessingException
             {
-                return new SyntaxReport();
+                final SyntaxReport report = new SyntaxReport();
+                validate(report, key.get());
+                return report;
             }
         };
+    }
+
+    private void validate(final SyntaxReport report, final JsonSchemaTree tree)
+    {
+
     }
 }

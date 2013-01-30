@@ -19,9 +19,9 @@ package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
@@ -39,10 +39,10 @@ public abstract class SyntaxChecker
     }
 
     public final void checkSyntax(final SyntaxProcessor processor,
-        final ProcessingReport report, final ValidationData data)
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = data.getSchema().getCurrentNode();
+        final JsonNode node = tree.getCurrentNode().get(keyword);
         final NodeType type = NodeType.getNodeType(node);
 
         if (!types.contains(type)) {
@@ -51,11 +51,11 @@ public abstract class SyntaxChecker
             return;
         }
 
-        checkValue(processor, report, data);
+        checkValue(processor, report, tree);
     }
 
     protected abstract void checkValue(final SyntaxProcessor processor,
-        final ProcessingReport report, final ValidationData data)
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException;
 
     protected final ProcessingMessage message(final String msg)
