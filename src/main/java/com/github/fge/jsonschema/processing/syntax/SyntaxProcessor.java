@@ -88,8 +88,7 @@ public final class SyntaxProcessor
         return new CacheLoader<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport>()
         {
             @Override
-            public SyntaxReport load(
-                final Equivalence.Wrapper<JsonSchemaTree> key)
+            public SyntaxReport load(final Equivalence.Wrapper<JsonSchemaTree> key)
                 throws ProcessingException
             {
                 final SyntaxReport report = new SyntaxReport();
@@ -151,20 +150,20 @@ public final class SyntaxProcessor
      */
     private static final Equivalence<JsonSchemaTree> EQUIVALENCE
         = new Equivalence<JsonSchemaTree>()
-    {
-        @Override
-        protected boolean doEquivalent(final JsonSchemaTree a,
-            final JsonSchemaTree b)
         {
-            return a.getCurrentRef().equals(b.getCurrentRef())
-                && a.getBaseNode().equals(b.getBaseNode());
-        }
+            @Override
+            protected boolean doEquivalent(final JsonSchemaTree a,
+                final JsonSchemaTree b)
+            {
+                return a.getCurrentRef().equals(b.getCurrentRef())
+                    && a.getBaseNode().equals(b.getBaseNode());
+            }
 
-        @Override
-        protected int doHash(final JsonSchemaTree t)
-        {
-            return 31 * t.getCurrentRef().hashCode()
-                + t.getBaseNode().hashCode();
-        }
-    };
+            @Override
+            protected int doHash(final JsonSchemaTree t)
+            {
+                return 31 * t.getCurrentRef().hashCode()
+                    + t.getBaseNode().hashCode();
+            }
+        };
 }

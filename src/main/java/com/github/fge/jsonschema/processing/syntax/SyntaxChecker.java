@@ -46,7 +46,7 @@ public abstract class SyntaxChecker
         final NodeType type = NodeType.getNodeType(node);
 
         if (!types.contains(type)) {
-            report.error(message("invalid primitive type for keyword")
+            report.error(newMsg(tree, "invalid primitive type for keyword")
                 .put("allowed", types).put("found", type));
             return;
         }
@@ -58,9 +58,10 @@ public abstract class SyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException;
 
-    protected final ProcessingMessage message(final String msg)
+    protected final ProcessingMessage newMsg(final JsonSchemaTree tree,
+        final String msg)
     {
         return new ProcessingMessage().put("domain", "syntax")
-            .put("keyword", keyword).msg(msg);
+            .put("schema", tree).put("keyword", keyword).msg(msg);
     }
 }
