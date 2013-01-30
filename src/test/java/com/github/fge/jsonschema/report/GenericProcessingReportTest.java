@@ -35,18 +35,18 @@ import static org.testng.Assert.*;
 public final class GenericProcessingReportTest
 {
     /*
-     * All thresholds except fatal
+     * All levels except fatal
      */
-    private static final EnumSet<LogLevel> THRESHOLDS
+    private static final EnumSet<LogLevel> LEVELS
         = EnumSet.complementOf(EnumSet.of(LogLevel.FATAL));
 
     @DataProvider
-    public Iterator<Object[]> getLogThresholds()
+    public Iterator<Object[]> getLogLevels()
     {
         final List<Object[]> list = Lists.newArrayList();
 
-        for (final LogLevel threshold: THRESHOLDS)
-            list.add(new Object[] { threshold });
+        for (final LogLevel level: LEVELS)
+            list.add(new Object[] { level });
 
         // We don't want the values in the same order repeatedly, so...
         Collections.shuffle(list);
@@ -54,63 +54,63 @@ public final class GenericProcessingReportTest
         return list.iterator();
     }
 
-    @Test(dataProvider = "getLogThresholds")
-    public void logThresholdIsObeyed(final LogLevel logLevel)
+    @Test(dataProvider = "getLogLevels")
+    public void logLevelIsObeyed(final LogLevel wantedLevel)
         throws ProcessingException
     {
         final ProcessingMessage msg = new ProcessingMessage();
-        final int nrInvocations  = THRESHOLDS.size() - logLevel.ordinal();
+        final int nrInvocations  = LEVELS.size() - wantedLevel.ordinal();
         final GenericProcessingReport ctx = spy(new TestProcessingReport());
 
-        ctx.setLogLevel(logLevel);
+        ctx.setLogLevel(wantedLevel);
 
-        for (final LogLevel threshold: THRESHOLDS)
-            ctx.doLog(threshold, msg);
+        for (final LogLevel level: LEVELS)
+            ctx.doLog(level, msg);
 
         verify(ctx, times(nrInvocations)).log(msg);
     }
 
-    @Test(dataProvider = "getLogThresholds")
-    public void successIsCorrectlyReported(final LogLevel threshold)
+    @Test(dataProvider = "getLogLevels")
+    public void successIsCorrectlyReported(final LogLevel wantedLevel)
         throws ProcessingException
     {
         final GenericProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
-        final boolean expected = threshold.compareTo(LogLevel.ERROR) < 0;
+        final boolean expected = wantedLevel.compareTo(LogLevel.ERROR) < 0;
 
-        ctx.doLog(threshold, msg);
+        ctx.doLog(wantedLevel, msg);
 
         final boolean actual = ctx.isSuccess();
-        final String errmsg = "incorrect status report for level " + threshold;
+        final String errmsg = "incorrect status report for level "
+            + wantedLevel;
 
         assertEquals(actual, expected, errmsg);
     }
 
-    @Test(dataProvider = "getLogThresholds")
-    public void levelIsCorrectlySetInMessages(final LogLevel threshold)
+    @Test(dataProvider = "getLogLevels")
+    public void levelIsCorrectlySetInMessages(final LogLevel wantedLevel)
         throws ProcessingException
     {
         final GenericProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
-        ctx.setLogLevel(threshold);
-        ctx.doLog(threshold, msg);
+        ctx.setLogLevel(wantedLevel);
+        ctx.doLog(wantedLevel, msg);
 
         final JsonNode node = msg.asJson().path("level");
         assertTrue(node.isTextual());
-        assertEquals(node.textValue(), threshold.toString());
+        assertEquals(node.textValue(), wantedLevel.toString());
     }
 
-    @Test(dataProvider = "getLogThresholds")
-    public void exceptionThresholdIsObeyed(final LogLevel logLevel)
+    @Test(dataProvider = "getLogLevels")
+    public void exceptionThresholdIsObeyed(final LogLevel wantedLevel)
     {
-        final EnumSet<LogLevel> notThrown
-            = EnumSet.noneOf(LogLevel.class);
+        final EnumSet<LogLevel> notThrown = EnumSet.noneOf(LogLevel.class);
 
-        for (final LogLevel threshold: THRESHOLDS) {
-            if (threshold.compareTo(logLevel) >= 0)
+        for (final LogLevel level: LEVELS) {
+            if (level.compareTo(wantedLevel) >= 0)
                 break;
-            notThrown.add(threshold);
+            notThrown.add(level);
         }
 
         final EnumSet<LogLevel> thrown = EnumSet.complementOf(notThrown);
@@ -118,21 +118,21 @@ public final class GenericProcessingReportTest
         final GenericProcessingReport ctx = new TestProcessingReport();
         final ProcessingMessage msg = new ProcessingMessage();
 
-        ctx.setExceptionThreshold(logLevel);
+        ctx.setExceptionThreshold(wantedLevel);
 
         for (final LogLevel safe: notThrown)
             try {
                 ctx.doLog(safe, msg);
             } catch (ProcessingException ignored) {
                 fail("exception thrown at level " + safe
-                    + " whereas exception threshold is " + logLevel + '!');
+                    + " whereas exception threshold is " + wantedLevel + '!');
             }
 
         for (final LogLevel oops: thrown)
             try {
                 ctx.doLog(oops, msg);
                 fail("exception not thrown at level " + oops
-                    + " whereas exception threshold is " + logLevel + '!');
+                    + " whereas exception threshold is " + wantedLevel + '!');
             } catch (ProcessingException ignored) {
             }
     }
