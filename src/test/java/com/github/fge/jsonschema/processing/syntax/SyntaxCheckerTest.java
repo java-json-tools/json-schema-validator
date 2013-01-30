@@ -28,12 +28,14 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.assertEquals;
 
 public final class SyntaxCheckerTest
 {
@@ -79,9 +81,16 @@ public final class SyntaxCheckerTest
         schema.put(KEYWORD, node);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
 
+        final ArgumentCaptor<ProcessingMessage> captor
+            = ArgumentCaptor.forClass(ProcessingMessage.class);
+
         checker.checkSyntax(null, report, tree);
         verify(checker, never()).checkValue(null, report, tree);
-        verify(report).error(any(ProcessingMessage.class));
+        verify(report).error(captor.capture());
+
+        final JsonNode msg = captor.getValue().asJson();
+        assertEquals(msg.get("message").textValue(),
+            "invalid primitive type for keyword");
     }
 
     private static class DummyChecker
