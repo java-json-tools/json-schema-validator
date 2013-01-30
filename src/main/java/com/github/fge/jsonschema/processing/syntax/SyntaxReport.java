@@ -42,9 +42,9 @@ public final class SyntaxReport
     }
 
     @Override
-    public void log(final ProcessingMessage msg)
+    public void doLog(final ProcessingMessage message)
     {
-        messages.add(msg);
+        messages.add(message);
     }
 
     public void addIgnoredPath(final JsonPointer pointer)
@@ -56,7 +56,7 @@ public final class SyntaxReport
         throws ProcessingException
     {
         for (final ProcessingMessage message: messages)
-            report.error(message);
+            report.log(message);
     }
 
     public boolean hasIgnoredPath(final JsonPointer target)

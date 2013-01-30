@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.report;
 
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.google.common.annotations.VisibleForTesting;
 
 public abstract class GenericProcessingReport
     implements ProcessingReport
@@ -42,28 +41,28 @@ public abstract class GenericProcessingReport
     public final void debug(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogLevel.DEBUG, msg);
+        log(msg);
     }
 
     @Override
     public final void info(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogLevel.INFO, msg);
+        log(msg);
     }
 
     @Override
     public final void warn(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogLevel.WARNING, msg);
+        log(msg);
     }
 
     @Override
     public final void error(final ProcessingMessage msg)
         throws ProcessingException
     {
-        doLog(LogLevel.ERROR, msg);
+        log(msg);
     }
 
     @Override
@@ -72,17 +71,19 @@ public abstract class GenericProcessingReport
         return currentLevel.compareTo(LogLevel.ERROR) < 0;
     }
 
-    public abstract void log(final ProcessingMessage msg);
+    public abstract void doLog(final ProcessingMessage message);
 
-    @VisibleForTesting
-    final void doLog(final LogLevel level, final ProcessingMessage msg)
+    @Override
+    public final void log(final ProcessingMessage message)
         throws ProcessingException
     {
+        final LogLevel level = message.getLogLevel();
+
         if (level.compareTo(exceptionThreshold) >= 0)
-            throw new ProcessingException(msg);
+            throw new ProcessingException(message);
         if (level.compareTo(currentLevel) > 0)
             currentLevel = level;
         if (level.compareTo(logLevel) >= 0)
-            log(msg.setLogLevel(level));
+            doLog(message.setLogLevel(level));
     }
 }

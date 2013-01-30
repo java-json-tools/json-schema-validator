@@ -27,8 +27,8 @@ public final class JsonProcessingReport
     private final List<ProcessingMessage> messages = Lists.newArrayList();
 
     @Override
-    public void log(final ProcessingMessage msg)
+    public void doLog(final ProcessingMessage message)
     {
-        messages.add(msg);
+        messages.add(message);
     }
 }

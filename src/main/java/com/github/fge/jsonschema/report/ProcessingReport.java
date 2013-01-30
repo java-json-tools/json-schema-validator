@@ -21,6 +21,9 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 
 public interface ProcessingReport
 {
+    void log(final ProcessingMessage message)
+        throws ProcessingException;
+
     void debug(ProcessingMessage msg)
         throws ProcessingException;
 

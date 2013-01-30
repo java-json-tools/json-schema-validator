@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.google.common.collect.Lists;
@@ -65,9 +64,9 @@ public final class GenericProcessingReportTest
         ctx.setLogLevel(wantedLevel);
 
         for (final LogLevel level: LEVELS)
-            ctx.doLog(level, msg);
+            ctx.log(msg.setLogLevel(level));
 
-        verify(ctx, times(nrInvocations)).log(msg);
+        verify(ctx, times(nrInvocations)).doLog(msg);
     }
 
     @Test(dataProvider = "getLogLevels")
@@ -79,27 +78,13 @@ public final class GenericProcessingReportTest
 
         final boolean expected = wantedLevel.compareTo(LogLevel.ERROR) < 0;
 
-        ctx.doLog(wantedLevel, msg);
+        ctx.log(msg.setLogLevel(wantedLevel));
 
         final boolean actual = ctx.isSuccess();
         final String errmsg = "incorrect status report for level "
             + wantedLevel;
 
         assertEquals(actual, expected, errmsg);
-    }
-
-    @Test(dataProvider = "getLogLevels")
-    public void levelIsCorrectlySetInMessages(final LogLevel wantedLevel)
-        throws ProcessingException
-    {
-        final GenericProcessingReport ctx = new TestProcessingReport();
-        final ProcessingMessage msg = new ProcessingMessage();
-        ctx.setLogLevel(wantedLevel);
-        ctx.doLog(wantedLevel, msg);
-
-        final JsonNode node = msg.asJson().path("level");
-        assertTrue(node.isTextual());
-        assertEquals(node.textValue(), wantedLevel.toString());
     }
 
     @Test(dataProvider = "getLogLevels")
@@ -122,7 +107,7 @@ public final class GenericProcessingReportTest
 
         for (final LogLevel safe: notThrown)
             try {
-                ctx.doLog(safe, msg);
+                ctx.log(msg.setLogLevel(safe));
             } catch (ProcessingException ignored) {
                 fail("exception thrown at level " + safe
                     + " whereas exception threshold is " + wantedLevel + '!');
@@ -130,7 +115,7 @@ public final class GenericProcessingReportTest
 
         for (final LogLevel oops: thrown)
             try {
-                ctx.doLog(oops, msg);
+                ctx.log(msg.setLogLevel(oops));
                 fail("exception not thrown at level " + oops
                     + " whereas exception threshold is " + wantedLevel + '!');
             } catch (ProcessingException ignored) {
@@ -142,7 +127,7 @@ public final class GenericProcessingReportTest
     {
 
         @Override
-        public void log(final ProcessingMessage msg)
+        public void doLog(final ProcessingMessage msg)
         {
         }
     }
