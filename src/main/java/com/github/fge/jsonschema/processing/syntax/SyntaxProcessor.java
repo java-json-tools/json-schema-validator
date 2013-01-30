@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -145,24 +146,25 @@ public final class SyntaxProcessor
      *
      * <p>By default, {@link JsonSchemaTree}'s equality is based on the loading
      * JSON Reference and schema. But for syntax checking we need to compare the
-     * schema with the current location in it, so that we can accurately report
-     * non visited paths and look up these as keys.</p>
+     * schema with the current _pointer_, so that we can accurately report non
+     * visited paths and look up these as keys.</p>
      */
-    private static final Equivalence<JsonSchemaTree> EQUIVALENCE
+    @VisibleForTesting
+    static final Equivalence<JsonSchemaTree> EQUIVALENCE
         = new Equivalence<JsonSchemaTree>()
         {
             @Override
             protected boolean doEquivalent(final JsonSchemaTree a,
                 final JsonSchemaTree b)
             {
-                return a.getCurrentRef().equals(b.getCurrentRef())
+                return a.getCurrentPointer().equals(b.getCurrentPointer())
                     && a.getBaseNode().equals(b.getBaseNode());
             }
 
             @Override
             protected int doHash(final JsonSchemaTree t)
             {
-                return 31 * t.getCurrentRef().hashCode()
+                return 31 * t.getCurrentPointer().hashCode()
                     + t.getBaseNode().hashCode();
             }
         };
