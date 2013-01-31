@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
-import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
@@ -33,6 +32,7 @@ import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.mockito.ArgumentCaptor;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -45,6 +45,35 @@ import static org.testng.Assert.*;
 public final class SyntaxProcessorTest
 {
     private static final String K1 = "k1";
+    private static final String K2 = "k2";
+    private static final String ERRMSG = "foo";
+
+    private ProcessingReport report;
+    private SyntaxProcessor processor;
+    private SyntaxChecker checker;
+
+    @BeforeMethod
+    public void initialize()
+    {
+        report = mock(ProcessingReport.class);
+        final DictionaryBuilder<SyntaxChecker> builder
+            = new DictionaryBuilder<SyntaxChecker>();
+
+        checker = mock(SyntaxChecker.class);
+        builder.addEntry(K1, checker);
+        builder.addEntry(K2, new SyntaxChecker()
+        {
+            @Override
+            public void checkSyntax(final SyntaxProcessor processor,
+                final ProcessingReport report, final JsonSchemaTree tree)
+                throws ProcessingException
+            {
+                report.error(new ProcessingMessage().msg(ERRMSG));
+            }
+        });
+
+        processor = new SyntaxProcessor(builder.build());
+    }
 
     @DataProvider
     public Iterator<Object[]> notSchemas()
@@ -59,14 +88,7 @@ public final class SyntaxProcessorTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        final ProcessingReport report = mock(ProcessingReport.class);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        final ValidationData data = new ValidationData(tree);
-
-        final Dictionary<SyntaxChecker> dict
-            = new DictionaryBuilder<SyntaxChecker>().build();
-
-        final SyntaxProcessor processor = new SyntaxProcessor(dict);
+        final ValidationData data = schemaToData(node);
 
         processor.process(report, data);
 
@@ -82,19 +104,15 @@ public final class SyntaxProcessorTest
         throws ProcessingException
     {
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
-        node.put(K1, K1);
+        node.put("foo", "");
+        node.put("bar", "");
 
-        final ProcessingReport report = mock(ProcessingReport.class);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        final ValidationData data = new ValidationData(tree);
-
-        final Dictionary<SyntaxChecker> dict
-            = new DictionaryBuilder<SyntaxChecker>().build();
-
-        final SyntaxProcessor processor = new SyntaxProcessor(dict);
+        final ValidationData data = schemaToData(node);
 
         final ArrayNode ignored = JacksonUtils.nodeFactory().arrayNode();
-        ignored.add(K1);
+        // They appear in alphabetical order in the report!
+        ignored.add("bar");
+        ignored.add("foo");
 
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
@@ -111,7 +129,6 @@ public final class SyntaxProcessorTest
         assertEquals(msgNode.get("ignored"), ignored);
     }
 
-    // This one is probably not needed, but...
     @Test
     public void equivalentSchemasAreNotCheckedTwice()
         throws ProcessingException
@@ -119,16 +136,7 @@ public final class SyntaxProcessorTest
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         node.put(K1, K1);
 
-        final ProcessingReport report = mock(ProcessingReport.class);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
-        final ValidationData data = new ValidationData(tree);
-
-        final SyntaxChecker checker = mock(SyntaxChecker.class);
-
-        final Dictionary<SyntaxChecker> dict
-            = new DictionaryBuilder<SyntaxChecker>().addEntry(K1, checker)
-                .build();
-        final SyntaxProcessor processor = new SyntaxProcessor(dict);
+        final ValidationData data = schemaToData(node);
 
         processor.process(report, data);
         processor.process(report, data);
@@ -141,37 +149,17 @@ public final class SyntaxProcessorTest
     public void errorsAreCorrectlyReported()
         throws ProcessingException
     {
-        final ProcessingMessage msg = new ProcessingMessage().msg("foo");
-
-        final SyntaxChecker checker = new SyntaxChecker()
-        {
-            @Override
-            public void checkSyntax(final SyntaxProcessor processor,
-                final ProcessingReport report, final JsonSchemaTree tree)
-                throws ProcessingException
-            {
-                report.error(msg);
-            }
-        };
-
-        final Dictionary<SyntaxChecker> dict
-            = new DictionaryBuilder<SyntaxChecker>().addEntry(K1, checker)
-            .build();
-
-        final SyntaxProcessor processor = new SyntaxProcessor(dict);
+        final ProcessingMessage msg = new ProcessingMessage().msg(ERRMSG)
+            .setLogLevel(LogLevel.ERROR);
 
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
-        schema.put(K1, "");
+        schema.put(K2, "");
 
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
-        final ProcessingReport report = mock(ProcessingReport.class);
-
-        final ValidationData data = new ValidationData(tree);
+        final ValidationData data = schemaToData(schema);
 
         processor.process(report, data);
 
-        verify(report).log(msg);
-        assertEquals(msg.getLogLevel(), LogLevel.ERROR);
+        verify(report).log(eq(msg));
     }
 
     @Test
@@ -182,19 +170,16 @@ public final class SyntaxProcessorTest
         node.put(K1, K1);
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
         schema.put("foo", node);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
-        final ValidationData data = new ValidationData(tree);
+        final ValidationData data = schemaToData(schema);
 
-        final SyntaxChecker checker = mock(SyntaxChecker.class);
-
-        final Dictionary<SyntaxChecker> dict
-            = new DictionaryBuilder<SyntaxChecker>().addEntry(K1, checker)
-            .build();
-        final SyntaxProcessor processor = new SyntaxProcessor(dict);
-
-        final ProcessingReport report = mock(ProcessingReport.class);
         processor.process(report, data);
         verify(checker, never()).checkSyntax(any(SyntaxProcessor.class),
             any(ProcessingReport.class), any(JsonSchemaTree.class));
+    }
+
+    private static ValidationData schemaToData(final JsonNode schema)
+    {
+        final CanonicalSchemaTree tree = new CanonicalSchemaTree(schema);
+        return new ValidationData(tree);
     }
 }
