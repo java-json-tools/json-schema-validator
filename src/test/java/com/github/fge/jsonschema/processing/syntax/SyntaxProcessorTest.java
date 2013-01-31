@@ -171,5 +171,30 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
 
         verify(report).log(msg);
+        assertEquals(msg.getLogLevel(), LogLevel.ERROR);
+    }
+
+    @Test
+    public void checkingWillNotDiveIntoUnknownKeywords()
+        throws ProcessingException
+    {
+        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        node.put(K1, K1);
+        final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
+        schema.put("foo", node);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final ValidationData data = new ValidationData(tree);
+
+        final SyntaxChecker checker = mock(SyntaxChecker.class);
+
+        final Dictionary<SyntaxChecker> dict
+            = new DictionaryBuilder<SyntaxChecker>().addEntry(K1, checker)
+            .build();
+        final SyntaxProcessor processor = new SyntaxProcessor(dict);
+
+        final ProcessingReport report = mock(ProcessingReport.class);
+        processor.process(report, data);
+        verify(checker, never()).checkSyntax(any(SyntaxProcessor.class),
+            any(ProcessingReport.class), any(JsonSchemaTree.class));
     }
 }
