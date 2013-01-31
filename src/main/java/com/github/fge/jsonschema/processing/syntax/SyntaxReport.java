@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.processing.syntax;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
-import com.github.fge.jsonschema.report.GenericProcessingReport;
+import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.collect.Lists;
@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 public final class SyntaxReport
-    extends GenericProcessingReport
+    extends AbstractProcessingReport
 {
     private final List<ProcessingMessage> messages = Lists.newArrayList();
 

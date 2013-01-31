@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.report;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 
-public abstract class GenericProcessingReport
+public abstract class AbstractProcessingReport
     implements ProcessingReport
 {
     protected LogLevel currentLevel = LogLevel.DEBUG;
