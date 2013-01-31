@@ -41,6 +41,7 @@ import org.testng.annotations.Test;
 import java.util.Iterator;
 
 import static com.github.fge.jsonschema.TestUtils.*;
+import static com.github.fge.jsonschema.syntax.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -98,8 +99,7 @@ public final class SyntaxProcessorTest
         verify(report).error(captor.capture());
 
         final JsonNode msgNode = captor.getValue().asJson();
-        assertEquals(msgNode.get("message").textValue(),
-            "document is not a JSON Schema: not an object");
+        assertEquals(msgNode.get("message"), NOT_A_SCHEMA.asJson());
     }
 
     @Test
@@ -127,8 +127,7 @@ public final class SyntaxProcessorTest
         assertEquals(message.getLogLevel(), LogLevel.WARNING);
 
         final JsonNode msgNode = message.asJson();
-        assertEquals(msgNode.get("message").textValue(),
-            "unknown keyword(s) found; ignored");
+        assertEquals(msgNode.get("message"), UNKNOWN_KEYWORDS.asJson());
         assertEquals(msgNode.get("ignored"), ignored);
     }
 

@@ -35,6 +35,8 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
+import static com.github.fge.jsonschema.syntax.SyntaxMessages.*;
+
 public final class SyntaxProcessor
     implements Processor<ValidationData, ValidationData>
 {
@@ -70,8 +72,7 @@ public final class SyntaxProcessor
         final NodeType type
             = NodeType.getNodeType(inputSchema.getCurrentNode());
         if (type != NodeType.OBJECT) {
-            final ProcessingMessage msg = newMsg(inputSchema)
-                .msg("document is not a JSON Schema: not an object")
+            final ProcessingMessage msg = newMsg(inputSchema).msg(NOT_A_SCHEMA)
                 .put("found", type);
             report.error(msg);
             return input;
@@ -126,7 +127,7 @@ public final class SyntaxProcessor
             final JsonPointer pointer = tree.getCurrentPointer();
             for (final String name: ignored)
                 report.addIgnoredPath(pointer.append(name));
-            report.warn(newMsg(tree).msg("unknown keyword(s) found; ignored")
+            report.warn(newMsg(tree).msg(UNKNOWN_KEYWORDS)
                 .put("ignored", ignored));
         }
 

@@ -56,6 +56,11 @@ public final class ProcessingMessage
         return put("message", message);
     }
 
+    public ProcessingMessage msg(final AsJson asJson)
+    {
+        return put("message", asJson);
+    }
+
     public ProcessingMessage put(final String key, final JsonNode value)
     {
         if (value == null)
