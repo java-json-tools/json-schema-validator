@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
@@ -99,7 +100,8 @@ public final class SyntaxProcessorTest
         verify(report).error(captor.capture());
 
         final JsonNode msgNode = captor.getValue().asJson();
-        assertEquals(msgNode.get("message"), NOT_A_SCHEMA.asJson());
+        assertEquals(msgNode.get("message").textValue(),
+            NOT_A_SCHEMA.toString());
     }
 
     @Test
@@ -127,7 +129,8 @@ public final class SyntaxProcessorTest
         assertEquals(message.getLogLevel(), LogLevel.WARNING);
 
         final JsonNode msgNode = message.asJson();
-        assertEquals(msgNode.get("message"), UNKNOWN_KEYWORDS.asJson());
+        assertEquals(msgNode.get("message").textValue(),
+            UNKNOWN_KEYWORDS.toString());
         assertEquals(msgNode.get("ignored"), ignored);
     }
 
