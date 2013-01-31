@@ -169,6 +169,41 @@ public final class SyntaxProcessorTest
 
         verify(checker).checkSyntax(any(SyntaxProcessor.class),
             any(ProcessingReport.class), any(JsonSchemaTree.class));
+    }
 
+    @Test
+    public void errorsAreCorrectlyReported()
+        throws ProcessingException
+    {
+        final ProcessingMessage msg = new ProcessingMessage().msg("foo");
+
+        final SyntaxChecker checker = new SyntaxChecker()
+        {
+            @Override
+            public void checkSyntax(final SyntaxProcessor processor,
+                final ProcessingReport report, final JsonSchemaTree tree)
+                throws ProcessingException
+            {
+                report.error(msg);
+            }
+        };
+
+        final Dictionary<SyntaxChecker> dict
+            = new DictionaryBuilder<SyntaxChecker>().addEntry(K1, checker)
+            .build();
+
+        final SyntaxProcessor processor = new SyntaxProcessor(dict);
+
+        final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
+        schema.put(K1, "");
+
+        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final ProcessingReport report = mock(ProcessingReport.class);
+
+        final ValidationData data = new ValidationData(tree);
+
+        processor.process(report, data);
+
+        verify(report).log(msg);
     }
 }
