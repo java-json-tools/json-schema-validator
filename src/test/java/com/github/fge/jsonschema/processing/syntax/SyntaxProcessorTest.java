@@ -42,6 +42,7 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
+import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.processing.syntax.SyntaxProcessor.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
@@ -167,7 +168,7 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         processor.process(report, data);
 
-        verify(checker).checkSyntax(any(SyntaxProcessor.class),
+        verify(checker, onlyOnce()).checkSyntax(any(SyntaxProcessor.class),
             any(ProcessingReport.class), any(JsonSchemaTree.class));
     }
 
