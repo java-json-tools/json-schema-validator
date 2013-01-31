@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema;
 
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import org.mockito.verification.VerificationMode;
 
 import static org.mockito.Mockito.*;
@@ -30,5 +32,15 @@ public final class TestUtils
     public static VerificationMode onlyOnce()
     {
         return times(1);
+    }
+
+    public static ProcessingReport anyReport()
+    {
+        return any(ProcessingReport.class);
+    }
+
+    public static JsonSchemaTree anySchema()
+    {
+        return any(JsonSchemaTree.class);
     }
 }

@@ -19,12 +19,14 @@ package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -44,6 +46,7 @@ import static org.testng.Assert.*;
 
 public final class SyntaxProcessorTest
 {
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String K1 = "k1";
     private static final String K2 = "k2";
     private static final String ERRMSG = "foo";
@@ -103,13 +106,13 @@ public final class SyntaxProcessorTest
     public void unknownKeywordsAreReportedAsWarnings()
         throws ProcessingException
     {
-        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        final ObjectNode node = FACTORY.objectNode();
         node.put("foo", "");
         node.put("bar", "");
 
         final ValidationData data = schemaToData(node);
 
-        final ArrayNode ignored = JacksonUtils.nodeFactory().arrayNode();
+        final ArrayNode ignored = FACTORY.arrayNode();
         // They appear in alphabetical order in the report!
         ignored.add("bar");
         ignored.add("foo");
@@ -133,7 +136,7 @@ public final class SyntaxProcessorTest
     public void equivalentSchemasAreNotCheckedTwice()
         throws ProcessingException
     {
-        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        final ObjectNode node = FACTORY.objectNode();
         node.put(K1, K1);
 
         final ValidationData data = schemaToData(node);
@@ -141,8 +144,8 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         processor.process(report, data);
 
-        verify(checker, onlyOnce()).checkSyntax(any(SyntaxProcessor.class),
-            any(ProcessingReport.class), any(JsonSchemaTree.class));
+        verify(checker, onlyOnce()).checkSyntax(eq(processor), anyReport(),
+            anySchema());
     }
 
     @Test
@@ -152,7 +155,7 @@ public final class SyntaxProcessorTest
         final ProcessingMessage msg = new ProcessingMessage().msg(ERRMSG)
             .setLogLevel(LogLevel.ERROR);
 
-        final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
+        final ObjectNode schema = FACTORY.objectNode();
         schema.put(K2, "");
 
         final ValidationData data = schemaToData(schema);
@@ -166,15 +169,50 @@ public final class SyntaxProcessorTest
     public void checkingWillNotDiveIntoUnknownKeywords()
         throws ProcessingException
     {
-        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        final ObjectNode node = FACTORY.objectNode();
         node.put(K1, K1);
-        final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
+        final ObjectNode schema = FACTORY.objectNode();
         schema.put("foo", node);
         final ValidationData data = schemaToData(schema);
 
         processor.process(report, data);
-        verify(checker, never()).checkSyntax(any(SyntaxProcessor.class),
-            any(ProcessingReport.class), any(JsonSchemaTree.class));
+        verify(checker, never()).checkSyntax(eq(processor), anyReport(),
+            anySchema());
+    }
+
+    @Test
+    public void divingIntoAnUnknownPathPerformsChecking()
+        throws ProcessingException
+    {
+        final ObjectNode inner = FACTORY.objectNode();
+        inner.put(K1, "");
+        final ObjectNode schema = FACTORY.objectNode();
+        schema.put("foo", inner);
+
+        final ValidationData data = schemaToData(schema);
+        data.getSchema().setPointer(JsonPointer.empty().append("foo"));
+
+        processor.process(report, data);
+        verify(checker).checkSyntax(eq(processor), anyReport(), anySchema());
+    }
+
+    @Test
+    public void divingIntoAKnownPathDoesNotPerformCheckingAgain()
+        throws ProcessingException
+    {
+        final ObjectNode inner = FACTORY.objectNode();
+        inner.put(K1, "");
+        final ObjectNode schema = FACTORY.objectNode();
+        schema.put(K1, inner);
+        schema.put("foo", "bar");
+
+        final ValidationData data = schemaToData(schema);
+
+        processor.process(report, data);
+        data.getSchema().setPointer(JsonPointer.empty().append(K1));
+        processor.process(report, data);
+        verify(checker, onlyOnce()).checkSyntax(eq(processor), anyReport(),
+            anySchema());
     }
 
     private static ValidationData schemaToData(final JsonNode schema)
