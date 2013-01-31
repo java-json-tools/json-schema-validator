@@ -19,7 +19,7 @@
  * Schema syntax validation package
  *
  * <p>The main class in this package is {@link
- * com.github.fge.jsonschema.syntax.SyntaxValidator}.</p>
+ * com.github.fge.jsonschema.old.syntax.SyntaxValidator}.</p>
  *
  * <p>Syntax validation has a critically important role in the validation
  * process. An invalid schema will always <i>fail</i> to validate a JSON
@@ -37,4 +37,4 @@
  *
  * @see com.github.fge.jsonschema.examples
  */
-package com.github.fge.jsonschema.syntax;
+package com.github.fge.jsonschema.old.syntax;

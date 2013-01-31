@@ -19,4 +19,4 @@
  * Hyper-schema syntax validators
  */
 
-package com.github.fge.jsonschema.syntax.hyperschema;
+package com.github.fge.jsonschema.old.syntax.hyperschema;

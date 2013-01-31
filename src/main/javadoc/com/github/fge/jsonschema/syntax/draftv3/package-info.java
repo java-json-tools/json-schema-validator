@@ -19,4 +19,4 @@
  * Syntax validators specific to draft v3
  */
 
-package com.github.fge.jsonschema.syntax.draftv3;
+package com.github.fge.jsonschema.old.syntax.draftv3;

@@ -19,4 +19,4 @@
  * Draft v3 specific hyper-schema syntax validators
  */
 
-package com.github.fge.jsonschema.syntax.hyperschema.draftv3;
+package com.github.fge.jsonschema.old.syntax.hyperschema.draftv3;

@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.util;
 
-import com.github.fge.jsonschema.syntax.hyperschema.draftv3.LinksSyntaxChecker;
+import com.github.fge.jsonschema.old.syntax.hyperschema.draftv3.LinksSyntaxChecker;
 import com.google.common.base.CharMatcher;
 
 /**

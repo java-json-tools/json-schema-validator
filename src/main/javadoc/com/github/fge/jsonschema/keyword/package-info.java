@@ -24,7 +24,7 @@
  * single argument of type {@link com.fasterxml.jackson.databind.JsonNode}.</p>
  *
  * <p>Not only this, but if you do, be sure to pair it with a {@link
- * com.github.fge.jsonschema.syntax.SyntaxChecker}. The principle is that the
+ * com.github.fge.jsonschema.old.syntax.SyntaxChecker}. The principle is that the
  * syntax checker checks that the keyword has a correct shape, which means the
  * keyword validator does not have to check for this. This considerably
  * simplifies the constructor (you only have to do minimal type checking, if
