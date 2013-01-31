@@ -56,9 +56,9 @@ public final class ProcessingMessage
         return put("message", message);
     }
 
-    public ProcessingMessage msg(final AsJson asJson)
+    public <T> ProcessingMessage msg(final T value)
     {
-        return put("message", asJson);
+        return put("message", value);
     }
 
     public ProcessingMessage put(final String key, final JsonNode value)

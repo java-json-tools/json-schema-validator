@@ -17,27 +17,21 @@
 
 package com.github.fge.jsonschema.syntax;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.util.AsJson;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
-
 public enum SyntaxMessages
-    implements AsJson
 {
     NOT_A_SCHEMA("document is not a JSON Schema: not an object"),
     UNKNOWN_KEYWORDS("unknown keyword(s) found; ignored");
 
-    private final JsonNode node;
+    private final String message;
 
     SyntaxMessages(final String message)
     {
-        node = JacksonUtils.nodeFactory().textNode(message);
+        this.message = message;
     }
 
-
     @Override
-    public JsonNode asJson()
+    public String toString()
     {
-        return node;
+        return message;
     }
 }
