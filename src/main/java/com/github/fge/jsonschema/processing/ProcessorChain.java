@@ -62,6 +62,22 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         return new ProcessorChain<X, Y>(p);
     }
 
+    // You have to do ProcessingChain.<X>start(). TODO: builder
+    public static <X extends MessageProvider> ProcessorChain<X, X> start()
+    {
+        final Processor<X, X> p = new Processor<X, X>()
+        {
+            @Override
+            public X process(final ProcessingReport report, final X input)
+                throws ProcessingException
+            {
+                return input;
+            }
+        };
+
+        return new ProcessorChain<X, X>(p);
+    }
+
     /**
      * Private constructor
      *
@@ -70,6 +86,23 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     private ProcessorChain(final Processor<IN, OUT> p)
     {
         this.p = p;
+    }
+
+    public ProcessorChain<IN, OUT> failOnError()
+    {
+        final Processor<OUT, OUT> fail = new Processor<OUT, OUT>()
+        {
+            @Override
+            public OUT process(final ProcessingReport report, final OUT input)
+                throws ProcessingException
+            {
+                if (!report.isSuccess())
+                    throw new ProcessingException("chain stopped");
+                return input;
+            }
+        };
+
+        return new ProcessorChain<IN, OUT>(merge(p, fail));
     }
 
     /**
