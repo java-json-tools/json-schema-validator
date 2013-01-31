@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -31,23 +32,21 @@ import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
-import java.util.Map;
 import java.util.Set;
 
 public final class SyntaxProcessor
     implements Processor<ValidationData, ValidationData>
 {
-    private final Map<String, SyntaxChecker> checkers;
+    private final Dictionary<SyntaxChecker> dict;
 
     private final LoadingCache<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport> cache;
 
-    public SyntaxProcessor(final Map<String, SyntaxChecker> checkers)
+    public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
-        this.checkers = ImmutableMap.copyOf(checkers);
+        this.dict = dict;
         cache = CacheBuilder.newBuilder().build(loader());
     }
     /**
@@ -123,8 +122,7 @@ public final class SyntaxProcessor
          * Warn about ignored keywords
          */
         final Set<String> fieldNames = Sets.newHashSet(node.fieldNames());
-        final Set<String> ignored = Sets.newHashSet(fieldNames);
-        ignored.removeAll(checkers.keySet());
+        final Set<String> ignored = dict.missingEntriesFrom(fieldNames);
         if (!ignored.isEmpty()) {
             final JsonPointer pointer = tree.getCurrentPointer();
             for (final String name: ignored)
@@ -133,9 +131,8 @@ public final class SyntaxProcessor
                 .put("ignored", Ordering.natural().sortedCopy(ignored)));
         }
 
-        final Set<String> setView = Sets.difference(fieldNames, ignored);
-        for (final String field: Ordering.natural().sortedCopy(setView))
-            checkers.get(field).checkSyntax(this, report, tree);
+        for (final SyntaxChecker checker: dict.valuesForKeys(fieldNames))
+            checker.checkSyntax(this, report, tree);
     }
 
     private static ProcessingMessage newMsg(final JsonSchemaTree tree)

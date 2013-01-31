@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util;
+package com.github.fge.jsonschema.library;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -31,7 +32,12 @@ import java.util.Set;
  */
 public final class Dictionary<T>
 {
-    private final Map<String, T> entries = Maps.newHashMap();
+    private final Map<String, T> entries;
+
+    Dictionary(final DictionaryBuilder<T> builder)
+    {
+        entries = ImmutableMap.copyOf(builder.entries);
+    }
 
     public Set<String> missingEntriesFrom(final Set<String> set)
     {
@@ -42,7 +48,8 @@ public final class Dictionary<T>
 
     public Collection<T> valuesForKeys(final Set<String> keys)
     {
-        final Map<String, T> map = Maps.newHashMap(entries);
+        final Map<String, T> map = Maps.newTreeMap();
+        map.putAll(entries);
         map.keySet().retainAll(keys);
         return map.values();
     }

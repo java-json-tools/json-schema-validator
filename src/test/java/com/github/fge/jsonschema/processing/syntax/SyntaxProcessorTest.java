@@ -21,6 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
@@ -34,14 +36,11 @@ import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
-import com.google.common.collect.Maps;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import static com.github.fge.jsonschema.processing.syntax.SyntaxProcessor.*;
 import static org.mockito.Mockito.*;
@@ -50,7 +49,6 @@ import static org.testng.Assert.*;
 public final class SyntaxProcessorTest
 {
     private static final String K1 = "k1";
-    private static final String K2 = "k2";
 
     @Test
     public void treesWithTheSameContentAndPointerAreEquivalent()
@@ -99,8 +97,10 @@ public final class SyntaxProcessorTest
         final JsonSchemaTree tree = new CanonicalSchemaTree(node);
         final ValidationData data = new ValidationData(tree);
 
-        final Map<String, SyntaxChecker> map = Maps.newHashMap();
-        final SyntaxProcessor processor = new SyntaxProcessor(map);
+        final Dictionary<SyntaxChecker> dict
+            = new DictionaryBuilder<SyntaxChecker>().build();
+
+        final SyntaxProcessor processor = new SyntaxProcessor(dict);
 
         processor.process(report, data);
 
@@ -122,8 +122,10 @@ public final class SyntaxProcessorTest
         final JsonSchemaTree tree = new CanonicalSchemaTree(node);
         final ValidationData data = new ValidationData(tree);
 
-        final Map<String, SyntaxChecker> map = Maps.newHashMap();
-        final SyntaxProcessor processor = new SyntaxProcessor(map);
+        final Dictionary<SyntaxChecker> dict
+            = new DictionaryBuilder<SyntaxChecker>().build();
+
+        final SyntaxProcessor processor = new SyntaxProcessor(dict);
 
         final ArrayNode ignored = JacksonUtils.nodeFactory().arrayNode();
         ignored.add(K1);
@@ -156,10 +158,11 @@ public final class SyntaxProcessorTest
         final ValidationData data = new ValidationData(tree);
 
         final SyntaxChecker checker = mock(SyntaxChecker.class);
-        final HashMap<String,SyntaxChecker> map = Maps.newHashMap();
-        map.put(K1, checker);
 
-        final SyntaxProcessor processor = new SyntaxProcessor(map);
+        final Dictionary<SyntaxChecker> dict
+            = new DictionaryBuilder<SyntaxChecker>().addEntry(K1, checker)
+                .build();
+        final SyntaxProcessor processor = new SyntaxProcessor(dict);
 
         processor.process(report, data);
         processor.process(report, data);
