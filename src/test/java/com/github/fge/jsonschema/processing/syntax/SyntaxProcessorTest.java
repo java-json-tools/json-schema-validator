@@ -23,16 +23,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
-import com.github.fge.jsonschema.ref.JsonPointer;
-import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
@@ -43,43 +39,12 @@ import org.testng.annotations.Test;
 import java.util.Iterator;
 
 import static com.github.fge.jsonschema.TestUtils.*;
-import static com.github.fge.jsonschema.processing.syntax.SyntaxProcessor.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class SyntaxProcessorTest
 {
     private static final String K1 = "k1";
-
-    @Test
-    public void treesWithTheSameContentAndPointerAreEquivalent()
-        throws JsonSchemaException
-    {
-        final JsonNode schema = JacksonUtils.emptyObject();
-        final JsonRef ref = JsonRef.fromString("foo://bar");
-
-        final JsonSchemaTree canonical1 = new CanonicalSchemaTree(ref, schema);
-        final JsonSchemaTree canonical2 = new CanonicalSchemaTree(schema);
-        final JsonSchemaTree inline1 = new InlineSchemaTree(ref, schema);
-        final JsonSchemaTree inline2 = new InlineSchemaTree(schema);
-
-        assertTrue(EQUIVALENCE.equivalent(canonical1, canonical2));
-        assertTrue(EQUIVALENCE.equivalent(canonical2, inline1));
-        assertTrue(EQUIVALENCE.equivalent(inline1, inline2));
-        assertTrue(EQUIVALENCE.equivalent(inline2, canonical1));
-    }
-
-    @Test
-    public void treesWithTheSameContentAndDifferentPointersAreNotEquivalent()
-    {
-        final JsonNode schema = JacksonUtils.emptyObject();
-
-        final JsonSchemaTree tree1 = new CanonicalSchemaTree(schema);
-        final JsonSchemaTree tree2 = tree1.copy();
-        tree2.setPointer(JsonPointer.empty().append("foobar"));
-
-        assertFalse(EQUIVALENCE.equivalent(tree1, tree2));
-    }
 
     @DataProvider
     public Iterator<Object[]> notSchemas()
