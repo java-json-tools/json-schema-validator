@@ -20,31 +20,21 @@ package com.github.fge.jsonschema.processing.syntax;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
-import com.github.fge.jsonschema.report.AbstractProcessingReport;
+import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-import java.util.List;
 import java.util.Set;
 
 public final class SyntaxReport
-    extends AbstractProcessingReport
+    extends ListProcessingReport
 {
-    private final List<ProcessingMessage> messages = Lists.newArrayList();
-
     private final Set<JsonPointer> ignoredPaths = Sets.newLinkedHashSet();
 
     public SyntaxReport()
     {
         setLogLevel(LogLevel.DEBUG);
-    }
-
-    @Override
-    public void doLog(final ProcessingMessage message)
-    {
-        messages.add(message);
     }
 
     public void addIgnoredPath(final JsonPointer pointer)
