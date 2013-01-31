@@ -41,6 +41,12 @@ public final class SyntaxProcessor
 {
     private final Dictionary<SyntaxChecker> dict;
 
+    /*
+     * FIXME: caching should probably be abstracted away.
+     *
+     * The way this is currently done, we have to do tests for each caching
+     * processor that equivalent entries are cached. Not good.
+     */
     private final LoadingCache<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport> cache;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
