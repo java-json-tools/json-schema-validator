@@ -32,7 +32,7 @@
  * com.fasterxml.jackson.databind.node.ObjectNode} as a {@link java.util.Map}.
  * </p>
  *
- * <p>{@link com.github.fge.jsonschema.util.jackson.JsonNodeEquivalence} is an
+ * <p>{@link com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence} is an
  * implementation of Guava's {@link com.google.common.base.Equivalence} for
  * {@link com.fasterxml.jackson.databind.JsonNode} instances. It exists solely
  * for the purpose of conforming to the JSON Schema definition of equality,

@@ -27,11 +27,10 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
-import com.google.common.annotations.VisibleForTesting;
+import com.github.fge.jsonschema.util.ProcessingCache;
+import com.github.fge.jsonschema.util.equivalence.SyntaxCheckingEquivalence;
 import com.google.common.base.Equivalence;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 
 import java.util.Set;
@@ -41,18 +40,13 @@ public final class SyntaxProcessor
 {
     private final Dictionary<SyntaxChecker> dict;
 
-    /*
-     * FIXME: caching should probably be abstracted away.
-     *
-     * The way this is currently done, we have to do tests for each caching
-     * processor that equivalent entries are cached. Not good.
-     */
-    private final LoadingCache<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport> cache;
+    private final ProcessingCache<JsonSchemaTree, SyntaxReport> cache;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
         this.dict = dict;
-        cache = CacheBuilder.newBuilder().build(loader());
+        cache = new ProcessingCache<JsonSchemaTree, SyntaxReport>(
+            SyntaxCheckingEquivalence.getInstance(), loader());
     }
     /**
      * Process the input
@@ -94,10 +88,10 @@ public final class SyntaxProcessor
          * - if the provided pointer is reported as not being validated, trigger
          *   another validation for this same schema at that pointer.
          */
-        SyntaxReport syntaxReport = cache.getUnchecked(EQUIVALENCE.wrap(tree));
+        SyntaxReport syntaxReport = cache.getUnchecked(tree);
         if (syntaxReport.hasIgnoredPath(pointer)) {
             tree.setPointer(pointer);
-            syntaxReport = cache.getUnchecked(EQUIVALENCE.wrap(tree));
+            syntaxReport = cache.getUnchecked(tree);
         }
         syntaxReport.injectMessages(report);
         return input;
@@ -145,32 +139,4 @@ public final class SyntaxProcessor
         return new ProcessingMessage().put("schema", tree)
             .put("domain", "syntax");
     }
-
-    /**
-     * Equivalence specifically defined for syntax checking
-     *
-     * <p>By default, {@link JsonSchemaTree}'s equality is based on the loading
-     * JSON Reference and schema. But for syntax checking we need to compare the
-     * schema with the current _pointer_, so that we can accurately report non
-     * visited paths and look up these as keys.</p>
-     */
-    @VisibleForTesting
-    static final Equivalence<JsonSchemaTree> EQUIVALENCE
-        = new Equivalence<JsonSchemaTree>()
-        {
-            @Override
-            protected boolean doEquivalent(final JsonSchemaTree a,
-                final JsonSchemaTree b)
-            {
-                return a.getCurrentPointer().equals(b.getCurrentPointer())
-                    && a.getBaseNode().equals(b.getBaseNode());
-            }
-
-            @Override
-            protected int doHash(final JsonSchemaTree t)
-            {
-                return 31 * t.getCurrentPointer().hashCode()
-                    + t.getBaseNode().hashCode();
-            }
-        };
 }

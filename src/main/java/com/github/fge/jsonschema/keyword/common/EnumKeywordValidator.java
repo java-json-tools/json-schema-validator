@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.jackson.JsonNodeEquivalence;
+import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.github.fge.jsonschema.validator.ValidationContext;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSet;
@@ -40,7 +40,7 @@ public final class EnumKeywordValidator
     extends KeywordValidator
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNodeEquivalence.getInstance();
+        = JsonSchemaEquivalence.getInstance();
 
     private final JsonNode enumNode;
     private final Set<Equivalence.Wrapper<JsonNode>> enumValues;

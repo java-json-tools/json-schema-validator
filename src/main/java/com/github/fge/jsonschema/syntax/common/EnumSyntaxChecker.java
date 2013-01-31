@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.jackson.JsonNodeEquivalence;
+import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -43,7 +43,7 @@ public final class EnumSyntaxChecker
     extends AbstractSyntaxChecker
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNodeEquivalence.getInstance();
+        = JsonSchemaEquivalence.getInstance();
 
     private static final SyntaxChecker INSTANCE = new EnumSyntaxChecker();
 

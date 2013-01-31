@@ -15,10 +15,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util.jackson;
+package com.github.fge.jsonschema.util.equivalence;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -32,12 +33,12 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
-public final class JsonNodeEquivalenceTest
+public final class JsonSchemaEquivalenceTest
 {
     private static final Random RND = new Random(System.currentTimeMillis());
 
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNodeEquivalence.getInstance();
+        = JsonSchemaEquivalence.getInstance();
 
     private static final JsonNodeFactory FACTORY = JsonNodeFactory.instance;
 

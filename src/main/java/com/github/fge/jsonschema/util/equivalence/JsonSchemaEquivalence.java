@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util.jackson;
+package com.github.fge.jsonschema.util.equivalence;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.util.NodeType;
@@ -39,13 +39,13 @@ import java.util.Set;
  * enforces this kind of equality.</p>
  */
 // TODO: use better hash functions for arrays and objects
-public final class JsonNodeEquivalence
+public final class JsonSchemaEquivalence
     extends Equivalence<JsonNode>
 {
     private static final Equivalence<JsonNode> INSTANCE
-        = new JsonNodeEquivalence();
+        = new JsonSchemaEquivalence();
 
-    private JsonNodeEquivalence()
+    private JsonSchemaEquivalence()
     {
     }
 

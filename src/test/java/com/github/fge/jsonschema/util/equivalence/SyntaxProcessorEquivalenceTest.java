@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing.syntax;
+package com.github.fge.jsonschema.util.equivalence;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
@@ -25,13 +25,16 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.base.Equivalence;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.processing.syntax.SyntaxProcessor.*;
 import static org.testng.Assert.*;
 
 public final class SyntaxProcessorEquivalenceTest
 {
+    private static final Equivalence<JsonSchemaTree> EQUIVALENCE
+        = SyntaxCheckingEquivalence.getInstance();
+
     @Test
     public void treesWithTheSameContentAndPointerAreEquivalent()
         throws JsonSchemaException
