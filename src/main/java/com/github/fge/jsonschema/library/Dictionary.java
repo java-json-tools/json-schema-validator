@@ -41,7 +41,8 @@ public final class Dictionary<T>
 
     public Set<String> missingEntriesFrom(final Set<String> set)
     {
-        final Set<String> ret = Sets.newHashSet(set);
+        final Set<String> ret = Sets.newTreeSet();
+        ret.addAll(set);
         ret.removeAll(entries.keySet());
         return ret;
     }

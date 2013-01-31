@@ -32,7 +32,6 @@ import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
 import java.util.Set;
@@ -128,7 +127,7 @@ public final class SyntaxProcessor
             for (final String name: ignored)
                 report.addIgnoredPath(pointer.append(name));
             report.warn(newMsg(tree).msg("unknown keyword(s) found; ignored")
-                .put("ignored", Ordering.natural().sortedCopy(ignored)));
+                .put("ignored", ignored));
         }
 
         for (final SyntaxChecker checker: dict.valuesForKeys(fieldNames))
