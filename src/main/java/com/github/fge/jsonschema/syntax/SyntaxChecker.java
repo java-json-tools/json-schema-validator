@@ -19,12 +19,12 @@ package com.github.fge.jsonschema.syntax;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
-import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.processing.syntax.SyntaxReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 
 public interface SyntaxChecker
 {
-    void checkSyntax(SyntaxProcessor processor, ProcessingReport report,
+    void checkSyntax(SyntaxProcessor processor, SyntaxReport report,
         JsonSchemaTree tree)
         throws ProcessingException;
 }

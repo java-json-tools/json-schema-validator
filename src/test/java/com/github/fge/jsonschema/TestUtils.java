@@ -17,8 +17,8 @@
 
 package com.github.fge.jsonschema;
 
+import com.github.fge.jsonschema.processing.syntax.SyntaxReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import org.mockito.verification.VerificationMode;
 
@@ -35,9 +35,9 @@ public final class TestUtils
         return times(1);
     }
 
-    public static ProcessingReport anyReport()
+    public static SyntaxReport anySyntaxReport()
     {
-        return any(ProcessingReport.class);
+        return any(SyntaxReport.class);
     }
 
     public static JsonSchemaTree anySchema()

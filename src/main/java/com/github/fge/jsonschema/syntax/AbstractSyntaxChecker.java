@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.processing.syntax.SyntaxReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
@@ -43,7 +43,7 @@ public abstract class AbstractSyntaxChecker
 
     @Override
     public final void checkSyntax(final SyntaxProcessor processor,
-        final ProcessingReport report, final JsonSchemaTree tree)
+        final SyntaxReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = tree.getCurrentNode().get(keyword);
@@ -59,7 +59,7 @@ public abstract class AbstractSyntaxChecker
     }
 
     protected abstract void checkValue(final SyntaxProcessor processor,
-        final ProcessingReport report, final JsonSchemaTree tree)
+        final SyntaxReport report, final JsonSchemaTree tree)
         throws ProcessingException;
 
     protected final <T> ProcessingMessage newMsg(final JsonSchemaTree tree,

@@ -23,22 +23,22 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.processing.syntax.SyntaxReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
-import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Iterator;
+import java.util.List;
 
-import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
+import static org.testng.Assert.*;
 
 public final class AbstractSyntaxCheckerTest
 {
@@ -57,14 +57,14 @@ public final class AbstractSyntaxCheckerTest
         throws ProcessingException
     {
         final AbstractSyntaxChecker checker = spy(new DummyChecker());
-        final ProcessingReport report = mock(ProcessingReport.class);
+        final SyntaxReport report = new SyntaxReport();
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
 
         checker.checkSyntax(null, report, tree);
         verify(checker).checkValue(null, report, tree);
-        verify(report, never()).error(anyMessage());
+        assertTrue(report.getMessages().isEmpty());
     }
 
     @DataProvider
@@ -79,22 +79,18 @@ public final class AbstractSyntaxCheckerTest
         throws ProcessingException
     {
         final AbstractSyntaxChecker checker = spy(new DummyChecker());
-        final ProcessingReport report = mock(ProcessingReport.class);
+        final SyntaxReport report = new SyntaxReport();
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
 
-        final ArgumentCaptor<ProcessingMessage> captor
-            = ArgumentCaptor.forClass(ProcessingMessage.class);
-
         checker.checkSyntax(null, report, tree);
         verify(checker, never()).checkValue(null, report, tree);
 
-        // FIXME: due to mocking, error level does not get set at this point
-        // Design flaw :/ ProcessingReport should be an abstract class.
-        verify(report).error(captor.capture());
+        final List<ProcessingMessage> messages = report.getMessages();
+        assertEquals(messages.size(), 1);
 
-        final ProcessingMessage msg = captor.getValue();
+        final ProcessingMessage msg = messages.get(0);
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
             .hasMessage(INCORRECT_TYPE).hasField("domain", "syntax");
     }
@@ -109,7 +105,7 @@ public final class AbstractSyntaxCheckerTest
 
         @Override
         protected void checkValue(final SyntaxProcessor processor,
-            final ProcessingReport report, final JsonSchemaTree tree)
+            final SyntaxReport report, final JsonSchemaTree tree)
             throws ProcessingException
         {
         }

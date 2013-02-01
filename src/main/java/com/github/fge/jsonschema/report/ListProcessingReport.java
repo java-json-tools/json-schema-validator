@@ -48,4 +48,9 @@ public class ListProcessingReport
             ret.add(message.asJson());
         return ret;
     }
+
+    public List<ProcessingMessage> getMessages()
+    {
+        return Lists.newArrayList(messages);
+    }
 }

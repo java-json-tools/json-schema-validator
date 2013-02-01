@@ -70,7 +70,7 @@ public final class SyntaxProcessorTest
         {
             @Override
             public void checkSyntax(final SyntaxProcessor processor,
-                final ProcessingReport report, final JsonSchemaTree tree)
+                final SyntaxReport report, final JsonSchemaTree tree)
                 throws ProcessingException
             {
                 report.error(new ProcessingMessage().msg(ERRMSG));
@@ -143,7 +143,7 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         processor.process(report, data);
 
-        verify(checker, onlyOnce()).checkSyntax(same(processor), anyReport(),
+        verify(checker, onlyOnce()).checkSyntax(same(processor), anySyntaxReport(),
             anySchema());
     }
 
@@ -178,7 +178,7 @@ public final class SyntaxProcessorTest
         final ValidationData data = schemaToData(schema);
 
         processor.process(report, data);
-        verify(checker, never()).checkSyntax(same(processor), anyReport(),
+        verify(checker, never()).checkSyntax(same(processor), anySyntaxReport(),
             anySchema());
     }
 
@@ -195,7 +195,7 @@ public final class SyntaxProcessorTest
         data.getSchema().setPointer(JsonPointer.empty().append("foo"));
 
         processor.process(report, data);
-        verify(checker).checkSyntax(same(processor), anyReport(), anySchema());
+        verify(checker).checkSyntax(same(processor), anySyntaxReport(), anySchema());
     }
 
     @Test
@@ -213,7 +213,7 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         data.getSchema().setPointer(JsonPointer.empty().append(K1));
         processor.process(report, data);
-        verify(checker, onlyOnce()).checkSyntax(same(processor), anyReport(),
+        verify(checker, onlyOnce()).checkSyntax(same(processor), anySyntaxReport(),
             anySchema());
     }
 
