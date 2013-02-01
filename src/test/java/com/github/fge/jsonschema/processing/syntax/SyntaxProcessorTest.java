@@ -100,7 +100,8 @@ public final class SyntaxProcessorTest
         verify(report).error(captor.capture());
 
         final ProcessingMessage message = captor.getValue();
-        assertMessage(message).hasMessage(NOT_A_SCHEMA);
+        assertMessage(message).hasMessage(NOT_A_SCHEMA)
+        .hasField("found", NodeType.getNodeType(node));
     }
 
     @Test
@@ -142,7 +143,7 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         processor.process(report, data);
 
-        verify(checker, onlyOnce()).checkSyntax(eq(processor), anyReport(),
+        verify(checker, onlyOnce()).checkSyntax(same(processor), anyReport(),
             anySchema());
     }
 
@@ -150,8 +151,8 @@ public final class SyntaxProcessorTest
     public void errorsAreCorrectlyReported()
         throws ProcessingException
     {
-        final ProcessingMessage msg = new ProcessingMessage().msg(ERRMSG)
-            .setLogLevel(LogLevel.ERROR);
+        final ArgumentCaptor<ProcessingMessage> captor
+            = ArgumentCaptor.forClass(ProcessingMessage.class);
 
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(K2, "");
@@ -160,7 +161,10 @@ public final class SyntaxProcessorTest
 
         processor.process(report, data);
 
-        verify(report).log(eq(msg));
+        verify(report).log(captor.capture());
+
+        final ProcessingMessage msg = captor.getValue();
+        assertMessage(msg).hasMessage(ERRMSG).hasLevel(LogLevel.ERROR);
     }
 
     @Test
@@ -174,7 +178,7 @@ public final class SyntaxProcessorTest
         final ValidationData data = schemaToData(schema);
 
         processor.process(report, data);
-        verify(checker, never()).checkSyntax(eq(processor), anyReport(),
+        verify(checker, never()).checkSyntax(same(processor), anyReport(),
             anySchema());
     }
 
@@ -191,7 +195,7 @@ public final class SyntaxProcessorTest
         data.getSchema().setPointer(JsonPointer.empty().append("foo"));
 
         processor.process(report, data);
-        verify(checker).checkSyntax(eq(processor), anyReport(), anySchema());
+        verify(checker).checkSyntax(same(processor), anyReport(), anySchema());
     }
 
     @Test
@@ -209,7 +213,7 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         data.getSchema().setPointer(JsonPointer.empty().append(K1));
         processor.process(report, data);
-        verify(checker, onlyOnce()).checkSyntax(eq(processor), anyReport(),
+        verify(checker, onlyOnce()).checkSyntax(same(processor), anyReport(),
             anySchema());
     }
 
