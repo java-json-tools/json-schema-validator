@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.CommonSyntaxCheckingTest;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -35,6 +34,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.Iterator;
 
+import static com.github.fge.jsonschema.TestUtils.*;
 import static org.mockito.Mockito.*;
 
 public abstract class TypeOnlySyntaxCheckingTest
@@ -66,6 +66,6 @@ public abstract class TypeOnlySyntaxCheckingTest
 
         processor.process(report, data);
 
-        verify(report, never()).log(any(ProcessingMessage.class));
+        verify(report, never()).log(anyMessage());
     }
 }

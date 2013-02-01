@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema;
 
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import org.mockito.verification.VerificationMode;
@@ -42,5 +43,10 @@ public final class TestUtils
     public static JsonSchemaTree anySchema()
     {
         return any(JsonSchemaTree.class);
+    }
+
+    public static ProcessingMessage anyMessage()
+    {
+        return any(ProcessingMessage.class);
     }
 }

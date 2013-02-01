@@ -25,7 +25,6 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
@@ -36,8 +35,9 @@ import org.testng.annotations.Test;
 
 import java.util.Iterator;
 
+import static com.github.fge.jsonschema.TestUtils.*;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public final class AbstractSyntaxCheckerTest
 {
@@ -63,7 +63,7 @@ public final class AbstractSyntaxCheckerTest
 
         checker.checkSyntax(null, report, tree);
         verify(checker).checkValue(null, report, tree);
-        verify(report, never()).error(any(ProcessingMessage.class));
+        verify(report, never()).error(anyMessage());
     }
 
     @DataProvider
