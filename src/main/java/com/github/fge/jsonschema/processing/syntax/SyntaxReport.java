@@ -27,7 +27,7 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-public final class SyntaxReport
+final class SyntaxReport
     extends ListProcessingReport
 {
     private final Set<JsonPointer> ignoredPaths = Sets.newLinkedHashSet();

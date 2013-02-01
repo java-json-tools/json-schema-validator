@@ -18,13 +18,15 @@
 package com.github.fge.jsonschema.syntax;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
-import com.github.fge.jsonschema.processing.syntax.SyntaxReport;
+import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+
+import java.util.Collection;
 
 public interface SyntaxChecker
 {
-    void checkSyntax(SyntaxProcessor processor, SyntaxReport report,
-        JsonSchemaTree tree)
+    void checkSyntax(Collection<JsonPointer> pointers,
+        ProcessingReport report, JsonSchemaTree tree)
         throws ProcessingException;
 }

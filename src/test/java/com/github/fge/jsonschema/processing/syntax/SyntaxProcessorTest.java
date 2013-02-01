@@ -39,6 +39,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 import static com.github.fge.jsonschema.TestUtils.*;
@@ -69,8 +70,8 @@ public final class SyntaxProcessorTest
         builder.addEntry(K2, new SyntaxChecker()
         {
             @Override
-            public void checkSyntax(final SyntaxProcessor processor,
-                final SyntaxReport report, final JsonSchemaTree tree)
+            public void checkSyntax(final Collection<JsonPointer> pointers,
+                final ProcessingReport report, final JsonSchemaTree tree)
                 throws ProcessingException
             {
                 report.error(new ProcessingMessage().msg(ERRMSG));
@@ -143,8 +144,8 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         processor.process(report, data);
 
-        verify(checker, onlyOnce()).checkSyntax(same(processor), anySyntaxReport(),
-            anySchema());
+        verify(checker, onlyOnce()).checkSyntax(
+            anyCollectionOf(JsonPointer.class), anyReport(), anySchema());
     }
 
     @Test
@@ -178,8 +179,8 @@ public final class SyntaxProcessorTest
         final ValidationData data = schemaToData(schema);
 
         processor.process(report, data);
-        verify(checker, never()).checkSyntax(same(processor), anySyntaxReport(),
-            anySchema());
+        verify(checker, never()).checkSyntax(anyCollectionOf(JsonPointer.class),
+            anyReport(), anySchema());
     }
 
     @Test
@@ -195,7 +196,8 @@ public final class SyntaxProcessorTest
         data.getSchema().setPointer(JsonPointer.empty().append("foo"));
 
         processor.process(report, data);
-        verify(checker).checkSyntax(same(processor), anySyntaxReport(), anySchema());
+        verify(checker).checkSyntax(anyCollectionOf(JsonPointer.class),
+            anyReport(), anySchema());
     }
 
     @Test
@@ -213,8 +215,8 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         data.getSchema().setPointer(JsonPointer.empty().append(K1));
         processor.process(report, data);
-        verify(checker, onlyOnce()).checkSyntax(same(processor), anySyntaxReport(),
-            anySchema());
+        verify(checker, onlyOnce()).checkSyntax(
+            anyCollectionOf(JsonPointer.class),  anyReport(), anySchema());
     }
 
     private static ValidationData schemaToData(final JsonNode schema)

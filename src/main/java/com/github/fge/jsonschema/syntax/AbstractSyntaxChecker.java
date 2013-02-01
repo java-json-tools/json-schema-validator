@@ -20,12 +20,13 @@ package com.github.fge.jsonschema.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
-import com.github.fge.jsonschema.processing.syntax.SyntaxReport;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
+import java.util.Collection;
 import java.util.EnumSet;
 
 public abstract class AbstractSyntaxChecker
@@ -42,8 +43,8 @@ public abstract class AbstractSyntaxChecker
     }
 
     @Override
-    public final void checkSyntax(final SyntaxProcessor processor,
-        final SyntaxReport report, final JsonSchemaTree tree)
+    public final void checkSyntax(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = tree.getCurrentNode().get(keyword);
@@ -55,11 +56,11 @@ public abstract class AbstractSyntaxChecker
             return;
         }
 
-        checkValue(processor, report, tree);
+        checkValue(pointers, report, tree);
     }
 
-    protected abstract void checkValue(final SyntaxProcessor processor,
-        final SyntaxReport report, final JsonSchemaTree tree)
+    protected abstract void checkValue(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException;
 
     protected final <T> ProcessingMessage newMsg(final JsonSchemaTree tree,

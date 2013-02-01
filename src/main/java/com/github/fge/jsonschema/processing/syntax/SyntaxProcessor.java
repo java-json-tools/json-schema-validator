@@ -32,8 +32,10 @@ import com.github.fge.jsonschema.util.ProcessingCache;
 import com.github.fge.jsonschema.util.equivalence.SyntaxCheckingEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheLoader;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import java.util.List;
 import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
@@ -114,7 +116,7 @@ public final class SyntaxProcessor
         };
     }
 
-    public void validate(final SyntaxReport report, final JsonSchemaTree tree)
+    private void validate(final SyntaxReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = tree.getCurrentNode();
@@ -132,8 +134,15 @@ public final class SyntaxProcessor
                 .put("ignored", ignored));
         }
 
+        final List<JsonPointer> pointers = Lists.newArrayList();
         for (final SyntaxChecker checker: dict.valuesForKeys(fieldNames))
-            checker.checkSyntax(this, report, tree);
+            checker.checkSyntax(pointers, report, tree);
+
+        for (final JsonPointer pointer: pointers) {
+            tree.append(pointer);
+            validate(report, tree);
+            tree.pop();
+        }
     }
 
     private static ProcessingMessage newMsg(final JsonSchemaTree tree)

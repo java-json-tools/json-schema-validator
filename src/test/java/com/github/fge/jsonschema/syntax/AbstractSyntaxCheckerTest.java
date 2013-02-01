@@ -22,23 +22,23 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
-import com.github.fge.jsonschema.processing.syntax.SyntaxReport;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class AbstractSyntaxCheckerTest
 {
@@ -57,14 +57,14 @@ public final class AbstractSyntaxCheckerTest
         throws ProcessingException
     {
         final AbstractSyntaxChecker checker = spy(new DummyChecker());
-        final SyntaxReport report = new SyntaxReport();
+        final ProcessingReport report = mock(ProcessingReport.class);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
 
         checker.checkSyntax(null, report, tree);
         verify(checker).checkValue(null, report, tree);
-        assertTrue(report.getMessages().isEmpty());
+        verify(report, never()).error(any(ProcessingMessage.class));
     }
 
     @DataProvider
@@ -75,22 +75,24 @@ public final class AbstractSyntaxCheckerTest
     }
 
     @Test(dataProvider = "invalidTypes")
-    public void syntaxCheckingFailsOnValidTypes(final JsonNode node)
+    public void syntaxCheckingFailsOnInvalidTypes(final JsonNode node)
         throws ProcessingException
     {
-        final AbstractSyntaxChecker checker = spy(new DummyChecker());
-        final SyntaxReport report = new SyntaxReport();
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
 
+        final AbstractSyntaxChecker checker = spy(new DummyChecker());
+        final ProcessingReport report = mock(ProcessingReport.class);
+
+        final ArgumentCaptor<ProcessingMessage> captor
+            = ArgumentCaptor.forClass(ProcessingMessage.class);
+
         checker.checkSyntax(null, report, tree);
+        verify(report).error(captor.capture());
         verify(checker, never()).checkValue(null, report, tree);
 
-        final List<ProcessingMessage> messages = report.getMessages();
-        assertEquals(messages.size(), 1);
-
-        final ProcessingMessage msg = messages.get(0);
+        final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
             .hasMessage(INCORRECT_TYPE).hasField("domain", "syntax");
     }
@@ -104,8 +106,8 @@ public final class AbstractSyntaxCheckerTest
         }
 
         @Override
-        protected void checkValue(final SyntaxProcessor processor,
-            final SyntaxReport report, final JsonSchemaTree tree)
+        protected void checkValue(final Collection<JsonPointer> pointers,
+            final ProcessingReport report, final JsonSchemaTree tree)
             throws ProcessingException
         {
         }
