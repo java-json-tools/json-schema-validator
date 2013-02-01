@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
 import static org.testng.Assert.*;
 
 public final class ProcessingMessageTest
@@ -40,10 +41,8 @@ public final class ProcessingMessageTest
     public void defaultLogLevelIsInfo()
     {
         final ProcessingMessage msg = new ProcessingMessage();
-        final JsonNode node = msg.asJson().get("level");
-
-        assertSame(msg.getLogLevel(), LogLevel.INFO);
-        assertEquals(node.textValue(), LogLevel.INFO.toString());
+        assertMessage(msg).hasLevel(LogLevel.INFO)
+            .hasTextField("level", LogLevel.INFO.toString());
     }
 
     @Test
@@ -53,11 +52,10 @@ public final class ProcessingMessageTest
 
         JsonNode node;
 
-        for (final LogLevel threshold: LogLevel.values()) {
-            msg.setLogLevel(threshold);
-            node = msg.asJson().get("level");
-            assertSame(msg.getLogLevel(), threshold);
-            assertEquals(node.textValue(), threshold.toString());
+        for (final LogLevel level: LogLevel.values()) {
+            msg.setLogLevel(level);
+            assertMessage(msg).hasLevel(level)
+                .hasTextField("level", level.toString());
         }
     }
 
@@ -80,17 +78,15 @@ public final class ProcessingMessageTest
         final ProcessingMessage msg = new ProcessingMessage().msg("foo");
         final JsonNode node = msg.asJson().path("message");
 
-        assertTrue(node.isTextual());
-        assertEquals(node.textValue(), "foo");
+        assertMessage(msg).hasMessage("foo");
     }
 
     @Test
     public void settingStringFieldWorks()
     {
         final ProcessingMessage msg = new ProcessingMessage().put("foo", "bar");
-        final JsonNode node = FACTORY.textNode("bar");
 
-        assertEquals(msg.asJson().get("foo"), node);
+        assertMessage(msg).hasTextField("foo", "bar");
     }
 
     @Test(dependsOnMethods = "settingStringFieldWorks")
@@ -99,7 +95,7 @@ public final class ProcessingMessageTest
         final ProcessingMessage msg = new ProcessingMessage()
             .put("foo", (String) null);
 
-        assertEquals(msg.asJson().get("foo"), FACTORY.nullNode());
+        assertMessage(msg).hasNullField("foo");
     }
 
     @Test
@@ -109,7 +105,7 @@ public final class ProcessingMessageTest
         final JsonNode node = FACTORY.textNode(foo.toString());
         final ProcessingMessage msg = new ProcessingMessage().put("foo", foo);
 
-        assertEquals(msg.asJson().get("foo"), node);
+        assertMessage(msg).hasField("foo", node);
     }
 
     @Test(dependsOnMethods = "settingAnyObjectSetsToString")
@@ -118,7 +114,7 @@ public final class ProcessingMessageTest
         final Object o = null;
         final ProcessingMessage msg = new ProcessingMessage().put("foo", o);
 
-        assertEquals(msg.asJson().get("foo"), FACTORY.nullNode());
+        assertMessage(msg).hasNullField("foo");
     }
 
     @Test
@@ -127,7 +123,7 @@ public final class ProcessingMessageTest
         final JsonNode foo = FACTORY.booleanNode(true);
         final ProcessingMessage msg = new ProcessingMessage().put("foo", foo);
 
-        assertEquals(msg.asJson().get("foo"), foo);
+        assertMessage(msg).hasField("foo", foo);
     }
 
     @Test(dependsOnMethods = "settingAnyJsonNodeWorks")
@@ -140,7 +136,7 @@ public final class ProcessingMessageTest
         final ProcessingMessage msg = new ProcessingMessage().put("foo", foo);
         foo.remove("a");
 
-        assertEquals(msg.asJson().get("foo"), node);
+        assertMessage(msg).hasField("foo", node);
     }
 
     @Test(dependsOnMethods = "settingAnyJsonNodeWorks")
@@ -149,7 +145,7 @@ public final class ProcessingMessageTest
         final JsonNode node = null;
         final ProcessingMessage msg = new ProcessingMessage().put("foo", node);
 
-        assertEquals(msg.asJson().get("foo"), FACTORY.nullNode());
+        assertMessage(msg).hasNullField("foo");
     }
 
     @Test
@@ -162,7 +158,7 @@ public final class ProcessingMessageTest
 
         final ProcessingMessage msg = new ProcessingMessage().put("foo", list);
 
-        assertEquals(msg.asJson().get("foo"), node);
+        assertMessage(msg).hasField("foo", node);
     }
 
     @Test(dependsOnMethods = "submittedCollectionAppliesToStringToElements")
@@ -171,7 +167,7 @@ public final class ProcessingMessageTest
         final Collection<Object> foo = null;
         final ProcessingMessage msg = new ProcessingMessage().put("foo", foo);
 
-        assertEquals(msg.asJson().get("foo"), FACTORY.nullNode());
+        assertMessage(msg).hasNullField("foo");
     }
 
     @Test(dependsOnMethods = "submittedCollectionAppliesToStringToElements")
@@ -186,6 +182,6 @@ public final class ProcessingMessageTest
 
         final ProcessingMessage msg = new ProcessingMessage().put("foo", list);
 
-        assertEquals(msg.asJson().get("foo"), node);
+        assertMessage(msg).hasField("foo", node);
     }
 }

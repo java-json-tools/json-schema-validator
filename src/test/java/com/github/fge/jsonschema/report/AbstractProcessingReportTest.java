@@ -127,7 +127,7 @@ public final class AbstractProcessingReportTest
     {
 
         @Override
-        public void doLog(final ProcessingMessage msg)
+        public void doLog(final ProcessingMessage message)
         {
         }
     }

@@ -42,9 +42,9 @@ import org.testng.annotations.Test;
 import java.util.Iterator;
 
 import static com.github.fge.jsonschema.TestUtils.*;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.syntax.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class SyntaxProcessorTest
 {
@@ -99,9 +99,8 @@ public final class SyntaxProcessorTest
 
         verify(report).error(captor.capture());
 
-        final JsonNode msgNode = captor.getValue().asJson();
-        assertEquals(msgNode.get("message").textValue(),
-            NOT_A_SCHEMA.toString());
+        final ProcessingMessage message = captor.getValue();
+        assertMessage(message).hasMessage(NOT_A_SCHEMA);
     }
 
     @Test
@@ -126,12 +125,9 @@ public final class SyntaxProcessorTest
         verify(report).log(captor.capture());
 
         final ProcessingMessage message = captor.getValue();
-        assertEquals(message.getLogLevel(), LogLevel.WARNING);
 
-        final JsonNode msgNode = message.asJson();
-        assertEquals(msgNode.get("message").textValue(),
-            UNKNOWN_KEYWORDS.toString());
-        assertEquals(msgNode.get("ignored"), ignored);
+        assertMessage(message).hasMessage(UNKNOWN_KEYWORDS)
+            .hasField("ignored", ignored).hasLevel(LogLevel.WARNING);
     }
 
     @Test
