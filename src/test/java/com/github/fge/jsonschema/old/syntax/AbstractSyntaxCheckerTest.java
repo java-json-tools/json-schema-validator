@@ -43,7 +43,7 @@ public abstract class AbstractSyntaxCheckerTest
         final BuiltinSchemas builtin)
         throws IOException
     {
-        final String input = "/syntax/" + resource + ".json";
+        final String input = "/old/syntax/" + resource + ".json";
         testData = JsonLoader.fromResource(input);
 
         syntaxValidator = new SyntaxValidator(MetaSchema.copyOf(builtin));
