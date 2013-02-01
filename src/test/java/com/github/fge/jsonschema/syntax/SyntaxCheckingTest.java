@@ -49,12 +49,15 @@ public abstract class SyntaxCheckingTest
     protected final SyntaxProcessor processor;
     protected final EnumSet<NodeType> invalidTypes;
     protected final boolean hasKeyword;
+    protected final String prefix;
     protected final String keyword;
 
     protected SyntaxCheckingTest(final Dictionary<SyntaxChecker> dict,
-        final String keyword, final NodeType first, final NodeType... other)
+        final String prefix, final String keyword, final NodeType first,
+        final NodeType... other)
         throws IOException
     {
+        this.prefix = prefix;
         this.keyword = keyword;
         processor = new SyntaxProcessor(dict);
         invalidTypes = Sets.complementOf(EnumSet.of(first, other));

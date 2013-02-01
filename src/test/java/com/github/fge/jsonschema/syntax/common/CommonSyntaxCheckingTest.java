@@ -26,10 +26,11 @@ import java.io.IOException;
 public abstract class CommonSyntaxCheckingTest
     extends SyntaxCheckingTest
 {
-    protected CommonSyntaxCheckingTest(final String keyword, final NodeType first,
-        final NodeType... other)
+    protected CommonSyntaxCheckingTest(final String keyword,
+        final NodeType first, final NodeType... other)
         throws IOException
     {
-        super(CommonSyntaxCheckerDictionary.get(), keyword, first, other);
+        super(CommonSyntaxCheckerDictionary.get(), "common", keyword, first,
+            other);
     }
 }
