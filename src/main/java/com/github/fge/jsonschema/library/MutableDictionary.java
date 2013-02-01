@@ -17,25 +17,43 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-public final class DictionaryBuilder<T>
+public final class MutableDictionary<T>
+    implements Thawed<Dictionary<T>>
 {
     final Map<String, T> entries = Maps.newHashMap();
 
-    DictionaryBuilder()
+    public static <T> MutableDictionary<T> newInstance()
+    {
+        return new MutableDictionary<T>();
+    }
+
+    private MutableDictionary()
     {
     }
 
-    public DictionaryBuilder<T> addEntry(final String key, final T value)
+    MutableDictionary(final Dictionary<T> dict)
+    {
+        entries.putAll(dict.entries);
+    }
+
+    public MutableDictionary<T> addEntry(final String key, final T value)
     {
         entries.put(key, value);
         return this;
     }
 
     public Dictionary<T> build()
+    {
+        return new Dictionary<T>(this);
+    }
+
+    @Override
+    public Dictionary<T> freeze()
     {
         return new Dictionary<T>(this);
     }

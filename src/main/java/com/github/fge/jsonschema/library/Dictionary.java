@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -31,17 +32,18 @@ import java.util.Set;
  * Use it to collect what exists as strings, entries etc.
  */
 public final class Dictionary<T>
+    implements Frozen<MutableDictionary<T>>
 {
-    private final Map<String, T> entries;
+    final Map<String, T> entries;
 
-    public static <T> DictionaryBuilder<T> newBuilder()
+    Dictionary(final Map<String, T> map)
     {
-        return new DictionaryBuilder<T>();
+        entries = ImmutableMap.copyOf(map);
     }
 
-    Dictionary(final DictionaryBuilder<T> builder)
+    Dictionary(final MutableDictionary<T> builder)
     {
-        entries = ImmutableMap.copyOf(builder.entries);
+        this(builder.entries);
     }
 
     public Set<String> missingEntriesFrom(final Set<String> set)
@@ -58,5 +60,11 @@ public final class Dictionary<T>
         map.putAll(entries);
         map.keySet().retainAll(keys);
         return map.values();
+    }
+
+    @Override
+    public MutableDictionary<T> thaw()
+    {
+        return new MutableDictionary<T>(this);
     }
 }
