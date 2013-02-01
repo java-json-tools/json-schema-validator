@@ -47,11 +47,6 @@ public final class MutableDictionary<T>
         return this;
     }
 
-    public Dictionary<T> build()
-    {
-        return new Dictionary<T>(this);
-    }
-
     @Override
     public Dictionary<T> freeze()
     {

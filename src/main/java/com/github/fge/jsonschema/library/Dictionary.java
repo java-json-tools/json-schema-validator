@@ -46,6 +46,11 @@ public final class Dictionary<T>
         this(builder.entries);
     }
 
+    public boolean hasEntry(final String key)
+    {
+        return entries.containsKey(key);
+    }
+
     public Set<String> missingEntriesFrom(final Set<String> set)
     {
         final Set<String> ret = Sets.newTreeSet();
