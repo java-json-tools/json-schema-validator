@@ -3,8 +3,8 @@
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
-<p>This is one of the very few JSON Schema implementations to have support for the latest draft
-(v4)<p>.
+<p>This is one of the very few JSON Schema implementations to have complete validation support for
+the latest draft (v4).<p>
 
 <p>Should you wonder about it, this library is reported to <a
 href="http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema">work
