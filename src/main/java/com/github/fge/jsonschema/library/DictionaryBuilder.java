@@ -25,6 +25,10 @@ public final class DictionaryBuilder<T>
 {
     final Map<String, T> entries = Maps.newHashMap();
 
+    DictionaryBuilder()
+    {
+    }
+
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
         entries.put(key, value);

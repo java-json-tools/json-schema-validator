@@ -34,6 +34,11 @@ public final class Dictionary<T>
 {
     private final Map<String, T> entries;
 
+    public static <T> DictionaryBuilder<T> newBuilder()
+    {
+        return new DictionaryBuilder<T>();
+    }
+
     Dictionary(final DictionaryBuilder<T> builder)
     {
         entries = ImmutableMap.copyOf(builder.entries);
@@ -54,5 +59,4 @@ public final class Dictionary<T>
         map.keySet().retainAll(keys);
         return map.values();
     }
-
 }

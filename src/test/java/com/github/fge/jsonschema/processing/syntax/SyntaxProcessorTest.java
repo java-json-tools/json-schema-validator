@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
+import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
@@ -62,7 +63,7 @@ public final class SyntaxProcessorTest
     {
         report = mock(ProcessingReport.class);
         final DictionaryBuilder<SyntaxChecker> builder
-            = new DictionaryBuilder<SyntaxChecker>();
+            = Dictionary.newBuilder();
 
         checker = mock(SyntaxChecker.class);
         builder.addEntry(K1, checker);
