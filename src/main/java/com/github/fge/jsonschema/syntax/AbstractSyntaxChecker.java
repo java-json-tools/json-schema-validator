@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -49,8 +50,8 @@ public abstract class AbstractSyntaxChecker
         final NodeType type = NodeType.getNodeType(node);
 
         if (!types.contains(type)) {
-            report.error(newMsg(tree, "invalid primitive type for keyword")
-                .put("allowed", types).put("found", type));
+            report.error(newMsg(tree, SyntaxMessages.INCORRECT_TYPE)
+                .put("expected", types).put("found", type));
             return;
         }
 
@@ -61,8 +62,8 @@ public abstract class AbstractSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException;
 
-    protected final ProcessingMessage newMsg(final JsonSchemaTree tree,
-        final String msg)
+    protected final <T> ProcessingMessage newMsg(final JsonSchemaTree tree,
+        final T msg)
     {
         return new ProcessingMessage().put("domain", "syntax")
             .put("schema", tree).put("keyword", keyword).msg(msg);

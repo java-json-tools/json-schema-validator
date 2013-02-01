@@ -20,7 +20,8 @@ package com.github.fge.jsonschema.messages;
 public enum SyntaxMessages
 {
     NOT_A_SCHEMA("document is not a JSON Schema: not an object"),
-    UNKNOWN_KEYWORDS("unknown keyword(s) found; ignored");
+    UNKNOWN_KEYWORDS("unknown keyword(s) found; ignored"),
+    INCORRECT_TYPE("keyword has incorrect type");
 
     private final String message;
 
