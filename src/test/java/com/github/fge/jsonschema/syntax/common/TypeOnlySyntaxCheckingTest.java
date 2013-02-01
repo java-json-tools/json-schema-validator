@@ -50,7 +50,7 @@ public abstract class TypeOnlySyntaxCheckingTest
     @DataProvider
     public final Iterator<Object[]> validTypes()
     {
-        return SampleNodeProvider.getSamples(invalidTypes);
+        return SampleNodeProvider.getSamplesExcept(invalidTypes);
     }
 
 
@@ -66,6 +66,6 @@ public abstract class TypeOnlySyntaxCheckingTest
 
         processor.process(report, data);
 
-        verify(report, never()).error(any(ProcessingMessage.class));
+        verify(report, never()).log(any(ProcessingMessage.class));
     }
 }
