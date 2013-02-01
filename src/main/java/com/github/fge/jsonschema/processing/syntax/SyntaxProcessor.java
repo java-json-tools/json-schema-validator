@@ -139,6 +139,6 @@ public final class SyntaxProcessor
     private static ProcessingMessage newMsg(final JsonSchemaTree tree)
     {
         return new ProcessingMessage().put("schema", tree)
-            .put("domain", "syntax");
+            .put("domain", "old/syntax");
     }
 }
