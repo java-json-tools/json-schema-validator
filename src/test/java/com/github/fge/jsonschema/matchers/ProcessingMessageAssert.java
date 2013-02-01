@@ -134,6 +134,7 @@ public final class ProcessingMessageAssert
         final T msg, final JsonSchemaTree tree)
     {
         return hasField("keyword", keyword).hasLevel(LogLevel.ERROR)
-            .hasMessage(msg).hasField("schema", tree);
+            .hasMessage(msg).hasField("schema", tree)
+            .hasField("domain", "syntax");
     }
 }

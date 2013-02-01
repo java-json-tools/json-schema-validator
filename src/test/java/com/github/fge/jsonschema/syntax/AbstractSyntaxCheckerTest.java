@@ -36,8 +36,9 @@ import org.testng.annotations.Test;
 import java.util.Iterator;
 
 import static com.github.fge.jsonschema.TestUtils.*;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class AbstractSyntaxCheckerTest
 {
@@ -88,12 +89,14 @@ public final class AbstractSyntaxCheckerTest
 
         checker.checkSyntax(null, report, tree);
         verify(checker, never()).checkValue(null, report, tree);
+
+        // FIXME: due to mocking, error level does not get set at this point
+        // Design flaw :/ ProcessingReport should be an abstract class.
         verify(report).error(captor.capture());
 
-        final JsonNode msg = captor.getValue().asJson();
-        assertEquals(msg.get("message").textValue(),
-            "invalid primitive type for keyword");
-        assertEquals(msg.get("keyword").textValue(), KEYWORD);
+        final ProcessingMessage msg = captor.getValue();
+        assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
+            .hasMessage(INCORRECT_TYPE).hasField("domain", "syntax");
     }
 
     private static class DummyChecker
