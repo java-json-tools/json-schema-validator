@@ -3,6 +3,9 @@
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
+<p>This is one of the very few JSON Schema implementations to have support for the latest draft
+(v4)<p>.
+
 <p>Should you wonder about it, this library is reported to <a
 href="http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema">work
 on Android</a> :)</p>
@@ -83,8 +86,7 @@ for.<p>
 * thread safe, concurrent-friendly validation;
 * <a href="https://github.com/fge/json-schema-validator/wiki/Performance">very
   fast</a>;
-* full draft v3 validation, including hyper schema;
-* draft v4 validation;
+* draft v3 and draft v4 validation;
 * <tt>$schema</tt> detection;
 * full schema addressing support;
 * validation of numeric JSON instances of arbitrary scale/precision;
@@ -94,11 +96,11 @@ for.<p>
 
 <h2>Relevant documents</h2>
 
-<p>Currently, JSON Schema is not an official RFC. In fact, the existing draft is obsolete -- but it
-is used on the Internet nonetheless. This implementation is based on the following drafts:</p>
+<p>This implementation is based on the following drafts:</p>
 
-* draft v4 as currently defined by the <a href="https://github.com/json-schema/json-schema">JSON
-  Schema working group</a>;
+* <a href="http://tools.ietf.org/html/draft-zyp-json-schema-04">JSON Schema Internet draft, version
+  4</a> (<a href="http://tools.ietf.org/html/draft-fge-json-schema-validation-00">link to validation
+  spec</a>);
 * <a href="http://tools.ietf.org/html/draft-zyp-json-schema-03">JSON Schema Internet draft, version
   3</a>;
 * <a href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON Reference Internet draft,
