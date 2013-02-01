@@ -18,12 +18,15 @@
 package com.github.fge.jsonschema.matchers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.fest.assertions.GenericAssert;
+
+import java.util.Collection;
 
 import static org.fest.assertions.Assertions.*;
 import static org.testng.Assert.*;
@@ -68,8 +71,24 @@ public final class ProcessingMessageAssert
         final T value)
     {
         assertThat(messageContents.has(name)).isTrue();
-        assertThat(messageContents.get(name).textValue())
-            .isEqualTo(value.toString());
+        final String input = messageContents.get(name).textValue();
+        final String expected = value.toString();
+        assertThat(input).isEqualTo(expected)
+            .overridingErrorMessage("Strings differ: wanted " + expected
+                + " but got " + input);
+        return this;
+    }
+
+    public <T> ProcessingMessageAssert hasField(final String name,
+        final Collection<T> value)
+    {
+        assertThat(messageContents.has(name)).isTrue();
+        final JsonNode node = messageContents.get(name);
+        assertThat(node.isArray()).isTrue();
+        final ArrayNode input = JacksonUtils.nodeFactory().arrayNode();
+        for (final T element: value)
+            input.add(element.toString());
+        assertEquals(node, input);
         return this;
     }
 
