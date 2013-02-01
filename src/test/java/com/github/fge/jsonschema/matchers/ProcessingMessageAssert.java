@@ -20,10 +20,12 @@ package com.github.fge.jsonschema.matchers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.fest.assertions.GenericAssert;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.fest.assertions.Assertions.*;
 import static org.testng.Assert.*;
 
 public final class ProcessingMessageAssert
@@ -43,12 +45,51 @@ public final class ProcessingMessageAssert
         messageContents = actual.asJson();
     }
 
+    /*
+     * Simple asserts
+     */
+    public ProcessingMessageAssert hasField(final String name,
+        final JsonNode value)
+    {
+        assertThat(messageContents.has(name)).isTrue();
+        // We have to use assertEquals, otherwise it takes the node as a
+        // Collection
+        assertEquals(messageContents.get(name), value);
+        return this;
+    }
+
+    public ProcessingMessageAssert hasField(final String name,
+        final AsJson asJson)
+    {
+        return hasField(name, asJson.asJson());
+    }
+
+    public <T> ProcessingMessageAssert hasField(final String name,
+        final T value)
+    {
+        assertThat(messageContents.has(name)).isTrue();
+        assertThat(messageContents.get(name).textValue())
+            .isEqualTo(value.toString());
+        return this;
+    }
+
     public ProcessingMessageAssert hasTextField(final String name)
     {
         assertTrue(messageContents.path(name).isTextual());
         return this;
     }
 
+    public ProcessingMessageAssert hasNullField(final String name)
+    {
+        assertThat(messageContents.has(name)).isTrue();
+        assertEquals(messageContents.get(name),
+            JacksonUtils.nodeFactory().nullNode());
+        return this;
+    }
+
+    /*
+     * Simple dedicated matchers
+     */
     public ProcessingMessageAssert hasLevel(final LogLevel level)
     {
         assertThat(level).isEqualTo(actual.getLogLevel());
@@ -67,29 +108,13 @@ public final class ProcessingMessageAssert
         return this;
     }
 
-    public ProcessingMessageAssert hasField(final String name,
-        final JsonNode value)
+    /*
+     * More complicated matchers
+     */
+    public <T> ProcessingMessageAssert isSyntaxError(final String keyword,
+        final T msg, final JsonSchemaTree tree)
     {
-        assertThat(messageContents.has(name)).isTrue();
-        // We have to use assertEquals, otherwise it takes the node as a
-        // Collection
-        assertEquals(messageContents.get(name), value);
-        return this;
-    }
-
-    public <T> ProcessingMessageAssert hasField(final String name,
-        final T value)
-    {
-        assertThat(messageContents.has(name)).isTrue();
-        assertThat(messageContents.get(name).textValue())
-            .isEqualTo(value.toString());
-        return this;
-    }
-    public ProcessingMessageAssert hasNullField(final String name)
-    {
-        assertThat(messageContents.has(name)).isTrue();
-        assertEquals(messageContents.get(name),
-            JacksonUtils.nodeFactory().nullNode());
-        return this;
+        return hasField("keyword", keyword).hasLevel(LogLevel.ERROR)
+            .hasMessage(msg).hasField("schema", tree);
     }
 }
