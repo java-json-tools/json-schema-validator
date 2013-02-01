@@ -30,7 +30,6 @@ import java.math.BigDecimal;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 public final class SampleNodeProvider
 {
@@ -54,19 +53,10 @@ public final class SampleNodeProvider
         SAMPLE_DATA.put(NodeType.STRING, FACTORY.textNode(""));
     }
 
-    public static Iterator<Object[]> getSamples(final NodeType first,
-        final NodeType... other)
-    {
-        return doGetSamples(EnumSet.of(first, other));
-    }
 
-    public static Iterator<Object[]> getSamplesExcept(final NodeType first,
-        final NodeType... other)
-    {
-        return doGetSamples(Sets.complementOf(EnumSet.of(first, other)));
-    }
-
-    private static Iterator<Object[]> doGetSamples(final Set<NodeType> types)
+    // FIXME: IDEA warns about "overloaded vararg method" even though the types
+    // differ...
+    public static Iterator<Object[]> getSamples(final EnumSet<NodeType> types)
     {
         final Map<NodeType, JsonNode> map = Maps.newEnumMap(SAMPLE_DATA);
         map.keySet().retainAll(types);
@@ -80,5 +70,23 @@ public final class SampleNodeProvider
                     return new Object[] { input };
                 }
             }).iterator();
+    }
+
+    public static Iterator<Object[]> getSamplesExcept(
+        final EnumSet<NodeType> types)
+    {
+        return getSamples(EnumSet.complementOf(types));
+    }
+
+    public static Iterator<Object[]> getSamples(final NodeType first,
+        final NodeType... other)
+    {
+        return getSamples(EnumSet.of(first, other));
+    }
+
+    public static Iterator<Object[]> getSamplesExcept(final NodeType first,
+        final NodeType... other)
+    {
+        return getSamples(Sets.complementOf(EnumSet.of(first, other)));
     }
 }
