@@ -48,10 +48,6 @@ public final class CommonSyntaxCheckerDictionary
          * Arrays
          */
 
-        keyword = "additionalItems";
-        checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);
-        dict.addEntry(keyword, checker);
-
         keyword = "uniqueItems";
         checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);
         dict.addEntry(keyword, checker);
