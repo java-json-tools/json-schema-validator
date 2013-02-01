@@ -73,7 +73,10 @@ public abstract class SyntaxCheckingTest
         return SampleNodeProvider.getSamples(invalidTypes);
     }
 
-    @Test(dataProvider = "invalidTypes")
+    @Test(
+        dependsOnMethods = "keywordIsSupportedInThisDictionary",
+        dataProvider = "invalidTypes"
+    )
     public final void invalidTypesAreReportedAsErrors(final JsonNode node)
         throws ProcessingException
     {

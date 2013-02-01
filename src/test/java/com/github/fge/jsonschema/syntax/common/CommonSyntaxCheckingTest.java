@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax;
+package com.github.fge.jsonschema.syntax.common;
 
 import com.github.fge.jsonschema.library.syntax.CommonSyntaxCheckerDictionary;
+import com.github.fge.jsonschema.syntax.SyntaxCheckingTest;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.io.IOException;

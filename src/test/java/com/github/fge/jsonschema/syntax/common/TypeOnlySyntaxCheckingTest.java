@@ -23,7 +23,6 @@ import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.CommonSyntaxCheckingTest;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
@@ -54,7 +53,10 @@ public abstract class TypeOnlySyntaxCheckingTest
     }
 
 
-    @Test(dataProvider = "validTypes")
+    @Test(
+        dependsOnMethods = "keywordIsSupportedInThisDictionary",
+        dataProvider = "validTypes"
+    )
     public final void validTypesValidateSuccessfully(final JsonNode node)
         throws ProcessingException
     {
