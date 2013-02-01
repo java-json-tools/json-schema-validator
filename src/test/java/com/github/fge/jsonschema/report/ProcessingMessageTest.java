@@ -41,8 +41,7 @@ public final class ProcessingMessageTest
     public void defaultLogLevelIsInfo()
     {
         final ProcessingMessage msg = new ProcessingMessage();
-        assertMessage(msg).hasLevel(LogLevel.INFO)
-            .hasField("level", LogLevel.INFO);
+        assertMessage(msg).hasLevel(LogLevel.INFO);
     }
 
     @Test
@@ -54,8 +53,7 @@ public final class ProcessingMessageTest
 
         for (final LogLevel level: LogLevel.values()) {
             msg.setLogLevel(level);
-            assertMessage(msg).hasLevel(level)
-                .hasField("level", level);
+            assertMessage(msg).hasLevel(level);
         }
     }
 

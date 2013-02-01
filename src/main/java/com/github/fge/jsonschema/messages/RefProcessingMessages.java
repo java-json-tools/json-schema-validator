@@ -21,6 +21,8 @@ public enum RefProcessingMessages
 {
     URI_NOT_ABSOLUTE("URI is not absolute"),
     UNHANDLED_SCHEME("scheme not supported"),
+    URI_NOT_JSON("content at URI is not valid JSON"),
+    URI_IOERROR("cannot dereference URI (IOException)"),
     REF_LOOP("JSON Reference loop detected"),
     DANGLING_REF("unresolvable JSON Reference");
 

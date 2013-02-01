@@ -18,12 +18,10 @@
 package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.uri.URIDownloader;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
@@ -164,15 +162,12 @@ public final class URIManagerTest
 
         manager.registerScheme("foo", mock);
 
-        final ProcessingMessage msg = new ProcessingMessage()
-            .setLogLevel(LogLevel.FATAL).put("uri", uri)
-            .msg("cannot dereference URI (IOException)")
-            .put("exceptionMessage", "foo");
-
         try {
             manager.getContent(uri);
         } catch (ProcessingException e) {
-            assertEquals(e.getProcessingMessage(), msg);
+            assertMessage(e.getProcessingMessage()).hasField("uri", uri)
+                .hasMessage(URI_IOERROR).hasLevel(LogLevel.FATAL)
+                .hasField("exceptionMessage", "foo");
         }
     }
 
@@ -188,19 +183,12 @@ public final class URIManagerTest
 
         manager.registerScheme("foo", mock);
 
-        final ProcessingMessage msg = new ProcessingMessage().put("uri", uri)
-            .setLogLevel(LogLevel.FATAL)
-            .msg("content at URI is not valid JSON");
-        final JsonNode expected = msg.asJson();
-
         try {
             manager.getContent(uri);
         } catch (ProcessingException e) {
-            final ObjectNode actual
-                = (ObjectNode) e.getProcessingMessage().asJson();
-            assertTrue(actual.path("parsingMessage").isTextual());
-            actual.remove("parsingMessage");
-            assertEquals(actual, expected);
+            assertMessage(e.getProcessingMessage()).hasMessage(URI_NOT_JSON)
+                .hasTextField("parsingMessage").hasLevel(LogLevel.FATAL)
+                .hasField("uri", uri);
         }
     }
 

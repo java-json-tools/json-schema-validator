@@ -43,10 +43,16 @@ public final class ProcessingMessageAssert
         messageContents = actual.asJson();
     }
 
+    public ProcessingMessageAssert hasTextField(final String name)
+    {
+        assertTrue(messageContents.path(name).isTextual());
+        return this;
+    }
+
     public ProcessingMessageAssert hasLevel(final LogLevel level)
     {
         assertThat(level).isEqualTo(actual.getLogLevel());
-        return this;
+        return hasField("level", level);
     }
 
     public <T> ProcessingMessageAssert hasMessage(final T value)
