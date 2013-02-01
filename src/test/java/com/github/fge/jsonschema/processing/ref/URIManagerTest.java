@@ -34,6 +34,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -81,15 +83,13 @@ public final class URIManagerTest
 
         manager.unregisterScheme("foo");
 
-        final ProcessingMessage msg = new ProcessingMessage()
-            .msg("cannot handle scheme").put("scheme", "foo")
-            .setLogLevel(LogLevel.FATAL).put("uri", uri);
-
         try {
             manager.getContent(uri);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            assertEquals(e.getProcessingMessage(), msg);
+            assertMessage(e.getProcessingMessage()).hasMessage(UNHANDLED_SCHEME)
+                .hasLevel(LogLevel.FATAL).hasField("scheme", "foo")
+                .hasField("uri", uri);
         }
     }
 
@@ -144,14 +144,12 @@ public final class URIManagerTest
         manager.registerScheme("foo", mock);
         final URI uri = URI.create("bar://baz");
 
-
-        final ProcessingMessage msg = new ProcessingMessage()
-            .msg("cannot handle scheme").put("scheme", "bar")
-            .setLogLevel(LogLevel.FATAL).put("uri", uri);
         try {
             manager.getContent(uri);
         } catch (ProcessingException e) {
-            assertEquals(e.getProcessingMessage(), msg);
+            assertMessage(e.getProcessingMessage()).hasMessage(UNHANDLED_SCHEME)
+                .hasField("scheme", "bar").hasField("uri", uri)
+                .hasLevel(LogLevel.FATAL);
         }
     }
 

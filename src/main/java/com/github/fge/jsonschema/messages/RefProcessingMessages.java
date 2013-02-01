@@ -15,16 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax;
+package com.github.fge.jsonschema.messages;
 
-public enum SyntaxMessages
+public enum RefProcessingMessages
 {
-    NOT_A_SCHEMA("document is not a JSON Schema: not an object"),
-    UNKNOWN_KEYWORDS("unknown keyword(s) found; ignored");
+    URI_NOT_ABSOLUTE("URI is not absolute"),
+    UNHANDLED_SCHEME("scheme not supported"),
+    REF_LOOP("JSON Reference loop detected"),
+    DANGLING_REF("unresolvable JSON Reference");
 
     private final String message;
 
-    SyntaxMessages(final String message)
+    RefProcessingMessages(final String message)
     {
         this.message = message;
     }

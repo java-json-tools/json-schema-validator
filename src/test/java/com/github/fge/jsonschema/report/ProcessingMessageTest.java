@@ -42,7 +42,7 @@ public final class ProcessingMessageTest
     {
         final ProcessingMessage msg = new ProcessingMessage();
         assertMessage(msg).hasLevel(LogLevel.INFO)
-            .hasTextField("level", LogLevel.INFO.toString());
+            .hasField("level", LogLevel.INFO);
     }
 
     @Test
@@ -55,7 +55,7 @@ public final class ProcessingMessageTest
         for (final LogLevel level: LogLevel.values()) {
             msg.setLogLevel(level);
             assertMessage(msg).hasLevel(level)
-                .hasTextField("level", level.toString());
+                .hasField("level", level);
         }
     }
 
@@ -86,7 +86,7 @@ public final class ProcessingMessageTest
     {
         final ProcessingMessage msg = new ProcessingMessage().put("foo", "bar");
 
-        assertMessage(msg).hasTextField("foo", "bar");
+        assertMessage(msg).hasField("foo", "bar");
     }
 
     @Test(dependsOnMethods = "settingStringFieldWorks")

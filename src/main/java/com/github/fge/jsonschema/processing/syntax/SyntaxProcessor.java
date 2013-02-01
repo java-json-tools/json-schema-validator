@@ -36,7 +36,7 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.github.fge.jsonschema.syntax.SyntaxMessages.*;
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 public final class SyntaxProcessor
     implements Processor<ValidationData, ValidationData>

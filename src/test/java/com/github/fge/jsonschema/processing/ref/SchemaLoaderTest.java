@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.processing.ref;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.schema.SchemaBundle;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.uri.URIDownloader;
@@ -32,6 +31,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -98,15 +99,12 @@ public final class SchemaLoaderTest
 
         final URI target = URI.create("moo#");
 
-        final ProcessingMessage msg = new ProcessingMessage()
-            .setLogLevel(LogLevel.FATAL).put("uri", target)
-            .msg("URI is not absolute");
-
         try {
             loader.get(target);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            assertEquals(e.getProcessingMessage(), msg);
+            assertMessage(e.getProcessingMessage()).hasMessage(URI_NOT_ABSOLUTE)
+                .hasLevel(LogLevel.FATAL).hasField("uri", target);
         }
     }
 

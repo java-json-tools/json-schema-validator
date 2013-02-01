@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.processing.ref;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
@@ -28,6 +27,8 @@ import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.testng.annotations.Test;
 
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -51,9 +52,7 @@ public final class RefResolverProcessorTest
             processor.process(report, data);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            final JsonNode msg = e.getProcessingMessage().asJson();
-            assertEquals(msg.get("message").textValue(),
-                "JSON Reference loop detected");
+            assertMessage(e.getProcessingMessage()).hasMessage(REF_LOOP);
         }
     }
 
@@ -71,9 +70,7 @@ public final class RefResolverProcessorTest
             processor.process(report, data);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            final JsonNode msg = e.getProcessingMessage().asJson();
-            assertEquals(msg.get("message").textValue(),
-                "unresolvable JSON Reference");
+            assertMessage(e.getProcessingMessage()).hasMessage(DANGLING_REF);
         }
     }
 }

@@ -40,6 +40,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
+
 /**
  * Class to fetch JSON documents
  *
@@ -191,14 +193,14 @@ public final class URIManager
             .put("uri", uri);
 
         if (!target.isAbsolute())
-            throw new ProcessingException(msg.msg("URI is not absolute"));
+            throw new ProcessingException(msg.msg(URI_NOT_ABSOLUTE));
 
         final String scheme = target.getScheme();
 
         final URIDownloader downloader = downloaders.get(scheme);
 
         if (downloader == null)
-            throw new ProcessingException(msg.msg("cannot handle scheme")
+            throw new ProcessingException(msg.msg(UNHANDLED_SCHEME)
                 .put("scheme", scheme));
 
         final InputStream in;

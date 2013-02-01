@@ -43,7 +43,7 @@ import java.util.Iterator;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.syntax.SyntaxMessages.*;
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
 
 public final class SyntaxProcessorTest

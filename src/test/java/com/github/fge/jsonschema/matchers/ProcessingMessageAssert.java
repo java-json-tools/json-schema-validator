@@ -31,16 +31,16 @@ public final class ProcessingMessageAssert
 {
     final JsonNode messageContents;
 
-    public ProcessingMessageAssert(final ProcessingMessage actual)
-    {
-        super(ProcessingMessageAssert.class, actual);
-        messageContents = actual.asJson();
-    }
-
     public static ProcessingMessageAssert assertMessage(
         final ProcessingMessage message)
     {
         return new ProcessingMessageAssert(message);
+    }
+
+    private ProcessingMessageAssert(final ProcessingMessage actual)
+    {
+        super(ProcessingMessageAssert.class, actual);
+        messageContents = actual.asJson();
     }
 
     public ProcessingMessageAssert hasLevel(final LogLevel level)
@@ -49,13 +49,9 @@ public final class ProcessingMessageAssert
         return this;
     }
 
-    public <E extends Enum<E>> ProcessingMessageAssert hasMessage(final E value)
+    public <T> ProcessingMessageAssert hasMessage(final T value)
     {
-        final String msg = messageContents.get("message").textValue();
-        final String expected = value.toString();
-
-        assertThat(msg).isEqualTo(expected);
-        return this;
+        return hasField("message", value);
     }
 
     public ProcessingMessageAssert hasMessage(final String expected)
@@ -75,14 +71,14 @@ public final class ProcessingMessageAssert
         return this;
     }
 
-    public ProcessingMessageAssert hasTextField(final String name,
-        final String value)
+    public <T> ProcessingMessageAssert hasField(final String name,
+        final T value)
     {
         assertThat(messageContents.has(name)).isTrue();
-        assertThat(messageContents.get(name).textValue()).isEqualTo(value);
+        assertThat(messageContents.get(name).textValue())
+            .isEqualTo(value.toString());
         return this;
     }
-
     public ProcessingMessageAssert hasNullField(final String name)
     {
         assertThat(messageContents.has(name)).isTrue();

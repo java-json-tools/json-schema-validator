@@ -31,6 +31,8 @@ import com.google.common.cache.LoadingCache;
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
 
+import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
+
 /**
  * A JSON Schema registry
  *
@@ -107,7 +109,7 @@ public final class SchemaLoader
             .put("uri", ref);
 
         if (!ref.isAbsolute())
-            throw new ProcessingException(msg.msg("URI is not absolute"));
+            throw new ProcessingException(msg.msg(URI_NOT_ABSOLUTE));
 
         final URI realURI = ref.toURI();
 
