@@ -1,0 +1,40 @@
+{
+    "valueTests": [
+        {
+            "schema": {
+                "patternProperties": {
+                    "a++": {}
+                }
+            },
+            "valid": false,
+            "message": "INVALID_REGEX_MEMBER_NAME",
+            "msgData": {
+                "memberName": "a++"
+            }
+        },
+        {
+            "schema": {
+                "patternProperties": {
+                    "^foo{8,}": {}
+                }
+            },
+            "valid": true
+        }
+    ],
+    "pointerTests": [
+        {
+            "schema": {
+                "patternProperties": {
+                    "b": {},
+                    "a++": {},
+                    "c": {}
+                }
+            },
+            "pointers": [
+                "/patternProperties/a++",
+                "/patternProperties/b",
+                "/patternProperties/c"
+            ]
+        }
+    ]
+}

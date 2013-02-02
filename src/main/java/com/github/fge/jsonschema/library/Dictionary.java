@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.util.Frozen;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -46,11 +47,7 @@ public final class Dictionary<T>
         this(builder.entries);
     }
 
-    public boolean hasEntry(final String key)
-    {
-        return entries.containsKey(key);
-    }
-
+    @VisibleForTesting
     public T get(final String key)
     {
         return entries.get(key);

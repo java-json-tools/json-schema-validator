@@ -25,7 +25,8 @@ public enum SyntaxMessages
     INTEGER_TOO_LARGE("integer value too large"),
     INTEGER_IS_NEGATIVE("integer value must be positive"),
     EXCLUSIVEMINIMUM("exclusiveMinimum must be paired with minimum"),
-    EXCLUSIVEMAXIMUM("exclusiveMaximum must be paired with maximum");
+    EXCLUSIVEMAXIMUM("exclusiveMaximum must be paired with maximum"),
+    INVALID_REGEX_MEMBER_NAME("member name is not a valid ECMA 262 regular expression");
 
     private final String message;
 

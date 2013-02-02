@@ -22,9 +22,10 @@ import com.github.fge.jsonschema.library.MutableDictionary;
 import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.TypeOnlySyntaxChecker;
-import com.github.fge.jsonschema.syntax.common.AdditionalItemsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.common.AdditionalSyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.ExclusiveMaximumSyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.ExclusiveMinimumSyntaxChecker;
+import com.github.fge.jsonschema.syntax.common.PatternPropertiesSyntaxChecker;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 
@@ -53,7 +54,7 @@ public final class CommonSyntaxCheckerDictionary
          */
 
         keyword = "additionalItems";
-        checker = AdditionalItemsSyntaxChecker.getInstance();
+        checker = new AdditionalSyntaxChecker(keyword);
         dict.addEntry(keyword, checker);
 
         keyword = "minItems";
@@ -85,6 +86,17 @@ public final class CommonSyntaxCheckerDictionary
 
         keyword = "exclusiveMaximum";
         checker = ExclusiveMaximumSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        /*
+         * Objects
+         */
+        keyword = "additionalProperties";
+        checker = new AdditionalSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "patternProperties";
+        checker = PatternPropertiesSyntaxChecker.getInstance();
         dict.addEntry(keyword, checker);
 
         DICTIONARY = dict.freeze();

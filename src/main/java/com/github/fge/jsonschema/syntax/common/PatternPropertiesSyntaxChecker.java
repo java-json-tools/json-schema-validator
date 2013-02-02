@@ -24,23 +24,31 @@ import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jsonschema.util.RhinoHelper;
+import com.google.common.collect.Sets;
 
 import java.util.Collection;
+import java.util.Set;
 
-public final class AdditionalItemsSyntaxChecker
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
+
+public final class PatternPropertiesSyntaxChecker
     extends AbstractSyntaxChecker
 {
+    private static final JsonPointer BASE_POINTER
+        = JsonPointer.empty().append("patternProperties");
+
     private static final SyntaxChecker INSTANCE
-        = new AdditionalItemsSyntaxChecker();
+        = new PatternPropertiesSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
         return INSTANCE;
     }
 
-    private AdditionalItemsSyntaxChecker()
+    private PatternPropertiesSyntaxChecker()
     {
-        super("additionalItems", NodeType.BOOLEAN, NodeType.OBJECT);
+        super("patternProperties", NodeType.OBJECT);
     }
 
     @Override
@@ -48,7 +56,20 @@ public final class AdditionalItemsSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        if (tree.getCurrentNode().get(keyword).isObject())
-            pointers.add(JsonPointer.empty().append(keyword));
+        final Set<String> tmp
+            = Sets.newHashSet(tree.getCurrentNode().get(keyword).fieldNames());
+        final Set<String> set = Sets.newTreeSet();
+        set.addAll(tmp);
+
+        /*
+         * We _do_ include all pointers for checking even if the regex is
+         * invalid. We want a full report, after all.
+         */
+        for (final String s: set) {
+            if (!RhinoHelper.regexIsValid(s))
+                report.error(newMsg(tree, INVALID_REGEX_MEMBER_NAME)
+                    .put("memberName", s));
+            pointers.add(BASE_POINTER.append(s));
+        }
     }
 }
