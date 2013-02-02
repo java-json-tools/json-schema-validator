@@ -47,6 +47,12 @@ public final class MutableDictionary<T>
         return this;
     }
 
+    public MutableDictionary<T> addAll(final Dictionary<T> other)
+    {
+        entries.putAll(other.thaw().entries);
+        return this;
+    }
+
     @Override
     public Dictionary<T> freeze()
     {

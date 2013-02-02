@@ -1,0 +1,18 @@
+{
+    "pointerTests": [
+        {
+            "schema": {
+                "definitions": {
+                    "b": {},
+                    "a++": {},
+                    "c": {}
+                }
+            },
+            "pointers": [
+                "/definitions/a++",
+                "/definitions/b",
+                "/definitions/c"
+            ]
+        }
+    ]
+}
