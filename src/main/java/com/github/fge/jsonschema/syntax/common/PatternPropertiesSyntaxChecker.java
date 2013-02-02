@@ -18,26 +18,21 @@
 package com.github.fge.jsonschema.syntax.common;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
+import com.github.fge.jsonschema.syntax.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.RhinoHelper;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
-import java.util.Collection;
 import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 public final class PatternPropertiesSyntaxChecker
-    extends AbstractSyntaxChecker
+    extends SchemaMapSyntaxChecker
 {
-    private static final JsonPointer BASE_POINTER
-        = JsonPointer.empty().append("patternProperties");
-
     private static final SyntaxChecker INSTANCE
         = new PatternPropertiesSyntaxChecker();
 
@@ -48,28 +43,23 @@ public final class PatternPropertiesSyntaxChecker
 
     private PatternPropertiesSyntaxChecker()
     {
-        super("patternProperties", NodeType.OBJECT);
+        super("patternProperties");
     }
 
     @Override
-    protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final JsonSchemaTree tree)
+    protected void extraChecks(final ProcessingReport report,
+        final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final Set<String> tmp
-            = Sets.newHashSet(tree.getCurrentNode().get(keyword).fieldNames());
-        final Set<String> set = Sets.newTreeSet();
-        set.addAll(tmp);
-
         /*
-         * We _do_ include all pointers for checking even if the regex is
-         * invalid. We want a full report, after all.
+         * Check that the member names are regexes
          */
-        for (final String s: set) {
+        final Set<String> set
+            = Sets.newHashSet(tree.getCurrentNode().get(keyword).fieldNames());
+
+        for (final String s: Ordering.natural().sortedCopy(set))
             if (!RhinoHelper.regexIsValid(s))
                 report.error(newMsg(tree, INVALID_REGEX_MEMBER_NAME)
                     .put("memberName", s));
-            pointers.add(BASE_POINTER.append(s));
-        }
     }
 }
