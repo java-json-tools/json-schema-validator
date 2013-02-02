@@ -123,6 +123,22 @@ public final class CommonSyntaxCheckerDictionary
         checker = new URISyntaxChecker(keyword);
         dict.addEntry(keyword, checker);
 
+        keyword = "$ref";
+        checker = new URISyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "id";
+        checker = new URISyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "description";
+        checker = new TypeOnlySyntaxChecker(keyword, STRING);
+        dict.addEntry(keyword, checker);
+
+        keyword = "title";
+        checker = new TypeOnlySyntaxChecker(keyword, STRING);
+        dict.addEntry(keyword, checker);
+
         DICTIONARY = dict.freeze();
     }
 }

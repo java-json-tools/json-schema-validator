@@ -1,0 +1,24 @@
+{
+    "valueTests": [
+        {
+            "schema": { "id": "+23:" },
+            "valid": false,
+            "message": "INVALID_URI",
+            "msgData": {
+                "value": "+23:"
+            }
+        },
+        {
+            "schema": { "id": "/a/b/../c#" },
+            "valid": false,
+            "message": "URI_NOT_NORMALIZED",
+            "msgData": {
+                "value": "/a/b/../c#"
+            }
+        },
+        {
+            "schema": { "id": "foo://bar/baz#/~1var~1lib~1mysql" },
+            "valid": true
+        }
+    ]
+}
