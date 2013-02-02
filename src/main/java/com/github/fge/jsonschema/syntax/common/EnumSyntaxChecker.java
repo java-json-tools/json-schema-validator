@@ -56,11 +56,9 @@ public final class EnumSyntaxChecker
         ProcessingReport report, JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = tree.getCurrentNode().get(keyword);
-
         final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
 
-        for (final JsonNode element: node)
+        for (final JsonNode element: getNode(tree))
             if (!set.add(EQUIVALENCE.wrap(element))) {
                 report.error(newMsg(tree, ITEMS_NOT_UNIQUE));
                 return;

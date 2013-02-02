@@ -41,7 +41,7 @@ public final class PositiveIntegerSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = tree.getCurrentNode().get(keyword);
+        final JsonNode node = getNode(tree);
 
         if (!node.canConvertToInt()) {
             report.error(newMsg(tree, INTEGER_TOO_LARGE)

@@ -42,7 +42,7 @@ public final class URISyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final String s = tree.getCurrentNode().get(keyword).textValue();
+        final String s = getNode(tree).textValue();
 
         try {
             final URI uri = new URI(s);

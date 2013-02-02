@@ -46,7 +46,7 @@ public abstract class SchemaMapSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        collectPointers(pointers, tree.getCurrentNode().get(keyword));
+        collectPointers(pointers, getNode(tree));
         extraChecks(report, tree);
     }
 

@@ -50,7 +50,7 @@ public final class PatternSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final String value = tree.getCurrentNode().get(keyword).textValue();
+        final String value = getNode(tree).textValue();
 
         if (!RhinoHelper.regexIsValid(value))
             report.error(newMsg(tree, INVALID_REGEX_VALUE).put("value", value));

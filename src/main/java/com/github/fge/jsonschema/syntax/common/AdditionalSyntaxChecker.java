@@ -39,7 +39,7 @@ public final class AdditionalSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        if (tree.getCurrentNode().get(keyword).isObject())
+        if (getNode(tree).isObject())
             pointers.add(JsonPointer.empty().append(keyword));
     }
 }
