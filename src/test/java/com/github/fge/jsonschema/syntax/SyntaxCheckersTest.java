@@ -54,12 +54,8 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public abstract class SyntaxCheckingTest
+public abstract class SyntaxCheckersTest
 {
-    /*
-     * The prefix to lookup for files (common, v3, v4)
-     */
-    private final String prefix;
     /*
      * The keyword
      */
@@ -87,12 +83,22 @@ public abstract class SyntaxCheckingTest
     private List<JsonPointer> pointers;
     private ProcessingReport report;
 
-    protected SyntaxCheckingTest(final Dictionary<SyntaxChecker> dict,
+    /**
+     * Constructor
+     *
+     * @param dict the {@link Dictionary} of {@link SyntaxChecker}s
+     * @param prefix the prefix to use for resource files
+     * @param keyword the keyword to test
+     * @param first the first valid type for that keyword
+     * @param other other valid types for that keyword
+     * @throws JsonProcessingException source JSON (if any) is not legal JSON
+     */
+    protected SyntaxCheckersTest(final Dictionary<SyntaxChecker> dict,
         final String prefix, final String keyword, final NodeType first,
         final NodeType... other)
         throws JsonProcessingException
     {
-        this.prefix = prefix;
+        String prefix1 = prefix;
         this.keyword = keyword;
         checker = dict.get(keyword);
         invalidTypes = Sets.complementOf(EnumSet.of(first, other));
@@ -134,8 +140,7 @@ public abstract class SyntaxCheckingTest
     @Test
     public final void keywordIsSupportedInThisDictionary()
     {
-        assertNotNull(checker,
-            "keyword " + keyword + " is not " + "supported??");
+        assertNotNull(checker, "keyword " + keyword + " is not supported??");
     }
 
     /*
@@ -162,7 +167,7 @@ public abstract class SyntaxCheckingTest
 
         checker.checkSyntax(pointers, report, tree);
 
-        verify(report).log(captor.capture());
+        verify(report).error(captor.capture());
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).isSyntaxError(keyword, INCORRECT_TYPE, tree)
