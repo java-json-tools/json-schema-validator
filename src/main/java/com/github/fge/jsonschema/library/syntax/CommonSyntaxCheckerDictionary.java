@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.library.syntax;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.MutableDictionary;
 import com.github.fge.jsonschema.syntax.URISyntaxChecker;
+import com.github.fge.jsonschema.syntax.common.EnumSyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.PatternSyntaxChecker;
 import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
@@ -136,6 +137,14 @@ public final class CommonSyntaxCheckerDictionary
         dict.addEntry(keyword, checker);
 
         keyword = "title";
+        checker = new TypeOnlySyntaxChecker(keyword, STRING);
+        dict.addEntry(keyword, checker);
+
+        keyword = "enum";
+        checker = EnumSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        keyword = "format";
         checker = new TypeOnlySyntaxChecker(keyword, STRING);
         dict.addEntry(keyword, checker);
 

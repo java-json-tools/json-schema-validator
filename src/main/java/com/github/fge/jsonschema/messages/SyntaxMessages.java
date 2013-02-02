@@ -19,17 +19,18 @@ package com.github.fge.jsonschema.messages;
 
 public enum SyntaxMessages
 {
-    NOT_A_SCHEMA("document is not a JSON Schema: not an object"),
+    NOT_A_SCHEMA("JSON value is not a JSON Schema: not an object"),
     UNKNOWN_KEYWORDS("unknown keyword(s) found; ignored"),
-    INCORRECT_TYPE("keyword has incorrect type"),
-    INTEGER_TOO_LARGE("integer value too large"),
+    INCORRECT_TYPE("value has incorrect type"),
+    INTEGER_TOO_LARGE("integer value is too large"),
     INTEGER_IS_NEGATIVE("integer value must be positive"),
     EXCLUSIVEMINIMUM("exclusiveMinimum must be paired with minimum"),
     EXCLUSIVEMAXIMUM("exclusiveMaximum must be paired with maximum"),
     INVALID_REGEX_MEMBER_NAME("member name is not a valid ECMA 262 regular expression"),
     INVALID_REGEX_VALUE("value is not a valid ECMA 262 regular expression"),
     INVALID_URI("string is not a valid URI"),
-    URI_NOT_NORMALIZED("URI is not normalized")
+    URI_NOT_NORMALIZED("URI is not normalized"),
+    ITEMS_NOT_UNIQUE("items in the array are not unique"),
     ;
 
     private final String message;
