@@ -105,10 +105,10 @@ public final class SyntaxProcessorTest
 
         processor.process(report, data);
 
-        verify(report).error(captor.capture());
+        verify(report).log(captor.capture());
 
         final ProcessingMessage message = captor.getValue();
-        assertMessage(message).hasMessage(NOT_A_SCHEMA)
+        assertMessage(message).hasMessage(NOT_A_SCHEMA).hasLevel(LogLevel.ERROR)
         .hasField("found", NodeType.getNodeType(node));
     }
 

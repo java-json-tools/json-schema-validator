@@ -72,15 +72,6 @@ public final class SyntaxProcessor
          * First check whether the node we have is actually a JSON object.
          * We don't want to cache syntax validation results for _that_.
          */
-        final NodeType type
-            = NodeType.getNodeType(inputSchema.getCurrentNode());
-        if (type != NodeType.OBJECT) {
-            final ProcessingMessage msg = newMsg(inputSchema).msg(NOT_A_SCHEMA)
-                .put("found", type);
-            report.error(msg);
-            return input;
-        }
-
         final JsonSchemaTree tree = inputSchema.copy();
         final JsonPointer pointer = inputSchema.getCurrentPointer();
         tree.setPointer(JsonPointer.empty());
@@ -120,6 +111,14 @@ public final class SyntaxProcessor
         throws ProcessingException
     {
         final JsonNode node = tree.getCurrentNode();
+        final NodeType type = NodeType.getNodeType(node);
+
+        if (type != NodeType.OBJECT) {
+            final ProcessingMessage msg = newMsg(tree).msg(NOT_A_SCHEMA)
+                .put("found", type);
+            report.error(msg);
+            return;
+        }
 
         /*
          * Warn about ignored keywords

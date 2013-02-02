@@ -32,7 +32,7 @@ final class SyntaxReport
 {
     private final Set<JsonPointer> ignoredPaths = Sets.newLinkedHashSet();
 
-    public SyntaxReport()
+    SyntaxReport()
     {
         setLogLevel(LogLevel.DEBUG);
     }
