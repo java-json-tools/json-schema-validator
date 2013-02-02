@@ -19,8 +19,10 @@ package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.syntax.DivisorSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DefinitionsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
 
 public final class DraftV4SyntaxCheckerDictionary
 {
@@ -46,6 +48,20 @@ public final class DraftV4SyntaxCheckerDictionary
 
         String keyword;
         SyntaxChecker checker;
+
+        /*
+         * Array
+         */
+        keyword = "items";
+        checker = DraftV4ItemsSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        /*
+         * Integers and numbers
+         */
+        keyword = "multipleOf";
+        checker = new DivisorSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
 
         /*
          * All / metadata

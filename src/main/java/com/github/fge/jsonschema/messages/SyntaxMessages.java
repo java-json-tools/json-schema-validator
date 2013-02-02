@@ -31,6 +31,8 @@ public enum SyntaxMessages
     INVALID_URI("string is not a valid URI"),
     URI_NOT_NORMALIZED("URI is not normalized"),
     ITEMS_NOT_UNIQUE("items in the array are not unique"),
+    EMPTY_ARRAY("array must have at least one element"),
+    ILLEGAL_DIVISOR("divisor must be strictly greater than zero"),
     ;
 
     private final String message;
