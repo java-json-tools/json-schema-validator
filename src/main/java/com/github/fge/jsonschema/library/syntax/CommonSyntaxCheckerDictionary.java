@@ -19,6 +19,8 @@ package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.syntax.URISyntaxChecker;
+import com.github.fge.jsonschema.syntax.common.PatternSyntaxChecker;
 import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.TypeOnlySyntaxChecker;
@@ -108,6 +110,17 @@ public final class CommonSyntaxCheckerDictionary
 
         keyword = "maxLength";
         checker = new PositiveIntegerSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "pattern";
+        checker = PatternSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        /*
+         * All/metadata
+         */
+        keyword = "$schema";
+        checker = new URISyntaxChecker(keyword);
         dict.addEntry(keyword, checker);
 
         DICTIONARY = dict.freeze();

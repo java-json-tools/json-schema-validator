@@ -1,0 +1,16 @@
+{
+    "valueTests": [
+        {
+            "schema": { "pattern": "a++" },
+            "valid": false,
+            "message": "INVALID_REGEX_VALUE",
+            "msgData": {
+                "value": "a++"
+            }
+        },
+        {
+            "schema": { "pattern": "[^]" },
+            "valid": true
+        }
+    ]
+}

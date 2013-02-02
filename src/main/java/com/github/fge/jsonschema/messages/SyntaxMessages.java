@@ -26,7 +26,11 @@ public enum SyntaxMessages
     INTEGER_IS_NEGATIVE("integer value must be positive"),
     EXCLUSIVEMINIMUM("exclusiveMinimum must be paired with minimum"),
     EXCLUSIVEMAXIMUM("exclusiveMaximum must be paired with maximum"),
-    INVALID_REGEX_MEMBER_NAME("member name is not a valid ECMA 262 regular expression");
+    INVALID_REGEX_MEMBER_NAME("member name is not a valid ECMA 262 regular expression"),
+    INVALID_REGEX_VALUE("value is not a valid ECMA 262 regular expression"),
+    INVALID_URI("string is not a valid URI"),
+    URI_NOT_NORMALIZED("URI is not normalized")
+    ;
 
     private final String message;
 
