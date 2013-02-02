@@ -25,7 +25,6 @@ import com.google.common.cache.LoadingCache;
 
 import java.util.concurrent.ExecutionException;
 
-// TODO: test
 public final class ProcessingCache<K, V>
 {
     private final LoadingCache<Equivalence.Wrapper<K>, V> cache;
