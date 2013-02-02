@@ -23,6 +23,8 @@ import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.TypeOnlySyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.AdditionalItemsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.common.ExclusiveMaximumSyntaxChecker;
+import com.github.fge.jsonschema.syntax.common.ExclusiveMinimumSyntaxChecker;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 
@@ -58,8 +60,31 @@ public final class CommonSyntaxCheckerDictionary
         checker = new PositiveIntegerSyntaxChecker(keyword);
         dict.addEntry(keyword, checker);
 
+        keyword = "maxItems";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
         keyword = "uniqueItems";
         checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);
+        dict.addEntry(keyword, checker);
+
+        /*
+         * Integers and numbers
+         */
+        keyword = "minimum";
+        checker = new TypeOnlySyntaxChecker(keyword, INTEGER, NUMBER);
+        dict.addEntry(keyword, checker);
+
+        keyword = "exclusiveMinimum";
+        checker = ExclusiveMinimumSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        keyword = "maximum";
+        checker = new TypeOnlySyntaxChecker(keyword, INTEGER, NUMBER);
+        dict.addEntry(keyword, checker);
+
+        keyword = "exclusiveMaximum";
+        checker = ExclusiveMaximumSyntaxChecker.getInstance();
         dict.addEntry(keyword, checker);
 
         DICTIONARY = dict.freeze();

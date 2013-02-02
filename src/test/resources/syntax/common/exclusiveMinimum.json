@@ -1,0 +1,17 @@
+{
+    "valueTests": [
+        {
+            "schema": { "exclusiveMinimum": false },
+            "valid": false,
+            "message": "EXCLUSIVEMINIMUM",
+            "msgData": {}
+        },
+        {
+            "schema": {
+                "exclusiveMinimum": false,
+                "minimum": 3
+            },
+            "valid": true
+        }
+    ]
+}

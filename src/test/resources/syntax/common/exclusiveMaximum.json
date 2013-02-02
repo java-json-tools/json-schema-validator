@@ -1,0 +1,17 @@
+{
+    "valueTests": [
+        {
+            "schema": { "exclusiveMaximum": false },
+            "valid": false,
+            "message": "EXCLUSIVEMAXIMUM",
+            "msgData": {}
+        },
+        {
+            "schema": {
+                "exclusiveMaximum": false,
+                "maximum": 3
+            },
+            "valid": true
+        }
+    ]
+}

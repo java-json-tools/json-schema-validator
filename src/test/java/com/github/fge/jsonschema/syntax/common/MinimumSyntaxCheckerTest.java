@@ -15,28 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.messages;
+package com.github.fge.jsonschema.syntax.common;
 
-public enum SyntaxMessages
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonschema.util.NodeType;
+
+public final class MinimumSyntaxCheckerTest
+    extends CommonSyntaxCheckersTest
 {
-    NOT_A_SCHEMA("document is not a JSON Schema: not an object"),
-    UNKNOWN_KEYWORDS("unknown keyword(s) found; ignored"),
-    INCORRECT_TYPE("keyword has incorrect type"),
-    INTEGER_TOO_LARGE("integer value too large"),
-    INTEGER_IS_NEGATIVE("integer value must be positive"),
-    EXCLUSIVEMINIMUM("exclusiveMinimum must be paired with minimum"),
-    EXCLUSIVEMAXIMUM("exclusiveMaximum must be paired with maximum");
-
-    private final String message;
-
-    SyntaxMessages(final String message)
+    public MinimumSyntaxCheckerTest()
+        throws JsonProcessingException
     {
-        this.message = message;
-    }
-
-    @Override
-    public String toString()
-    {
-        return message;
+        super("minimum", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

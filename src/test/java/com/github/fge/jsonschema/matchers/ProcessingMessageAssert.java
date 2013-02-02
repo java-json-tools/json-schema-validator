@@ -36,7 +36,7 @@ import static org.testng.Assert.*;
 public final class ProcessingMessageAssert
     extends GenericAssert<ProcessingMessageAssert, ProcessingMessage>
 {
-    final JsonNode messageContents;
+    final JsonNode msg;
 
     public static ProcessingMessageAssert assertMessage(
         final ProcessingMessage message)
@@ -47,7 +47,7 @@ public final class ProcessingMessageAssert
     private ProcessingMessageAssert(final ProcessingMessage actual)
     {
         super(ProcessingMessageAssert.class, actual);
-        messageContents = actual.asJson();
+        msg = actual.asJson();
     }
 
     /*
@@ -56,10 +56,10 @@ public final class ProcessingMessageAssert
     public ProcessingMessageAssert hasField(final String name,
         final JsonNode value)
     {
-        assertThat(messageContents.has(name)).isTrue();
+        assertThat(msg.has(name)).isTrue();
         // We have to use assertEquals, otherwise it takes the node as a
         // Collection
-        assertEquals(messageContents.get(name), value);
+        assertEquals(msg.get(name), value);
         return this;
     }
 
@@ -72,8 +72,8 @@ public final class ProcessingMessageAssert
     public <T> ProcessingMessageAssert hasField(final String name,
         final T value)
     {
-        assertThat(messageContents.has(name)).isTrue();
-        final String input = messageContents.get(name).textValue();
+        assertThat(msg.has(name)).isTrue();
+        final String input = msg.get(name).textValue();
         final String expected = value.toString();
         assertThat(input).isEqualTo(expected)
             .overridingErrorMessage("Strings differ: wanted " + expected
@@ -84,8 +84,8 @@ public final class ProcessingMessageAssert
     public <T> ProcessingMessageAssert hasField(final String name,
         final Collection<T> value)
     {
-        assertThat(messageContents.has(name)).isTrue();
-        final JsonNode node = messageContents.get(name);
+        assertThat(msg.has(name)).isTrue();
+        final JsonNode node = msg.get(name);
         assertThat(node.isArray()).isTrue();
         final ArrayNode input = JacksonUtils.nodeFactory().arrayNode();
         for (final T element: value)
@@ -96,15 +96,14 @@ public final class ProcessingMessageAssert
 
     public ProcessingMessageAssert hasTextField(final String name)
     {
-        assertTrue(messageContents.path(name).isTextual());
+        assertTrue(msg.path(name).isTextual());
         return this;
     }
 
     public ProcessingMessageAssert hasNullField(final String name)
     {
-        assertThat(messageContents.has(name)).isTrue();
-        assertEquals(messageContents.get(name),
-            JacksonUtils.nodeFactory().nullNode());
+        assertThat(msg.has(name)).isTrue();
+        assertEquals(msg.get(name), JacksonUtils.nodeFactory().nullNode());
         return this;
     }
 
@@ -124,8 +123,8 @@ public final class ProcessingMessageAssert
 
     public ProcessingMessageAssert hasMessage(final String expected)
     {
-        final String msg = messageContents.get("message").textValue();
-        assertThat(msg).isEqualTo(expected);
+        final String message = msg.get("message").textValue();
+        assertThat(message).isEqualTo(expected);
         return this;
     }
 
@@ -142,10 +141,26 @@ public final class ProcessingMessageAssert
 
     public ProcessingMessageAssert hasContents(final ObjectNode node)
     {
-        final Map<String, JsonNode> expectedMap
-            = JacksonUtils.asMap(messageContents);
+        /*
+         * No need to check if the map is empty
+         */
+        if (node.size() == 0)
+            return this;
+
+        /*
+         * Grab the two nodes as maps
+         */
+        final Map<String, JsonNode> expectedMap = JacksonUtils.asMap(msg);
         final Map<String, JsonNode> actualMap = JacksonUtils.asMap(node);
+
+        /*
+         * Check that this message's map contains all keys of the wanted data
+         */
         assertTrue(expectedMap.keySet().containsAll(actualMap.keySet()));
+
+        /*
+         * OK? Let's check contents with Map.equals().
+         */
         expectedMap.keySet().retainAll(actualMap.keySet());
         assertEquals(actualMap, expectedMap, "different map contents");
         return this;

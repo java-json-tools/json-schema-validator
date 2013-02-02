@@ -185,10 +185,14 @@ public abstract class SyntaxCheckersTest
             return Iterators.emptyIterator();
 
         final List<Object[]> list = Lists.newArrayList();
+
         SyntaxMessages message;
+        JsonNode msgNode;
 
         for (final JsonNode node: valueTests) {
-            message = SyntaxMessages.valueOf(node.get("message").textValue());
+            msgNode = node.get("message");
+            message = msgNode == null ? null
+                : SyntaxMessages.valueOf(msgNode.textValue());
             list.add(new Object[]{ node.get("schema"), message,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
@@ -244,7 +248,10 @@ public abstract class SyntaxCheckersTest
         return list.iterator();
     }
 
-    @Test(dataProvider = "getPointerTests")
+    @Test(
+        dependsOnMethods = "keywordIsSupportedInThisDictionary",
+        dataProvider = "getPointerTests"
+    )
     public final void pointerDelegationWorksCorrectly(final JsonNode schema,
         final ArrayNode expectedPointers)
         throws ProcessingException, JsonSchemaException
