@@ -53,25 +53,6 @@ public final class SimpleJsonTree
     }
 
     @Override
-    public int hashCode()
-    {
-        return baseNode.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj)
-    {
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-        if (getClass() != obj.getClass())
-            return false;
-        final SimpleJsonTree other = (SimpleJsonTree) obj;
-        return baseNode.equals(other.baseNode);
-    }
-
-    @Override
     public String toString()
     {
         return "current pointer: \"" + currentPointer

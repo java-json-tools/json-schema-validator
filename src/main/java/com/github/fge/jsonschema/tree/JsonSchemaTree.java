@@ -23,7 +23,6 @@ import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.google.common.base.Objects;
 import com.google.common.collect.Queues;
 
 import java.util.Deque;
@@ -247,31 +246,6 @@ public abstract class JsonSchemaTree
 
         return ret;
     }
-
-    /*
-     * Note about .equals()/.hashCode(): we don't check whether the container
-     * uses inline dereferencing. The loading mechanisms don't care.
-     */
-    @Override
-    public final int hashCode()
-    {
-        return Objects.hashCode(loadingRef, baseNode);
-    }
-
-    @Override
-    public final boolean equals(final Object obj)
-    {
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-        if (!(obj instanceof JsonSchemaTree))
-            return false;
-        final JsonSchemaTree other = (JsonSchemaTree) obj;
-        return loadingRef.equals(other.loadingRef)
-            && baseNode.equals(other.baseNode);
-    }
-
 
     @Override
     public final JsonNode asJson()
