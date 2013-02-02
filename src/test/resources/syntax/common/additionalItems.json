@@ -1,0 +1,22 @@
+{
+    "pointerTests": [
+        {
+            "schema": {
+                "additionalItems": false
+            },
+            "pointers": []
+        },
+        {
+            "schema": {
+                "additionalItems": true
+            },
+            "pointers": []
+        },
+        {
+            "schema": {
+                "additionalItems": {}
+            },
+            "pointers": [ "/additionalItems" ]
+        }
+    ]
+}

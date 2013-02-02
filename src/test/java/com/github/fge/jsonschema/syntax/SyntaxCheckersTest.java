@@ -98,7 +98,6 @@ public abstract class SyntaxCheckersTest
         final NodeType... other)
         throws JsonProcessingException
     {
-        String prefix1 = prefix;
         this.keyword = keyword;
         checker = dict.get(keyword);
         invalidTypes = Sets.complementOf(EnumSet.of(first, other));
@@ -196,7 +195,10 @@ public abstract class SyntaxCheckersTest
         return list.iterator();
     }
 
-    @Test(dataProvider = "getValueTests")
+    @Test(
+        dependsOnMethods = "keywordIsSupportedInThisDictionary",
+        dataProvider = "getValueTests"
+    )
     public final void valueTestsSucceed(final JsonNode schema,
         final SyntaxMessages syntaxMessage, final boolean success,
         final ObjectNode msgData)

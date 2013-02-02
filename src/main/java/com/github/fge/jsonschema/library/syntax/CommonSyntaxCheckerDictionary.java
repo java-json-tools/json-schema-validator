@@ -19,8 +19,10 @@ package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.TypeOnlySyntaxChecker;
+import com.github.fge.jsonschema.syntax.common.AdditionalItemsSyntaxChecker;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 
@@ -47,6 +49,14 @@ public final class CommonSyntaxCheckerDictionary
         /*
          * Arrays
          */
+
+        keyword = "additionalItems";
+        checker = AdditionalItemsSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        keyword = "minItems";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
 
         keyword = "uniqueItems";
         checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);

@@ -79,6 +79,11 @@ public final class ProcessingMessage
         return value == null ? putNull(key) : put(key, FACTORY.textNode(value));
     }
 
+    public ProcessingMessage put(final String key, final int value)
+    {
+        return put(key, FACTORY.numberNode(value));
+    }
+
     public <T> ProcessingMessage put(final String key, final T value)
     {
         return value == null

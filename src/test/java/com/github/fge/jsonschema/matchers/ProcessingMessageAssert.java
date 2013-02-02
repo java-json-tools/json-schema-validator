@@ -145,7 +145,7 @@ public final class ProcessingMessageAssert
         final Map<String, JsonNode> expectedMap
             = JacksonUtils.asMap(messageContents);
         final Map<String, JsonNode> actualMap = JacksonUtils.asMap(node);
-        assertTrue(actualMap.keySet().containsAll(expectedMap.keySet()));
+        assertTrue(expectedMap.keySet().containsAll(actualMap.keySet()));
         expectedMap.keySet().retainAll(actualMap.keySet());
         assertEquals(actualMap, expectedMap, "different map contents");
         return this;

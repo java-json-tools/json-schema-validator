@@ -15,25 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.messages;
+package com.github.fge.jsonschema.syntax.common;
 
-public enum SyntaxMessages
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonschema.util.NodeType;
+
+public final class MinItemsSyntaxCheckerTest
+    extends CommonSyntaxCheckersTest
 {
-    NOT_A_SCHEMA("document is not a JSON Schema: not an object"),
-    UNKNOWN_KEYWORDS("unknown keyword(s) found; ignored"),
-    INCORRECT_TYPE("keyword has incorrect type"),
-    INTEGER_TOO_LARGE("integer value too large");
-
-    private final String message;
-
-    SyntaxMessages(final String message)
+    public MinItemsSyntaxCheckerTest()
+        throws JsonProcessingException
     {
-        this.message = message;
-    }
-
-    @Override
-    public String toString()
-    {
-        return message;
+        super("minItems", NodeType.INTEGER);
     }
 }
