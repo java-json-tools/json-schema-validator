@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.matchers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
@@ -27,6 +28,7 @@ import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import org.fest.assertions.GenericAssert;
 
 import java.util.Collection;
+import java.util.Map;
 
 import static org.fest.assertions.Assertions.*;
 import static org.testng.Assert.*;
@@ -136,5 +138,16 @@ public final class ProcessingMessageAssert
         return hasField("keyword", keyword).hasLevel(LogLevel.ERROR)
             .hasMessage(msg).hasField("schema", tree)
             .hasField("domain", "syntax");
+    }
+
+    public ProcessingMessageAssert hasContents(final ObjectNode node)
+    {
+        final Map<String, JsonNode> expectedMap
+            = JacksonUtils.asMap(messageContents);
+        final Map<String, JsonNode> actualMap = JacksonUtils.asMap(node);
+        assertTrue(actualMap.keySet().containsAll(expectedMap.keySet()));
+        expectedMap.keySet().retainAll(actualMap.keySet());
+        assertEquals(actualMap, expectedMap, "different map contents");
+        return this;
     }
 }

@@ -51,6 +51,11 @@ public final class Dictionary<T>
         return entries.containsKey(key);
     }
 
+    public T get(final String key)
+    {
+        return entries.get(key);
+    }
+
     public Set<String> missingEntriesFrom(final Set<String> set)
     {
         final Set<String> ret = Sets.newTreeSet();

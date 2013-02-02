@@ -34,10 +34,13 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Iterator;
 
+import static com.github.fge.jsonschema.TestUtils.anyMessage;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
+import static com.github.fge.jsonschema.util.NodeType.*;
 import static org.mockito.Mockito.*;
 
 public final class AbstractSyntaxCheckerTest
@@ -48,8 +51,7 @@ public final class AbstractSyntaxCheckerTest
     @DataProvider
     public Iterator<Object[]> validTypes()
     {
-        return SampleNodeProvider.getSamples(NodeType.ARRAY, NodeType.INTEGER,
-            NodeType.STRING);
+        return SampleNodeProvider.getSamples(ARRAY, INTEGER, STRING);
     }
 
     @Test(dataProvider = "validTypes")
@@ -64,14 +66,13 @@ public final class AbstractSyntaxCheckerTest
 
         checker.checkSyntax(null, report, tree);
         verify(checker).checkValue(null, report, tree);
-        verify(report, never()).error(any(ProcessingMessage.class));
+        verify(report, never()).error(anyMessage());
     }
 
     @DataProvider
     public Iterator<Object[]> invalidTypes()
     {
-        return SampleNodeProvider.getSamplesExcept(NodeType.ARRAY,
-            NodeType.INTEGER, NodeType.STRING);
+        return SampleNodeProvider.getSamplesExcept(ARRAY, INTEGER, STRING);
     }
 
     @Test(dataProvider = "invalidTypes")
@@ -94,7 +95,9 @@ public final class AbstractSyntaxCheckerTest
 
         final ProcessingMessage msg = captor.getValue();
         assertMessage(msg).hasField("keyword", KEYWORD).hasField("schema", tree)
-            .hasMessage(INCORRECT_TYPE).hasField("domain", "syntax");
+            .hasMessage(INCORRECT_TYPE).hasField("domain", "syntax")
+            .hasField("expected", EnumSet.of(ARRAY, INTEGER, STRING))
+            .hasField("found", NodeType.getNodeType(node));
     }
 
     private static class DummyChecker
@@ -102,7 +105,7 @@ public final class AbstractSyntaxCheckerTest
     {
         private DummyChecker()
         {
-            super(KEYWORD, NodeType.ARRAY, NodeType.INTEGER, NodeType.STRING);
+            super(KEYWORD, ARRAY, INTEGER, STRING);
         }
 
         @Override
