@@ -39,7 +39,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.mockito.ArgumentCaptor;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -120,8 +120,8 @@ public abstract class SyntaxCheckingTest
         pointerTests = pointerTestsNode;
     }
 
-    @BeforeTest
-    public void init()
+    @BeforeMethod
+    public final void init()
     {
         pointers = Lists.newArrayList();
         report = mock(ProcessingReport.class);
