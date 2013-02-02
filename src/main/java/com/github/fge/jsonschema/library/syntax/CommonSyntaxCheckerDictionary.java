@@ -148,6 +148,10 @@ public final class CommonSyntaxCheckerDictionary
         checker = new TypeOnlySyntaxChecker(keyword, STRING);
         dict.addEntry(keyword, checker);
 
+        keyword = "default";
+        checker = new TypeOnlySyntaxChecker(keyword, ARRAY, values());
+        dict.addEntry(keyword, checker);
+
         DICTIONARY = dict.freeze();
     }
 }

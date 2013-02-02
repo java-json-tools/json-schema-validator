@@ -66,7 +66,7 @@ public final class DraftV4TypeSyntaxChecker
 
 
         if (node.isTextual()) {
-            String s; s = node.textValue();
+            final String s = node.textValue();
             if (NodeType.fromName(s) == null)
                 report.error(newMsg(tree, INCORRECT_PRIMITIVE_TYPE)
                     .put("valid", ALL_TYPES).put("found", s));

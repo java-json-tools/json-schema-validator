@@ -53,7 +53,7 @@ public abstract class AbstractSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = tree.getCurrentNode().get(keyword);
+        final JsonNode node = getNode(tree);
         final NodeType type = NodeType.getNodeType(node);
 
         if (!types.contains(type)) {
