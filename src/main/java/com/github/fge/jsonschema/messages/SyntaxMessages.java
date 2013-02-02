@@ -30,9 +30,11 @@ public enum SyntaxMessages
     INVALID_REGEX_VALUE("value is not a valid ECMA 262 regular expression"),
     INVALID_URI("string is not a valid URI"),
     URI_NOT_NORMALIZED("URI is not normalized"),
-    ITEMS_NOT_UNIQUE("items in the array are not unique"),
+    ELEMENTS_NOT_UNIQUE("array must not contain duplicate elements"),
     EMPTY_ARRAY("array must have at least one element"),
     ILLEGAL_DIVISOR("divisor must be strictly greater than zero"),
+    INCORRECT_ELEMENT_TYPE("array element has incorrect type"),
+    INCORRECT_DEPENDENCY_VALUE("dependency value has incorrect type"),
     ;
 
     private final String message;

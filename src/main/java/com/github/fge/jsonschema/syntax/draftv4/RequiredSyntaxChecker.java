@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax.common;
+package com.github.fge.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
@@ -30,38 +30,61 @@ import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
-public final class EnumSyntaxChecker
+public final class RequiredSyntaxChecker
     extends AbstractSyntaxChecker
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
         = JsonSchemaEquivalence.getInstance();
 
-    private static final SyntaxChecker INSTANCE = new EnumSyntaxChecker();
+    private static final SyntaxChecker INSTANCE = new RequiredSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
         return INSTANCE;
     }
 
-    private EnumSyntaxChecker()
+    private RequiredSyntaxChecker()
     {
-        super("enum", NodeType.ARRAY);
+        super("required", NodeType.ARRAY);
     }
+
     @Override
-    protected void checkValue(Collection<JsonPointer> pointers,
-        ProcessingReport report, JsonSchemaTree tree)
+    protected void checkValue(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
+        final JsonNode node = getNode(tree);
+        final int size = node.size();
+
+        if (size == 0) {
+            report.error(newMsg(tree, EMPTY_ARRAY));
+            return;
+        }
+
         final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
 
-        for (final JsonNode element: getNode(tree))
-            if (!set.add(EQUIVALENCE.wrap(element))) {
-                report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
-                return;
-            }
+        boolean uniqueElements = true;
+        JsonNode element;
+        NodeType type;
+
+        for (int index = 0; index < size; index++) {
+            element = node.get(index);
+            uniqueElements = set.add(EQUIVALENCE.wrap(element));
+            type = NodeType.getNodeType(element);
+            if (type != NodeType.STRING)
+                report.error(newMsg(tree, INCORRECT_ELEMENT_TYPE)
+                    .put("index", index)
+                    .put("expected", EnumSet.of(NodeType.STRING))
+                    .put("found", type)
+                );
+        }
+
+        if (!uniqueElements)
+            report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
     }
 }

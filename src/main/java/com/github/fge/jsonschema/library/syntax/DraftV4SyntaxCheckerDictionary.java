@@ -19,10 +19,14 @@ package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.syntax.draftv4.DraftV4DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.syntax.DivisorSyntaxChecker;
+import com.github.fge.jsonschema.syntax.DraftV4PropertiesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DefinitionsSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 
 public final class DraftV4SyntaxCheckerDictionary
 {
@@ -61,6 +65,29 @@ public final class DraftV4SyntaxCheckerDictionary
          */
         keyword = "multipleOf";
         checker = new DivisorSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        /*
+         * Objects
+         */
+        keyword = "minProperties";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "maxProperties";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "properties";
+        checker = DraftV4PropertiesSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        keyword = "required";
+        checker = RequiredSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        keyword = "dependencies";
+        checker = DraftV4DependenciesSyntaxChecker.getInstance();
         dict.addEntry(keyword, checker);
 
         /*

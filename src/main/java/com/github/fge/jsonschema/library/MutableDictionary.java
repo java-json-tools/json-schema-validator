@@ -49,7 +49,7 @@ public final class MutableDictionary<T>
 
     public MutableDictionary<T> addAll(final Dictionary<T> other)
     {
-        entries.putAll(other.thaw().entries);
+        entries.putAll(other.entries);
         return this;
     }
 

@@ -27,7 +27,7 @@
                 "patternProperties": {
                     "b": {},
                     "a++": {},
-                    "c": {}
+                    "c": null
                 }
             },
             "pointers": [
