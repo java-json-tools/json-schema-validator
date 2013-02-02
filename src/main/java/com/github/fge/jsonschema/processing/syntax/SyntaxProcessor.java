@@ -82,6 +82,11 @@ public final class SyntaxProcessor
          * - fetch the syntax report for this schema at the root;
          * - if the provided pointer is reported as not being validated, trigger
          *   another validation for this same schema at that pointer.
+         *
+         * Note that we .getUnchecked() here: syntax validation will not throw
+         * exceptions (save for programmer errors). The first exception will
+         * be thrown, if any, when the syntax report injects its messages into
+         * the main report.
          */
         SyntaxReport syntaxReport = cache.getUnchecked(tree);
         if (syntaxReport.hasIgnoredPath(pointer)) {
