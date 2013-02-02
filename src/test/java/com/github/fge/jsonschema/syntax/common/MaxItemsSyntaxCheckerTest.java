@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.fge.jsonschema.util.NodeType;
 
 public final class MaxItemsSyntaxCheckerTest
     extends CommonSyntaxCheckersTest
@@ -26,6 +25,6 @@ public final class MaxItemsSyntaxCheckerTest
     public MaxItemsSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super("maxItems", NodeType.INTEGER);
+        super("maxItems");
     }
 }

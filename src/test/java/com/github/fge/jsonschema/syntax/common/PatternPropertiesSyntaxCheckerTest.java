@@ -26,6 +26,6 @@ public final class PatternPropertiesSyntaxCheckerTest
     public PatternPropertiesSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super("patternProperties", NodeType.OBJECT);
+        super("patternProperties");
     }
 }

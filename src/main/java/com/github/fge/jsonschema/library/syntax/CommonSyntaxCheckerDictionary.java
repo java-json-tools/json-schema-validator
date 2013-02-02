@@ -99,6 +99,17 @@ public final class CommonSyntaxCheckerDictionary
         checker = PatternPropertiesSyntaxChecker.getInstance();
         dict.addEntry(keyword, checker);
 
+        /*
+         * Strings
+         */
+        keyword = "minLength";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "maxLength";
+        checker = new PositiveIntegerSyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
         DICTIONARY = dict.freeze();
     }
 }

@@ -43,6 +43,12 @@ public abstract class AbstractSyntaxChecker
     }
 
     @Override
+    public final EnumSet<NodeType> getValidTypes()
+    {
+        return EnumSet.copyOf(types);
+    }
+
+    @Override
     public final void checkSyntax(final Collection<JsonPointer> pointers,
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException

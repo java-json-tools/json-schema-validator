@@ -18,15 +18,13 @@
 package com.github.fge.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.fge.jsonschema.library.syntax.CommonSyntaxCheckerDictionary;
-import com.github.fge.jsonschema.syntax.SyntaxCheckersTest;
 
-public abstract class CommonSyntaxCheckersTest
-    extends SyntaxCheckersTest
+public final class MinLengthSyntaxCheckerTest
+    extends CommonSyntaxCheckersTest
 {
-    protected CommonSyntaxCheckersTest(final String keyword)
+    public MinLengthSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super(CommonSyntaxCheckerDictionary.get(), "common", keyword);
+        super("minLength");
     }
 }

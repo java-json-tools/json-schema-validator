@@ -37,7 +37,6 @@ import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -89,18 +88,16 @@ public abstract class SyntaxCheckersTest
      * @param dict the {@link Dictionary} of {@link SyntaxChecker}s
      * @param prefix the prefix to use for resource files
      * @param keyword the keyword to test
-     * @param first the first valid type for that keyword
-     * @param other other valid types for that keyword
      * @throws JsonProcessingException source JSON (if any) is not legal JSON
      */
     protected SyntaxCheckersTest(final Dictionary<SyntaxChecker> dict,
-        final String prefix, final String keyword, final NodeType first,
-        final NodeType... other)
+        final String prefix, final String keyword)
         throws JsonProcessingException
     {
         this.keyword = keyword;
         checker = dict.get(keyword);
-        invalidTypes = Sets.complementOf(EnumSet.of(first, other));
+        invalidTypes = checker == null ? null
+            : EnumSet.complementOf(checker.getValidTypes());
         /*
          * Try and load the data and affect pointers. Barf on invalid JSON.
          *

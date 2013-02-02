@@ -1,0 +1,22 @@
+{
+    "valueTests": [
+        {
+            "schema": { "minLength": 23909128390918209380192 },
+            "valid": false,
+            "message": "INTEGER_TOO_LARGE",
+            "msgData": {
+                "max": 2147483647
+            }
+        },
+        {
+            "schema": { "minLength": -1 },
+            "valid": false,
+            "message": "INTEGER_IS_NEGATIVE",
+            "msgData": {}
+        },
+        {
+            "schema": { "minLength": 4 },
+            "valid": true
+        }
+    ]
+}

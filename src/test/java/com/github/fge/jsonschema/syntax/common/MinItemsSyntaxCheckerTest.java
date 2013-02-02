@@ -26,6 +26,6 @@ public final class MinItemsSyntaxCheckerTest
     public MinItemsSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super("minItems", NodeType.INTEGER);
+        super("minItems");
     }
 }

@@ -40,6 +40,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Iterator;
 
 import static com.github.fge.jsonschema.TestUtils.*;
@@ -69,6 +70,12 @@ public final class SyntaxProcessorTest
         builder.addEntry(K1, checker);
         builder.addEntry(K2, new SyntaxChecker()
         {
+            @Override
+            public EnumSet<NodeType> getValidTypes()
+            {
+                return EnumSet.noneOf(NodeType.class);
+            }
+
             @Override
             public void checkSyntax(final Collection<JsonPointer> pointers,
                 final ProcessingReport report, final JsonSchemaTree tree)

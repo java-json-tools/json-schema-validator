@@ -26,6 +26,6 @@ public final class ExclusiveMinimumSyntaxCheckerTest
     public ExclusiveMinimumSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super("exclusiveMinimum", NodeType.BOOLEAN);
+        super("exclusiveMinimum");
     }
 }

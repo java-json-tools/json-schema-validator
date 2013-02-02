@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.fge.jsonschema.util.NodeType;
 
 public final class UniqueItemsSyntaxCheckerTest
     extends CommonSyntaxCheckersTest
@@ -26,6 +25,6 @@ public final class UniqueItemsSyntaxCheckerTest
     public UniqueItemsSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super("uniqueItems", NodeType.BOOLEAN);
+        super("uniqueItems");
     }
 }

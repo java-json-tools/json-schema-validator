@@ -21,11 +21,17 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.annotations.VisibleForTesting;
 
 import java.util.Collection;
+import java.util.EnumSet;
 
 public interface SyntaxChecker
 {
+    @VisibleForTesting
+    EnumSet<NodeType> getValidTypes();
+
     void checkSyntax(Collection<JsonPointer> pointers,
         ProcessingReport report, JsonSchemaTree tree)
         throws ProcessingException;

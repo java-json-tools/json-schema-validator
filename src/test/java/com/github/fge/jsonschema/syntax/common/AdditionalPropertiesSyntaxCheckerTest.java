@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.syntax.common;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.github.fge.jsonschema.util.NodeType;
 
 public final class AdditionalPropertiesSyntaxCheckerTest
     extends CommonSyntaxCheckersTest
@@ -26,6 +25,6 @@ public final class AdditionalPropertiesSyntaxCheckerTest
     public AdditionalPropertiesSyntaxCheckerTest()
         throws JsonProcessingException
     {
-        super("additionalProperties", NodeType.BOOLEAN, NodeType.OBJECT);
+        super("additionalProperties");
     }
 }
