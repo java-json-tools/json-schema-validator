@@ -17,31 +17,14 @@
 
 package com.github.fge.jsonschema.syntax.draftv4;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.helpers.SchemaMapSyntaxChecker;
-import com.github.fge.jsonschema.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-public final class DefinitionsSyntaxChecker
-    extends SchemaMapSyntaxChecker
+public final class NotSyntaxCheckerTest
+    extends DraftV4SyntaxCheckersTest
 {
-    private static final SyntaxChecker INSTANCE
-        = new DefinitionsSyntaxChecker();
-
-    public static SyntaxChecker getInstance()
+    public NotSyntaxCheckerTest()
+        throws JsonProcessingException
     {
-        return INSTANCE;
-    }
-
-    private DefinitionsSyntaxChecker()
-    {
-        super("definitions");
-    }
-    @Override
-    protected void extraChecks(final ProcessingReport report,
-        final JsonSchemaTree tree)
-        throws ProcessingException
-    {
+        super("not");
     }
 }

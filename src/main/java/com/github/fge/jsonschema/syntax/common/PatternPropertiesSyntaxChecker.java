@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.syntax.common;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.SchemaMapSyntaxChecker;
+import com.github.fge.jsonschema.syntax.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.RhinoHelper;

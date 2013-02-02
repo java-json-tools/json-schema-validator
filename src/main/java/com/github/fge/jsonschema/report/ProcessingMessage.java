@@ -27,7 +27,6 @@ import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
-import java.util.Collection;
 import java.util.Map;
 
 public final class ProcessingMessage
@@ -91,8 +90,7 @@ public final class ProcessingMessage
             : put(key, FACTORY.textNode(value.toString()));
     }
 
-    public <T> ProcessingMessage put(final String key,
-        final Collection<T> values)
+    public <T> ProcessingMessage put(final String key, final Iterable<T> values)
     {
         if (values == null)
             return putNull(key);

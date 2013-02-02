@@ -15,41 +15,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax.draftv4;
+package com.github.fge.jsonschema.syntax.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.helpers.SchemaOrSchemaArraySyntaxChecker;
-import com.github.fge.jsonschema.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
+
+import java.util.Collection;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
-public final class DraftV4ItemsSyntaxChecker
-    extends SchemaOrSchemaArraySyntaxChecker
+public final class PositiveIntegerSyntaxChecker
+    extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker INSTANCE
-        = new DraftV4ItemsSyntaxChecker();
-
-    public static SyntaxChecker getInstance()
+    public PositiveIntegerSyntaxChecker(final String keyword)
     {
-        return INSTANCE;
-    }
-
-    private DraftV4ItemsSyntaxChecker()
-    {
-        super("items");
+        super(keyword, NodeType.INTEGER);
     }
 
     @Override
-    protected void extraChecks(final ProcessingReport report,
-        final JsonSchemaTree tree)
+    protected void checkValue(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
 
-        if (node.isArray() && node.size() == 0)
-            report.error(newMsg(tree, EMPTY_ARRAY));
+        if (!node.canConvertToInt()) {
+            report.error(newMsg(tree, INTEGER_TOO_LARGE)
+                .put("max", Integer.MAX_VALUE));
+            return;
+        }
+
+        if (node.intValue() < 0)
+            report.error(newMsg(tree, INTEGER_IS_NEGATIVE));
     }
 }

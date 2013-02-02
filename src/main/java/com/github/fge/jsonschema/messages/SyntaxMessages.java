@@ -35,6 +35,7 @@ public enum SyntaxMessages
     ILLEGAL_DIVISOR("divisor must be strictly greater than zero"),
     INCORRECT_ELEMENT_TYPE("array element has incorrect type"),
     INCORRECT_DEPENDENCY_VALUE("dependency value has incorrect type"),
+    INCORRECT_PRIMITIVE_TYPE("incorrect primitive type")
     ;
 
     private final String message;

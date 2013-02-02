@@ -1,0 +1,16 @@
+{
+    "valueTests": [
+        {
+            "schema": { "anyOf": [] },
+            "valid": false,
+            "message": "EMPTY_ARRAY",
+            "msgData": {}
+        }
+    ],
+    "pointerTests": [
+        {
+            "schema": { "anyOf": [ {}, null, "hello world" ] },
+            "pointers": [ "/anyOf/0", "/anyOf/1", "/anyOf/2" ]
+        }
+    ]
+}

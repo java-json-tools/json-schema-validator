@@ -15,33 +15,39 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax.draftv4;
+package com.github.fge.jsonschema.syntax.helpers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.helpers.SchemaMapSyntaxChecker;
-import com.github.fge.jsonschema.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
 
-public final class DefinitionsSyntaxChecker
-    extends SchemaMapSyntaxChecker
+import java.math.BigDecimal;
+import java.util.Collection;
+
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
+
+public final class DivisorSyntaxChecker
+    extends AbstractSyntaxChecker
 {
-    private static final SyntaxChecker INSTANCE
-        = new DefinitionsSyntaxChecker();
-
-    public static SyntaxChecker getInstance()
+    public DivisorSyntaxChecker(final String keyword)
     {
-        return INSTANCE;
+        super(keyword, NodeType.INTEGER, NodeType.NUMBER);
     }
 
-    private DefinitionsSyntaxChecker()
-    {
-        super("definitions");
-    }
     @Override
-    protected void extraChecks(final ProcessingReport report,
-        final JsonSchemaTree tree)
+    protected void checkValue(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
+        final JsonNode node = getNode(tree);
+        final BigDecimal divisor = node.decimalValue();
+
+        if (divisor.compareTo(BigDecimal.ZERO) <= 0)
+            report.error(newMsg(tree, ILLEGAL_DIVISOR)
+                .put("found", node));
     }
 }

@@ -19,78 +19,90 @@ package com.github.fge.jsonschema.syntax.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.helpers.DependenciesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
-public final class DraftV4DependenciesSyntaxChecker
-    extends DependenciesSyntaxChecker
+public final class DraftV4TypeSyntaxChecker
+    extends AbstractSyntaxChecker
 {
+    private static final EnumSet<NodeType> ALL_TYPES
+        = EnumSet.allOf(NodeType.class);
+
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonSchemaEquivalence.getInstance();
+
     private static final SyntaxChecker INSTANCE
-        = new DraftV4DependenciesSyntaxChecker();
+        = new DraftV4TypeSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
         return INSTANCE;
     }
 
-    private DraftV4DependenciesSyntaxChecker()
+    private DraftV4TypeSyntaxChecker()
     {
-        super(NodeType.ARRAY);
+        super("type", NodeType.ARRAY, NodeType.STRING);
     }
 
     @Override
-    protected void checkDependency(final ProcessingReport report,
-        final String name, final JsonSchemaTree tree)
+    protected void checkValue(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = getNode(tree).get(name);
-        NodeType type;
+        final JsonNode node = getNode(tree);
 
-        type = NodeType.getNodeType(node);
 
-        if (type != NodeType.ARRAY) {
-            report.error(newMsg(tree, INCORRECT_DEPENDENCY_VALUE)
-                .put("property", name).put("expected", dependencyTypes)
-                .put("found", type));
+        if (node.isTextual()) {
+            String s; s = node.textValue();
+            if (NodeType.fromName(s) == null)
+                report.error(newMsg(tree, INCORRECT_PRIMITIVE_TYPE)
+                    .put("valid", ALL_TYPES).put("found", s));
             return;
         }
 
         final int size = node.size();
 
         if (size == 0) {
-            report.error(newMsg(tree, EMPTY_ARRAY).put("property", name));
+            report.error(newMsg(tree, EMPTY_ARRAY));
             return;
         }
 
         final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
 
         JsonNode element;
+        NodeType type;
         boolean uniqueElements = true;
 
-        for (int index = 0; index < size; index++) {
+        for (int index = 0; index <size; index++) {
             element = node.get(index);
             type = NodeType.getNodeType(element);
             uniqueElements = set.add(EQUIVALENCE.wrap(element));
-            if (type == NodeType.STRING)
+            if (type != NodeType.STRING) {
+                report.error(
+                    newMsg(tree, INCORRECT_ELEMENT_TYPE).put("index", index)
+                        .put("expected", NodeType.STRING).put("found", type));
                 continue;
-            report.error(newMsg(tree, INCORRECT_ELEMENT_TYPE)
-                .put("property", name).put("index", index)
-                .put("expected", EnumSet.of(NodeType.STRING))
-                .put("found", type));
+            }
+            if (NodeType.fromName(element.textValue()) == null)
+                report.error(newMsg(tree, INCORRECT_PRIMITIVE_TYPE)
+                    .put("index", index).put("valid", ALL_TYPES)
+                    .put("found", element));
         }
 
         if (!uniqueElements)
-            report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE)
-                .put("property", name));
+            report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
     }
 }

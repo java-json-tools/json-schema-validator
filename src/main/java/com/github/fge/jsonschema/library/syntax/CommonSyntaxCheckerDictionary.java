@@ -19,12 +19,12 @@ package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.MutableDictionary;
-import com.github.fge.jsonschema.syntax.URISyntaxChecker;
+import com.github.fge.jsonschema.syntax.helpers.URISyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.EnumSyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.PatternSyntaxChecker;
-import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
+import com.github.fge.jsonschema.syntax.helpers.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.syntax.TypeOnlySyntaxChecker;
+import com.github.fge.jsonschema.syntax.helpers.TypeOnlySyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.AdditionalSyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.ExclusiveMaximumSyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.ExclusiveMinimumSyntaxChecker;

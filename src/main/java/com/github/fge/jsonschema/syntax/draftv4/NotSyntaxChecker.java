@@ -15,25 +15,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax;
+package com.github.fge.jsonschema.syntax.draftv4;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
+import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.Collection;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
-public final class PositiveIntegerSyntaxChecker
+public final class NotSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    public PositiveIntegerSyntaxChecker(final String keyword)
+    private static final SyntaxChecker INSTANCE = new NotSyntaxChecker();
+
+    public static SyntaxChecker getInstance()
     {
-        super(keyword, NodeType.INTEGER);
+        return INSTANCE;
+    }
+
+    private NotSyntaxChecker()
+    {
+        super("not", NodeType.ARRAY, NodeType.values());
     }
 
     @Override
@@ -41,15 +47,6 @@ public final class PositiveIntegerSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = getNode(tree);
-
-        if (!node.canConvertToInt()) {
-            report.error(newMsg(tree, INTEGER_TOO_LARGE)
-                .put("max", Integer.MAX_VALUE));
-            return;
-        }
-
-        if (node.intValue() < 0)
-            report.error(newMsg(tree, INTEGER_IS_NEGATIVE));
+        pointers.add(JsonPointer.empty().append(keyword));
     }
 }

@@ -15,29 +15,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax;
+package com.github.fge.jsonschema.syntax.helpers;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collection;
 
-public final class TypeOnlySyntaxChecker
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
+
+public final class URISyntaxChecker
     extends AbstractSyntaxChecker
 {
-    public TypeOnlySyntaxChecker(final String keyword, final NodeType first,
-        final NodeType... other)
+    public URISyntaxChecker(final String keyword)
     {
-        super(keyword, first, other);
+        super(keyword, NodeType.STRING);
     }
 
     @Override
-    public void checkValue(final Collection<JsonPointer> pointers,
+    protected void checkValue(final Collection<JsonPointer> pointers,
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
+        final String s = getNode(tree).textValue();
+
+        try {
+            final URI uri = new URI(s);
+            if (!uri.equals(uri.normalize()))
+                report.error(newMsg(tree, URI_NOT_NORMALIZED).put("value", s));
+        } catch (URISyntaxException ignored) {
+            report.error(newMsg(tree, INVALID_URI).put("value", s));
+        }
     }
 }

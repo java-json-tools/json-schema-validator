@@ -19,13 +19,16 @@ package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
+import com.github.fge.jsonschema.syntax.helpers.SchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4DependenciesSyntaxChecker;
-import com.github.fge.jsonschema.syntax.DivisorSyntaxChecker;
-import com.github.fge.jsonschema.syntax.DraftV4PropertiesSyntaxChecker;
-import com.github.fge.jsonschema.syntax.PositiveIntegerSyntaxChecker;
+import com.github.fge.jsonschema.syntax.helpers.DivisorSyntaxChecker;
+import com.github.fge.jsonschema.syntax.draftv4.DraftV4PropertiesSyntaxChecker;
+import com.github.fge.jsonschema.syntax.helpers.PositiveIntegerSyntaxChecker;
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DefinitionsSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4ItemsSyntaxChecker;
+import com.github.fge.jsonschema.syntax.draftv4.NotSyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.RequiredSyntaxChecker;
 
 public final class DraftV4SyntaxCheckerDictionary
@@ -93,8 +96,28 @@ public final class DraftV4SyntaxCheckerDictionary
         /*
          * All / metadata
          */
+        keyword = "allOf";
+        checker = new SchemaArraySyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "anyOf";
+        checker = new SchemaArraySyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "oneOf";
+        checker = new SchemaArraySyntaxChecker(keyword);
+        dict.addEntry(keyword, checker);
+
+        keyword = "not";
+        checker = NotSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
         keyword = "definitions";
         checker = DefinitionsSyntaxChecker.getInstance();
+        dict.addEntry(keyword, checker);
+
+        keyword = "type";
+        checker = DraftV4TypeSyntaxChecker.getInstance();
         dict.addEntry(keyword, checker);
 
         DICTIONARY = dict.freeze();

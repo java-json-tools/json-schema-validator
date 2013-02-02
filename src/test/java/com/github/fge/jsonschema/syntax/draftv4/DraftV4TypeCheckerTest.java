@@ -15,30 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.syntax;
+package com.github.fge.jsonschema.syntax.draftv4;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-public final class DraftV4PropertiesSyntaxChecker
-    extends SchemaMapSyntaxChecker
+public final class DraftV4TypeCheckerTest
+    extends DraftV4SyntaxCheckersTest
 {
-    private static final SyntaxChecker INSTANCE
-        = new DraftV4PropertiesSyntaxChecker();
-
-    public static SyntaxChecker getInstance()
+    public DraftV4TypeCheckerTest()
+        throws JsonProcessingException
     {
-        return INSTANCE;
-    }
-
-    private DraftV4PropertiesSyntaxChecker()
-    {
-        super("properties");
-    }
-    @Override
-    protected void extraChecks(ProcessingReport report, JsonSchemaTree tree)
-        throws ProcessingException
-    {
+        super("type");
     }
 }
