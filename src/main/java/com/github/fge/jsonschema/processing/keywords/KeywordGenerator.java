@@ -15,27 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library;
+package com.github.fge.jsonschema.processing.keywords;
 
-import com.github.fge.jsonschema.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.collect.Maps;
-
-import java.util.Map;
-
-public final class MutableLibrary
-    implements Thawed<Library>
+public final class KeywordGenerator
 {
-    final Map<String, SyntaxChecker> syntaxCheckers = Maps.newHashMap();
-
-    MutableLibrary(final Library library)
-    {
-        syntaxCheckers.putAll(library.syntaxCheckers);
-    }
-
-    @Override
-    public Library freeze()
-    {
-        return new Library(this);
-    }
 }

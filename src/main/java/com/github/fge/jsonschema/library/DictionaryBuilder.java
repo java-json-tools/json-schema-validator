@@ -22,32 +22,27 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-public final class MutableDictionary<T>
+public final class DictionaryBuilder<T>
     implements Thawed<Dictionary<T>>
 {
     final Map<String, T> entries = Maps.newHashMap();
 
-    public static <T> MutableDictionary<T> newInstance()
-    {
-        return new MutableDictionary<T>();
-    }
-
-    private MutableDictionary()
+    DictionaryBuilder()
     {
     }
 
-    MutableDictionary(final Dictionary<T> dict)
+    DictionaryBuilder(final Dictionary<T> dict)
     {
         entries.putAll(dict.entries);
     }
 
-    public MutableDictionary<T> addEntry(final String key, final T value)
+    public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
         entries.put(key, value);
         return this;
     }
 
-    public MutableDictionary<T> addAll(final Dictionary<T> other)
+    public DictionaryBuilder<T> addAll(final Dictionary<T> other)
     {
         entries.putAll(other.entries);
         return this;

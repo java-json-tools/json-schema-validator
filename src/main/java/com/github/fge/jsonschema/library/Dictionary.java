@@ -33,16 +33,21 @@ import java.util.Set;
  * Use it to collect what exists as strings, entries etc.
  */
 public final class Dictionary<T>
-    implements Frozen<MutableDictionary<T>>
+    implements Frozen<DictionaryBuilder<T>>
 {
     final Map<String, T> entries;
+
+    public static <T> DictionaryBuilder<T> newBuilder()
+    {
+        return new DictionaryBuilder<T>();
+    }
 
     Dictionary(final Map<String, T> map)
     {
         entries = ImmutableMap.copyOf(map);
     }
 
-    Dictionary(final MutableDictionary<T> builder)
+    Dictionary(final DictionaryBuilder<T> builder)
     {
         this(builder.entries);
     }
@@ -70,8 +75,8 @@ public final class Dictionary<T>
     }
 
     @Override
-    public MutableDictionary<T> thaw()
+    public DictionaryBuilder<T> thaw()
     {
-        return new MutableDictionary<T>(this);
+        return new DictionaryBuilder<T>(this);
     }
 }

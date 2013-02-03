@@ -22,7 +22,8 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
-import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -63,8 +64,8 @@ public final class SyntaxProcessorTest
     public void initialize()
     {
         report = mock(ProcessingReport.class);
-        final MutableDictionary<SyntaxChecker> builder
-            = MutableDictionary.newInstance();
+        final DictionaryBuilder<SyntaxChecker> builder
+            = Dictionary.newBuilder();
 
         checker = mock(SyntaxChecker.class);
         builder.addEntry(K1, checker);

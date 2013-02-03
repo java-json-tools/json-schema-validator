@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.helpers.URISyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.EnumSyntaxChecker;
 import com.github.fge.jsonschema.syntax.common.PatternSyntaxChecker;
@@ -46,8 +46,7 @@ public final class CommonSyntaxCheckerDictionary
     }
 
     static {
-        final MutableDictionary<SyntaxChecker> dict
-            = MutableDictionary.newInstance();
+        final DictionaryBuilder<SyntaxChecker> dict = Dictionary.newBuilder();
 
         String keyword;
         SyntaxChecker checker;

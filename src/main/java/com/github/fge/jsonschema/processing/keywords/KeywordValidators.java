@@ -15,27 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library;
+package com.github.fge.jsonschema.processing.keywords;
 
-import com.github.fge.jsonschema.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.Frozen;
-import com.google.common.collect.ImmutableMap;
+import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
-import java.util.Map;
-
-public final class Library
-    implements Frozen<LibraryBuilder>
+public final class KeywordValidators
+    implements MessageProvider
 {
-    final Map<String, SyntaxChecker> syntaxCheckers;
-
-    Library(final LibraryBuilder builder)
-    {
-        syntaxCheckers = ImmutableMap.copyOf(builder.syntaxCheckers);
-    }
-
     @Override
-    public LibraryBuilder thaw()
+    public ProcessingMessage newMessage()
     {
-        return new LibraryBuilder(this);
+        return new ProcessingMessage();
     }
 }

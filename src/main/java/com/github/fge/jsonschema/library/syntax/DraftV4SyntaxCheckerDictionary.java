@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.library.syntax;
 
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.MutableDictionary;
+import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4TypeSyntaxChecker;
 import com.github.fge.jsonschema.syntax.helpers.SchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.syntax.draftv4.DraftV4DependenciesSyntaxChecker;
@@ -45,8 +45,7 @@ public final class DraftV4SyntaxCheckerDictionary
     }
 
     static {
-        final MutableDictionary<SyntaxChecker> dict
-            = MutableDictionary.newInstance();
+        final DictionaryBuilder<SyntaxChecker> dict = Dictionary.newBuilder();
 
         /*
          * Put all common checkers

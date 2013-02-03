@@ -18,24 +18,24 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.Frozen;
-import com.google.common.collect.ImmutableMap;
+import com.github.fge.jsonschema.util.Thawed;
+import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-public final class Library
-    implements Frozen<LibraryBuilder>
+public final class LibraryBuilder
+    implements Thawed<Library>
 {
-    final Map<String, SyntaxChecker> syntaxCheckers;
+    final Map<String, SyntaxChecker> syntaxCheckers = Maps.newHashMap();
 
-    Library(final LibraryBuilder builder)
+    LibraryBuilder(final Library library)
     {
-        syntaxCheckers = ImmutableMap.copyOf(builder.syntaxCheckers);
+        syntaxCheckers.putAll(library.syntaxCheckers);
     }
 
     @Override
-    public LibraryBuilder thaw()
+    public Library freeze()
     {
-        return new LibraryBuilder(this);
+        return new Library(this);
     }
 }
