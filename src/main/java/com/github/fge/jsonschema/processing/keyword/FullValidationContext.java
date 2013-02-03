@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.processing.keyword;
 
+import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;

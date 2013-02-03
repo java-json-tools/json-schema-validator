@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.processing.validation;
 
-import com.github.fge.jsonschema.keyword.FullValidationContext;
+import com.github.fge.jsonschema.processing.keyword.FullValidationContext;
 import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;

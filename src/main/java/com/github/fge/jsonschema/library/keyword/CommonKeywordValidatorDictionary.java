@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.library.keyword;
 
-import com.github.fge.jsonschema.keyword.KeywordDescriptor;
+import com.github.fge.jsonschema.processing.keyword.KeywordDescriptor;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
