@@ -59,7 +59,7 @@ public abstract class AbstractKeywordValidatorTest
         schemaRegistry = new SchemaRegistry(new URIManager(), BASE_URI,
             AddressingMode.CANONICAL);
         validatorCache = new JsonValidatorCache(metaSchema, schemaRegistry);
-        testData = JsonLoader.fromResource("/keyword/" + resourceName
+        testData = JsonLoader.fromResource("/old/keyword/" + resourceName
             + ".json");
     }
 
