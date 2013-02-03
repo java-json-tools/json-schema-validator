@@ -17,16 +17,14 @@
 
 package com.github.fge.jsonschema.keyword;
 
-import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jsonschema.util.Thawed;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ValidatedTypes
+public final class KeywordDescriptorBuilder
+    implements Thawed<KeywordDescriptor>
 {
-    NodeType[] value();
+    @Override
+    public KeywordDescriptor freeze()
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
