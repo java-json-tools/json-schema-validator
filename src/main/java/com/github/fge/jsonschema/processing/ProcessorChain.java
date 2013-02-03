@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.keyword.KeywordSet;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
@@ -69,8 +68,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         final Processor<X, X> p = new Processor<X, X>()
         {
             @Override
-            public KeywordSet process(final ProcessingReport report,
-                final X input)
+            public X process(final ProcessingReport report, final X input)
                 throws ProcessingException
             {
                 return input;
@@ -95,8 +93,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         final Processor<OUT, OUT> fail = new Processor<OUT, OUT>()
         {
             @Override
-            public KeywordSet process(final ProcessingReport report,
-                final OUT input)
+            public OUT process(final ProcessingReport report, final OUT input)
                 throws ProcessingException
             {
                 if (!report.isSuccess())
@@ -130,7 +127,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     }
 
     @Override
-    public KeywordSet process(final ProcessingReport report, final IN input)
+    public OUT process(final ProcessingReport report, final IN input)
         throws ProcessingException
     {
         return p.process(report, input);
@@ -153,8 +150,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         return new Processor<X, Z>()
         {
             @Override
-            public KeywordSet process(final ProcessingReport report,
-                final X input)
+            public Z process(final ProcessingReport report, final X input)
                 throws ProcessingException
             {
                 return p2.process(report, p1.process(report, input));

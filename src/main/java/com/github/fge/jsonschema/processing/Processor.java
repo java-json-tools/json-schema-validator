@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.processing;
 
-import com.github.fge.jsonschema.keyword.KeywordSet;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
@@ -38,12 +37,11 @@ public interface Processor<IN extends MessageProvider, OUT extends MessageProvid
     /**
      * Process the input
      *
-     *
      * @param report the report to use while processing
      * @param input the input for this processor
      * @return the output
      * @throws ProcessingException processing failed
      */
-    KeywordSet process(final ProcessingReport report, IN input)
+    OUT process(final ProcessingReport report, final IN input)
         throws ProcessingException;
 }
