@@ -97,7 +97,7 @@ public final class KeywordBuilder
         for (final String keyword: fields)
             list.add(buildKeyword(input, keyword, schema));
 
-        return new FullValidationContext(list);
+        return new FullValidationContext(input, list);
     }
 
     private KeywordValidator buildKeyword(final ValidationData data,
