@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.processing.validation;
 
-import com.github.fge.jsonschema.keyword.KeywordSet;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -27,7 +26,7 @@ public final class ValidationProcessor
     implements Processor<ValidationData, ProcessingReport>
 {
     @Override
-    public KeywordSet process(final ProcessingReport report,
+    public ProcessingReport process(final ProcessingReport report,
         final ValidationData input)
         throws ProcessingException
     {

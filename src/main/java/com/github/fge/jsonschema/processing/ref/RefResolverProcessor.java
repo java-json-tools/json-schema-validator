@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.KeywordSet;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
@@ -58,7 +57,7 @@ public final class RefResolverProcessor
      * @throws ProcessingException ref loop, unresolvable ref, not JSON, etc
      */
     @Override
-    public KeywordSet process(final ProcessingReport report,
+    public ValidationData process(final ProcessingReport report,
         final ValidationData input)
         throws ProcessingException
     {
