@@ -45,7 +45,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     /**
      * The resulting processor
      */
-    private final Processor<IN, OUT> p;
+    private final Processor<IN, OUT> processor;
 
     /**
      * Start a processing chain with a single processor
@@ -61,30 +61,14 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
         return new ProcessorChain<X, Y>(p);
     }
 
-    // You have to do ProcessingChain.<X>start(). TODO: builder
-    public static <X extends MessageProvider> ProcessorChain<X, X> start()
-    {
-        final Processor<X, X> p = new Processor<X, X>()
-        {
-            @Override
-            public X process(final ProcessingReport report, final X input)
-                throws ProcessingException
-            {
-                return input;
-            }
-        };
-
-        return new ProcessorChain<X, X>(p);
-    }
-
     /**
      * Private constructor
      *
-     * @param p the processor
+     * @param processor the processor
      */
-    private ProcessorChain(final Processor<IN, OUT> p)
+    private ProcessorChain(final Processor<IN, OUT> processor)
     {
-        this.p = p;
+        this.processor = processor;
     }
 
     public ProcessorChain<IN, OUT> failOnError()
@@ -101,7 +85,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
             }
         };
 
-        return new ProcessorChain<IN, OUT>(merge(p, fail));
+        return new ProcessorChain<IN, OUT>(merge(processor, fail));
     }
 
     /**
@@ -117,12 +101,12 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
         chainWith(final Processor<OUT, NEWOUT> p2)
     {
-        return new ProcessorChain<IN, NEWOUT>(merge(p, p2));
+        return new ProcessorChain<IN, NEWOUT>(merge(processor, p2));
     }
 
     public Processor<IN, OUT> end()
     {
-        return p;
+        return processor;
     }
 
     /**
