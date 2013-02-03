@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema.processing.validation;
 
+import com.github.fge.jsonschema.keyword.FullValidationContext;
+import com.github.fge.jsonschema.keyword.KeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -25,11 +27,26 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 public final class ValidationProcessor
     implements Processor<ValidationData, ProcessingReport>
 {
+    private final Processor<ValidationData, FullValidationContext> processor;
+
+    public ValidationProcessor(
+        final Processor<ValidationData, FullValidationContext> processor)
+    {
+        this.processor = processor;
+    }
+
+
     @Override
     public ProcessingReport process(final ProcessingReport report,
         final ValidationData input)
         throws ProcessingException
     {
-        return null;
+        final FullValidationContext context = processor.process(report, input);
+        final ValidationData data = context.getValidationData();
+
+        for (final KeywordValidator validator: context)
+            validator.validate(this, report, data);
+
+        return report;
     }
 }

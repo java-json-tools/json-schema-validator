@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.ProcessingCache;
@@ -36,7 +37,7 @@ import java.util.Map;
 import java.util.Set;
 
 public final class KeywordBuilder
-    implements Processor<ValidationData, KeywordSet>
+    implements Processor<ValidationData, FullValidationContext>
 {
     private final ListMultimap<NodeType, String> typeMap
         = ArrayListMultimap.create();
@@ -66,7 +67,7 @@ public final class KeywordBuilder
      * @throws ProcessingException processing failed
      */
     @Override
-    public KeywordSet process(final ProcessingReport report,
+    public FullValidationContext process(final ProcessingReport report,
         final ValidationData input)
         throws ProcessingException
     {
@@ -94,8 +95,22 @@ public final class KeywordBuilder
         final List<KeywordValidator> list = Lists.newArrayList();
 
         for (final String keyword: fields)
-            list.add(caches.get(keyword).get(schema));
+            list.add(buildKeyword(input, keyword, schema));
 
-        return new KeywordSet(list);
+        return new FullValidationContext(list);
+    }
+
+    private KeywordValidator buildKeyword(final ValidationData data,
+        final String keyword, final JsonNode schema)
+        throws ProcessingException
+    {
+        try {
+            return caches.get(keyword).get(schema);
+        } catch (ProcessingException e) {
+            final ProcessingMessage message = data.newMessage()
+                .msg("failed to build keyword validator")
+                .put("keyword", keyword).put("cause", e.getProcessingMessage());
+            throw new ProcessingException(message);
+        }
     }
 }

@@ -50,7 +50,7 @@ public final class KeywordBuilderTest
     private static final EnumSet<NodeType> TYPES
         = EnumSet.of(NodeType.STRING, NodeType.BOOLEAN, NodeType.ARRAY);
 
-    private Processor<ValidationData, KeywordSet> processor;
+    private Processor<ValidationData, FullValidationContext> processor;
     private ProcessingReport report;
 
     @BeforeMethod
@@ -83,7 +83,7 @@ public final class KeywordBuilderTest
         final JsonTree instance = new SimpleJsonTree(node);
         final ValidationData data = new ValidationData(tree, instance);
 
-        final KeywordSet set = processor.process(report, data);
+        final FullValidationContext set = processor.process(report, data);
         assertFalse(Lists.newArrayList(set).isEmpty());
     }
 
@@ -111,7 +111,7 @@ public final class KeywordBuilderTest
 
         @Override
         public void validate(final ValidationProcessor processor,
-            final ProcessingReport report, final JsonTree instance)
+            final ProcessingReport report, final ValidationData data)
             throws ProcessingException
         {
         }

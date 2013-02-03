@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.keyword;
 
+import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
@@ -24,14 +25,22 @@ import com.google.common.collect.ImmutableList;
 import java.util.Iterator;
 import java.util.List;
 
-public final class KeywordSet
+public final class FullValidationContext
     implements Iterable<KeywordValidator>, MessageProvider
 {
     private final List<KeywordValidator> validators;
+    private final ValidationData validationData;
 
-    public KeywordSet(final List<KeywordValidator> validators)
+    public FullValidationContext(final ValidationData validationData,
+        final List<KeywordValidator> validators)
     {
+        this.validationData = validationData;
         this.validators = ImmutableList.copyOf(validators);
+    }
+
+    public ValidationData getValidationData()
+    {
+        return validationData;
     }
 
     @Override
@@ -43,6 +52,6 @@ public final class KeywordSet
     @Override
     public ProcessingMessage newMessage()
     {
-        return new ProcessingMessage();
+        return validationData.newMessage();
     }
 }
