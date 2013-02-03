@@ -18,11 +18,15 @@
 package com.github.fge.jsonschema.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.util.Frozen;
 import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jsonschema.util.ProcessingCache;
 import com.google.common.base.Equivalence;
+import com.google.common.cache.CacheLoader;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.EnumSet;
 
 public final class KeywordDescriptor
@@ -44,6 +48,33 @@ public final class KeywordDescriptor
         equivalence = builder.equivalence;
     }
 
+    ProcessingCache<JsonNode, KeywordValidator> buildCache()
+    {
+        final CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator> load
+            = new CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>()
+        {
+            @Override
+            public KeywordValidator load(final Equivalence.Wrapper<JsonNode> key)
+                throws ProcessingException
+            {
+                try {
+                    return constructor.newInstance(key.get());
+                } catch (InstantiationException e) {
+                    throw new ProcessingException(
+                        "failed to instansiate validator", e);
+                } catch (IllegalAccessException e) {
+                    throw new ProcessingException(
+                        "permission problem, cannot instansiate", e);
+                } catch (InvocationTargetException e) {
+                    throw new ProcessingException(
+                        "failed to invoke constructor for validator", e);
+                }
+            }
+        };
+
+        return new ProcessingCache<JsonNode, KeywordValidator>(equivalence,
+            load);
+    }
     @Override
     public KeywordDescriptorBuilder thaw()
     {
