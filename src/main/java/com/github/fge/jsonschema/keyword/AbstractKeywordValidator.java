@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -15,19 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.old.keyword.draftv3;
+package com.github.fge.jsonschema.keyword;
 
-import com.github.fge.jsonschema.old.keyword.AbstractKeywordValidatorTest;
-import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
-import java.io.IOException;
-
-public abstract class DraftV3KeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+public abstract class AbstractKeywordValidator
+    implements KeywordValidator
 {
-    protected DraftV3KeywordValidatorTest(final String resourceName)
-        throws IOException
+    protected final String keyword;
+
+    protected AbstractKeywordValidator(final String keyword,
+        final JsonNode node)
     {
-        super(BuiltinSchemas.DRAFTV3_CORE, resourceName);
+        this.keyword = keyword;
+    }
+
+    protected final ProcessingMessage newMsg(final ValidationData data)
+    {
+        return data.newMessage().put("keyword", keyword);
     }
 }

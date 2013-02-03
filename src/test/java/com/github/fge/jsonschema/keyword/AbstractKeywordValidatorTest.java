@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -15,19 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.old.keyword.draftv3;
+package com.github.fge.jsonschema.keyword;
 
-import com.github.fge.jsonschema.old.keyword.AbstractKeywordValidatorTest;
-import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
-
-import java.io.IOException;
-
-public abstract class DraftV3KeywordValidatorTest
-    extends AbstractKeywordValidatorTest
+public abstract class AbstractKeywordValidatorTest
 {
-    protected DraftV3KeywordValidatorTest(final String resourceName)
-        throws IOException
-    {
-        super(BuiltinSchemas.DRAFTV3_CORE, resourceName);
-    }
 }
