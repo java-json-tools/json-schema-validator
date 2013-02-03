@@ -25,7 +25,6 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
-import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
@@ -41,7 +40,7 @@ import org.testng.annotations.Test;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class KeywordBuilderTest
@@ -110,7 +109,8 @@ public final class KeywordBuilderTest
         }
 
         @Override
-        public void validate(final ValidationProcessor processor,
+        public void validate(
+            final Processor<ValidationData, ProcessingReport> processor,
             final ProcessingReport report, final ValidationData data)
             throws ProcessingException
         {
