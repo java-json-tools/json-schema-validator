@@ -44,21 +44,6 @@ public final class KeywordDescriptor
         equivalence = builder.equivalence;
     }
 
-    public Constructor<? extends KeywordValidator> getConstructor()
-    {
-        return constructor;
-    }
-
-    public Equivalence.Wrapper<JsonNode> wrap(final JsonNode node)
-    {
-        return equivalence.wrap(node);
-    }
-
-    public boolean canValidate(final NodeType type)
-    {
-        return types.contains(type);
-    }
-
     @Override
     public KeywordDescriptorBuilder thaw()
     {

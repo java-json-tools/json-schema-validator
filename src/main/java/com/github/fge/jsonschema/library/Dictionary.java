@@ -74,6 +74,11 @@ public final class Dictionary<T>
         return map.values();
     }
 
+    public Iterable<Map.Entry<String, T>> entries()
+    {
+        return entries.entrySet();
+    }
+
     @Override
     public DictionaryBuilder<T> thaw()
     {
