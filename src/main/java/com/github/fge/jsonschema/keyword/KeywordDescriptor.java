@@ -17,15 +17,51 @@
 
 package com.github.fge.jsonschema.keyword;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.util.Frozen;
+import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.base.Equivalence;
+
+import java.lang.reflect.Constructor;
+import java.util.EnumSet;
 
 public final class KeywordDescriptor
     implements Frozen<KeywordDescriptorBuilder>
 {
+    final Constructor<? extends KeywordValidator> constructor;
+    final EnumSet<NodeType> types;
+    final Equivalence<JsonNode> equivalence;
+
+    public static KeywordDescriptorBuilder newBuilder()
+    {
+        return new KeywordDescriptorBuilder();
+    }
+
+    KeywordDescriptor(final KeywordDescriptorBuilder builder)
+    {
+        constructor = builder.constructor;
+        types = EnumSet.copyOf(builder.types);
+        equivalence = builder.equivalence;
+    }
+
+    public Constructor<? extends KeywordValidator> getConstructor()
+    {
+        return constructor;
+    }
+
+    public Equivalence.Wrapper<JsonNode> wrap(final JsonNode node)
+    {
+        return equivalence.wrap(node);
+    }
+
+    public boolean canValidate(final NodeType type)
+    {
+        return types.contains(type);
+    }
 
     @Override
     public KeywordDescriptorBuilder thaw()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new KeywordDescriptorBuilder(this);
     }
 }

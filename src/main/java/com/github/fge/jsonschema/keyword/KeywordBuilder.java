@@ -15,35 +15,37 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing;
+package com.github.fge.jsonschema.keyword;
 
-import com.github.fge.jsonschema.keyword.KeywordSet;
-import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-/**
- * Interface for a processor in JSON Schema processing
- *
- * <p>Note that it is required that both inputs and outputs implement {@link
- * MessageProvider}: this allows the processor to grab a context-dependent
- * message to include into the report should the need arise. A {@link
- * ProcessingReport} is passed as an argument so that the processor can add
- * debug/info/warning/error messages.</p>
- *
- * @param <IN> input type for that processor
- * @param <OUT> output type for that processor
- */
-public interface Processor<IN extends MessageProvider, OUT extends MessageProvider>
+public final class KeywordBuilder
+    implements Processor<ValidationData, KeywordSet>
 {
+    private final Dictionary<KeywordDescriptor> dict;
+
+    public KeywordBuilder(final Dictionary<KeywordDescriptor> dict)
+    {
+        this.dict = dict;
+    }
+
     /**
      * Process the input
-     *
      *
      * @param report the report to use while processing
      * @param input the input for this processor
      * @return the output
      * @throws ProcessingException processing failed
      */
-    KeywordSet process(final ProcessingReport report, IN input)
-        throws ProcessingException;
+    @Override
+    public KeywordSet process(final ProcessingReport report,
+        final ValidationData input)
+        throws ProcessingException
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

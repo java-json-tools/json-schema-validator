@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.keyword.KeywordSet;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
@@ -56,13 +57,14 @@ public final class SyntaxProcessor
     /**
      * Process the input
      *
+     *
      * @param report the report to use while processing
      * @param input the input for this processor
      * @return the output
      * @throws ProcessingException processing failed
      */
     @Override
-    public ValidationData process(final ProcessingReport report,
+    public KeywordSet process(final ProcessingReport report,
         final ValidationData input)
         throws ProcessingException
     {

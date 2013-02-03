@@ -15,22 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing.validation;
+package com.github.fge.jsonschema.keyword;
 
-import com.github.fge.jsonschema.keyword.KeywordSet;
-import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processing.ValidationData;
-import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.google.common.collect.ImmutableList;
 
-public final class ValidationProcessor
-    implements Processor<ValidationData, ProcessingReport>
+import java.util.Iterator;
+import java.util.List;
+
+public final class KeywordSet
+    implements Iterable<KeywordValidator>, MessageProvider
 {
-    @Override
-    public KeywordSet process(final ProcessingReport report,
-        final ValidationData input)
-        throws ProcessingException
+    private final List<KeywordValidator> validators;
+
+    public KeywordSet(final List<KeywordValidator> validators)
     {
-        return null;
+        this.validators = ImmutableList.copyOf(validators);
+    }
+
+    @Override
+    public Iterator<KeywordValidator> iterator()
+    {
+        return validators.iterator();
+    }
+
+    @Override
+    public ProcessingMessage newMessage()
+    {
+        return new ProcessingMessage();
     }
 }
