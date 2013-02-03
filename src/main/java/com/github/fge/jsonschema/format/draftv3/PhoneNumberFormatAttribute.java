@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.format.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.keyword.KeywordValidator;
+import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.NodeType;

@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.old.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.common.EnumKeywordValidator;
-import com.github.fge.jsonschema.keyword.common.UniqueItemsKeywordValidator;
+import com.github.fge.jsonschema.old.keyword.common.EnumKeywordValidator;
+import com.github.fge.jsonschema.old.keyword.common.UniqueItemsKeywordValidator;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.old.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;

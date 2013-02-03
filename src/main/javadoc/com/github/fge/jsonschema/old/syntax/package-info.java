@@ -26,7 +26,7 @@
  * instance.</p>
  *
  * <p>For this implementation in particular, it also helps to ensure that the
- * {@link com.github.fge.jsonschema.keyword.KeywordValidator} associated with
+ * {@link com.github.fge.jsonschema.old.keyword.KeywordValidator} associated with
  * the schema keyword does not need to preoccupy about its arguments being
  * well-formed: it is the contract of syntax validation that a keyword validator
  * needs not preoccupy about this when it is instantiated.</p>
