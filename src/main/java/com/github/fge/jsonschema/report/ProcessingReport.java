@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.report;
 import com.github.fge.jsonschema.processing.ProcessingException;
 
 public interface ProcessingReport
+    extends MessageProvider
 {
     void log(final ProcessingMessage message)
         throws ProcessingException;

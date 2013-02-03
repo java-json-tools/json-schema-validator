@@ -86,4 +86,10 @@ public abstract class AbstractProcessingReport
         if (level.compareTo(logLevel) >= 0)
             doLog(message.setLogLevel(level));
     }
+
+    @Override
+    public final ProcessingMessage newMessage()
+    {
+        return new ProcessingMessage();
+    }
 }
