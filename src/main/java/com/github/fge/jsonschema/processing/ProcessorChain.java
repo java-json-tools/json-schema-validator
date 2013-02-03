@@ -41,7 +41,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
  * @param <OUT> the output type for that chain
  */
 public final class ProcessorChain<IN extends MessageProvider, OUT extends MessageProvider>
-    implements Processor<IN, OUT>
 {
     /**
      * The resulting processor
@@ -123,14 +122,7 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
 
     public Processor<IN, OUT> end()
     {
-        return this;
-    }
-
-    @Override
-    public OUT process(final ProcessingReport report, final IN input)
-        throws ProcessingException
-    {
-        return p.process(report, input);
+        return p;
     }
 
     /**
