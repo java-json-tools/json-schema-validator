@@ -33,11 +33,11 @@
         },
         "remove": {
             "description": "remove operation. Only a path is specified.",
-            "properties": { "op": { "enum": [ "op" ] } }
+            "properties": { "op": { "enum": [ "remove" ] } }
         },
         "replace": {
             "description": "replace operation. Value can be any JSON value.",
-            "properties": { "op": { "enum": [ "remove" ] } },
+            "properties": { "op": { "enum": [ "replace" ] } },
             "required": [ "value" ]
         },
         "move": {
@@ -51,7 +51,7 @@
         "copy": {
             "description": "copy operation. \"from\" is a JSON Pointer.",
             "properties": {
-                "op": { "enum": [ "move" ] },
+                "op": { "enum": [ "copy" ] },
                 "from": { "type": "string", "format": "json-pointer" }
             },
             "required": [ "from" ]
