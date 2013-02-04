@@ -23,7 +23,6 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.util.Frozen;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.ProcessingCache;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheLoader;
 
@@ -50,8 +49,11 @@ public final class KeywordDescriptor
         equivalence = builder.equivalence;
     }
 
-    // FIXME...
-    @VisibleForTesting
+    public Equivalence<JsonNode> getEquivalence()
+    {
+        return equivalence;
+    }
+
     public ProcessingCache<JsonNode, KeywordValidator> buildCache()
     {
         final CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator> load
