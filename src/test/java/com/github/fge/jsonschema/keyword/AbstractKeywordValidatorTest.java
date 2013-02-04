@@ -42,9 +42,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.jsonschema.TestUtils.anyMessage;
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.ADDITIONAL_ITEMS_NOT_ALLOWED;
+import static com.github.fge.jsonschema.TestUtils.*;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -126,7 +125,7 @@ public abstract class AbstractKeywordValidatorTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isValidationError(keyword,
-            ADDITIONAL_ITEMS_NOT_ALLOWED, data).hasContents(msgData);
+        assertMessage(message).isValidationError(keyword, msg, data)
+            .hasContents(msgData);
     }
 }

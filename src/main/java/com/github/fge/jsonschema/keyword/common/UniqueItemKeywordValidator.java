@@ -23,42 +23,44 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
+import com.google.common.base.Equivalence;
+import com.google.common.collect.Sets;
+
+import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class AdditionalItemsKeywordValidator
+public final class UniqueItemKeywordValidator
     extends AbstractKeywordValidator
 {
-    private final boolean additionalOK;
-    private final int itemsSize;
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonSchemaEquivalence.getInstance();
 
-    public AdditionalItemsKeywordValidator(final JsonNode schema)
+    private final boolean uniqueItems;
+
+    public UniqueItemKeywordValidator(final JsonNode schema)
     {
-        super("additionalItems");
-        final JsonNode items = schema.path("items");
-
-        if (!items.isArray()) {
-            additionalOK = true;
-            itemsSize = 0;
-            return;
-        }
-
-        itemsSize = items.size();
-        additionalOK = schema.get(keyword).asBoolean(true);
+        super("uniqueItems");
+        uniqueItems = schema.get(keyword).booleanValue();
     }
+
     @Override
     public void validate(
         final Processor<ValidationData, ProcessingReport> processor,
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        if (additionalOK)
+        if (!uniqueItems)
             return;
 
-        final int size = data.getInstance().getCurrentNode().size();
-        if (size > itemsSize)
-            report.error(newMsg(data).msg(ADDITIONAL_ITEMS_NOT_ALLOWED)
-                .put("allowed", itemsSize).put("found", size));
-    }
+        final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
+        final JsonNode node = data.getInstance().getCurrentNode();
 
+        for (final JsonNode element: node)
+            if (!set.add(EQUIVALENCE.wrap(element))) {
+                report.error(newMsg(data).msg(ELEMENTS_NOT_UNIQUE));
+                return;
+            }
+    }
 }

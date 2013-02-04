@@ -18,11 +18,15 @@
 package com.github.fge.jsonschema.library.keyword;
 
 import com.github.fge.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.common.MaxItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.common.MinItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.keyword.KeywordDescriptor;
 import com.github.fge.jsonschema.processing.keyword.KeywordDescriptorBuilder;
-import com.github.fge.jsonschema.util.NodeType;
+
+import static com.github.fge.jsonschema.util.NodeType.*;
 
 public final class CommonKeywordValidatorDictionary
 {
@@ -42,16 +46,30 @@ public final class CommonKeywordValidatorDictionary
             = Dictionary.newBuilder();
 
         String keyword;
-        KeywordDescriptorBuilder desc;
+        KeywordDescriptorBuilder descriptor;
 
         /*
          * Arrays
          */
         keyword = "additionalItems";
-        desc = KeywordDescriptor.newBuilder()
-            .setValidatedTypes(NodeType.ARRAY)
+        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
             .setValidatorClass(AdditionalItemsKeywordValidator.class);
-        builder.addEntry(keyword, desc.freeze());
+        builder.addEntry(keyword, descriptor.freeze());
+
+        keyword = "minItems";
+        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
+            .setValidatorClass(MinItemsKeywordValidator.class);
+        builder.addEntry(keyword, descriptor.freeze());
+
+        keyword = "maxItems";
+        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
+            .setValidatorClass(MaxItemsKeywordValidator.class);
+        builder.addEntry(keyword, descriptor.freeze());
+
+        keyword = "uniqueItems";
+        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
+            .setValidatorClass(UniqueItemKeywordValidator.class);
+        builder.addEntry(keyword, descriptor.freeze());
 
         DICTIONARY = builder.freeze();
     }

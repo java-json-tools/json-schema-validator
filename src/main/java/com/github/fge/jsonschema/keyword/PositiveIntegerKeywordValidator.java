@@ -17,14 +17,17 @@
 
 package com.github.fge.jsonschema.keyword;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processing.ValidationData;
-import com.github.fge.jsonschema.report.ProcessingReport;
+import com.fasterxml.jackson.databind.JsonNode;
 
-public interface KeywordValidator
+public abstract class PositiveIntegerKeywordValidator
+    extends AbstractKeywordValidator
 {
-    void validate(Processor<ValidationData, ProcessingReport> processor,
-        ProcessingReport report, ValidationData data)
-        throws ProcessingException;
+    protected final int intValue;
+
+    protected PositiveIntegerKeywordValidator(final String keyword,
+        final JsonNode schema)
+    {
+        super(keyword);
+        intValue = schema.get(keyword).intValue();
+    }
 }

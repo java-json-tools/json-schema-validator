@@ -15,16 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.keyword.common;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.keyword.PositiveIntegerKeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-public interface KeywordValidator
+import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
+
+public final class MaxItemsKeywordValidator
+    extends PositiveIntegerKeywordValidator
 {
-    void validate(Processor<ValidationData, ProcessingReport> processor,
-        ProcessingReport report, ValidationData data)
-        throws ProcessingException;
+    public MaxItemsKeywordValidator(final JsonNode schema)
+    {
+        super("maxItems", schema);
+    }
+
+    @Override
+    public void validate(
+        final Processor<ValidationData, ProcessingReport> processor,
+        final ProcessingReport report, final ValidationData data)
+        throws ProcessingException
+    {
+        final int size = data.getInstance().getCurrentNode().size();
+        if (size > intValue)
+            report.error(newMsg(data).msg(ARRAY_IS_TOO_LONG)
+                .put(keyword, intValue).put("found", size));
+    }
 }

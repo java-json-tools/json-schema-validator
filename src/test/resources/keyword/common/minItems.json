@@ -1,0 +1,22 @@
+[
+    {
+        "schema": { "minItems": 4 },
+        "data": [ 1, 2, 3 ],
+        "valid": false,
+        "message": "ARRAY_IS_TOO_SHORT",
+        "msgData": {
+            "minItems": 4,
+            "found": 3
+        }
+    },
+    {
+        "schema": { "minItems": 4 },
+        "data": [ 1, 2, 3, 4 ],
+        "valid": true
+    },
+    {
+        "schema": { "minItems": 4 },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    }
+]
