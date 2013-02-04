@@ -1,2 +1,100 @@
 [
+    {
+        "schema": {
+            "additionalItems": true
+        },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalItems": {}
+        },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": {},
+            "additionalItems": true
+        },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": {},
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": {},
+            "additionalItems":{}
+        },
+        "data": [ 1, 2, 3, 4, 5 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": true
+        },
+        "data": [ 1, 2, 3 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": {}
+        },
+        "data": [ 1, 2, 3 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": true
+        },
+        "data": [ 1, 2, 3, 4 ],
+        "valid": true
+    },
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": false
+        },
+        "data": [ 1, 2, 3, 4 ],
+        "valid": false,
+        "message": "ADDITIONAL_ITEMS_NOT_ALLOWED",
+        "msgData": {
+            "allowed": 3,
+            "found": 4
+        }
+    },
+    {
+        "schema": {
+            "items": [ {}, {}, {} ],
+            "additionalItems": {}
+        },
+        "data": [ 1, 2, 3, 4 ],
+        "valid": true
+    }
 ]

@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.messages;
 
 public enum KeywordValidationMessages
 {
-    ADDITIONAL_ITEMS_NOT_ALLOWED("additional items are not allow"),
+    ADDITIONAL_ITEMS_NOT_ALLOWED("additional items are not allowed"),
     ;
 
     private final String message;

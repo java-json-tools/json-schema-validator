@@ -17,9 +17,12 @@
 
 package com.github.fge.jsonschema.library.keyword;
 
-import com.github.fge.jsonschema.processing.keyword.KeywordDescriptor;
+import com.github.fge.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.processing.keyword.KeywordDescriptor;
+import com.github.fge.jsonschema.processing.keyword.KeywordDescriptorBuilder;
+import com.github.fge.jsonschema.util.NodeType;
 
 public final class CommonKeywordValidatorDictionary
 {
@@ -37,6 +40,18 @@ public final class CommonKeywordValidatorDictionary
     static {
         final DictionaryBuilder<KeywordDescriptor> builder
             = Dictionary.newBuilder();
+
+        String keyword;
+        KeywordDescriptorBuilder desc;
+
+        /*
+         * Arrays
+         */
+        keyword = "additionalItems";
+        desc = KeywordDescriptor.newBuilder()
+            .setValidatedTypes(NodeType.ARRAY)
+            .setValidatorClass(AdditionalItemsKeywordValidator.class);
+        builder.addEntry(keyword, desc.freeze());
 
         DICTIONARY = builder.freeze();
     }

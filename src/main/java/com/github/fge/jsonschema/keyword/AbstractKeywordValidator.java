@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.keyword;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
@@ -26,8 +25,7 @@ public abstract class AbstractKeywordValidator
 {
     protected final String keyword;
 
-    protected AbstractKeywordValidator(final String keyword,
-        final JsonNode node)
+    protected AbstractKeywordValidator(final String keyword)
     {
         this.keyword = keyword;
     }
