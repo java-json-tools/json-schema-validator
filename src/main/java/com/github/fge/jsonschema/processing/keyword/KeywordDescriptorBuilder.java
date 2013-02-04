@@ -72,7 +72,7 @@ public final class KeywordDescriptorBuilder
         return this;
     }
 
-    public KeywordDescriptorBuilder setSchemaEquivalence(
+    public KeywordDescriptorBuilder setEquivalence(
         final Equivalence<JsonNode> equivalence)
     {
         this.equivalence = Preconditions.checkNotNull(equivalence,

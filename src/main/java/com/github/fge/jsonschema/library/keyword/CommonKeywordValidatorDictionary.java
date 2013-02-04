@@ -63,25 +63,25 @@ public final class CommonKeywordValidatorDictionary
         keyword = "additionalItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
             .setValidatorClass(AdditionalItemsKeywordValidator.class)
-            .setSchemaEquivalence(AdditionalItemsEquivalence.getInstance());
+            .setEquivalence(AdditionalItemsEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "minItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
             .setValidatorClass(MinItemsKeywordValidator.class)
-            .setSchemaEquivalence(new PositiveIntegerEquivalence(keyword));
+            .setEquivalence(new PositiveIntegerEquivalence(keyword));
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "maxItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
             .setValidatorClass(MaxItemsKeywordValidator.class)
-            .setSchemaEquivalence(new PositiveIntegerEquivalence(keyword));
+            .setEquivalence(new PositiveIntegerEquivalence(keyword));
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "uniqueItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
             .setValidatorClass(UniqueItemKeywordValidator.class)
-            .setSchemaEquivalence(UniqueItemsEquivalence.getInstance());
+            .setEquivalence(UniqueItemsEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         /*
@@ -91,14 +91,14 @@ public final class CommonKeywordValidatorDictionary
         descriptor = KeywordDescriptor.newBuilder()
             .setValidatedTypes(INTEGER, NUMBER)
             .setValidatorClass(MinimumKeywordValidator.class)
-            .setSchemaEquivalence(MinimumEquivalence.getInstance());
+            .setEquivalence(MinimumEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "maximum";
         descriptor = KeywordDescriptor.newBuilder()
             .setValidatedTypes(INTEGER, NUMBER)
             .setValidatorClass(MaximumKeywordValidator.class)
-            .setSchemaEquivalence(MaximumEquivalence.getInstance());
+            .setEquivalence(MaximumEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         /*
@@ -107,7 +107,7 @@ public final class CommonKeywordValidatorDictionary
         keyword = "additionalProperties";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(OBJECT)
             .setValidatorClass(AdditionalPropertiesKeywordValidator.class)
-            .setSchemaEquivalence(AdditionalPropertiesEquivalence.getInstance());
+            .setEquivalence(AdditionalPropertiesEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         DICTIONARY = builder.freeze();
