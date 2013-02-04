@@ -35,4 +35,7 @@ public abstract class AbstractKeywordValidator
         return data.newMessage().put("domain", "validation")
             .put("keyword", keyword);
     }
+
+    @Override
+    public abstract String toString();
 }

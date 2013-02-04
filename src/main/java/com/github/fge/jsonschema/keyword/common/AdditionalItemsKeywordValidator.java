@@ -61,4 +61,10 @@ public final class AdditionalItemsKeywordValidator
                 .put("allowed", itemsSize).put("found", size));
     }
 
+    @Override
+    public String toString()
+    {
+        return keyword + ": "
+            + (additionalOK ? "allowed" : itemsSize + " max");
+    }
 }
