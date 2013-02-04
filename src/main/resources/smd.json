@@ -1,0 +1,42 @@
+{
+    "note": "uses $location; meh",
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$location": "http://json-schema.org/schemas/smd.json#",
+    "title": "Service Mapping Description",
+    "description": "JSON Schema for a Service Mapping Description",
+    "oneOf": [
+        {
+            "description": "services with additional, required, properties at the root level",
+            "allOf": [
+                {
+                    "type": "object",
+                    "required": [ "services", "id", "description", "SMDVersion" ],
+                    "properties": {
+                        "services": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "$ref": "http://json-schema.org/schemas/smd-service.json#"
+                            }
+                        },
+                        "id": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "description": { "type": "string" },
+                        "SMDVersion": {
+                            "type": "string",
+                            "default": "2.0"
+                        }
+                    }
+                },
+                {
+                    "$ref": "http://json-schema.org/schemas/smd-service.json#"
+                }
+            ]
+
+        },
+        {
+            "$ref": "http://json-schema.org/schemas/smd-service.json#"
+        }
+    ]
+}
