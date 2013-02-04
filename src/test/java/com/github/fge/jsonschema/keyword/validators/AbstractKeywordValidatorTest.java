@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.keyword.validators;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.keyword.validators.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.messages.KeywordValidationMessages;
 import com.github.fge.jsonschema.processing.ProcessingException;
@@ -65,8 +64,8 @@ public abstract class AbstractKeywordValidatorTest
         this.keyword = keyword;
         descriptor = dict.get(keyword);
         cache = descriptor == null ? null : descriptor.buildCache();
-        final String resourceName = String.format("/keyword/%s/%s.json",
-            prefix, keyword);
+        final String resourceName
+            = String.format("/keyword/validators/%s/%s.json", prefix, keyword);
         testNode = JsonLoader.fromResource(resourceName);
     }
 
