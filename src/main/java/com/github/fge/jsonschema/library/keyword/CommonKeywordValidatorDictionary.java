@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.library.keyword;
 
+import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalItemsEquivalence;
 import com.github.fge.jsonschema.keyword.validators.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MaxItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MinItemsKeywordValidator;
@@ -53,7 +54,8 @@ public final class CommonKeywordValidatorDictionary
          */
         keyword = "additionalItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(AdditionalItemsKeywordValidator.class);
+            .setValidatorClass(AdditionalItemsKeywordValidator.class)
+            .setSchemaEquivalence(AdditionalItemsEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "minItems";

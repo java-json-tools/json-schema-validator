@@ -1,0 +1,81 @@
+{
+    "equivalences": [
+        [
+            {
+                "additionalItems": true
+            },
+            {
+                "additionalItems": {}
+            },
+            {
+                "additionalItems": false
+            },
+            {
+                "additionalItems": {},
+                "items": {}
+            },
+            {
+                "additionalItems": true,
+                "items": {
+                    "foo": "bar"
+                }
+            },
+            {
+                "additionalItems": false,
+                "items": {
+                    "whatever": "here"
+                }
+            },
+            {
+                "additionalItems": {},
+                "items": [
+                    {}
+                ]
+            },
+            {
+                "additionalItems": true,
+                "items": [
+                    {},
+                    {}
+                ]
+            }
+        ],
+        [
+            {
+                "additionalItems": false,
+                "items": [ {}, {}, {} ]
+            },
+            {
+                "additionalItems": false,
+                "items": [
+                    {
+                        "a": "b"
+                    },
+                    {
+                        "c": "d"
+                    },
+                    {
+                        "e": "f"
+                    }
+                ]
+            }
+        ]
+    ],
+    "differences": [
+        {
+            "additionalItems": true
+        },
+        {
+            "additionalItems": false,
+            "items": [ {}, {} ]
+        },
+        {
+            "additionalItems": false,
+            "items": [ {}, {}, {}, {}, {} ]
+        },
+        {
+            "additionalItems": false,
+            "items": [ {}, {}, {}, {}, {}, {}, {}, {} ]
+        }
+    ]
+}
