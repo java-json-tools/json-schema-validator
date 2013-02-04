@@ -1,8 +1,4 @@
 {
-    "id": "http://json-schema.org/draft-04/hyper-schema#",
-    "$schema": "http://json-schema.org/draft-04/hyper-schema#",
-    "description": "JSON Schema hyperschema",
-    "title": "JSON Hyper-schema",
     "patch": {
         "source": {
             "$ref": "http://json-schema.org/draft-04/schema#"
@@ -11,7 +7,31 @@
             {
                 "explanation": [
                     "Remember that extra members in JSON Patch are ignored, so we can inline explanations",
-                    "This adds the LDO subschema to definitions. Non existing members are created, existing members are replaced."
+                    "Start by replacing metadata information.",
+                    "Note that replacing FAILS if the pointer fails to resolve."
+                ],
+                "op": "replace",
+                "path": "/id",
+                "value": "http://json-schema.org/draft-04/hyper-schema#"
+            },
+            {
+                "explanation": [ "Also replace the description" ],
+                "op": "replace",
+                "path": "/description",
+                "value": "JSON Schema hyperschema"
+            },
+            {
+                "explanation": [
+                    "And finally, add the title.",
+                    "Note that if the member already exists, it is replaced."
+                ],
+                "op": "add",
+                "path": "/title",
+                "value": "JSON Hyper-schema"
+            },
+            {
+                "explanation": [
+                    "Add definition for an LDO."
                 ],
                 "op": "add",
                 "path": "/definitions/linkDescription",
