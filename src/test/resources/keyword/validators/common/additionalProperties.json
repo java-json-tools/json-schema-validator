@@ -1,0 +1,136 @@
+[
+    {
+        "schema": {
+            "properties": {
+                "p1": {},
+                "p2": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "p3": null
+        },
+        "valid": false,
+        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "msgData": {
+            "unwanted": [ "p3" ]
+        }
+    },
+    {
+        "schema": {
+            "properties": {
+                "p1": {},
+                "p2": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "p1": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "^a": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "p": false
+        },
+        "valid": false,
+        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "msgData": {
+            "unwanted": [ "p" ]
+        }
+    },
+    {
+        "schema": {
+            "patternProperties": {
+                "^a": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "a": false,
+            "a1": null,
+            "a3": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": {}
+            },
+            "patternProperties": {
+                "^a": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "a": false,
+            "a1": null,
+            "a3": null
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "properties": {
+                "p": {}
+            },
+            "patternProperties": {
+                "^a": {},
+                "3$": {}
+            },
+            "additionalProperties": false
+        },
+        "data": {
+            "p": "hello",
+            "a": false,
+            "a1": null,
+            "a3": null,
+            "p1": "should not be there",
+            "p2": "neither",
+            "p3": "however, yes"
+        },
+        "valid": false,
+        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "msgData": {
+            "unwanted": [ "p1", "p2" ]
+        }
+    },
+    {
+        "schema": {
+            "additionalProperties": false
+        },
+        "data": {
+            "p": false
+        },
+        "valid": false,
+        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "msgData": {
+            "unwanted": [ "p" ]
+        }
+    },
+    {
+        "schema": {
+            "additionalProperties": true
+        },
+        "data": {
+            "p": true
+        },
+        "valid": true
+    },
+    {
+        "schema": {
+            "additionalProperties": {}
+        },
+        "data": {
+            "p": true
+        },
+        "valid": true
+    }
+]

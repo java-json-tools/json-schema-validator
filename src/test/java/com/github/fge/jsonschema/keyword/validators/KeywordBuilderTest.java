@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.keyword.validators;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
-import com.github.fge.jsonschema.keyword.validators.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.ProcessingException;

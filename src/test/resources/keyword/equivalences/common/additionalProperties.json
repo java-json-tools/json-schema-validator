@@ -1,0 +1,99 @@
+{
+    "equivalences": [
+        [
+            {
+                "additionalProperties": true
+            },
+            {
+                "additionalProperties": {}
+            },
+            {
+                "additionalProperties": {},
+                "foo": "bar"
+            },
+            {
+                "additionalProperties": {},
+                "type": "object"
+            },
+            {
+                "additionalProperties": {},
+                "properties": { "p": {} },
+                "patternProperties": { "[^]": {} }
+            },
+            {
+                "additionalProperties": true,
+                "properties": { "p": {} },
+                "patternProperties": { "[^]": {} }
+            },
+            {
+                "additionalProperties": {},
+                "properties": { "p": {} }
+            },
+            {
+                "additionalProperties": true,
+                "properties": { "p": {} }
+            },
+            {
+                "additionalProperties": {},
+                "patternProperties": { "p": {} }
+            },
+            {
+                "additionalProperties": true,
+                "patternProperties": { "p": {} }
+            }
+        ],
+        [
+            {
+                "additionalProperties": false,
+                "properties": { "p": {} }
+            },
+            {
+                "additionalProperties": false,
+                "properties": { "p": {} },
+                "type": "object"
+            },
+            {
+                "additionalProperties": false,
+                "properties": { "p": {} },
+                "foo": "bar"
+            }
+        ],
+        [
+            {
+                "additionalProperties": false,
+                "properties": { "p": {} },
+                "patternProperties": { "[^]": {} }
+            },
+            {
+                "additionalProperties": false,
+                "properties": { "p": {} },
+                "patternProperties": { "[^]": {} },
+                "foo": "bar"
+            },
+            {
+                "additionalProperties": false,
+                "properties": { "p": {} },
+                "patternProperties": { "[^]": {} },
+                "type": "obejct"
+            }
+        ]
+    ],
+    "differences": [
+        {
+            "additionalProperties": true
+        },
+        {
+            "additionalProperties": false,
+            "properties": { "p": {} }
+        },
+        {
+            "additionalProperties": false,
+            "patternProperties": { "p": {} }
+        },
+        {
+            "additionalProperties": false,
+            "patternProperties": { "p": {} },
+            "properties": { "p": {} }
+        }
+    ]
+}

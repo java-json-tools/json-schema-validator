@@ -19,10 +19,12 @@ package com.github.fge.jsonschema.library.keyword;
 
 import com.github.fge.jsonschema.keyword.equivalences.PositiveIntegerEquivalence;
 import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalItemsEquivalence;
+import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalPropertiesEquivalence;
 import com.github.fge.jsonschema.keyword.equivalences.common.MaximumEquivalence;
 import com.github.fge.jsonschema.keyword.equivalences.common.MinimumEquivalence;
 import com.github.fge.jsonschema.keyword.equivalences.common.UniqueItemsEquivalence;
 import com.github.fge.jsonschema.keyword.validators.common.AdditionalItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.common.AdditionalPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MaxItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MaximumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MinItemsKeywordValidator;
@@ -97,6 +99,15 @@ public final class CommonKeywordValidatorDictionary
             .setValidatedTypes(INTEGER, NUMBER)
             .setValidatorClass(MaximumKeywordValidator.class)
             .setSchemaEquivalence(MaximumEquivalence.getInstance());
+        builder.addEntry(keyword, descriptor.freeze());
+
+        /*
+         * Objects
+         */
+        keyword = "additionalProperties";
+        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(OBJECT)
+            .setValidatorClass(AdditionalPropertiesKeywordValidator.class)
+            .setSchemaEquivalence(AdditionalPropertiesEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         DICTIONARY = builder.freeze();
