@@ -32,6 +32,7 @@ public abstract class AbstractKeywordValidator
 
     protected final ProcessingMessage newMsg(final ValidationData data)
     {
-        return data.newMessage().put("keyword", keyword);
+        return data.newMessage().put("domain", "validation")
+            .put("keyword", keyword);
     }
 }

@@ -24,6 +24,8 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
+import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
+
 public final class AdditionalItemsKeywordValidator
     extends AbstractKeywordValidator
 {
@@ -50,7 +52,13 @@ public final class AdditionalItemsKeywordValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (additionalOK)
+            return;
+
+        final int size = data.getInstance().getCurrentNode().size();
+        if (size > itemsSize)
+            report.error(newMsg(data).msg(ADDITIONAL_ITEMS_NOT_ALLOWED)
+                .put("allowed", itemsSize).put("found", size));
     }
 
 }
