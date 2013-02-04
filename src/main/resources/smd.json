@@ -1,7 +1,6 @@
 {
-    "note": "uses $location; meh",
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$location": "http://json-schema.org/schemas/smd.json#",
+    "id": "http://json-schema.org/schemas/smd.json#",
     "title": "Service Mapping Description",
     "description": "JSON Schema for a Service Mapping Description",
     "oneOf": [

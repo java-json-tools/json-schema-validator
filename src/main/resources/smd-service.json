@@ -1,7 +1,6 @@
 {
-    "note": "uses $location; meh",
     "$schema": "http://json-schema.org/draft-04/schema#",
-    "$location": "http://json-schema.org/schemas/smd-service.json#",
+    "id": "http://json-schema.org/schemas/smd-service.json#",
     "description": "One service as described by the SMD spec",
     "type": "object",
     "properties": {
@@ -56,7 +55,7 @@
                     "required": [ "type", "services" ],
                     "properties": {
                         "type": { "$ref": "http://json-schema.org/draft-04/schema#" },
-                        "services": { "$ref": "#/properties/services" }
+                        "services": { "$ref": "#" }
                     }
                 }
             ]
