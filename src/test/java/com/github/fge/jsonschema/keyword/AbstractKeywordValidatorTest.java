@@ -17,6 +17,39 @@
 
 package com.github.fge.jsonschema.keyword;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.processing.keyword.KeywordDescriptor;
+import com.github.fge.jsonschema.util.JsonLoader;
+import org.testng.annotations.Test;
+
+import java.io.IOException;
+
+import static org.testng.Assert.assertNotNull;
+
 public abstract class AbstractKeywordValidatorTest
 {
+    protected final Dictionary<KeywordDescriptor> dict;
+    protected final String keyword;
+    protected final KeywordDescriptor descriptor;
+    protected final JsonNode data;
+
+    protected AbstractKeywordValidatorTest(
+        final Dictionary<KeywordDescriptor> dict, final String prefix,
+        final String keyword)
+        throws IOException
+    {
+        this.dict = dict;
+        this.keyword = keyword;
+        descriptor = dict.get(keyword);
+        final String resourceName = String.format("/keyword/%s/%s.json",
+            prefix, keyword);
+        data = JsonLoader.fromResource(resourceName);
+    }
+
+    @Test
+    public final void keywordExists()
+    {
+        assertNotNull(descriptor, "no support for " + keyword + "??");
+    }
 }
