@@ -49,12 +49,7 @@ public final class KeywordDescriptor
         equivalence = builder.equivalence;
     }
 
-    public Equivalence<JsonNode> getEquivalence()
-    {
-        return equivalence;
-    }
-
-    public ProcessingCache<JsonNode, KeywordValidator> buildCache()
+    ProcessingCache<JsonNode, KeywordValidator> buildCache()
     {
         final CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator> load
             = new CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>()
