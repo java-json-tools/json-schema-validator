@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.common;
+package com.github.fge.jsonschema.keyword.validators.common;
 
 import java.io.IOException;
 
-public final class AdditionalItemsKeywordValidatorTest
+public final class MinItemsKeywordValidatorTest
     extends CommonKeywordValidatorTest
 {
-    public AdditionalItemsKeywordValidatorTest()
+    public MinItemsKeywordValidatorTest()
         throws IOException
     {
-        super("additionalItems");
+        super("minItems");
     }
 }

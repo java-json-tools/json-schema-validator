@@ -15,25 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.keyword.validators.common;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import java.io.IOException;
 
-public abstract class PositiveIntegerKeywordValidator
-    extends AbstractKeywordValidator
+public final class AdditionalItemsKeywordValidatorTest
+    extends CommonKeywordValidatorTest
 {
-    protected final int intValue;
-
-    protected PositiveIntegerKeywordValidator(final String keyword,
-        final JsonNode schema)
+    public AdditionalItemsKeywordValidatorTest()
+        throws IOException
     {
-        super(keyword);
-        intValue = schema.get(keyword).intValue();
-    }
-
-    @Override
-    public final String toString()
-    {
-        return keyword + ": " + intValue;
+        super("additionalItems");
     }
 }

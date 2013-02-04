@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.library.keyword;
 
-import com.github.fge.jsonschema.keyword.common.AdditionalItemsKeywordValidator;
-import com.github.fge.jsonschema.keyword.common.MaxItemsKeywordValidator;
-import com.github.fge.jsonschema.keyword.common.MinItemsKeywordValidator;
-import com.github.fge.jsonschema.keyword.common.UniqueItemKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.common.AdditionalItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.common.MaxItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.common.MinItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.keyword.KeywordDescriptor;

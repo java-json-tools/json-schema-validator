@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.processing.keyword;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.KeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.util.Frozen;
 import com.github.fge.jsonschema.util.NodeType;

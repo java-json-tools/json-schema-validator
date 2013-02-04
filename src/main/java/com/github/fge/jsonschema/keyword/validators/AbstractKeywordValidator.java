@@ -15,16 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword;
+package com.github.fge.jsonschema.keyword.validators;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
-import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
-public interface KeywordValidator
+public abstract class AbstractKeywordValidator
+    implements KeywordValidator
 {
-    void validate(Processor<ValidationData, ProcessingReport> processor,
-        ProcessingReport report, ValidationData data)
-        throws ProcessingException;
+    protected final String keyword;
+
+    protected AbstractKeywordValidator(final String keyword)
+    {
+        this.keyword = keyword;
+    }
+
+    protected final ProcessingMessage newMsg(final ValidationData data)
+    {
+        return data.newMessage().put("domain", "validation")
+            .put("keyword", keyword);
+    }
+
+    @Override
+    public abstract String toString();
 }

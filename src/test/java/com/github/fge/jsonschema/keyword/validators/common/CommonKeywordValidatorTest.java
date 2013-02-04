@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.common;
+package com.github.fge.jsonschema.keyword.validators.common;
 
-import com.github.fge.jsonschema.keyword.AbstractKeywordValidatorTest;
+import com.github.fge.jsonschema.keyword.validators.AbstractKeywordValidatorTest;
 import com.github.fge.jsonschema.library.keyword.CommonKeywordValidatorDictionary;
 
 import java.io.IOException;

@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.common;
+package com.github.fge.jsonschema.keyword.validators;
 
-import java.io.IOException;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
-public final class UniqueItemsKeywordValidatorTest
-    extends CommonKeywordValidatorTest
+public interface KeywordValidator
 {
-    public UniqueItemsKeywordValidatorTest()
-        throws IOException
-    {
-        super("uniqueItems");
-    }
+    void validate(Processor<ValidationData, ProcessingReport> processor,
+        ProcessingReport report, ValidationData data)
+        throws ProcessingException;
 }

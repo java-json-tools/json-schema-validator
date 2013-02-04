@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.common;
+package com.github.fge.jsonschema.keyword.validators.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.PositiveIntegerKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -26,23 +26,45 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class MaxItemsKeywordValidator
-    extends PositiveIntegerKeywordValidator
+public final class AdditionalItemsKeywordValidator
+    extends AbstractKeywordValidator
 {
-    public MaxItemsKeywordValidator(final JsonNode schema)
-    {
-        super("maxItems", schema);
-    }
+    private final boolean additionalOK;
+    private final int itemsSize;
 
+    public AdditionalItemsKeywordValidator(final JsonNode schema)
+    {
+        super("additionalItems");
+        final JsonNode items = schema.path("items");
+
+        if (!items.isArray()) {
+            additionalOK = true;
+            itemsSize = 0;
+            return;
+        }
+
+        itemsSize = items.size();
+        additionalOK = schema.get(keyword).asBoolean(true);
+    }
     @Override
     public void validate(
         final Processor<ValidationData, ProcessingReport> processor,
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
+        if (additionalOK)
+            return;
+
         final int size = data.getInstance().getCurrentNode().size();
-        if (size > intValue)
-            report.error(newMsg(data).msg(ARRAY_IS_TOO_LONG)
-                .put(keyword, intValue).put("found", size));
+        if (size > itemsSize)
+            report.error(newMsg(data).msg(ADDITIONAL_ITEMS_NOT_ALLOWED)
+                .put("allowed", itemsSize).put("found", size));
+    }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": "
+            + (additionalOK ? "allowed" : itemsSize + " max");
     }
 }
