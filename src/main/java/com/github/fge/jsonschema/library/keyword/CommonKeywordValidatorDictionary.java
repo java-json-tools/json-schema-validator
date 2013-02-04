@@ -17,12 +17,16 @@
 
 package com.github.fge.jsonschema.library.keyword;
 
-import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalItemsEquivalence;
 import com.github.fge.jsonschema.keyword.equivalences.PositiveIntegerEquivalence;
+import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalItemsEquivalence;
+import com.github.fge.jsonschema.keyword.equivalences.common.MaximumEquivalence;
+import com.github.fge.jsonschema.keyword.equivalences.common.MinimumEquivalence;
 import com.github.fge.jsonschema.keyword.equivalences.common.UniqueItemsEquivalence;
 import com.github.fge.jsonschema.keyword.validators.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MaxItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.common.MaximumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MinItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validators.common.MinimumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
@@ -76,6 +80,23 @@ public final class CommonKeywordValidatorDictionary
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
             .setValidatorClass(UniqueItemKeywordValidator.class)
             .setSchemaEquivalence(UniqueItemsEquivalence.getInstance());
+        builder.addEntry(keyword, descriptor.freeze());
+
+        /*
+         * Numbers and integers
+         */
+        keyword = "minimum";
+        descriptor = KeywordDescriptor.newBuilder()
+            .setValidatedTypes(INTEGER, NUMBER)
+            .setValidatorClass(MinimumKeywordValidator.class)
+            .setSchemaEquivalence(MinimumEquivalence.getInstance());
+        builder.addEntry(keyword, descriptor.freeze());
+
+        keyword = "maximum";
+        descriptor = KeywordDescriptor.newBuilder()
+            .setValidatedTypes(INTEGER, NUMBER)
+            .setValidatorClass(MaximumKeywordValidator.class)
+            .setSchemaEquivalence(MaximumEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         DICTIONARY = builder.freeze();

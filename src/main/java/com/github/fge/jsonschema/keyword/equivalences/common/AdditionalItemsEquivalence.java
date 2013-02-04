@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.keyword.equivalences.common;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.equivalences.KeywordEquivalence;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
 public final class AdditionalItemsEquivalence
     extends KeywordEquivalence
@@ -41,7 +40,7 @@ public final class AdditionalItemsEquivalence
     @Override
     protected JsonNode digestedNode(final JsonNode orig)
     {
-        final ObjectNode ret = JacksonUtils.nodeFactory().objectNode();
+        final ObjectNode ret = FACTORY.objectNode();
 
         /*
          * First, let's assume that additionalItems is true or a schema

@@ -15,22 +15,36 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.equivalences;
+package com.github.fge.jsonschema.keyword.equivalences.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.keyword.equivalences.KeywordEquivalence;
 
-public final class PositiveIntegerEquivalence
+public final class MaximumEquivalence
     extends KeywordEquivalence
 {
-    public PositiveIntegerEquivalence(final String keyword)
+    private static final KeywordEquivalence INSTANCE = new MaximumEquivalence();
+
+    public static KeywordEquivalence getInstance()
     {
-        super(keyword);
+        return INSTANCE;
+    }
+
+    private MaximumEquivalence()
+    {
+        super("maximum", "exclusiveMaximum");
     }
 
     @Override
     protected JsonNode digestedNode(final JsonNode orig)
     {
-        // We can do that: we are guaranteed that it is an integer
-        return FACTORY.numberNode(orig.get(keyword).intValue());
+        final ObjectNode ret = FACTORY.objectNode();
+        ret.put(keyword, FACTORY.numberNode(orig.get(keyword).decimalValue()));
+
+        if (orig.path("exclusiveMaximum").asBoolean(false))
+            ret.put("exclusiveMaximum", true);
+
+        return ret;
     }
 }

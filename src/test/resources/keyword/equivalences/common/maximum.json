@@ -1,0 +1,114 @@
+{
+    "equivalences": [
+        [
+            {
+                "maximum": 30
+            },
+            {
+                "maximum": 30,
+                "exclusiveMinimum": false
+            },
+            {
+                "maximum": 30.00000
+            },
+            {
+                "maximum": 300.0e-1
+            },
+            {
+                "maximum": 3e1
+            },
+            {
+                "maximum": 30,
+                "type": "number"
+            },
+            {
+                "maximum": 30,
+                "foo": [ "bar", "baz" ]
+            }
+        ],
+        [
+            {
+                "maximum": 98091239809812309812312.43298
+            },
+            {
+                "maximum": 98091239809812309812312.43298,
+                "exclusiveMinimum": false
+            },
+            {
+                "maximum": 980912398098123098123124.3298e-1
+            },
+            {
+                "maximum": 98091239809812309812.31243298e3
+            },
+            {
+                "maximum": 98091239809812309812312.43298,
+                "type": "number"
+            },
+            {
+                "maximum": 98091239809812309812312.43298,
+                "foo": "bar"
+            }
+        ],
+        [
+            {
+                "maximum": 30,
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 30.00000,
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 300.0e-1,
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 3e1,
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 30,
+                "type": "number",
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 30,
+                "foo": [ "bar", "baz" ],
+                "exclusiveMinimum": true
+            }
+        ],
+        [
+            {
+                "maximum": 98091239809812309812312.43298,
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 980912398098123098123124.3298e-1,
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 98091239809812309812.31243298e3,
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 98091239809812309812312.43298,
+                "type": "number",
+                "exclusiveMinimum": true
+            },
+            {
+                "maximum": 98091239809812309812312.43298,
+                "foo": "bar",
+                "exclusiveMinimum": true
+            }
+        ]
+    ],
+    "differences": [
+        {
+            "maximum": 30
+        },
+        {
+            "maximum": 30,
+            "exclusiveMaximum": true
+        }
+    ]
+}

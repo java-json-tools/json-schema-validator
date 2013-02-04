@@ -1,0 +1,78 @@
+[
+    {
+        "schema": {
+            "minimum": 0
+        },
+        "data": -1,
+        "valid": false,
+        "message": "NUMBER_TOO_SMALL",
+        "msgData": {
+            "minimum": 0,
+            "found": -1
+        }
+    },
+    {
+        "schema": {
+            "minimum": 0
+        },
+        "data": 0,
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": 0,
+            "exclusiveMinimum": true
+        },
+        "data": 0,
+        "valid": false,
+        "message": "NUMBER_EX_SMALL",
+        "msgData": { "minimum": 0 }
+    },
+    {
+        "schema": {
+            "minimum": 0,
+            "exclusiveMinimum": true
+        },
+        "data": 1,
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": 98091239809812309812312.43298
+        },
+        "data": 98091239809812309812312.4329,
+        "valid": false,
+        "message": "NUMBER_TOO_SMALL",
+        "msgData": {
+            "minimum": 98091239809812309812312.43298,
+            "found": 98091239809812309812312.4329
+        }
+    },
+    {
+        "schema": {
+            "minimum": 98091239809812309812312.43298
+        },
+        "data": 98091239809812309812312.43298,
+        "valid": true
+    },
+    {
+        "schema": {
+            "minimum": 98091239809812309812312.43298,
+            "exclusiveMinimum": true
+        },
+        "data": 98091239809812309812312.43298,
+        "valid": false,
+        "message": "NUMBER_EX_SMALL",
+        "msgData": {
+            "minimum": 98091239809812309812312.43298
+        }
+    },
+    {
+        "schema": {
+            "minimum": 98091239809812309812312.43298,
+            "exclusiveMinimum": true
+        },
+        "data": 98091239809812309812312.43299,
+        "valid": true
+    }
+]

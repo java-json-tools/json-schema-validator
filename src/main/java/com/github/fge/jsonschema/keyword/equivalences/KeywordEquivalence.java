@@ -18,6 +18,8 @@
 package com.github.fge.jsonschema.keyword.equivalences;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSet;
 
@@ -26,6 +28,8 @@ import java.util.Set;
 public abstract class KeywordEquivalence
     extends Equivalence<JsonNode>
 {
+    protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
+
     protected final String keyword;
     protected final Set<String> retained;
 

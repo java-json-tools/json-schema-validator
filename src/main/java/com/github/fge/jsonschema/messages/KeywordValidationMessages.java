@@ -23,6 +23,10 @@ public enum KeywordValidationMessages
     ARRAY_IS_TOO_SHORT("array has not enough elements"),
     ARRAY_IS_TOO_LONG("array has too many elements"),
     ELEMENTS_NOT_UNIQUE("array must not contain duplicate elements"),
+    NUMBER_TOO_SMALL("number is lower than the required minimum"),
+    NUMBER_EX_SMALL("number is not strictly greater than the required minimum"),
+    NUMBER_TOO_LARGE("number is greater than the required maximum"),
+    NUMBER_EX_LARGE("number is not strictly lower than the required maximum"),
     ;
 
     private final String message;

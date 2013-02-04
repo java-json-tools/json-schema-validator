@@ -1,0 +1,114 @@
+{
+    "equivalences": [
+        [
+            {
+                "minimum": 30
+            },
+            {
+                "minimum": 30,
+                "exclusiveMinimum": false
+            },
+            {
+                "minimum": 30.00000
+            },
+            {
+                "minimum": 300.0e-1
+            },
+            {
+                "minimum": 3e1
+            },
+            {
+                "minimum": 30,
+                "type": "number"
+            },
+            {
+                "minimum": 30,
+                "foo": [ "bar", "baz" ]
+            }
+        ],
+        [
+            {
+                "minimum": 98091239809812309812312.43298
+            },
+            {
+                "minimum": 98091239809812309812312.43298,
+                "exclusiveMinimum": false
+            },
+            {
+                "minimum": 980912398098123098123124.3298e-1
+            },
+            {
+                "minimum": 98091239809812309812.31243298e3
+            },
+            {
+                "minimum": 98091239809812309812312.43298,
+                "type": "number"
+            },
+            {
+                "minimum": 98091239809812309812312.43298,
+                "foo": "bar"
+            }
+        ],
+        [
+            {
+                "minimum": 30,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 30.00000,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 300.0e-1,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 3e1,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 30,
+                "type": "number",
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 30,
+                "foo": [ "bar", "baz" ],
+                "exclusiveMinimum": true
+            }
+        ],
+        [
+            {
+                "minimum": 98091239809812309812312.43298,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 980912398098123098123124.3298e-1,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 98091239809812309812.31243298e3,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 98091239809812309812312.43298,
+                "type": "number",
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 98091239809812309812312.43298,
+                "foo": "bar",
+                "exclusiveMinimum": true
+            }
+        ]
+    ],
+    "differences": [
+        {
+            "minimum": 30
+        },
+        {
+            "minimum": 30,
+            "exclusiveMinimum": true
+        }
+    ]
+}
