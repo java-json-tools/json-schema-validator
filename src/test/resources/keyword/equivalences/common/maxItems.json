@@ -1,0 +1,31 @@
+{
+    "equivalences": [
+        [
+            {
+                "maxItems": 3
+            },
+            {
+                "maxItems": 3.0
+            },
+            {
+                "maxItems": 30e-1
+            },
+            {
+                "maxItems": 3,
+                "a": "b",
+                "etc": "etc"
+            }
+        ]
+    ],
+    "differences": [
+        {
+            "maxItems": 0
+        },
+        {
+            "maxItems": 1
+        },
+        {
+            "maxItems": 2
+        }
+    ]
+}

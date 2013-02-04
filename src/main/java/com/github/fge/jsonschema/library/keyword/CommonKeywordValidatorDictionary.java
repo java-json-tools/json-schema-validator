@@ -18,6 +18,8 @@
 package com.github.fge.jsonschema.library.keyword;
 
 import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalItemsEquivalence;
+import com.github.fge.jsonschema.keyword.equivalences.PositiveIntegerEquivalence;
+import com.github.fge.jsonschema.keyword.equivalences.common.UniqueItemsEquivalence;
 import com.github.fge.jsonschema.keyword.validators.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MaxItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validators.common.MinItemsKeywordValidator;
@@ -60,17 +62,20 @@ public final class CommonKeywordValidatorDictionary
 
         keyword = "minItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(MinItemsKeywordValidator.class);
+            .setValidatorClass(MinItemsKeywordValidator.class)
+            .setSchemaEquivalence(new PositiveIntegerEquivalence(keyword));
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "maxItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(MaxItemsKeywordValidator.class);
+            .setValidatorClass(MaxItemsKeywordValidator.class)
+            .setSchemaEquivalence(new PositiveIntegerEquivalence(keyword));
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "uniqueItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(UniqueItemKeywordValidator.class);
+            .setValidatorClass(UniqueItemKeywordValidator.class)
+            .setSchemaEquivalence(UniqueItemsEquivalence.getInstance());
         builder.addEntry(keyword, descriptor.freeze());
 
         DICTIONARY = builder.freeze();

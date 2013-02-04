@@ -1,0 +1,25 @@
+{
+    "equivalences": [
+        [
+            {
+                "uniqueItems": true
+            },
+            {
+                "uniqueItems": true,
+                "type": "array"
+            },
+            {
+                "uniqueItems": true,
+                "foo": "bar"
+            }
+        ]
+    ],
+    "differences": [
+        {
+            "uniqueItems": true
+        },
+        {
+            "uniqueItems": false
+        }
+    ]
+}
