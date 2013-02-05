@@ -15,38 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing.validation;
+package com.github.fge.jsonschema.keyword.validator;
 
-import com.github.fge.jsonschema.processing.build.FullValidationContext;
-import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-public final class ValidationProcessor
-    implements Processor<ValidationData, ProcessingReport>
+public interface KeywordValidator
 {
-    private final Processor<ValidationData, FullValidationContext> processor;
-
-    public ValidationProcessor(
-        final Processor<ValidationData, FullValidationContext> processor)
-    {
-        this.processor = processor;
-    }
-
-
-    @Override
-    public ProcessingReport process(final ProcessingReport report,
-        final ValidationData input)
-        throws ProcessingException
-    {
-        final FullValidationContext context = processor.process(report, input);
-        final ValidationData data = context.getValidationData();
-
-        for (final KeywordValidator validator: context)
-            validator.validate(this, report, data);
-
-        return report;
-    }
+    void validate(Processor<ValidationData, ProcessingReport> processor,
+        ProcessingReport report, ValidationData data)
+        throws ProcessingException;
 }

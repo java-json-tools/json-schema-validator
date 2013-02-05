@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.processing.build;
 
-import com.github.fge.jsonschema.keyword.validators.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;

@@ -15,38 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing.validation;
+package com.github.fge.jsonschema.keyword.validator.common;
 
-import com.github.fge.jsonschema.processing.build.FullValidationContext;
-import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.keyword.validator.PositiveIntegerKeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-public final class ValidationProcessor
-    implements Processor<ValidationData, ProcessingReport>
-{
-    private final Processor<ValidationData, FullValidationContext> processor;
+import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-    public ValidationProcessor(
-        final Processor<ValidationData, FullValidationContext> processor)
+public final class MaxItemsKeywordValidator
+    extends PositiveIntegerKeywordValidator
+{
+    public MaxItemsKeywordValidator(final JsonNode schema)
     {
-        this.processor = processor;
+        super("maxItems", schema);
     }
 
-
     @Override
-    public ProcessingReport process(final ProcessingReport report,
-        final ValidationData input)
+    public void validate(
+        final Processor<ValidationData, ProcessingReport> processor,
+        final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final FullValidationContext context = processor.process(report, input);
-        final ValidationData data = context.getValidationData();
-
-        for (final KeywordValidator validator: context)
-            validator.validate(this, report, data);
-
-        return report;
+        final int size = data.getInstance().getCurrentNode().size();
+        if (size > intValue)
+            report.error(newMsg(data).msg(ARRAY_IS_TOO_LONG)
+                .put(keyword, intValue).put("found", size));
     }
 }

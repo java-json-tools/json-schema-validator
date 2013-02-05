@@ -17,19 +17,19 @@
 
 package com.github.fge.jsonschema.library.keyword;
 
-import com.github.fge.jsonschema.keyword.equivalences.PositiveIntegerEquivalence;
-import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalItemsEquivalence;
-import com.github.fge.jsonschema.keyword.equivalences.common.AdditionalPropertiesEquivalence;
-import com.github.fge.jsonschema.keyword.equivalences.common.MaximumEquivalence;
-import com.github.fge.jsonschema.keyword.equivalences.common.MinimumEquivalence;
-import com.github.fge.jsonschema.keyword.equivalences.common.UniqueItemsEquivalence;
-import com.github.fge.jsonschema.keyword.validators.common.AdditionalItemsKeywordValidator;
-import com.github.fge.jsonschema.keyword.validators.common.AdditionalPropertiesKeywordValidator;
-import com.github.fge.jsonschema.keyword.validators.common.MaxItemsKeywordValidator;
-import com.github.fge.jsonschema.keyword.validators.common.MaximumKeywordValidator;
-import com.github.fge.jsonschema.keyword.validators.common.MinItemsKeywordValidator;
-import com.github.fge.jsonschema.keyword.validators.common.MinimumKeywordValidator;
-import com.github.fge.jsonschema.keyword.validators.common.UniqueItemKeywordValidator;
+import com.github.fge.jsonschema.keyword.equivalence.PositiveIntegerEquivalence;
+import com.github.fge.jsonschema.keyword.equivalence.common.AdditionalItemsEquivalence;
+import com.github.fge.jsonschema.keyword.equivalence.common.AdditionalPropertiesEquivalence;
+import com.github.fge.jsonschema.keyword.equivalence.common.MaximumEquivalence;
+import com.github.fge.jsonschema.keyword.equivalence.common.MinimumEquivalence;
+import com.github.fge.jsonschema.keyword.equivalence.common.UniqueItemsEquivalence;
+import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.MaxItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.MaximumKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.MinItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.MinimumKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.build.KeywordDescriptor;
