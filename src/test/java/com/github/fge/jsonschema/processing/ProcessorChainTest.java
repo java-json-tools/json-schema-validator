@@ -48,7 +48,34 @@ public final class ProcessorChainTest
             processor.process(report, input);
             fail("No exception thrown!!");
         } catch (ProcessingException ignored) {
-            verify(p2, never()).process(report, input);
         }
+
+        verify(p1).process(same(report), any(MessageProvider.class));
+        verify(p2, never()).process(any(ProcessingReport.class),
+            any(MessageProvider.class));
+    }
+
+    @Test
+    public void noFailureDoesNotTriggerEarlyExit()
+        throws ProcessingException
+    {
+        @SuppressWarnings("unchecked")
+        final Processor<MessageProvider, MessageProvider> p1
+            = mock(Processor.class);
+        @SuppressWarnings("unchecked")
+        final Processor<MessageProvider, MessageProvider> p2
+            = mock(Processor.class);
+
+        final Processor<MessageProvider, MessageProvider> processor
+            = ProcessorChain.startWith(p1).failOnError().chainWith(p2).end();
+
+        final MessageProvider input = mock(MessageProvider.class);
+        final ProcessingReport report = mock(ProcessingReport.class);
+        when(report.isSuccess()).thenReturn(true);
+
+        processor.process(report, input);
+
+        verify(p1).process(same(report), any(MessageProvider.class));
+        verify(p2).process(same(report), any(MessageProvider.class));
     }
 }
