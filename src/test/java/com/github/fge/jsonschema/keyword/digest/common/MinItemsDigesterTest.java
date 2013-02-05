@@ -21,12 +21,12 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.io.IOException;
 
-public final class AdditionalItemsDigesterTest
+public final class MinItemsDigesterTest
     extends CommonDigesterTest
 {
-    public AdditionalItemsDigesterTest()
+    public MinItemsDigesterTest()
         throws IOException
     {
-        super("additionalItems", NodeType.ARRAY);
+        super("minItems", NodeType.ARRAY);
     }
 }

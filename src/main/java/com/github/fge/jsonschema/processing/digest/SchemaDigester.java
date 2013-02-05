@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.processing.digest;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.digest.KeywordDigester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
@@ -43,16 +43,16 @@ public final class SchemaDigester
 {
     private final ListMultimap<NodeType, String> typeMap
         = ArrayListMultimap.create();
-    private final Map<String, KeywordDigester> digesterMap
+    private final Map<String, Digester> digesterMap
         = Maps.newHashMap();
     private final LoadingCache<JsonNode, Map<String, JsonNode>> cache;
 
-    public SchemaDigester(final Dictionary<KeywordDigester> dict)
+    public SchemaDigester(final Dictionary<Digester> dict)
     {
         String keyword;
-        KeywordDigester digester;
+        Digester digester;
 
-        for (final Map.Entry<String, KeywordDigester> entry: dict.entries()) {
+        for (final Map.Entry<String, Digester> entry: dict.entries()) {
             keyword = entry.getKey();
             digester = entry.getValue();
             digesterMap.put(keyword, digester);

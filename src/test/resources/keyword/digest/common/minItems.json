@@ -1,0 +1,18 @@
+[
+    {
+        "inputs": [
+            {
+                "minItems": 2
+            },
+            {
+                "minItems": 2,
+                "type": "object"
+            },
+            {
+                "minItems": 2,
+                "foo": "bar"
+            }
+        ],
+        "digest": { "minItems": 2 }
+    }
+]

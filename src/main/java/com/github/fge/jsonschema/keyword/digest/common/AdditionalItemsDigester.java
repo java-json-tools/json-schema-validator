@@ -19,17 +19,17 @@ package com.github.fge.jsonschema.keyword.digest.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.keyword.digest.AbstractKeywordDigester;
-import com.github.fge.jsonschema.keyword.digest.KeywordDigester;
+import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 
 public final class AdditionalItemsDigester
-    extends AbstractKeywordDigester
+    extends AbstractDigester
 {
-    private static final KeywordDigester INSTANCE
+    private static final Digester INSTANCE
         = new AdditionalItemsDigester();
 
-    public static KeywordDigester getInstance()
+    public static Digester getInstance()
     {
         return INSTANCE;
     }

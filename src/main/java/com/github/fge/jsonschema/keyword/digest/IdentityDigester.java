@@ -20,11 +20,18 @@ package com.github.fge.jsonschema.keyword.digest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.util.NodeType;
 
-import java.util.EnumSet;
-
-public interface KeywordDigester
+public final class IdentityDigester
+    extends AbstractDigester
 {
-    EnumSet<NodeType> supportedTypes();
+    public IdentityDigester(final String keyword, final NodeType first,
+        final NodeType... other)
+    {
+        super(keyword, first, other);
+    }
 
-    JsonNode digest(final JsonNode schema);
+    @Override
+    public JsonNode digest(final JsonNode schema)
+    {
+        return schema;
+    }
 }

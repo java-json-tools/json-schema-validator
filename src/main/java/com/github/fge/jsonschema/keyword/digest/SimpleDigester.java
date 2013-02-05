@@ -18,12 +18,13 @@
 package com.github.fge.jsonschema.keyword.digest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.util.NodeType;
 
-public final class IdentityKeywordDigester
-    extends AbstractKeywordDigester
+public final class SimpleDigester
+    extends AbstractDigester
 {
-    public IdentityKeywordDigester(final String keyword, final NodeType first,
+    public SimpleDigester(final String keyword, final NodeType first,
         final NodeType... other)
     {
         super(keyword, first, other);
@@ -32,6 +33,8 @@ public final class IdentityKeywordDigester
     @Override
     public JsonNode digest(final JsonNode schema)
     {
-        return schema;
+        final ObjectNode ret = FACTORY.objectNode();
+        ret.put(keyword, schema.get(keyword));
+        return ret;
     }
 }

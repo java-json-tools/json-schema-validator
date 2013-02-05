@@ -17,21 +17,23 @@
 
 package com.github.fge.jsonschema.library.digest;
 
-import com.github.fge.jsonschema.keyword.digest.KeywordDigester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.keyword.digest.SimpleDigester;
 import com.github.fge.jsonschema.keyword.digest.common.AdditionalItemsDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.util.NodeType;
 
 public final class CommonDigesterDictionary
 {
-    private static final Dictionary<KeywordDigester> DICTIONARY;
+    private static final Dictionary<Digester> DICTIONARY;
 
     static {
-        final DictionaryBuilder<KeywordDigester> builder
+        final DictionaryBuilder<Digester> builder
             = Dictionary.newBuilder();
 
         String keyword;
-        KeywordDigester digester;
+        Digester digester;
         /*
          * Array
          */
@@ -39,10 +41,14 @@ public final class CommonDigesterDictionary
         digester = AdditionalItemsDigester.getInstance();
         builder.addEntry(keyword, digester);
 
+        keyword = "minItems";
+        digester = new SimpleDigester(keyword, NodeType.ARRAY);
+        builder.addEntry(keyword, digester);
+
         DICTIONARY = builder.freeze();
     }
 
-    public static Dictionary<KeywordDigester> get()
+    public static Dictionary<Digester> get()
     {
         return DICTIONARY;
     }
