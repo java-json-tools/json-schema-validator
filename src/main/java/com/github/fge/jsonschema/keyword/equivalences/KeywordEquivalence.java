@@ -59,5 +59,25 @@ public abstract class KeywordEquivalence
             + " (used keywords: " + retained + ')';
     }
 
+    /*
+     * TODO: think about another use for this function
+     *
+     * The fact that it produces data for an equivalence pretty much means that
+     * what this function produces can be used for building the keyword
+     * validators themselves.
+     *
+     * It would provide the advantage that we don't need to run it each time we
+     * enter the keyword building phase as well.
+     *
+     * To do this, another processor, sitting between syntax validation and
+     * keyword building, would be necessary -- for example SchemaDigester. Its
+     * output would then be a Map<String, JsonNode> where keys are keywords, and
+     * values are the digested outputs. We could then use a "plain", equals()
+     * cache to test for equality and retrieve the necessary keyword validators.
+     *
+     * Now is the time to do it, before writing too many keywords and the work
+     * becomes a chore again -- not that it isn't already one, but better sooner
+     * than later.
+     */
     protected abstract JsonNode digestedNode(final JsonNode orig);
 }
