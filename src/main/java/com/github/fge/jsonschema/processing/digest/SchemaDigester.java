@@ -15,19 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.equivalence.common;
+package com.github.fge.jsonschema.processing.digest;
 
-import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
-import com.github.fge.jsonschema.processing.build.AbstractKeywordEquivalenceTest;
-
-import java.io.IOException;
-
-public abstract class CommonKeywordEquivalenceTest
-    extends AbstractKeywordEquivalenceTest
+public final class SchemaDigester
 {
-    protected CommonKeywordEquivalenceTest(final String keyword)
-        throws IOException
-    {
-        super(CommonValidatorDictionary.get(), "common", keyword);
-    }
 }

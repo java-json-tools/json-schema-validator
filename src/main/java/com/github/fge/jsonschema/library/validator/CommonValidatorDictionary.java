@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library.keyword;
+package com.github.fge.jsonschema.library.validator;
 
 import com.github.fge.jsonschema.keyword.equivalence.PositiveIntegerEquivalence;
 import com.github.fge.jsonschema.keyword.equivalence.common.AdditionalItemsEquivalence;
@@ -37,11 +37,11 @@ import com.github.fge.jsonschema.processing.build.KeywordDescriptorBuilder;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 
-public final class CommonKeywordValidatorDictionary
+public final class CommonValidatorDictionary
 {
     private static final Dictionary<KeywordDescriptor> DICTIONARY;
 
-    private CommonKeywordValidatorDictionary()
+    private CommonValidatorDictionary()
     {
     }
 
