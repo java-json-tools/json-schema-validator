@@ -15,27 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library;
+package com.github.fge.jsonschema.keyword.syntax.draftv4;
 
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.collect.Maps;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
+import com.github.fge.jsonschema.keyword.syntax.SyntaxCheckersTest;
 
-import java.util.Map;
-
-public final class LibraryBuilder
-    implements Thawed<Library>
+public abstract class DraftV4SyntaxCheckersTest
+    extends SyntaxCheckersTest
 {
-    final Map<String, SyntaxChecker> syntaxCheckers = Maps.newHashMap();
-
-    LibraryBuilder(final Library library)
+    protected DraftV4SyntaxCheckersTest(final String keyword)
+        throws JsonProcessingException
     {
-        syntaxCheckers.putAll(library.syntaxCheckers);
-    }
-
-    @Override
-    public Library freeze()
-    {
-        return new Library(this);
+        super(DraftV4SyntaxCheckerDictionary.get(), "draftv4", keyword);
     }
 }

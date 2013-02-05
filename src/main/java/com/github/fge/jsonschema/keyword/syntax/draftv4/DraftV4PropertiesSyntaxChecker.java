@@ -15,27 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library;
+package com.github.fge.jsonschema.keyword.syntax.draftv4;
 
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.collect.Maps;
+import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaMapSyntaxChecker;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
 
-import java.util.Map;
-
-public final class LibraryBuilder
-    implements Thawed<Library>
+public final class DraftV4PropertiesSyntaxChecker
+    extends SchemaMapSyntaxChecker
 {
-    final Map<String, SyntaxChecker> syntaxCheckers = Maps.newHashMap();
+    private static final SyntaxChecker INSTANCE
+        = new DraftV4PropertiesSyntaxChecker();
 
-    LibraryBuilder(final Library library)
+    public static SyntaxChecker getInstance()
     {
-        syntaxCheckers.putAll(library.syntaxCheckers);
+        return INSTANCE;
     }
 
-    @Override
-    public Library freeze()
+    private DraftV4PropertiesSyntaxChecker()
     {
-        return new Library(this);
+        super("properties");
+    }
+    @Override
+    protected void extraChecks(ProcessingReport report, JsonSchemaTree tree)
+        throws ProcessingException
+    {
     }
 }

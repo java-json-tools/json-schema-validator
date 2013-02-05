@@ -15,27 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library;
+package com.github.fge.jsonschema.keyword.syntax.common;
 
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.collect.Maps;
+import com.fasterxml.jackson.core.JsonProcessingException;
 
-import java.util.Map;
-
-public final class LibraryBuilder
-    implements Thawed<Library>
+public final class MaximumSyntaxCheckerTest
+    extends CommonSyntaxCheckersTest
 {
-    final Map<String, SyntaxChecker> syntaxCheckers = Maps.newHashMap();
-
-    LibraryBuilder(final Library library)
+    public MaximumSyntaxCheckerTest()
+        throws JsonProcessingException
     {
-        syntaxCheckers.putAll(library.syntaxCheckers);
-    }
-
-    @Override
-    public Library freeze()
-    {
-        return new Library(this);
+        super("maximum");
     }
 }

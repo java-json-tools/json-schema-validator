@@ -15,27 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.library;
+package com.github.fge.jsonschema.keyword.syntax;
 
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.collect.Maps;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.annotations.VisibleForTesting;
 
-import java.util.Map;
+import java.util.Collection;
+import java.util.EnumSet;
 
-public final class LibraryBuilder
-    implements Thawed<Library>
+public interface SyntaxChecker
 {
-    final Map<String, SyntaxChecker> syntaxCheckers = Maps.newHashMap();
+    @VisibleForTesting
+    EnumSet<NodeType> getValidTypes();
 
-    LibraryBuilder(final Library library)
-    {
-        syntaxCheckers.putAll(library.syntaxCheckers);
-    }
-
-    @Override
-    public Library freeze()
-    {
-        return new Library(this);
-    }
+    void checkSyntax(Collection<JsonPointer> pointers,
+        ProcessingReport report, JsonSchemaTree tree)
+        throws ProcessingException;
 }
