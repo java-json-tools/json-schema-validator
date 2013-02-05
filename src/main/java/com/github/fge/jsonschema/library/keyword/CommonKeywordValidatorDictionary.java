@@ -32,8 +32,8 @@ import com.github.fge.jsonschema.keyword.validators.common.MinimumKeywordValidat
 import com.github.fge.jsonschema.keyword.validators.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processing.keyword.KeywordDescriptor;
-import com.github.fge.jsonschema.processing.keyword.KeywordDescriptorBuilder;
+import com.github.fge.jsonschema.processing.build.KeywordDescriptor;
+import com.github.fge.jsonschema.processing.build.KeywordDescriptorBuilder;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 

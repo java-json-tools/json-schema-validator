@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.keyword.equivalences.common;
 
 import com.github.fge.jsonschema.library.keyword.CommonKeywordValidatorDictionary;
-import com.github.fge.jsonschema.processing.keyword.AbstractKeywordEquivalenceTest;
+import com.github.fge.jsonschema.processing.build.AbstractKeywordEquivalenceTest;
 
 import java.io.IOException;
 
