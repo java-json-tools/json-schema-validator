@@ -31,7 +31,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
  *
  * <pre>
  *     final Processor&lt;X, Y&gt; chain = ProcessorChain.startWith(p1)
- *         .chainWith(p2).chainWith(...);
+ *         .chainWith(p2).chainWith(...).end();
  *
  *     // input is of type X
  *     final Y ret = chain.process(report, X);
