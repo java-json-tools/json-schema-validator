@@ -90,6 +90,34 @@ public final class CommonDigesterDictionary
         digester = new SimpleDigester(keyword, NodeType.STRING);
         builder.addEntry(keyword, digester);
 
+        /*
+         * Any
+         */
+
+        /*
+         * FIXME: not perfect
+         *
+         * Right now we take the node as is, and all the real work is done by
+         * the validator. That is:
+         *
+         * - { "enum": [ 1 ] } and { "enum": [ 1.0 ] } are not the same;
+         * - { "enum": [ 1, 2 ] } and { "enum": [ 2, 1 ] } are not the same
+         *   either.
+         *
+         * All these differences are sorted out by the runtime checking, not
+         * here. This is kind of a waste, but making just these two above
+         * examples yield the same digest would require not only normalizing
+         * (for the first case), but also ordering (for the second case).
+         *
+         * And we don't even get into the territory of other node types here.
+         *
+         * Bah. There will be duplicates, but at least ultimately the validator
+         * will do what it takes.
+         */
+        keyword = "enum";
+        digester = new SimpleDigester(keyword, NodeType.STRING);
+        builder.addEntry(keyword, digester);
+
         DICTIONARY = builder.freeze();
     }
 
