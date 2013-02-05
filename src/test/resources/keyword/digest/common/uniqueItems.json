@@ -1,0 +1,34 @@
+[
+    {
+        "inputs": [
+            {
+                "uniqueItems": true
+            },
+            {
+                "uniqueItems": true,
+                "type": "array"
+            },
+            {
+                "uniqueItems": true,
+                "foo": "bar"
+            }
+        ],
+        "digest": { "uniqueItems": true }
+    },
+    {
+        "inputs": [
+            {
+                "uniqueItems": false
+            },
+            {
+                "uniqueItems": false,
+                "type": "array"
+            },
+            {
+                "uniqueItems": false,
+                "foo": "bar"
+            }
+        ],
+        "digest": { "uniqueItems": false }
+    }
+]

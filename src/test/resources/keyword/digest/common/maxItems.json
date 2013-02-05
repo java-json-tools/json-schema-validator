@@ -1,0 +1,18 @@
+[
+    {
+        "inputs": [
+            {
+                "maxItems": 2
+            },
+            {
+                "maxItems": 2,
+                "type": "object"
+            },
+            {
+                "maxItems": 2,
+                "foo": "bar"
+            }
+        ],
+        "digest": { "maxItems": 2 }
+    }
+]

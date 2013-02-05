@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * Lesser GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.github.fge.jsonschema.keyword.digest;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.collect.Lists;
+
+import java.util.Collections;
+import java.util.List;
+
+public final class AdditionalPropertiesDigester
+    extends AbstractDigester
+{
+    private static final Digester INSTANCE = new AdditionalPropertiesDigester();
+
+    public static Digester getInstance()
+    {
+        return INSTANCE;
+    }
+
+    private AdditionalPropertiesDigester()
+    {
+        super("additionalProperties", NodeType.OBJECT);
+    }
+
+    @Override
+    public JsonNode digest(final JsonNode schema)
+    {
+        final ObjectNode ret = FACTORY.objectNode();
+        final ArrayNode properties = FACTORY.arrayNode();
+        final ArrayNode patternProperties = FACTORY.arrayNode();
+
+        /*
+         * Start by presuming that additional properties are allowed. This will
+         * not be the case if and only if it has boolean value false.
+         */
+        ret.put(keyword, true);
+        ret.put("properties", properties);
+        ret.put("patternProperties", patternProperties);
+
+        if (schema.get(keyword).asBoolean(true))
+            return ret;
+
+        /*
+         * OK, it is false... Therefore collect the list of defined property
+         * names and regexes. Put them in order, we don't want to generate two
+         * different digests for properties p, q and q, p.
+         */
+        ret.put(keyword, false);
+
+        List<String> list;
+
+        list = Lists.newArrayList(schema.path("properties").fieldNames());
+        Collections.sort(list);
+        for (final String s: list)
+            properties.add(s);
+
+        list = Lists.newArrayList(schema.path("patternProperties")
+            .fieldNames());
+        Collections.sort(list);
+        for (final String s: list)
+            patternProperties.add(s);
+
+        return ret;
+    }
+}

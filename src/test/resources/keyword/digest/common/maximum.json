@@ -1,0 +1,106 @@
+[
+    {
+        "inputs": [
+            {
+                "maximum": 0
+            },
+            {
+                "maximum": 0,
+                "exclusiveMaximum": false
+            },
+            {
+                "maximum": 0.0
+            },
+            {
+                "maximum": 0e2
+            },
+            {
+                "maximum": 0,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "maximum": 0,
+            "valueIsLong": true,
+            "exclusive": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "maximum": 1
+            },
+            {
+                "maximum": 1,
+                "exclusiveMaximum": false
+            },
+            {
+                "maximum": 1.0
+            },
+            {
+                "maximum": 1,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "maximum": 1,
+            "valueIsLong": true,
+            "exclusive": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "maximum": 2147483648
+            },
+            {
+                "maximum": 2147483648,
+                "exclusiveMaximum": false
+            },
+            {
+                "maximum": 2147483648.0
+            },
+            {
+                "maximum": 2147483648,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "maximum": 2147483648,
+            "valueIsLong": true,
+            "exclusive": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "maximum": 2.1,
+                "exclusiveMaximum": true
+            },
+            {
+                "maximum": 21e-1,
+                "exclusiveMaximum": true
+            }
+        ],
+        "digest": {
+            "maximum": 2.1,
+            "valueIsLong": false,
+            "exclusive": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "maximum": 9223372036854775808
+            },
+            {
+                "maximum": 9223372036854775808.0
+            }
+        ],
+        "digest": {
+            "maximum": 9223372036854775808,
+            "valueIsLong": false,
+            "exclusive": false
+        }
+    }
+]

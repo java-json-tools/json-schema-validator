@@ -1,0 +1,106 @@
+[
+    {
+        "inputs": [
+            {
+                "minimum": 0
+            },
+            {
+                "minimum": 0,
+                "exclusiveMinimum": false
+            },
+            {
+                "minimum": 0.0
+            },
+            {
+                "minimum": 0e2
+            },
+            {
+                "minimum": 0,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "minimum": 0,
+            "valueIsLong": true,
+            "exclusive": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "minimum": 1
+            },
+            {
+                "minimum": 1,
+                "exclusiveMinimum": false
+            },
+            {
+                "minimum": 1.0
+            },
+            {
+                "minimum": 1,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "minimum": 1,
+            "valueIsLong": true,
+            "exclusive": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "minimum": 2147483648
+            },
+            {
+                "minimum": 2147483648,
+                "exclusiveMinimum": false
+            },
+            {
+                "minimum": 2147483648.0
+            },
+            {
+                "minimum": 2147483648,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "minimum": 2147483648,
+            "valueIsLong": true,
+            "exclusive": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "minimum": 2.1,
+                "exclusiveMinimum": true
+            },
+            {
+                "minimum": 21e-1,
+                "exclusiveMinimum": true
+            }
+        ],
+        "digest": {
+            "minimum": 2.1,
+            "valueIsLong": false,
+            "exclusive": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "minimum": 9223372036854775808
+            },
+            {
+                "minimum": 9223372036854775808.0
+            }
+        ],
+        "digest": {
+            "minimum": 9223372036854775808,
+            "valueIsLong": false,
+            "exclusive": false
+        }
+    }
+]

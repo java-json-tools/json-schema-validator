@@ -17,9 +17,12 @@
 
 package com.github.fge.jsonschema.library.digest;
 
+import com.github.fge.jsonschema.keyword.digest.AdditionalPropertiesDigester;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.SimpleDigester;
 import com.github.fge.jsonschema.keyword.digest.common.AdditionalItemsDigester;
+import com.github.fge.jsonschema.keyword.digest.common.MaximumDigester;
+import com.github.fge.jsonschema.keyword.digest.common.MinimumDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.util.NodeType;
@@ -34,6 +37,7 @@ public final class CommonDigesterDictionary
 
         String keyword;
         Digester digester;
+
         /*
          * Array
          */
@@ -43,6 +47,32 @@ public final class CommonDigesterDictionary
 
         keyword = "minItems";
         digester = new SimpleDigester(keyword, NodeType.ARRAY);
+        builder.addEntry(keyword, digester);
+
+        keyword = "maxItems";
+        digester = new SimpleDigester(keyword, NodeType.ARRAY);
+        builder.addEntry(keyword, digester);
+
+        keyword = "uniqueItems";
+        digester = new SimpleDigester(keyword, NodeType.ARRAY);
+        builder.addEntry(keyword, digester);
+
+        /*
+         * Number / Integer
+         */
+        keyword = "minimum";
+        digester = MinimumDigester.getInstance();
+        builder.addEntry(keyword, digester);
+
+        keyword = "maximum";
+        digester = MaximumDigester.getInstance();
+        builder.addEntry(keyword, digester);
+
+        /*
+         * Object
+         */
+        keyword = "additionalProperties";
+        digester = AdditionalPropertiesDigester.getInstance();
         builder.addEntry(keyword, digester);
 
         DICTIONARY = builder.freeze();
