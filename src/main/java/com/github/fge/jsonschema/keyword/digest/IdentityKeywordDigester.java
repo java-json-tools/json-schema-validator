@@ -17,35 +17,21 @@
 
 package com.github.fge.jsonschema.keyword.digest;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
-import java.util.EnumSet;
-
-public abstract class AbstractKeywordDigester
-    implements KeywordDigester
+public final class IdentityKeywordDigester
+    extends AbstractKeywordDigester
 {
-    protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
-    protected final EnumSet<NodeType> types;
-    protected final String keyword;
-
-    protected AbstractKeywordDigester(final String keyword,
-        final NodeType first, final NodeType... other)
+    public IdentityKeywordDigester(final String keyword, final NodeType first,
+        final NodeType... other)
     {
-        this.keyword = keyword;
-        types = EnumSet.of(first, other);
+        super(keyword, first, other);
     }
 
     @Override
-    public final EnumSet<NodeType> supportedTypes()
+    public JsonNode digest(final JsonNode schema)
     {
-        return EnumSet.copyOf(types);
-    }
-
-    @Override
-    public final String toString()
-    {
-        return "digester for keyword \"" + keyword + '"';
+        return schema;
     }
 }

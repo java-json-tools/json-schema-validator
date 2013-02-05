@@ -15,37 +15,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.digest;
+package com.github.fge.jsonschema.keyword.digest.common;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jsonschema.keyword.digest.AbstractKeywordDigesterTest;
+import com.github.fge.jsonschema.library.digest.CommonDigesterDictionary;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
-import java.util.EnumSet;
+import java.io.IOException;
 
-public abstract class AbstractKeywordDigester
-    implements KeywordDigester
+public abstract class CommonKeywordDigesterTest
+    extends AbstractKeywordDigesterTest
 {
-    protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
-    protected final EnumSet<NodeType> types;
-    protected final String keyword;
-
-    protected AbstractKeywordDigester(final String keyword,
+    protected CommonKeywordDigesterTest(final String keyword,
         final NodeType first, final NodeType... other)
+        throws IOException
     {
-        this.keyword = keyword;
-        types = EnumSet.of(first, other);
-    }
-
-    @Override
-    public final EnumSet<NodeType> supportedTypes()
-    {
-        return EnumSet.copyOf(types);
-    }
-
-    @Override
-    public final String toString()
-    {
-        return "digester for keyword \"" + keyword + '"';
+        super(CommonDigesterDictionary.get(), "common", keyword, first, other);
     }
 }

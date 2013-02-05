@@ -1,0 +1,84 @@
+[
+    {
+        "inputs": [
+            {
+                "additionalItems": true
+            },
+            {
+                "additionalItems": {}
+            },
+            {
+                "additionalItems": false
+            },
+            {
+                "additionalItems": {},
+                "items": {}
+            },
+            {
+                "additionalItems": true,
+                "items": {
+                    "foo": "bar"
+                }
+            },
+            {
+                "additionalItems": false,
+                "items": {
+                    "whatever": "here"
+                }
+            },
+            {
+                "additionalItems": {},
+                "items": [
+                    {}
+                ]
+            },
+            {
+                "additionalItems": true,
+                "items": [
+                    {},
+                    {}
+                ]
+            },
+            {
+                "a": [ "b", "c" ],
+                "additionalItems": {
+                    "d": "e"
+                }
+            }
+        ],
+        "digest": {
+            "additionalItems": true,
+            "itemsSize": 0
+        }
+    },
+    {
+        "inputs": [
+            {
+                "additionalItems": false,
+                "items": [
+                    {},
+                    {},
+                    {}
+                ]
+            },
+            {
+                "additionalItems": false,
+                "items": [
+                    {
+                        "a": "b"
+                    },
+                    {
+                        "c": "d"
+                    },
+                    {
+                        "e": "f"
+                    }
+                ]
+            }
+        ],
+        "digest": {
+            "additionalItems": false,
+            "itemsSize": 3
+        }
+    }
+]

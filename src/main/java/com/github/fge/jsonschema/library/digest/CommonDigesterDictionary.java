@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.library.digest;
 
 import com.github.fge.jsonschema.keyword.digest.KeywordDigester;
+import com.github.fge.jsonschema.keyword.digest.common.AdditionalItemsDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -28,6 +29,15 @@ public final class CommonDigesterDictionary
     static {
         final DictionaryBuilder<KeywordDigester> builder
             = Dictionary.newBuilder();
+
+        String keyword;
+        KeywordDigester digester;
+        /*
+         * Array
+         */
+        keyword = "additionalItems";
+        digester = AdditionalItemsDigester.getInstance();
+        builder.addEntry(keyword, digester);
 
         DICTIONARY = builder.freeze();
     }
