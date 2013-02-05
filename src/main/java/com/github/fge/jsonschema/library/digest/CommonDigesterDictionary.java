@@ -75,6 +75,21 @@ public final class CommonDigesterDictionary
         digester = AdditionalPropertiesDigester.getInstance();
         builder.addEntry(keyword, digester);
 
+        /*
+         * String
+         */
+        keyword = "minLength";
+        digester = new SimpleDigester(keyword, NodeType.STRING);
+        builder.addEntry(keyword, digester);
+
+        keyword = "maxLength";
+        digester = new SimpleDigester(keyword, NodeType.STRING);
+        builder.addEntry(keyword, digester);
+
+        keyword = "pattern";
+        digester = new SimpleDigester(keyword, NodeType.STRING);
+        builder.addEntry(keyword, digester);
+
         DICTIONARY = builder.freeze();
     }
 

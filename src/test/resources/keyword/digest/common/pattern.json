@@ -1,0 +1,18 @@
+[
+    {
+        "inputs": [
+            {
+                "pattern": "foo"
+            },
+            {
+                "pattern": "foo",
+                "foo": "bar"
+            },
+            {
+                "pattern": "foo",
+                "type": "object"
+            }
+        ],
+        "digest": { "pattern": "foo" }
+    }
+]
