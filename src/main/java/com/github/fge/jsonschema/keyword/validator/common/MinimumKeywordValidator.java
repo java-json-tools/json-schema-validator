@@ -36,7 +36,7 @@ public final class MinimumKeywordValidator
     public MinimumKeywordValidator(final JsonNode schema)
     {
         super("minimum", schema);
-        exclusive = schema.path("exclusiveMinimum").asBoolean(false);
+        exclusive = schema.path("exclusive").asBoolean(false);
     }
 
     @Override

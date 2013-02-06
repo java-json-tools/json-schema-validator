@@ -33,10 +33,10 @@ public final class MaximumKeywordValidator
 {
     private final boolean exclusive;
 
-    public MaximumKeywordValidator(final JsonNode schema)
+    public MaximumKeywordValidator(final JsonNode digest)
     {
-        super("maximum", schema);
-        exclusive = schema.path("exclusiveMaximum").asBoolean(false);
+        super("maximum", digest);
+        exclusive = digest.path("exclusive").booleanValue();
     }
 
     @Override

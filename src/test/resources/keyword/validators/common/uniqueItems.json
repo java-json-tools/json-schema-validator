@@ -1,18 +1,18 @@
 [
     {
-        "schema": { "uniqueItems": true },
+        "digest": { "uniqueItems": true },
         "data": [ 1, 2, 3 ],
         "valid": true
     },
     {
-        "schema": { "uniqueItems": true },
+        "digest": { "uniqueItems": true },
         "data": [ 1, 1.0 ],
         "valid": false,
         "message": "ELEMENTS_NOT_UNIQUE",
         "msgData": {}
     },
     {
-        "schema": { "uniqueItems": false },
+        "digest": { "uniqueItems": false },
         "data": [ 1, 2, 1 ],
         "valid": true
     }

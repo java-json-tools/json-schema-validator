@@ -32,20 +32,13 @@ public final class AdditionalItemsKeywordValidator
     private final boolean additionalOK;
     private final int itemsSize;
 
-    public AdditionalItemsKeywordValidator(final JsonNode schema)
+    public AdditionalItemsKeywordValidator(final JsonNode digest)
     {
         super("additionalItems");
-        final JsonNode items = schema.path("items");
-
-        if (!items.isArray()) {
-            additionalOK = true;
-            itemsSize = 0;
-            return;
-        }
-
-        itemsSize = items.size();
-        additionalOK = schema.get(keyword).asBoolean(true);
+        additionalOK = digest.get(keyword).booleanValue();
+        itemsSize = digest.get("itemsSize").intValue();
     }
+
     @Override
     public void validate(
         final Processor<ValidationData, ProcessingReport> processor,

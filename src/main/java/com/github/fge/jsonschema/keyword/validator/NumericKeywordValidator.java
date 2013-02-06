@@ -38,12 +38,12 @@ public abstract class NumericKeywordValidator
     private final boolean isLong;
 
     protected NumericKeywordValidator(final String keyword,
-        final JsonNode schema)
+        final JsonNode digest)
     {
         super(keyword);
-        number = schema.get(keyword);
+        number = digest.get(keyword);
 
-        isLong = valueIsLong(number);
+        isLong = digest.get("valueIsLong").booleanValue();
     }
 
     @Override

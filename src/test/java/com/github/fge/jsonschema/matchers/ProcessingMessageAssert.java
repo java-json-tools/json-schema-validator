@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.processing.LogLevel;
-import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.AsJson;
@@ -144,13 +143,11 @@ public final class ProcessingMessageAssert
      * More complicated matchers
      */
     public <T> ProcessingMessageAssert isValidationError(final String keyword,
-        final T msg, final ValidationData data)
+        final T msg)
     {
         // FIXME: .hasLevel() is not always set
         return hasField("keyword", keyword).hasMessage(msg)
-            .hasField("domain", "validation")
-            .hasField("schema", data.getSchema())
-            .hasField("instance", data.getInstance());
+            .hasField("domain", "validation");
     }
 
     public ProcessingMessageAssert hasContents(final ObjectNode node)

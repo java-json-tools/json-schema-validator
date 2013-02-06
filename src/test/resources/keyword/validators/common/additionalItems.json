@@ -1,84 +1,23 @@
 [
     {
-        "schema": {
-            "additionalItems": true
+        "digest": {
+            "additionalItems": true,
+            "itemsSize": 0
         },
         "data": [ 1, 2, 3, 4, 5 ],
         "valid": true
     },
     {
-        "schema": {
-            "additionalItems": false
-        },
-        "data": [ 1, 2, 3, 4, 5 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "additionalItems": {}
-        },
-        "data": [ 1, 2, 3, 4, 5 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": {},
-            "additionalItems": true
-        },
-        "data": [ 1, 2, 3, 4, 5 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": {},
-            "additionalItems": false
-        },
-        "data": [ 1, 2, 3, 4, 5 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": {},
-            "additionalItems":{}
-        },
-        "data": [ 1, 2, 3, 4, 5 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": [ {}, {}, {} ],
-            "additionalItems": true
-        },
-        "data": [ 1, 2, 3 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": [ {}, {}, {} ],
+        "digest": {
+            "itemsSize": 3,
             "additionalItems": false
         },
         "data": [ 1, 2, 3 ],
         "valid": true
     },
     {
-        "schema": {
-            "items": [ {}, {}, {} ],
-            "additionalItems": {}
-        },
-        "data": [ 1, 2, 3 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": [ {}, {}, {} ],
-            "additionalItems": true
-        },
-        "data": [ 1, 2, 3, 4 ],
-        "valid": true
-    },
-    {
-        "schema": {
-            "items": [ {}, {}, {} ],
+        "digest": {
+            "itemsSize": 3,
             "additionalItems": false
         },
         "data": [ 1, 2, 3, 4 ],
@@ -88,13 +27,5 @@
             "allowed": 3,
             "found": 4
         }
-    },
-    {
-        "schema": {
-            "items": [ {}, {}, {} ],
-            "additionalItems": {}
-        },
-        "data": [ 1, 2, 3, 4 ],
-        "valid": true
     }
 ]

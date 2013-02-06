@@ -1,6 +1,6 @@
 [
     {
-        "schema": { "minItems": 4 },
+        "digest": { "minItems": 4 },
         "data": [ 1, 2, 3 ],
         "valid": false,
         "message": "ARRAY_IS_TOO_SHORT",
@@ -10,12 +10,12 @@
         }
     },
     {
-        "schema": { "minItems": 4 },
+        "digest": { "minItems": 4 },
         "data": [ 1, 2, 3, 4 ],
         "valid": true
     },
     {
-        "schema": { "minItems": 4 },
+        "digest": { "minItems": 4 },
         "data": [ 1, 2, 3, 4, 5 ],
         "valid": true
     }

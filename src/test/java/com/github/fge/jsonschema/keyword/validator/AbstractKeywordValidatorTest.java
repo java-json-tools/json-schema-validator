@@ -85,7 +85,7 @@ public abstract class AbstractKeywordValidatorTest
             msgNode = node.get("message");
             msg = msgNode == null ? null
                 : KeywordValidationMessages.valueOf(msgNode.textValue());
-            list.add(new Object[]{ node.get("schema"), node.get("data"), msg,
+            list.add(new Object[]{ node.get("digest"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
         return list.iterator();
@@ -93,13 +93,14 @@ public abstract class AbstractKeywordValidatorTest
 
     // Unfortunately, the suppress warning annotation is needed
     @Test(dataProvider = "getValueTests", dependsOnMethods = "keywordExists")
-    public final void instancesAreValidatedCorrectly(final JsonNode schema,
+    public final void instancesAreValidatedCorrectly(final JsonNode digest,
         final JsonNode node, final KeywordValidationMessages msg,
         final boolean valid, final ObjectNode msgData)
         throws ProcessingException, InvocationTargetException,
         NoSuchMethodException, InstantiationException, IllegalAccessException
     {
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        // FIXME: dummy, but we have no choice
+        final JsonSchemaTree tree = new CanonicalSchemaTree(digest);
         final JsonTree instance = new SimpleJsonTree(node);
         final ValidationData data = new ValidationData(tree, instance);
 
@@ -108,7 +109,7 @@ public abstract class AbstractKeywordValidatorTest
         final Processor<ValidationData, ProcessingReport> processor
             =  mock(Processor.class);
 
-        final KeywordValidator validator = build(c, schema);
+        final KeywordValidator validator = build(c, digest);
         validator.validate(processor, report, data);
 
         if (valid) {
@@ -123,7 +124,7 @@ public abstract class AbstractKeywordValidatorTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isValidationError(keyword, msg, data)
+        assertMessage(message).isValidationError(keyword, msg)
             .hasContents(msgData);
     }
 
@@ -133,7 +134,6 @@ public abstract class AbstractKeywordValidatorTest
         throws IllegalAccessException, InvocationTargetException,
         InstantiationException, NoSuchMethodException
     {
-
         return c.getConstructor(JsonNode.class).newInstance(node);
     }
 }

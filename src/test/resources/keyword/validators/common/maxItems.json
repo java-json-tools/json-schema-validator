@@ -1,16 +1,16 @@
 [
     {
-        "schema": { "maxItems": 4 },
+        "digest": { "maxItems": 4 },
         "data": [ 1, 2, 3 ],
         "valid": true
     },
     {
-        "schema": { "maxItems": 4 },
+        "digest": { "maxItems": 4 },
         "data": [ 1, 2, 3, 4 ],
         "valid": true
     },
     {
-        "schema": { "maxItems": 4 },
+        "digest": { "maxItems": 4 },
         "data": [ 1, 2, 3, 4, 5 ],
         "valid": false,
         "message": "ARRAY_IS_TOO_LONG",

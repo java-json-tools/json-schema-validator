@@ -1,10 +1,8 @@
 [
     {
-        "schema": {
-            "properties": {
-                "p1": {},
-                "p2": {}
-            },
+        "digest": {
+            "properties": [ "p1", "p2" ],
+            "patternProperties": [],
             "additionalProperties": false
         },
         "data": {
@@ -17,11 +15,9 @@
         }
     },
     {
-        "schema": {
-            "properties": {
-                "p1": {},
-                "p2": {}
-            },
+        "digest": {
+            "properties": [ "p1", "p2" ],
+            "patternProperties": [],
             "additionalProperties": false
         },
         "data": {
@@ -30,10 +26,9 @@
         "valid": true
     },
     {
-        "schema": {
-            "patternProperties": {
-                "^a": {}
-            },
+        "digest": {
+            "properties": [],
+            "patternProperties": [ "^a" ],
             "additionalProperties": false
         },
         "data": {
@@ -46,10 +41,9 @@
         }
     },
     {
-        "schema": {
-            "patternProperties": {
-                "^a": {}
-            },
+        "digest": {
+            "properties": [],
+            "patternProperties": [ "^a" ],
             "additionalProperties": false
         },
         "data": {
@@ -60,13 +54,9 @@
         "valid": true
     },
     {
-        "schema": {
-            "properties": {
-                "p": {}
-            },
-            "patternProperties": {
-                "^a": {}
-            },
+        "digest": {
+            "properties": [ "p" ],
+            "patternProperties": [ "^a" ],
             "additionalProperties": false
         },
         "data": {
@@ -77,14 +67,9 @@
         "valid": true
     },
     {
-        "schema": {
-            "properties": {
-                "p": {}
-            },
-            "patternProperties": {
-                "^a": {},
-                "3$": {}
-            },
+        "digest": {
+            "properties": [ "p" ],
+            "patternProperties": [ "^a", "3$" ],
             "additionalProperties": false
         },
         "data": {
@@ -103,7 +88,9 @@
         }
     },
     {
-        "schema": {
+        "digest": {
+            "properties": [],
+            "patternProperties": [],
             "additionalProperties": false
         },
         "data": {
@@ -116,7 +103,9 @@
         }
     },
     {
-        "schema": {
+        "digest": {
+            "properties": [],
+            "patternProperties": [],
             "additionalProperties": true
         },
         "data": {
@@ -125,8 +114,10 @@
         "valid": true
     },
     {
-        "schema": {
-            "additionalProperties": {}
+        "digest": {
+            "properties": [],
+            "patternProperties": [],
+            "additionalProperties": true
         },
         "data": {
             "p": true

@@ -29,7 +29,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
-import java.util.Collections;
 import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
@@ -43,20 +42,22 @@ public final class AdditionalPropertiesKeywordValidator
     private final Set<String> properties;
     private final Set<String> patternProperties;
 
-    public AdditionalPropertiesKeywordValidator(final JsonNode schema)
+    public AdditionalPropertiesKeywordValidator(final JsonNode digest)
     {
         super("additionalProperties");
-        additionalOK = schema.get(keyword).asBoolean(true);
+        additionalOK = digest.get(keyword).booleanValue();
 
-        if (additionalOK) {
-            properties = Collections.emptySet();
-            patternProperties = Collections.emptySet();
-            return;
-        }
+        ImmutableSet.Builder<String> builder;
 
-        properties = ImmutableSet.copyOf(schema.path("properties").fieldNames());
-        patternProperties = ImmutableSet.copyOf(schema.path("patternProperties")
-            .fieldNames());
+        builder = ImmutableSet.builder();
+        for (final JsonNode node: digest.get("properties"))
+            builder.add(node.textValue());
+        properties = builder.build();
+
+        builder = ImmutableSet.builder();
+        for (final JsonNode node: digest.get("patternProperties"))
+            builder.add(node.textValue());
+        patternProperties = builder.build();
     }
 
     @Override

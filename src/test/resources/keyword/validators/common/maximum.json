@@ -1,7 +1,9 @@
 [
     {
-        "schema": {
-            "maximum": 0
+        "digest": {
+            "maximum": 0,
+            "valueIsLong": true,
+            "exclusive": false
         },
         "data": 1,
         "valid": false,
@@ -12,16 +14,19 @@
         }
     },
     {
-        "schema": {
-            "maximum": 0
+        "digest": {
+            "maximum": 0,
+            "valueIsLong": true,
+            "exclusive": false
         },
         "data": 0,
         "valid": true
     },
     {
-        "schema": {
+        "digest": {
             "maximum": 0,
-            "exclusiveMaximum": true
+            "valueIsLong": true,
+            "exclusive": true
         },
         "data": 0,
         "valid": false,
@@ -29,16 +34,19 @@
         "msgData": { "maximum": 0 }
     },
     {
-        "schema": {
+        "digest": {
             "maximum": 0,
-            "exclusiveMaximum": true
+            "valueIsLong": true,
+            "exclusive": true
         },
         "data": -1,
         "valid": true
     },
     {
-        "schema": {
-            "maximum": 98091239809812309812312.43298
+        "digest": {
+            "maximum": 98091239809812309812312.43298,
+            "valueIsLong": false,
+            "exclusive": false
         },
         "data": 98091239809812309812312.4330,
         "valid": false,
@@ -49,16 +57,19 @@
         }
     },
     {
-        "schema": {
-            "maximum": 98091239809812309812312.43298
+        "digest": {
+            "maximum": 98091239809812309812312.43298,
+            "valueIsLong": false,
+            "exclusive": false
         },
         "data": 98091239809812309812312.43298,
         "valid": true
     },
     {
-        "schema": {
+        "digest": {
             "maximum": 98091239809812309812312.43298,
-            "exclusiveMaximum": true
+            "valueIsLong": false,
+            "exclusive":true
         },
         "data": 98091239809812309812312.43298,
         "valid": false,
@@ -68,9 +79,10 @@
         }
     },
     {
-        "schema": {
+        "digest": {
             "maximum": 98091239809812309812312.43298,
-            "exclusiveMaximum": true
+            "valueIsLong": false,
+            "exclusive":true
         },
         "data": 98091239809812309812312.43297,
         "valid": true

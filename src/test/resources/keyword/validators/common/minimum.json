@@ -1,7 +1,9 @@
 [
     {
-        "schema": {
-            "minimum": 0
+        "digest": {
+            "minimum": 0,
+            "valueIsLong": true,
+            "exclusive": false
         },
         "data": -1,
         "valid": false,
@@ -12,16 +14,19 @@
         }
     },
     {
-        "schema": {
-            "minimum": 0
+        "digest": {
+            "minimum": 0,
+            "valueIsLong": true,
+            "exclusive": false
         },
         "data": 0,
         "valid": true
     },
     {
-        "schema": {
+        "digest": {
             "minimum": 0,
-            "exclusiveMinimum": true
+            "valueIsLong": true,
+            "exclusive": true
         },
         "data": 0,
         "valid": false,
@@ -29,16 +34,19 @@
         "msgData": { "minimum": 0 }
     },
     {
-        "schema": {
+        "digest": {
             "minimum": 0,
-            "exclusiveMinimum": true
+            "valueIsLong": true,
+            "exclusive": true
         },
         "data": 1,
         "valid": true
     },
     {
-        "schema": {
-            "minimum": 98091239809812309812312.43298
+        "digest": {
+            "minimum": 98091239809812309812312.43298,
+            "valueIsLong": false,
+            "exclusive": false
         },
         "data": 98091239809812309812312.4329,
         "valid": false,
@@ -49,16 +57,19 @@
         }
     },
     {
-        "schema": {
-            "minimum": 98091239809812309812312.43298
+        "digest": {
+            "minimum": 98091239809812309812312.43298,
+            "valueIsLong": false,
+            "exclusive": false
         },
         "data": 98091239809812309812312.43298,
         "valid": true
     },
     {
-        "schema": {
+        "digest": {
             "minimum": 98091239809812309812312.43298,
-            "exclusiveMinimum": true
+            "valueIsLong": false,
+            "exclusive": true
         },
         "data": 98091239809812309812312.43298,
         "valid": false,
@@ -68,8 +79,9 @@
         }
     },
     {
-        "schema": {
+        "digest": {
             "minimum": 98091239809812309812312.43298,
+            "valueIsLong": false,
             "exclusiveMinimum": true
         },
         "data": 98091239809812309812312.43299,
