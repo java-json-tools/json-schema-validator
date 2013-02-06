@@ -23,39 +23,44 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.processing.ValidationDigest;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.ProcessingCache;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
+import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
+import com.google.common.base.Equivalence;
+import com.google.common.cache.CacheLoader;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
-import java.util.List;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedMap;
 
 public final class KeywordBuilder
-    implements Processor<ValidationData, FullValidationContext>
+    implements Processor<ValidationDigest, FullValidationContext>
 {
-    private final ListMultimap<NodeType, String> typeMap
-        = ArrayListMultimap.create();
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonSchemaEquivalence.getInstance();
+    private static final String ERRMSG
+        = "class has no appropriate constructor\n\n"
+        + "Please provide a constructor with a JsonNode argument\n";
+
     private final Map<String, ProcessingCache<JsonNode, KeywordValidator>> caches
         = Maps.newTreeMap();
 
-    public KeywordBuilder(final Dictionary<KeywordDescriptor> dict)
+    public KeywordBuilder(
+        final Dictionary<Class<? extends KeywordValidator>> dict)
     {
         String key;
-        KeywordDescriptor value;
+        ProcessingCache<JsonNode, KeywordValidator> processingCache;
 
-        for (final Map.Entry<String, KeywordDescriptor> entry: dict.entries()) {
+        for (final Map.Entry<String, Class<? extends KeywordValidator>> entry:
+            dict.entries()) {
             key = entry.getKey();
-            value = entry.getValue();
-            for (final NodeType type: value.types)
-                typeMap.put(type, key);
-            caches.put(key, value.buildCache());
+            processingCache = new ProcessingCache<JsonNode, KeywordValidator>(
+                EQUIVALENCE, loader(entry.getValue()));
+            caches.put(key, processingCache);
         }
     }
 
@@ -69,36 +74,30 @@ public final class KeywordBuilder
      */
     @Override
     public FullValidationContext process(final ProcessingReport report,
-        final ValidationData input)
+        final ValidationDigest input)
         throws ProcessingException
     {
         /*
          * Grab the schema and its fields
          */
-        final JsonNode schema = input.getSchema().getCurrentNode();
-        final Set<String> fields = Sets.newHashSet(schema.fieldNames());
+        final JsonNode schema = input.getData().getSchema().getCurrentNode();
+        final SortedMap<String, KeywordValidator> map = Maps.newTreeMap();
 
-        /*
-         * Grab the instance and its type
-         */
-        final JsonNode instance = input.getInstance().getCurrentNode();
-        final NodeType type = NodeType.getNodeType(instance);
 
-        /*
-         * Only retain keywords that are known to validate this particular
-         * instance type
-         */
-        fields.retainAll(typeMap.get(type));
+        String keyword;
+        JsonNode digest;
+        ProcessingCache<JsonNode, KeywordValidator> cache;
+        KeywordValidator validator;
 
-        /*
-         * Build the list
-         */
-        final List<KeywordValidator> list = Lists.newArrayList();
-
-        for (final String keyword: fields)
-            list.add(buildKeyword(input, keyword, schema));
-
-        return new FullValidationContext(input, list);
+        for (final Map.Entry<String, JsonNode> entry:
+            input.getDigests().entrySet()) {
+            keyword = entry.getKey();
+            digest = entry.getValue();
+            cache = caches.get(keyword);
+            validator = cache.get(digest);
+            map.put(keyword, validator);
+        }
+        return new FullValidationContext(input.getData(), map.values());
     }
 
     private KeywordValidator buildKeyword(final ValidationData data,
@@ -113,5 +112,34 @@ public final class KeywordBuilder
                 .put("keyword", keyword).put("cause", e.getProcessingMessage());
             throw new ProcessingException(message);
         }
+    }
+
+    private static CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>
+        loader(final Class<? extends KeywordValidator> c)
+    {
+        return new CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>()
+        {
+            @Override
+            public KeywordValidator load(final Equivalence.Wrapper<JsonNode> key)
+                throws ProcessingException
+            {
+                final Constructor<? extends KeywordValidator> constructor;
+
+                try {
+                    // FIXME: maybe the constructor should be built earlier?
+                    // But on the other hand error handling is becoming hairy
+                    constructor = c.getConstructor(JsonNode.class);
+                    return constructor.newInstance(key.get());
+                } catch (NoSuchMethodException e) {
+                    throw new ProcessingException(ERRMSG, e);
+                } catch (InstantiationException e) {
+                    throw new ProcessingException(ERRMSG, e);
+                } catch (IllegalAccessException e) {
+                    throw new ProcessingException(ERRMSG, e);
+                } catch (InvocationTargetException e) {
+                    throw new ProcessingException(ERRMSG, e);
+                }
+            }
+        };
     }
 }

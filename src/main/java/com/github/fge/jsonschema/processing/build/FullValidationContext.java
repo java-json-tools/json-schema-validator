@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public final class FullValidationContext
     private final ValidationData validationData;
 
     public FullValidationContext(final ValidationData validationData,
-        final List<KeywordValidator> validators)
+        final Collection<KeywordValidator> validators)
     {
         this.validationData = validationData;
         this.validators = ImmutableList.copyOf(validators);

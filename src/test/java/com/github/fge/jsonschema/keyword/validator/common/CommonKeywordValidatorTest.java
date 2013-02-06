@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.keyword.validator.common;
 
 import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
-import com.github.fge.jsonschema.processing.build.AbstractKeywordValidatorTest;
+import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidatorTest;
 
 import java.io.IOException;
 
