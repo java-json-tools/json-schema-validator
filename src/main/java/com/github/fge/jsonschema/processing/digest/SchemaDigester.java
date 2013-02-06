@@ -82,7 +82,7 @@ public final class SchemaDigester
         {
             @Override
             public Map<String, JsonNode> load(final JsonNode key)
-                throws Exception
+                throws ProcessingException
             {
                 final Set<String> keywords = Sets.newHashSet(key.fieldNames());
                 final Map<String, JsonNode> ret = Maps.newHashMap();

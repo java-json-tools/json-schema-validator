@@ -15,22 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.equivalence;
+package com.github.fge.jsonschema.processing.digest;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-public final class PositiveIntegerEquivalence
-    extends KeywordEquivalence
+public final class SchemaDigesterTest
 {
-    public PositiveIntegerEquivalence(final String keyword)
-    {
-        super(keyword);
-    }
-
-    @Override
-    protected JsonNode digestedNode(final JsonNode orig)
-    {
-        // We can do that: we are guaranteed that it is an integer
-        return FACTORY.numberNode(orig.get(keyword).intValue());
-    }
 }
