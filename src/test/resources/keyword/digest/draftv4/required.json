@@ -1,0 +1,25 @@
+[
+    {
+        "inputs": [
+            {
+                "required": [ "a", "b", "c" ]
+            },
+            {
+                "required": [ "a", "c", "b" ]
+            },
+            {
+                "required": [ "b", "a", "c" ]
+            },
+            {
+                "required": [ "b", "c", "a" ]
+            },
+            {
+                "required": [ "c", "a", "b" ]
+            },
+            {
+                "required": [ "c", "b", "a" ]
+            }
+        ],
+        "digest": { "required": [ "a", "b", "c" ] }
+    }
+]

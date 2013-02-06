@@ -1,0 +1,52 @@
+[
+    {
+        "inputs": [
+            {
+                "multipleOf": 1
+            },
+            {
+                "multipleOf": 1.0
+            },
+            {
+                "multipleOf": 1,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "multipleOf": 1,
+            "valueIsLong": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "multipleOf": 2147483648
+            },
+            {
+                "multipleOf": 2147483648.0
+            },
+            {
+                "multipleOf": 2147483648,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "multipleOf": 2147483648,
+            "valueIsLong": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "multipleOf": 9223372036854775808
+            },
+            {
+                "multipleOf": 9223372036854775808.0
+            }
+        ],
+        "digest": {
+            "multipleOf": 9223372036854775808,
+            "valueIsLong": false
+        }
+    }
+]
