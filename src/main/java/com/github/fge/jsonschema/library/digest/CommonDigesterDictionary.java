@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.library.digest;
 
 import com.github.fge.jsonschema.keyword.digest.AdditionalPropertiesDigester;
 import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.keyword.digest.NullDigester;
 import com.github.fge.jsonschema.keyword.digest.SimpleDigester;
 import com.github.fge.jsonschema.keyword.digest.common.AdditionalItemsDigester;
 import com.github.fge.jsonschema.keyword.digest.common.MaximumDigester;
@@ -88,7 +89,7 @@ public final class CommonDigesterDictionary
         builder.addEntry(keyword, digester);
 
         keyword = "pattern";
-        digester = new SimpleDigester(keyword, STRING);
+        digester = new NullDigester(keyword, STRING);
         builder.addEntry(keyword, digester);
 
         /*
