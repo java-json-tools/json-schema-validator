@@ -16,7 +16,7 @@
     },
     {
         "digest": { "maxLength": 4 },
-        "data": "foobar",
+        "data": "foo",
         "valid": true
     }
 ]

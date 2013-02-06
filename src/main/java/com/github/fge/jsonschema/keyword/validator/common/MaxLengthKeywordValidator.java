@@ -31,7 +31,7 @@ public final class MaxLengthKeywordValidator
 {
     public MaxLengthKeywordValidator(final JsonNode digested)
     {
-        super("minLength", digested);
+        super("maxLength", digested);
     }
     @Override
     public void validate(

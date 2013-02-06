@@ -106,8 +106,6 @@ public final class KeywordBuilder
                 throws ProcessingException
             {
                 try {
-                    // FIXME: maybe the constructor should be built earlier?
-                    // But on the other hand error handling is becoming hairy
                     return constructor.newInstance(key.get());
                 } catch (InstantiationException e) {
                     throw new ProcessingException(ERRMSG, e);
