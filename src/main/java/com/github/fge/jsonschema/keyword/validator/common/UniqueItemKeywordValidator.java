@@ -39,10 +39,10 @@ public final class UniqueItemKeywordValidator
 
     private final boolean uniqueItems;
 
-    public UniqueItemKeywordValidator(final JsonNode schema)
+    public UniqueItemKeywordValidator(final JsonNode digest)
     {
         super("uniqueItems");
-        uniqueItems = schema.get(keyword).booleanValue();
+        uniqueItems = digest.get(keyword).booleanValue();
     }
 
     @Override

@@ -26,23 +26,24 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class MaxItemsKeywordValidator
+public final class MaxLengthKeywordValidator
     extends PositiveIntegerKeywordValidator
 {
-    public MaxItemsKeywordValidator(final JsonNode digest)
+    public MaxLengthKeywordValidator(final JsonNode digested)
     {
-        super("maxItems", digest);
+        super("minLength", digested);
     }
-
     @Override
     public void validate(
         final Processor<ValidationData, ProcessingReport> processor,
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final int size = data.getInstance().getCurrentNode().size();
+        final int size = data.getInstance().getCurrentNode().textValue()
+            .length();
+
         if (size > intValue)
-            report.error(newMsg(data).msg(ARRAY_IS_TOO_LONG)
+            report.error(newMsg(data).msg(STRING_TOO_LONG)
                 .put(keyword, intValue).put("found", size));
     }
 }

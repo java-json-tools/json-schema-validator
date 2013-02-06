@@ -29,9 +29,9 @@ import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 public final class MinItemsKeywordValidator
     extends PositiveIntegerKeywordValidator
 {
-    public MinItemsKeywordValidator(final JsonNode schema)
+    public MinItemsKeywordValidator(final JsonNode digest)
     {
-        super("minItems", schema);
+        super("minItems", digest);
     }
 
     @Override

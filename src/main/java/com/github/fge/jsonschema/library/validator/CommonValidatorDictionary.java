@@ -21,8 +21,10 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaxItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.MaxLengthKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaximumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.MinLengthKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinimumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -83,6 +85,17 @@ public final class CommonValidatorDictionary
          */
         keyword = "additionalProperties";
         c = AdditionalPropertiesKeywordValidator.class;
+        builder.addEntry(keyword, c);
+
+        /*
+         * Strings
+         */
+        keyword = "minLength";
+        c = MinLengthKeywordValidator.class;
+        builder.addEntry(keyword, c);
+
+        keyword = "maxLength";
+        c = MaxLengthKeywordValidator.class;
         builder.addEntry(keyword, c);
 
         DICTIONARY = builder.freeze();

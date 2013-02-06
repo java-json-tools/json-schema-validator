@@ -28,6 +28,8 @@ public enum KeywordValidationMessages
     NUMBER_TOO_LARGE("number is greater than the required maximum"),
     NUMBER_EX_LARGE("number is not strictly lower than the required maximum"),
     ADDITIONAL_PROPERTIES_NOT_ALLOWED("additional properties are not allowed"),
+    STRING_TOO_SHORT("string is too short"),
+    STRING_TOO_LONG("string is too long"),
     ;
 
     private final String message;

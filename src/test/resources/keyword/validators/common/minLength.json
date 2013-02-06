@@ -1,0 +1,22 @@
+[
+    {
+        "digest": { "minLength": 4 },
+        "data": "foo",
+        "valid": false,
+        "message": "STRING_TOO_SHORT",
+        "msgData": {
+            "minLength": 4,
+            "found": 3
+        }
+    },
+    {
+        "digest": { "minLength": 4 },
+        "data": "foos",
+        "valid": true
+    },
+    {
+        "digest": { "minLength": 4 },
+        "data": "foobar",
+        "valid": true
+    }
+]
