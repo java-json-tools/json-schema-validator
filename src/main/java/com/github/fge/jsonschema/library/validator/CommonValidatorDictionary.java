@@ -17,9 +17,6 @@
 
 package com.github.fge.jsonschema.library.validator;
 
-import com.github.fge.jsonschema.keyword.equivalence.common.AdditionalPropertiesEquivalence;
-import com.github.fge.jsonschema.keyword.equivalence.common.MaximumEquivalence;
-import com.github.fge.jsonschema.keyword.equivalence.common.MinimumEquivalence;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaxItemsKeywordValidator;
@@ -83,15 +80,13 @@ public final class CommonValidatorDictionary
         keyword = "minimum";
         descriptor = KeywordDescriptor.newBuilder()
             .setValidatedTypes(INTEGER, NUMBER)
-            .setValidatorClass(MinimumKeywordValidator.class)
-            .setEquivalence(MinimumEquivalence.getInstance());
+            .setValidatorClass(MinimumKeywordValidator.class);
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "maximum";
         descriptor = KeywordDescriptor.newBuilder()
             .setValidatedTypes(INTEGER, NUMBER)
-            .setValidatorClass(MaximumKeywordValidator.class)
-            .setEquivalence(MaximumEquivalence.getInstance());
+            .setValidatorClass(MaximumKeywordValidator.class);
         builder.addEntry(keyword, descriptor.freeze());
 
         /*
@@ -99,8 +94,7 @@ public final class CommonValidatorDictionary
          */
         keyword = "additionalProperties";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(OBJECT)
-            .setValidatorClass(AdditionalPropertiesKeywordValidator.class)
-            .setEquivalence(AdditionalPropertiesEquivalence.getInstance());
+            .setValidatorClass(AdditionalPropertiesKeywordValidator.class);
         builder.addEntry(keyword, descriptor.freeze());
 
         DICTIONARY = builder.freeze();
