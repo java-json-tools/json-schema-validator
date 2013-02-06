@@ -18,13 +18,16 @@
 package com.github.fge.jsonschema.library.digest;
 
 import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.keyword.digest.DraftV4TypeDigester;
+import com.github.fge.jsonschema.keyword.digest.NullDigester;
 import com.github.fge.jsonschema.keyword.digest.SimpleDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv4.DraftV4DependenciesDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv4.MultipleOfDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv4.RequiredDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.util.NodeType;
+
+import static com.github.fge.jsonschema.util.NodeType.*;
 
 public final class DraftV4DigesterDictionary
 {
@@ -45,11 +48,11 @@ public final class DraftV4DigesterDictionary
         builder.addEntry(keyword, digester);
 
         keyword = "minProperties";
-        digester = new SimpleDigester(keyword, NodeType.OBJECT);
+        digester = new SimpleDigester(keyword, OBJECT);
         builder.addEntry(keyword, digester);
 
         keyword = "maxProperties";
-        digester = new SimpleDigester(keyword, NodeType.OBJECT);
+        digester = new SimpleDigester(keyword, OBJECT);
         builder.addEntry(keyword, digester);
 
         keyword = "required";
@@ -58,6 +61,29 @@ public final class DraftV4DigesterDictionary
 
         keyword = "dependencies";
         digester = DraftV4DependenciesDigester.getInstance();
+        builder.addEntry(keyword, digester);
+
+        /*
+         * All/none
+         */
+        keyword = "anyOf";
+        digester = new NullDigester(keyword, ARRAY, values());
+        builder.addEntry(keyword, digester);
+
+        keyword = "allOf";
+        digester = new NullDigester(keyword, ARRAY, values());
+        builder.addEntry(keyword, digester);
+
+        keyword = "oneOf";
+        digester = new NullDigester(keyword, ARRAY, values());
+        builder.addEntry(keyword, digester);
+
+        keyword = "not";
+        digester = new NullDigester(keyword, ARRAY, values());
+        builder.addEntry(keyword, digester);
+
+        keyword = "type";
+        digester = DraftV4TypeDigester.getInstance();
         builder.addEntry(keyword, digester);
 
         DICTIONARY = builder.freeze();

@@ -25,7 +25,8 @@ import com.github.fge.jsonschema.keyword.digest.common.MaximumDigester;
 import com.github.fge.jsonschema.keyword.digest.common.MinimumDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.util.NodeType;
+
+import static com.github.fge.jsonschema.util.NodeType.*;
 
 public final class CommonDigesterDictionary
 {
@@ -46,15 +47,15 @@ public final class CommonDigesterDictionary
         builder.addEntry(keyword, digester);
 
         keyword = "minItems";
-        digester = new SimpleDigester(keyword, NodeType.ARRAY);
+        digester = new SimpleDigester(keyword, ARRAY);
         builder.addEntry(keyword, digester);
 
         keyword = "maxItems";
-        digester = new SimpleDigester(keyword, NodeType.ARRAY);
+        digester = new SimpleDigester(keyword, ARRAY);
         builder.addEntry(keyword, digester);
 
         keyword = "uniqueItems";
-        digester = new SimpleDigester(keyword, NodeType.ARRAY);
+        digester = new SimpleDigester(keyword, ARRAY);
         builder.addEntry(keyword, digester);
 
         /*
@@ -79,15 +80,15 @@ public final class CommonDigesterDictionary
          * String
          */
         keyword = "minLength";
-        digester = new SimpleDigester(keyword, NodeType.STRING);
+        digester = new SimpleDigester(keyword, STRING);
         builder.addEntry(keyword, digester);
 
         keyword = "maxLength";
-        digester = new SimpleDigester(keyword, NodeType.STRING);
+        digester = new SimpleDigester(keyword, STRING);
         builder.addEntry(keyword, digester);
 
         keyword = "pattern";
-        digester = new SimpleDigester(keyword, NodeType.STRING);
+        digester = new SimpleDigester(keyword, STRING);
         builder.addEntry(keyword, digester);
 
         /*
@@ -115,7 +116,7 @@ public final class CommonDigesterDictionary
          * will do what it takes.
          */
         keyword = "enum";
-        digester = new SimpleDigester(keyword, NodeType.STRING);
+        digester = new SimpleDigester(keyword, STRING);
         builder.addEntry(keyword, digester);
 
         DICTIONARY = builder.freeze();

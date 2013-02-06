@@ -1,0 +1,74 @@
+[
+    {
+        "inputs": [
+            {
+                "type": "string"
+            },
+            {
+                "type": [ "string" ]
+            },
+            {
+                "type": "string",
+                "foo": false
+            }
+        ],
+        "digest": {
+            "type": [ "string" ]
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": "number"
+            },
+            {
+                "type": [ "number", "integer" ]
+            },
+            {
+                "type": [ "number" ]
+            },
+            {
+                "type": "number",
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "type": [ "integer", "number" ]
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": [ "object", "boolean", "null" ]
+            },
+            {
+                "type": [ "null", "boolean", "object" ]
+            },
+            {
+                "type": [ "boolean", "object", "null" ]
+            },
+            {
+                "type": [ "object", "boolean", "null" ]
+            }
+        ],
+        "digest": {
+            "type": [ "boolean", "null", "object" ]
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": [ "string", "number" ]
+            },
+            {
+                "type": [ "string", "integer", "number" ]
+            },
+            {
+                "type": [ "integer", "string", "number" ]
+            }
+        ],
+        "digest": {
+            "type": [ "integer", "number", "string" ]
+        }
+    }
+]
