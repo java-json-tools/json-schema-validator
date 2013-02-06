@@ -32,13 +32,13 @@ import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JsonLoader;
-import com.github.fge.jsonschema.util.ProcessingCache;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,21 +49,19 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
-    protected final Dictionary<KeywordDescriptor> dict;
+    protected final Dictionary<Class<? extends KeywordValidator>> dict;
     protected final String keyword;
-    protected final KeywordDescriptor descriptor;
-    protected final ProcessingCache<JsonNode, KeywordValidator> cache;
+    protected final Class<? extends KeywordValidator> descriptor;
     protected final JsonNode testNode;
 
     protected AbstractKeywordValidatorTest(
-        final Dictionary<KeywordDescriptor> dict, final String prefix,
-        final String keyword)
+        final Dictionary<Class<? extends KeywordValidator>> dict,
+        final String prefix, final String keyword)
         throws IOException
     {
         this.dict = dict;
         this.keyword = keyword;
         descriptor = dict.get(keyword);
-        cache = descriptor == null ? null : descriptor.buildCache();
         final String resourceName
             = String.format("/keyword/validators/%s/%s.json", prefix, keyword);
         testNode = JsonLoader.fromResource(resourceName);
@@ -99,7 +97,8 @@ public abstract class AbstractKeywordValidatorTest
     public final void instancesAreValidatedCorrectly(final JsonNode schema,
         final JsonNode node, final KeywordValidationMessages msg,
         final boolean valid, final ObjectNode msgData)
-        throws ProcessingException
+        throws ProcessingException, InvocationTargetException,
+        NoSuchMethodException, InstantiationException, IllegalAccessException
     {
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
         final JsonTree instance = new SimpleJsonTree(node);
@@ -110,7 +109,7 @@ public abstract class AbstractKeywordValidatorTest
         final Processor<ValidationData, ProcessingReport> processor
             =  mock(Processor.class);
 
-        final KeywordValidator validator = cache.get(schema);
+        final KeywordValidator validator = build(descriptor, schema);
         validator.validate(processor, report, data);
 
         if (valid) {
@@ -127,5 +126,15 @@ public abstract class AbstractKeywordValidatorTest
 
         assertMessage(message).isValidationError(keyword, msg, data)
             .hasContents(msgData);
+    }
+
+    private static KeywordValidator build(
+        final Class<? extends KeywordValidator> c,
+        final JsonNode node)
+        throws IllegalAccessException, InvocationTargetException,
+        InstantiationException, NoSuchMethodException
+    {
+
+        return c.getConstructor(JsonNode.class).newInstance(node);
     }
 }

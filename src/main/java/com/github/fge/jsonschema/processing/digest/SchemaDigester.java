@@ -30,7 +30,6 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -73,7 +72,7 @@ public final class SchemaDigester
             = NodeType.getNodeType(input.getInstance().getCurrentNode());
         final Map<String, JsonNode> map = cache.getUnchecked(schema);
         map.keySet().retainAll(typeMap.get(type));
-        return new ValidationDigest(input, ImmutableMap.copyOf(map));
+        return new ValidationDigest(input, map);
     }
 
     private CacheLoader<JsonNode, Map<String, JsonNode>> loader()

@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.library.validator;
 
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaxItemsKeywordValidator;
@@ -26,76 +27,63 @@ import com.github.fge.jsonschema.keyword.validator.common.MinimumKeywordValidato
 import com.github.fge.jsonschema.keyword.validator.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processing.build.KeywordDescriptor;
-import com.github.fge.jsonschema.processing.build.KeywordDescriptorBuilder;
-
-import static com.github.fge.jsonschema.util.NodeType.*;
 
 public final class CommonValidatorDictionary
 {
-    private static final Dictionary<KeywordDescriptor> DICTIONARY;
+    private static final Dictionary<Class<? extends KeywordValidator>> DICTIONARY;
 
     private CommonValidatorDictionary()
     {
     }
 
-    public static Dictionary<KeywordDescriptor> get()
+    public static Dictionary<Class<? extends KeywordValidator>> get()
     {
         return DICTIONARY;
     }
 
     static {
-        final DictionaryBuilder<KeywordDescriptor> builder
+        final DictionaryBuilder<Class<? extends KeywordValidator>> builder
             = Dictionary.newBuilder();
 
         String keyword;
-        KeywordDescriptorBuilder descriptor;
+        Class<? extends KeywordValidator> descriptor;
 
         /*
          * Arrays
          */
         keyword = "additionalItems";
-        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(AdditionalItemsKeywordValidator.class);
-        builder.addEntry(keyword, descriptor.freeze());
+        descriptor = AdditionalItemsKeywordValidator.class;
+        builder.addEntry(keyword, descriptor);
 
         keyword = "minItems";
-        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(MinItemsKeywordValidator.class);
-        builder.addEntry(keyword, descriptor.freeze());
+        descriptor = MinItemsKeywordValidator.class;
+        builder.addEntry(keyword, descriptor);
 
         keyword = "maxItems";
-        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(MaxItemsKeywordValidator.class);
-        builder.addEntry(keyword, descriptor.freeze());
+        descriptor = MaxItemsKeywordValidator.class;
+        builder.addEntry(keyword, descriptor);
 
         keyword = "uniqueItems";
-        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(UniqueItemKeywordValidator.class);
-        builder.addEntry(keyword, descriptor.freeze());
+        descriptor = UniqueItemKeywordValidator.class;
+        builder.addEntry(keyword, descriptor);
 
         /*
          * Numbers and integers
          */
         keyword = "minimum";
-        descriptor = KeywordDescriptor.newBuilder()
-            .setValidatedTypes(INTEGER, NUMBER)
-            .setValidatorClass(MinimumKeywordValidator.class);
-        builder.addEntry(keyword, descriptor.freeze());
+        descriptor = MinimumKeywordValidator.class;
+        builder.addEntry(keyword, descriptor);
 
         keyword = "maximum";
-        descriptor = KeywordDescriptor.newBuilder()
-            .setValidatedTypes(INTEGER, NUMBER)
-            .setValidatorClass(MaximumKeywordValidator.class);
-        builder.addEntry(keyword, descriptor.freeze());
+        descriptor = MaximumKeywordValidator.class;
+        builder.addEntry(keyword, descriptor);
 
         /*
          * Objects
          */
         keyword = "additionalProperties";
-        descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(OBJECT)
-            .setValidatorClass(AdditionalPropertiesKeywordValidator.class);
-        builder.addEntry(keyword, descriptor.freeze());
+        descriptor = AdditionalPropertiesKeywordValidator.class;
+        builder.addEntry(keyword, descriptor);
 
         DICTIONARY = builder.freeze();
     }
