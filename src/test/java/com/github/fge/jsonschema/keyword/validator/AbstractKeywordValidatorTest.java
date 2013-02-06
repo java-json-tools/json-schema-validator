@@ -50,7 +50,7 @@ public abstract class AbstractKeywordValidatorTest
 {
     protected final Dictionary<Class<? extends KeywordValidator>> dict;
     protected final String keyword;
-    protected final Class<? extends KeywordValidator> descriptor;
+    protected final Class<? extends KeywordValidator> c;
     protected final JsonNode testNode;
 
     protected AbstractKeywordValidatorTest(
@@ -60,7 +60,7 @@ public abstract class AbstractKeywordValidatorTest
     {
         this.dict = dict;
         this.keyword = keyword;
-        descriptor = dict.get(keyword);
+        c = dict.get(keyword);
         final String resourceName
             = String.format("/keyword/validators/%s/%s.json", prefix, keyword);
         testNode = JsonLoader.fromResource(resourceName);
@@ -69,7 +69,7 @@ public abstract class AbstractKeywordValidatorTest
     @Test
     public final void keywordExists()
     {
-        assertNotNull(descriptor, "no support for " + keyword + "??");
+        assertNotNull(c, "no support for " + keyword + "??");
     }
 
     @DataProvider
@@ -108,7 +108,7 @@ public abstract class AbstractKeywordValidatorTest
         final Processor<ValidationData, ProcessingReport> processor
             =  mock(Processor.class);
 
-        final KeywordValidator validator = build(descriptor, schema);
+        final KeywordValidator validator = build(c, schema);
         validator.validate(processor, report, data);
 
         if (valid) {

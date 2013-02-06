@@ -46,44 +46,44 @@ public final class CommonValidatorDictionary
             = Dictionary.newBuilder();
 
         String keyword;
-        Class<? extends KeywordValidator> descriptor;
+        Class<? extends KeywordValidator> c;
 
         /*
          * Arrays
          */
         keyword = "additionalItems";
-        descriptor = AdditionalItemsKeywordValidator.class;
-        builder.addEntry(keyword, descriptor);
+        c = AdditionalItemsKeywordValidator.class;
+        builder.addEntry(keyword, c);
 
         keyword = "minItems";
-        descriptor = MinItemsKeywordValidator.class;
-        builder.addEntry(keyword, descriptor);
+        c = MinItemsKeywordValidator.class;
+        builder.addEntry(keyword, c);
 
         keyword = "maxItems";
-        descriptor = MaxItemsKeywordValidator.class;
-        builder.addEntry(keyword, descriptor);
+        c = MaxItemsKeywordValidator.class;
+        builder.addEntry(keyword, c);
 
         keyword = "uniqueItems";
-        descriptor = UniqueItemKeywordValidator.class;
-        builder.addEntry(keyword, descriptor);
+        c = UniqueItemKeywordValidator.class;
+        builder.addEntry(keyword, c);
 
         /*
          * Numbers and integers
          */
         keyword = "minimum";
-        descriptor = MinimumKeywordValidator.class;
-        builder.addEntry(keyword, descriptor);
+        c = MinimumKeywordValidator.class;
+        builder.addEntry(keyword, c);
 
         keyword = "maximum";
-        descriptor = MaximumKeywordValidator.class;
-        builder.addEntry(keyword, descriptor);
+        c = MaximumKeywordValidator.class;
+        builder.addEntry(keyword, c);
 
         /*
          * Objects
          */
         keyword = "additionalProperties";
-        descriptor = AdditionalPropertiesKeywordValidator.class;
-        builder.addEntry(keyword, descriptor);
+        c = AdditionalPropertiesKeywordValidator.class;
+        builder.addEntry(keyword, c);
 
         DICTIONARY = builder.freeze();
     }
