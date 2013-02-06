@@ -22,9 +22,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.ValidationDigest;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.ProcessingCache;
 import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
@@ -42,21 +40,19 @@ public final class KeywordBuilder
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
         = JsonSchemaEquivalence.getInstance();
-    private static final String ERRMSG
-        = "class has no appropriate constructor\n\n"
-        + "Please provide a constructor with a JsonNode argument\n";
+    private static final String ERRMSG = "failed to build keyword validator";
 
     private final Map<String, ProcessingCache<JsonNode, KeywordValidator>> caches
         = Maps.newTreeMap();
 
     public KeywordBuilder(
-        final Dictionary<Class<? extends KeywordValidator>> dict)
+        final Dictionary<Constructor<? extends KeywordValidator>> dict)
     {
         String key;
         ProcessingCache<JsonNode, KeywordValidator> processingCache;
 
-        for (final Map.Entry<String, Class<? extends KeywordValidator>> entry:
-            dict.entries()) {
+        for (final Map.Entry<String, Constructor<? extends KeywordValidator>>
+            entry: dict.entries()) {
             key = entry.getKey();
             processingCache = new ProcessingCache<JsonNode, KeywordValidator>(
                 EQUIVALENCE, loader(entry.getValue()));
@@ -100,22 +96,8 @@ public final class KeywordBuilder
         return new FullValidationContext(input.getData(), map.values());
     }
 
-    private KeywordValidator buildKeyword(final ValidationData data,
-        final String keyword, final JsonNode schema)
-        throws ProcessingException
-    {
-        try {
-            return caches.get(keyword).get(schema);
-        } catch (ProcessingException e) {
-            final ProcessingMessage message = data.newMessage()
-                .msg("failed to build keyword validator")
-                .put("keyword", keyword).put("cause", e.getProcessingMessage());
-            throw new ProcessingException(message);
-        }
-    }
-
     private static CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>
-        loader(final Class<? extends KeywordValidator> c)
+        loader(final Constructor<? extends KeywordValidator> constructor)
     {
         return new CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>()
         {
@@ -123,15 +105,10 @@ public final class KeywordBuilder
             public KeywordValidator load(final Equivalence.Wrapper<JsonNode> key)
                 throws ProcessingException
             {
-                final Constructor<? extends KeywordValidator> constructor;
-
                 try {
                     // FIXME: maybe the constructor should be built earlier?
                     // But on the other hand error handling is becoming hairy
-                    constructor = c.getConstructor(JsonNode.class);
                     return constructor.newInstance(key.get());
-                } catch (NoSuchMethodException e) {
-                    throw new ProcessingException(ERRMSG, e);
                 } catch (InstantiationException e) {
                     throw new ProcessingException(ERRMSG, e);
                 } catch (IllegalAccessException e) {

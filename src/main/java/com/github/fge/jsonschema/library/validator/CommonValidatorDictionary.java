@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.library.validator;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
@@ -30,22 +31,25 @@ import com.github.fge.jsonschema.keyword.validator.common.UniqueItemKeywordValid
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
+import java.lang.reflect.Constructor;
+
 public final class CommonValidatorDictionary
 {
-    private static final Dictionary<Class<? extends KeywordValidator>> DICTIONARY;
+    private static final Dictionary<Constructor<? extends KeywordValidator>>
+        DICTIONARY;
 
     private CommonValidatorDictionary()
     {
     }
 
-    public static Dictionary<Class<? extends KeywordValidator>> get()
+    public static Dictionary<Constructor<? extends KeywordValidator>> get()
     {
         return DICTIONARY;
     }
 
     static {
-        final DictionaryBuilder<Class<? extends KeywordValidator>> builder
-            = Dictionary.newBuilder();
+        final DictionaryBuilder<Constructor<? extends KeywordValidator>>
+            builder = Dictionary.newBuilder();
 
         String keyword;
         Class<? extends KeywordValidator> c;
@@ -55,49 +59,59 @@ public final class CommonValidatorDictionary
          */
         keyword = "additionalItems";
         c = AdditionalItemsKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         keyword = "minItems";
         c = MinItemsKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         keyword = "maxItems";
         c = MaxItemsKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         keyword = "uniqueItems";
         c = UniqueItemKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         /*
          * Numbers and integers
          */
         keyword = "minimum";
         c = MinimumKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         keyword = "maximum";
         c = MaximumKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         /*
          * Objects
          */
         keyword = "additionalProperties";
         c = AdditionalPropertiesKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         /*
          * Strings
          */
         keyword = "minLength";
         c = MinLengthKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         keyword = "maxLength";
         c = MaxLengthKeywordValidator.class;
-        builder.addEntry(keyword, c);
+        builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();
+    }
+
+    private static Constructor<? extends KeywordValidator> constructor(
+        final Class<? extends KeywordValidator> c)
+    {
+        try {
+            return c.getConstructor(JsonNode.class);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException("No appropriate constructor", e);
+        }
     }
 }
