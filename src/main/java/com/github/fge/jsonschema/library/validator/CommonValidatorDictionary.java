@@ -17,12 +17,9 @@
 
 package com.github.fge.jsonschema.library.validator;
 
-import com.github.fge.jsonschema.keyword.equivalence.PositiveIntegerEquivalence;
-import com.github.fge.jsonschema.keyword.equivalence.common.AdditionalItemsEquivalence;
 import com.github.fge.jsonschema.keyword.equivalence.common.AdditionalPropertiesEquivalence;
 import com.github.fge.jsonschema.keyword.equivalence.common.MaximumEquivalence;
 import com.github.fge.jsonschema.keyword.equivalence.common.MinimumEquivalence;
-import com.github.fge.jsonschema.keyword.equivalence.common.UniqueItemsEquivalence;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaxItemsKeywordValidator;
@@ -62,26 +59,22 @@ public final class CommonValidatorDictionary
          */
         keyword = "additionalItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(AdditionalItemsKeywordValidator.class)
-            .setEquivalence(AdditionalItemsEquivalence.getInstance());
+            .setValidatorClass(AdditionalItemsKeywordValidator.class);
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "minItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(MinItemsKeywordValidator.class)
-            .setEquivalence(new PositiveIntegerEquivalence(keyword));
+            .setValidatorClass(MinItemsKeywordValidator.class);
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "maxItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(MaxItemsKeywordValidator.class)
-            .setEquivalence(new PositiveIntegerEquivalence(keyword));
+            .setValidatorClass(MaxItemsKeywordValidator.class);
         builder.addEntry(keyword, descriptor.freeze());
 
         keyword = "uniqueItems";
         descriptor = KeywordDescriptor.newBuilder().setValidatedTypes(ARRAY)
-            .setValidatorClass(UniqueItemKeywordValidator.class)
-            .setEquivalence(UniqueItemsEquivalence.getInstance());
+            .setValidatorClass(UniqueItemKeywordValidator.class);
         builder.addEntry(keyword, descriptor.freeze());
 
         /*
