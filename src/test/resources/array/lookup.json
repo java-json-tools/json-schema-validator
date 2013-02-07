@@ -1,0 +1,92 @@
+[
+    {
+        "digest": {
+            "hasItems": false,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": false
+        },
+        "elementIndex": 0,
+        "ret": []
+    },
+    {
+        "digest": {
+            "hasItems": false,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": false
+        },
+        "elementIndex": 50,
+        "ret": []
+    },
+    {
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": false
+        },
+        "elementIndex": 0,
+        "ret": [ "/items" ]
+    },
+    {
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": false
+        },
+        "elementIndex": 50,
+        "ret": [ "/items" ]
+    },
+    {
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": true,
+            "itemsSize": 5,
+            "hasAdditional": false
+        },
+        "elementIndex": 3,
+        "ret": [ "/items/3" ]
+    },
+    {
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": true,
+            "itemsSize": 5,
+            "hasAdditional": false
+        },
+        "elementIndex": 50,
+        "ret": []
+    },
+    {
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": true,
+            "itemsSize": 5,
+            "hasAdditional": true
+        },
+        "elementIndex": 3,
+        "ret": [ "/items/3" ]
+    },
+    {
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": true,
+            "itemsSize": 5,
+            "hasAdditional": true
+        },
+        "elementIndex": 50,
+        "ret": [ "/additionalItems" ]
+    },
+    {
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": true
+        },
+        "elementIndex": 50,
+        "ret": [ "/items" ]
+    }
+]
