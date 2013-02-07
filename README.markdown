@@ -28,10 +28,11 @@ on Android</a> :)</p>
 href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
 group</a>.</p>
 
-<p>Versions:</p>
+<p>Versions: (<i>please note that due to the heavy development being performed
+on the current development version, the javadoc is currently not up to date)</i></p>
 
 <ul>
-    <li>development version: <b>1.99.3</b> (<a
+    <li>development version: <b>1.99.4</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
     <li>stable version: <b>1.4.9</b> (<a
