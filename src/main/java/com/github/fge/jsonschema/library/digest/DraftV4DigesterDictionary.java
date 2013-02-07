@@ -40,6 +40,8 @@ public final class DraftV4DigesterDictionary
         String keyword;
         Digester digester;
 
+        builder.addAll(CommonDigesterDictionary.get());
+
         /*
          * Number/integer
          */

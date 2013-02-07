@@ -54,6 +54,8 @@ public final class DraftV4ValidatorDictionary
         String keyword;
         Class<? extends KeywordValidator> c;
 
+        builder.addAll(CommonValidatorDictionary.get());
+
         /*
          * Number/integer
          */

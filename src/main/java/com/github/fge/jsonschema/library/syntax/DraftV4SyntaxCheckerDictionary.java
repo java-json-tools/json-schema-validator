@@ -45,12 +45,13 @@ public final class DraftV4SyntaxCheckerDictionary
     }
 
     static {
-        final DictionaryBuilder<SyntaxChecker> dict = Dictionary.newBuilder();
+        final DictionaryBuilder<SyntaxChecker> builder
+            = Dictionary.newBuilder();
 
         /*
          * Put all common checkers
          */
-        dict.addAll(CommonSyntaxCheckerDictionary.get());
+        builder.addAll(CommonSyntaxCheckerDictionary.get());
 
         String keyword;
         SyntaxChecker checker;
@@ -60,65 +61,65 @@ public final class DraftV4SyntaxCheckerDictionary
          */
         keyword = "items";
         checker = DraftV4ItemsSyntaxChecker.getInstance();
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         /*
          * Integers and numbers
          */
         keyword = "multipleOf";
         checker = new DivisorSyntaxChecker(keyword);
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         /*
          * Objects
          */
         keyword = "minProperties";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "maxProperties";
         checker = new PositiveIntegerSyntaxChecker(keyword);
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "properties";
         checker = DraftV4PropertiesSyntaxChecker.getInstance();
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "required";
         checker = RequiredSyntaxChecker.getInstance();
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "dependencies";
         checker = DraftV4DependenciesSyntaxChecker.getInstance();
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         /*
          * All / metadata
          */
         keyword = "allOf";
         checker = new SchemaArraySyntaxChecker(keyword);
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "anyOf";
         checker = new SchemaArraySyntaxChecker(keyword);
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "oneOf";
         checker = new SchemaArraySyntaxChecker(keyword);
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "not";
         checker = NotSyntaxChecker.getInstance();
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "definitions";
         checker = DefinitionsSyntaxChecker.getInstance();
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
         keyword = "type";
         checker = DraftV4TypeSyntaxChecker.getInstance();
-        dict.addEntry(keyword, checker);
+        builder.addEntry(keyword, checker);
 
-        DICTIONARY = dict.freeze();
+        DICTIONARY = builder.freeze();
     }
 }
