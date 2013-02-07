@@ -1,0 +1,76 @@
+[
+    {
+        "inputs": [
+            {},
+            { "additionalProperties": false },
+            { "additionalProperties": true }
+        ],
+        "digest": {
+            "hasItems": false,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": false
+        }
+    },
+    {
+        "inputs": [
+            { "items": {} },
+            { "items": { "a": "b" }, "additionalItems": true },
+            { "items": { "c": "d" }, "additionalItems": false }
+        ],
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": false
+        }
+    },
+    {
+        "inputs": [
+            { "items": {}, "additionalItems": {} },
+            { "items": { "a": "b" }, "additionalItems": {} },
+            { "items": {}, "additionalItems": { "c": "d" } }
+        ],
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": false,
+            "itemsSize": 0,
+            "hasAdditional": true
+        }
+    },
+    {
+        "inputs": [
+            { "items": [ {}, {}, {} ] },
+            { "items": [ {}, {}, {} ], "additionalItems": true },
+            { "items": [ {}, {}, {} ], "additionalItems": false }
+        ],
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": true,
+            "itemsSize": 3,
+            "hasAdditional": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "items": [ { "foo": "bar" }, {} ],
+                "additionalItems": {}
+            },
+            {
+                "items": [ {}, {} ],
+                "additionalItems": { "a": "b" }
+            },
+            {
+                "items": [ {"x": [ "y", 2 ] }, {} ],
+                "additionalItems": { "ee": null }
+            }
+        ],
+        "digest": {
+            "hasItems": true,
+            "itemsIsArray": true,
+            "itemsSize": 2,
+            "hasAdditional": true
+        }
+    }
+]
