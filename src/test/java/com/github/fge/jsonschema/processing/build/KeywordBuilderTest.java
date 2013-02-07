@@ -44,9 +44,6 @@ public final class KeywordBuilderTest
     private static final String K2 = "k2";
     private static final String CHALLENGED = "challenged";
 
-    private final Constructor<? extends KeywordValidator> constructor1;
-    private final Constructor<? extends KeywordValidator> constructor2;
-    private final Constructor<? extends KeywordValidator> challenged;
     private final KeywordBuilder keywordBuilder;
 
     public KeywordBuilderTest()
@@ -55,12 +52,14 @@ public final class KeywordBuilderTest
         final DictionaryBuilder<Constructor<? extends KeywordValidator>>
             builder = Dictionary.newBuilder();
 
-        constructor1 = Keyword1.class.getConstructor(JsonNode.class);
-        builder.addEntry(K1, constructor1);
-        constructor2 = Keyword2.class.getConstructor(JsonNode.class);
-        builder.addEntry(K2, constructor2);
-        challenged = Challenged.class.getConstructor(JsonNode.class);
-        builder.addEntry(CHALLENGED, challenged);
+        Constructor<? extends KeywordValidator> constructor;
+
+        constructor = Keyword1.class .getConstructor(JsonNode.class);
+        builder.addEntry(K1, constructor);
+        constructor = Keyword2.class.getConstructor(JsonNode.class);
+        builder.addEntry(K2, constructor);
+        constructor = Challenged.class.getConstructor(JsonNode.class);
+        builder.addEntry(CHALLENGED, constructor);
 
         keywordBuilder = new KeywordBuilder(builder.freeze());
     }
@@ -101,6 +100,7 @@ public final class KeywordBuilderTest
         assertSame(list.get(0).getClass(), Keyword1.class);
     }
 
+    @Test
     public void allRelevantValidatorsAreBuilt()
         throws ProcessingException
     {
