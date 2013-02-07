@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.keyword.validator.common.EnumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
@@ -27,6 +28,7 @@ import com.github.fge.jsonschema.keyword.validator.common.MaximumKeywordValidato
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinLengthKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinimumKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.PatternKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.UniqueItemKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
@@ -100,6 +102,14 @@ public final class CommonValidatorDictionary
 
         keyword = "maxLength";
         c = MaxLengthKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "pattern";
+        c = PatternKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "enum";
+        c = EnumKeywordValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();

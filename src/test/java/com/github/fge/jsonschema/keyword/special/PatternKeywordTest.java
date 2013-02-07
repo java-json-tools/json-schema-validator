@@ -15,11 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator;
+package com.github.fge.jsonschema.keyword.special;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
 import com.github.fge.jsonschema.messages.KeywordValidationMessages;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
@@ -42,63 +43,61 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.jsonschema.TestUtils.*;
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.TestUtils.anyMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public abstract class AbstractKeywordValidatorTest
+public final class PatternKeywordTest
 {
-    protected final String keyword;
-    protected final Constructor<? extends KeywordValidator> constructor;
-    protected final JsonNode testNode;
+    /*
+     * A special testing class is needed for all keywords which use the null
+     * digester, since we cannot feed them with a digest: its information
+     * comes with the validation data itself (the schema to be precise).
+     */
 
-    protected AbstractKeywordValidatorTest(
-        final Dictionary<Constructor<? extends KeywordValidator>> dict,
-        final String prefix, final String keyword)
+    private final Constructor<? extends KeywordValidator> constructor;
+    private final JsonNode testData;
+
+    public PatternKeywordTest()
         throws IOException
     {
-        this.keyword = keyword;
-        constructor = dict.get(keyword);
-        final String resourceName
-            = String.format("/keyword/validators/%s/%s.json", prefix, keyword);
-        testNode = JsonLoader.fromResource(resourceName);
+        constructor = CommonValidatorDictionary.get().get("pattern");
+        testData = JsonLoader.fromResource("/keyword/special/pattern.json");
     }
 
     @Test
-    public final void keywordExists()
+    public void keywordExists()
     {
-        assertNotNull(constructor, "no support for " + keyword + "??");
+        assertNotNull(constructor, "no support for pattern??");
     }
 
     @DataProvider
-    protected final Iterator<Object[]> getValueTests()
+    public Iterator<Object[]> getValueTests()
     {
         final List<Object[]> list = Lists.newArrayList();
 
         KeywordValidationMessages msg;
         JsonNode msgNode;
 
-        for (final JsonNode node: testNode) {
+        for (final JsonNode node: testData) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
                 : KeywordValidationMessages.valueOf(msgNode.textValue());
-            list.add(new Object[]{ node.get("digest"), node.get("data"), msg,
+            list.add(new Object[]{ node.get("schema"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
         return list.iterator();
     }
 
-    // Unfortunately, the suppress warning annotation is needed
     @Test(dataProvider = "getValueTests", dependsOnMethods = "keywordExists")
-    public final void instancesAreValidatedCorrectly(final JsonNode digest,
+    public void instancesAreValidatedCorrectly(final JsonNode schema,
         final JsonNode node, final KeywordValidationMessages msg,
         final boolean valid, final ObjectNode msgData)
         throws IllegalAccessException, InvocationTargetException,
         InstantiationException, ProcessingException
     {
-        // FIXME: dummy, but we have no choice
-        final JsonSchemaTree tree = new CanonicalSchemaTree(digest);
+        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
         final JsonTree instance = new SimpleJsonTree(node);
         final ValidationData data = new ValidationData(tree, instance);
 
@@ -107,7 +106,9 @@ public abstract class AbstractKeywordValidatorTest
         final Processor<ValidationData, ProcessingReport> processor
             =  mock(Processor.class);
 
-        final KeywordValidator validator = constructor.newInstance(digest);
+        // It is a null node which is ignored by the constructor, so we can
+        // do that
+        final KeywordValidator validator = constructor.newInstance(schema);
         validator.validate(processor, report, data);
 
         if (valid) {
@@ -122,7 +123,7 @@ public abstract class AbstractKeywordValidatorTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isValidationError(keyword, msg)
+        assertMessage(message).isValidationError("pattern", msg)
             .hasContents(msgData);
     }
 }

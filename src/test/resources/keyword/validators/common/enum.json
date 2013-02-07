@@ -1,0 +1,40 @@
+[
+    {
+        "digest": {
+            "enum": [ true ]
+        },
+        "data": false,
+        "valid": false,
+        "message": "VALUE_NOT_IN_ENUM",
+        "msgData": {
+            "enum": [ true ],
+            "value": false
+        }
+    },
+    {
+        "digest": {
+            "enum": [ true ]
+        },
+        "data": true,
+        "valid": true
+    },
+    {
+        "digest": {
+            "enum": [ 1, {}, [ 1, 2, 3 ] ]
+        },
+        "data": { "a": "b" },
+        "valid": false,
+        "message": "VALUE_NOT_IN_ENUM",
+        "msgData": {
+            "enum": [ 1, {}, [ 1, 2, 3 ] ],
+            "value": { "a": "b" }
+        }
+    },
+    {
+        "digest": {
+            "enum": [ 1, {}, [ 1, 2, 3 ] ]
+        },
+        "data": [ 1, 2, 3 ],
+        "valid": true
+    }
+]

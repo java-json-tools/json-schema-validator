@@ -30,6 +30,8 @@ public enum KeywordValidationMessages
     ADDITIONAL_PROPERTIES_NOT_ALLOWED("additional properties are not allowed"),
     STRING_TOO_SHORT("string is too short"),
     STRING_TOO_LONG("string is too long"),
+    REGEX_NO_MATCH("regex does not match input string"),
+    VALUE_NOT_IN_ENUM("instance does not match any enum value"),
     ;
 
     private final String message;
