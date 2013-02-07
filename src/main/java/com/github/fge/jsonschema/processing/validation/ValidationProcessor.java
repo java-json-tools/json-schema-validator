@@ -17,24 +17,38 @@
 
 package com.github.fge.jsonschema.processing.validation;
 
-import com.github.fge.jsonschema.processing.build.FullValidationContext;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.processing.build.FullValidationContext;
+import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.JsonTree;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import com.google.common.collect.Lists;
+
+import java.util.Collections;
+import java.util.List;
 
 public final class ValidationProcessor
     implements Processor<ValidationData, ProcessingReport>
 {
     private final Processor<ValidationData, FullValidationContext> processor;
+    private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
+    private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
 
     public ValidationProcessor(
         final Processor<ValidationData, FullValidationContext> processor)
     {
         this.processor = processor;
+        arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
+        objectCache = CacheBuilder.newBuilder().build(objectLoader());
     }
-
 
     @Override
     public ProcessingReport process(final ProcessingReport report,
@@ -47,6 +61,96 @@ public final class ValidationProcessor
         for (final KeywordValidator validator: context)
             validator.validate(this, report, data);
 
+        final JsonNode node = input.getInstance().getCurrentNode();
+        if (node.size() == 0)
+            return report;
+
+        if (node.isArray())
+            processArray(report, input);
+        else
+            processObject(report, input);
+
         return report;
+    }
+
+    private void processArray(final ProcessingReport report,
+        final ValidationData input)
+        throws ProcessingException
+    {
+        final JsonSchemaTree schemaTree = input.getSchema();
+        final JsonTree tree = input.getInstance();
+
+        final JsonNode schema = schemaTree.getCurrentNode();
+        final JsonNode instance = tree.getCurrentNode();
+
+        final JsonNode digest = ArraySchemaDigester.getInstance().digest(schema);
+        final ArraySchemaSelector selector = arrayCache.getUnchecked(digest);
+
+        final int size = instance.size();
+
+        for (int index = 0; index < size; index++) {
+            tree.append(JsonPointer.empty().append(index));
+            for (final JsonPointer ptr: selector.selectSchemas(index)) {
+                schemaTree.append(ptr);
+                process(report, input);
+                schemaTree.pop();
+            }
+            tree.pop();
+        }
+    }
+
+    private void processObject(final ProcessingReport report,
+        final ValidationData input)
+        throws ProcessingException
+    {
+        final JsonSchemaTree schemaTree = input.getSchema();
+        final JsonTree tree = input.getInstance();
+
+        final JsonNode schema = schemaTree.getCurrentNode();
+        final JsonNode instance = tree.getCurrentNode();
+
+        final JsonNode digest = ObjectSchemaDigester.getInstance()
+            .digest(schema);
+        final ObjectSchemaSelector selector = objectCache.getUnchecked(digest);
+
+        final List<String> fields = Lists.newArrayList(instance.fieldNames());
+        Collections.sort(fields);
+
+
+        for (final String field: fields) {
+            tree.append(JsonPointer.empty().append(field));
+            for (final JsonPointer ptr: selector.selectSchemas(field)) {
+                schemaTree.append(ptr);
+                process(report, input);
+                schemaTree.pop();
+            }
+            tree.pop();
+        }
+    }
+
+    private static CacheLoader<JsonNode, ArraySchemaSelector> arrayLoader()
+    {
+        return new CacheLoader<JsonNode, ArraySchemaSelector>()
+        {
+            @Override
+            public ArraySchemaSelector load(final JsonNode key)
+                throws Exception
+            {
+                return new ArraySchemaSelector(key);
+            }
+        };
+    }
+
+    private static CacheLoader<JsonNode, ObjectSchemaSelector> objectLoader()
+    {
+        return new CacheLoader<JsonNode, ObjectSchemaSelector>()
+        {
+            @Override
+            public ObjectSchemaSelector load(final JsonNode key)
+                throws Exception
+            {
+                return new ObjectSchemaSelector(key);
+            }
+        };
     }
 }
