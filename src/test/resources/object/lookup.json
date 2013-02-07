@@ -1,0 +1,92 @@
+[
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": false
+        },
+        "memberName": "cat",
+        "ret": [ "/properties/cat", "/patternProperties/a" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": true
+        },
+        "memberName": "cat",
+        "ret": [ "/properties/cat", "/patternProperties/a" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": false
+        },
+        "memberName": "dog",
+        "ret": [ "/properties/dog", "/patternProperties/g$" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": true
+        },
+        "memberName": "dog",
+        "ret": [ "/properties/dog", "/patternProperties/g$" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": false
+        },
+        "memberName": "eel",
+        "ret": [ "/properties/eel" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": true
+        },
+        "memberName": "eel",
+        "ret": [ "/properties/eel" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": false
+        },
+        "memberName": "elk",
+        "ret": []
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": true
+        },
+        "memberName": "elk",
+        "ret": [ "/additionalProperties" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": false
+        },
+        "memberName": "Padrig",
+        "ret": [ "/patternProperties/a", "/patternProperties/g$" ]
+    },
+    {
+        "digest": {
+            "properties": [ "cat", "dog", "eel" ],
+            "patternProperties": [ "a", "g$" ],
+            "hasAdditional": true
+        },
+        "memberName": "Padrig",
+        "ret": [ "/patternProperties/a", "/patternProperties/g$" ]
+    }
+]
