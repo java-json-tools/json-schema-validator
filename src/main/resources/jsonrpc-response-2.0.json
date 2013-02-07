@@ -2,7 +2,6 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "description": "A JSON RPC 2.0 response",
     "type": "object",
-    "required": [ "id", "jsonrpc" ],
     "properties": {
         "id": {
             "type": [ "string", "integer", "null" ],
@@ -19,7 +18,7 @@
     ],
     "definitions": {
         "success": {
-            "required": [ "result" ],
+            "required": [ "id", "jsonrpc", "result" ],
             "properties": {
                 "result": {
                     "type": "object",
@@ -32,7 +31,7 @@
         },
         "error": {
             "type": "object",
-            "required": [ "code", "message" ],
+            "required": [ "id", "jsonrpc", "code", "message" ],
             "properties": {
                 "code": {
                     "type": "integer",
