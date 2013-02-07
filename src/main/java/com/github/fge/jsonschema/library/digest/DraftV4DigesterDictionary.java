@@ -41,12 +41,15 @@ public final class DraftV4DigesterDictionary
         Digester digester;
 
         /*
-         * Object
+         * Number/integer
          */
         keyword = "multipleOf";
         digester = MultipleOfDigester.getInstance();
         builder.addEntry(keyword, digester);
 
+        /*
+         * Object
+         */
         keyword = "minProperties";
         digester = new SimpleDigester(keyword, OBJECT);
         builder.addEntry(keyword, digester);

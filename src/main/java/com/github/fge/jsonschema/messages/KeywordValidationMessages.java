@@ -32,6 +32,7 @@ public enum KeywordValidationMessages
     STRING_TOO_LONG("string is too long"),
     REGEX_NO_MATCH("regex does not match input string"),
     VALUE_NOT_IN_ENUM("instance does not match any enum value"),
+    NON_ZERO_DIVISION_REMAINDER("remainder of division is not zero"),
     ;
 
     private final String message;

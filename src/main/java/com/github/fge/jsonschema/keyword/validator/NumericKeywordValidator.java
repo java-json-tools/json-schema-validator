@@ -42,7 +42,6 @@ public abstract class NumericKeywordValidator
     {
         super(keyword);
         number = digest.get(keyword);
-
         isLong = digest.get("valueIsLong").booleanValue();
     }
 
@@ -67,7 +66,7 @@ public abstract class NumericKeywordValidator
      * @param data the validation data
      */
     protected abstract void validateLong(final ProcessingReport report,
-        final ValidationData data)
+        ValidationData data)
         throws ProcessingException;
 
     /**
@@ -78,7 +77,7 @@ public abstract class NumericKeywordValidator
      * @param data the validation data
      */
     protected abstract void validateDecimal(final ProcessingReport report,
-        final ValidationData data)
+        ValidationData data)
         throws ProcessingException;
 
     @Override
