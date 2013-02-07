@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.NotKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.DependenciesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.AllOfKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.AnyOfKeywordValidator;
@@ -27,6 +26,7 @@ import com.github.fge.jsonschema.keyword.validator.draftv4.DraftV4TypeKeywordVal
 import com.github.fge.jsonschema.keyword.validator.draftv4.MaxPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.MinPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.MultipleOfKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.NotKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.OneOfKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.RequiredKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -83,10 +83,6 @@ public final class DraftV4ValidatorDictionary
         c = DependenciesKeywordValidator.class;
         builder.addEntry(keyword, constructor(c));
 
-        keyword = "type";
-        c = DraftV4TypeKeywordValidator.class;
-        builder.addEntry(keyword, constructor(c));
-
         /*
          * All
          */
@@ -104,6 +100,10 @@ public final class DraftV4ValidatorDictionary
 
         keyword = "not";
         c = NotKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "type";
+        c = DraftV4TypeKeywordValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();
