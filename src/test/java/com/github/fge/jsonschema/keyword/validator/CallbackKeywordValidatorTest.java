@@ -32,6 +32,7 @@ import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.lang.reflect.Constructor;
@@ -44,6 +45,8 @@ import static org.testng.Assert.*;
 public abstract class CallbackKeywordValidatorTest
 {
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
+    protected static final ProcessingMessage MSG = new ProcessingMessage();
+
 
     protected static final ObjectNode sub1 = FACTORY.objectNode();
     protected static final ObjectNode sub2 = FACTORY.objectNode();
@@ -54,6 +57,11 @@ public abstract class CallbackKeywordValidatorTest
     protected final JsonPointer ptr2;
 
     protected Processor<ValidationData, ProcessingReport> processor;
+    protected JsonSchemaTree tree;
+    protected JsonTree instance;
+    protected ValidationData data;
+    protected ProcessingReport report;
+    protected KeywordValidator validator;
 
     protected CallbackKeywordValidatorTest(
         final Dictionary<Constructor<? extends KeywordValidator>> dict,
@@ -65,6 +73,21 @@ public abstract class CallbackKeywordValidatorTest
         this.ptr2 = ptr2;
     }
 
+    @BeforeMethod
+    protected final void initEnvironment()
+        throws IllegalAccessException, InvocationTargetException,
+        InstantiationException
+    {
+        if (constructor == null)
+            return;
+
+        tree = new CanonicalSchemaTree(generateSchema());
+        instance = new SimpleJsonTree(generateInstance());
+        data = new ValidationData(tree, instance);
+        report = mock(ProcessingReport.class);
+        validator = constructor.newInstance(generateDigest());
+    }
+
     @Test
     public final void keywordExists()
     {
@@ -73,19 +96,10 @@ public abstract class CallbackKeywordValidatorTest
 
     @Test(dependsOnMethods = "keywordExists")
     public final void exceptionOnFirstProcessingWorks()
-        throws IllegalAccessException, InvocationTargetException,
-        InstantiationException, ProcessingException
+        throws ProcessingException
     {
         processor = spy(new DummyProcessor(WantedState.EX, WantedState.OK, ptr1,
             ptr2));
-
-        final JsonSchemaTree tree = new CanonicalSchemaTree(generateSchema());
-        final JsonTree instance = new SimpleJsonTree(generateInstance());
-        final ValidationData data = new ValidationData(tree, instance);
-        final ProcessingReport report = mock(ProcessingReport.class);
-
-        final KeywordValidator validator
-            = constructor.newInstance(generateDigest());
 
         try {
             validator.validate(processor, report, data);
@@ -99,19 +113,10 @@ public abstract class CallbackKeywordValidatorTest
 
     @Test(dependsOnMethods = "keywordExists")
     public final void exceptionOnSecondProcessingWorks()
-        throws IllegalAccessException, InvocationTargetException,
-        InstantiationException, ProcessingException
+        throws ProcessingException
     {
         processor = spy(new DummyProcessor(WantedState.OK, WantedState.EX, ptr1,
             ptr2));
-
-        final JsonSchemaTree tree = new CanonicalSchemaTree(generateSchema());
-        final JsonTree instance = new SimpleJsonTree(generateInstance());
-        final ValidationData data = new ValidationData(tree, instance);
-        final ProcessingReport report = mock(ProcessingReport.class);
-
-        final KeywordValidator validator
-            = constructor.newInstance(generateDigest());
 
         try {
             validator.validate(processor, report, data);
@@ -122,6 +127,57 @@ public abstract class CallbackKeywordValidatorTest
         verify(processor, times(2))
             .process(anyReport(), any(ValidationData.class));
     }
+
+    @Test(dependsOnMethods = "keywordExists")
+    public final void OkThenOkWorks()
+        throws ProcessingException
+    {
+        processor = spy(new DummyProcessor(WantedState.OK, WantedState.OK, ptr1,
+            ptr2));
+
+        validator.validate(processor, report, data);
+        verify(processor, times(2))
+            .process(anyReport(), any(ValidationData.class));
+
+        checkOkOk(report);
+    }
+
+    protected abstract void checkOkOk(final ProcessingReport report)
+        throws ProcessingException;
+
+    @Test(dependsOnMethods = "keywordExists")
+    public final void OkThenKoWorks()
+        throws ProcessingException
+    {
+        processor = spy(new DummyProcessor(WantedState.OK, WantedState.KO, ptr1,
+            ptr2));
+
+        validator.validate(processor, report, data);
+        verify(processor, times(2))
+            .process(anyReport(), any(ValidationData.class));
+
+        checkOkKo(report);
+    }
+
+    protected abstract void checkOkKo(final ProcessingReport report)
+        throws ProcessingException;
+
+    @Test(dependsOnMethods = "keywordExists")
+    public final void KoThenKoWorks()
+        throws ProcessingException
+    {
+        processor = spy(new DummyProcessor(WantedState.KO, WantedState.KO, ptr1,
+            ptr2));
+
+        validator.validate(processor, report, data);
+        verify(processor, times(2))
+            .process(anyReport(), any(ValidationData.class));
+
+        checkKoKo(report);
+    }
+
+    protected abstract void checkKoKo(final ProcessingReport report)
+        throws ProcessingException;
 
     protected abstract JsonNode generateSchema();
 
@@ -156,8 +212,6 @@ public abstract class CallbackKeywordValidatorTest
                 throw new ProcessingException();
             }
         };
-
-        private static final ProcessingMessage MSG = new ProcessingMessage();
 
         abstract void doIt(final ProcessingReport report)
             throws ProcessingException;

@@ -20,7 +20,12 @@ package com.github.fge.jsonschema.keyword.validator.draftv4;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ProcessingReport;
+
+import static com.github.fge.jsonschema.TestUtils.*;
+import static org.mockito.Mockito.*;
 
 public final class DraftV4DependenciesCallbackKeywordValidatorTest
     extends DraftV4CallbackKeywordValidatorTest
@@ -30,6 +35,27 @@ public final class DraftV4DependenciesCallbackKeywordValidatorTest
         super("dependencies",
             JsonPointer.empty().append("dependencies").append("a"),
             JsonPointer.empty().append("dependencies").append("b"));
+    }
+
+    @Override
+    protected void checkOkOk(final ProcessingReport report)
+        throws ProcessingException
+    {
+        verify(report, never()).error(anyMessage());
+    }
+
+    @Override
+    protected void checkOkKo(final ProcessingReport report)
+        throws ProcessingException
+    {
+        verify(report, onlyOnce()).error(same(MSG));
+    }
+
+    @Override
+    protected void checkKoKo(final ProcessingReport report)
+        throws ProcessingException
+    {
+        verify(report, times(2)).error(same(MSG));
     }
 
     @Override
