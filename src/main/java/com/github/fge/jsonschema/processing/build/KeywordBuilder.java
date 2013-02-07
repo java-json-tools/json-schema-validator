@@ -73,12 +73,7 @@ public final class KeywordBuilder
         final ValidationDigest input)
         throws ProcessingException
     {
-        /*
-         * Grab the schema and its fields
-         */
-        final JsonNode schema = input.getData().getSchema().getCurrentNode();
         final SortedMap<String, KeywordValidator> map = Maps.newTreeMap();
-
 
         String keyword;
         JsonNode digest;
