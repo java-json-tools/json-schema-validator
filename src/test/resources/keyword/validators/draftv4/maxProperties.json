@@ -1,0 +1,22 @@
+[
+    {
+        "digest": { "maxProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3 },
+        "valid": true
+    },
+    {
+        "digest": { "maxProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3, "four": 4 },
+        "valid": true
+    },
+    {
+        "digest": { "maxProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3, "four": 4, "five": 5 },
+        "valid": false,
+        "message": "TOO_MANY_MEMBERS_IN_OBJECT",
+        "msgData": {
+            "required": 4,
+            "found": 5
+        }
+    }
+]

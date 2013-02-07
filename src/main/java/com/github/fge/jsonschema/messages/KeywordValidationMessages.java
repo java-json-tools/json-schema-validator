@@ -33,6 +33,9 @@ public enum KeywordValidationMessages
     REGEX_NO_MATCH("regex does not match input string"),
     VALUE_NOT_IN_ENUM("instance does not match any enum value"),
     NON_ZERO_DIVISION_REMAINDER("remainder of division is not zero"),
+    NOT_ENOUGH_MEMBERS_IN_OBJECT("object has too few properties"),
+    TOO_MANY_MEMBERS_IN_OBJECT("object has too many properties"),
+    MISSING_REQUIRED_MEMBERS("missing required property(ies)"),
     ;
 
     private final String message;

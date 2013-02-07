@@ -1,0 +1,22 @@
+[
+    {
+        "digest": { "minProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3 },
+        "valid": false,
+        "message": "NOT_ENOUGH_MEMBERS_IN_OBJECT",
+        "msgData": {
+            "required": 4,
+            "found": 3
+        }
+    },
+    {
+        "digest": { "minProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3, "four": 4 },
+        "valid": true
+    },
+    {
+        "digest": { "minProperties": 4 },
+        "data": { "one": 1, "two": 2, "three": 3, "four": 4, "five": 5 },
+        "valid": true
+    }
+]

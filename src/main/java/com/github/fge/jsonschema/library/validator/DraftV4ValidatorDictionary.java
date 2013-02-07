@@ -19,6 +19,9 @@ package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.RequiredKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.MaxPropertiesKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.MinPropertiesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.MultipleOfKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
@@ -46,8 +49,26 @@ public final class DraftV4ValidatorDictionary
         String keyword;
         Class<? extends KeywordValidator> c;
 
+        /*
+         * Number/integer
+         */
         keyword = "multipleOf";
         c = MultipleOfKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        /*
+         * Object
+         */
+        keyword = "minProperties";
+        c = MinPropertiesKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "maxProperties";
+        c = MaxPropertiesKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "required";
+        c = RequiredKeywordValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();
@@ -59,7 +80,7 @@ public final class DraftV4ValidatorDictionary
         try {
             return c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException e) {
-            throw new RuntimeException("No appropriate constructor", e);
+            throw new RuntimeException("No appropriate constructor found", e);
         }
     }
 }
