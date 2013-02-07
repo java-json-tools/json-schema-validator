@@ -1,0 +1,130 @@
+/*
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * Lesser GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.github.fge.jsonschema.keyword.validator.common;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.Sets;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.Set;
+
+import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
+
+/*
+ * In spite of syntax differences, the digested data is the same, which is why
+ * this validator is in common/
+ */
+public final class DependenciesKeywordValidator
+    extends AbstractKeywordValidator
+{
+    private static final JsonPointer BASE_PTR
+        = JsonPointer.empty().append("dependencies");
+
+    private final Multimap<String, String> propertyDeps;
+    private final Set<String> schemaDeps;
+
+    public DependenciesKeywordValidator(final JsonNode digest)
+    {
+        super("dependencies");
+
+        /*
+         * Property dependencies
+         */
+        final ImmutableMultimap.Builder<String, String> mapBuilder
+            = ImmutableMultimap.builder();
+        final Map<String, JsonNode> map
+            = JacksonUtils.asMap(digest.get("propertyDeps"));
+
+        String key;
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            key = entry.getKey();
+            for (final JsonNode element: entry.getValue())
+                mapBuilder.put(key, element.textValue());
+        }
+
+        propertyDeps = mapBuilder.build();
+
+        /*
+         * Schema dependencies
+         */
+        final ImmutableSet.Builder<String> setBuilder
+            = ImmutableSet.builder();
+
+        for (final JsonNode node: digest.get("schemaDeps"))
+            setBuilder.add(node.textValue());
+
+        schemaDeps = setBuilder.build();
+    }
+
+    @Override
+    public void validate(
+        final Processor<ValidationData, ProcessingReport> processor,
+        final ProcessingReport report, final ValidationData data)
+        throws ProcessingException
+    {
+        final JsonNode instance = data.getInstance().getCurrentNode();
+        final Set<String> fields = Sets.newHashSet(instance.fieldNames());
+
+        Collection<String> collection;
+        Set<String> set;
+
+        for (final String field: propertyDeps.keySet()) {
+            if (!fields.contains(field))
+                continue;
+            collection = propertyDeps.get(field);
+            set = Sets.newLinkedHashSet(collection);
+            set.removeAll(fields);
+            if (!set.isEmpty())
+                report.error(newMsg(data).msg(MISSING_PROPERTY_DEPS)
+                    .put("property", field).put("required", collection)
+                    .put("missing", set));
+        }
+
+        if (schemaDeps.isEmpty())
+            return;
+
+        final JsonSchemaTree schema = data.getSchema();
+
+        for (final String field: schemaDeps) {
+            if (!fields.contains(field))
+                continue;
+            schema.append(BASE_PTR.append(field));
+            processor.process(report, data);
+            schema.pop();
+        }
+    }
+
+    @Override
+    public String toString()
+    {
+        return keyword + ": " + propertyDeps.size() + " property dependencies, "
+            + schemaDeps.size() + " schema dependencies";
+    }
+}

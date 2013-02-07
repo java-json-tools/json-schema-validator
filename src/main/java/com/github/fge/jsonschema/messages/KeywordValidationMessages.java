@@ -36,6 +36,7 @@ public enum KeywordValidationMessages
     NOT_ENOUGH_MEMBERS_IN_OBJECT("object has too few properties"),
     TOO_MANY_MEMBERS_IN_OBJECT("object has too many properties"),
     MISSING_REQUIRED_MEMBERS("missing required property(ies)"),
+    MISSING_PROPERTY_DEPS("missing property dependencies"),
     ;
 
     private final String message;
