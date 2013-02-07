@@ -37,6 +37,7 @@ public enum KeywordValidationMessages
     TOO_MANY_MEMBERS_IN_OBJECT("object has too many properties"),
     MISSING_REQUIRED_MEMBERS("missing required property(ies)"),
     MISSING_PROPERTY_DEPS("missing property dependencies"),
+    TYPE_NO_MATCH("instance type does not match any allowed primitive type"),
     ;
 
     private final String message;

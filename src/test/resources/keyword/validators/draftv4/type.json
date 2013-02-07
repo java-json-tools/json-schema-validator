@@ -1,0 +1,97 @@
+[
+    {
+        "digest": { "type": [ "string" ] },
+        "data": "",
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "string" ] },
+        "data": [],
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "string" ],
+            "found": "array"
+        }
+    },
+    {
+        "digest": { "type": [ "string" ] },
+        "data": null,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "string" ],
+            "found": "null"
+        }
+    },
+    {
+        "digest": { "type": [ "integer", "number" ] },
+        "data": 3.1,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer", "number" ] },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer" ] },
+        "data": 3.1,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "integer" ],
+            "found": "number"
+        }
+    },
+    {
+        "digest": { "type": [ "integer" ] },
+        "data": 3.0,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "integer" ],
+            "found": "number"
+        }
+    },
+    {
+        "digest": { "type": [ "integer" ] },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer", "null" ] },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer", "number" ] },
+        "data": null,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "integer", "number" ],
+            "found": "null"
+        }
+    },
+    {
+        "digest": { "type": [ "null", "object" ] },
+        "data": null,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "null", "object" ] },
+        "data": {},
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "null", "object" ] },
+        "data": false,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "null", "object" ],
+            "found": "boolean"
+        }
+    }
+]
