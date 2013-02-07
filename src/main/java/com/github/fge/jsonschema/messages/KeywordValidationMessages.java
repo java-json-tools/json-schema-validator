@@ -38,6 +38,7 @@ public enum KeywordValidationMessages
     MISSING_REQUIRED_MEMBERS("missing required property(ies)"),
     MISSING_PROPERTY_DEPS("missing property dependencies"),
     TYPE_NO_MATCH("instance type does not match any allowed primitive type"),
+    ANYOF_FAIL("instance failed to match at least one schema"),
     ;
 
     private final String message;
