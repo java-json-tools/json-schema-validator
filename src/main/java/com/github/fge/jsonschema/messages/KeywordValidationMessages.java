@@ -39,6 +39,8 @@ public enum KeywordValidationMessages
     MISSING_PROPERTY_DEPS("missing property dependencies"),
     TYPE_NO_MATCH("instance type does not match any allowed primitive type"),
     ANYOF_FAIL("instance failed to match at least one schema"),
+    ALLOF_FAIL("instance failed to match all schemas"),
+    ONEOF_FAIL("instance failed to match exactly one schema"),
     ;
 
     private final String message;

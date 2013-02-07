@@ -69,6 +69,17 @@ public final class ProcessingMessageAssert
         return hasField(name, asJson.asJson());
     }
 
+    // FIXME: for some reason, I have to declare an Integer here, int won't work
+    public ProcessingMessageAssert hasField(final String name,
+        final Integer value)
+    {
+        assertThat(msg.has(name)).isTrue();
+        final JsonNode wanted = msg.get(name);
+        final JsonNode input = JacksonUtils.nodeFactory().numberNode(value);
+        assertEquals(input, wanted);
+        return this;
+    }
+
     public <T> ProcessingMessageAssert hasField(final String name,
         final T value)
     {
