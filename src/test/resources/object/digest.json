@@ -1,0 +1,155 @@
+[
+    {
+        "inputs": [
+            {},
+            { "additionalProperties": true },
+            { "additionalProperties": false }
+        ],
+        "digest": {
+            "properties": [],
+            "patternProperties": [],
+            "hasAdditional": false
+        }
+    },
+    {
+        "inputs": [
+            { "additionalProperties": {} },
+            { "additionalProperties": { "foo": "bar" } },
+            { "additionalProperties": { "x": "y" } }
+        ],
+        "digest": {
+            "properties": [],
+            "patternProperties": [],
+            "hasAdditional": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "properties": { "a": { "c": "d" }, "b": { "d": "e" } }
+            },
+            {
+                "properties": { "a": { "c": "d" }, "b": { "d": "e" } },
+                "additionalProperties": true
+            },
+            {
+                "properties": { "b": { "c": "d" }, "a": { "d": "e" } },
+                "additionalProperties": false
+            }
+        ],
+        "digest": {
+            "properties": [ "a", "b" ],
+            "patternProperties": [],
+            "hasAdditional": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "properties": { "a": {}, "b": { "d": "e" } },
+                "additionalProperties": { "foo": "bar" }
+            },
+            {
+                "properties": { "a": { "c": "d" }, "b": {} },
+                "additionalProperties": {}
+            },
+            {
+                "properties": { "b": { "c": "d" }, "a": { "d": "e"} },
+                "additionalProperties": { "meh": null }
+            }
+        ],
+        "digest": {
+            "properties": [ "a", "b" ],
+            "patternProperties": [],
+            "hasAdditional": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "patternProperties": { "a": {}, "b": { "d": "e" } },
+                "additionalProperties": { "foo": "bar" }
+            },
+            {
+                "patternProperties": { "a": { "c": "d" }, "b": {} },
+                "additionalProperties": {}
+            },
+            {
+                "patternProperties": { "b": { "c": "d" }, "a": { "d": "e"} },
+                "additionalProperties": { "meh": null }
+            }
+        ],
+        "digest": {
+            "patternProperties": [ "a", "b" ],
+            "properties": [],
+            "hasAdditional": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "patternProperties": { "a": { "c": "d" }, "b": { "d": "e" } }
+            },
+            {
+                "patternProperties": { "a": { "c": "d" }, "b": { "d": "e" } },
+                "additionalProperties": true
+            },
+            {
+                "patternProperties": { "b": { "c": "d" }, "a": { "d": "e" } },
+                "additionalProperties": false
+            }
+        ],
+        "digest": {
+            "patternProperties": [ "a", "b" ],
+            "properties": [],
+            "hasAdditional": false
+        }
+    },
+    {
+        "inputs": [
+            {
+                "properties": { "a": {}, "b": {} },
+                "patternProperties": { "a": {}, "b": { "d": "e" } },
+                "additionalProperties": { "foo": "bar" }
+            },
+            {
+                "patternProperties": { "a": { "c": "d" }, "b": {} },
+                "properties": { "a": {}, "b": {} },
+                "additionalProperties": {}
+            },
+            {
+                "properties": { "a": {}, "b": {} },
+                "patternProperties": { "b": { "c": "d" }, "a": { "d": "e"} },
+                "additionalProperties": { "meh": null }
+            }
+        ],
+        "digest": {
+            "patternProperties": [ "a", "b" ],
+            "properties": [ "a", "b" ],
+            "hasAdditional": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "properties": { "a": {}, "b": {} },
+                "patternProperties": { "a": { "c": "d" }, "b": { "d": "e" } }
+            },
+            {
+                "patternProperties": { "a": { "c": "d" }, "b": { "d": "e" } },
+                "properties": { "a": {}, "b": {} },
+                "additionalProperties": true
+            },
+            {
+                "patternProperties": { "b": { "c": "d" }, "a": { "d": "e" } },
+                "properties": { "b": {}, "a": {} },
+                "additionalProperties": false
+            }
+        ],
+        "digest": {
+            "patternProperties": [ "a", "b" ],
+            "properties": [ "a", "b" ],
+            "hasAdditional": false
+        }
+    }
+]
