@@ -41,6 +41,7 @@ public enum KeywordValidationMessages
     ANYOF_FAIL("instance failed to match at least one schema"),
     ALLOF_FAIL("instance failed to match all schemas"),
     ONEOF_FAIL("instance failed to match exactly one schema"),
+    NOT_FAIL("instance matches a schema which it should not"),
     ;
 
     private final String message;

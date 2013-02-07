@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.NotKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.DependenciesKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.AllOfKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.AnyOfKeywordValidator;
@@ -99,6 +100,10 @@ public final class DraftV4ValidatorDictionary
 
         keyword = "oneOf";
         c = OneOfKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "not";
+        c = NotKeywordValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();
