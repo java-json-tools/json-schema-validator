@@ -22,6 +22,15 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
+/*
+ * TODO: extend?
+ *
+ * When we digest, we can also check whether the digested data will lead to a
+ * validator which is always true.
+ *
+ * This would mean the output would need to change to a class with an
+ * .alwaysTrue() method -- and tested appropriately, of course.
+ */
 public interface Digester
 {
     EnumSet<NodeType> supportedTypes();
