@@ -1,0 +1,97 @@
+[
+    {
+        "digest": { "type": [ "string" ], "schemas": [] },
+        "data": "",
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "string" ], "schemas": [] },
+        "data": [],
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "string" ],
+            "found": "array"
+        }
+    },
+    {
+        "digest": { "type": [ "string" ], "schemas": [] },
+        "data": null,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "string" ],
+            "found": "null"
+        }
+    },
+    {
+        "digest": { "type": [ "integer", "number" ], "schemas": [] },
+        "data": 3.1,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer", "number" ], "schemas": [] },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer" ], "schemas": [] },
+        "data": 3.1,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "integer" ],
+            "found": "number"
+        }
+    },
+    {
+        "digest": { "type": [ "integer" ], "schemas": [] },
+        "data": 3.0,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "integer" ],
+            "found": "number"
+        }
+    },
+    {
+        "digest": { "type": [ "integer" ], "schemas": [] },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer", "null" ], "schemas": [] },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "integer", "number" ], "schemas": [] },
+        "data": null,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "integer", "number" ],
+            "found": "null"
+        }
+    },
+    {
+        "digest": { "type": [ "null", "object" ], "schemas": [] },
+        "data": null,
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "null", "object" ], "schemas": [] },
+        "data": {},
+        "valid": true
+    },
+    {
+        "digest": { "type": [ "null", "object" ], "schemas": [] },
+        "data": false,
+        "valid": false,
+        "message": "TYPE_NO_MATCH",
+        "msgData": {
+            "expected": [ "null", "object" ],
+            "found": "boolean"
+        }
+    }
+]
