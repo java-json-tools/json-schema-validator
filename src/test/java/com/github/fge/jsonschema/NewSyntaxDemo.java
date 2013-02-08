@@ -33,6 +33,10 @@ import java.io.IOException;
 
 public final class NewSyntaxDemo
 {
+    private NewSyntaxDemo()
+    {
+    }
+
     public static void main(final String... args)
         throws IOException, ProcessingException
     {

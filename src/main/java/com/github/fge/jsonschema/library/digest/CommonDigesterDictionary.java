@@ -33,6 +33,10 @@ public final class CommonDigesterDictionary
 {
     private static final Dictionary<Digester> DICTIONARY;
 
+    private CommonDigesterDictionary()
+    {
+    }
+
     static {
         final DictionaryBuilder<Digester> builder
             = Dictionary.newBuilder();

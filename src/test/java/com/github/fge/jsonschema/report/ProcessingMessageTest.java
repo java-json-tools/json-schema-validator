@@ -49,8 +49,6 @@ public final class ProcessingMessageTest
     {
         final ProcessingMessage msg = new ProcessingMessage();
 
-        JsonNode node;
-
         for (final LogLevel level: LogLevel.values()) {
             msg.setLogLevel(level);
             assertMessage(msg).hasLevel(level);
@@ -74,8 +72,6 @@ public final class ProcessingMessageTest
     public void msgMethodSetsMessageField()
     {
         final ProcessingMessage msg = new ProcessingMessage().msg("foo");
-        final JsonNode node = msg.asJson().path("message");
-
         assertMessage(msg).hasMessage("foo");
     }
 

@@ -49,7 +49,7 @@ import java.util.Map;
  * a completely new metaschema (using {@link #builder()} or base yourself on an
  * already existing metaschema (using {@link #basedOn(BuiltinSchemas)}).</p>
  *
- * @see com.github.fge.jsonschema.main.JsonSchemaFactory.Builder#addMetaSchema(MetaSchema, boolean)
+ * @see JsonSchemaFactory.Builder#addMetaSchema(MetaSchema, boolean)
  * @see BuiltinSchemas
  */
 public final class MetaSchema

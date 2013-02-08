@@ -33,6 +33,10 @@ public final class DraftV4DigesterDictionary
 {
     private static final Dictionary<Digester> DICTIONARY;
 
+    private DraftV4DigesterDictionary()
+    {
+    }
+
     static {
         final DictionaryBuilder<Digester> builder
             = Dictionary.newBuilder();

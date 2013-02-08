@@ -33,6 +33,7 @@ import com.github.fge.jsonschema.ref.JsonRef;
  */
 
 // TODO: remove in next version
+@Deprecated
 public final class SchemaURIs
 {
     private static final JsonRef DRAFTV3_CORE;

@@ -49,7 +49,7 @@ public class ListProcessingReport
         return ret;
     }
 
-    public List<ProcessingMessage> getMessages()
+    public final List<ProcessingMessage> getMessages()
     {
         return Lists.newArrayList(messages);
     }

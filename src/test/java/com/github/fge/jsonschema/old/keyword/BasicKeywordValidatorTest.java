@@ -21,7 +21,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
-import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.schema.AddressingMode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;

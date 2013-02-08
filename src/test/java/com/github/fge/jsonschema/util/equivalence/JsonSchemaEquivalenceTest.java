@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.util.equivalence;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;

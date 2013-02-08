@@ -52,8 +52,8 @@ public final class EnumSyntaxChecker
         super("enum", NodeType.ARRAY);
     }
     @Override
-    protected void checkValue(Collection<JsonPointer> pointers,
-        ProcessingReport report, JsonSchemaTree tree)
+    protected void checkValue(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
         final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
