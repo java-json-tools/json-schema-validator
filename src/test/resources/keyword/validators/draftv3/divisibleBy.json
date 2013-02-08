@@ -1,0 +1,44 @@
+[
+    {
+        "digest": {
+            "divisibleBy": 1,
+            "valueIsLong": true
+        },
+        "data": 3,
+        "valid": true
+    },
+    {
+        "digest": {
+            "divisibleBy": 1.1,
+            "valueIsLong": false
+        },
+        "data": 3,
+        "valid": false,
+        "message": "NON_ZERO_DIVISION_REMAINDER",
+        "msgData": {
+            "value": 3,
+            "divisor": 1.1
+        }
+    },
+    {
+        "digest": {
+            "divisibleBy": 9812938091283098,
+            "valueIsLong": true
+        },
+        "data": 9812938091283098,
+        "valid": true
+    },
+    {
+        "digest": {
+            "divisibleBy": 9812938091283098.1,
+            "valueIsLong": false
+        },
+        "data": 9812938091283098.11,
+        "valid": false,
+        "message": "NON_ZERO_DIVISION_REMAINDER",
+        "msgData": {
+            "value": 9812938091283098.11,
+            "divisor": 9812938091283098.1
+        }
+    }
+]
