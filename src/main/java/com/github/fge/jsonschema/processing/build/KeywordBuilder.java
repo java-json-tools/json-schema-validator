@@ -112,4 +112,16 @@ public final class KeywordBuilder
             }
         };
     }
+
+    @Override
+    public String toString()
+    {
+        final StringBuilder sb = new StringBuilder();
+        for (final Map.Entry<String, ProcessingCache<JsonNode, KeywordValidator>>
+            entry: caches.entrySet())
+            sb.append(entry.getKey()).append(": ")
+                .append(entry.getValue().toString()).append('\n');
+
+        return sb.toString();
+    }
 }

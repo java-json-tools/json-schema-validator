@@ -34,7 +34,8 @@ public final class ProcessingCache<K, V>
         final CacheLoader<Equivalence.Wrapper<K>, V> cacheLoader)
     {
         this.equivalence = equivalence;
-        cache = CacheBuilder.newBuilder().build(cacheLoader);
+        cache = CacheBuilder.newBuilder()
+            .recordStats().build(cacheLoader);
     }
 
     public V get(final K key)

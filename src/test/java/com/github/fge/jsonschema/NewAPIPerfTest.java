@@ -100,6 +100,11 @@ public final class NewAPIPerfTest
 
         final long end = System.currentTimeMillis();
         System.out.println("END -- time in ms: " + (end - begin));
+        System.out.println("ref: " + p1);
+        System.out.println("syntax: " + p2);
+        System.out.println("digest: " + p3);
+        System.out.println("build: " + p4);
+        System.out.println("validation: " + processor);
         System.exit(0);
     }
 

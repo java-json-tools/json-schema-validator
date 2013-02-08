@@ -155,4 +155,10 @@ public final class SyntaxProcessor
         return new ProcessingMessage().put("schema", tree)
             .put("domain", "syntax");
     }
+
+    @Override
+    public String toString()
+    {
+        return cache.toString();
+    }
 }
