@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.old.format.FormatAttribute;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;

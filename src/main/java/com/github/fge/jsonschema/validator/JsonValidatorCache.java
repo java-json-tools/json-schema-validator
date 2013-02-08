@@ -18,9 +18,9 @@
 package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
+import com.github.fge.jsonschema.old.format.FormatAttribute;
 import com.github.fge.jsonschema.old.keyword.KeywordFactory;
 import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.old.syntax.SyntaxValidator;

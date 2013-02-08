@@ -17,8 +17,8 @@
 
 package com.github.fge.jsonschema.metaschema;
 
-import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.main.Keyword;
+import com.github.fge.jsonschema.old.format.FormatAttribute;
 import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;
 import com.google.common.base.Preconditions;

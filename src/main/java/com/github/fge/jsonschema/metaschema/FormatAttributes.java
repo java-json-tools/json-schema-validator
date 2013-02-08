@@ -17,19 +17,19 @@
 
 package com.github.fge.jsonschema.metaschema;
 
-import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.format.IPV4FormatAttribute;
-import com.github.fge.jsonschema.format.common.DateTimeFormatAttribute;
-import com.github.fge.jsonschema.format.common.EmailFormatAttribute;
-import com.github.fge.jsonschema.format.common.HostnameFormatAttribute;
-import com.github.fge.jsonschema.format.common.IPV6FormatAttribute;
-import com.github.fge.jsonschema.format.common.RegexFormatAttribute;
-import com.github.fge.jsonschema.format.common.URIFormatAttribute;
-import com.github.fge.jsonschema.format.draftv3.DateFormatAttribute;
-import com.github.fge.jsonschema.format.draftv3.MediaTypeFormatAttribute;
-import com.github.fge.jsonschema.format.draftv3.PhoneNumberFormatAttribute;
-import com.github.fge.jsonschema.format.draftv3.TimeFormatAttribute;
-import com.github.fge.jsonschema.format.draftv3.UnixEpochFormatAttribute;
+import com.github.fge.jsonschema.old.format.FormatAttribute;
+import com.github.fge.jsonschema.old.format.IPV4FormatAttribute;
+import com.github.fge.jsonschema.old.format.common.DateTimeFormatAttribute;
+import com.github.fge.jsonschema.old.format.common.EmailFormatAttribute;
+import com.github.fge.jsonschema.old.format.common.HostnameFormatAttribute;
+import com.github.fge.jsonschema.old.format.common.IPV6FormatAttribute;
+import com.github.fge.jsonschema.old.format.common.RegexFormatAttribute;
+import com.github.fge.jsonschema.old.format.common.URIFormatAttribute;
+import com.github.fge.jsonschema.old.format.draftv3.DateFormatAttribute;
+import com.github.fge.jsonschema.old.format.draftv3.MediaTypeFormatAttribute;
+import com.github.fge.jsonschema.old.format.draftv3.PhoneNumberFormatAttribute;
+import com.github.fge.jsonschema.old.format.draftv3.TimeFormatAttribute;
+import com.github.fge.jsonschema.old.format.draftv3.UnixEpochFormatAttribute;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
