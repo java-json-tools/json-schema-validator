@@ -82,6 +82,7 @@ public final class URIManager
     public URIManager()
     {
         downloaders.put("http", DefaultURIDownloader.getInstance());
+        downloaders.put("https", DefaultURIDownloader.getInstance());
         downloaders.put("ftp", DefaultURIDownloader.getInstance());
         downloaders.put("file", DefaultURIDownloader.getInstance());
         downloaders.put("jar", DefaultURIDownloader.getInstance());
