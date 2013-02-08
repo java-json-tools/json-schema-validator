@@ -147,6 +147,7 @@ public final class CommonSyntaxCheckerDictionary
         checker = new TypeOnlySyntaxChecker(keyword, STRING);
         dict.addEntry(keyword, checker);
 
+        // FIXME: we actually ignore this one
         keyword = "default";
         checker = new TypeOnlySyntaxChecker(keyword, ARRAY, values());
         dict.addEntry(keyword, checker);

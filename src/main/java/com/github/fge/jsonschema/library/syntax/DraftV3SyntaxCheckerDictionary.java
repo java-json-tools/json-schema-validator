@@ -21,7 +21,9 @@ import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.draftv3.DraftV3DependenciesSyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.draftv3.DraftV3ItemsSyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.draftv3.DraftV3PropertiesSyntaxChecker;
+import com.github.fge.jsonschema.keyword.syntax.draftv3.ExtendsSyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.helpers.DivisorSyntaxChecker;
+import com.github.fge.jsonschema.keyword.syntax.helpers.DraftV3TypeKeywordSyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -77,6 +79,21 @@ public final class DraftV3SyntaxCheckerDictionary
 
         keyword = "dependencies";
         checker = DraftV3DependenciesSyntaxChecker.getInstance();
+        builder.addEntry(keyword, checker);
+
+        /*
+         * All / metadata
+         */
+        keyword = "extends";
+        checker = ExtendsSyntaxChecker.getInstance();
+        builder.addEntry(keyword, checker);
+
+        keyword = "type";
+        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
+        builder.addEntry(keyword, checker);
+
+        keyword = "disallow";
+        checker = new DraftV3TypeKeywordSyntaxChecker(keyword);
         builder.addEntry(keyword, checker);
 
         DICTIONARY = builder.freeze();
