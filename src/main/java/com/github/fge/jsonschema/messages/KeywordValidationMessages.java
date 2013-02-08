@@ -42,6 +42,8 @@ public enum KeywordValidationMessages
     ALLOF_FAIL("instance failed to match all schemas"),
     ONEOF_FAIL("instance failed to match exactly one schema"),
     NOT_FAIL("instance matches a schema which it should not"),
+    DISALLOWED_TYPE("instance type is not allowed"),
+    DISALLOW_SCHEMA("instance matches one or more disallowed schema(s)")
     ;
 
     private final String message;

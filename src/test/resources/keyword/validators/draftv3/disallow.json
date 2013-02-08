@@ -1,0 +1,82 @@
+[
+    {
+        "digest": { "disallow": [ "string" ], "schemas": [] },
+        "data": null,
+        "valid": true
+    },
+    {
+        "digest": { "disallow": [ "string" ], "schemas": [] },
+        "data": "",
+        "valid": false,
+        "message": "DISALLOWED_TYPE",
+        "msgData": {
+            "disallowed": [ "string" ],
+            "found": "string"
+        }
+    },
+    {
+        "digest": { "disallow": [ "integer", "number" ], "schemas": [] },
+        "data": 3.1,
+        "valid": false,
+        "message": "DISALLOWED_TYPE",
+        "msgData": {
+            "disallowed": [ "integer", "number" ],
+            "found": "number"
+        }
+    },
+    {
+        "digest": { "disallow": [ "integer", "number" ], "schemas": [] },
+        "data": 3,
+        "valid": false,
+        "message": "DISALLOWED_TYPE",
+        "msgData": {
+            "disallowed": [ "integer", "number" ],
+            "found": "integer"
+        }
+    },
+    {
+        "digest": { "disallow": [ "integer" ], "schemas": [] },
+        "data": 3.1,
+        "valid": true
+    },
+    {
+        "digest": { "disallow": [ "integer" ], "schemas": [] },
+        "data": 3.0,
+        "valid": true
+    },
+    {
+        "digest": { "disallow": [ "integer" ], "schemas": [] },
+        "data": 3,
+        "valid": false,
+        "message": "DISALLOWED_TYPE",
+        "msgData": {
+            "disallowed": [ "integer" ],
+            "found": "integer"
+        }
+    },
+    {
+        "digest": { "disallow": [ "integer", "null" ], "schemas": [] },
+        "data": 3,
+        "valid": false,
+        "message": "DISALLOWED_TYPE",
+        "msgData": {
+            "disallowed": [ "integer", "null" ],
+            "found": "integer"
+        }
+    },
+    {
+        "digest": { "disallow": [ "integer", "number" ], "schemas": [] },
+        "data": null,
+        "valid": true
+    },
+    {
+        "digest": { "disallow": [ "null", "object" ], "schemas": [] },
+        "data": [],
+        "valid": true
+    },
+    {
+        "digest": { "disallow": [ "null", "object" ], "schemas": [] },
+        "data": "",
+        "valid": true
+    }
+]

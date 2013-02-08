@@ -20,8 +20,10 @@ package com.github.fge.jsonschema.library.validator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.DependenciesValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv3.DisallowKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv3.DivisibleByValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv3.DraftV3TypeValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv3.ExtendsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv3.PropertiesValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
@@ -71,6 +73,14 @@ public final class DraftV3ValidatorDictionary
 
         keyword = "type";
         c = DraftV3TypeValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "disallow";
+        c = DisallowKeywordValidator.class;
+        builder.addEntry(keyword, constructor(c));
+
+        keyword = "extends";
+        c = ExtendsValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();
