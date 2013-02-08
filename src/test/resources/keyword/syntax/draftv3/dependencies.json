@@ -1,0 +1,68 @@
+{
+    "valueTests": [
+        {
+            "schema": {
+                "dependencies": { "p": null }
+            },
+            "valid": false,
+            "message": "INCORRECT_DEPENDENCY_VALUE",
+            "msgData": {
+                "property": "p",
+                "expected": [ "array", "object", "string" ],
+                "found": "null"
+            }
+        },
+        {
+            "schema": {
+                "dependencies": { "p": "q" }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "dependencies": { "p": [] }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "dependencies": { "p": [ "a", false ] }
+            },
+            "valid": false,
+            "message": "INCORRECT_ELEMENT_TYPE",
+            "msgData": {
+                "property": "p",
+                "index": 1,
+                "expected": [ "string" ],
+                "found": "boolean"
+            }
+        },
+        {
+            "schema": {
+                "dependencies": { "p": [ "a", "a" ] }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "dependencies": { "p": [ "a", "z" ] }
+            },
+            "valid": true
+        }
+    ],
+    "pointerTests": [
+        {
+            "schema": {
+                "dependencies": {
+                    "b": {},
+                    "a++": {},
+                    "c": null
+                }
+            },
+            "pointers": [
+                "/dependencies/a++",
+                "/dependencies/b"
+            ]
+        }
+    ]
+}

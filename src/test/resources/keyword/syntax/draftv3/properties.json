@@ -1,0 +1,50 @@
+{
+    "valueTests": [
+        {
+            "schema": {
+                "properties": {
+                    "p": { "required": false }
+                }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "properties": {
+                    "p": { "required": true }
+                }
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "properties": {
+                    "p": { "required": "true" }
+                }
+            },
+            "valid": false,
+            "message": "DRAFTV3_PROPERTIES_REQUIRED",
+            "msgData": {
+                "property": "p",
+                "expected": "boolean",
+                "found": "string"
+            }
+        }
+    ],
+    "pointerTests": [
+        {
+            "schema": {
+                "properties": {
+                    "b": {},
+                    "a++": {},
+                    "c": null
+                }
+            },
+            "pointers": [
+                "/properties/a++",
+                "/properties/b",
+                "/properties/c"
+            ]
+        }
+    ]
+}

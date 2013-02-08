@@ -1,0 +1,36 @@
+{
+    "valueTests": [
+        {
+            "schema": { "divisibleBy": 0 },
+            "valid": false,
+            "message": "ILLEGAL_DIVISOR",
+            "msgData": {
+                "found": 0
+            }
+        },
+        {
+            "schema": { "divisibleBy": -2 },
+            "valid": false,
+            "message": "ILLEGAL_DIVISOR",
+            "msgData": {
+                "found": -2
+            }
+        },
+        {
+            "schema": {
+                "divisibleBy": -0.00000000000000000000000000000000000000000000001
+            },
+            "valid": false,
+            "message": "ILLEGAL_DIVISOR",
+            "msgData": {
+                "found": -0.00000000000000000000000000000000000000000000001
+            }
+        },
+        {
+            "schema": {
+                "divisibleBy": 0.00000000000000000000000000000000000000000000001
+            },
+            "valid": true
+        }
+    ]
+}

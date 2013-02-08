@@ -52,7 +52,7 @@ public abstract class SchemaMapSyntaxChecker
     }
 
     protected abstract void extraChecks(final ProcessingReport report,
-        final JsonSchemaTree tree)
+        JsonSchemaTree tree)
         throws ProcessingException;
 
     private void collectPointers(final Collection<JsonPointer> pointers,

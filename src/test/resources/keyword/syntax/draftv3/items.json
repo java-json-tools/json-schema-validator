@@ -1,0 +1,28 @@
+{
+    "valueTests": [
+        {
+            "schema": {
+                "items": []
+            },
+            "valid": true
+        },
+        {
+            "schema": {
+                "items": [ {} ]
+            },
+            "valid": true
+        }
+    ],
+    "pointerTests": [
+        {
+            "schema": { "items": {} },
+            "pointers": [ "/items" ]
+        },
+        {
+            "schema": {
+                "items": [ {}, 1, {} ]
+            },
+            "pointers": [ "/items/0", "/items/1", "/items/2" ]
+        }
+    ]
+}

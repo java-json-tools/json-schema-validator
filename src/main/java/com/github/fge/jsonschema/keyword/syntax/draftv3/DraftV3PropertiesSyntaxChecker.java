@@ -15,33 +15,62 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.syntax.draftv4;
+package com.github.fge.jsonschema.keyword.syntax.draftv3;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.google.common.collect.Maps;
 
-public final class DraftV4PropertiesSyntaxChecker
+import java.util.Map;
+import java.util.SortedMap;
+
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
+
+public final class DraftV3PropertiesSyntaxChecker
     extends SchemaMapSyntaxChecker
 {
     private static final SyntaxChecker INSTANCE
-        = new DraftV4PropertiesSyntaxChecker();
+        = new DraftV3PropertiesSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
         return INSTANCE;
     }
 
-    private DraftV4PropertiesSyntaxChecker()
+    private DraftV3PropertiesSyntaxChecker()
     {
         super("properties");
     }
+
     @Override
     protected void extraChecks(final ProcessingReport report,
         final JsonSchemaTree tree)
         throws ProcessingException
     {
+        final SortedMap<String, JsonNode> map = Maps.newTreeMap();
+        map.putAll(JacksonUtils.asMap(tree.getCurrentNode().get(keyword)));
+
+        String member;
+        JsonNode required;
+        NodeType type;
+
+        for (final Map.Entry<String, JsonNode> entry: map.entrySet()) {
+            member = entry.getKey();
+            required = entry.getValue().get("required");
+            if (required == null)
+                continue;
+            type = NodeType.getNodeType(required);
+            if (type != NodeType.BOOLEAN) {
+                report.error(newMsg(tree, DRAFTV3_PROPERTIES_REQUIRED)
+                    .put("property", member).put("expected", NodeType.BOOLEAN)
+                    .put("found", type));
+            }
+        }
     }
 }

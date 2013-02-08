@@ -15,29 +15,30 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.syntax.draftv4;
+package com.github.fge.jsonschema.keyword.syntax.draftv3;
 
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaMapSyntaxChecker;
+import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaOrSchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 
-public final class DraftV4PropertiesSyntaxChecker
-    extends SchemaMapSyntaxChecker
+public final class DraftV3ItemsSyntaxChecker
+    extends SchemaOrSchemaArraySyntaxChecker
 {
     private static final SyntaxChecker INSTANCE
-        = new DraftV4PropertiesSyntaxChecker();
+        = new DraftV3ItemsSyntaxChecker();
 
     public static SyntaxChecker getInstance()
     {
         return INSTANCE;
     }
 
-    private DraftV4PropertiesSyntaxChecker()
+    private DraftV3ItemsSyntaxChecker()
     {
-        super("properties");
+        super("items");
     }
+
     @Override
     protected void extraChecks(final ProcessingReport report,
         final JsonSchemaTree tree)
