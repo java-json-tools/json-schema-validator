@@ -15,25 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator;
+package com.github.fge.jsonschema.keyword.validator.helpers;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
+import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
-public abstract class PositiveIntegerKeywordValidator
+public abstract class SchemaArrayKeywordValidator
     extends AbstractKeywordValidator
 {
-    protected final int intValue;
+    protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
-    protected PositiveIntegerKeywordValidator(final String keyword,
-        final JsonNode digest)
+    protected final JsonPointer basePointer;
+
+    protected SchemaArrayKeywordValidator(final String keyword)
     {
         super(keyword);
-        intValue = digest.get(keyword).intValue();
+        basePointer = JsonPointer.empty().append(keyword);
     }
 
     @Override
     public final String toString()
     {
-        return keyword + ": " + intValue;
+        return keyword;
     }
 }

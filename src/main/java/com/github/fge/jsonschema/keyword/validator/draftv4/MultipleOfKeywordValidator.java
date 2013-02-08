@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.keyword.validator.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.validator.DivisorKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.helpers.DivisorKeywordValidator;
 
 public final class MultipleOfKeywordValidator
     extends DivisorKeywordValidator

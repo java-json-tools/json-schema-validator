@@ -72,7 +72,7 @@ public final class NewAPIPerfTest
             = new KeywordBuilder(DraftV4ValidatorDictionary.get());
 
         final Processor<ValidationData, FullValidationContext> chain
-            = ProcessorChain.startWith(p1).chainWith(p2).chainWith(p3)
+            = ProcessorChain.startWith(p1).chainWith(p3)
                 .chainWith(p4).end();
 
         final ValidationProcessor processor = new ValidationProcessor(chain);
@@ -101,7 +101,6 @@ public final class NewAPIPerfTest
         final long end = System.currentTimeMillis();
         System.out.println("END -- time in ms: " + (end - begin));
         System.out.println("ref: " + p1);
-        System.out.println("syntax: " + p2);
         System.out.println("digest: " + p3);
         System.out.println("build: " + p4);
         System.out.println("validation: " + processor);

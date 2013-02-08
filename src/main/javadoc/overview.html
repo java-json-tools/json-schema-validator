@@ -29,61 +29,44 @@ application; this library has no dependencies on anything Web-related.</p>
 
 <h2>Strong points</h2>
 
-<p>This library has complete draft v3 validation support. This includes all
-"exotic" features of the draft, such as:</p>
+<p>This library has complete draft v3 and draft v4 validation support.</p>
 
-<ul>
-    <li>multiple schemas in {@code extends};</li>
-    <li>schemas in {@code type} and {@code disallow};</li>
-    <li>schemas in {@code dependencies}.</li>
-</ul>
-
-<p>It now also has support for draft v4, and schema version detection via
-<tt>$schema</tt>.</p>
-
-<p>It also has two particular features making it stand apart:</p>
+<p>It also has three particular features making it stand apart:</p>
 
 <ul>
     <li>regular expressions obey ECMA 262 (ie, those are JavaScript regular
     expressions);</li>
-    <li><b>it can validate numeric JSON data or abitrary scale/precision</b>.
+    <li><b>it can validate numeric JSON data or abitrary scale/precision</b>;
     </li>
+    <li>it is very customizable.</li>
 </ul>
 
 <h1>Sample usage</h1>
 
-<p>See the {@link com.github.fge.jsonschema.examples} package: it contains
-example usages for nearly all situations. This includes:</p>
-
-<ul>
-    <li>schema version detection;</li>
-    <li>use of inline addressing via <tt>id</tt>;</li>
-    <li>examples of URI namespaces and redirections;</li>
-    <li>schema customization (by adding new format attributes of keyword).</li>
-</ul>
+<p>TODO: rewrite examples</p>
 
 <h1>The validation process</h1>
 
-<p>The validation process is a three step process:</p>
+<p>The validation process is a five step process:</p>
 
 <ul>
     <li><tt>$ref</tt> resolution;</li>
     <li>schema syntax validation;</li>
+    <li>schema digesting;</li>
+    <li>keyword building;</li>
     <li>instance validation (ie, validate your data).</li>
 </ul>
 
-<p>The core package for the validation process is {@link
-com.github.fge.jsonschema.validator}, and in particular {@link
-com.github.fge.jsonschema.validator.JsonValidatorCache}. This class is
-instantiated by a schema factory and uses a {@link
-com.google.common.cache.LoadingCache} to store already computed validators.
-There is one such cache per schema version.</p>
+<p>All these steps are performed through a series of {@link
+com.github.fge.jsonschema.processing.Processor}s, and you can write your
+own. Note that all of these processors also cache results (using a {@link
+com.google.common.cache.LoadingCache} for future reuse.</p>
 
 <h2><tt>$ref</tt> resolution</h2>
 
 <p>This is a critically important part of the validation process. You may
 encounter, during validation, what is called a <a
-href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-04">JSON
+href="http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03">JSON
 Reference</a>. A JSON Reference is a JSON Object with one member named
 <tt>$ref</tt>, and the value of this member is a text value which embodies a
 URI. Implementations are required to follow JSON References until an actual
@@ -105,6 +88,9 @@ this implementation does.</p>
 
 <p>Note that any failure in $ref validation is considered a fatal error.</p>
 
+<p>The processor in charge of this step is {@link
+com.github.fge.jsonschema.processing.ref.RefResolverProcessor}.</p>
+
 <h2>Schema syntax checking</h2>
 
 <p>This is an equally important part of the validation process. One thing to
@@ -113,65 +99,106 @@ resolution ultimately leads to a JSON document, whatever that document is. Which
 means it may not even be a JSON Object, therefore not a JSON Schema. This basic
 check is done at that level.</p>
 
-<p>The syntax validation process implies a {@link
-com.github.fge.jsonschema.old.syntax.SyntaxValidator} instance, which checks
-that all keywords are syntactically correct using a series of {@link
-com.github.fge.jsonschema.syntax.SyntaxChecker} objects.</p>
+<p>After schema syntax checking is done, you are ensured that the schema is well
+formed: this simplifies later processing. Note however that syntax checking will
+not follow JSON References.</p>
 
-<p>The role of {@link com.github.fge.jsonschema.syntax.SyntaxChecker} objects
-in particular is very important: for a given keyword, a syntax checker ensures
-that the value of this keyword is well formed. This is what allows the next step
-in the process to be easier to implement.</p>
+<p>The processor in charge of this step is {@link
+com.github.fge.jsonschema.processing.syntax.SyntaxProcessor}.</p>
+
+<h2>Digesting</h2>
+
+<p>This step of the processing chain takes into account both the schema and the
+instance to validate. Its role is to check the instance type, pick the relevant
+keywords for that instance type into the current schema, and build digested
+forms of these keywords for the next step.</p>
+
+<p>For instance, consider that you are validating a number instance, and the
+current schema reads:</p>
+
+<pre>
+    {
+        "minItems": 3,
+        "maximum": 3
+    }
+</pre>
+
+<p>{@code minItems} does not apply to numbers, it will therefore be filtered out
+here. But this is not all. Now consider those two schemas:</p>
+
+<pre>
+    {
+        "additionalItems": true
+    }
+</pre>
+
+<pre>
+    {
+        "additionalItems": { "type": "string" }
+    }
+</pre>
+
+<p>They have exactly the same influence on the validation of the array itself
+(note: the array, <b>not</b> its elements). The digest for these two schemas
+when the instance to validate is an array will therefore be the same. This
+allows to prune a lot of duplicates out of keyword caching.</p>
+
+<p>The processor in charge of this step is {@link
+com.github.fge.jsonschema.processing.digest.SchemaDigester}.</p>
+
+<h2>Keyword building</h2>
+
+<p>At this step, the digested form of the current schema is grabbed and all
+relevant keywords are built (if they are not found in the cache). The real
+validation can now take place.</p>
+
+<p>Again, all results are cached for future reuse. And as all keywords are
+context-free, a same result can be reused across different schemas.</p>
+
+<p>The processor in charge of this step is {@link
+com.github.fge.jsonschema.processing.build.KeywordBuilder}.</p>
 
 <h2>Instance (aka data) validation</h2>
 
 <p>This is the part which actually matters to end users: ensure that their data
 is valid.</p>
 
-<p>The process begins with an instance of {@link
-com.github.fge.jsonschema.validator.InstanceValidator}. It will query, via the
-factory, a set of {@link com.github.fge.jsonschema.old.keyword.KeywordValidator}
-instances. All of these keyword validators will then be called in turn to
-validate the data.</p>
-
-<h2>Object/array instance validation</h2>
-
-<p>There is one more step to validation. The step above will only have validated
-that the current "path" in the JSON instance will have been validated. However,
-in the event where the instance is a so-called <i>container instance</i>, that
-is it has children nodes, which is the case of objects and arrays, then a
-further validation step is issued so that all children get validated.</p>
-
-<p>The two classes responsible for this, {@link
-com.github.fge.jsonschema.validator.ArrayValidator} and {@link
-com.github.fge.jsonschema.validator.ObjectValidator}, take responsibility
-from this point and will restart the validation process from scratch for each of
-the instance children.</p>
-
-<p>It should be noted that while array instance children only have to match
-exactly one schema, object instance children may have to match several of them,
-which does nothing to simplify matters...</p>
-
-<h2>A particular note about <tt>type</tt>, <tt>disallow</tt>,
-<tt>dependencies</tt> and <tt>extends</tt></h2>
-
-<p>Those four schema keywords have the unfortunate property that they can
-<i>also</i> restart the validation process from their own:</p>
+<p>This step of the processing consists of two distinct elements:</p>
 
 <ul>
-    <li><tt>type</tt> and <tt>disallow</tt> can bear schemas in their array
-    representations; validation should consider those schemas;</li>
-    <li>similarly, <tt>dependencies</tt> can link one property in an object
-    instance to another schema, then the whole instance must also validate
-    against that schema -- and you may have several occurrences of that;</li>
-    <li><tt>extends</tt>, in a similar vein, unconditionally constrains the
-    instance to obey the schema(s) it mentions.</li>
+    <li>running the keyword validators built at the previous step;</li>
+    <li>(recursively) validating children of arrays and/or objects.</li>
 </ul>
 
-<p>Those four schema keywords are an implementor's worst nightmare. Remember
-that the validation process starts from <tt>$ref</tt> resolution: each of these
-keywords, should they have schema dependencies of some sort, have to start the
-whole validation process <i>from scratch</i>.</p>
+<p>As some keywords require that this very same processor be called again, all
+keyword validators keep a reference to it: this is what also allows keywords
+such as {@code anyOf}, {@code allOf} and others to work correctly. In a similar
+manner, this processor also needs a reference to the start of the chain (the
+reference resolver processor).</p>
+
+<p>The processor in charge of this step is {@link
+com.github.fge.jsonschema.processing.validation.ValidationProcessor}.</p>
+
+<h1>More</h1>
+
+<h2>Processing customization</h2>
+
+<p>The core interfaces used for the mechanism above are really simple:</p>
+
+<ul>
+    <li>{@link com.github.fge.jsonschema.processing.Processor} denotes an
+    individual processor in the chain;</li>
+    <li>{@link com.github.fge.jsonschema.processing.ProcessorChain} allows you
+    to chain processors to make another processor;</li>
+    <li>{@link com.github.fge.jsonschema.report.ProcessingReport} covers all
+    logging needs, and you can customize it;</li>
+    <li>{@link com.github.fge.jsonschema.report.MessageProvider} allows you to
+    grab a context dependent message template for informative logging.</li>
+</ul>
+
+<p>This library is therefore not limited to pure validation anymore: you can
+imagine -- and code -- any processor of your choice and chain it with others.
+</p>
 
 </body>
 </html>
