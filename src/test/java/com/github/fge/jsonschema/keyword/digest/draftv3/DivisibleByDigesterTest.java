@@ -15,30 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.digest.draftv4;
+package com.github.fge.jsonschema.keyword.digest.draftv3;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.digest.NumericDigester;
+import com.github.fge.jsonschema.util.NodeType;
 
-public final class MultipleOfDigester
-    extends NumericDigester
+import java.io.IOException;
+
+public final class DivisibleByDigesterTest
+    extends DraftV3DigesterTest
 {
-    private static final Digester INSTANCE = new MultipleOfDigester();
-
-    public static Digester getInstance()
+    public DivisibleByDigesterTest()
+        throws IOException
     {
-        return INSTANCE;
-    }
-
-    private MultipleOfDigester()
-    {
-        super("multipleOf");
-    }
-
-    @Override
-    public JsonNode digest(final JsonNode schema)
-    {
-        return digestedNumberNode(schema);
+        super("divisibleBy", NodeType.INTEGER, NodeType.NUMBER);
     }
 }

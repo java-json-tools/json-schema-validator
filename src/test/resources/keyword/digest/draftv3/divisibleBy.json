@@ -1,0 +1,52 @@
+[
+    {
+        "inputs": [
+            {
+                "divisibleBy": 1
+            },
+            {
+                "divisibleBy": 1.0
+            },
+            {
+                "divisibleBy": 1,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "divisibleBy": 1,
+            "valueIsLong": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "divisibleBy": 2147483648
+            },
+            {
+                "divisibleBy": 2147483648.0
+            },
+            {
+                "divisibleBy": 2147483648,
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "divisibleBy": 2147483648,
+            "valueIsLong": true
+        }
+    },
+    {
+        "inputs": [
+            {
+                "divisibleBy": 9223372036854775808
+            },
+            {
+                "divisibleBy": 9223372036854775808.0
+            }
+        ],
+        "digest": {
+            "divisibleBy": 9223372036854775808,
+            "valueIsLong": false
+        }
+    }
+]

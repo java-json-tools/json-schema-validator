@@ -15,25 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.digest.draftv4;
+package com.github.fge.jsonschema.keyword.digest.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.NumericDigester;
 
-public final class MultipleOfDigester
+public final class DivisibleByDigester
     extends NumericDigester
 {
-    private static final Digester INSTANCE = new MultipleOfDigester();
+    private static final Digester INSTANCE = new DivisibleByDigester();
 
     public static Digester getInstance()
     {
         return INSTANCE;
     }
 
-    private MultipleOfDigester()
+    private DivisibleByDigester()
     {
-        super("multipleOf");
+        super("divisibleBy");
     }
 
     @Override

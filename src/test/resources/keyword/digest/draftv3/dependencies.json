@@ -1,0 +1,97 @@
+[
+    {
+        "inputs": [
+            {
+                "dependencies": {
+                    "a": [ "b", "c" ],
+                    "d": [ "e", "f" ],
+                    "g": { "type": "string" },
+                    "h": { "foo": "bar" }
+                }
+            },
+            {
+                "dependencies": {
+                    "a": [ "c", "b" ],
+                    "d": [ "f", "e" ],
+                    "g": { "type": "boolean" },
+                    "h": { "format": "c:" }
+                }
+            }
+        ],
+        "digest": {
+            "propertyDeps": {
+                "a": [ "b", "c" ],
+                "d": [ "e", "f" ]
+            },
+            "schemaDeps": [ "g", "h" ]
+        }
+    },
+    {
+        "inputs": [
+            {
+                "dependencies": {
+                    "p": [ "r", "q", "s" ]
+                }
+            },
+            {
+                "dependencies": {
+                    "p": [ "r", "s", "q" ]
+                }
+            }
+        ],
+        "digest": {
+            "propertyDeps": {
+                "p": [ "q", "r", "s" ]
+            },
+            "schemaDeps": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "dependencies": {
+                    "p": {},
+                    "q": {}
+                }
+            },
+            {
+                "dependencies": {
+                    "q": { "x": "y" },
+                    "p": { "whatever": null }
+                }
+            }
+        ],
+        "digest": {
+            "propertyDeps": {},
+            "schemaDeps": [ "p", "q" ]
+        }
+    },
+    {
+        "inputs": [
+            {
+                "dependencies": { "p": "a" }
+            },
+            {
+                "dependencies": { "p": [ "a" ] }
+            },
+            {
+                "dependencies": { "p": [ "a", "a" ] }
+            }
+        ],
+        "digest": {
+            "propertyDeps": { "p": [ "a" ] },
+            "schemaDeps": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "dependencies": { "p": [] }
+            }
+        ],
+        "digest": {
+            "propertyDeps": {},
+            "schemaDeps": []
+        }
+    }
+]

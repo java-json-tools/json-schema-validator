@@ -1,0 +1,52 @@
+[
+    {
+        "inputs": [
+            {
+                "properties": {
+                    "p": { "required": true },
+                    "q": {},
+                    "r": { "required": false }
+                }
+            },
+            {
+                "properties": { "p": { "required": true } }
+            }
+        ],
+        "digest": { "required": [ "p" ] }
+    },
+    {
+        "inputs": [
+            {
+                "properties": {
+                    "p": { "required": true },
+                    "q": {},
+                    "r": { "required": true }
+                }
+            },
+            {
+                "properties": {
+                    "r": { "required": true },
+                    "p": { "required": true },
+                    "q": {},
+                    "a": { "required": false }
+                }
+            }
+        ],
+        "digest": { "required": [ "p", "r" ] }
+    },
+    {
+        "inputs": [
+            {
+                "properties": {
+                    "p": {},
+                    "a": {},
+                    "r": { "required": false }
+                }
+            },
+            {
+                "properties": {}
+            }
+        ],
+        "digest": { "required": [] }
+    }
+]

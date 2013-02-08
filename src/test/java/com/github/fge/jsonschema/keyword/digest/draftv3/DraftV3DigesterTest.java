@@ -15,30 +15,22 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.digest.draftv4;
+package com.github.fge.jsonschema.keyword.digest.draftv3;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.digest.NumericDigester;
+import com.github.fge.jsonschema.keyword.digest.AbstractDigesterTest;
+import com.github.fge.jsonschema.library.digest.DraftV3DigesterDictionary;
+import com.github.fge.jsonschema.util.NodeType;
 
-public final class MultipleOfDigester
-    extends NumericDigester
+import java.io.IOException;
+
+public abstract class DraftV3DigesterTest
+    extends AbstractDigesterTest
 {
-    private static final Digester INSTANCE = new MultipleOfDigester();
-
-    public static Digester getInstance()
+    protected DraftV3DigesterTest(final String keyword, final NodeType first,
+        final NodeType... other)
+        throws IOException
     {
-        return INSTANCE;
-    }
-
-    private MultipleOfDigester()
-    {
-        super("multipleOf");
-    }
-
-    @Override
-    public JsonNode digest(final JsonNode schema)
-    {
-        return digestedNumberNode(schema);
+        super(DraftV3DigesterDictionary.get(), "draftv3", keyword, first,
+            other);
     }
 }
