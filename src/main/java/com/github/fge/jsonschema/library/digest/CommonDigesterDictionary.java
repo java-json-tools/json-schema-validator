@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.library.digest;
 
-import com.github.fge.jsonschema.keyword.digest.AdditionalPropertiesDigester;
+import com.github.fge.jsonschema.keyword.digest.common.AdditionalPropertiesDigester;
 import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.digest.NullDigester;
-import com.github.fge.jsonschema.keyword.digest.SimpleDigester;
+import com.github.fge.jsonschema.keyword.digest.helpers.NullDigester;
+import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.digest.common.AdditionalItemsDigester;
 import com.github.fge.jsonschema.keyword.digest.common.MaximumDigester;
 import com.github.fge.jsonschema.keyword.digest.common.MinimumDigester;

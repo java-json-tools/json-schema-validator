@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.digest;
+package com.github.fge.jsonschema.keyword.digest.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
 import com.github.fge.jsonschema.util.NodeType;
 
-public final class SimpleDigester
+public final class IdentityDigester
     extends AbstractDigester
 {
-    public SimpleDigester(final String keyword, final NodeType first,
+    public IdentityDigester(final String keyword, final NodeType first,
         final NodeType... other)
     {
         super(keyword, first, other);
@@ -33,8 +33,6 @@ public final class SimpleDigester
     @Override
     public JsonNode digest(final JsonNode schema)
     {
-        final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, schema.get(keyword));
-        return ret;
+        return schema;
     }
 }

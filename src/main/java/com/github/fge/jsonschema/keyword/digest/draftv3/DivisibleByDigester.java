@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.keyword.digest.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.digest.NumericDigester;
+import com.github.fge.jsonschema.keyword.digest.helpers.NumericDigester;
 
 public final class DivisibleByDigester
     extends NumericDigester
