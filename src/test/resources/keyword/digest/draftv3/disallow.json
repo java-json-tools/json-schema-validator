@@ -1,0 +1,129 @@
+[
+    {
+        "inputs": [
+            {
+                "disallow": "string"
+            },
+            {
+                "disallow": [ "string" ]
+            },
+            {
+                "disallow": "string",
+                "foo": false
+            }
+        ],
+        "digest": {
+            "disallow": [ "string" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "disallow": "number"
+            },
+            {
+                "disallow": [ "number", "integer" ]
+            },
+            {
+                "disallow": [ "number" ]
+            },
+            {
+                "disallow": "number",
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "disallow": [ "integer", "number" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "disallow": [ "object", "boolean", "null" ]
+            },
+            {
+                "disallow": [ "null", "boolean", "object" ]
+            },
+            {
+                "disallow": [ "boolean", "object", "null" ]
+            },
+            {
+                "disallow": [ "object", "boolean", "null" ]
+            }
+        ],
+        "digest": {
+            "disallow": [ "boolean", "null", "object" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "disallow": [ "string", "number" ]
+            },
+            {
+                "disallow": [ "string", "integer", "number" ]
+            },
+            {
+                "disallow": [ "integer", "string", "number" ]
+            }
+        ],
+        "digest": {
+            "disallow": [ "integer", "number", "string" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "disallow": "any"
+            },
+            {
+                "disallow": [ "string", "any" ]
+            },
+            {
+                "disallow": [ "boolean", "any" ]
+            },
+            {
+                "disallow": [ "string", "object", "any", {}, {} ]
+            },
+            {
+                "disallow": [ { "a": "b" }, "any", {}, "string" ]
+            }
+        ],
+        "digest": {
+            "disallow": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "disallow": [ "number", {} ]
+            },
+            {
+                "disallow": [ "number", {}, "integer" ]
+            }
+        ],
+        "digest": {
+            "disallow": [ "integer", "number" ],
+            "schemas": [ 1 ]
+        }
+    },
+    {
+        "inputs": [
+            {
+                "disallow": [ {}, {}, "boolean", {}, "string" ]
+            },
+            {
+                "disallow": [ { "a": null }, {}, "string", { "foo": "bar" }, "boolean" ]
+            }
+        ],
+        "digest": {
+            "disallow": [ "boolean", "string" ],
+            "schemas": [ 0, 1, 3 ]
+        }
+    }
+]

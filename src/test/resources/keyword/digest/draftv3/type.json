@@ -1,0 +1,129 @@
+[
+    {
+        "inputs": [
+            {
+                "type": "string"
+            },
+            {
+                "type": [ "string" ]
+            },
+            {
+                "type": "string",
+                "foo": false
+            }
+        ],
+        "digest": {
+            "type": [ "string" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": "number"
+            },
+            {
+                "type": [ "number", "integer" ]
+            },
+            {
+                "type": [ "number" ]
+            },
+            {
+                "type": "number",
+                "foo": "bar"
+            }
+        ],
+        "digest": {
+            "type": [ "integer", "number" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": [ "object", "boolean", "null" ]
+            },
+            {
+                "type": [ "null", "boolean", "object" ]
+            },
+            {
+                "type": [ "boolean", "object", "null" ]
+            },
+            {
+                "type": [ "object", "boolean", "null" ]
+            }
+        ],
+        "digest": {
+            "type": [ "boolean", "null", "object" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": [ "string", "number" ]
+            },
+            {
+                "type": [ "string", "integer", "number" ]
+            },
+            {
+                "type": [ "integer", "string", "number" ]
+            }
+        ],
+        "digest": {
+            "type": [ "integer", "number", "string" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": "any"
+            },
+            {
+                "type": [ "string", "any" ]
+            },
+            {
+                "type": [ "boolean", "any" ]
+            },
+            {
+                "type": [ "string", "object", "any", {}, {} ]
+            },
+            {
+                "type": [ { "a": "b" }, "any", {}, "string" ]
+            }
+        ],
+        "digest": {
+            "type": [ "array", "boolean", "integer", "null", "number", "object", "string" ],
+            "schemas": []
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": [ "number", {} ]
+            },
+            {
+                "type": [ "number", {}, "integer" ]
+            }
+        ],
+        "digest": {
+            "type": [ "integer", "number" ],
+            "schemas": [ 1 ]
+        }
+    },
+    {
+        "inputs": [
+            {
+                "type": [ {}, {}, "boolean", {}, "string" ]
+            },
+            {
+                "type": [ { "a": null }, {}, "string", { "foo": "bar" }, "boolean" ]
+            }
+        ],
+        "digest": {
+            "type": [ "boolean", "string" ],
+            "schemas": [ 0, 1, 3 ]
+        }
+    }
+]
