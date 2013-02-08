@@ -18,32 +18,24 @@
 package com.github.fge.jsonschema.keyword.validator.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.keyword.validator.helpers.SchemaArrayValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-
-import java.util.Set;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class RequiredKeywordValidator
-    extends AbstractKeywordValidator
+public final class AnyOfValidator
+    extends SchemaArrayValidator
 {
-    private final Set<String> required;
-
-    public RequiredKeywordValidator(final JsonNode digest)
+    public AnyOfValidator(final JsonNode digest)
     {
-        super("required");
-        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-
-        for (final JsonNode element: digest.get(keyword))
-            builder.add(element.textValue());
-
-        required = builder.build();
+        super("anyOf");
     }
 
     @Override
@@ -52,18 +44,28 @@ public final class RequiredKeywordValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final Set<String> set = Sets.newLinkedHashSet(required);
-        set.removeAll(Sets.newHashSet(data.getInstance().getCurrentNode()
-            .fieldNames()));
+        final JsonSchemaTree schemaTree = data.getSchema();
+        final JsonNode schemas = schemaTree.getCurrentNode().get(keyword);
+        final int size = schemas.size();
+        final ObjectNode fullReport = FACTORY.objectNode();
 
-        if (!set.isEmpty())
-            report.error(newMsg(data).msg(MISSING_REQUIRED_MEMBERS)
-                .put("required", required).put("missing", set));
-    }
+        int nrSuccess = 0;
+        ListProcessingReport subReport;
+        JsonPointer ptr;
 
-    @Override
-    public String toString()
-    {
-        return keyword + ": " + required.size() + " properties";
+        for (int index = 0; index < size; index++) {
+            subReport = new ListProcessingReport();
+            ptr = basePointer.append(index);
+            schemaTree.append(ptr);
+            processor.process(subReport, data);
+            schemaTree.pop();
+            fullReport.put(ptr.toString(), subReport.asJson());
+            if (subReport.isSuccess())
+                nrSuccess++;
+        }
+
+        if (nrSuccess == 0)
+            report.error(newMsg(data).msg(ANYOF_FAIL)
+                .put("reports", fullReport));
     }
 }

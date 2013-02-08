@@ -23,27 +23,22 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
+import com.github.fge.jsonschema.util.NodeType;
 
-import java.util.Set;
+import java.util.EnumSet;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class RequiredKeywordValidator
+public final class DraftV4TypeValidator
     extends AbstractKeywordValidator
 {
-    private final Set<String> required;
+    private final EnumSet<NodeType> types = EnumSet.noneOf(NodeType.class);
 
-    public RequiredKeywordValidator(final JsonNode digest)
+    public DraftV4TypeValidator(final JsonNode digest)
     {
-        super("required");
-        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-
-        for (final JsonNode element: digest.get(keyword))
-            builder.add(element.textValue());
-
-        required = builder.build();
+        super("type");
+        for (final JsonNode node: digest.get(keyword))
+            types.add(NodeType.fromName(node.textValue()));
     }
 
     @Override
@@ -52,18 +47,17 @@ public final class RequiredKeywordValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final Set<String> set = Sets.newLinkedHashSet(required);
-        set.removeAll(Sets.newHashSet(data.getInstance().getCurrentNode()
-            .fieldNames()));
+        final NodeType type
+            = NodeType.getNodeType(data.getInstance().getCurrentNode());
 
-        if (!set.isEmpty())
-            report.error(newMsg(data).msg(MISSING_REQUIRED_MEMBERS)
-                .put("required", required).put("missing", set));
+        if (!types.contains(type))
+            report.error(newMsg(data).msg(TYPE_NO_MATCH)
+                .put("expected", types).put("found", type));
     }
 
     @Override
     public String toString()
     {
-        return keyword + ": " + required.size() + " properties";
+        return keyword + ": " + types;
     }
 }

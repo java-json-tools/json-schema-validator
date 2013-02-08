@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
+package com.github.fge.jsonschema.keyword.validator.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
@@ -23,27 +23,20 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-
-import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class RequiredKeywordValidator
+public final class AdditionalItemsValidator
     extends AbstractKeywordValidator
 {
-    private final Set<String> required;
+    private final boolean additionalOK;
+    private final int itemsSize;
 
-    public RequiredKeywordValidator(final JsonNode digest)
+    public AdditionalItemsValidator(final JsonNode digest)
     {
-        super("required");
-        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-
-        for (final JsonNode element: digest.get(keyword))
-            builder.add(element.textValue());
-
-        required = builder.build();
+        super("additionalItems");
+        additionalOK = digest.get(keyword).booleanValue();
+        itemsSize = digest.get("itemsSize").intValue();
     }
 
     @Override
@@ -52,18 +45,19 @@ public final class RequiredKeywordValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final Set<String> set = Sets.newLinkedHashSet(required);
-        set.removeAll(Sets.newHashSet(data.getInstance().getCurrentNode()
-            .fieldNames()));
+        if (additionalOK)
+            return;
 
-        if (!set.isEmpty())
-            report.error(newMsg(data).msg(MISSING_REQUIRED_MEMBERS)
-                .put("required", required).put("missing", set));
+        final int size = data.getInstance().getCurrentNode().size();
+        if (size > itemsSize)
+            report.error(newMsg(data).msg(ADDITIONAL_ITEMS_NOT_ALLOWED)
+                .put("allowed", itemsSize).put("found", size));
     }
 
     @Override
     public String toString()
     {
-        return keyword + ": " + required.size() + " properties";
+        return keyword + ": "
+            + (additionalOK ? "allowed" : itemsSize + " max");
     }
 }

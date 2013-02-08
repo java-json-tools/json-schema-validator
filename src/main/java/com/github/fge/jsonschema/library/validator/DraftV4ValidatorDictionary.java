@@ -19,15 +19,15 @@ package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.common.DependenciesKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.AllOfKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.AnyOfKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.DraftV4TypeKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.MaxPropertiesKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.MinPropertiesKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.MultipleOfKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.NotKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv4.OneOfKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.DependenciesValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.AllOfValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.AnyOfValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.DraftV4TypeValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.MaxPropertiesValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.MinPropertiesValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.MultipleOfValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.OneOfValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.RequiredKeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
@@ -61,18 +61,18 @@ public final class DraftV4ValidatorDictionary
          * Number/integer
          */
         keyword = "multipleOf";
-        c = MultipleOfKeywordValidator.class;
+        c = MultipleOfValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         /*
          * Object
          */
         keyword = "minProperties";
-        c = MinPropertiesKeywordValidator.class;
+        c = MinPropertiesValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         keyword = "maxProperties";
-        c = MaxPropertiesKeywordValidator.class;
+        c = MaxPropertiesValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         keyword = "required";
@@ -80,30 +80,30 @@ public final class DraftV4ValidatorDictionary
         builder.addEntry(keyword, constructor(c));
 
         keyword = "dependencies";
-        c = DependenciesKeywordValidator.class;
+        c = DependenciesValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         /*
          * All
          */
         keyword = "anyOf";
-        c = AnyOfKeywordValidator.class;
+        c = AnyOfValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         keyword = "allOf";
-        c = AllOfKeywordValidator.class;
+        c = AllOfValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         keyword = "oneOf";
-        c = OneOfKeywordValidator.class;
+        c = OneOfValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         keyword = "not";
-        c = NotKeywordValidator.class;
+        c = NotValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         keyword = "type";
-        c = DraftV4TypeKeywordValidator.class;
+        c = DraftV4TypeValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();

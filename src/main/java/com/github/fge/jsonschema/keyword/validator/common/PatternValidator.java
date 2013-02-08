@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
+package com.github.fge.jsonschema.keyword.validator.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
@@ -23,27 +23,16 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-
-import java.util.Set;
+import com.github.fge.jsonschema.util.RhinoHelper;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class RequiredKeywordValidator
+public final class PatternValidator
     extends AbstractKeywordValidator
 {
-    private final Set<String> required;
-
-    public RequiredKeywordValidator(final JsonNode digest)
+    public PatternValidator(final JsonNode digest)
     {
-        super("required");
-        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-
-        for (final JsonNode element: digest.get(keyword))
-            builder.add(element.textValue());
-
-        required = builder.build();
+        super("pattern");
     }
 
     @Override
@@ -52,18 +41,17 @@ public final class RequiredKeywordValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final Set<String> set = Sets.newLinkedHashSet(required);
-        set.removeAll(Sets.newHashSet(data.getInstance().getCurrentNode()
-            .fieldNames()));
-
-        if (!set.isEmpty())
-            report.error(newMsg(data).msg(MISSING_REQUIRED_MEMBERS)
-                .put("required", required).put("missing", set));
+        final String regex = data.getSchema().getCurrentNode().get(keyword)
+            .textValue();
+        final String value = data.getInstance().getCurrentNode().textValue();
+        if (!RhinoHelper.regMatch(regex, value))
+            report.error(newMsg(data).msg(REGEX_NO_MATCH).put("regex", regex)
+                .put("string", value));
     }
 
     @Override
     public String toString()
     {
-        return keyword + ": " + required.size() + " properties";
+        return keyword;
     }
 }

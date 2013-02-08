@@ -19,9 +19,9 @@ package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.common.DependenciesKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv3.DivisibleByKeywordValidator;
-import com.github.fge.jsonschema.keyword.validator.draftv3.PropertiesKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.DependenciesValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv3.DivisibleByValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv3.PropertiesValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -54,18 +54,18 @@ public final class DraftV3ValidatorDictionary
          * Number / integer
          */
         keyword = "divisibleBy";
-        c = DivisibleByKeywordValidator.class;
+        c = DivisibleByValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         /*
          * Object
          */
         keyword = "properties";
-        c = PropertiesKeywordValidator.class;
+        c = PropertiesValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         keyword = "dependencies";
-        c = DependenciesKeywordValidator.class;
+        c = DependenciesValidator.class;
         builder.addEntry(keyword, constructor(c));
 
         DICTIONARY = builder.freeze();

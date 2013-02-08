@@ -15,55 +15,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
+package com.github.fge.jsonschema.keyword.validator.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.helpers.PositiveIntegerValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-
-import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class RequiredKeywordValidator
-    extends AbstractKeywordValidator
+public final class MinLengthValidator
+    extends PositiveIntegerValidator
 {
-    private final Set<String> required;
-
-    public RequiredKeywordValidator(final JsonNode digest)
+    public MinLengthValidator(final JsonNode digested)
     {
-        super("required");
-        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-
-        for (final JsonNode element: digest.get(keyword))
-            builder.add(element.textValue());
-
-        required = builder.build();
+        super("minLength", digested);
     }
-
     @Override
     public void validate(
         final Processor<ValidationData, ProcessingReport> processor,
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final Set<String> set = Sets.newLinkedHashSet(required);
-        set.removeAll(Sets.newHashSet(data.getInstance().getCurrentNode()
-            .fieldNames()));
+        final int size = data.getInstance().getCurrentNode().textValue()
+            .length();
 
-        if (!set.isEmpty())
-            report.error(newMsg(data).msg(MISSING_REQUIRED_MEMBERS)
-                .put("required", required).put("missing", set));
-    }
-
-    @Override
-    public String toString()
-    {
-        return keyword + ": " + required.size() + " properties";
+        if (size < intValue)
+            report.error(newMsg(data).msg(STRING_TOO_SHORT)
+                .put(keyword, intValue).put("found", size));
     }
 }

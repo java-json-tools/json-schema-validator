@@ -22,28 +22,21 @@ import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-
-import java.util.Set;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class RequiredKeywordValidator
+public final class NotValidator
     extends AbstractKeywordValidator
 {
-    private final Set<String> required;
+    private static final JsonPointer PTR = JsonPointer.empty().append("not");
 
-    public RequiredKeywordValidator(final JsonNode digest)
+    public NotValidator(final JsonNode digest)
     {
-        super("required");
-        final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
-
-        for (final JsonNode element: digest.get(keyword))
-            builder.add(element.textValue());
-
-        required = builder.build();
+        super("not");
     }
 
     @Override
@@ -52,18 +45,20 @@ public final class RequiredKeywordValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final Set<String> set = Sets.newLinkedHashSet(required);
-        set.removeAll(Sets.newHashSet(data.getInstance().getCurrentNode()
-            .fieldNames()));
+        final JsonSchemaTree tree = data.getSchema();
+        final ProcessingReport subReport = new ListProcessingReport();
 
-        if (!set.isEmpty())
-            report.error(newMsg(data).msg(MISSING_REQUIRED_MEMBERS)
-                .put("required", required).put("missing", set));
+        tree.append(PTR);
+        processor.process(subReport, data);
+        tree.pop();
+
+        if (subReport.isSuccess())
+            report.error(newMsg(data).msg(NOT_FAIL));
     }
 
     @Override
     public String toString()
     {
-        return keyword + ": " + required.size() + " properties";
+        return "must not match subschema";
     }
 }

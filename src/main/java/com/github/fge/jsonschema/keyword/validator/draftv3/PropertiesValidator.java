@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
+package com.github.fge.jsonschema.keyword.validator.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
@@ -30,17 +30,17 @@ import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
-public final class RequiredKeywordValidator
+public final class PropertiesValidator
     extends AbstractKeywordValidator
 {
     private final Set<String> required;
 
-    public RequiredKeywordValidator(final JsonNode digest)
+    public PropertiesValidator(final JsonNode digest)
     {
-        super("required");
+        super("properties");
         final ImmutableSet.Builder<String> builder = ImmutableSet.builder();
 
-        for (final JsonNode element: digest.get(keyword))
+        for (final JsonNode element: digest.get("required"))
             builder.add(element.textValue());
 
         required = builder.build();
@@ -64,6 +64,6 @@ public final class RequiredKeywordValidator
     @Override
     public String toString()
     {
-        return keyword + ": " + required.size() + " properties";
+        return "required: " + required.size() + " properties";
     }
 }
