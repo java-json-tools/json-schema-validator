@@ -19,11 +19,11 @@ package com.github.fge.jsonschema.metaschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.main.Keyword;
-import com.github.fge.jsonschema.report.Message;
+import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.old.syntax.SyntaxValidator;
+import com.github.fge.jsonschema.report.Message;
 import com.google.common.collect.ImmutableMap;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

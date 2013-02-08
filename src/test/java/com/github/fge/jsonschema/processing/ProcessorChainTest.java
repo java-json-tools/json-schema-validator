@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.fail;
+import static org.testng.Assert.*;
 
 public final class ProcessorChainTest
 {

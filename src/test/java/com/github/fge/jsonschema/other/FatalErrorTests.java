@@ -18,12 +18,12 @@
 package com.github.fge.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.Keyword;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
+import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.util.NodeType;

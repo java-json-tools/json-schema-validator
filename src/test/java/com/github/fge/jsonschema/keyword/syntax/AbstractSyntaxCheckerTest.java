@@ -37,7 +37,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 
-import static com.github.fge.jsonschema.TestUtils.anyMessage;
+import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static com.github.fge.jsonschema.util.NodeType.*;

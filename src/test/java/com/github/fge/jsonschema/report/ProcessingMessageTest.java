@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.testng.Assert.*;
 
 public final class ProcessingMessageTest

@@ -17,8 +17,8 @@
 
 package com.github.fge.jsonschema.old.keyword.draftv3;
 
-import com.github.fge.jsonschema.old.keyword.AbstractKeywordValidatorTest;
 import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
+import com.github.fge.jsonschema.old.keyword.AbstractKeywordValidatorTest;
 
 import java.io.IOException;
 
