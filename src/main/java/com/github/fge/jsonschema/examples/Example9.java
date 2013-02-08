@@ -18,17 +18,17 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.Keyword;
 import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
-import com.github.fge.jsonschema.report.Message;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.old.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.old.syntax.SyntaxValidator;
+import com.github.fge.jsonschema.report.Message;
+import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.validator.ValidationContext;
 import com.google.common.collect.ImmutableSet;

@@ -18,9 +18,9 @@
 package com.github.fge.jsonschema.keyword.syntax.draftv4;
 
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 
 public final class DefinitionsSyntaxChecker

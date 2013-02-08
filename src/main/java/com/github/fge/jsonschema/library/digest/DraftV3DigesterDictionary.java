@@ -21,6 +21,7 @@ import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.draftv3.DivisibleByDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv3.DraftV3DependenciesDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv3.DraftV3PropertiesDigester;
+import com.github.fge.jsonschema.keyword.digest.helpers.DraftV3TypeKeywordDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -51,6 +52,10 @@ public final class DraftV3DigesterDictionary
 
         keyword = "dependencies";
         digester = DraftV3DependenciesDigester.getInstance();
+        builder.addEntry(keyword, digester);
+
+        keyword = "type";
+        digester = new DraftV3TypeKeywordDigester(keyword);
         builder.addEntry(keyword, digester);
 
         DICTIONARY = builder.freeze();

@@ -18,10 +18,10 @@
 package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.validator.common.EnumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.EnumKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaxItemsKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaxLengthKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MaximumKeywordValidator;

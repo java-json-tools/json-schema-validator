@@ -18,9 +18,9 @@
 package com.github.fge.jsonschema.old.syntax.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.old.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.old.syntax.SyntaxValidator;
+import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.List;

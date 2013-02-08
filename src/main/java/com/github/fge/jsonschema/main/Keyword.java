@@ -17,8 +17,8 @@
 
 package com.github.fge.jsonschema.main;
 
-import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.metaschema.KeywordRegistry;
+import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;
 import com.google.common.base.Preconditions;
 

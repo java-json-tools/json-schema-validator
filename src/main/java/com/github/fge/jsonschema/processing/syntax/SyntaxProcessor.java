@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processing.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
@@ -25,7 +26,6 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.ProcessingCache;

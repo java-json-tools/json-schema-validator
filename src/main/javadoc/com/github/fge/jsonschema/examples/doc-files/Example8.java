@@ -44,19 +44,17 @@ import java.util.UUID;
  *
  * <ul>
  *     <li>grabbing a
- *     {@link com.github.fge.jsonschema.metaschema.MetaSchema.Builder};</li>
+ *     {@link MetaSchema.Builder};</li>
  *     <li>augmenting it as needed;</li>
  *     <li>registering it to the {@link JsonSchemaFactory} (via a {@link
- *     com.github.fge.jsonschema.main.JsonSchemaFactory.Builder}, as for all
- *     customizations).</li>
+ *     JsonSchemaFactory.Builder}, as for all customizations).</li>
  * </ul>
  *
  * <p>Here, we choose to augment the draft v3 core schema. We can base our new
  * meta-schema by using {@link MetaSchema#basedOn(BuiltinSchemas)} with
  * {@link BuiltinSchemas#DRAFTV3_CORE} as an argument, add our format attribute
  * to it, build it and add it to our factory, using {@link
- * com.github.fge.jsonschema.main.JsonSchemaFactory.Builder#addMetaSchema
- * (MetaSchema, boolean)}. Note that the
+ * JsonSchemaFactory.Builder#addMetaSchema (MetaSchema, boolean)}. Note that the
  * second argument is {@code true} so that our new meta-schema is regarded as
  * the default.</p>
  *

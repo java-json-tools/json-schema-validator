@@ -18,12 +18,12 @@
 package com.github.fge.jsonschema.library.digest;
 
 import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.digest.draftv4.DraftV4TypeDigester;
-import com.github.fge.jsonschema.keyword.digest.helpers.NullDigester;
-import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv4.DraftV4DependenciesDigester;
+import com.github.fge.jsonschema.keyword.digest.draftv4.DraftV4TypeDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv4.MultipleOfDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv4.RequiredDigester;
+import com.github.fge.jsonschema.keyword.digest.helpers.NullDigester;
+import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 

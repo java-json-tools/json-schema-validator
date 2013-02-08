@@ -19,15 +19,15 @@ package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.old.keyword.KeywordFactory;
-import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
+import com.github.fge.jsonschema.old.keyword.KeywordFactory;
+import com.github.fge.jsonschema.old.keyword.KeywordValidator;
+import com.github.fge.jsonschema.old.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
-import com.github.fge.jsonschema.old.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
