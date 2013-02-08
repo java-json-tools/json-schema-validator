@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
+package com.github.fge.jsonschema.keyword.validator.callback.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -31,17 +31,24 @@ import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 import static org.mockito.Mockito.*;
 
-public final class OneOfCallbackKeywordValidatorTest
+public final class AllOfCallbackKeywordValidatorTest
     extends DraftV4CallbackKeywordValidatorTest
 {
-    public OneOfCallbackKeywordValidatorTest()
+    public AllOfCallbackKeywordValidatorTest()
     {
-        super("oneOf", JsonPointer.empty().append("oneOf").append(0),
-            JsonPointer.empty().append("oneOf").append(1));
+        super("allOf", JsonPointer.empty().append("allOf").append(0),
+            JsonPointer.empty().append("allOf").append(1));
     }
 
     @Override
     protected void checkOkOk(final ProcessingReport report)
+        throws ProcessingException
+    {
+        verify(report, never()).error(anyMessage());
+    }
+
+    @Override
+    protected void checkOkKo(final ProcessingReport report)
         throws ProcessingException
     {
         final ArgumentCaptor<ProcessingMessage> captor
@@ -53,19 +60,13 @@ public final class OneOfCallbackKeywordValidatorTest
         final ObjectNode reports = FACTORY.objectNode();
 
         final ArrayNode oneReport = FACTORY.arrayNode();
-        reports.put(ptr1.toString(), oneReport);
+        oneReport.add(MSG.asJson());
+        reports.put(ptr1.toString(), FACTORY.arrayNode());
         reports.put(ptr2.toString(), oneReport);
 
-        assertMessage(message).isValidationError(keyword, ONEOF_FAIL)
+        assertMessage(message).isValidationError(keyword, ALLOF_FAIL)
             .hasField("reports", reports).hasField("nrSchemas", 2)
-            .hasField("matched", 2);
-    }
-
-    @Override
-    protected void checkOkKo(final ProcessingReport report)
-        throws ProcessingException
-    {
-        verify(report, never()).error(anyMessage());
+            .hasField("matched", 1);
     }
 
     @Override
@@ -85,7 +86,7 @@ public final class OneOfCallbackKeywordValidatorTest
         reports.put(ptr1.toString(), oneReport);
         reports.put(ptr2.toString(), oneReport);
 
-        assertMessage(message).isValidationError(keyword, ONEOF_FAIL)
+        assertMessage(message).isValidationError(keyword, ALLOF_FAIL)
             .hasField("reports", reports).hasField("nrSchemas", 2)
             .hasField("matched", 0);
     }

@@ -15,26 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
+package com.github.fge.jsonschema.keyword.validator.callback.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import org.mockito.ArgumentCaptor;
 
 import static com.github.fge.jsonschema.TestUtils.*;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 import static org.mockito.Mockito.*;
 
-public final class DraftV4DependenciesCallbackKeywordValidatorTest
+public final class AnyOfCallbackKeywordValidatorTest
     extends DraftV4CallbackKeywordValidatorTest
 {
-    public DraftV4DependenciesCallbackKeywordValidatorTest()
+    public AnyOfCallbackKeywordValidatorTest()
     {
-        super("dependencies",
-            JsonPointer.empty().append("dependencies").append("a"),
-            JsonPointer.empty().append("dependencies").append("b"));
+        super("anyOf", JsonPointer.empty().append("anyOf").append(0),
+            JsonPointer.empty().append("anyOf").append(1));
     }
 
     @Override
@@ -48,47 +51,50 @@ public final class DraftV4DependenciesCallbackKeywordValidatorTest
     protected void checkOkKo(final ProcessingReport report)
         throws ProcessingException
     {
-        verify(report, onlyOnce()).error(same(MSG));
+        verify(report, never()).error(anyMessage());
     }
 
     @Override
     protected void checkKoKo(final ProcessingReport report)
         throws ProcessingException
     {
-        verify(report, times(2)).error(same(MSG));
+        final ArgumentCaptor<ProcessingMessage> captor
+            = ArgumentCaptor.forClass(ProcessingMessage.class);
+
+        verify(report).error(captor.capture());
+
+        final ProcessingMessage message = captor.getValue();
+        final ObjectNode reports = FACTORY.objectNode();
+
+        final ArrayNode oneReport = FACTORY.arrayNode();
+        oneReport.add(MSG.asJson());
+        reports.put(ptr1.toString(), oneReport);
+        reports.put(ptr2.toString(), oneReport);
+
+        assertMessage(message).isValidationError(keyword, ANYOF_FAIL)
+            .hasField("reports", reports);
     }
 
     @Override
     protected JsonNode generateSchema()
     {
-        final ObjectNode value = FACTORY.objectNode();
-        value.put("a", sub1);
-        value.put("b", sub2);
-
+        final ArrayNode schemas = FACTORY.arrayNode();
+        schemas.add(sub1);
+        schemas.add(sub2);
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, value);
+        ret.put(keyword, schemas);
         return ret;
     }
 
     @Override
     protected JsonNode generateInstance()
     {
-        final ObjectNode ret = FACTORY.objectNode();
-        ret.put("a", "a");
-        ret.put("b", "b");
-        return ret;
+        return FACTORY.nullNode();
     }
 
     @Override
     protected JsonNode generateDigest()
     {
-        final ArrayNode schemaDeps = FACTORY.arrayNode();
-        schemaDeps.add("a");
-        schemaDeps.add("b");
-
-        final ObjectNode ret = FACTORY.objectNode();
-        ret.put("propertyDeps", FACTORY.objectNode());
-        ret.put("schemaDeps", schemaDeps);
-        return ret;
+        return FACTORY.nullNode();
     }
 }

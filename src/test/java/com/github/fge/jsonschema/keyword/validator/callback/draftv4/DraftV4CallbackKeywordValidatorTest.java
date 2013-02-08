@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
+package com.github.fge.jsonschema.keyword.validator.callback.draftv4;
 
-import com.github.fge.jsonschema.keyword.validator.CallbackKeywordValidatorTest;
+import com.github.fge.jsonschema.keyword.validator.callback.CallbackKeywordValidatorTest;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
 import com.github.fge.jsonschema.ref.JsonPointer;
 
