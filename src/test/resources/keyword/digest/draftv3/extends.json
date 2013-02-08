@@ -1,0 +1,19 @@
+[
+    {
+        "inputs": [
+            {
+                "extends": [ {}, {}, {} ]
+            },
+            {
+                "extends": [ {} ]
+            },
+            {
+                "extends": [ {}, {}, {}, {}, {} ]
+            },
+            {
+                "extends": {}
+            }
+        ],
+        "digest": null
+    }
+]
