@@ -14,9 +14,9 @@ on Android</a> :)</p>
 <p>Quick start:</p>
 
 <ul>
-    <li>you can <a href="http://json-schema-validator.herokuapp.com">test this library online</a>
-    (note: latest <b>development</b> version); you can even <a
-    href="https://github.com/fge/json-schema-validator-demo">fork it and run it yourself</a>;</li>
+    <li>you can <a href="http://json-schema-validator.herokuapp.com">test this library online</a>;
+    you can even <a href="https://github.com/fge/json-schema-validator-demo">fork this application
+    and run it yourself</a>;</li>
     <li>you can have a look at the code samples: <a
     href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">stable
     version</a>, <a
