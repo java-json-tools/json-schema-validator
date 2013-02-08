@@ -4,7 +4,8 @@
 text.</p>
 
 <p>This is one of the very few JSON Schema implementations to have complete validation support for
-the latest draft (v4).<p>
+the latest draft (v4). More generally, it has quite an <a
+href="https://github.com/fge/json-schema-validator/wiki/Features">extensive list of features</a>.<p>
 
 <p>Should you wonder about it, this library is reported to <a
 href="http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema">work
@@ -74,26 +75,6 @@ on the current development version, the javadoc is currently not up to date)</i>
   added to such versions, and the user API will not change (save for some additions if requested).
 * if this number is <b>odd</b>, then this is the <b>development</b> version; new features will be
   added to those versions only, and the user API may change.
-
-<h2>What it is</h2>
-
-<p>This is an implementation of all validation aspects (schema syntax validation; instance, aka JSON
-data, validation) of the <a href="http://json-schema.org">JSON Schema specification</a> written in
-pure Java. This allows pure server side JSON schema validation if this is what you are looking
-for.<p>
-
-<p>This implementation has the following features:</p>
-
-* thread safe, concurrent-friendly validation;
-* <a href="https://github.com/fge/json-schema-validator/wiki/Performance">very
-  fast</a>;
-* draft v3 and draft v4 validation;
-* <tt>$schema</tt> detection;
-* full schema addressing support;
-* validation of numeric JSON instances of arbitrary scale/precision;
-* ECMA 262 regexes (using Rhino);
-* extensive customization: (un)registering URI schemes, setting namepaces, redirections, registering
-  schemas/keywords, others.
 
 <h2>Relevant documents</h2>
 
