@@ -156,9 +156,15 @@ public final class ProcessingMessageAssert
     public <T> ProcessingMessageAssert isValidationError(final String keyword,
         final T msg)
     {
-        // FIXME: .hasLevel() is not always set
         return hasField("keyword", keyword).hasMessage(msg)
             .hasField("domain", "validation");
+    }
+
+    public <T> ProcessingMessageAssert isFormatMessage(final String fmt,
+        final T msg)
+    {
+        return hasField("keyword", "format").hasField("attribute", fmt)
+            .hasMessage(msg).hasField("domain", "validation");
     }
 
     public ProcessingMessageAssert hasContents(final ObjectNode node)

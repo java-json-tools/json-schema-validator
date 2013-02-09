@@ -15,24 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.messages;
+package com.github.fge.jsonschema.format.common;
 
-public enum FormatMessages
+import java.io.IOException;
+
+public final class DateTimeTest
+    extends CommonFormatAttributeTest
 {
-    FORMAT_NOT_SUPPORTED("format attribute not supported"),
-    INVALID_DATE_FORMAT("input does not have the expected format"),
-    ;
-
-    private final String message;
-
-    FormatMessages(final String message)
+    public DateTimeTest()
+        throws IOException
     {
-        this.message = message;
-    }
-
-    @Override
-    public String toString()
-    {
-        return message;
+        super("date-time");
     }
 }

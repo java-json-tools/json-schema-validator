@@ -15,24 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.messages;
+package com.github.fge.jsonschema.format.common;
 
-public enum FormatMessages
+import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.format.helpers.DateFormatAttribute;
+
+public final class DateTimeAttribute
+    extends DateFormatAttribute
 {
-    FORMAT_NOT_SUPPORTED("format attribute not supported"),
-    INVALID_DATE_FORMAT("input does not have the expected format"),
-    ;
+    private static final FormatAttribute INSTANCE = new DateTimeAttribute();
 
-    private final String message;
-
-    FormatMessages(final String message)
+    public static FormatAttribute getInstance()
     {
-        this.message = message;
+        return INSTANCE;
     }
 
-    @Override
-    public String toString()
+    private DateTimeAttribute()
     {
-        return message;
+        super("date-time", "yyyy-MM-dd'T'HH:mm:ssZ");
     }
 }

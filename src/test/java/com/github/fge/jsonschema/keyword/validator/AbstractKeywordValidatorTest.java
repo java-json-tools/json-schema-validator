@@ -86,6 +86,7 @@ public abstract class AbstractKeywordValidatorTest
             list.add(new Object[]{ node.get("digest"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
+
         return list.iterator();
     }
 

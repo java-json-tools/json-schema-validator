@@ -1,0 +1,58 @@
+/*
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * Lesser GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package com.github.fge.jsonschema.format.helpers;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.format.AbstractFormatAttribute;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.util.NodeType;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
+import static com.github.fge.jsonschema.messages.FormatMessages.*;
+
+public abstract class DateFormatAttribute
+    extends AbstractFormatAttribute
+{
+    protected final String format;
+    protected final DateTimeFormatter formatter;
+
+    protected DateFormatAttribute(final String fmt, final String format)
+    {
+        super(fmt, NodeType.STRING);
+        this.format = format;
+        formatter = DateTimeFormat.forPattern(format);
+    }
+
+    @Override
+    public final void validate(final ProcessingReport report,
+        final ValidationData data)
+        throws ProcessingException
+    {
+        final JsonNode instance = data.getInstance().getCurrentNode();
+
+        try {
+            formatter.parseDateTime(instance.textValue());
+        } catch (IllegalArgumentException ignored) {
+            report.error(newMsg(data, INVALID_DATE_FORMAT)
+                .put("expected", format).put("value", instance));
+        }
+    }
+}

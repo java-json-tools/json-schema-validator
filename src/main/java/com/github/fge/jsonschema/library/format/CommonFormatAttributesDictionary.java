@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.library.format;
 
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.format.common.DateTimeAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -32,6 +33,13 @@ public final class CommonFormatAttributesDictionary
     static {
         final DictionaryBuilder<FormatAttribute> builder
             = Dictionary.newBuilder();
+
+        String name;
+        FormatAttribute attribute;
+
+        name = "date-time";
+        attribute = DateTimeAttribute.getInstance();
+        builder.addEntry(name, attribute);
 
         DICTIONARY = builder.freeze();
     }
