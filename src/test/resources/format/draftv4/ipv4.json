@@ -1,0 +1,30 @@
+[
+    {
+        "data": "10.121.13.3",
+        "valid": true
+    },
+    {
+        "data": "256.1.1.1",
+        "valid": false,
+        "message": "INVALID_IPV4_ADDR",
+        "msgData": {}
+    },
+    {
+        "data": "-1.1.1.1",
+        "valid": false,
+        "message": "INVALID_IPV4_ADDR",
+        "msgData": {}
+    },
+    {
+        "data": "slashdot.org",
+        "valid": false,
+        "message": "INVALID_IPV4_ADDR",
+        "msgData": {}
+    },
+    {
+        "data": "ea31:aea::222",
+        "valid": false,
+        "message": "INVALID_IPV4_ADDR",
+        "msgData": {}
+    }
+]

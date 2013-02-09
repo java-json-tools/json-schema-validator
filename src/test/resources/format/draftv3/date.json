@@ -1,0 +1,30 @@
+[
+    {
+        "data": "2012-12-02",
+        "valid": true
+    },
+    {
+        "data": "20121202",
+        "valid": false,
+        "message": "INVALID_DATE_FORMAT",
+        "msgData": {
+            "expected": "yyyy-MM-dd"
+        }
+    },
+    {
+        "data": "2012/12/02",
+        "valid": false,
+        "message": "INVALID_DATE_FORMAT",
+        "msgData": {
+            "expected": "yyyy-MM-dd"
+        }
+    },
+    {
+        "data": "1922-02-30",
+        "valid": false,
+        "message": "INVALID_DATE_FORMAT",
+        "msgData": {
+            "expected": "yyyy-MM-dd"
+        }
+    }
+]

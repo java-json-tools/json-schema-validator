@@ -25,6 +25,10 @@ public enum FormatMessages
     INVALID_HOSTNAME("input is not a valid hostname"),
     INVALID_IPV6_ADDR("input is not a valid IPv6 address"),
     INVALID_ECMA_262_REGEX("input is not a valid ECMA 262 regular expression"),
+    INVALID_IPV4_ADDR("input is not a valid IPv4 address"),
+    INVALID_PHONE_NUMBER("input is not recognized as a phone number"),
+    EPOCH_NEGATIVE("epoch is negative"),
+    EPOCH_OVERFLOW("possible epoch overflow (greater than 2^31 - 1 seconds)")
     ;
 
     private final String message;
