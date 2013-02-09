@@ -17,20 +17,36 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.collect.Maps;
 
-import java.util.Map;
+import java.lang.reflect.Constructor;
 
 public final class LibraryBuilder
     implements Thawed<Library>
 {
-    final Map<String, SyntaxChecker> syntaxCheckers = Maps.newHashMap();
+    DictionaryBuilder<SyntaxChecker> syntaxCheckers;
+    DictionaryBuilder<Digester> digesters;
+    DictionaryBuilder<Constructor<? extends KeywordValidator>> validators;
+    DictionaryBuilder<FormatAttribute> formatAttributes;
+
+    LibraryBuilder()
+    {
+        syntaxCheckers = Dictionary.newBuilder();
+        digesters = Dictionary.newBuilder();
+        validators = Dictionary.newBuilder();
+        formatAttributes = Dictionary.newBuilder();
+    }
 
     LibraryBuilder(final Library library)
     {
-        syntaxCheckers.putAll(library.syntaxCheckers);
+        syntaxCheckers = library.syntaxCheckers.thaw();
+        digesters = library.digesters.thaw();
+        validators = library.validators.thaw();
+        formatAttributes = library.formatAttributes.thaw();
     }
 
     @Override

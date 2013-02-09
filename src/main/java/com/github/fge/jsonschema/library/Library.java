@@ -17,20 +17,44 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.util.Frozen;
-import com.google.common.collect.ImmutableMap;
 
-import java.util.Map;
+import java.lang.reflect.Constructor;
 
 public final class Library
     implements Frozen<LibraryBuilder>
 {
-    final Map<String, SyntaxChecker> syntaxCheckers;
+    final Dictionary<SyntaxChecker> syntaxCheckers;
+    final Dictionary<Digester> digesters;
+    final Dictionary<Constructor<? extends KeywordValidator>> validators;
+    final Dictionary<FormatAttribute> formatAttributes;
+
+    public static LibraryBuilder newBuilder()
+    {
+        return new LibraryBuilder();
+    }
 
     Library(final LibraryBuilder builder)
     {
-        syntaxCheckers = ImmutableMap.copyOf(builder.syntaxCheckers);
+        syntaxCheckers = builder.syntaxCheckers.freeze();
+        digesters = builder.digesters.freeze();
+        validators = builder.validators.freeze();
+        formatAttributes = builder.formatAttributes.freeze();
+    }
+
+    Library(final Dictionary<SyntaxChecker> syntaxCheckers,
+        final Dictionary<Digester> digesters,
+        final Dictionary<Constructor<? extends KeywordValidator>> validators,
+        final Dictionary<FormatAttribute> formatAttributes)
+    {
+        this.syntaxCheckers = syntaxCheckers;
+        this.digesters = digesters;
+        this.validators = validators;
+        this.formatAttributes = formatAttributes;
     }
 
     @Override
