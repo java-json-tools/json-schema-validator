@@ -44,7 +44,7 @@ public abstract class AbstractFormatAttributeTest
         final String prefix, final String fmt)
         throws IOException
     {
-        final String resource = "/format/" + prefix + '/' + fmt + ".json";
+        final String resource = "/old/format/" + prefix + '/' + fmt + ".json";
         testData = JsonLoader.fromResource(resource);
         formatAttributes = registry.getFormatAttributes();
         this.fmt = fmt;
