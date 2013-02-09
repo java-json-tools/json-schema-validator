@@ -17,11 +17,9 @@ on Android</a> :)</p>
     <li>you can <a href="http://json-schema-validator.herokuapp.com">test this library online</a>;
     you can even <a href="https://github.com/fge/json-schema-validator-demo">fork this application
     and run it yourself</a>;</li>
-    <li>you can have a look at the code samples: <a
-    href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">stable
-    version</a>, <a
-    href="http://fge.github.com/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html">development
-    version</a>.</li>
+    <li>you can have a look at the <a
+    href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
+    samples</a> (note: stable version).</li>
 </ul>
 
 
@@ -29,13 +27,19 @@ on Android</a> :)</p>
 href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
 group</a>.</p>
 
-<p>Versions: (<i>please note that due to the heavy development being performed
-on the current development version, the javadoc is currently not up to date)</i></p>
+<h2>Current status</h2>
+
+<p>The whole core of the library is currently being changed. The goal is to allow to "chain" this
+library with other JSON-related tasks: see <a
+href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a> for what is in store for
+2.0.x.</p>
+
+<p>The 1.5.5 version will become 1.6.0 very shortly and will be the last stable 1.x version.</p>
+
+<h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.4</b> (<a
-    href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
-    href="http://fge.github.com/json-schema-validator/devel/index.html">Javadoc</a>);</li>
+    <li>development version: <b>1.99.4</b>; as the Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.4.9</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
@@ -93,9 +97,7 @@ on the current development version, the javadoc is currently not up to date)</i>
 <h2>More...</h2>
 
 <p>For a detailed discussion of the implementation, see <a
-href="https://github.com/fge/json-schema-validator/wiki/Status">here</a>. For a list of planned
-features for next versions, see <a
-href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a>.
+href="https://github.com/fge/json-schema-validator/wiki/Status">here</a>.
 
 Please see the <a href="https://github.com/fge/json-schema-validator/wiki/">wiki</a> for more
 details.
