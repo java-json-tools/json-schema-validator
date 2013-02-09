@@ -38,15 +38,15 @@ import java.util.Map;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public final class KeywordBuilderTest
+public final class ValidatorBuilderTest
 {
     private static final String K1 = "k1";
     private static final String K2 = "k2";
     private static final String CHALLENGED = "challenged";
 
-    private final KeywordBuilder keywordBuilder;
+    private final ValidatorBuilder validatorBuilder;
 
-    public KeywordBuilderTest()
+    public ValidatorBuilderTest()
         throws NoSuchMethodException
     {
         final DictionaryBuilder<Constructor<? extends KeywordValidator>>
@@ -61,7 +61,7 @@ public final class KeywordBuilderTest
         constructor = Challenged.class.getConstructor(JsonNode.class);
         builder.addEntry(CHALLENGED, constructor);
 
-        keywordBuilder = new KeywordBuilder(builder.freeze());
+        validatorBuilder = new ValidatorBuilder(builder.freeze());
     }
 
     @Test
@@ -75,7 +75,7 @@ public final class KeywordBuilderTest
         final ProcessingReport report = mock(ProcessingReport.class);
 
         try {
-            keywordBuilder.process(report, digest);
+            validatorBuilder.process(report, digest);
             fail("No exception thrown??");
         } catch (ProcessingException ignored) {
         }
@@ -92,7 +92,7 @@ public final class KeywordBuilderTest
         final ProcessingReport report = mock(ProcessingReport.class);
 
         final FullValidationContext context
-            = keywordBuilder.process(report, digest);
+            = validatorBuilder.process(report, digest);
 
         final List<KeywordValidator> list = Lists.newArrayList(context);
 
@@ -112,7 +112,7 @@ public final class KeywordBuilderTest
         final ProcessingReport report = mock(ProcessingReport.class);
 
         final FullValidationContext context
-            = keywordBuilder.process(report, digest);
+            = validatorBuilder.process(report, digest);
 
         final List<KeywordValidator> list = Lists.newArrayList(context);
 

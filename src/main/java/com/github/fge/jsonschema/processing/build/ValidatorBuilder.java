@@ -35,7 +35,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.SortedMap;
 
-public final class KeywordBuilder
+public final class ValidatorBuilder
     implements Processor<ValidationDigest, FullValidationContext>
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
@@ -45,7 +45,7 @@ public final class KeywordBuilder
     private final Map<String, ProcessingCache<JsonNode, KeywordValidator>> caches
         = Maps.newTreeMap();
 
-    public KeywordBuilder(
+    public ValidatorBuilder(
         final Dictionary<Constructor<? extends KeywordValidator>> dict)
     {
         String key;

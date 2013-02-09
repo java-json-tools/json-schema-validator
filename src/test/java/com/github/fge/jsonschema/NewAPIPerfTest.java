@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.build.FullValidationContext;
-import com.github.fge.jsonschema.processing.build.KeywordBuilder;
+import com.github.fge.jsonschema.processing.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processing.digest.SchemaDigester;
 import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.processing.ref.RefResolverProcessor;
@@ -68,8 +68,8 @@ public final class NewAPIPerfTest
             = new SyntaxProcessor(DraftV4SyntaxCheckerDictionary.get());
         final SchemaDigester p3
             = new SchemaDigester(DraftV4DigesterDictionary.get());
-        final KeywordBuilder p4
-            = new KeywordBuilder(DraftV4ValidatorDictionary.get());
+        final ValidatorBuilder p4
+            = new ValidatorBuilder(DraftV4ValidatorDictionary.get());
 
         final Processor<ValidationData, FullValidationContext> chain
             = ProcessorChain.startWith(p1).chainWith(p3)
