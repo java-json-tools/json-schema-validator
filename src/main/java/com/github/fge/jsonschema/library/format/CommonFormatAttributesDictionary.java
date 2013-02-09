@@ -19,6 +19,10 @@ package com.github.fge.jsonschema.library.format;
 
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.common.DateTimeAttribute;
+import com.github.fge.jsonschema.format.common.EmailAttribute;
+import com.github.fge.jsonschema.format.common.HostnameAttribute;
+import com.github.fge.jsonschema.format.common.IPv6Attribute;
+import com.github.fge.jsonschema.format.common.RegexAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -39,6 +43,22 @@ public final class CommonFormatAttributesDictionary
 
         name = "date-time";
         attribute = DateTimeAttribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "email";
+        attribute = EmailAttribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "host-name";
+        attribute = HostnameAttribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "ipv6";
+        attribute = IPv6Attribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "regex";
+        attribute = RegexAttribute.getInstance();
         builder.addEntry(name, attribute);
 
         DICTIONARY = builder.freeze();

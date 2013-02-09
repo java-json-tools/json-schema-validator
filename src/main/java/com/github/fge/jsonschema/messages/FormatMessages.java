@@ -21,6 +21,10 @@ public enum FormatMessages
 {
     FORMAT_NOT_SUPPORTED("format attribute not supported"),
     INVALID_DATE_FORMAT("input does not have the expected format"),
+    INVALID_EMAIL("input is not a valid email address"),
+    INVALID_HOSTNAME("input is not a valid hostname"),
+    INVALID_IPV6_ADDR("input is not a valid IPv6 address"),
+    INVALID_ECMA_262_REGEX("input is not a valid ECMA 262 regular expression"),
     ;
 
     private final String message;

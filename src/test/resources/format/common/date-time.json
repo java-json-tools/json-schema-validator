@@ -16,8 +16,7 @@
         "valid": false,
         "message": "INVALID_DATE_FORMAT",
         "msgData": {
-            "expected": "yyyy-MM-dd'T'HH:mm:ssZ",
-            "value": "2012-08-07T20:42:32.123Z"
+            "expected": "yyyy-MM-dd'T'HH:mm:ssZ"
         }
     },
     {
@@ -25,8 +24,7 @@
         "valid": false,
         "message": "INVALID_DATE_FORMAT",
         "msgData": {
-            "expected": "yyyy-MM-dd'T'HH:mm:ssZ",
-            "value": "2012-02-30T00:00:00+0000"
+            "expected": "yyyy-MM-dd'T'HH:mm:ssZ"
         }
     },
     {
@@ -34,8 +32,7 @@
         "valid": false,
         "message": "INVALID_DATE_FORMAT",
         "msgData": {
-            "expected": "yyyy-MM-dd'T'HH:mm:ssZ",
-            "value": "201202030"
+            "expected": "yyyy-MM-dd'T'HH:mm:ssZ"
         }
     }
 ]

@@ -15,44 +15,48 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.format.helpers;
+package com.github.fge.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
+import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import com.google.common.net.InetAddresses;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
-public abstract class DateFormatAttribute
+public final class IPv6Attribute
     extends AbstractFormatAttribute
 {
-    protected final String format;
-    protected final DateTimeFormatter formatter;
+    private static final int IPV6_LENGTH = 16;
 
-    protected DateFormatAttribute(final String fmt, final String format)
+    private static final FormatAttribute INSTANCE = new IPv6Attribute();
+
+    public static FormatAttribute getInstance()
     {
-        super(fmt, NodeType.STRING);
-        this.format = format;
-        formatter = DateTimeFormat.forPattern(format);
+        return INSTANCE;
+    }
+
+    private IPv6Attribute()
+    {
+        super("ipv6", NodeType.STRING);
     }
 
     @Override
-    public final void validate(final ProcessingReport report,
+    public void validate(final ProcessingReport report,
         final ValidationData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getCurrentNode();
+        final String ipaddr = instance.textValue();
 
-        try {
-            formatter.parseDateTime(instance.textValue());
-        } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, INVALID_DATE_FORMAT)
-                .put("expected", format));
-        }
+        if (InetAddresses.isInetAddress(ipaddr) && InetAddresses
+            .forString(ipaddr).getAddress().length == IPV6_LENGTH)
+            return;
+
+        report.error(newMsg(data, INVALID_IPV6_ADDR));
     }
 }

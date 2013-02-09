@@ -1,0 +1,24 @@
+[
+    {
+        "data": "10.121.13.3",
+        "valid": false,
+        "message": "INVALID_IPV6_ADDR",
+        "msgData": {}
+    },
+    {
+        "data": "fffg::1",
+        "valid": false,
+        "message": "INVALID_IPV6_ADDR",
+        "msgData": {}
+    },
+    {
+        "data": "slashdot.org",
+        "valid": false,
+        "message": "INVALID_IPV6_ADDR",
+        "msgData": {}
+    },
+    {
+        "data": "ea31:aea::222",
+        "valid": true
+    }
+]

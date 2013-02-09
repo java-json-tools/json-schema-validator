@@ -1,0 +1,26 @@
+[
+    {
+        "data": "ab+",
+        "valid": true
+    },
+    {
+        "data": "a++",
+        "valid": false,
+        "message": "INVALID_ECMA_262_REGEX",
+        "msgData": {}
+    },
+    {
+        "data": "^[^.]+(?=ab)",
+        "valid": true
+    },
+    {
+        "data": "[^]",
+        "valid": true
+    },
+    {
+        "data": "a{4,5}(?<=b)",
+        "valid": false,
+        "message": "INVALID_ECMA_262_REGEX",
+        "msgData": {}
+    }
+]

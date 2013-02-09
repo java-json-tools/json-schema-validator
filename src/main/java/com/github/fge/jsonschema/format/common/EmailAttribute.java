@@ -15,44 +15,47 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.format.helpers;
+package com.github.fge.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
+import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
-public abstract class DateFormatAttribute
+public final class EmailAttribute
     extends AbstractFormatAttribute
 {
-    protected final String format;
-    protected final DateTimeFormatter formatter;
+    private static final FormatAttribute INSTANCE = new EmailAttribute();
 
-    protected DateFormatAttribute(final String fmt, final String format)
+    public static FormatAttribute getInstance()
     {
-        super(fmt, NodeType.STRING);
-        this.format = format;
-        formatter = DateTimeFormat.forPattern(format);
+        return INSTANCE;
+    }
+
+    private EmailAttribute()
+    {
+        super("email", NodeType.STRING);
     }
 
     @Override
-    public final void validate(final ProcessingReport report,
+    public void validate(final ProcessingReport report,
         final ValidationData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getCurrentNode();
 
         try {
-            formatter.parseDateTime(instance.textValue());
-        } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, INVALID_DATE_FORMAT)
-                .put("expected", format));
+            new InternetAddress(instance.textValue(), true);
+        } catch (AddressException ignored) {
+            report.error(newMsg(data, INVALID_EMAIL));
         }
     }
 }

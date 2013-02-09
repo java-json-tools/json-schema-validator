@@ -15,19 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.format;
+package com.github.fge.jsonschema.format.common;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.ValidationData;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.NodeType;
+import java.io.IOException;
 
-import java.util.EnumSet;
-
-public interface FormatAttribute
+public final class RegexTest
+    extends CommonFormatAttributeTest
 {
-    EnumSet<NodeType> supportedTypes();
-
-    void validate(final ProcessingReport report, ValidationData data)
-        throws ProcessingException;
+    public RegexTest()
+        throws IOException
+    {
+        super("regex");
+    }
 }

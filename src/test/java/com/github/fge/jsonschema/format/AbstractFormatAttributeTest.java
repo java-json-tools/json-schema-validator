@@ -128,6 +128,7 @@ public abstract class AbstractFormatAttributeTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isFormatMessage(fmt, msg).hasContents(msgData);
+        assertMessage(message).isFormatMessage(fmt, msg).hasContents(msgData)
+            .hasField("value", instance);
     }
 }
