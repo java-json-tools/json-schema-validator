@@ -42,6 +42,11 @@ public enum SchemaVersion
         this.library = library;
     }
 
+    public JsonRef getLocation()
+    {
+        return location;
+    }
+
     public Library getLibrary()
     {
         return library;
