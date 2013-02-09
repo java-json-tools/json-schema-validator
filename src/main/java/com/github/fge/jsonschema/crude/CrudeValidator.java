@@ -17,10 +17,12 @@
 
 package com.github.fge.jsonschema.crude;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -34,8 +36,13 @@ import com.github.fge.jsonschema.processing.ref.URIManager;
 import com.github.fge.jsonschema.processing.selector.ProcessorSelector;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
+import com.github.fge.jsonschema.report.ListProcessingReport;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.schema.SchemaBundle;
+import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.JsonTree;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.uri.DefaultURIDownloader;
 import com.github.fge.jsonschema.util.JsonLoader;
 
@@ -96,5 +103,34 @@ public final class CrudeValidator
             .chainWith(new SchemaDigester(library.getDigesters()))
             .chainWith(new ValidatorBuilder(library.getValidators()))
             .end();
+    }
+
+    public ProcessingReport validate(final JsonNode schema,
+        final JsonNode instance)
+        throws ProcessingException
+    {
+        final JsonSchemaTree schemaTree = loader.load(schema);
+        final JsonTree tree = new SimpleJsonTree(instance);
+        final ValidationData data = new ValidationData(schemaTree, tree);
+        final ListProcessingReport report = new ListProcessingReport();
+        return validator.process(report, data);
+    }
+
+    public ProcessingReport validateUnchecked(final JsonNode schema,
+        final JsonNode instance)
+    {
+        final JsonSchemaTree schemaTree = loader.load(schema);
+        final JsonTree tree = new SimpleJsonTree(instance);
+        final ValidationData data = new ValidationData(schemaTree, tree);
+        final ListProcessingReport report = new ListProcessingReport();
+        try {
+            return validator.process(report, data);
+        } catch (ProcessingException e) {
+            final ListProcessingReport ret = new ListProcessingReport();
+            final ProcessingMessage message = e.getProcessingMessage();
+            message.put("info", "other messages follow")
+                .put("messages", report.asJson());
+            return ret;
+        }
     }
 }
