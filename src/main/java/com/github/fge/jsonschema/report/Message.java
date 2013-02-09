@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;

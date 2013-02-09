@@ -28,7 +28,7 @@ import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.report.ValidationReport;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;

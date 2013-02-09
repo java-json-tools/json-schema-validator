@@ -22,8 +22,8 @@ import com.github.fge.jsonschema.old.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.old.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.report.Message;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Sets;
 
 import java.util.EnumSet;

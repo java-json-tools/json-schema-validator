@@ -39,8 +39,8 @@ import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
 import java.io.IOException;
 import java.net.URI;

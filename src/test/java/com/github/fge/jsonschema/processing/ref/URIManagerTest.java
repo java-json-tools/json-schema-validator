@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.uri.URIDownloader;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

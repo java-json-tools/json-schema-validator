@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
 import java.io.File;
 import java.io.FileInputStream;

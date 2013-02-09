@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;

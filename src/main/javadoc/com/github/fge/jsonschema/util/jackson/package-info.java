@@ -20,7 +20,7 @@
  *
  * <p>There are two utility classes.</p>
  *
- * <p>{@link com.github.fge.jsonschema.util.jackson.JacksonUtils} is a
+ * <p>{@link com.github.fge.jsonschema.util.JacksonUtils} is a
  * utility class with methods to return an appropriate {@link
  * com.fasterxml.jackson.databind.node.JsonNodeFactory} and {@link
  * com.fasterxml.jackson.databind.ObjectMapper} for the needs of JSON Schema.

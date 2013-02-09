@@ -25,8 +25,8 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 

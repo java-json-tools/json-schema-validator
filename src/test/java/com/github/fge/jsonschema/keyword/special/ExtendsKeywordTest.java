@@ -31,7 +31,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

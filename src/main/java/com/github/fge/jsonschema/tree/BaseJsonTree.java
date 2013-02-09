@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.ref.JsonPointer;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Queues;
 
 import java.util.Deque;

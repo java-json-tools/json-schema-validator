@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.old.format.FormatAttribute;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Queues;
 
 import java.net.URI;

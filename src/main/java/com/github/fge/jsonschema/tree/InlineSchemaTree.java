@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 

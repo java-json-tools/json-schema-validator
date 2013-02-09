@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.ValidationDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.testng.annotations.Test;

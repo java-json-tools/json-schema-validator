@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.keyword.validator.helpers;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.ref.JsonPointer;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 
 public abstract class SchemaArrayValidator
     extends AbstractKeywordValidator

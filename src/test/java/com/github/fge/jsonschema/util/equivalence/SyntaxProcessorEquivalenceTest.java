@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Equivalence;
 import org.testng.annotations.Test;
 

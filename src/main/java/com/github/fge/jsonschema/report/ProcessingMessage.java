@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.util.AsJson;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 

@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.keyword.digest;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 
 import java.util.EnumSet;
 

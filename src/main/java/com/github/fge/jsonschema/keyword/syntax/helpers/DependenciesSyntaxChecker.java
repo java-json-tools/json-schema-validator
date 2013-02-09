@@ -23,9 +23,9 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Maps;
 

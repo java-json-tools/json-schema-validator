@@ -30,7 +30,7 @@ import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.URIManager;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 

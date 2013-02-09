@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Lists;
 
 import java.util.EnumSet;

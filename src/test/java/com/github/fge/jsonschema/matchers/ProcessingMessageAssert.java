@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.AsJson;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import org.fest.assertions.GenericAssert;
 
 import java.util.Collection;

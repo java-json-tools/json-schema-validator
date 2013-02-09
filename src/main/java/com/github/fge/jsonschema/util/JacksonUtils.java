@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.util.jackson;
+package com.github.fge.jsonschema.util;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;

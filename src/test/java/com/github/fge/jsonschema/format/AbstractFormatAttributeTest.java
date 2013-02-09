@@ -29,8 +29,8 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
@@ -41,7 +41,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 

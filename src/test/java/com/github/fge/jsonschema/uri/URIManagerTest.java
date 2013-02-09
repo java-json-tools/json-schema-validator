@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
-import com.github.fge.jsonschema.util.jackson.JacksonUtils;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
