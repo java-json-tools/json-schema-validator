@@ -31,12 +31,6 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
     final Map<Predicate<IN>, Processor<IN, OUT>> choices;
     private final Processor<IN, OUT> byDefault;
 
-    public static <X extends MessageProvider, Y extends MessageProvider>
-        ProcessorSelector<X, Y> newSelector()
-    {
-        return new ProcessorSelector<X, Y>();
-    }
-
     public ProcessorSelector()
     {
         choices = Maps.newLinkedHashMap();
@@ -47,7 +41,7 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
         final Map<Predicate<IN>, Processor<IN, OUT>> choices,
         final Processor<IN, OUT> byDefault)
     {
-        this.choices = Maps.newHashMap(choices);
+        this.choices = Maps.newLinkedHashMap(choices);
         this.byDefault = byDefault;
     }
 
