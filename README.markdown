@@ -47,7 +47,7 @@ on the current development version, the javadoc is currently not up to date)</i>
 
 <p>In the examples below, substitute <tt>your-version-here</tt> for the version you want.</p>
 
-<h3>Versions 1.5.3, 1.5.4, 1.99.x and future versions</h3>
+<h3>Versions 1.5.3, 1.5.4, 1.5.5, 1.99.x and future versions</h3>
 
 ```xml
 <dependency>
