@@ -57,6 +57,26 @@ public final class Library
         this.formatAttributes = formatAttributes;
     }
 
+    public Dictionary<SyntaxChecker> getSyntaxCheckers()
+    {
+        return syntaxCheckers;
+    }
+
+    public Dictionary<Digester> getDigesters()
+    {
+        return digesters;
+    }
+
+    public Dictionary<Constructor<? extends KeywordValidator>> getValidators()
+    {
+        return validators;
+    }
+
+    public Dictionary<FormatAttribute> getFormatAttributes()
+    {
+        return formatAttributes;
+    }
+
     @Override
     public LibraryBuilder thaw()
     {
