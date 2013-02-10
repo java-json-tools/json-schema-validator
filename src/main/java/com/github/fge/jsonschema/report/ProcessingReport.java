@@ -20,6 +20,8 @@ package com.github.fge.jsonschema.report;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 
+import java.util.List;
+
 public interface ProcessingReport
     extends MessageProvider
 {
@@ -47,4 +49,6 @@ public interface ProcessingReport
         throws ProcessingException;
 
     boolean isSuccess();
+
+    List<ProcessingMessage> getMessages();
 }

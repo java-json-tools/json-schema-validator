@@ -58,6 +58,7 @@ public class ListProcessingReport
         return ret;
     }
 
+    @Override
     public final List<ProcessingMessage> getMessages()
     {
         return Lists.newArrayList(messages);

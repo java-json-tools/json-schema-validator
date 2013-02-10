@@ -125,10 +125,15 @@ public final class AbstractProcessingReportTest
     private static class TestProcessingReport
         extends AbstractProcessingReport
     {
-
         @Override
         public void doLog(final ProcessingMessage message)
         {
+        }
+
+        @Override
+        public List<ProcessingMessage> getMessages()
+        {
+            return Collections.emptyList();
         }
     }
 }
