@@ -101,6 +101,10 @@ public final class CommonSyntaxCheckerDictionary
         checker = PatternPropertiesSyntaxChecker.getInstance();
         dict.addEntry(keyword, checker);
 
+        keyword = "required";
+        checker = new TypeOnlySyntaxChecker(keyword, BOOLEAN);
+        dict.addEntry(keyword, checker);
+
         /*
          * Strings
          */
