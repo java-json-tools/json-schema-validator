@@ -20,18 +20,16 @@ package com.github.fge.jsonschema.processing.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.util.ProcessingCache;
-import com.github.fge.jsonschema.util.equivalence.SyntaxCheckingEquivalence;
-import com.google.common.base.Equivalence;
-import com.google.common.cache.CacheLoader;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -43,32 +41,14 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 public final class SyntaxProcessor
     implements Processor<ValidationData, ValidationData>
 {
-    /*
-     * FIXME: rework this part...
-     *
-     * There are several problems:
-     *
-     * - it is quite slow (more than half the time in a full validation);
-     * - .failOnError() in ProcessorChain detects all errors, not only syntax
-     *   related errors.
-     *
-     * The solution would probably be to add syntax checking related information
-     * to JsonSchemaTree itself. As a bonus, this would allow to get rid of the
-     * cache here.
-     */
     private final Dictionary<SyntaxChecker> dict;
-
-    private final ProcessingCache<JsonSchemaTree, SyntaxReport> cache;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
         this.dict = dict;
-        cache = new ProcessingCache<JsonSchemaTree, SyntaxReport>(
-            SyntaxCheckingEquivalence.getInstance(), loader());
     }
     /**
      * Process the input
-     *
      *
      * @param report the report to use while processing
      * @param input the input for this processor
@@ -81,54 +61,28 @@ public final class SyntaxProcessor
         throws ProcessingException
     {
         final JsonSchemaTree inputSchema = input.getSchema();
+        if (inputSchema.isValidated())
+            return input;
 
-        /*
-         * First check whether the node we have is actually a JSON object.
-         * We don't want to cache syntax validation results for _that_.
-         */
-        final JsonSchemaTree tree = inputSchema.copy();
-        final JsonPointer pointer = inputSchema.getCurrentPointer();
-        tree.setPointer(JsonPointer.empty());
+        final ListProcessingReport syntaxReport
+            = new ListProcessingReport(report);
+        syntaxReport.setExceptionThreshold(LogLevel.FATAL);
+        validate(syntaxReport, inputSchema);
+        inputSchema.addValidatedPath(inputSchema.getCurrentPointer());
+        inputSchema.setValid(syntaxReport.isSuccess());
+        for (final ProcessingMessage message: syntaxReport.getMessages())
+            report.log(message);
 
-        /*
-         * The logic is as follows:
-         *
-         * - fetch the syntax report for this schema at the root;
-         * - if the provided pointer is reported as not being validated, trigger
-         *   another validation for this same schema at that pointer.
-         *
-         * Note that we .getUnchecked() here: syntax validation will not throw
-         * exceptions (save for programmer errors). The first exception will
-         * be thrown, if any, when the syntax report injects its messages into
-         * the main report.
-         */
-        SyntaxReport syntaxReport = cache.getUnchecked(tree);
-        if (syntaxReport.hasIgnoredPath(pointer)) {
-            tree.setPointer(pointer);
-            syntaxReport = cache.getUnchecked(tree);
-        }
-        syntaxReport.injectMessages(report);
         return input;
     }
 
-    private CacheLoader<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport> loader()
-    {
-        return new CacheLoader<Equivalence.Wrapper<JsonSchemaTree>, SyntaxReport>()
-        {
-            @Override
-            public SyntaxReport load(final Equivalence.Wrapper<JsonSchemaTree> key)
-                throws ProcessingException
-            {
-                final SyntaxReport report = new SyntaxReport();
-                validate(report, key.get());
-                return report;
-            }
-        };
-    }
-
-    private void validate(final SyntaxReport report, final JsonSchemaTree tree)
+    private void validate(final ProcessingReport report,
+        final JsonSchemaTree tree)
         throws ProcessingException
     {
+        /*
+         * Only called if the schema has _not_ been validated yet
+         */
         final JsonNode node = tree.getCurrentNode();
         final NodeType type = NodeType.getNodeType(node);
 
@@ -147,7 +101,7 @@ public final class SyntaxProcessor
         if (!ignored.isEmpty()) {
             final JsonPointer pointer = tree.getCurrentPointer();
             for (final String name: ignored)
-                report.addIgnoredPath(pointer.append(name));
+                tree.addUncheckedPath(pointer.append(name));
             report.warn(newMsg(tree).msg(UNKNOWN_KEYWORDS)
                 .put("ignored", ignored));
         }
@@ -172,6 +126,6 @@ public final class SyntaxProcessor
     @Override
     public String toString()
     {
-        return cache.toString();
+        return "Syntax checker";
     }
 }
