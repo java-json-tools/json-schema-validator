@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.crude;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -39,6 +40,7 @@ public final class UncheckedReport
     UncheckedReport(final ProcessingException e,
         final ProcessingReport report)
     {
+        currentLevel = LogLevel.FATAL;
         messages.add(e.getProcessingMessage()
             .put("info", "other messages follow (if any)"));
         for (final ProcessingMessage message: report.getMessages())
