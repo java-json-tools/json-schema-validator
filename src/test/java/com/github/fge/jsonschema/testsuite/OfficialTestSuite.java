@@ -1,9 +1,11 @@
 package com.github.fge.jsonschema.testsuite;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.crude.CrudeValidator;
+import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.processing.ref.Dereferencing;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
@@ -33,6 +35,17 @@ public final class OfficialTestSuite
 
     private static final JsonSchemaFactory FACTORY
         = JsonSchemaFactory.defaultFactory();
+
+    private static final CrudeValidator VALIDATOR;
+
+    static {
+        try {
+            VALIDATOR = new CrudeValidator(SchemaVersion.DRAFTV3,
+                Dereferencing.CANONICAL);
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
 
     private File baseDir;
     private Set<File> allTests;
@@ -102,8 +115,8 @@ public final class OfficialTestSuite
     public void testValidatesOK(final String desc, final JsonNode schema,
         final JsonNode data, final boolean valid)
     {
-        final JsonSchema jsonSchema = FACTORY.fromSchema(schema);
-        final ValidationReport report = jsonSchema.validate(data);
+        final ProcessingReport report
+            = VALIDATOR.validateUnchecked(schema, data);
 
         assertEquals(report.isSuccess(), valid, "test failure: " + desc);
     }
