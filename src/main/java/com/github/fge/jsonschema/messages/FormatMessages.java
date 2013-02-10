@@ -28,7 +28,8 @@ public enum FormatMessages
     INVALID_IPV4_ADDR("input is not a valid IPv4 address"),
     INVALID_PHONE_NUMBER("input is not recognized as a phone number"),
     EPOCH_NEGATIVE("epoch is negative"),
-    EPOCH_OVERFLOW("possible epoch overflow (greater than 2^31 - 1 seconds)")
+    EPOCH_OVERFLOW("possible epoch overflow (greater than 2^31 - 1 seconds)"),
+    INVALID_URI("input is not a valid URI"),
     ;
 
     private final String message;

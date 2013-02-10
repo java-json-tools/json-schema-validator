@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.format.common.EmailAttribute;
 import com.github.fge.jsonschema.format.common.HostnameAttribute;
 import com.github.fge.jsonschema.format.common.IPv6Attribute;
 import com.github.fge.jsonschema.format.common.RegexAttribute;
+import com.github.fge.jsonschema.format.common.URIAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -59,6 +60,10 @@ public final class CommonFormatAttributesDictionary
 
         name = "regex";
         attribute = RegexAttribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "uri";
+        attribute = URIAttribute.getInstance();
         builder.addEntry(name, attribute);
 
         DICTIONARY = builder.freeze();
