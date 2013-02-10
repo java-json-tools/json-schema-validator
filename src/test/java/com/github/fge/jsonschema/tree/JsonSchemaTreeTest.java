@@ -41,9 +41,13 @@ import static org.testng.Assert.*;
 public final class JsonSchemaTreeTest
 {
     /*
-     * This class only tests that the context information is calculated
-     * correctly
+     * This class tests two things:
+     *
+     * - whether the current context is correctly validated;
+     * - whether the syntax validation information is correct.
      */
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
+
     private final JsonNodeFactory factory = JacksonUtils.nodeFactory();
     private JsonNode data;
     private JsonNode schema;
@@ -143,5 +147,44 @@ public final class JsonSchemaTreeTest
         assertEquals(tree.getCurrentRef(), scope);
         tree.setPointer(JsonPointer.empty());
         assertSame(tree.getCurrentRef(), origRef);
+    }
+
+    @Test
+    public void newlyCreatedSchemasAreNotValidated()
+    {
+        final JsonSchemaTree tree = new CanonicalSchemaTree(FACTORY.nullNode());
+
+        assertFalse(tree.isValidated());
+    }
+
+    @Test(dependsOnMethods = "newlyCreatedSchemasAreNotValidated")
+    public void validatedPathsAreCorrectlyReported()
+    {
+        final JsonSchemaTree tree = new CanonicalSchemaTree(FACTORY.nullNode());
+
+        tree.addValidatedPath(JsonPointer.empty());
+        assertTrue(tree.isValidated());
+    }
+
+    @Test(dependsOnMethods = "validatedPathsAreCorrectlyReported")
+    public void uncheckedPathsAreCorrectlyReported()
+        throws JsonSchemaException
+    {
+        final JsonSchemaTree tree = new CanonicalSchemaTree(FACTORY.nullNode());
+
+        tree.addValidatedPath(JsonPointer.empty());
+        tree.addUncheckedPath(new JsonPointer("/a"));
+
+        JsonPointer ptr;
+
+        ptr = new JsonPointer("/a/b");
+        tree.setPointer(ptr);
+        assertFalse(tree.isValidated());
+        tree.addValidatedPath(ptr);
+        assertTrue(tree.isValidated());
+
+        ptr = new JsonPointer("/b");
+        tree.setPointer(ptr);
+        assertTrue(tree.isValidated());
     }
 }

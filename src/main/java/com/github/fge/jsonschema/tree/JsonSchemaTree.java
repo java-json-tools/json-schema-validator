@@ -78,7 +78,8 @@ public abstract class JsonSchemaTree
 
     private final Set<JsonPointer> validatedPaths = Sets.newHashSet();
 
-    private final Set<JsonPointer> uncheckedPaths = Sets.newHashSet();
+    private final Set<JsonPointer> uncheckedPaths
+        = Sets.newHashSet(JsonPointer.empty());
 
     private boolean valid = false;
 
@@ -189,20 +190,22 @@ public abstract class JsonSchemaTree
 
     public final boolean isValidated()
     {
-        for (final JsonPointer unchecked: uncheckedPaths)
-            if (unchecked.isParentOf(currentPointer))
-                return false;
+        final JsonPointer closestUnchecked
+            = closestPointer(uncheckedPaths, currentPointer);
+        final JsonPointer closestValidated
+            = closestPointer(validatedPaths, currentPointer);
 
-        for (final JsonPointer validated: validatedPaths)
-            if (validated.isParentOf(currentPointer))
-                return true;
-
-        return false;
+        if (closestValidated == null)
+            return false;
+        if (closestUnchecked == null)
+            return true;
+        return closestUnchecked.isParentOf(closestValidated);
     }
 
     public final void addValidatedPath(final JsonPointer pointer)
     {
         validatedPaths.add(pointer);
+        uncheckedPaths.remove(pointer);
     }
 
     public final void addUncheckedPath(final JsonPointer pointer)
@@ -281,6 +284,22 @@ public abstract class JsonSchemaTree
             idRef = idFromNode(node);
             if (idRef != null)
                 ret = ret.resolve(idRef);
+        }
+
+        return ret;
+    }
+
+    private static JsonPointer closestPointer(final Set<JsonPointer> set,
+        final JsonPointer pointer)
+    {
+        JsonPointer ret = null;
+        for (final JsonPointer ptr: set) {
+            if (!ptr.isParentOf(pointer))
+                continue;
+            if (ret == null)
+                ret = ptr;
+            else if (ret.isParentOf(ptr))
+                ret = ptr;
         }
 
         return ret;
