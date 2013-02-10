@@ -27,6 +27,6 @@ public final class EnumDigesterTest
     public EnumDigesterTest()
         throws IOException
     {
-        super("enum", NodeType.STRING);
+        super("enum", NodeType.ARRAY, NodeType.values());
     }
 }

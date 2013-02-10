@@ -121,7 +121,7 @@ public final class CommonDigesterDictionary
          * will do what it takes.
          */
         keyword = "enum";
-        digester = new SimpleDigester(keyword, STRING);
+        digester = new SimpleDigester(keyword, ARRAY, values());
         builder.addEntry(keyword, digester);
 
         DICTIONARY = builder.freeze();
