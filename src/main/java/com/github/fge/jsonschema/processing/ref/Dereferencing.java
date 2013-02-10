@@ -21,32 +21,48 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
+import com.github.fge.jsonschema.tree.InlineSchemaTree2;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
 public enum Dereferencing
 {
     CANONICAL("canonical")
+    {
+        @Override
+        public SchemaTree newTree2(final JsonRef ref, final JsonNode node)
         {
-            @Override
-            public JsonSchemaTree newTree(final JsonRef ref,
-                final JsonNode node)
-            {
-                return new CanonicalSchemaTree(ref, node);
-            }
-        },
+            return new InlineSchemaTree2(ref, node);
+        }
+
+        @Override
+        public JsonSchemaTree newTree(final JsonRef ref,
+            final JsonNode node)
+        {
+            return new CanonicalSchemaTree(ref, node);
+        }
+    },
     INLINE("inline")
+    {
+        @Override
+        public SchemaTree newTree2(final JsonRef ref, final JsonNode node)
         {
-            @Override
-            public JsonSchemaTree newTree(final JsonRef ref,
-                final JsonNode node)
-            {
-                return new InlineSchemaTree(ref, node);
-            }
-        };
+            return new InlineSchemaTree2(ref, node);
+        }
+
+        @Override
+        public JsonSchemaTree newTree(final JsonRef ref, final JsonNode node)
+        {
+            return new InlineSchemaTree(ref, node);
+        }
+    };
 
     private final String name;
 
     public abstract JsonSchemaTree newTree(final JsonRef ref,
+        final JsonNode node);
+
+    public abstract SchemaTree newTree2(final JsonRef ref,
         final JsonNode node);
 
     Dereferencing(final String name)
@@ -57,6 +73,11 @@ public enum Dereferencing
     public JsonSchemaTree newTree(final JsonNode node)
     {
         return newTree(JsonRef.emptyRef(), node);
+    }
+
+    public SchemaTree newTree2(final JsonNode node)
+    {
+        return newTree2(JsonRef.emptyRef(), node);
     }
 
     @Override

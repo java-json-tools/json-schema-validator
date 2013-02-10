@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.util.AsJson;
  * A {@link SimpleTree} with a copy operation
  */
 public interface JsonTree2
-    extends SimpleTree, AsJson
+    extends SimpleTree
 {
     /**
      * Append a JSON pointer to that tree and return a new tree
