@@ -46,10 +46,10 @@ public final class ValidationProcessor
         final Processor<ValidationData, FullValidationContext> processor)
     {
         this.processor = processor;
-        arrayCache = CacheBuilder.newBuilder()
-            .recordStats().build(arrayLoader());
-        objectCache = CacheBuilder.newBuilder()
-            .recordStats().build(objectLoader());
+        arrayCache = CacheBuilder.newBuilder().recordStats()
+            .build(arrayLoader());
+        objectCache = CacheBuilder.newBuilder().recordStats()
+            .build(objectLoader());
     }
 
     @Override
