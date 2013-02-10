@@ -30,6 +30,15 @@ import javax.mail.internet.InternetAddress;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Validator for the {@code email} format attribute.
+ *
+ * <p><b>Important note</b>: the basis for email format validation is <a
+ * href="http://tools.ietf.org/html/rfc5322">RFC 5322</a>. The RFC mandates that
+ * email addresses have a domain part. However, that domain part may consist of
+ * a single domain name component. As such, {@code foo@bar} is considered valid.
+ * </p>
+ */
 public final class EmailAttribute
     extends AbstractFormatAttribute
 {

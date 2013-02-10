@@ -28,6 +28,16 @@ import com.google.common.net.InternetDomainName;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Validator for the {@code host-name} format attribute.
+ *
+ * <p><b>Important note</b>: the basis for host name format validation is <a
+ * href="http://tools.ietf.org/html/rfc1034">RFC 1034</a>. The RFC does <b>not
+ * </b> require that a host name have more than one domain name component. As
+ * such, {@code foo} <b>is</b> a valid hostname.</p>
+ *
+ * <p>Guava's {@link InternetDomainName} is used for validation.</p>
+ */
 public final class HostnameAttribute
     extends AbstractFormatAttribute
 {

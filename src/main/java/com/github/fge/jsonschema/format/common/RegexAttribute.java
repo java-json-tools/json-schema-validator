@@ -28,6 +28,14 @@ import com.github.fge.jsonschema.util.RhinoHelper;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Validator for the {@code regex} format attribute.
+ *
+ * <p>Again, here, we do <b>not</b> use {@link java.util.regex} because it does
+ * not fit the bill.</p>
+ *
+ * @see RhinoHelper
+ */
 public final class RegexAttribute
     extends AbstractFormatAttribute
 {

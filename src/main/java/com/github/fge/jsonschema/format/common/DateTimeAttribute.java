@@ -20,6 +20,9 @@ package com.github.fge.jsonschema.format.common;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.helpers.DateFormatAttribute;
 
+/**
+ * Validator for the {@code date-time} format attribute
+ */
 public final class DateTimeAttribute
     extends DateFormatAttribute
 {
