@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.processing.syntax;
 
-import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ListProcessingReport;
@@ -32,9 +31,9 @@ final class SyntaxReport
 {
     private final Set<JsonPointer> ignoredPaths = Sets.newLinkedHashSet();
 
-    SyntaxReport()
+    SyntaxReport(final ProcessingReport other)
     {
-        setLogLevel(LogLevel.DEBUG);
+        super(other);
     }
 
     public void addIgnoredPath(final JsonPointer pointer)

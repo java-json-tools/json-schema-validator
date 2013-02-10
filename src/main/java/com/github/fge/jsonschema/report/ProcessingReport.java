@@ -17,12 +17,21 @@
 
 package com.github.fge.jsonschema.report;
 
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 
 public interface ProcessingReport
     extends MessageProvider
 {
-    void log(final ProcessingMessage message)
+    void setLogLevel(LogLevel level);
+
+    void setExceptionThreshold(LogLevel level);
+
+    LogLevel getLogLevel();
+
+    LogLevel getExceptionThreshold();
+
+    void log(ProcessingMessage message)
         throws ProcessingException;
 
     void debug(ProcessingMessage msg)

@@ -34,6 +34,15 @@ public class ListProcessingReport
 
     protected final List<ProcessingMessage> messages = Lists.newArrayList();
 
+    public ListProcessingReport()
+    {
+    }
+
+    public ListProcessingReport(final ProcessingReport other)
+    {
+        setLogLevel(other.getLogLevel());
+        setExceptionThreshold(other.getExceptionThreshold());
+    }
     @Override
     public final void doLog(final ProcessingMessage message)
     {

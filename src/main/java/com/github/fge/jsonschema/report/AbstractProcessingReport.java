@@ -27,14 +27,32 @@ public abstract class AbstractProcessingReport
     protected LogLevel logLevel = LogLevel.INFO;
     protected LogLevel exceptionThreshold = LogLevel.FATAL;
 
-    public final void setLogLevel(final LogLevel threshold)
+    protected AbstractProcessingReport()
     {
-        logLevel = threshold;
     }
 
-    public final void setExceptionThreshold(final LogLevel threshold)
+    @Override
+    public final void setLogLevel(final LogLevel level)
     {
-        exceptionThreshold = threshold;
+        logLevel = level;
+    }
+
+    @Override
+    public final void setExceptionThreshold(final LogLevel level)
+    {
+        exceptionThreshold = level;
+    }
+
+    @Override
+    public final LogLevel getLogLevel()
+    {
+        return logLevel;
+    }
+
+    @Override
+    public final LogLevel getExceptionThreshold()
+    {
+        return exceptionThreshold;
     }
 
     @Override
