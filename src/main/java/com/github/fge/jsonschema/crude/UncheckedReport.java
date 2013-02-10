@@ -17,10 +17,14 @@
 
 package com.github.fge.jsonschema.crude;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.util.AsJson;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -28,6 +32,7 @@ import java.util.List;
 
 public final class UncheckedReport
     extends AbstractProcessingReport
+    implements AsJson
 {
     private final List<ProcessingMessage> messages = Lists.newArrayList();
 
@@ -49,5 +54,14 @@ public final class UncheckedReport
     public List<ProcessingMessage> getMessages()
     {
         return ImmutableList.copyOf(messages);
+    }
+
+    @Override
+    public JsonNode asJson()
+    {
+        final ArrayNode ret = JacksonUtils.nodeFactory().arrayNode();
+        for (final ProcessingMessage message: messages)
+            ret.add(message.asJson());
+        return ret;
     }
 }
