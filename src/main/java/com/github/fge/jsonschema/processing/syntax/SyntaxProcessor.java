@@ -43,6 +43,19 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 public final class SyntaxProcessor
     implements Processor<ValidationData, ValidationData>
 {
+    /*
+     * FIXME: rework this part...
+     *
+     * There are several problems:
+     *
+     * - it is quite slow (more than half the time in a full validation);
+     * - .failOnError() in ProcessorChain detects all errors, not only syntax
+     *   related errors.
+     *
+     * The solution would probably be to add syntax checking related information
+     * to JsonSchemaTree itself. As a bonus, this would allow to get rid of the
+     * cache here.
+     */
     private final Dictionary<SyntaxChecker> dict;
 
     private final ProcessingCache<JsonSchemaTree, SyntaxReport> cache;
