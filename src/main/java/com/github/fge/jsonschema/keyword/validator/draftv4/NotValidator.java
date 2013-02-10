@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.keyword.validator.draftv4;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -46,7 +47,8 @@ public final class NotValidator
         throws ProcessingException
     {
         final JsonSchemaTree tree = data.getSchema();
-        final ProcessingReport subReport = new ListProcessingReport();
+        final ProcessingReport subReport = new ListProcessingReport(report);
+        subReport.setExceptionThreshold(LogLevel.FATAL);
 
         tree.append(PTR);
         processor.process(subReport, data);

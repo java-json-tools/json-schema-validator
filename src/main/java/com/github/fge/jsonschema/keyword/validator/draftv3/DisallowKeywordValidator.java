@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.keyword.validator.draftv3;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.validator.helpers.DraftV3TypeKeywordValidator;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -62,7 +63,8 @@ public final class DisallowKeywordValidator
         int nrSuccess = 0;
 
         for (final int index: schemas) {
-            subReport = new ListProcessingReport();
+            subReport = new ListProcessingReport(report);
+            subReport.setExceptionThreshold(LogLevel.FATAL);
             ptr = basePtr.append(index);
             schemaTree.append(ptr);
             processor.process(subReport, data);

@@ -31,11 +31,6 @@ final class SyntaxReport
 {
     private final Set<JsonPointer> ignoredPaths = Sets.newLinkedHashSet();
 
-    SyntaxReport(final ProcessingReport other)
-    {
-        super(other);
-    }
-
     public void addIgnoredPath(final JsonPointer pointer)
     {
         ignoredPaths.add(pointer);
