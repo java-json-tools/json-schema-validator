@@ -30,6 +30,9 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -42,10 +45,21 @@ public final class SyntaxProcessor
     implements Processor<ValidationData, ValidationData>
 {
     private final Dictionary<SyntaxChecker> dict;
+    private final LoadingCache<JsonNode, ValidatedPaths> cache;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
         this.dict = dict;
+        cache = CacheBuilder.newBuilder().recordStats()
+            .build(new CacheLoader<JsonNode, ValidatedPaths>()
+            {
+                @Override
+                public ValidatedPaths load(final JsonNode key)
+                    throws Exception
+                {
+                    return new ValidatedPaths();
+                }
+            });
     }
     /**
      * Process the input
