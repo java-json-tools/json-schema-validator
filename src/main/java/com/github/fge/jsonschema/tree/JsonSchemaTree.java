@@ -24,8 +24,10 @@ import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.collect.Queues;
+import com.google.common.collect.Sets;
 
 import java.util.Deque;
+import java.util.Set;
 
 /**
  * A {@link JsonTree} carrying URI resolution context information
@@ -73,6 +75,12 @@ public abstract class JsonSchemaTree
      * The current resolution context
      */
     protected JsonRef currentRef;
+
+    private final Set<JsonPointer> validatedPaths = Sets.newHashSet();
+
+    private final Set<JsonPointer> uncheckedPaths = Sets.newHashSet();
+
+    private boolean valid = false;
 
     /**
      * The main constructor
@@ -179,6 +187,34 @@ public abstract class JsonSchemaTree
         return currentRef;
     }
 
+    public final boolean isValidated()
+    {
+        for (final JsonPointer unchecked: uncheckedPaths)
+            if (unchecked.isParentOf(currentPointer))
+                return false;
+
+        for (final JsonPointer validated: validatedPaths)
+            if (validated.isParentOf(currentPointer))
+                return true;
+
+        return false;
+    }
+
+    public final void addValidatedPath(final JsonPointer pointer)
+    {
+        validatedPaths.add(pointer);
+    }
+
+    public final void addUncheckedPath(final JsonPointer pointer)
+    {
+        uncheckedPaths.add(pointer);
+    }
+
+    public final void setValid(final boolean valid)
+    {
+        this.valid = valid;
+    }
+
     /**
      * Return a copy of this tree at its current state but with an empty stack
      *
@@ -191,6 +227,9 @@ public abstract class JsonSchemaTree
         ret.currentRef = currentRef;
         ret.currentPointer = currentPointer;
         ret.currentNode = currentNode;
+        ret.validatedPaths.addAll(validatedPaths);
+        ret.uncheckedPaths.addAll(uncheckedPaths);
+        ret.valid = valid;
         return ret;
     }
 
