@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.build.FullValidationContext;
 import com.github.fge.jsonschema.processing.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processing.digest.SchemaDigester;
+import com.github.fge.jsonschema.processing.format.FormatProcessor;
 import com.github.fge.jsonschema.processing.selector.ProcessorSelector;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -45,9 +46,12 @@ public final class ValidationChain
             = new SchemaDigester(library.getDigesters());
         final ValidatorBuilder builder
             = new ValidatorBuilder(library.getValidators());
+        final FormatProcessor formatProcessor
+            = new FormatProcessor(library.getFormatAttributes());
 
         final Processor<ValidationData, FullValidationContext> onSuccess
-            = ProcessorChain.startWith(digester).chainWith(builder).end();
+            = ProcessorChain.startWith(digester).chainWith(builder)
+                .chainWith(formatProcessor).end();
 
         final ProcessorSelector<ValidationData, FullValidationContext> selector
             = new ProcessorSelector<ValidationData, FullValidationContext>()
