@@ -15,26 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.format.draftv3;
-
-import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.format.helpers.DateFormatAttribute;
-
 /**
- * Validator for the {@code date} format attribute.
+ * Helper classes for format attributes
+ *
+ * <p>The one you may want to reuse is {@link
+ * com.github.fge.jsonschema.format.helpers.DateFormatAttribute}, which can be
+ * used to validate any date format using Joda Time's {@link
+ * org.joda.time.format.DateTimeFormat}.</p>
  */
-public final class DateAttribute
-    extends DateFormatAttribute
-{
-    private static final FormatAttribute INSTANCE = new DateAttribute();
-
-    public static FormatAttribute getInstance()
-    {
-        return INSTANCE;
-    }
-
-    private DateAttribute()
-    {
-        super("date", "yyyy-MM-dd");
-    }
-}
+package com.github.fge.jsonschema.format.helpers;

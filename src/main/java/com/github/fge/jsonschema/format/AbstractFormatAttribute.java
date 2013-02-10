@@ -23,12 +23,35 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
+/**
+ * Base abstract class for a format attribute
+ *
+ * <p>You should really use this class instead of implementing {@link
+ * FormatAttribute} directly. Its main, but important, helping role is to
+ * build the list of supported types for you.</p>
+ */
 public abstract class AbstractFormatAttribute
     implements FormatAttribute
 {
+    /**
+     * The set of supported types
+     */
     private final EnumSet<NodeType> supported;
+
+    /**
+     * The name of the format attribute
+     */
     private final String fmt;
 
+    /**
+     * Protected constructor
+     *
+     * @param fmt the name for this format attribute
+     * @param first first supported type
+     * @param other other supported types, if any
+     *
+     * @see #supportedTypes()
+     */
     protected AbstractFormatAttribute(final String fmt, final NodeType first,
         final NodeType... other)
     {

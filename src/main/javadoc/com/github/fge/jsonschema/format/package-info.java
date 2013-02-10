@@ -18,11 +18,14 @@
 /**
  * Format attribute base classes
  *
- * <p>The {@code format} keyword is defined by section 5.23 of JSON Schema draft
- * v3, and (currently) section 7 of the next validation draft.</p>
+ * <p>The {@code format} keyword plays a particular role in JSON Schema
+ * validation, since it is the only keyword performing semantic validation.
+ * Note that supporting it is <i>optional</i>, and that implementations are
+ * asked to provide a way to deactivate format checking on demand. This
+ * implementation offers this option.</p>
  *
- * <p>Draft v4 defines a narrower subset than draft v3. The following format
- * attributes are common to both draft v3 and draft v4:</p>
+ * <p>Draft v4 defines a narrower subset of format attributes than draft v3.
+ * The following format attributes are common to both draft v3 and draft v4:</p>
  *
  * <ul>
  *     <li>{@code date-time};</li>
@@ -45,14 +48,7 @@
  * </ul>
  *
  * <p>Additionally, there is an attribute named {@code ip-address} in draft v3,
- * and {@code ipv4} in draft v4, which can validate IP addresses. This
- * implementation also adds {@code media-type} to allow further self-validation
- * of draft v3's links schema.</p>
- *
- * <p>Other format attributes not defined by any of these drafts can be found
- * in a sister project: <a
- * href="https://github.com/fge/json-schema-formats">json-schema-formats</a>.
- * </p>
+ * and {@code ipv4} in draft v4, which can validate IPv4 addresses.</p>
  */
 
 package com.github.fge.jsonschema.format;

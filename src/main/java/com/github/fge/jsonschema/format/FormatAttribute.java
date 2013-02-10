@@ -24,10 +24,30 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
+/**
+ * Interface for a format attribute checker
+ */
 public interface FormatAttribute
 {
+    /**
+     * Return the set of JSON Schema types this format attribute applies to
+     *
+     * <p>It is important that this method be implemented correctly. Remind
+     * that validation for a given format attribute and an instance which type
+     * is not supported always succeeds.</p>
+     *
+     * @return the set of supported types
+     */
     EnumSet<NodeType> supportedTypes();
 
+    /**
+     * Validate the instance against this format attribute
+     *
+     * @param report the report to use
+     * @param data the validation data
+     * @throws ProcessingException an exception occurs (normally, never for a
+     * format attribute)
+     */
     void validate(final ProcessingReport report, ValidationData data)
         throws ProcessingException;
 }

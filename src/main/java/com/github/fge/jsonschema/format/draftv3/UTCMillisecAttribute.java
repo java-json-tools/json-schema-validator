@@ -29,6 +29,18 @@ import java.math.BigInteger;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Validator for the {@code utc-millisec} format attribute.
+ *
+ * <p>Note that there is no restriction on the number value at all. However,
+ * this attributes perform extra checks and <b>warns</b> (ie, does not report
+ * an error) in the following situations:</p>
+ *
+ * <ul>
+ *     <li>the number is negative;</li>
+ *     <li>the number, divided by 1000, is greater than 2^31 - 1.</li>
+ * </ul>
+ */
 public final class UTCMillisecAttribute
     extends AbstractFormatAttribute
 {

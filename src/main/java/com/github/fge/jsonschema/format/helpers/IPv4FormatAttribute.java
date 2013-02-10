@@ -26,6 +26,12 @@ import com.google.common.net.InetAddresses;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Validator for both the {@code ip-address} (draft v3) and {@code ipv4} (draft
+ * v4) format attributes.
+ *
+ * <p>This uses Guava's {@link InetAddresses} to do the job.</p>
+ */
 public final class IPv4FormatAttribute
     extends AbstractFormatAttribute
 {

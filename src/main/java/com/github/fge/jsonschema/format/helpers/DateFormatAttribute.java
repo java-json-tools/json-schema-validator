@@ -26,8 +26,20 @@ import com.github.fge.jsonschema.util.NodeType;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.SimpleDateFormat;
+
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Abstract class for date/time related format attributes
+ *
+ * <p><a href="http://joda-time.sourceforge.net/">Joda Time</a> is used for
+ * date and time parsing: it can handle all defined formats, and catches more
+ * errors than the standard JDK's {@link SimpleDateFormat} does.</p>
+ *
+ * <p>Furthermore (and more importantly), unlike {@link SimpleDateFormat}, Joda
+ * Time's {@link DateTimeFormatter} is thread-safe!</p>
+ */
 public abstract class DateFormatAttribute
     extends AbstractFormatAttribute
 {

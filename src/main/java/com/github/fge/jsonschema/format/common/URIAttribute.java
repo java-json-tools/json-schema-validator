@@ -29,6 +29,12 @@ import java.net.URISyntaxException;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Validator for the {@code uri} format attribute.
+ *
+ * <p>Note that each and any URI is allowed. In particular, it is not required
+ * that the URI be absolute or normalized.</p>
+ */
 public final class URIAttribute
     extends AbstractFormatAttribute
 {
