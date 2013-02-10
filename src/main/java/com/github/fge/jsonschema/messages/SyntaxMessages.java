@@ -37,7 +37,8 @@ public enum SyntaxMessages
     INCORRECT_DEPENDENCY_VALUE("dependency value has incorrect type"),
     INCORRECT_PRIMITIVE_TYPE("incorrect primitive type"),
     DRAFTV3_PROPERTIES_REQUIRED("\"required\" attribute has wrong type"),
-    EXTENDS_EMPTY_ARRAY("no elements in \"extends\" array")
+    EXTENDS_EMPTY_ARRAY("no elements in \"extends\" array"),
+    INVALID_SCHEMA("invalid schema, cannot continue"),
     ;
 
     private final String message;

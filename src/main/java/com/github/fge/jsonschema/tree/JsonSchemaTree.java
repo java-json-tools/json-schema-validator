@@ -218,6 +218,11 @@ public abstract class JsonSchemaTree
         this.valid = valid;
     }
 
+    public final boolean isValid()
+    {
+        return valid;
+    }
+
     /**
      * Return a copy of this tree at its current state but with an empty stack
      *
