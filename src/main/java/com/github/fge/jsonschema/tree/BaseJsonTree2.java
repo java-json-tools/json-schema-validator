@@ -29,6 +29,7 @@ public abstract class BaseJsonTree2
     implements JsonTree2
 {
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
+
     /**
      * The initial node
      */
