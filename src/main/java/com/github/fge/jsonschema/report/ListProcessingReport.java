@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.report;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Lists;
@@ -40,8 +41,14 @@ public class ListProcessingReport
 
     public ListProcessingReport(final ProcessingReport other)
     {
-        setLogLevel(other.getLogLevel());
-        setExceptionThreshold(other.getExceptionThreshold());
+        // FIXME: necessary, otherwise mocks don't work
+        LogLevel level;
+        level = other.getLogLevel();
+        if (level != null)
+            setLogLevel(level);
+        level = other.getExceptionThreshold();
+        if (level != null)
+            setExceptionThreshold(level);
     }
     @Override
     public final void doLog(final ProcessingMessage message)
