@@ -67,7 +67,7 @@ public enum SchemaVersion
     private boolean versionMatches(final JsonNode schema)
     {
         final JsonNode node = schema.path("$schema");
-        if (!schema.isTextual())
+        if (!node.isTextual())
             return false;
         try {
             return location.equals(JsonRef.fromString(node.textValue()));
