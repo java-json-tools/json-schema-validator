@@ -49,7 +49,7 @@ public final class EnumValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode node = data.getInstance().getCurrentNode();
+        final JsonNode node = data.getInstance().getNode();
 
         for (final JsonNode enumValue: values)
             if (EQUIVALENCE.equivalent(enumValue, node))

@@ -80,7 +80,7 @@ public interface JsonTree
      *
      * @return the path as a JSON Pointer
      */
-    JsonPointer getCurrentPointer();
+    JsonPointer getPointer();
 
     /**
      * Get the node at the current path
@@ -88,6 +88,6 @@ public interface JsonTree
      * @return the matching node (a {@link MissingNode} if there is no matching
      * node at that pointer)
      */
-    JsonNode getCurrentNode();
+    JsonNode getNode();
 }
 

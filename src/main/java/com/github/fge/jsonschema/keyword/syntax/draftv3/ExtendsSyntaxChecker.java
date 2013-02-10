@@ -47,7 +47,7 @@ public final class ExtendsSyntaxChecker
         final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = tree.getCurrentNode().get(keyword);
+        final JsonNode node = tree.getNode().get(keyword);
         if (node.isArray() && node.size() == 0)
             report.warn(newMsg(tree, EXTENDS_EMPTY_ARRAY));
     }

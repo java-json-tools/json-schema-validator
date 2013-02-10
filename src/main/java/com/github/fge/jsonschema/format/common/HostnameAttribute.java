@@ -58,7 +58,7 @@ public final class HostnameAttribute
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
 
         try {
             InternetDomainName.from(instance.textValue());

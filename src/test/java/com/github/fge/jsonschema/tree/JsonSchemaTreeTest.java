@@ -66,13 +66,13 @@ public final class JsonSchemaTreeTest
         JsonSchemaTree schemaTree;
 
         schemaTree = new CanonicalSchemaTree(factory.objectNode());
-        assertSame(schemaTree.getCurrentRef(), JsonRef.emptyRef());
+        assertSame(schemaTree.getContext(), JsonRef.emptyRef());
 
         final URI uri = URI.create("foo://bar");
         final JsonRef ref = JsonRef.fromURI(uri);
 
         schemaTree = new CanonicalSchemaTree(ref, factory.objectNode());
-        assertSame(schemaTree.getCurrentRef(), ref);
+        assertSame(schemaTree.getContext(), ref);
     }
 
     @DataProvider
@@ -98,7 +98,7 @@ public final class JsonSchemaTreeTest
         node.put("id", id);
 
         final JsonSchemaTree tree = new CanonicalSchemaTree(loadingRef, node);
-        assertEquals(tree.getCurrentRef(), resolved);
+        assertEquals(tree.getContext(), resolved);
     }
 
     @DataProvider
@@ -125,12 +125,12 @@ public final class JsonSchemaTreeTest
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
-        final JsonRef origRef = tree.getCurrentRef();
+        final JsonRef origRef = tree.getContext();
 
         tree.append(ptr);
-        assertEquals(tree.getCurrentRef(), scope);
+        assertEquals(tree.getContext(), scope);
         tree.pop();
-        assertSame(tree.getCurrentRef(), origRef);
+        assertSame(tree.getContext(), origRef);
     }
 
     @Test(dataProvider = "getContexts")
@@ -141,12 +141,12 @@ public final class JsonSchemaTreeTest
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
-        final JsonRef origRef = tree.getCurrentRef();
+        final JsonRef origRef = tree.getContext();
 
         tree.setPointer(ptr);
-        assertEquals(tree.getCurrentRef(), scope);
+        assertEquals(tree.getContext(), scope);
         tree.setPointer(JsonPointer.empty());
-        assertSame(tree.getCurrentRef(), origRef);
+        assertSame(tree.getContext(), origRef);
     }
 
     @Test

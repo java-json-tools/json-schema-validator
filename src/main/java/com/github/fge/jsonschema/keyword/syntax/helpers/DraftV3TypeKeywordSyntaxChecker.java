@@ -55,7 +55,7 @@ public final class DraftV3TypeKeywordSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        final JsonNode node = tree.getCurrentNode().get(keyword);
+        final JsonNode node = tree.getNode().get(keyword);
 
         if (node.isTextual()) {
             if (!typeIsValid(node.textValue()))

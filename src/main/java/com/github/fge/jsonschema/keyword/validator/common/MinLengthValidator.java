@@ -39,7 +39,7 @@ public final class MinLengthValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final int size = data.getInstance().getCurrentNode().textValue()
+        final int size = data.getInstance().getNode().textValue()
             .length();
 
         if (size < intValue)

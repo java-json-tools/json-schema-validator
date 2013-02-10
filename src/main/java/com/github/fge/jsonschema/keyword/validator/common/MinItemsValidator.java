@@ -40,7 +40,7 @@ public final class MinItemsValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final int size = data.getInstance().getCurrentNode().size();
+        final int size = data.getInstance().getNode().size();
         if (size < intValue)
             report.error(newMsg(data).msg(ARRAY_IS_TOO_SHORT)
                 .put(keyword, intValue).put("found", size));

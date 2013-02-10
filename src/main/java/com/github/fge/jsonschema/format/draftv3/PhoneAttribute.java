@@ -62,7 +62,7 @@ public final class PhoneAttribute
         final ValidationData data)
         throws ProcessingException
     {
-        final String input = data.getInstance().getCurrentNode().textValue();
+        final String input = data.getInstance().getNode().textValue();
         /*
          * The libphonenumber API doc says that no matter what region you put
          * when validating national phone numbers, the number is not actually

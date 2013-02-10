@@ -67,9 +67,9 @@ public final class SchemaDigester
         final ValidationData input)
         throws ProcessingException
     {
-        final JsonNode schema = input.getSchema().getCurrentNode();
+        final JsonNode schema = input.getSchema().getNode();
         final NodeType type
-            = NodeType.getNodeType(input.getInstance().getCurrentNode());
+            = NodeType.getNodeType(input.getInstance().getNode());
         final Map<String, JsonNode> map = cache.getUnchecked(schema);
         map.keySet().retainAll(typeMap.get(type));
         return new ValidationDigest(input, map);

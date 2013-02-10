@@ -51,7 +51,7 @@ public abstract class NumericValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
         if (valueIsLong(instance) && isLong)
             validateLong(report, data);
         else

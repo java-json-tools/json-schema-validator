@@ -48,7 +48,7 @@ public final class DraftV4TypeValidator
         throws ProcessingException
     {
         final NodeType type
-            = NodeType.getNodeType(data.getInstance().getCurrentNode());
+            = NodeType.getNodeType(data.getInstance().getNode());
 
         if (!types.contains(type))
             report.error(newMsg(data).msg(TYPE_NO_MATCH)

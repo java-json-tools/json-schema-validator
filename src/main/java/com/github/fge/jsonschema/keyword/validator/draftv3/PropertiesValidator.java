@@ -53,7 +53,7 @@ public final class PropertiesValidator
         throws ProcessingException
     {
         final Set<String> set = Sets.newLinkedHashSet(required);
-        set.removeAll(Sets.newHashSet(data.getInstance().getCurrentNode()
+        set.removeAll(Sets.newHashSet(data.getInstance().getNode()
             .fieldNames()));
 
         if (!set.isEmpty())

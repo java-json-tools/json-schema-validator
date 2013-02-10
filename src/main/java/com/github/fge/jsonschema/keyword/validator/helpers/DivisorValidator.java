@@ -39,7 +39,7 @@ public abstract class DivisorValidator
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode node = data.getInstance().getCurrentNode();
+        final JsonNode node = data.getInstance().getNode();
         final long instanceValue = node.longValue();
         final long longValue = number.longValue();
 
@@ -57,7 +57,7 @@ public abstract class DivisorValidator
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode node = data.getInstance().getCurrentNode();
+        final JsonNode node = data.getInstance().getNode();
         final BigDecimal instanceValue = node.decimalValue();
         final BigDecimal decimalValue = number.decimalValue();
 

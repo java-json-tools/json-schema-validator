@@ -56,7 +56,7 @@ public final class RegexAttribute
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
 
         if (!RhinoHelper.regexIsValid(instance.textValue()))
             report.error(newMsg(data, INVALID_ECMA_262_REGEX));

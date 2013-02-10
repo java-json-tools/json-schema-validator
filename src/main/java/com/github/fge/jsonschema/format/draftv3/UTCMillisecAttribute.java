@@ -71,7 +71,7 @@ public final class UTCMillisecAttribute
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
 
         BigInteger epoch = instance.bigIntegerValue();
 

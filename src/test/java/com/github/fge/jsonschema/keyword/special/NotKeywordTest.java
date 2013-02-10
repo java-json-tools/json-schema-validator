@@ -178,7 +178,7 @@ public final class NotKeywordTest
             final ValidationData input)
             throws ProcessingException
         {
-            assertEquals(input.getSchema().getCurrentPointer(), PTR);
+            assertEquals(input.getSchema().getPointer(), PTR);
             wanted.doIt(report);
             return report;
         }

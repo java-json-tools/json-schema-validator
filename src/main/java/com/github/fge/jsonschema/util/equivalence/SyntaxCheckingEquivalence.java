@@ -39,14 +39,14 @@ public final class SyntaxCheckingEquivalence
     protected boolean doEquivalent(final JsonSchemaTree a,
         final JsonSchemaTree b)
     {
-        return a.getCurrentPointer().equals(b.getCurrentPointer())
+        return a.getPointer().equals(b.getPointer())
             && a.getBaseNode().equals(b.getBaseNode());
     }
 
     @Override
     protected int doHash(final JsonSchemaTree t)
     {
-        return 31 * t.getCurrentPointer().hashCode()
+        return 31 * t.getPointer().hashCode()
             + t.getBaseNode().hashCode();
     }
 }

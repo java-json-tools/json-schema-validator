@@ -83,13 +83,13 @@ public abstract class BaseJsonTree
     }
 
     @Override
-    public final JsonPointer getCurrentPointer()
+    public final JsonPointer getPointer()
     {
         return currentPointer;
     }
 
     @Override
-    public final JsonNode getCurrentNode()
+    public final JsonNode getNode()
     {
         return currentNode;
     }

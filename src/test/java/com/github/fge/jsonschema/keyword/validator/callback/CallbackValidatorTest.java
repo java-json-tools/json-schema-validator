@@ -241,10 +241,10 @@ public abstract class CallbackValidatorTest
             final ValidationData input)
             throws ProcessingException
         {
-            final JsonNode schema = input.getSchema().getCurrentNode();
+            final JsonNode schema = input.getSchema().getNode();
 
             final JsonPointer ptr = schema == sub1 ? ptr1 : ptr2;
-            assertEquals(input.getSchema().getCurrentPointer(), ptr,
+            assertEquals(input.getSchema().getPointer(), ptr,
                 "schema pointer differs from expectations");
 
             final WantedState wanted = schema == sub1 ? wanted1 : wanted2;

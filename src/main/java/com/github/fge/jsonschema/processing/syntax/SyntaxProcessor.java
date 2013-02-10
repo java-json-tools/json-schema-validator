@@ -68,7 +68,7 @@ public final class SyntaxProcessor
             = new ListProcessingReport(report);
         syntaxReport.setExceptionThreshold(LogLevel.FATAL);
         validate(syntaxReport, inputSchema);
-        inputSchema.addValidatedPath(inputSchema.getCurrentPointer());
+        inputSchema.addValidatedPath(inputSchema.getPointer());
         inputSchema.setValid(syntaxReport.isSuccess());
         for (final ProcessingMessage message: syntaxReport.getMessages())
             report.log(message);
@@ -83,7 +83,7 @@ public final class SyntaxProcessor
         /*
          * Only called if the schema has _not_ been validated yet
          */
-        final JsonNode node = tree.getCurrentNode();
+        final JsonNode node = tree.getNode();
         final NodeType type = NodeType.getNodeType(node);
 
         if (type != NodeType.OBJECT) {
@@ -99,7 +99,7 @@ public final class SyntaxProcessor
         final Set<String> fieldNames = Sets.newHashSet(node.fieldNames());
         final Set<String> ignored = dict.missingEntriesFrom(fieldNames);
         if (!ignored.isEmpty()) {
-            final JsonPointer pointer = tree.getCurrentPointer();
+            final JsonPointer pointer = tree.getPointer();
             for (final String name: ignored)
                 tree.addUncheckedPath(pointer.append(name));
             report.warn(newMsg(tree).msg(UNKNOWN_KEYWORDS)

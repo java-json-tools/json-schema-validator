@@ -47,7 +47,7 @@ public final class IPv4FormatAttribute
         final ValidationData data)
         throws ProcessingException
     {
-        final String ipaddr = data.getInstance().getCurrentNode().textValue();
+        final String ipaddr = data.getInstance().getNode().textValue();
 
         if (InetAddresses.isInetAddress(ipaddr) && InetAddresses
             .forString(ipaddr).getAddress().length == IPV4_LENGTH)

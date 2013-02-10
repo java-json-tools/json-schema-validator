@@ -49,7 +49,7 @@ public final class FormatProcessor
         throws ProcessingException
     {
         final ValidationData data = input.getValidationData();
-        final JsonNode node = data.getSchema().getCurrentNode().get("format");
+        final JsonNode node = data.getSchema().getNode().get("format");
 
         if (node == null)
             return input;
@@ -65,7 +65,7 @@ public final class FormatProcessor
         }
 
         final NodeType type
-            = NodeType.getNodeType(data.getInstance().getCurrentNode());
+            = NodeType.getNodeType(data.getInstance().getNode());
 
         if (!attr.supportedTypes().contains(type))
             return input;

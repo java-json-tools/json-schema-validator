@@ -50,7 +50,7 @@ public final class ExclusiveMinimumSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        if (!tree.getCurrentNode().has("minimum"))
+        if (!tree.getNode().has("minimum"))
             report.error(newMsg(tree, EXCLUSIVEMINIMUM));
     }
 }

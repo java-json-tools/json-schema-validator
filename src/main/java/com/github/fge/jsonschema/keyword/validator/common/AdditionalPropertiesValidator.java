@@ -69,7 +69,7 @@ public final class AdditionalPropertiesValidator
         if (additionalOK)
             return;
 
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
         final Set<String> fields = Sets.newHashSet(instance.fieldNames());
 
         fields.removeAll(properties);

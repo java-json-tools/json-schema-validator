@@ -183,7 +183,7 @@ public abstract class JsonSchemaTree
      *
      * @return the context as a {@link JsonRef}
      */
-    public final JsonRef getCurrentRef()
+    public final JsonRef getContext()
     {
         return currentRef;
     }

@@ -55,7 +55,7 @@ public final class UniqueItemsValidator
             return;
 
         final Set<Equivalence.Wrapper<JsonNode>> set = Sets.newHashSet();
-        final JsonNode node = data.getInstance().getCurrentNode();
+        final JsonNode node = data.getInstance().getNode();
 
         for (final JsonNode element: node)
             if (!set.add(EQUIVALENCE.wrap(element))) {

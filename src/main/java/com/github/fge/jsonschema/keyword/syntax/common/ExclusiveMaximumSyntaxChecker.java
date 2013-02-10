@@ -50,7 +50,7 @@ public final class ExclusiveMaximumSyntaxChecker
         final ProcessingReport report, final JsonSchemaTree tree)
         throws ProcessingException
     {
-        if (!tree.getCurrentNode().has("maximum"))
+        if (!tree.getNode().has("maximum"))
             report.error(newMsg(tree, EXCLUSIVEMAXIMUM));
     }
 }

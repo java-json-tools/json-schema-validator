@@ -46,7 +46,7 @@ public final class AnyOfValidator
         throws ProcessingException
     {
         final JsonSchemaTree schemaTree = data.getSchema();
-        final JsonNode schemas = schemaTree.getCurrentNode().get(keyword);
+        final JsonNode schemas = schemaTree.getNode().get(keyword);
         final int size = schemas.size();
         final ObjectNode fullReport = FACTORY.objectNode();
 

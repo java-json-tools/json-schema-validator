@@ -89,7 +89,7 @@ public final class DependenciesValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
         final Set<String> fields = Sets.newHashSet(instance.fieldNames());
 
         Collection<String> collection;

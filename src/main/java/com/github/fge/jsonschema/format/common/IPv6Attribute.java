@@ -55,7 +55,7 @@ public final class IPv6Attribute
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
         final String ipaddr = instance.textValue();
 
         if (InetAddresses.isInetAddress(ipaddr) && InetAddresses

@@ -46,7 +46,7 @@ public final class DisallowKeywordValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
         final NodeType type = NodeType.getNodeType(instance);
 
         if (types.contains(type)) {

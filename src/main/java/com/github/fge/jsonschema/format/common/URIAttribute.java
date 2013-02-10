@@ -56,7 +56,7 @@ public final class URIAttribute
         throws ProcessingException
     {
         try {
-            new URI(data.getInstance().getCurrentNode().textValue());
+            new URI(data.getInstance().getNode().textValue());
         } catch (URISyntaxException ignored) {
             report.error(newMsg(data, INVALID_URI));
         }

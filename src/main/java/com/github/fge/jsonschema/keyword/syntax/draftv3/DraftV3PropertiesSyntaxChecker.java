@@ -54,7 +54,7 @@ public final class DraftV3PropertiesSyntaxChecker
         throws ProcessingException
     {
         final SortedMap<String, JsonNode> map = Maps.newTreeMap();
-        map.putAll(JacksonUtils.asMap(tree.getCurrentNode().get(keyword)));
+        map.putAll(JacksonUtils.asMap(tree.getNode().get(keyword)));
 
         String member;
         JsonNode required;

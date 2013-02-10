@@ -44,7 +44,7 @@ public final class ExtendsValidator
         throws ProcessingException
     {
         final JsonSchemaTree schemaTree = data.getSchema();
-        final JsonNode node = schemaTree.getCurrentNode().get(keyword);
+        final JsonNode node = schemaTree.getNode().get(keyword);
 
         if (node.isObject()) {
             schemaTree.append(BASE_PTR);

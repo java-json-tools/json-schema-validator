@@ -188,7 +188,7 @@ public final class ExtendsKeywordTest
             final ValidationData input)
             throws ProcessingException
         {
-            assertEquals(input.getSchema().getCurrentPointer(), PTR);
+            assertEquals(input.getSchema().getPointer(), PTR);
             wanted.doIt(report, message);
             return report;
         }

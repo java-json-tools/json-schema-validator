@@ -48,8 +48,8 @@ public final class JsonTreeTest
     public void initializedNodeTreeReturnsCorrectNodeAndPointer()
     {
         final JsonTree tree = new SimpleJsonTree(testNode);
-        assertSame(tree.getCurrentNode(), testNode);
-        assertEquals(tree.getCurrentPointer(), JsonPointer.empty());
+        assertSame(tree.getNode(), testNode);
+        assertEquals(tree.getPointer(), JsonPointer.empty());
     }
 
     @Test
@@ -59,8 +59,8 @@ public final class JsonTreeTest
         final JsonPointer ptr = JsonPointer.empty().append("object")
             .append("a");
         tree.append(ptr);
-        assertSame(tree.getCurrentNode(), childObject.get("a"));
-        assertEquals(tree.getCurrentPointer(), ptr);
+        assertSame(tree.getNode(), childObject.get("a"));
+        assertEquals(tree.getPointer(), ptr);
     }
 
     @Test(dependsOnMethods = "pushdOfJsonPointerWorks")
@@ -70,8 +70,8 @@ public final class JsonTreeTest
         tree.append(JsonPointer.empty().append("object"));
         tree.append(JsonPointer.empty().append("a"));
         tree.pop();
-        assertSame(tree.getCurrentNode(), childObject);
+        assertSame(tree.getNode(), childObject);
         tree.pop();
-        assertSame(tree.getCurrentNode(), testNode);
+        assertSame(tree.getNode(), testNode);
     }
 }

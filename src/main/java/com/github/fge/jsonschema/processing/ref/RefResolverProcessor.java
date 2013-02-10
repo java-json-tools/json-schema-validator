@@ -122,7 +122,7 @@ public final class RefResolverProcessor
             /*
              * See if the current node is a JSON Reference.
              */
-            node = tree.getCurrentNode();
+            node = tree.getNode();
             /*
              * If it isn't, we are done
              */

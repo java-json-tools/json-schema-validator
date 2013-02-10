@@ -78,6 +78,6 @@ public abstract class AbstractSyntaxChecker
 
     protected final JsonNode getNode(final JsonSchemaTree tree)
     {
-        return tree.getCurrentNode().get(keyword);
+        return tree.getNode().get(keyword);
     }
 }

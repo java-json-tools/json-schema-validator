@@ -44,7 +44,7 @@ public final class MinimumValidator
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
         final long instanceValue = instance.longValue();
         final long longValue = number.longValue();
 
@@ -69,7 +69,7 @@ public final class MinimumValidator
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
         final BigDecimal instanceValue = instance.decimalValue();
         final BigDecimal decimalValue = number.decimalValue();
 

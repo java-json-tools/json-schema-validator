@@ -59,7 +59,7 @@ public final class EmailAttribute
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
 
         try {
             new InternetAddress(instance.textValue(), true);

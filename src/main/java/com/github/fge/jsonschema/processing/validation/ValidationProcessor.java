@@ -63,7 +63,7 @@ public final class ValidationProcessor
         for (final KeywordValidator validator: context)
             validator.validate(this, report, data);
 
-        final JsonNode node = input.getInstance().getCurrentNode();
+        final JsonNode node = input.getInstance().getNode();
         if (node.size() == 0)
             return report;
 
@@ -82,8 +82,8 @@ public final class ValidationProcessor
         final JsonSchemaTree schemaTree = input.getSchema();
         final JsonTree tree = input.getInstance();
 
-        final JsonNode schema = schemaTree.getCurrentNode();
-        final JsonNode instance = tree.getCurrentNode();
+        final JsonNode schema = schemaTree.getNode();
+        final JsonNode instance = tree.getNode();
 
         final JsonNode digest = ArraySchemaDigester.getInstance().digest(schema);
         final ArraySchemaSelector selector = arrayCache.getUnchecked(digest);
@@ -108,8 +108,8 @@ public final class ValidationProcessor
         final JsonSchemaTree schemaTree = input.getSchema();
         final JsonTree tree = input.getInstance();
 
-        final JsonNode schema = schemaTree.getCurrentNode();
-        final JsonNode instance = tree.getCurrentNode();
+        final JsonNode schema = schemaTree.getNode();
+        final JsonNode instance = tree.getNode();
 
         final JsonNode digest = ObjectSchemaDigester.getInstance()
             .digest(schema);

@@ -40,8 +40,8 @@ public final class JsonSchemaTreeEquivalence
         final JsonSchemaTree b)
     {
         return a.getLoadingRef().equals(b.getLoadingRef())
-            && a.getCurrentRef().equals(b.getCurrentRef())
-            && a.getCurrentPointer().equals(b.getCurrentPointer())
+            && a.getContext().equals(b.getContext())
+            && a.getPointer().equals(b.getPointer())
             && a.getBaseNode().equals(b.getBaseNode());
     }
 
@@ -49,8 +49,8 @@ public final class JsonSchemaTreeEquivalence
     protected int doHash(final JsonSchemaTree t)
     {
         int ret = t.getLoadingRef().hashCode();
-        ret = 31 * ret + t.getCurrentRef().hashCode();
-        ret = 31 * ret + t.getCurrentPointer().hashCode();
+        ret = 31 * ret + t.getContext().hashCode();
+        ret = 31 * ret + t.getPointer().hashCode();
         ret = 31 * ret + t.getBaseNode().hashCode();
         return ret;
     }

@@ -58,7 +58,7 @@ public abstract class DateFormatAttribute
         final ValidationData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getCurrentNode();
+        final JsonNode instance = data.getInstance().getNode();
 
         try {
             formatter.parseDateTime(instance.textValue());
