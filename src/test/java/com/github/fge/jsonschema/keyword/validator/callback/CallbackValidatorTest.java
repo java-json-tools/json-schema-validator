@@ -30,8 +30,8 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.tree.JsonTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -59,7 +59,7 @@ public abstract class CallbackValidatorTest
 
     protected Processor<ValidationData, ProcessingReport> processor;
     protected JsonSchemaTree tree;
-    protected JsonTree instance;
+    protected JsonTree2 instance;
     protected ValidationData data;
     protected ProcessingReport report;
     protected KeywordValidator validator;
@@ -83,7 +83,7 @@ public abstract class CallbackValidatorTest
             return;
 
         tree = new CanonicalSchemaTree(generateSchema());
-        instance = new SimpleJsonTree(generateInstance());
+        instance = new SimpleJsonTree2(generateInstance());
         data = new ValidationData(tree, instance);
         report = mock(ProcessingReport.class);
         validator = constructor.newInstance(generateDigest());

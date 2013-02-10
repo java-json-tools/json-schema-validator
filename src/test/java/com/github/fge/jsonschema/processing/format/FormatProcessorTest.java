@@ -32,8 +32,8 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.tree.JsonTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
@@ -55,7 +55,8 @@ import static org.testng.Assert.*;
 public final class FormatProcessorTest
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
-    private static final JsonTree TREE = new SimpleJsonTree(FACTORY.nullNode());
+    private static final JsonTree2 TREE
+        = new SimpleJsonTree2(FACTORY.nullNode());
     private static final String FMT = "fmt";
     private static final EnumSet<NodeType> SUPPORTED
         = EnumSet.of(NodeType.INTEGER, NodeType.NUMBER, NodeType.BOOLEAN);
@@ -151,7 +152,7 @@ public final class FormatProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", FMT);
         final JsonSchemaTree schemaTree = new CanonicalSchemaTree(schema);
-        final JsonTree tree = new SimpleJsonTree(node);
+        final JsonTree2 tree = new SimpleJsonTree2(node);
         final ValidationData data = new ValidationData(schemaTree, tree);
         final FullValidationContext in = new FullValidationContext(data,
             Collections.<KeywordValidator>emptyList());
@@ -186,7 +187,7 @@ public final class FormatProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", FMT);
         final JsonSchemaTree schemaTree = new CanonicalSchemaTree(schema);
-        final JsonTree tree = new SimpleJsonTree(node);
+        final JsonTree2 tree = new SimpleJsonTree2(node);
         final ValidationData data = new ValidationData(schemaTree, tree);
         final FullValidationContext in = new FullValidationContext(data,
             Collections.<KeywordValidator>emptyList());

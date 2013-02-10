@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.processing.build.FullValidationContext;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.tree.JsonTree;
+import com.github.fge.jsonschema.tree.JsonTree2;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -80,7 +80,7 @@ public final class ValidationProcessor
         throws ProcessingException
     {
         final JsonSchemaTree schemaTree = input.getSchema();
-        final JsonTree tree = input.getInstance();
+        final JsonTree2 tree = input.getInstance();
 
         final JsonNode schema = schemaTree.getNode();
         final JsonNode instance = tree.getNode();
@@ -90,14 +90,17 @@ public final class ValidationProcessor
 
         final int size = instance.size();
 
+        ValidationData data;
+        JsonTree2 newTree;
+
         for (int index = 0; index < size; index++) {
-            tree.append(JsonPointer.empty().append(index));
+            newTree = tree.append(JsonPointer.empty().append(index));
+            data = new ValidationData(schemaTree, newTree);
             for (final JsonPointer ptr: selector.selectSchemas(index)) {
                 schemaTree.append(ptr);
-                process(report, input);
+                process(report, data);
                 schemaTree.pop();
             }
-            tree.pop();
         }
     }
 
@@ -106,7 +109,7 @@ public final class ValidationProcessor
         throws ProcessingException
     {
         final JsonSchemaTree schemaTree = input.getSchema();
-        final JsonTree tree = input.getInstance();
+        final JsonTree2 tree = input.getInstance();
 
         final JsonNode schema = schemaTree.getNode();
         final JsonNode instance = tree.getNode();
@@ -118,15 +121,17 @@ public final class ValidationProcessor
         final List<String> fields = Lists.newArrayList(instance.fieldNames());
         Collections.sort(fields);
 
+        ValidationData data;
+        JsonTree2 newTree;
 
         for (final String field: fields) {
-            tree.append(JsonPointer.empty().append(field));
+            newTree = tree.append(JsonPointer.empty().append(field));
+            data = new ValidationData(schemaTree, newTree);
             for (final JsonPointer ptr: selector.selectSchemas(field)) {
                 schemaTree.append(ptr);
-                process(report, input);
+                process(report, data);
                 schemaTree.pop();
             }
-            tree.pop();
         }
     }
 

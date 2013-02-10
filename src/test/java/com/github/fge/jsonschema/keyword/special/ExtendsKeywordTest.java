@@ -29,8 +29,8 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.tree.JsonTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
@@ -77,7 +77,7 @@ public final class ExtendsKeywordTest
         schema.put("extends", FACTORY.objectNode());
         tree = new CanonicalSchemaTree(schema);
 
-        final JsonTree instance = new SimpleJsonTree(FACTORY.nullNode());
+        final JsonTree2 instance = new SimpleJsonTree2(FACTORY.nullNode());
         data = new ValidationData(tree, instance);
 
         report = mock(ProcessingReport.class);

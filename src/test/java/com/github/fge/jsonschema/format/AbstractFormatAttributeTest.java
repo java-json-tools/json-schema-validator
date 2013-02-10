@@ -27,8 +27,8 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.tree.JsonTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Lists;
@@ -111,7 +111,7 @@ public abstract class AbstractFormatAttributeTest
         final boolean valid, final FormatMessages msg, final ObjectNode msgData)
         throws ProcessingException
     {
-        final JsonTree tree = new SimpleJsonTree(instance);
+        final JsonTree2 tree = new SimpleJsonTree2(instance);
         final ValidationData data = new ValidationData(SCHEMA_TREE, tree);
 
         attribute.validate(report, data);

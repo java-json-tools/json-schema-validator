@@ -30,8 +30,8 @@ import com.github.fge.jsonschema.processing.ValidationDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
-import com.github.fge.jsonschema.tree.JsonTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;
@@ -100,7 +100,7 @@ public final class SchemaDigesterTest
         throws ProcessingException
     {
         final NodeType type = NodeType.getNodeType(node);
-        final JsonTree instance = new SimpleJsonTree(node);
+        final JsonTree2 instance = new SimpleJsonTree2(node);
         final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
         final ValidationData data = new ValidationData(tree, instance);
         final ProcessingReport report = mock(ProcessingReport.class);
@@ -132,7 +132,7 @@ public final class SchemaDigesterTest
         node.put(K1, K1);
         final JsonSchemaTree schemaTree = new CanonicalSchemaTree(node);
         final JsonNode instance = FACTORY.nullNode();
-        final JsonTree tree = new SimpleJsonTree(instance);
+        final JsonTree2 tree = new SimpleJsonTree2(instance);
         final ValidationData data = new ValidationData(schemaTree, tree);
         final ProcessingReport report = mock(ProcessingReport.class);
 
