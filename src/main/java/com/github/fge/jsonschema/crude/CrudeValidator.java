@@ -20,24 +20,20 @@ package com.github.fge.jsonschema.crude;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
-import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.build.FullValidationContext;
-import com.github.fge.jsonschema.processing.build.ValidatorBuilder;
-import com.github.fge.jsonschema.processing.digest.SchemaDigester;
 import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.processing.ref.RefResolverProcessor;
 import com.github.fge.jsonschema.processing.ref.SchemaLoader;
 import com.github.fge.jsonschema.processing.ref.URIManager;
 import com.github.fge.jsonschema.processing.selector.ProcessorSelector;
-import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.processing.validation.ValidationChain;
 import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.schema.SchemaBundle;
 import com.github.fge.jsonschema.tree.JsonSchemaTree;
@@ -54,8 +50,6 @@ import static com.github.fge.jsonschema.library.SchemaVersion.*;
 public final class CrudeValidator
 {
     private final SchemaLoader loader;
-    private final Processor<ValidationData, FullValidationContext> draftv4;
-    private final Processor<ValidationData, FullValidationContext> draftv3;
     private final Processor<ValidationData, ProcessingReport> validator;
 
     public CrudeValidator(final SchemaVersion version,
@@ -78,8 +72,12 @@ public final class CrudeValidator
 
         loader.addBundle(bundle);
 
-        draftv4 = buildProcessor(DraftV4Library.get());
-        draftv3 = buildProcessor(DraftV3Library.get());
+        final RefResolverProcessor refResolver = new RefResolverProcessor(loader);
+
+        final Processor<ValidationData, FullValidationContext> draftv4
+            = new ValidationChain(DraftV4Library.get());
+        final Processor<ValidationData, FullValidationContext> draftv3
+            = new ValidationChain(DraftV3Library.get());
 
         final Processor<ValidationData, FullValidationContext> byDefault
             = version == DRAFTV4 ? draftv4 : draftv3;
@@ -90,28 +88,17 @@ public final class CrudeValidator
                 .when(DRAFTV3.versionTest()).then(draftv3)
                 .otherwise(byDefault).getProcessor();
 
-        validator = new ValidationProcessor(processor);
-    }
-
-    private Processor<ValidationData, FullValidationContext> buildProcessor(
-        final Library library)
-    {
-        return ProcessorChain
-            .startWith(new RefResolverProcessor(loader))
-            .chainWith(new SyntaxProcessor(library.getSyntaxCheckers()))
-            .failOnError()
-            .chainWith(new SchemaDigester(library.getDigesters()))
-            .chainWith(new ValidatorBuilder(library.getValidators()))
+        final Processor<ValidationData, FullValidationContext> fullChain
+            = ProcessorChain.startWith(refResolver).chainWith(processor)
             .end();
+        validator = new ValidationProcessor(fullChain);
     }
 
     public ProcessingReport validate(final JsonNode schema,
         final JsonNode instance)
         throws ProcessingException
     {
-        final JsonSchemaTree schemaTree = loader.load(schema);
-        final JsonTree tree = new SimpleJsonTree(instance);
-        final ValidationData data = new ValidationData(schemaTree, tree);
+        final ValidationData data = buildData(schema, instance);
         final ListProcessingReport report = new ListProcessingReport();
         return validator.process(report, data);
     }
@@ -119,18 +106,20 @@ public final class CrudeValidator
     public ProcessingReport validateUnchecked(final JsonNode schema,
         final JsonNode instance)
     {
-        final JsonSchemaTree schemaTree = loader.load(schema);
-        final JsonTree tree = new SimpleJsonTree(instance);
-        final ValidationData data = new ValidationData(schemaTree, tree);
+        final ValidationData data = buildData(schema, instance);
         final ListProcessingReport report = new ListProcessingReport();
         try {
             return validator.process(report, data);
         } catch (ProcessingException e) {
-            final ListProcessingReport ret = new ListProcessingReport();
-            final ProcessingMessage message = e.getProcessingMessage();
-            message.put("info", "other messages follow")
-                .put("messages", report.asJson());
-            return ret;
+            return new UncheckedReport(e, report);
         }
+    }
+
+    private ValidationData buildData(final JsonNode schema,
+        final JsonNode instance)
+    {
+        final JsonSchemaTree schemaTree = loader.load(schema);
+        final JsonTree tree = new SimpleJsonTree(instance);
+        return new ValidationData(schemaTree, tree);
     }
 }
