@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -18,64 +18,99 @@
 package grimbo;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.main.JsonSchemaException;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ProcessorChain;
+import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.processing.build.FullValidationContext;
+import com.github.fge.jsonschema.processing.ref.Dereferencing;
+import com.github.fge.jsonschema.processing.ref.RefResolverProcessor;
+import com.github.fge.jsonschema.processing.ref.SchemaLoader;
+import com.github.fge.jsonschema.processing.ref.URIManager;
+import com.github.fge.jsonschema.processing.validation.ValidationChain;
+import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
+import com.github.fge.jsonschema.report.ListProcessingReport;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.net.URI;
 
 import static org.testng.Assert.*;
 
 public final class NonAbsoluteSchemaUris
 {
-    private JsonSchema schema;
+    private ValidationProcessor validator;
+    private SchemaTree tree;
 
     @BeforeMethod
     public void beforeTest()
-        throws JsonSchemaException
+        throws JsonSchemaException, ProcessingException
     {
-        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .setNamespace("resource:/grimbo/").build();
-        schema = factory.fromURI("child1/child.json");
+        final ValidationChain chain = new ValidationChain(DraftV3Library.get());
+        final SchemaLoader loader = new SchemaLoader(new URIManager(),
+            URI.create("resource:/grimbo/"), Dereferencing.CANONICAL);
+        final RefResolverProcessor refResolver
+            = new RefResolverProcessor(loader);
+        tree = loader.get(URI.create("child1/child.json"));
+        final Processor<ValidationData, FullValidationContext> processor
+            = ProcessorChain.startWith(refResolver).chainWith(chain).end();
+        validator = new ValidationProcessor(processor);
     }
 
     @Test
     public void testEmptyObject()
-        throws IOException
+        throws IOException, ProcessingException
     {
         final JsonNode data
             = JsonLoader.fromResource("/grimbo/empty-object.json");
+        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final ValidationData validationData
+            = new ValidationData(tree, instance);
 
-        final ValidationReport report = schema.validate(data);
-
-        assertFalse(report.isSuccess());
+        final ListProcessingReport listReport = new ListProcessingReport();
+        final ProcessingReport out
+            = validator.process(listReport, validationData);
+        assertFalse(out.isSuccess());
     }
 
     @Test
     public void testTestObject()
-        throws IOException
+        throws IOException, ProcessingException
     {
         final JsonNode data
             = JsonLoader.fromResource("/grimbo/test-object.json");
+        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final ValidationData validationData
+            = new ValidationData(tree, instance);
 
-        final ValidationReport report = schema.validate(data);
+        final ListProcessingReport listReport = new ListProcessingReport();
+        final ProcessingReport out
+            = validator.process(listReport, validationData);
 
-        assertTrue(report.isSuccess());
+        assertTrue(out.isSuccess());
     }
 
     @Test
     public void testTestObjectNoBodyItem()
-        throws IOException
+        throws IOException, ProcessingException
     {
         final JsonNode data
             = JsonLoader.fromResource("/grimbo/test-object-no-bodyItem.json");
+        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final ValidationData validationData
+            = new ValidationData(tree, instance);
 
-        final ValidationReport report = schema.validate(data);
-
-        assertFalse(report.isSuccess());
+        final ListProcessingReport listReport = new ListProcessingReport();
+        final ProcessingReport out
+            = validator.process(listReport, validationData);
+        assertFalse(out.isSuccess());
     }
 }
