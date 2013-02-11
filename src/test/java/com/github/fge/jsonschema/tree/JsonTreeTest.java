@@ -27,7 +27,7 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.*;
 
-public final class JsonTree2Test
+public final class JsonTreeTest
 {
     private final JsonNodeFactory factory = JacksonUtils.nodeFactory();
     private JsonNode testNode;
@@ -47,7 +47,7 @@ public final class JsonTree2Test
     @Test
     public void initializedNodeTreeReturnsCorrectNodeAndPointer()
     {
-        final JsonTree2 tree = new SimpleJsonTree2(testNode);
+        final JsonTree tree = new SimpleJsonTree(testNode);
         assertSame(tree.getNode(), testNode);
         assertEquals(tree.getPointer(), JsonPointer.empty());
     }
@@ -55,7 +55,7 @@ public final class JsonTree2Test
     @Test
     public void pushdOfJsonPointerWorks()
     {
-        JsonTree2 tree = new SimpleJsonTree2(testNode);
+        JsonTree tree = new SimpleJsonTree(testNode);
         final JsonPointer ptr = JsonPointer.empty().append("object")
             .append("a");
         tree = tree.append(ptr);

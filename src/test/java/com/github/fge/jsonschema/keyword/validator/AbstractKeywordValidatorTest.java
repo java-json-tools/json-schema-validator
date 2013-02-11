@@ -26,10 +26,10 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
-import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
@@ -99,8 +99,8 @@ public abstract class AbstractKeywordValidatorTest
         InstantiationException, ProcessingException
     {
         // FIXME: dummy, but we have no choice
-        final SchemaTree tree = new CanonicalSchemaTree2(digest);
-        final JsonTree2 instance = new SimpleJsonTree2(node);
+        final SchemaTree tree = new CanonicalSchemaTree(digest);
+        final JsonTree instance = new SimpleJsonTree(node);
         final ValidationData data = new ValidationData(tree, instance);
 
         final ProcessingReport report = mock(ProcessingReport.class);

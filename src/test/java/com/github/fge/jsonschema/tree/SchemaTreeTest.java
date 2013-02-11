@@ -59,13 +59,13 @@ public final class SchemaTreeTest
     {
         SchemaTree schemaTree;
 
-        schemaTree = new CanonicalSchemaTree2(factory.objectNode());
+        schemaTree = new CanonicalSchemaTree(factory.objectNode());
         assertSame(schemaTree.getContext(), JsonRef.emptyRef());
 
         final URI uri = URI.create("foo://bar");
         final JsonRef ref = JsonRef.fromURI(uri);
 
-        schemaTree = new CanonicalSchemaTree2(ref, factory.objectNode());
+        schemaTree = new CanonicalSchemaTree(ref, factory.objectNode());
         assertSame(schemaTree.getContext(), ref);
     }
 
@@ -91,7 +91,7 @@ public final class SchemaTreeTest
         final ObjectNode node = factory.objectNode();
         node.put("id", id);
 
-        final SchemaTree tree = new CanonicalSchemaTree2(loadingRef, node);
+        final SchemaTree tree = new CanonicalSchemaTree(loadingRef, node);
         assertEquals(tree.getContext(), resolved);
     }
 
@@ -118,7 +118,7 @@ public final class SchemaTreeTest
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
-        final SchemaTree tree = new CanonicalSchemaTree2(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
 
         assertEquals(tree.append(ptr).getContext(), scope);
     }
@@ -130,7 +130,7 @@ public final class SchemaTreeTest
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
-        SchemaTree tree = new CanonicalSchemaTree2(schema);
+        SchemaTree tree = new CanonicalSchemaTree(schema);
         final JsonRef origRef = tree.getContext();
 
         tree = tree.setPointer(ptr);
@@ -142,7 +142,7 @@ public final class SchemaTreeTest
     @Test
     public void newlyCreatedSchemasAreNotValidated()
     {
-        final SchemaTree tree = new CanonicalSchemaTree2(FACTORY.nullNode());
+        final SchemaTree tree = new CanonicalSchemaTree(FACTORY.nullNode());
 
         assertFalse(tree.isValid());
     }

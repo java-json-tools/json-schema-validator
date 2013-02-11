@@ -29,7 +29,7 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
@@ -204,7 +204,7 @@ public abstract class SyntaxCheckersTest
         final ObjectNode msgData)
         throws ProcessingException
     {
-        final SchemaTree tree = new CanonicalSchemaTree2(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
 
         checker.checkSyntax(pointers, report, tree);
 
@@ -252,7 +252,7 @@ public abstract class SyntaxCheckersTest
         final ArrayNode expectedPointers)
         throws ProcessingException
     {
-        final SchemaTree tree = new CanonicalSchemaTree2(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
 
         checker.checkSyntax(pointers, report, tree);
 
@@ -271,6 +271,6 @@ public abstract class SyntaxCheckersTest
     {
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
         schema.put(keyword, node);
-        return new CanonicalSchemaTree2(schema);
+        return new CanonicalSchemaTree(schema);
     }
 }

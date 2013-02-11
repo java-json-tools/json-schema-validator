@@ -27,9 +27,9 @@ import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
 /**
- * A {@link JsonTree2} carrying URI resolution context information
+ * A {@link JsonTree} carrying URI resolution context information
  *
- * <p>In addition to what {@link JsonTree2} does, this tree also modifies URI
+ * <p>In addition to what {@link JsonTree} does, this tree also modifies URI
  * resolution context information when changing paths, and adds methods in order
  * to query this resolution context.</p>
  *
@@ -37,8 +37,8 @@ import com.github.fge.jsonschema.util.JacksonUtils;
  * is used for addressing in JSON Schema.</p>
  *
  * @see JsonRef
- * @see CanonicalSchemaTree2
- * @see InlineSchemaTree2
+ * @see CanonicalSchemaTree
+ * @see InlineSchemaTree
  */
 public abstract class BaseSchemaTree
     implements SchemaTree

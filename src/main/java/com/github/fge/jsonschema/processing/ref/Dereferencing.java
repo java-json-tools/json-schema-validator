@@ -19,7 +19,8 @@ package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.tree.InlineSchemaTree2;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 public enum Dereferencing
@@ -29,7 +30,7 @@ public enum Dereferencing
         @Override
         public SchemaTree newTree2(final JsonRef ref, final JsonNode node)
         {
-            return new InlineSchemaTree2(ref, node);
+            return new CanonicalSchemaTree(ref, node);
         }
     },
     INLINE("inline")
@@ -37,7 +38,7 @@ public enum Dereferencing
         @Override
         public SchemaTree newTree2(final JsonRef ref, final JsonNode node)
         {
-            return new InlineSchemaTree2(ref, node);
+            return new InlineSchemaTree(ref, node);
         }
     };
 

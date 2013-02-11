@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
@@ -62,7 +62,7 @@ public final class AbstractSyntaxCheckerTest
         final ProcessingReport report = mock(ProcessingReport.class);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
-        final SchemaTree tree = new CanonicalSchemaTree2(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
 
         checker.checkSyntax(null, report, tree);
         verify(checker).checkValue(null, report, tree);
@@ -81,7 +81,7 @@ public final class AbstractSyntaxCheckerTest
     {
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
-        final SchemaTree tree = new CanonicalSchemaTree2(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
 
         final AbstractSyntaxChecker checker = spy(new DummyChecker());
         final ProcessingReport report = mock(ProcessingReport.class);

@@ -18,12 +18,11 @@
 package com.github.fge.jsonschema.tree;
 
 import com.github.fge.jsonschema.ref.JsonPointer;
-import com.github.fge.jsonschema.util.AsJson;
 
 /**
  * A {@link SimpleTree} with a copy operation
  */
-public interface JsonTree2
+public interface JsonTree
     extends SimpleTree
 {
     /**
@@ -32,6 +31,6 @@ public interface JsonTree2
      * @param pointer the pointer
      * @return a new tree, with the pointer appended to the current pointer
      */
-    JsonTree2 append(final JsonPointer pointer);
+    JsonTree append(final JsonPointer pointer);
 }
 

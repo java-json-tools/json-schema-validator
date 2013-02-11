@@ -27,10 +27,10 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
-import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
@@ -75,8 +75,8 @@ public final class NotKeywordTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("not", FACTORY.objectNode());
 
-        final SchemaTree tree = new CanonicalSchemaTree2(schema);
-        final JsonTree2 instance = new SimpleJsonTree2(FACTORY.nullNode());
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final JsonTree instance = new SimpleJsonTree(FACTORY.nullNode());
         data = new ValidationData(tree, instance);
         report = mock(ProcessingReport.class);
     }

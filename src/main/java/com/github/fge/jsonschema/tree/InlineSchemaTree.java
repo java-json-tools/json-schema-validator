@@ -26,7 +26,7 @@ import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-public final class InlineSchemaTree2
+public final class InlineSchemaTree
     extends BaseSchemaTree
 {
     /**
@@ -39,17 +39,17 @@ public final class InlineSchemaTree2
      */
     private final Map<JsonRef, JsonPointer> otherRefs = Maps.newHashMap();
 
-    public InlineSchemaTree2(final JsonNode baseNode)
+    public InlineSchemaTree(final JsonNode baseNode)
     {
         this(JsonRef.emptyRef(), baseNode);
     }
 
-    public InlineSchemaTree2(final JsonRef loadingRef, final JsonNode baseNode)
+    public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
     {
         this(loadingRef, baseNode, JsonPointer.empty(), false);
     }
 
-    private InlineSchemaTree2(final JsonRef loadingRef, final JsonNode baseNode,
+    private InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
         final JsonPointer pointer, final boolean valid)
     {
         super(loadingRef, baseNode, pointer, Dereferencing.INLINE, valid);
@@ -59,7 +59,7 @@ public final class InlineSchemaTree2
     @Override
     public SchemaTree append(final JsonPointer pointer)
     {
-        return new InlineSchemaTree2(loadingRef, baseNode,
+        return new InlineSchemaTree(loadingRef, baseNode,
             this.pointer.append(pointer), valid);
     }
 
@@ -67,7 +67,7 @@ public final class InlineSchemaTree2
     public SchemaTree setPointer(final JsonPointer pointer)
     {
 
-        return new InlineSchemaTree2(loadingRef, baseNode, pointer, valid);
+        return new InlineSchemaTree(loadingRef, baseNode, pointer, valid);
     }
 
     @Override
@@ -89,7 +89,7 @@ public final class InlineSchemaTree2
     @Override
     public SchemaTree withValidationStatus(final boolean valid)
     {
-        return new InlineSchemaTree2(loadingRef, baseNode, pointer, valid);
+        return new InlineSchemaTree(loadingRef, baseNode, pointer, valid);
     }
 
     private JsonPointer getMatchingPointer(final JsonRef ref)

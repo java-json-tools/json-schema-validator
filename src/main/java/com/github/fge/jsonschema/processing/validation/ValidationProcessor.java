@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.build.FullValidationContext;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -83,7 +83,7 @@ public final class ValidationProcessor
         throws ProcessingException
     {
         final SchemaTree tree = input.getSchema();
-        final JsonTree2 instance = input.getInstance();
+        final JsonTree instance = input.getInstance();
 
         final JsonNode schema = tree.getNode();
         final JsonNode node = instance.getNode();
@@ -94,7 +94,7 @@ public final class ValidationProcessor
         final int size = node.size();
 
         ValidationData data;
-        JsonTree2 newInstance;
+        JsonTree newInstance;
 
         for (int index = 0; index < size; index++) {
             newInstance = instance.append(JsonPointer.empty().append(index));
@@ -111,7 +111,7 @@ public final class ValidationProcessor
         throws ProcessingException
     {
         final SchemaTree tree = input.getSchema();
-        final JsonTree2 instance = input.getInstance();
+        final JsonTree instance = input.getInstance();
 
         final JsonNode schema = tree.getNode();
         final JsonNode node = instance.getNode();
@@ -124,7 +124,7 @@ public final class ValidationProcessor
         Collections.sort(fields);
 
         ValidationData data;
-        JsonTree2 newInstance;
+        JsonTree newInstance;
 
         for (final String field: fields) {
             newInstance = instance.append(JsonPointer.empty().append(field));

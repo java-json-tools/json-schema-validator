@@ -32,9 +32,9 @@ import com.github.fge.jsonschema.processing.validation.ValidationChain;
 import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -70,7 +70,7 @@ public final class NonAbsoluteSchemaUris
     {
         final JsonNode data
             = JsonLoader.fromResource("/grimbo/empty-object.json");
-        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final JsonTree instance = new SimpleJsonTree(data);
         final ValidationData validationData
             = new ValidationData(tree, instance);
 
@@ -86,7 +86,7 @@ public final class NonAbsoluteSchemaUris
     {
         final JsonNode data
             = JsonLoader.fromResource("/grimbo/test-object.json");
-        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final JsonTree instance = new SimpleJsonTree(data);
         final ValidationData validationData
             = new ValidationData(tree, instance);
 
@@ -103,7 +103,7 @@ public final class NonAbsoluteSchemaUris
     {
         final JsonNode data
             = JsonLoader.fromResource("/grimbo/test-object-no-bodyItem.json");
-        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final JsonTree instance = new SimpleJsonTree(data);
         final ValidationData validationData
             = new ValidationData(tree, instance);
 

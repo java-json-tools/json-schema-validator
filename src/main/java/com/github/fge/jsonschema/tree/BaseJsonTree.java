@@ -23,10 +23,10 @@ import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
 /**
- * Base implementation of a {@link JsonTree2}
+ * Base implementation of a {@link JsonTree}
  */
-public abstract class BaseJsonTree2
-    implements JsonTree2
+public abstract class BaseJsonTree
+    implements JsonTree
 {
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
@@ -49,12 +49,12 @@ public abstract class BaseJsonTree2
      * Protected constructor
      *
      * <p>This is equivalent to calling {@link
-     * BaseJsonTree2#BaseJsonTree2(JsonNode, JsonPointer)} with an empty
+     * BaseJsonTree#BaseJsonTree(JsonNode, JsonPointer)} with an empty
      * pointer.</p>
      *
      * @param baseNode the base node
      */
-    protected BaseJsonTree2(final JsonNode baseNode)
+    protected BaseJsonTree(final JsonNode baseNode)
     {
         this(baseNode, JsonPointer.empty());
     }
@@ -65,7 +65,7 @@ public abstract class BaseJsonTree2
      * @param baseNode the base node
      * @param pointer the pointer into the base node
      */
-    protected BaseJsonTree2(final JsonNode baseNode, final JsonPointer pointer)
+    protected BaseJsonTree(final JsonNode baseNode, final JsonPointer pointer)
     {
         this.baseNode = baseNode;
         node = pointer.resolve(baseNode);

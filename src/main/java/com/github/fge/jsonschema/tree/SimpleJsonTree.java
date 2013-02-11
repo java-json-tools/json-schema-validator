@@ -21,25 +21,25 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.ref.JsonPointer;
 
 /**
- * A simple {@link JsonTree2}
+ * A simple {@link JsonTree}
  */
-public final class SimpleJsonTree2
-    extends BaseJsonTree2
+public final class SimpleJsonTree
+    extends BaseJsonTree
 {
-    public SimpleJsonTree2(final JsonNode baseNode)
+    public SimpleJsonTree(final JsonNode baseNode)
     {
         super(baseNode);
     }
 
-    public SimpleJsonTree2(final JsonNode baseNode, final JsonPointer pointer)
+    public SimpleJsonTree(final JsonNode baseNode, final JsonPointer pointer)
     {
         super(baseNode, pointer);
     }
 
     @Override
-    public SimpleJsonTree2 append(final JsonPointer pointer)
+    public SimpleJsonTree append(final JsonPointer pointer)
     {
-        return new SimpleJsonTree2(baseNode, this.pointer.append(pointer));
+        return new SimpleJsonTree(baseNode, this.pointer.append(pointer));
     }
 
     @Override

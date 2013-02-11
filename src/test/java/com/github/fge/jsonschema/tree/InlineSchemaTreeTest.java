@@ -49,7 +49,7 @@ public final class InlineSchemaTreeTest
         lookups = data.get("lookups");
 
         final JsonNode schema = data.get("schema");
-        schemaTree = new InlineSchemaTree2(schema);
+        schemaTree = new InlineSchemaTree(schema);
     }
 
     @DataProvider
@@ -108,7 +108,7 @@ public final class InlineSchemaTreeTest
 
         ref = JsonRef.fromString(id);
         schema.put("id", factory.textNode(ref.toString()));
-        final SchemaTree tree = new InlineSchemaTree2(schema);
+        final SchemaTree tree = new InlineSchemaTree(schema);
 
         ref = JsonRef.fromString(refAsString);
         assertEquals(tree.containsRef(ref), resolvable);

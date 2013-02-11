@@ -32,9 +32,9 @@ import com.github.fge.jsonschema.processing.validation.ValidationChain;
 import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.io.Files;
 import org.testng.annotations.AfterClass;
@@ -92,7 +92,7 @@ public final class JarNamespaceValidationTest
         final String schemaPath = namespace + SCHEMA_SUBPATH;
 
         final SchemaTree tree = loader.get(URI.create(schemaPath));
-        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final JsonTree instance = new SimpleJsonTree(data);
 
         final ListProcessingReport listReport = new ListProcessingReport();
         final ProcessingReport out = validator.process(listReport,
@@ -117,7 +117,7 @@ public final class JarNamespaceValidationTest
         final String schemaPath = namespace + SCHEMA_SUBPATH;
 
         final SchemaTree tree = loader.get(URI.create(schemaPath));
-        final JsonTree2 instance = new SimpleJsonTree2(data);
+        final JsonTree instance = new SimpleJsonTree(data);
 
         final ListProcessingReport listReport = new ListProcessingReport();
         final ProcessingReport out = validator.process(listReport,

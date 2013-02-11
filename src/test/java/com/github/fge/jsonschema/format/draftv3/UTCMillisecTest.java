@@ -22,8 +22,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.tree.JsonTree2;
-import com.github.fge.jsonschema.tree.SimpleJsonTree2;
+import com.github.fge.jsonschema.tree.JsonTree;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -84,7 +84,7 @@ public final class UTCMillisecTest
     public void userIsWarnedAboutNegativeEpochs(final JsonNode input)
         throws ProcessingException
     {
-        final JsonTree2 tree = new SimpleJsonTree2(input);
+        final JsonTree tree = new SimpleJsonTree(input);
         final ValidationData data = new ValidationData(SCHEMA_TREE, tree);
 
         attribute.validate(report, data);
@@ -124,7 +124,7 @@ public final class UTCMillisecTest
     public void userIsWarnedAboutPotentialOverflows(final JsonNode input)
         throws ProcessingException
     {
-        final JsonTree2 tree = new SimpleJsonTree2(input);
+        final JsonTree tree = new SimpleJsonTree(input);
         final ValidationData data = new ValidationData(SCHEMA_TREE, tree);
 
         attribute.validate(report, data);

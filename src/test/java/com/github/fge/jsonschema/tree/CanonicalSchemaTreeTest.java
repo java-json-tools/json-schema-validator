@@ -45,7 +45,7 @@ public final class CanonicalSchemaTreeTest
         lookups = data.get("lookups");
 
         final JsonNode schema = data.get("schema");
-        schemaTree = new CanonicalSchemaTree2(schema);
+        schemaTree = new CanonicalSchemaTree(schema);
     }
 
     @DataProvider

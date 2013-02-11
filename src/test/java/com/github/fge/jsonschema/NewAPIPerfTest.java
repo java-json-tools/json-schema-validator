@@ -37,7 +37,7 @@ import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 
@@ -119,7 +119,7 @@ public final class NewAPIPerfTest
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
             value = entry.getValue();
-            data = new ValidationData(tree, new SimpleJsonTree2(value));
+            data = new ValidationData(tree, new SimpleJsonTree(value));
             report = new ListProcessingReport();
             processor.process(report, data);
             if (!report.isSuccess()) {

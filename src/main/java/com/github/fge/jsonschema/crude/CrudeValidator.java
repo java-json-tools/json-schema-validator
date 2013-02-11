@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.build.FullValidationContext;
 import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.processing.ref.RefResolverProcessor;
+import com.github.fge.jsonschema.processing.ref.SchemaBundle;
 import com.github.fge.jsonschema.processing.ref.SchemaLoader;
 import com.github.fge.jsonschema.processing.ref.URIManager;
 import com.github.fge.jsonschema.processing.selector.ProcessorSelector;
@@ -35,10 +36,9 @@ import com.github.fge.jsonschema.processing.validation.ValidationChain;
 import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.processing.ref.SchemaBundle;
-import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree2;
+import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.uri.DefaultURIDownloader;
 import com.github.fge.jsonschema.util.JsonLoader;
 
@@ -119,7 +119,7 @@ public final class CrudeValidator
         final JsonNode node)
     {
         final SchemaTree tree = loader.load(schema);
-        final JsonTree2 instance = new SimpleJsonTree2(node);
+        final JsonTree instance = new SimpleJsonTree(node);
         return new ValidationData(tree, instance);
     }
 }
