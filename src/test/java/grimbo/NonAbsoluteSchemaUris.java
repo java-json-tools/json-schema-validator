@@ -19,7 +19,6 @@ package grimbo;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.library.DraftV3Library;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
@@ -52,7 +51,7 @@ public final class NonAbsoluteSchemaUris
 
     @BeforeMethod
     public void beforeTest()
-        throws JsonSchemaException, ProcessingException
+        throws ProcessingException
     {
         final ValidationChain chain = new ValidationChain(DraftV3Library.get());
         final SchemaLoader loader = new SchemaLoader(new URIManager(),
