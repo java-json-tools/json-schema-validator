@@ -19,7 +19,6 @@ package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
@@ -39,7 +38,7 @@ public final class NewAPISyntaxPerfTest
     }
 
     public static void main(final String... args)
-        throws IOException, JsonSchemaException, ProcessingException
+        throws IOException, ProcessingException
     {
         final JsonNode googleAPI
             = JsonLoader.fromResource("/other/google-json-api.json");

@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.util;
 
-import com.github.fge.jsonschema.old.syntax.hyperschema.draftv3.LinksSyntaxChecker;
 import com.google.common.base.CharMatcher;
 
 /**
@@ -36,8 +35,6 @@ public final class CharMatchers
 
     /**
      * Match any character valid in a link relation apart from the first one
-     *
-     * @see LinksSyntaxChecker
      */
     public static final CharMatcher REL_TOKEN;
 

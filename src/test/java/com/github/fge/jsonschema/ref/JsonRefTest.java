@@ -18,8 +18,6 @@
 package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.report.Domain;
-import com.github.fge.jsonschema.report.Message;
 import com.google.common.collect.Sets;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -45,10 +43,6 @@ public final class JsonRefTest
     public void NonURIStringsShouldBeIdentifiedAsInvalid()
     {
         final String s = "+23:";
-        final Message message = Domain.REF_RESOLVING.newMessage()
-            .setKeyword("N/A").setMessage("invalid URI")
-            .addInfo("uri", s).build();
-
         try {
             JsonRef.fromString(s);
             fail("No exception thrown!");

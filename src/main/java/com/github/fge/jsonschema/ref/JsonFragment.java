@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.schema.AddressingMode;
 
 /**
  * Abstract class for fragment resolution
@@ -33,7 +32,6 @@ import com.github.fge.jsonschema.schema.AddressingMode;
  *
  * @see IllegalFragment
  * @see JsonPointer
- * @see AddressingMode
  */
 public abstract class JsonFragment
     implements Comparable<JsonFragment>

@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -194,7 +193,7 @@ public final class URIManagerTest
 
     @Test
     public void URIRedirectionIsFollowed()
-        throws JsonSchemaException, IOException, ProcessingException
+        throws IOException, ProcessingException
     {
         /*
          * The content we return

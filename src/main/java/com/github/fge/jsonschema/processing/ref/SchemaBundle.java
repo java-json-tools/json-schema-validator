@@ -26,8 +26,6 @@ import com.google.common.collect.Maps;
 import java.net.URI;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
-
 /**
  * A schema bundle
  *
@@ -40,10 +38,6 @@ import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
  *
  * <p>Note also that the validity of the schemas is <b>not</b> checked at this
  * stage.</p>
- *
- * @see Builder#addSchema(URI, JsonNode)
- * @see Builder#addSchema(String, JsonNode)
- * @see com.github.fge.jsonschema.schema.SchemaRegistry#addBundle(SchemaBundle)
  */
 public final class SchemaBundle
 {

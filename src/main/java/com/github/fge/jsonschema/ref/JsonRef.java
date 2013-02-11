@@ -18,8 +18,6 @@
 package com.github.fge.jsonschema.ref;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.schema.AddressingMode;
-import com.github.fge.jsonschema.schema.InlineSchemaContext;
 import com.google.common.base.Preconditions;
 
 import java.net.URI;
@@ -68,9 +66,6 @@ import java.net.URISyntaxException;
  * </ul>
  *
  * <p>This class is thread safe and immutable.</p>
- *
- * @see AddressingMode#INLINE
- * @see InlineSchemaContext
  */
 
 public abstract class JsonRef

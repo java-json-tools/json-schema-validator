@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
@@ -251,7 +250,7 @@ public abstract class SyntaxCheckersTest
     )
     public final void pointerDelegationWorksCorrectly(final JsonNode schema,
         final ArrayNode expectedPointers)
-        throws ProcessingException, JsonSchemaException
+        throws ProcessingException
     {
         final SchemaTree tree = new CanonicalSchemaTree2(schema);
 

@@ -24,7 +24,6 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.schema.SchemaRegistry;
 import com.github.fge.jsonschema.uri.DefaultURIDownloader;
 import com.github.fge.jsonschema.uri.ResourceURIDownloader;
 import com.github.fge.jsonschema.uri.URIDownloader;
@@ -50,7 +49,6 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  *
  * <p>Normally, you will never use this class directly.</p>
  *
- * @see SchemaRegistry
  * @see JsonLoader
  */
 public final class URIManager
