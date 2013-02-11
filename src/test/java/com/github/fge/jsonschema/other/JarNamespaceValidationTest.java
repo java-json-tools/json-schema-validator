@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -18,15 +18,28 @@
 package com.github.fge.jsonschema.other;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.main.JsonSchemaException;
-import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ProcessorChain;
+import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.processing.build.FullValidationContext;
+import com.github.fge.jsonschema.processing.ref.Dereferencing;
+import com.github.fge.jsonschema.processing.ref.RefResolverProcessor;
+import com.github.fge.jsonschema.processing.ref.SchemaLoader;
+import com.github.fge.jsonschema.processing.ref.URIManager;
+import com.github.fge.jsonschema.processing.validation.ValidationChain;
+import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
+import com.github.fge.jsonschema.report.ListProcessingReport;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.io.Files;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.File;
@@ -44,12 +57,13 @@ public final class JarNamespaceValidationTest
 {
     private static final String SCHEMA_SUBPATH = "child1/child.json";
 
+    private final ValidationChain chain
+        = new ValidationChain(DraftV3Library.get());
+
     private URI rootURI;
     private File jarLocation;
     private String namespace;
     private JsonNode data;
-
-    private JsonSchemaFactory.Builder builder;
 
     @BeforeClass
     public void buildJar()
@@ -63,38 +77,54 @@ public final class JarNamespaceValidationTest
         namespace = new URI("jar", tmp, null).toString();
     }
 
-    @BeforeMethod
-    public void setBuilder()
-    {
-        builder = JsonSchemaFactory.builder();
-    }
-
     @Test
     public void callingSchemaViaAbsoluteJarURIWorks()
-        throws URISyntaxException, JsonSchemaException
+        throws URISyntaxException, JsonSchemaException, ProcessingException
     {
-        final JsonSchemaFactory factory = builder.build();
+        final SchemaLoader loader = buildLoader();
+        final RefResolverProcessor refResolver
+            = new RefResolverProcessor(loader);
+
+        final Processor<ValidationData, FullValidationContext> processor
+            = ProcessorChain.startWith(refResolver).chainWith(chain).end();
+
+        final ValidationProcessor validator
+            = new ValidationProcessor(processor);
         final String schemaPath = namespace + SCHEMA_SUBPATH;
 
-        final JsonSchema schema = factory.fromURI(schemaPath);
+        final SchemaTree tree = loader.get(URI.create(schemaPath));
+        final JsonTree2 instance = new SimpleJsonTree2(data);
 
-        final ValidationReport report = schema.validate(data);
+        final ListProcessingReport listReport = new ListProcessingReport();
+        final ProcessingReport out = validator.process(listReport,
+            new ValidationData(tree, instance));
 
-        assertTrue(report.isSuccess());
+        assertTrue(out.isSuccess());
     }
 
     @Test
     public void callingSchemaViaJarURINamespaceWorks()
-        throws JsonSchemaException
+        throws JsonSchemaException, ProcessingException
     {
-        final JsonSchemaFactory factory = builder.setNamespace(namespace)
-            .build();
+        final SchemaLoader loader = buildLoader(URI.create(namespace));
+        final RefResolverProcessor refResolver
+            = new RefResolverProcessor(loader);
 
-        final JsonSchema schema = factory.fromURI(SCHEMA_SUBPATH);
+        final Processor<ValidationData, FullValidationContext> processor
+            = ProcessorChain.startWith(refResolver).chainWith(chain).end();
 
-        final ValidationReport report = schema.validate(data);
+        final ValidationProcessor validator
+            = new ValidationProcessor(processor);
+        final String schemaPath = namespace + SCHEMA_SUBPATH;
 
-        assertTrue(report.isSuccess());
+        final SchemaTree tree = loader.get(URI.create(schemaPath));
+        final JsonTree2 instance = new SimpleJsonTree2(data);
+
+        final ListProcessingReport listReport = new ListProcessingReport();
+        final ProcessingReport out = validator.process(listReport,
+            new ValidationData(tree, instance));
+
+        assertTrue(out.isSuccess());
     }
 
     @AfterClass
@@ -149,5 +179,16 @@ public final class JarNamespaceValidationTest
         }
 
         Files.copy(src, jarfh);
+    }
+
+    private static SchemaLoader buildLoader(final URI namespace)
+    {
+        return new SchemaLoader(new URIManager(), namespace,
+            Dereferencing.CANONICAL);
+    }
+
+    private static SchemaLoader buildLoader()
+    {
+        return buildLoader(URI.create("#"));
     }
 }
