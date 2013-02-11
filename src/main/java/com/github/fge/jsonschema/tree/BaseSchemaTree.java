@@ -252,7 +252,6 @@ public abstract class BaseSchemaTree
 
         ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
         ret.put("pointer", FACTORY.textNode(pointer.toString()));
-        ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
 
         return ret;
     }
@@ -260,6 +259,8 @@ public abstract class BaseSchemaTree
     @Override
     public final String toString()
     {
-        return asJson().toString();
+        return "loading URI: " + loadingRef
+            + "; current pointer: " + pointer
+            + "; resolution context: " + currentRef;
     }
 }

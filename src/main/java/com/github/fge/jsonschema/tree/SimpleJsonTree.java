@@ -52,7 +52,6 @@ public final class SimpleJsonTree
     @Override
     public String toString()
     {
-        return "current pointer: \"" + pointer
-            + "\"; current node: \"" + node;
+        return "current pointer: \"" + pointer;
     }
 }
