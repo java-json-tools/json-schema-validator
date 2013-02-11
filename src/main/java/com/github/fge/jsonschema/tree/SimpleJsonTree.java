@@ -31,7 +31,7 @@ public final class SimpleJsonTree
         super(baseNode);
     }
 
-    public SimpleJsonTree(final JsonNode baseNode, final JsonPointer pointer)
+    private SimpleJsonTree(final JsonNode baseNode, final JsonPointer pointer)
     {
         super(baseNode, pointer);
     }

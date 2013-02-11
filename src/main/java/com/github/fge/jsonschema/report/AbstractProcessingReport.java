@@ -23,8 +23,8 @@ public abstract class AbstractProcessingReport
     implements ProcessingReport
 {
     protected LogLevel currentLevel = LogLevel.DEBUG;
-    protected LogLevel logLevel = LogLevel.INFO;
-    protected LogLevel exceptionThreshold = LogLevel.FATAL;
+    private LogLevel logLevel = LogLevel.INFO;
+    private LogLevel exceptionThreshold = LogLevel.FATAL;
 
     protected AbstractProcessingReport()
     {

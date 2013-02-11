@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.library;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.base.Predicate;
@@ -36,7 +36,7 @@ public enum SchemaVersion
     {
         try {
             location = JsonRef.fromString(uri);
-        } catch (ProcessingException e) {
+        } catch (JsonReferenceException e) {
             throw new ExceptionInInitializerError(e);
         }
         this.library = library;
@@ -71,7 +71,7 @@ public enum SchemaVersion
             return false;
         try {
             return location.equals(JsonRef.fromString(node.textValue()));
-        } catch (ProcessingException ignored) {
+        } catch (JsonReferenceException ignored) {
             return false;
         }
     }

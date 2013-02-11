@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processors.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.ProcessingCache;
@@ -88,7 +89,7 @@ public final class RefResolverProcessor
             return null;
         try {
             return JsonRef.fromString(refNode.textValue());
-        } catch (ProcessingException ignored) {
+        } catch (JsonReferenceException ignored) {
             return null;
         }
     }
@@ -104,7 +105,7 @@ public final class RefResolverProcessor
         final Set<JsonRef> refs = Sets.newLinkedHashSet();
 
         SchemaTree tree = eq.get();
-        final ProcessingMessage msg = new ProcessingMessage()
+        final ProcessingMessage message = new ProcessingMessage()
             .put("schema", tree);
 
         JsonPointer ptr;
@@ -130,8 +131,8 @@ public final class RefResolverProcessor
              * If we have seen this ref already, this is a ref loop.
              */
             if (!refs.add(ref)) {
-                msg.message(REF_LOOP).put("ref", ref).put("path", refs);
-                throw new ProcessingException(msg);
+                message.message(REF_LOOP).put("ref", ref).put("path", refs);
+                throw new ProcessingException(message);
             }
             /*
              * Check whether ref is resolvable within the current tree. If not,
@@ -148,8 +149,8 @@ public final class RefResolverProcessor
              */
             ptr = tree.matchingPointer(ref);
             if (ptr == null) {
-                msg.message(DANGLING_REF).put("ref", ref);
-                throw new ProcessingException(msg);
+                message.message(DANGLING_REF).put("ref", ref);
+                throw new ProcessingException(message);
             }
             tree = tree.setPointer(ptr);
         }

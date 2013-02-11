@@ -43,8 +43,8 @@ import static com.github.fge.jsonschema.messages.FormatMessages.*;
 public abstract class DateFormatAttribute
     extends AbstractFormatAttribute
 {
-    protected final String format;
-    protected final DateTimeFormatter formatter;
+    private final String format;
+    private final DateTimeFormatter formatter;
 
     protected DateFormatAttribute(final String fmt, final String format)
     {

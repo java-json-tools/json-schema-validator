@@ -44,7 +44,7 @@ public abstract class NumericDigester
         super(keyword, NodeType.INTEGER, NodeType.NUMBER);
     }
 
-    protected static boolean valueIsLong(final JsonNode node)
+    private static boolean valueIsLong(final JsonNode node)
     {
         if (!node.canConvertToLong())
             return false;

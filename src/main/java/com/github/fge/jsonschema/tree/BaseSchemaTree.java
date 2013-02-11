@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -43,7 +43,7 @@ import com.github.fge.jsonschema.util.JacksonUtils;
 public abstract class BaseSchemaTree
     implements SchemaTree
 {
-    protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
+    private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     /**
      * Whether this schema is valid
@@ -83,12 +83,12 @@ public abstract class BaseSchemaTree
      * <p>It will defer from {@link #loadingRef} if there is an {@code id} at
      * the top level.</p>
      */
-    protected final JsonRef startingRef;
+    private final JsonRef startingRef;
 
     /**
      * The current resolution context
      */
-    protected JsonRef currentRef;
+    protected final JsonRef currentRef;
 
     /**
      * The main constructor
@@ -108,7 +108,7 @@ public abstract class BaseSchemaTree
      * @param loadingRef the loading reference
      * @param baseNode the base node
      */
-    protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
+    private BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
         final JsonPointer pointer, final Dereferencing dereferencing)
     {
         this(loadingRef, baseNode, pointer, dereferencing, false);
@@ -215,7 +215,7 @@ public abstract class BaseSchemaTree
 
         try {
             return JsonRef.fromString(node.get("id").textValue());
-        } catch (ProcessingException ignored) {
+        } catch (JsonReferenceException ignored) {
             return null;
         }
     }
@@ -228,7 +228,7 @@ public abstract class BaseSchemaTree
      * @param startingNode the starting node
      * @return the calculated reference
      */
-    protected static JsonRef nextRef(final JsonRef startingRef,
+    private static JsonRef nextRef(final JsonRef startingRef,
         final Iterable<JsonPointer> pointers, final JsonNode startingNode)
     {
         JsonRef ret = startingRef;

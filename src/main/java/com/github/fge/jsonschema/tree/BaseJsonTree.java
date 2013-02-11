@@ -43,7 +43,7 @@ public abstract class BaseJsonTree
     /**
      * The current node.
      */
-    protected final JsonNode node;
+    private final JsonNode node;
 
     /**
      * Protected constructor

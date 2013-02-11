@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -151,7 +152,7 @@ public final class URIManager
             ref = JsonRef.fromString(from);
             Preconditions.checkArgument(ref.isAbsolute(), errmsg);
             sourceURI = ref.getLocator();
-        } catch (ProcessingException ignored) {
+        } catch (JsonReferenceException ignored) {
             throw new IllegalArgumentException(errmsg);
         }
 
@@ -160,7 +161,7 @@ public final class URIManager
             ref = JsonRef.fromString(to);
             Preconditions.checkArgument(ref.isAbsolute(), errmsg);
             destURI = ref.getLocator();
-        } catch (ProcessingException ignored) {
+        } catch (JsonReferenceException ignored) {
             throw new IllegalArgumentException(errmsg);
         }
 

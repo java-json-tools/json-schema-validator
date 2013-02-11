@@ -31,7 +31,7 @@ public abstract class AbstractDigester
     implements Digester
 {
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
-    protected final EnumSet<NodeType> types;
+    private final EnumSet<NodeType> types;
     protected final String keyword;
 
     protected AbstractDigester(final String keyword, final NodeType first,

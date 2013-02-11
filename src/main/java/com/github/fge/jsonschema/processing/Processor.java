@@ -41,7 +41,7 @@ public interface Processor<IN extends MessageProvider, OUT extends MessageProvid
      * @param report the report to use while processing
      * @param input the input for this processor
      * @return the output
-     * @throws com.github.fge.jsonschema.exceptions.ProcessingException processing failed
+     * @throws ProcessingException processing failed
      */
     OUT process(final ProcessingReport report, final IN input)
         throws ProcessingException;

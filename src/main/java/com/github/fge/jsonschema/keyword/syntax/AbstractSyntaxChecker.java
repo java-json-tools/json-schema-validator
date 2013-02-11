@@ -33,7 +33,7 @@ public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {
     protected final String keyword;
-    protected final EnumSet<NodeType> types;
+    private final EnumSet<NodeType> types;
 
     protected AbstractSyntaxChecker(final String keyword, final NodeType first,
         final NodeType... other)

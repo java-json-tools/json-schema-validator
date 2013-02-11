@@ -42,14 +42,9 @@ public final class Dictionary<T>
         return new DictionaryBuilder<T>();
     }
 
-    Dictionary(final Map<String, T> map)
-    {
-        entries = ImmutableMap.copyOf(map);
-    }
-
     Dictionary(final DictionaryBuilder<T> builder)
     {
-        this(builder.entries);
+        entries = ImmutableMap.copyOf(builder.entries);
     }
 
     @VisibleForTesting
