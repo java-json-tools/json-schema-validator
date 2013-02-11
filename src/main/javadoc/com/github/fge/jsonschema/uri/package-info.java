@@ -25,11 +25,11 @@
  * schemes, by:</p>
  *
  * <ul>
- *     <li>implementing {@link com.github.fge.jsonschema.uri.URIDownloader},
+ *     <li>implementing {@link com.github.fge.jsonschema.load.URIDownloader},
  *     </li>
  *     <li>registering this new downloader for a custom scheme by using {@link
  *     com.github.fge.jsonschema.main.JsonSchemaFactory.Builder#registerScheme(
- *     String, URIDownloader)}.</li>
+ *     String, com.github.fge.jsonschema.load.URIDownloader)}.</li>
  * </ul>
  *
  * <p>Note about {@code jar} relative URI resolutions: due to the very nature of

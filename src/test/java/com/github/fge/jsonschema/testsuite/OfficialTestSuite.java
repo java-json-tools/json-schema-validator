@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.testsuite;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.crude.CrudeValidator;
 import com.github.fge.jsonschema.library.SchemaVersion;
-import com.github.fge.jsonschema.processing.ref.Dereferencing;
+import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Lists;

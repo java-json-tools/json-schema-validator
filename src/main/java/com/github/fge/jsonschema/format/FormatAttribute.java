@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.format;
 
 import com.github.fge.jsonschema.processing.ProcessingException;
-import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 

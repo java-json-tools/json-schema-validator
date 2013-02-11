@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 public final class ProcessingException

@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.keyword.validator;
 
-import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 public abstract class AbstractKeywordValidator

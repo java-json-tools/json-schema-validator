@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.messages.KeywordValidationMessages;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processing.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;

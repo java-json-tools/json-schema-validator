@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 
 import java.util.List;
