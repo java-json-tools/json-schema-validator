@@ -113,7 +113,7 @@ public final class SyntaxProcessor
         final NodeType type = NodeType.getNodeType(node);
 
         if (type != NodeType.OBJECT) {
-            final ProcessingMessage msg = newMsg(tree).msg(NOT_A_SCHEMA)
+            final ProcessingMessage msg = newMsg(tree).message(NOT_A_SCHEMA)
                 .put("found", type);
             report.error(msg);
             return;
@@ -128,7 +128,7 @@ public final class SyntaxProcessor
             final JsonPointer pointer = tree.getPointer();
             for (final String name: ignored)
                 paths.addUncheckedPath(pointer.append(name));
-            report.warn(newMsg(tree).msg(UNKNOWN_KEYWORDS)
+            report.warn(newMsg(tree).message(UNKNOWN_KEYWORDS)
                 .put("ignored", ignored));
         }
 

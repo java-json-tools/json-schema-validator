@@ -59,7 +59,7 @@ public final class FormatProcessor
 
         if (attr == null) {
             report.warn(input.newMessage().put("domain", "validation")
-                .put("keyword", "format").msg(FORMAT_NOT_SUPPORTED)
+                .put("keyword", "format").message(FORMAT_NOT_SUPPORTED)
                 .put("attribute", fmt));
             return input;
         }

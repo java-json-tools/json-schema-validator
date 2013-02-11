@@ -43,7 +43,7 @@ public final class MaxLengthValidator
             .length();
 
         if (size > intValue)
-            report.error(newMsg(data).msg(STRING_TOO_LONG)
+            report.error(newMsg(data).message(STRING_TOO_LONG)
                 .put(keyword, intValue).put("found", size));
     }
 }

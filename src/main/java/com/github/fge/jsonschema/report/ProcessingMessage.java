@@ -49,14 +49,20 @@ public final class ProcessingMessage
         return put("level", level);
     }
 
-    public ProcessingMessage msg(final String message)
+    public ProcessingMessage message(final String message)
     {
         return put("message", message);
     }
 
-    public <T> ProcessingMessage msg(final T value)
+    public <T> ProcessingMessage message(final T value)
     {
         return put("message", value);
+    }
+
+    public String getMessage()
+    {
+        return map.containsKey("message") ? map.get("message").asText()
+            : "(no message)";
     }
 
     public ProcessingMessage put(final String key, final JsonNode value)
@@ -118,25 +124,6 @@ public final class ProcessingMessage
         final ObjectNode ret = FACTORY.objectNode();
         ret.putAll(map);
         return ret;
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return map.hashCode();
-    }
-
-    @Override
-    public boolean equals(final Object obj)
-    {
-        if (obj == null)
-            return false;
-        if (this == obj)
-            return true;
-        if (getClass() != obj.getClass())
-            return false;
-        final ProcessingMessage other = (ProcessingMessage) obj;
-        return map.equals(other.map);
     }
 
     @Override

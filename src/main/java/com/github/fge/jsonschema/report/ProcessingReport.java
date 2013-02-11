@@ -35,16 +35,16 @@ public interface ProcessingReport
     void log(ProcessingMessage message)
         throws ProcessingException;
 
-    void debug(ProcessingMessage msg)
+    void debug(ProcessingMessage message)
         throws ProcessingException;
 
-    void info(ProcessingMessage msg)
+    void info(ProcessingMessage message)
         throws ProcessingException;
 
-    void warn(ProcessingMessage msg)
+    void warn(ProcessingMessage message)
         throws ProcessingException;
 
-    void error(ProcessingMessage msg)
+    void error(ProcessingMessage message)
         throws ProcessingException;
 
     boolean isSuccess();

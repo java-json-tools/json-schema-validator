@@ -67,7 +67,7 @@ public final class AnyOfValidator
         }
 
         if (nrSuccess == 0)
-            report.error(newMsg(data).msg(ANYOF_FAIL)
+            report.error(newMsg(data).message(ANYOF_FAIL)
                 .put("reports", fullReport));
     }
 }

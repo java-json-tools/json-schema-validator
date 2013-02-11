@@ -67,7 +67,7 @@ public final class AllOfValidator
         }
 
         if (nrSuccess != size)
-            report.error(newMsg(data).msg(ALLOF_FAIL).put("nrSchemas", size)
+            report.error(newMsg(data).message(ALLOF_FAIL).put("nrSchemas", size)
                 .put("matched", nrSuccess).put("reports", fullReport));
     }
 }

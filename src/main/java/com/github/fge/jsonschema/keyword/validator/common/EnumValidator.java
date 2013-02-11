@@ -55,7 +55,7 @@ public final class EnumValidator
             if (EQUIVALENCE.equivalent(enumValue, node))
                 return;
 
-        report.error(newMsg(data).msg(VALUE_NOT_IN_ENUM).put(keyword, values)
+        report.error(newMsg(data).message(VALUE_NOT_IN_ENUM).put(keyword, values)
             .put("value", node));
     }
 

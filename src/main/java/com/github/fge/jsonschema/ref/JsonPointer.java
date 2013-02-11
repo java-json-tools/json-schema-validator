@@ -367,7 +367,7 @@ public final class JsonPointer
              */
             if (!victim.startsWith("/")) {
                 final ProcessingMessage message = new ProcessingMessage()
-                    .msg("illegal JSON Pointer")
+                    .message("illegal JSON Pointer")
                     .put("reason", "reference token not preceeded by '/'");
                 throw new ProcessingException(message);
             }
@@ -420,7 +420,8 @@ public final class JsonPointer
             if (inEscape) {
                 if (!ESCAPED.matches(c)) {
                     final ProcessingMessage message
-                        = new ProcessingMessage().msg("illegal JSON Pointer")
+                        = new ProcessingMessage().message(
+                        "illegal JSON Pointer")
                             .put("reason", "bad escape sequence: '~' not "
                                 + "followed by a valid token")
                             .put("allowed", ESCAPE_REPLACEMENT_MAP.keySet())
@@ -440,7 +441,7 @@ public final class JsonPointer
 
         if (inEscape) {
             final ProcessingMessage message
-                = new ProcessingMessage().msg("illegal JSON Pointer")
+                = new ProcessingMessage().message("illegal JSON Pointer")
                 .put("reason", "bad escape sequence: '~' not followed by any " +
                     "token");
             throw new ProcessingException(message);

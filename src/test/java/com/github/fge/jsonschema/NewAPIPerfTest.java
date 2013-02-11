@@ -71,7 +71,7 @@ public final class NewAPIPerfTest
             = new ValidatorBuilder(DraftV4ValidatorDictionary.get());
 
         final Processor<ValidationData, FullValidationContext> chain
-            = ProcessorChain.startWith(p1).chainWith(p3)
+            = ProcessorChain.startWith(p1).chainWith(p2).chainWith(p3)
                 .chainWith(p4).end();
 
         final ValidationProcessor processor = new ValidationProcessor(chain);

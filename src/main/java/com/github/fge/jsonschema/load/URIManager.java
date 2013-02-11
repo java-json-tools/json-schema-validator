@@ -187,14 +187,14 @@ public final class URIManager
             .put("uri", uri);
 
         if (!target.isAbsolute())
-            throw new ProcessingException(msg.msg(URI_NOT_ABSOLUTE));
+            throw new ProcessingException(msg.message(URI_NOT_ABSOLUTE));
 
         final String scheme = target.getScheme();
 
         final URIDownloader downloader = downloaders.get(scheme);
 
         if (downloader == null)
-            throw new ProcessingException(msg.msg(UNHANDLED_SCHEME)
+            throw new ProcessingException(msg.message(UNHANDLED_SCHEME)
                 .put("scheme", scheme));
 
         final InputStream in;
@@ -203,10 +203,10 @@ public final class URIManager
             in = downloader.fetch(target);
             return READER.readTree(in);
         } catch (JsonProcessingException e) {
-            throw new ProcessingException(msg.msg(URI_NOT_JSON)
+            throw new ProcessingException(msg.message(URI_NOT_JSON)
                 .put("parsingMessage", e.getOriginalMessage()));
         } catch (IOException e) {
-            throw new ProcessingException(msg.msg(URI_IOERROR)
+            throw new ProcessingException(msg.message(URI_IOERROR)
                 .put("exceptionMessage", e.getMessage()));
         }
     }

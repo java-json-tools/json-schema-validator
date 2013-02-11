@@ -55,31 +55,31 @@ public abstract class AbstractProcessingReport
     }
 
     @Override
-    public final void debug(final ProcessingMessage msg)
+    public final void debug(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(msg.setLogLevel(LogLevel.DEBUG));
+        log(message.setLogLevel(LogLevel.DEBUG));
     }
 
     @Override
-    public final void info(final ProcessingMessage msg)
+    public final void info(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(msg.setLogLevel(LogLevel.INFO));
+        log(message.setLogLevel(LogLevel.INFO));
     }
 
     @Override
-    public final void warn(final ProcessingMessage msg)
+    public final void warn(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(msg.setLogLevel(LogLevel.WARNING));
+        log(message.setLogLevel(LogLevel.WARNING));
     }
 
     @Override
-    public final void error(final ProcessingMessage msg)
+    public final void error(final ProcessingMessage message)
         throws ProcessingException
     {
-        log(msg.setLogLevel(LogLevel.ERROR));
+        log(message.setLogLevel(LogLevel.ERROR));
     }
 
     @Override

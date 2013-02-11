@@ -70,7 +70,7 @@ public final class ProcessingMessageTest
     @Test
     public void msgMethodSetsMessageField()
     {
-        final ProcessingMessage msg = new ProcessingMessage().msg("foo");
+        final ProcessingMessage msg = new ProcessingMessage().message("foo");
         assertMessage(msg).hasMessage("foo");
     }
 

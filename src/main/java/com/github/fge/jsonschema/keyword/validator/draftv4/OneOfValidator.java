@@ -67,7 +67,7 @@ public final class OneOfValidator
         }
 
         if (nrSuccess != 1)
-            report.error(newMsg(data).msg(ONEOF_FAIL).put("nrSchemas", size)
+            report.error(newMsg(data).message(ONEOF_FAIL).put("nrSchemas", size)
                 .put("matched", nrSuccess).put("reports", fullReport));
     }
 }

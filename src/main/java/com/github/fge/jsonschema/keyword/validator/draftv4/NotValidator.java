@@ -53,7 +53,7 @@ public final class NotValidator
         processor.process(subReport, data.withSchema(tree.append(PTR)));
 
         if (subReport.isSuccess())
-            report.error(newMsg(data).msg(NOT_FAIL));
+            report.error(newMsg(data).message(NOT_FAIL));
     }
 
     @Override

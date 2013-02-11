@@ -42,7 +42,7 @@ public final class MaxPropertiesValidator
     {
         final int size = data.getInstance().getNode().size();
         if (size > intValue)
-            report.error(newMsg(data).msg(TOO_MANY_MEMBERS_IN_OBJECT)
+            report.error(newMsg(data).message(TOO_MANY_MEMBERS_IN_OBJECT)
                 .put("required", intValue).put("found", size));
     }
 }

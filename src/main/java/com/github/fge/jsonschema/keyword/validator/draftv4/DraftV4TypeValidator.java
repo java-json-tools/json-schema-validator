@@ -51,7 +51,7 @@ public final class DraftV4TypeValidator
             = NodeType.getNodeType(data.getInstance().getNode());
 
         if (!types.contains(type))
-            report.error(newMsg(data).msg(TYPE_NO_MATCH)
+            report.error(newMsg(data).message(TYPE_NO_MATCH)
                 .put("expected", types).put("found", type));
     }
 

@@ -43,7 +43,7 @@ public final class MinLengthValidator
             .length();
 
         if (size < intValue)
-            report.error(newMsg(data).msg(STRING_TOO_SHORT)
+            report.error(newMsg(data).message(STRING_TOO_SHORT)
                 .put(keyword, intValue).put("found", size));
     }
 }

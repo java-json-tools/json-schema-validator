@@ -102,7 +102,7 @@ public final class DependenciesValidator
             set = Sets.newLinkedHashSet(collection);
             set.removeAll(fields);
             if (!set.isEmpty())
-                report.error(newMsg(data).msg(MISSING_PROPERTY_DEPS)
+                report.error(newMsg(data).message(MISSING_PROPERTY_DEPS)
                     .put("property", field).put("required", collection)
                     .put("missing", set));
         }

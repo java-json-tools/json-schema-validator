@@ -108,7 +108,7 @@ public final class SchemaLoader
             .put("uri", ref);
 
         if (!ref.isAbsolute())
-            throw new ProcessingException(msg.msg(URI_NOT_ABSOLUTE));
+            throw new ProcessingException(msg.message(URI_NOT_ABSOLUTE));
 
         final URI realURI = ref.toURI();
 

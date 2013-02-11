@@ -80,7 +80,7 @@ public final class ValidationChain
                 throws ProcessingException
             {
                 final ProcessingMessage message = input.newMessage()
-                    .msg(SyntaxMessages.INVALID_SCHEMA);
+                    .message(SyntaxMessages.INVALID_SCHEMA);
                 throw new ProcessingException(message);
             }
         };

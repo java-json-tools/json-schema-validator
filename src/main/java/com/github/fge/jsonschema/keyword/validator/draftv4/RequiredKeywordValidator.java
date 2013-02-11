@@ -57,7 +57,7 @@ public final class RequiredKeywordValidator
             .fieldNames()));
 
         if (!set.isEmpty())
-            report.error(newMsg(data).msg(MISSING_REQUIRED_MEMBERS)
+            report.error(newMsg(data).message(MISSING_REQUIRED_MEMBERS)
                 .put("required", required).put("missing", set));
     }
 

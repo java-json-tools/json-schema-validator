@@ -89,7 +89,7 @@ public final class AdditionalPropertiesValidator
         /*
          * Display extra properties in order in the report
          */
-        report.error(newMsg(data).msg(ADDITIONAL_PROPERTIES_NOT_ALLOWED)
+        report.error(newMsg(data).message(ADDITIONAL_PROPERTIES_NOT_ALLOWED)
             .put("unwanted", Ordering.natural().sortedCopy(fields)));
     }
 

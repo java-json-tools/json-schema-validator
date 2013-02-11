@@ -73,7 +73,7 @@ public abstract class AbstractSyntaxChecker
         final T msg)
     {
         return new ProcessingMessage().put("domain", "syntax")
-            .put("schema", tree).put("keyword", keyword).msg(msg);
+            .put("schema", tree).put("keyword", keyword).message(msg);
     }
 
     protected final JsonNode getNode(final SchemaTree tree)

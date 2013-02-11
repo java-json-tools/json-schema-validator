@@ -50,7 +50,7 @@ public final class DisallowKeywordValidator
         final NodeType type = NodeType.getNodeType(instance);
 
         if (types.contains(type)) {
-            report.error(newMsg(data).msg(DISALLOWED_TYPE)
+            report.error(newMsg(data).message(DISALLOWED_TYPE)
                 .put("disallowed", types).put("found", type));
             return;
         }
@@ -75,7 +75,7 @@ public final class DisallowKeywordValidator
         }
 
         if (nrSuccess != 0)
-            report.error(newMsg(data).msg(DISALLOW_SCHEMA)
+            report.error(newMsg(data).message(DISALLOW_SCHEMA)
                 .put("reports", fullReport));
     }
 }

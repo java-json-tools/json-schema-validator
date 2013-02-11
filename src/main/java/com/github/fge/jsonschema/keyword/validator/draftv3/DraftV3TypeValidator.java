@@ -91,11 +91,11 @@ public final class DraftV3TypeValidator
          * primitive types...
          */
         if (!types.isEmpty())
-            report.error(newMsg(data).msg(TYPE_NO_MATCH).put("expected", types)
+            report.error(newMsg(data).message(TYPE_NO_MATCH).put("expected", types)
                 .put("found", type));
 
         if (!schemas.isEmpty())
-            report.error(newMsg(data).msg(ANYOF_FAIL)
+            report.error(newMsg(data).message(ANYOF_FAIL)
                 .put("reports", fullReport));
     }
 }

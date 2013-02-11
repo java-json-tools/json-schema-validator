@@ -79,7 +79,7 @@ public abstract class AbstractFormatAttribute
         final T message)
     {
         return data.newMessage().put("domain", "validation")
-            .put("keyword", "format").put("attribute", fmt).msg(message)
+            .put("keyword", "format").put("attribute", fmt).message(message)
             .put("value", data.getInstance().getNode());
     }
 }

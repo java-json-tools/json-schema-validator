@@ -42,7 +42,7 @@ public final class MaxItemsValidator
     {
         final int size = data.getInstance().getNode().size();
         if (size > intValue)
-            report.error(newMsg(data).msg(ARRAY_IS_TOO_LONG)
+            report.error(newMsg(data).message(ARRAY_IS_TOO_LONG)
                 .put(keyword, intValue).put("found", size));
     }
 }

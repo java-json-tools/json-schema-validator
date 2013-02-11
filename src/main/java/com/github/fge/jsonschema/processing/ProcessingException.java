@@ -32,31 +32,25 @@ public final class ProcessingException
 
     public ProcessingException(final String message)
     {
-        this(new ProcessingMessage().msg(message));
+        this(new ProcessingMessage().message(message));
     }
 
-    public ProcessingException(final ProcessingMessage processingMessage)
+    public ProcessingException(final ProcessingMessage message)
     {
-        this.processingMessage = processingMessage.setLogLevel(LogLevel.FATAL);
+        this.processingMessage = message.setLogLevel(LogLevel.FATAL);
     }
 
     public ProcessingException(final String message, final Throwable e)
     {
         processingMessage = new ProcessingMessage().setLogLevel(LogLevel.FATAL)
-            .msg(message).put("exceptionClass", e.getClass().getName())
+            .message(message).put("exceptionClass", e.getClass().getName())
             .put("exceptionMessage", e.getMessage());
     }
 
     @Override
     public String getMessage()
     {
-        return processingMessage.toString();
-    }
-
-    @Override
-    public String getLocalizedMessage()
-    {
-        return getMessage();
+        return processingMessage.getMessage();
     }
 
     public ProcessingMessage getProcessingMessage()

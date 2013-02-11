@@ -130,7 +130,7 @@ public final class RefResolverProcessor
              * If we have seen this ref already, this is a ref loop.
              */
             if (!refs.add(ref)) {
-                msg.msg(REF_LOOP).put("ref", ref).put("path", refs);
+                msg.message(REF_LOOP).put("ref", ref).put("path", refs);
                 throw new ProcessingException(msg);
             }
             /*
@@ -148,7 +148,7 @@ public final class RefResolverProcessor
              */
             ptr = tree.matchingPointer(ref);
             if (ptr == null) {
-                msg.msg(DANGLING_REF).put("ref", ref);
+                msg.message(DANGLING_REF).put("ref", ref);
                 throw new ProcessingException(msg);
             }
             tree = tree.setPointer(ptr);
