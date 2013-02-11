@@ -34,38 +34,22 @@ library with other JSON-related tasks: see <a
 href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a> for what is in store for
 2.0.x.</p>
 
-<p>The 1.5.5 version will become 1.6.0 very shortly and will be the last stable 1.x version.</p>
-
 <h2>Versions</h2>
 
 <ul>
     <li>development version: <b>1.99.5</b>; as the Javadoc is not done yet, no links to it, sorry!</li>
-    <li>stable version: <b>1.4.9</b> (<a
+    <li>stable version: <b>1.6.0</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
 </ul>
 
-<h2>Maven artifacts</h2>
+<h2>Maven artifact</h2>
 
-<p><b>Warning: the artifact and package namespace has changed starting with version 1.5.3</b></p>
-
-<p>In the examples below, substitute <tt>your-version-here</tt> for the version you want.</p>
-
-<h3>Versions 1.5.3, 1.5.4, 1.5.5, 1.99.x and future versions</h3>
+<p>In the example below, substitute <tt>your-version-here</tt> for the version you want.</p>
 
 ```xml
 <dependency>
     <groupId>com.github.fge</groupId>
-    <artifactId>json-schema-validator</artifactId>
-    <version>your-version-here</version>
-</dependency>
-```
-
-<h3>Versions 1.5.2 and below</h3>
-
-```xml
-<dependency>
-    <groupId>org.kitchen-eel</groupId>
     <artifactId>json-schema-validator</artifactId>
     <version>your-version-here</version>
 </dependency>
@@ -78,7 +62,7 @@ href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a> for wh
 * if this number is <b>even</b>, then this is the <b>stable</b> version; no new features will be
   added to such versions, and the user API will not change (save for some additions if requested).
 * if this number is <b>odd</b>, then this is the <b>development</b> version; new features will be
-  added to those versions only, and the user API may change.
+  added to those versions only, <b>and the user API may change</b>.
 
 <h2>Relevant documents</h2>
 
@@ -97,8 +81,8 @@ href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a> for wh
 <h2>More...</h2>
 
 <p>For a detailed discussion of the implementation, see <a
-href="https://github.com/fge/json-schema-validator/wiki/Status">here</a>.
+href="https://github.com/fge/json-schema-validator/wiki/Status">here</a>.</p>
 
-Please see the <a href="https://github.com/fge/json-schema-validator/wiki/">wiki</a> for more
-details.
+<p>Please see the <a href="https://github.com/fge/json-schema-validator/wiki/">wiki</a> for more
+details.</p>
 
