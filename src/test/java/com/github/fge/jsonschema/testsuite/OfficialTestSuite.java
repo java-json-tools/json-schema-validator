@@ -60,7 +60,9 @@ public final class OfficialTestSuite
     }
 
     @Test(
-        dataProvider = "allTests"
+        dataProvider = "allTests",
+        threadPoolSize = 3,
+        invocationCount = 10
     )
     public void testValidatesOK(final String desc, final JsonNode schema,
         final JsonNode data, final boolean valid)
