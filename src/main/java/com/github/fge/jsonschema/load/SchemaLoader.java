@@ -87,7 +87,7 @@ public final class SchemaLoader
     public SchemaTree load(final JsonNode schema)
     {
         Preconditions.checkNotNull(schema, "cannot register null schema");
-        return dereferencing.newTree2(schema);
+        return dereferencing.newTree(schema);
     }
 
     /**
@@ -114,7 +114,7 @@ public final class SchemaLoader
 
         try {
             final JsonNode node = cache.get(realURI);
-            return dereferencing.newTree2(ref, node);
+            return dereferencing.newTree(ref, node);
         } catch (ExecutionException e) {
             throw (ProcessingException) e.getCause();
         }

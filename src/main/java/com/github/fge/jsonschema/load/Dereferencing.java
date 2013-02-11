@@ -28,7 +28,7 @@ public enum Dereferencing
     CANONICAL("canonical")
     {
         @Override
-        public SchemaTree newTree2(final JsonRef ref, final JsonNode node)
+        public SchemaTree newTree(final JsonRef ref, final JsonNode node)
         {
             return new CanonicalSchemaTree(ref, node);
         }
@@ -36,7 +36,7 @@ public enum Dereferencing
     INLINE("inline")
     {
         @Override
-        public SchemaTree newTree2(final JsonRef ref, final JsonNode node)
+        public SchemaTree newTree(final JsonRef ref, final JsonNode node)
         {
             return new InlineSchemaTree(ref, node);
         }
@@ -44,17 +44,16 @@ public enum Dereferencing
 
     private final String name;
 
-    public abstract SchemaTree newTree2(final JsonRef ref,
-        final JsonNode node);
+    public abstract SchemaTree newTree(final JsonRef ref, final JsonNode node);
 
     Dereferencing(final String name)
     {
         this.name = name;
     }
 
-    public SchemaTree newTree2(final JsonNode node)
+    public SchemaTree newTree(final JsonNode node)
     {
-        return newTree2(JsonRef.emptyRef(), node);
+        return newTree(JsonRef.emptyRef(), node);
     }
 
     @Override
