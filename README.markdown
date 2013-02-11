@@ -39,7 +39,7 @@ href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a> for wh
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.4</b>; as the Javadoc is not done yet, no links to it, sorry!</li>
+    <li>development version: <b>1.99.5</b>; as the Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.4.9</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
