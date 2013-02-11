@@ -29,7 +29,6 @@ import com.github.fge.jsonschema.ref.JsonRef;
  * http://json-schema.org/schema#}, but this URI is not accounted for at this
  * time.</p>
  *
- * @deprecated use {@link MetaSchema} instead
  */
 
 // TODO: remove in next version
