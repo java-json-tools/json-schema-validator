@@ -28,10 +28,10 @@ import java.lang.reflect.Constructor;
 public final class LibraryBuilder
     implements Thawed<Library>
 {
-    DictionaryBuilder<SyntaxChecker> syntaxCheckers;
-    DictionaryBuilder<Digester> digesters;
-    DictionaryBuilder<Constructor<? extends KeywordValidator>> validators;
-    DictionaryBuilder<FormatAttribute> formatAttributes;
+    final DictionaryBuilder<SyntaxChecker> syntaxCheckers;
+    final DictionaryBuilder<Digester> digesters;
+    final DictionaryBuilder<Constructor<? extends KeywordValidator>> validators;
+    final DictionaryBuilder<FormatAttribute> formatAttributes;
 
     LibraryBuilder()
     {

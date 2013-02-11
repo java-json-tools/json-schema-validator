@@ -48,6 +48,12 @@ public final class DictionaryBuilder<T>
         return this;
     }
 
+    public DictionaryBuilder<T> removeEntry(final String key)
+    {
+        entries.remove(key);
+        return this;
+    }
+
     @Override
     public Dictionary<T> freeze()
     {
