@@ -32,7 +32,7 @@ public class ListProcessingReport
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
-    protected final List<ProcessingMessage> messages = Lists.newArrayList();
+    private final List<ProcessingMessage> messages = Lists.newArrayList();
 
     public ListProcessingReport()
     {

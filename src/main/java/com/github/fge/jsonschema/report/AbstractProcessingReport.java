@@ -97,7 +97,7 @@ public abstract class AbstractProcessingReport
         final LogLevel level = message.getLogLevel();
 
         if (level.compareTo(exceptionThreshold) >= 0)
-            throw new ProcessingException(message);
+            throw doException(message);
         if (level.compareTo(currentLevel) > 0)
             currentLevel = level;
         if (level.compareTo(logLevel) >= 0)
@@ -108,5 +108,10 @@ public abstract class AbstractProcessingReport
     public final ProcessingMessage newMessage()
     {
         return new ProcessingMessage();
+    }
+
+    protected ProcessingException doException(final ProcessingMessage message)
+    {
+        return new ProcessingException(message);
     }
 }
