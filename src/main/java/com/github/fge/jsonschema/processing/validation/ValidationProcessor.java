@@ -63,8 +63,11 @@ public final class ValidationProcessor
         for (final KeywordValidator validator: context)
             validator.validate(this, report, data);
 
+        if (!report.isSuccess())
+            return report;
+
         final JsonNode node = input.getInstance().getNode();
-        if (node.size() == 0 || !report.isSuccess())
+        if (node.size() == 0)
             return report;
 
         if (node.isArray())

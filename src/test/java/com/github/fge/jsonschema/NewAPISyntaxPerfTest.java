@@ -61,7 +61,7 @@ public final class NewAPISyntaxPerfTest
             doValidate(googleSchemas, processor, i);
             if (i % 20 == 0) {
                 current = System.currentTimeMillis();
-                System.out.printf("Iteration %d (in %d ms)", i,
+                System.out.printf("Iteration %d (in %d ms)\n", i,
                     current - begin);
             }
         }
