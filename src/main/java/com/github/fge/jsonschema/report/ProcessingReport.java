@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 
 import java.util.List;
 

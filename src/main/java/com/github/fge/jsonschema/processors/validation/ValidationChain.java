@@ -17,9 +17,10 @@
 
 package com.github.fge.jsonschema.processors.validation;
 
+import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
-import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
@@ -81,7 +82,7 @@ public final class ValidationChain
             {
                 final ProcessingMessage message = input.newMessage()
                     .message(SyntaxMessages.INVALID_SCHEMA);
-                throw new ProcessingException(message);
+                throw new InvalidSchemaException(message);
             }
         };
     }

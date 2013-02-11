@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 

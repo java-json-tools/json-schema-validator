@@ -17,7 +17,8 @@
 
 package com.github.fge.jsonschema.ref;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.base.Preconditions;
 
 import java.net.URI;
@@ -152,18 +153,20 @@ public abstract class JsonRef
      *
      * @param s the string
      * @return the reference
-     * @throws ProcessingException string is not a valid URI
+     * @throws JsonReferenceException string is not a valid URI
      * @throws NullPointerException provided string is null
      */
     public static JsonRef fromString(final String s)
-        throws ProcessingException
+        throws JsonReferenceException
     {
         Preconditions.checkNotNull(s, "string must not be null");
 
         try {
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
-            throw new ProcessingException("invalid URI : " + s, e);
+            final ProcessingMessage message = new ProcessingMessage()
+                .message("invalid URI").put("uri", s);
+            throw new JsonReferenceException(message, e);
         }
     }
 

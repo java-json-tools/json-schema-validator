@@ -18,13 +18,13 @@
 package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.digest.DraftV4DigesterDictionary;
 import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIManager;
-import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;

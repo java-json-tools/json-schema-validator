@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.report;
 
-import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;

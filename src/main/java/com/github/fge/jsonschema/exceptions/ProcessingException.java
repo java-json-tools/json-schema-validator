@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processing;
+package com.github.fge.jsonschema.exceptions;
 
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
-public final class ProcessingException
+public class ProcessingException
     extends Exception
 {
     private final ProcessingMessage processingMessage;
@@ -37,7 +37,7 @@ public final class ProcessingException
 
     public ProcessingException(final ProcessingMessage message)
     {
-        this.processingMessage = message.setLogLevel(LogLevel.FATAL);
+        processingMessage = message.setLogLevel(LogLevel.FATAL);
     }
 
     public ProcessingException(final String message, final Throwable e)
@@ -47,13 +47,21 @@ public final class ProcessingException
             .put("exceptionMessage", e.getMessage());
     }
 
+    public ProcessingException(final ProcessingMessage message,
+        final Throwable e)
+    {
+        processingMessage = message
+            .put("exceptionClass", e.getClass().getName())
+            .put("exceptionMessage", e.getMessage());
+    }
+
     @Override
-    public String getMessage()
+    public final String getMessage()
     {
         return processingMessage.getMessage();
     }
 
-    public ProcessingMessage getProcessingMessage()
+    public final ProcessingMessage getProcessingMessage()
     {
         return processingMessage;
     }

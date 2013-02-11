@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.processing;
 
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
@@ -40,7 +41,7 @@ public interface Processor<IN extends MessageProvider, OUT extends MessageProvid
      * @param report the report to use while processing
      * @param input the input for this processor
      * @return the output
-     * @throws ProcessingException processing failed
+     * @throws com.github.fge.jsonschema.exceptions.ProcessingException processing failed
      */
     OUT process(final ProcessingReport report, final IN input)
         throws ProcessingException;

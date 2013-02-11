@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.BiMap;
@@ -157,10 +157,10 @@ public final class JsonPointer
      * Constructor
      *
      * @param input The input string, guaranteed not to be JSON encoded
-     * @throws ProcessingException illegal JSON Pointer
+     * @throws JsonReferenceException illegal JSON Pointer
      */
     public JsonPointer(final String input)
-        throws ProcessingException
+        throws JsonReferenceException
     {
         super(input);
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
@@ -352,11 +352,11 @@ public final class JsonPointer
      *
      * @param input Input string, guaranteed not to be JSON/URI encoded
      * @param builder the list builder
-     * @throws ProcessingException the input is not a valid JSON Pointer
+     * @throws JsonReferenceException the input is not a valid JSON Pointer
      */
     private static void decode(final String input,
         final ImmutableList.Builder<String> builder)
-        throws ProcessingException
+        throws JsonReferenceException
     {
         String cooked, raw;
         String victim = input;
@@ -369,7 +369,7 @@ public final class JsonPointer
                 final ProcessingMessage message = new ProcessingMessage()
                     .message("illegal JSON Pointer")
                     .put("reason", "reference token not preceeded by '/'");
-                throw new ProcessingException(message);
+                throw new JsonReferenceException(message);
             }
             victim = victim.substring(1);
 
@@ -397,10 +397,10 @@ public final class JsonPointer
      *
      * @param input the input string
      * @return the cooked reference token
-     * @throws ProcessingException the string is malformed
+     * @throws JsonReferenceException the string is malformed
      */
     private static String getNextRefToken(final String input)
-        throws ProcessingException
+        throws JsonReferenceException
     {
         final StringBuilder sb = new StringBuilder();
 
@@ -426,7 +426,7 @@ public final class JsonPointer
                                 + "followed by a valid token")
                             .put("allowed", ESCAPE_REPLACEMENT_MAP.keySet())
                             .put("found", Character.valueOf(c));
-                    throw new ProcessingException(message);
+                    throw new JsonReferenceException(message);
                 }
                 sb.append(c);
                 inEscape = false;
@@ -444,7 +444,7 @@ public final class JsonPointer
                 = new ProcessingMessage().message("illegal JSON Pointer")
                 .put("reason", "bad escape sequence: '~' not followed by any " +
                     "token");
-            throw new ProcessingException(message);
+            throw new JsonReferenceException(message);
         }
         return sb.toString();
     }

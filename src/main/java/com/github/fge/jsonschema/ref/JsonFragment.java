@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 
 /**
  * Abstract class for fragment resolution
@@ -67,7 +67,7 @@ public abstract class JsonFragment
 
         try {
             return new JsonPointer(fragment);
-        } catch (ProcessingException ignored) {
+        } catch (JsonReferenceException ignored) {
             // Not a valid JSON Pointer: illegal
             return new IllegalFragment(fragment);
         }

@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
-import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
