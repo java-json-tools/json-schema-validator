@@ -42,7 +42,6 @@ import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
-import java.net.URI;
 import java.util.Map;
 
 public final class NewAPIPerfTest
@@ -60,7 +59,7 @@ public final class NewAPIPerfTest
             = JacksonUtils.asMap(googleAPI.get("schemas"));
 
         final URIManager manager = new URIManager();
-        final SchemaLoader loader = new SchemaLoader(manager, URI.create("#"),
+        final SchemaLoader loader = new SchemaLoader(manager,
             Dereferencing.INLINE);
         final RefResolverProcessor p1 = new RefResolverProcessor(loader);
         final SyntaxProcessor p2

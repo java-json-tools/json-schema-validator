@@ -24,6 +24,8 @@ import com.google.common.base.Preconditions;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import static com.github.fge.jsonschema.messages.JsonRefMessages.*;
+
 /**
  * Representation of a JSON Reference
  *
@@ -165,7 +167,7 @@ public abstract class JsonRef
             return fromURI(new URI(s));
         } catch (URISyntaxException e) {
             final ProcessingMessage message = new ProcessingMessage()
-                .message("invalid URI").put("uri", s);
+                .message(INVALID_URI).put("uri", s);
             throw new JsonReferenceException(message, e);
         }
     }

@@ -43,7 +43,6 @@ import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
-import java.net.URI;
 
 import static com.github.fge.jsonschema.library.SchemaVersion.*;
 
@@ -62,7 +61,7 @@ public final class CrudeValidator
         manager.unregisterScheme("jar");
         manager.registerScheme("https", DefaultURIDownloader.getInstance());
 
-        loader = new SchemaLoader(manager, URI.create("#"), dereferencing);
+        loader = new SchemaLoader(manager, dereferencing);
 
         final SchemaBundle bundle = new SchemaBundle();
         bundle.addSchema(DRAFTV4.getLocation().toURI(),

@@ -84,7 +84,7 @@ public final class SchemaLoaderTest
         bundle.addSchema(location, JacksonUtils.nodeFactory().objectNode());
 
         final SchemaLoader loader = new SchemaLoader(new URIManager(),
-            URI.create("#"), Dereferencing.CANONICAL);
+            Dereferencing.CANONICAL);
 
         loader.addBundle(bundle);
 
@@ -98,7 +98,7 @@ public final class SchemaLoaderTest
     public void NonAbsoluteURIsAreRefused()
     {
         final SchemaLoader loader = new SchemaLoader(new URIManager(),
-            URI.create("#"), Dereferencing.CANONICAL);
+            Dereferencing.CANONICAL);
 
         final URI target = URI.create("moo#");
 
@@ -124,7 +124,7 @@ public final class SchemaLoaderTest
         final URIManager manager = new URIManager();
         manager.registerScheme("http", mock);
 
-        final SchemaLoader registry = new SchemaLoader(manager, URI.create("#"),
+        final SchemaLoader registry = new SchemaLoader(manager,
             Dereferencing.CANONICAL);
         registry.addBundle(bundle);
 
@@ -149,7 +149,7 @@ public final class SchemaLoaderTest
         });
 
         manager.registerScheme("foo", downloader);
-        final SchemaLoader loader = new SchemaLoader(manager, URI.create("#"),
+        final SchemaLoader loader = new SchemaLoader(manager,
             Dereferencing.CANONICAL);
 
         loader.get(uri);

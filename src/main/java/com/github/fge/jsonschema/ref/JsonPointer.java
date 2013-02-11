@@ -29,6 +29,8 @@ import com.google.common.collect.ImmutableList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.github.fge.jsonschema.messages.JsonRefMessages.*;
+
 /**
  * Implementation of IETF JSON Pointer draft, version 9
  *
@@ -420,10 +422,8 @@ public final class JsonPointer
             if (inEscape) {
                 if (!ESCAPED.matches(c)) {
                     final ProcessingMessage message
-                        = new ProcessingMessage().message(
-                        "illegal JSON Pointer")
-                            .put("reason", "bad escape sequence: '~' not "
-                                + "followed by a valid token")
+                        = new ProcessingMessage().message(ILLEGAL_POINTER)
+                            .put("reason", ILLEGAL_ESCAPE)
                             .put("allowed", ESCAPE_REPLACEMENT_MAP.keySet())
                             .put("found", Character.valueOf(c));
                     throw new JsonReferenceException(message);
@@ -441,9 +441,8 @@ public final class JsonPointer
 
         if (inEscape) {
             final ProcessingMessage message
-                = new ProcessingMessage().message("illegal JSON Pointer")
-                .put("reason", "bad escape sequence: '~' not followed by any " +
-                    "token");
+                = new ProcessingMessage().message(ILLEGAL_POINTER)
+                .put("reason", EMPTY_ESCAPE);
             throw new JsonReferenceException(message);
         }
         return sb.toString();

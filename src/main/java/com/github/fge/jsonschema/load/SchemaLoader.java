@@ -45,6 +45,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  */
 public final class SchemaLoader
 {
+    private static final URI EMPTY_NAMESPACE = URI.create("#");
     /**
      * The default namespace
      */
@@ -82,6 +83,12 @@ public final class SchemaLoader
                     return manager.getContent(key);
                 }
             });
+    }
+
+    public SchemaLoader(final URIManager manager,
+        final Dereferencing dereferencing)
+    {
+        this(manager, EMPTY_NAMESPACE, dereferencing);
     }
 
     public SchemaTree load(final JsonNode schema)
