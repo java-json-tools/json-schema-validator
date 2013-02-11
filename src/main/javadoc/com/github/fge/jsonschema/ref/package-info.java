@@ -23,8 +23,9 @@
  *
  * <p>Fragments play a particularly important role in JSON References, as such
  * there is a dedicated {@link com.github.fge.jsonschema.ref.JsonFragment}
- * class to help resolve a fragment into a JSON schema. Depending on the chosen
- * addressing mode ({@link com.github.fge.jsonschema.schema.AddressingMode}),
- * a fragment can be a JSON Pointer or an {@code id} reference.</p>
+ * class to help resolve a fragment into a JSON schema. While the JSON
+ * reference draft dictates that fragments be {@link
+ * com.github.fge.jsonschema.ref.JsonPointer JSON Pointers}, JSON Schema
+ * currently allows fragments which are not JSON Pointers.</p>
  */
 package com.github.fge.jsonschema.ref;
