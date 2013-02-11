@@ -21,6 +21,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
 import com.github.fge.jsonschema.util.NodeType;
 
+/**
+ * A "no-op" digester
+ *
+ * <p>This is the most simple of digesters, which will return its input as the
+ * digested forms. If you choose to use it, you will therefore only have to
+ * provide the list of types supported by your keyword.</p>
+ */
 public final class IdentityDigester
     extends AbstractDigester
 {

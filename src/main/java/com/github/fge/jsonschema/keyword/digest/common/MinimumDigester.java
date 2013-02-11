@@ -19,9 +19,15 @@ package com.github.fge.jsonschema.keyword.digest.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.NumericDigester;
 
+/**
+ * Digester for {@code minimum}
+ *
+ * <p>This uses {@link NumericDigester} as a base, and also stores information
+ * about the presence (or not) of {@code exclusiveMinimum}.</p>
+ */
 public final class MinimumDigester
     extends NumericDigester
 {

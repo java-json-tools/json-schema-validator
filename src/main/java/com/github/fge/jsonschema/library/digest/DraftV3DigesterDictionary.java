@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.library.digest;
 
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.keyword.digest.draftv3.DivisibleByDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv3.DraftV3DependenciesDigester;
 import com.github.fge.jsonschema.keyword.digest.draftv3.DraftV3PropertiesDigester;

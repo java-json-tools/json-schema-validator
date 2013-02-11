@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
@@ -33,6 +33,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
+/**
+ * Digester for {@code dependencies}
+ *
+ * <p>This stores property dependencies separately from schema dependencies.</p>
+ */
 public final class DraftV3DependenciesDigester
     extends AbstractDigester
 {

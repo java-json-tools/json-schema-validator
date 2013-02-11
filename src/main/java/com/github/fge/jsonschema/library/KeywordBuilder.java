@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.util.Thawed;

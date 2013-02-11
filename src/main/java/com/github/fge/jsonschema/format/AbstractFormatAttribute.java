@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.format;
 
+import com.github.fge.jsonschema.messages.FormatMessages;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.NodeType;
@@ -65,6 +66,15 @@ public abstract class AbstractFormatAttribute
         return EnumSet.copyOf(supported);
     }
 
+    /**
+     * Return a new message for this format attribute
+     *
+     * @param data the validation context
+     * @param message the message
+     * @param <T> the type of the message
+     * @return a new message
+     * @see FormatMessages
+     */
     protected final <T> ProcessingMessage newMsg(final ValidationData data,
         final T message)
     {

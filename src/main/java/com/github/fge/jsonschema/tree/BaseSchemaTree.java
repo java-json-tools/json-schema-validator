@@ -253,7 +253,6 @@ public abstract class BaseSchemaTree
         ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
         ret.put("pointer", FACTORY.textNode(pointer.toString()));
         ret.put("currentContext", FACTORY.textNode(currentRef.toString()));
-        ret.put("dereferencing", FACTORY.textNode(dereferencing.toString()));
 
         return ret;
     }

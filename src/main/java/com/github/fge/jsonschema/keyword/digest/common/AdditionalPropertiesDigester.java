@@ -21,13 +21,20 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Digester for {@code additionalProperties}
+ *
+ * <p>The digested form will contain the list of members from {@code properties}
+ * and {@code patternProperties}, unless this keyword is {@code true} or a
+ * schema, in which case additional properties are always allowed.</p>
+ */
 public final class AdditionalPropertiesDigester
     extends AbstractDigester
 {

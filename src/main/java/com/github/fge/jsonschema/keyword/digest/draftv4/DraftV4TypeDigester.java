@@ -21,11 +21,22 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
+/**
+ * Digester for {@code type} (draft v4)
+ *
+ * <p>This will store a set of allowed types. It will, for instance, produce the
+ * same digested form of these two forms:</p>
+ *
+ * <ul>
+ *     <li>{@code {"type": "string" } }</li>
+ *     <li>{@code { "type": [ "string" ] } }</li>
+ * </ul>
+ */
 public final class DraftV4TypeDigester
     extends AbstractDigester
 {

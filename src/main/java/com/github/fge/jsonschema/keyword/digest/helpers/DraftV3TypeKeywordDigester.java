@@ -25,6 +25,13 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
+/**
+ * Digester for draft v3's {@code type} and {@code disallow}
+ *
+ * <p>These keywords are quite complex, but fortunately they share the same
+ * fundamental structure. Simple types and schema dependencies are stored
+ * separately.</p>
+ */
 public final class DraftV3TypeKeywordDigester
     extends AbstractDigester
 {

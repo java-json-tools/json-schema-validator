@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.util.NodeType;
 import java.util.EnumSet;
 
 /**
- * Interface for a format attribute checker
+ * Interface for a format attribute validator
  */
 public interface FormatAttribute
 {

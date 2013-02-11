@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
 
@@ -29,6 +29,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Digester for {@code required}
+ *
+ * <p>Its role is simply enough to ensure that, for instance, {@code
+ * ["a", "b"]} and {@code ["b", "a"]} produce the same output.</p>
+ */
 public final class RequiredDigester
     extends AbstractDigester
 {

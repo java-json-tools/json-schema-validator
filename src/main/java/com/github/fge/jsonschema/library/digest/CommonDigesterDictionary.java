@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.library.digest;
 
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.keyword.digest.common.AdditionalItemsDigester;
 import com.github.fge.jsonschema.keyword.digest.common.AdditionalPropertiesDigester;
 import com.github.fge.jsonschema.keyword.digest.common.MaximumDigester;

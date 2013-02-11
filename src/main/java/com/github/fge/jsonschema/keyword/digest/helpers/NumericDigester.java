@@ -20,10 +20,22 @@ package com.github.fge.jsonschema.keyword.digest.helpers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
+import com.github.fge.jsonschema.keyword.validator.helpers.NumericValidator;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.math.BigDecimal;
 
+/**
+ * A specialized digester for numeric keywords
+ *
+ * <p>This digester ensures that, for instance, values {@code 1}, {@code 1.0}
+ * and {@code 1.00} produce the same digest. It also stores another important
+ * information: whether that number can be reliably represented as a {@code
+ * long}. If this is not the case, for accuracy reasons, {@link BigDecimal} is
+ * used.</p>
+ *
+ * @see NumericValidator
+ */
 public abstract class NumericDigester
     extends AbstractDigester
 {

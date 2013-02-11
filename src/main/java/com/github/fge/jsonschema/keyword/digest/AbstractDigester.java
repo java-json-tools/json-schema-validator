@@ -18,11 +18,15 @@
 package com.github.fge.jsonschema.keyword.digest;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
+/**
+ * Base abstract digester class for all keyword digesters
+ */
 public abstract class AbstractDigester
     implements Digester
 {

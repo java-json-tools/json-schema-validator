@@ -20,9 +20,16 @@ package com.github.fge.jsonschema.keyword.digest.common;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
-import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 
+/**
+ * Digester for {@code additionalItems}
+ *
+ * <p>The digested form is very simple: additional items are always allowed
+ * unless the keword is {@code false} <i>and</i> {@code items} is an array. In
+ * this last case, the size of the {@code items} array is stored.</p>
+ */
 public final class AdditionalItemsDigester
     extends AbstractDigester
 {
