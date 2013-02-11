@@ -19,34 +19,34 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
 /**
  * Validation data for a validation processor
  *
- * <p>The included data are the schema (in the shape of a {@link JsonSchemaTree}
- * and the instance to validate (in the shape of a {@link JsonTree}.</p>
+ * <p>The included data are the schema (in the shape of a {@link SchemaTree} and
+ * the instance to validate (in the shape of a {@link JsonTree}.</p>
  */
 public final class ValidationData
     implements MessageProvider
 {
-    private final JsonSchemaTree schema;
+    private final SchemaTree schema;
     private final JsonTree2 instance;
 
-    public ValidationData(final JsonSchemaTree schema, final JsonTree2 instance)
+    public ValidationData(final SchemaTree schema, final JsonTree2 instance)
     {
         this.schema = schema;
         this.instance = instance;
     }
 
-    public ValidationData(final JsonSchemaTree schema)
+    public ValidationData(final SchemaTree schema)
     {
         this(schema, null);
     }
 
-    public JsonSchemaTree getSchema()
+    public SchemaTree getSchema()
     {
         return schema;
     }
@@ -54,6 +54,16 @@ public final class ValidationData
     public JsonTree2 getInstance()
     {
         return instance;
+    }
+
+    public ValidationData withSchema(final SchemaTree schema)
+    {
+        return new ValidationData(schema, instance);
+    }
+
+    public ValidationData withInstance(final JsonTree2 instance)
+    {
+        return new ValidationData(schema, instance);
     }
 
     @Override

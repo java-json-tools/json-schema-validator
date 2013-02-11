@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ProcessingCache;
 import com.github.fge.jsonschema.util.equivalence.JsonSchemaTreeEquivalence;
 import com.google.common.base.Equivalence;
@@ -44,17 +44,17 @@ public final class RefResolverProcessor
     implements Processor<ValidationData, ValidationData>
 {
     private final SchemaLoader loader;
-    private final ProcessingCache<JsonSchemaTree, JsonSchemaTree> refCache;
+    private final ProcessingCache<SchemaTree, SchemaTree> refCache;
 
     public RefResolverProcessor(final SchemaLoader loader)
     {
         this.loader = loader;
-        refCache = new ProcessingCache<JsonSchemaTree, JsonSchemaTree>(
+        refCache = new ProcessingCache<SchemaTree, SchemaTree>(
             JsonSchemaTreeEquivalence.getInstance(),
-            new CacheLoader<Equivalence.Wrapper<JsonSchemaTree>, JsonSchemaTree>()
+            new CacheLoader<Equivalence.Wrapper<SchemaTree>, SchemaTree>()
             {
                 @Override
-                public JsonSchemaTree load(final Equivalence.Wrapper<JsonSchemaTree> key)
+                public SchemaTree load(final Equivalence.Wrapper<SchemaTree> key)
                     throws ProcessingException
                 {
                     return loadRef(key);
@@ -78,8 +78,7 @@ public final class RefResolverProcessor
         final ValidationData input)
         throws ProcessingException
     {
-        final JsonSchemaTree nextTree = refCache.get(input.getSchema());
-        return new ValidationData(nextTree, input.getInstance());
+        return input.withSchema(refCache.get(input.getSchema()));
     }
 
     private static JsonRef nodeAsRef(final JsonNode node)
@@ -94,13 +93,9 @@ public final class RefResolverProcessor
         }
     }
 
-    private JsonSchemaTree loadRef(final Equivalence.Wrapper<JsonSchemaTree> eq)
+    private SchemaTree loadRef(final Equivalence.Wrapper<SchemaTree> eq)
         throws ProcessingException
     {
-        final JsonSchemaTree orig = eq.get();
-        final ProcessingMessage msg = new ProcessingMessage()
-            .put("schema", orig);
-
         /*
          * The set of refs we see during ref resolution, necessary to detect ref
          * loops. We make it linked since we want the ref path reported in the
@@ -108,11 +103,9 @@ public final class RefResolverProcessor
          */
         final Set<JsonRef> refs = Sets.newLinkedHashSet();
 
-        /*
-         * Make a copy of the original tree which will be our initial return
-         * value if no ref is found.
-         */
-        JsonSchemaTree tree = orig.copy();
+        SchemaTree tree = eq.get();
+        final ProcessingMessage msg = new ProcessingMessage()
+            .put("schema", tree);
 
         JsonPointer ptr;
         JsonRef ref;
@@ -158,10 +151,10 @@ public final class RefResolverProcessor
                 msg.msg(DANGLING_REF).put("ref", ref);
                 throw new ProcessingException(msg);
             }
-            tree.setPointer(ptr);
+            tree = tree.setPointer(ptr);
         }
 
-        return tree.copy();
+        return tree;
     }
 
     @Override

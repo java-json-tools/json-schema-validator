@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.schema.SchemaBundle;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.uri.URIDownloader;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.Test;
@@ -85,7 +85,7 @@ public final class SchemaLoaderTest
 
         loader.addBundle(bundle);
 
-        final JsonSchemaTree tree = loader.get(URI.create(location));
+        final SchemaTree tree = loader.get(URI.create(location));
 
         assertEquals(tree.getLoadingRef().toURI(),
             URI.create("http://toto/b#"));

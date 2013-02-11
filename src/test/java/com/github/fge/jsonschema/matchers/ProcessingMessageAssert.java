@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.processing.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import org.fest.assertions.GenericAssert;
@@ -143,7 +143,7 @@ public final class ProcessingMessageAssert
      * More complicated matchers
      */
     public <T> ProcessingMessageAssert isSyntaxError(final String keyword,
-        final T msg, final JsonSchemaTree tree)
+        final T msg, final SchemaTree tree)
     {
         // FIXME: .hasLevel() is not always set
         return hasField("keyword", keyword).hasMessage(msg)

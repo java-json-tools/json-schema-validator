@@ -25,8 +25,8 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 import org.mockito.ArgumentCaptor;
@@ -62,7 +62,7 @@ public final class AbstractSyntaxCheckerTest
         final ProcessingReport report = mock(ProcessingReport.class);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree2(schema);
 
         checker.checkSyntax(null, report, tree);
         verify(checker).checkValue(null, report, tree);
@@ -81,7 +81,7 @@ public final class AbstractSyntaxCheckerTest
     {
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(KEYWORD, node);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree2(schema);
 
         final AbstractSyntaxChecker checker = spy(new DummyChecker());
         final ProcessingReport report = mock(ProcessingReport.class);
@@ -110,7 +110,7 @@ public final class AbstractSyntaxCheckerTest
 
         @Override
         protected void checkValue(final Collection<JsonPointer> pointers,
-            final ProcessingReport report, final JsonSchemaTree tree)
+            final ProcessingReport report, final SchemaTree tree)
             throws ProcessingException
         {
         }

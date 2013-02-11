@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.keyword.syntax;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.annotations.VisibleForTesting;
 
@@ -33,6 +33,6 @@ public interface SyntaxChecker
     EnumSet<NodeType> getValidTypes();
 
     void checkSyntax(Collection<JsonPointer> pointers,
-        ProcessingReport report, JsonSchemaTree tree)
+        ProcessingReport report, SchemaTree tree)
         throws ProcessingException;
 }

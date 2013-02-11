@@ -17,16 +17,16 @@
 
 package com.github.fge.jsonschema.util.equivalence;
 
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
 public final class JsonSchemaTreeEquivalence
-    extends Equivalence<JsonSchemaTree>
+    extends Equivalence<SchemaTree>
 {
-    private static final Equivalence<JsonSchemaTree> INSTANCE
+    private static final Equivalence<SchemaTree> INSTANCE
         = new JsonSchemaTreeEquivalence();
 
-    public static Equivalence<JsonSchemaTree> getInstance()
+    public static Equivalence<SchemaTree> getInstance()
     {
         return INSTANCE;
     }
@@ -36,8 +36,7 @@ public final class JsonSchemaTreeEquivalence
     }
 
     @Override
-    protected boolean doEquivalent(final JsonSchemaTree a,
-        final JsonSchemaTree b)
+    protected boolean doEquivalent(final SchemaTree a, final SchemaTree b)
     {
         return a.getLoadingRef().equals(b.getLoadingRef())
             && a.getContext().equals(b.getContext())
@@ -46,7 +45,7 @@ public final class JsonSchemaTreeEquivalence
     }
 
     @Override
-    protected int doHash(final JsonSchemaTree t)
+    protected int doHash(final SchemaTree t)
     {
         int ret = t.getLoadingRef().hashCode();
         ret = 31 * ret + t.getContext().hashCode();

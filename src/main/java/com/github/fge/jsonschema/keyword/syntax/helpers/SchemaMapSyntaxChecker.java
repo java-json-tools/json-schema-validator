@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.keyword.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -44,7 +44,7 @@ public abstract class SchemaMapSyntaxChecker
     @Override
     protected final void checkValue(
         final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final JsonSchemaTree tree)
+        final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
         collectPointers(pointers, getNode(tree));
@@ -52,7 +52,7 @@ public abstract class SchemaMapSyntaxChecker
     }
 
     protected abstract void extraChecks(final ProcessingReport report,
-        JsonSchemaTree tree)
+        final SchemaTree tree)
         throws ProcessingException;
 
     private void collectPointers(final Collection<JsonPointer> pointers,

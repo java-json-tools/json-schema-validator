@@ -28,7 +28,7 @@ import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -38,6 +38,7 @@ import com.google.common.collect.Sets;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
@@ -74,24 +75,34 @@ public final class SyntaxProcessor
         final ValidationData input)
         throws ProcessingException
     {
-        final JsonSchemaTree inputSchema = input.getSchema();
-        if (inputSchema.isValidated())
-            return input;
-
+        final SchemaTree schema = input.getSchema();
         final ListProcessingReport syntaxReport
             = new ListProcessingReport(report);
+
         syntaxReport.setExceptionThreshold(LogLevel.FATAL);
-        validate(syntaxReport, inputSchema);
-        inputSchema.addValidatedPath(inputSchema.getPointer());
-        inputSchema.setValid(syntaxReport.isSuccess());
+
+        final ValidatedPaths paths = cache.getUnchecked(schema.getBaseNode());
+        final ReentrantLock lock = paths.getLock();
+        lock.lock();
+        try {
+            if (!paths.isValidated(schema.getPointer())) {
+                validate(syntaxReport, schema, paths);
+                paths.addReport(syntaxReport);
+                if (paths.isValid())
+                    paths.addValidatedPath(schema.getPointer());
+            }
+        } finally {
+            lock.unlock();
+        }
+
         for (final ProcessingMessage message: syntaxReport.getMessages())
             report.log(message);
 
-        return input;
+        return input.withSchema(schema.withValidationStatus(paths.isValid()));
     }
 
     private void validate(final ProcessingReport report,
-        final JsonSchemaTree tree)
+        final SchemaTree tree, final ValidatedPaths paths)
         throws ProcessingException
     {
         /*
@@ -115,7 +126,7 @@ public final class SyntaxProcessor
         if (!ignored.isEmpty()) {
             final JsonPointer pointer = tree.getPointer();
             for (final String name: ignored)
-                tree.addUncheckedPath(pointer.append(name));
+                paths.addUncheckedPath(pointer.append(name));
             report.warn(newMsg(tree).msg(UNKNOWN_KEYWORDS)
                 .put("ignored", ignored));
         }
@@ -124,14 +135,11 @@ public final class SyntaxProcessor
         for (final SyntaxChecker checker: dict.valuesForKeys(fieldNames))
             checker.checkSyntax(pointers, report, tree);
 
-        for (final JsonPointer pointer: pointers) {
-            tree.append(pointer);
-            validate(report, tree);
-            tree.pop();
-        }
+        for (final JsonPointer pointer: pointers)
+            validate(report, tree.append(pointer), paths);
     }
 
-    private static ProcessingMessage newMsg(final JsonSchemaTree tree)
+    private static ProcessingMessage newMsg(final SchemaTree tree)
     {
         return new ProcessingMessage().put("schema", tree)
             .put("domain", "syntax");

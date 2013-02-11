@@ -25,8 +25,8 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.build.FullValidationContext;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -64,7 +64,7 @@ public final class ValidationProcessor
             validator.validate(this, report, data);
 
         final JsonNode node = input.getInstance().getNode();
-        if (node.size() == 0)
+        if (node.size() == 0 || !report.isSuccess())
             return report;
 
         if (node.isArray())
@@ -79,27 +79,26 @@ public final class ValidationProcessor
         final ValidationData input)
         throws ProcessingException
     {
-        final JsonSchemaTree schemaTree = input.getSchema();
-        final JsonTree2 tree = input.getInstance();
+        final SchemaTree tree = input.getSchema();
+        final JsonTree2 instance = input.getInstance();
 
-        final JsonNode schema = schemaTree.getNode();
-        final JsonNode instance = tree.getNode();
+        final JsonNode schema = tree.getNode();
+        final JsonNode node = instance.getNode();
 
         final JsonNode digest = ArraySchemaDigester.getInstance().digest(schema);
         final ArraySchemaSelector selector = arrayCache.getUnchecked(digest);
 
-        final int size = instance.size();
+        final int size = node.size();
 
         ValidationData data;
-        JsonTree2 newTree;
+        JsonTree2 newInstance;
 
         for (int index = 0; index < size; index++) {
-            newTree = tree.append(JsonPointer.empty().append(index));
-            data = new ValidationData(schemaTree, newTree);
+            newInstance = instance.append(JsonPointer.empty().append(index));
+            data = input.withInstance(newInstance);
             for (final JsonPointer ptr: selector.selectSchemas(index)) {
-                schemaTree.append(ptr);
+                data = data.withSchema(tree.append(ptr));
                 process(report, data);
-                schemaTree.pop();
             }
         }
     }
@@ -108,29 +107,28 @@ public final class ValidationProcessor
         final ValidationData input)
         throws ProcessingException
     {
-        final JsonSchemaTree schemaTree = input.getSchema();
-        final JsonTree2 tree = input.getInstance();
+        final SchemaTree tree = input.getSchema();
+        final JsonTree2 instance = input.getInstance();
 
-        final JsonNode schema = schemaTree.getNode();
-        final JsonNode instance = tree.getNode();
+        final JsonNode schema = tree.getNode();
+        final JsonNode node = instance.getNode();
 
         final JsonNode digest = ObjectSchemaDigester.getInstance()
             .digest(schema);
         final ObjectSchemaSelector selector = objectCache.getUnchecked(digest);
 
-        final List<String> fields = Lists.newArrayList(instance.fieldNames());
+        final List<String> fields = Lists.newArrayList(node.fieldNames());
         Collections.sort(fields);
 
         ValidationData data;
-        JsonTree2 newTree;
+        JsonTree2 newInstance;
 
         for (final String field: fields) {
-            newTree = tree.append(JsonPointer.empty().append(field));
-            data = new ValidationData(schemaTree, newTree);
+            newInstance = instance.append(JsonPointer.empty().append(field));
+            data = input.withInstance(newInstance);
             for (final JsonPointer ptr: selector.selectSchemas(field)) {
-                schemaTree.append(ptr);
+                data = data.withSchema(tree.append(ptr));
                 process(report, data);
-                schemaTree.pop();
             }
         }
     }

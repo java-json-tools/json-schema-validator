@@ -22,8 +22,8 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.Test;
 
@@ -44,7 +44,7 @@ public final class RefResolverProcessorTest
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         node.put("$ref", "#");
 
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree = new CanonicalSchemaTree2(node);
 
         final ValidationData data = new ValidationData(tree, null);
 
@@ -62,7 +62,7 @@ public final class RefResolverProcessorTest
         final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
         node.put("$ref", "#/a");
 
-        final JsonSchemaTree tree = new CanonicalSchemaTree(node);
+        final SchemaTree tree = new CanonicalSchemaTree2(node);
 
         final ValidationData data = new ValidationData(tree, null);
 

@@ -25,9 +25,9 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
 import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
@@ -47,8 +47,8 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractFormatAttributeTest
 {
-    protected static final JsonSchemaTree SCHEMA_TREE
-        = new CanonicalSchemaTree(JacksonUtils.emptyObject());
+    protected static final SchemaTree SCHEMA_TREE
+        = new CanonicalSchemaTree2(JacksonUtils.emptyObject());
 
     protected final FormatAttribute attribute;
     protected final JsonNode testNode;

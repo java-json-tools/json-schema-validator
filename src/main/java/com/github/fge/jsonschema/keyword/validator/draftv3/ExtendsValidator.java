@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
 public final class ExtendsValidator
     extends AbstractKeywordValidator
@@ -43,13 +43,14 @@ public final class ExtendsValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final JsonSchemaTree schemaTree = data.getSchema();
-        final JsonNode node = schemaTree.getNode().get(keyword);
+        final SchemaTree tree = data.getSchema();
+        final JsonNode node = tree.getNode().get(keyword);
+
+        ValidationData newData;
 
         if (node.isObject()) {
-            schemaTree.append(BASE_PTR);
-            processor.process(report, data);
-            schemaTree.pop();
+            newData = data.withSchema(tree.append(BASE_PTR));
+            processor.process(report, newData);
             return;
         }
 
@@ -59,9 +60,8 @@ public final class ExtendsValidator
         final int size = node.size();
 
         for (int index = 0; index < size; index++) {
-            schemaTree.append(BASE_PTR.append(index));
-            processor.process(report, data);
-            schemaTree.pop();
+            newData = data.withSchema(tree.append(BASE_PTR.append(index)));
+            processor.process(report, newData);
         }
     }
 

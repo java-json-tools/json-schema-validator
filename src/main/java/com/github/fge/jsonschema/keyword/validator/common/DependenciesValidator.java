@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
@@ -110,14 +110,14 @@ public final class DependenciesValidator
         if (schemaDeps.isEmpty())
             return;
 
-        final JsonSchemaTree schema = data.getSchema();
+        final SchemaTree tree = data.getSchema();
+        ValidationData newData;
 
         for (final String field: schemaDeps) {
             if (!fields.contains(field))
                 continue;
-            schema.append(BASE_PTR.append(field));
-            processor.process(report, data);
-            schema.pop();
+            newData = data.withSchema(tree.append(BASE_PTR.append(field)));
+            processor.process(report, newData);
         }
     }
 

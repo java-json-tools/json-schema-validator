@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
@@ -59,7 +59,7 @@ public final class DraftV4TypeSyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final JsonSchemaTree tree)
+        final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);

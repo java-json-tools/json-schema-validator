@@ -28,9 +28,9 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.ValidationDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
 import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
@@ -101,7 +101,7 @@ public final class SchemaDigesterTest
     {
         final NodeType type = NodeType.getNodeType(node);
         final JsonTree2 instance = new SimpleJsonTree2(node);
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree2(schema);
         final ValidationData data = new ValidationData(tree, instance);
         final ProcessingReport report = mock(ProcessingReport.class);
 
@@ -130,7 +130,7 @@ public final class SchemaDigesterTest
     {
         final ObjectNode node = FACTORY.objectNode();
         node.put(K1, K1);
-        final JsonSchemaTree schemaTree = new CanonicalSchemaTree(node);
+        final SchemaTree schemaTree = new CanonicalSchemaTree2(node);
         final JsonNode instance = FACTORY.nullNode();
         final JsonTree2 tree = new SimpleJsonTree2(instance);
         final ValidationData data = new ValidationData(schemaTree, tree);

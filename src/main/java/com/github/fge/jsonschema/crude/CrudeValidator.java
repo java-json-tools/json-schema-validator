@@ -36,8 +36,8 @@ import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.schema.SchemaBundle;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.uri.DefaultURIDownloader;
 import com.github.fge.jsonschema.util.JsonLoader;
@@ -116,10 +116,10 @@ public final class CrudeValidator
     }
 
     private ValidationData buildData(final JsonNode schema,
-        final JsonNode instance)
+        final JsonNode node)
     {
-        final JsonSchemaTree schemaTree = loader.load(schema);
-        final JsonTree2 tree = new SimpleJsonTree2(instance);
-        return new ValidationData(schemaTree, tree);
+        final SchemaTree tree = loader.load(schema);
+        final JsonTree2 instance = new SimpleJsonTree2(node);
+        return new ValidationData(tree, instance);
     }
 }

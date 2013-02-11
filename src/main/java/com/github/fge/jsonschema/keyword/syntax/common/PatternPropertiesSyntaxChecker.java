@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.RhinoHelper;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
@@ -48,7 +48,7 @@ public final class PatternPropertiesSyntaxChecker
 
     @Override
     protected void extraChecks(final ProcessingReport report,
-        final JsonSchemaTree tree)
+        final SchemaTree tree)
         throws ProcessingException
     {
         /*

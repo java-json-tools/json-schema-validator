@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.Collection;
@@ -50,7 +50,7 @@ public abstract class AbstractSyntaxChecker
 
     @Override
     public final void checkSyntax(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final JsonSchemaTree tree)
+        final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);
@@ -66,17 +66,17 @@ public abstract class AbstractSyntaxChecker
     }
 
     protected abstract void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final JsonSchemaTree tree)
+        final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException;
 
-    protected final <T> ProcessingMessage newMsg(final JsonSchemaTree tree,
+    protected final <T> ProcessingMessage newMsg(final SchemaTree tree,
         final T msg)
     {
         return new ProcessingMessage().put("domain", "syntax")
             .put("schema", tree).put("keyword", keyword).msg(msg);
     }
 
-    protected final JsonNode getNode(final JsonSchemaTree tree)
+    protected final JsonNode getNode(final SchemaTree tree)
     {
         return tree.getNode().get(keyword);
     }

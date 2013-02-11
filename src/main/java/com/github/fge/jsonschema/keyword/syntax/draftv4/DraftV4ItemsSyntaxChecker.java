@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaOrSchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
@@ -44,7 +44,7 @@ public final class DraftV4ItemsSyntaxChecker
 
     @Override
     protected void extraChecks(final ProcessingReport report,
-        final JsonSchemaTree tree)
+        final SchemaTree tree)
         throws ProcessingException
     {
         final JsonNode node = getNode(tree);

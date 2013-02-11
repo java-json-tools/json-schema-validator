@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.keyword.syntax.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.Collection;
@@ -41,7 +41,7 @@ public final class SchemaArraySyntaxChecker
 
     @Override
     protected void checkValue(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final JsonSchemaTree tree)
+        final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
         final int size = getNode(tree).size();

@@ -31,8 +31,8 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 import org.mockito.ArgumentCaptor;
@@ -79,7 +79,7 @@ public final class SyntaxProcessorTest
 
             @Override
             public void checkSyntax(final Collection<JsonPointer> pointers,
-                final ProcessingReport report, final JsonSchemaTree tree)
+                final ProcessingReport report, final SchemaTree tree)
                 throws ProcessingException
             {
                 report.error(new ProcessingMessage().msg(ERRMSG));
@@ -200,8 +200,10 @@ public final class SyntaxProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("foo", inner);
 
-        final ValidationData data = schemaToData(schema);
-        data.getSchema().setPointer(JsonPointer.empty().append("foo"));
+        ValidationData data = schemaToData(schema);
+        final SchemaTree tree = data.getSchema();
+        data = data.withSchema(tree.setPointer(JsonPointer.empty()
+            .append("foo")));
 
         processor.process(report, data);
         verify(checker).checkSyntax(anyCollectionOf(JsonPointer.class),
@@ -218,10 +220,11 @@ public final class SyntaxProcessorTest
         schema.put(K1, inner);
         schema.put("foo", "bar");
 
-        final ValidationData data = schemaToData(schema);
+        ValidationData data = schemaToData(schema);
 
         processor.process(report, data);
-        data.getSchema().setPointer(JsonPointer.empty().append(K1));
+        final SchemaTree tree = data.getSchema();
+        data = data.withSchema(tree.setPointer(JsonPointer.empty().append(K1)));
         processor.process(report, data);
         verify(checker, onlyOnce()).checkSyntax(
             anyCollectionOf(JsonPointer.class),  anyReport(), anySchema());
@@ -229,7 +232,7 @@ public final class SyntaxProcessorTest
 
     private static ValidationData schemaToData(final JsonNode schema)
     {
-        final CanonicalSchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree2(schema);
         return new ValidationData(tree);
     }
 }

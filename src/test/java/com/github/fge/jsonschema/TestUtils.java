@@ -19,7 +19,7 @@ package com.github.fge.jsonschema;
 
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import org.mockito.verification.VerificationMode;
@@ -45,9 +45,9 @@ public final class TestUtils
         return any(ProcessingReport.class);
     }
 
-    public static JsonSchemaTree anySchema()
+    public static SchemaTree anySchema()
     {
-        return any(JsonSchemaTree.class);
+        return any(SchemaTree.class);
     }
 
     public static ProcessingMessage anyMessage()

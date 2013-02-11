@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
@@ -46,13 +46,11 @@ public final class NotValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final JsonSchemaTree tree = data.getSchema();
+        final SchemaTree tree = data.getSchema();
         final ProcessingReport subReport = new ListProcessingReport(report);
         subReport.setExceptionThreshold(LogLevel.FATAL);
 
-        tree.append(PTR);
-        processor.process(subReport, data);
-        tree.pop();
+        processor.process(subReport, data.withSchema(tree.append(PTR)));
 
         if (subReport.isSuccess())
             report.error(newMsg(data).msg(NOT_FAIL));

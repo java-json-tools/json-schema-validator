@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
@@ -45,22 +45,22 @@ public final class AllOfValidator
         final ProcessingReport report, final ValidationData data)
         throws ProcessingException
     {
-        final JsonSchemaTree schemaTree = data.getSchema();
-        final JsonNode schemas = schemaTree.getNode().get(keyword);
+        final SchemaTree tree = data.getSchema();
+        final JsonNode schemas = tree.getNode().get(keyword);
         final int size = schemas.size();
         final ObjectNode fullReport = FACTORY.objectNode();
 
         int nrSuccess = 0;
         ListProcessingReport subReport;
         JsonPointer ptr;
+        ValidationData newData;
 
         for (int index = 0; index < size; index++) {
             subReport = new ListProcessingReport(report);
             subReport.setExceptionThreshold(LogLevel.FATAL);
             ptr = basePointer.append(index);
-            schemaTree.append(ptr);
-            processor.process(subReport, data);
-            schemaTree.pop();
+            newData = data.withSchema(tree.append(ptr));
+            processor.process(subReport, newData);
             fullReport.put(ptr.toString(), subReport.asJson());
             if (subReport.isSuccess())
                 nrSuccess++;

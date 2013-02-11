@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 
@@ -84,7 +84,7 @@ public final class NewAPISyntaxPerfTest
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
             value = entry.getValue();
-            data = new ValidationData(new CanonicalSchemaTree(value));
+            data = new ValidationData(new CanonicalSchemaTree2(value));
             report = new ListProcessingReport();
             processor.process(report, data);
             if (!report.isSuccess()) {

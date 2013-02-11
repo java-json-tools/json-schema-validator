@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.schema.SchemaBundle;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -85,10 +85,10 @@ public final class SchemaLoader
             });
     }
 
-    public JsonSchemaTree load(final JsonNode schema)
+    public SchemaTree load(final JsonNode schema)
     {
         Preconditions.checkNotNull(schema, "cannot register null schema");
-        return dereferencing.newTree(schema);
+        return dereferencing.newTree2(schema);
     }
 
     /**
@@ -100,7 +100,7 @@ public final class SchemaLoader
      * @param uri the URI
      * @return a schema tree
      */
-    public JsonSchemaTree get(final URI uri)
+    public SchemaTree get(final URI uri)
         throws ProcessingException
     {
         final JsonRef ref = namespace.resolve(JsonRef.fromURI(uri));
@@ -115,7 +115,7 @@ public final class SchemaLoader
 
         try {
             final JsonNode node = cache.get(realURI);
-            return dereferencing.newTree(ref, node);
+            return dereferencing.newTree2(ref, node);
         } catch (ExecutionException e) {
             throw (ProcessingException) e.getCause();
         }

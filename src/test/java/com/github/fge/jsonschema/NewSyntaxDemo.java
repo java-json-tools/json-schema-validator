@@ -25,8 +25,8 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
@@ -41,7 +41,7 @@ public final class NewSyntaxDemo
         throws IOException, ProcessingException
     {
         final JsonNode schema = JsonLoader.fromResource("/draftv4/schema");
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree2(schema);
         final ValidationData data = new ValidationData(tree);
 
         final ProcessingReport report = new ListProcessingReport();

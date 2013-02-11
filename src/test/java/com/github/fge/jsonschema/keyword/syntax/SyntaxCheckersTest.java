@@ -30,8 +30,8 @@ import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.CanonicalSchemaTree2;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.github.fge.jsonschema.util.NodeType;
@@ -156,7 +156,7 @@ public abstract class SyntaxCheckersTest
     public final void invalidTypesAreReportedAsErrors(final JsonNode node)
         throws ProcessingException
     {
-        final JsonSchemaTree tree = treeFromValue(keyword, node);
+        final SchemaTree tree = treeFromValue(keyword, node);
         final NodeType type = NodeType.getNodeType(node);
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
@@ -205,7 +205,7 @@ public abstract class SyntaxCheckersTest
         final ObjectNode msgData)
         throws ProcessingException
     {
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree2(schema);
 
         checker.checkSyntax(pointers, report, tree);
 
@@ -253,7 +253,7 @@ public abstract class SyntaxCheckersTest
         final ArrayNode expectedPointers)
         throws ProcessingException, JsonSchemaException
     {
-        final JsonSchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree2(schema);
 
         checker.checkSyntax(pointers, report, tree);
 
@@ -267,11 +267,11 @@ public abstract class SyntaxCheckersTest
     /*
      * Utility methods
      */
-    private static JsonSchemaTree treeFromValue(final String keyword,
+    private static SchemaTree treeFromValue(final String keyword,
         final JsonNode node)
     {
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
         schema.put(keyword, node);
-        return new CanonicalSchemaTree(schema);
+        return new CanonicalSchemaTree2(schema);
     }
 }

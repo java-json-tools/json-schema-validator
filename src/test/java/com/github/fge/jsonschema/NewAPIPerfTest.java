@@ -37,7 +37,7 @@ import com.github.fge.jsonschema.processing.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree2;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
@@ -79,7 +79,7 @@ public final class NewAPIPerfTest
 
         final JsonNode draftV4CoreSchema
             = JsonLoader.fromResource("/draftv4/schema");
-        final JsonSchemaTree schemaTree = loader.load(draftV4CoreSchema);
+        final SchemaTree schemaTree = loader.load(draftV4CoreSchema);
 
         long begin, current;
         begin = System.currentTimeMillis();
@@ -108,7 +108,7 @@ public final class NewAPIPerfTest
     }
 
     private static void doValidate(final Map<String, JsonNode> schemas,
-        final ValidationProcessor processor, final JsonSchemaTree tree,
+        final ValidationProcessor processor, final SchemaTree tree,
         final int i)
         throws ProcessingException
     {

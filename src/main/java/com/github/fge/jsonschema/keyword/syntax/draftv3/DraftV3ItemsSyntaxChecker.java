@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaOrSchemaArraySyntaxChecker;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 
 public final class DraftV3ItemsSyntaxChecker
     extends SchemaOrSchemaArraySyntaxChecker
@@ -41,7 +41,7 @@ public final class DraftV3ItemsSyntaxChecker
 
     @Override
     protected void extraChecks(final ProcessingReport report,
-        final JsonSchemaTree tree)
+        final SchemaTree tree)
         throws ProcessingException
     {
     }

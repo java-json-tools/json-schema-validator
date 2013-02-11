@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.processing.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
@@ -55,20 +55,20 @@ public final class DisallowKeywordValidator
             return;
         }
 
-        final JsonSchemaTree schemaTree = data.getSchema();
+        final SchemaTree tree = data.getSchema();
         final ObjectNode fullReport = FACTORY.objectNode();
 
         JsonPointer ptr;
         ListProcessingReport subReport;
+        ValidationData newData;
         int nrSuccess = 0;
 
         for (final int index: schemas) {
             subReport = new ListProcessingReport(report);
             subReport.setExceptionThreshold(LogLevel.FATAL);
             ptr = basePtr.append(index);
-            schemaTree.append(ptr);
-            processor.process(subReport, data);
-            schemaTree.pop();
+            newData = data.withSchema(tree.append(ptr));
+            processor.process(subReport, newData);
             fullReport.put(ptr.toString(), subReport.asJson());
             if (subReport.isSuccess())
                 nrSuccess++;
