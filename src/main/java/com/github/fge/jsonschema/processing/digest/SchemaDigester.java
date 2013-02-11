@@ -30,12 +30,12 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import java.util.Map;
-import java.util.Set;
 
 public final class SchemaDigester
     implements Processor<ValidationData, ValidationDigest>
@@ -70,7 +70,8 @@ public final class SchemaDigester
         final JsonNode schema = input.getSchema().getNode();
         final NodeType type
             = NodeType.getNodeType(input.getInstance().getNode());
-        final Map<String, JsonNode> map = cache.getUnchecked(schema);
+        final Map<String, JsonNode> map
+            = Maps.newHashMap(cache.getUnchecked(schema));
         map.keySet().retainAll(typeMap.get(type));
         return new ValidationDigest(input, map);
     }
@@ -83,14 +84,16 @@ public final class SchemaDigester
             public Map<String, JsonNode> load(final JsonNode key)
                 throws ProcessingException
             {
-                final Set<String> keywords = Sets.newHashSet(key.fieldNames());
-                final Map<String, JsonNode> ret = Maps.newHashMap();
+                final ImmutableMap.Builder<String, JsonNode> builder
+                    = ImmutableMap.builder();
+                final Map<String, Digester> map = Maps.newHashMap(digesterMap);
 
-                keywords.retainAll(digesterMap.keySet());
-                for (final String keyword: keywords)
-                    ret.put(keyword, digesterMap.get(keyword).digest(key));
+                map.keySet().retainAll(Sets.newHashSet(key.fieldNames()));
 
-                return ret;
+                for (final Map.Entry<String, Digester> entry: map.entrySet())
+                    builder.put(entry.getKey(), entry.getValue().digest(key));
+
+                return builder.build();
             }
         };
     }
