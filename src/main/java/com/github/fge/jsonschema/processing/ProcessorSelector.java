@@ -19,8 +19,10 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -64,26 +66,42 @@ public final class ProcessorSelector<IN extends MessageProvider, OUT extends Mes
 
     public Processor<IN, OUT> getProcessor()
     {
-        return buildChooser();
+        return new Chooser<IN, OUT>(choices, byDefault);
     }
 
-    private Processor<IN, OUT> buildChooser()
+    private static final class Chooser<X extends MessageProvider, Y extends MessageProvider>
+        implements Processor<X, Y>
     {
-        return new Processor<IN, OUT>()
+        private final Map<Predicate<X>, Processor<X, Y>> map;
+        private final Processor<X, Y> byDefault;
+
+        private Chooser(final Map<Predicate<X>, Processor<X, Y>> map,
+            final Processor<X, Y> byDefault)
         {
-            @Override
-            public OUT process(final ProcessingReport report, final IN input)
-                throws ProcessingException
-            {
-                for (final Predicate<IN> predicate: choices.keySet())
-                    if (predicate.apply(input))
-                        return choices.get(predicate).process(report, input);
+            this.map = ImmutableMap.copyOf(map);
+            this.byDefault = byDefault;
+        }
 
-                if (byDefault == null)
-                    throw new ProcessingException("no suitable processor found");
-
-                return byDefault.process(report, input);
+        @Override
+        public Y process(final ProcessingReport report, final X input)
+            throws ProcessingException
+        {
+            Predicate<X> predicate;
+            Processor<X, Y> processor;
+            for (final Map.Entry<Predicate<X>, Processor<X, Y>> entry:
+                map.entrySet()) {
+                predicate = entry.getKey();
+                processor = entry.getValue();
+                if (predicate.apply(input))
+                    return processor.process(report, input);
             }
-        };
+
+            if (byDefault != null)
+                return byDefault.process(report, input);
+
+            final ProcessingMessage message = input.newMessage()
+                .message("no suitable processor found for input");
+            throw new ProcessingException(message);
+        }
     }
 }

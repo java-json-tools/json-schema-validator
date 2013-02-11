@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.processing;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.MessageProvider;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
@@ -91,6 +92,7 @@ public final class ProcessorSelectorTest
         selector = selector.when(predicate2).then(processor2);
 
         input = mock(In.class);
+        when(input.newMessage()).thenReturn(new ProcessingMessage());
         report = mock(ProcessingReport.class);
     }
 
@@ -147,7 +149,7 @@ public final class ProcessorSelectorTest
             for (final Processor<In, Out> p: otherProcessors)
                 verifyZeroInteractions(p);
             assertMessage(e.getProcessingMessage())
-                .hasMessage("no suitable processor found");
+                .hasMessage("no suitable processor found for input");
         }
     }
 
