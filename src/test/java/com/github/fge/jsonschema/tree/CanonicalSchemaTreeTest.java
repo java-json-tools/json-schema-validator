@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -34,7 +34,7 @@ import static org.testng.Assert.*;
 
 public final class CanonicalSchemaTreeTest
 {
-    private JsonSchemaTree schemaTree;
+    private SchemaTree schemaTree;
     private JsonNode lookups;
 
     @BeforeClass
@@ -45,12 +45,12 @@ public final class CanonicalSchemaTreeTest
         lookups = data.get("lookups");
 
         final JsonNode schema = data.get("schema");
-        schemaTree = new CanonicalSchemaTree(schema);
+        schemaTree = new CanonicalSchemaTree2(schema);
     }
 
     @DataProvider
     public Iterator<Object[]> getLookups()
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final Set<Object[]> set = Sets.newHashSet();
 

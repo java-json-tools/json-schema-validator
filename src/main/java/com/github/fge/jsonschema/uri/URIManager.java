@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
@@ -151,7 +152,7 @@ public final class URIManager
             ref = JsonRef.fromString(from);
             Preconditions.checkArgument(ref.isAbsolute(), errmsg);
             sourceURI = ref.getLocator();
-        } catch (JsonSchemaException ignored) {
+        } catch (ProcessingException ignored) {
             throw new IllegalArgumentException(errmsg);
         }
 
@@ -160,7 +161,7 @@ public final class URIManager
             ref = JsonRef.fromString(to);
             Preconditions.checkArgument(ref.isAbsolute(), errmsg);
             destURI = ref.getLocator();
-        } catch (JsonSchemaException ignored) {
+        } catch (ProcessingException ignored) {
             throw new IllegalArgumentException(errmsg);
         }
 

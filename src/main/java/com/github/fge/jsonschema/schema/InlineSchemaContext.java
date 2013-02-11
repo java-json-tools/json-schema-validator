@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.schema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -66,7 +66,7 @@ public final class InlineSchemaContext
     {
         try {
             return refFromNode(node.path("id"));
-        } catch (JsonSchemaException ignored) {
+        } catch (ProcessingException ignored) {
             return JsonRef.emptyRef();
         }
     }
@@ -86,7 +86,7 @@ public final class InlineSchemaContext
                     idRef = refFromNode(child.get("id"));
                     resolvedRef = baseRef.resolve(idRef);
                     map.put(resolvedRef, cleanup(child));
-                } catch (JsonSchemaException ignored) {
+                } catch (ProcessingException ignored) {
                     // Do nothing
                 }
             fillURIMap(baseRef, cleanup(child), map);
@@ -94,7 +94,7 @@ public final class InlineSchemaContext
     }
 
     private static JsonRef refFromNode(final JsonNode node)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         return node.isTextual() ? JsonRef.fromString(node.textValue())
             : JsonRef.emptyRef();

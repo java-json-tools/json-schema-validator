@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
@@ -38,7 +38,7 @@ import static org.testng.Assert.*;
 
 public final class InlineSchemaTreeTest
 {
-    private JsonSchemaTree schemaTree;
+    private SchemaTree schemaTree;
     private JsonNode lookups;
 
     @BeforeClass
@@ -49,12 +49,12 @@ public final class InlineSchemaTreeTest
         lookups = data.get("lookups");
 
         final JsonNode schema = data.get("schema");
-        schemaTree = new InlineSchemaTree(schema);
+        schemaTree = new InlineSchemaTree2(schema);
     }
 
     @DataProvider
     public Iterator<Object[]> getLookups()
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final Set<Object[]> set = Sets.newHashSet();
 
@@ -99,7 +99,7 @@ public final class InlineSchemaTreeTest
     public void cornerCasesAreHandledCorrectly(final String id,
         final String refAsString, final boolean resolvable,
         final JsonPointer ptr)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonNodeFactory factory = JacksonUtils.nodeFactory();
         final ObjectNode schema = factory.objectNode();
@@ -108,7 +108,7 @@ public final class InlineSchemaTreeTest
 
         ref = JsonRef.fromString(id);
         schema.put("id", factory.textNode(ref.toString()));
-        final JsonSchemaTree tree = new InlineSchemaTree(schema);
+        final SchemaTree tree = new InlineSchemaTree2(schema);
 
         ref = JsonRef.fromString(refAsString);
         assertEquals(tree.containsRef(ref), resolvable);

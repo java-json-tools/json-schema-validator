@@ -20,16 +20,16 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.ref.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
 /**
- * A {@link JsonTree} carrying URI resolution context information
+ * A {@link JsonTree2} carrying URI resolution context information
  *
- * <p>In addition to what {@link JsonTree} does, this tree also modifies URI
+ * <p>In addition to what {@link JsonTree2} does, this tree also modifies URI
  * resolution context information when changing paths, and adds methods in order
  * to query this resolution context.</p>
  *
@@ -37,8 +37,8 @@ import com.github.fge.jsonschema.util.JacksonUtils;
  * is used for addressing in JSON Schema.</p>
  *
  * @see JsonRef
- * @see CanonicalSchemaTree
- * @see InlineSchemaTree
+ * @see CanonicalSchemaTree2
+ * @see InlineSchemaTree2
  */
 public abstract class BaseSchemaTree
     implements SchemaTree
@@ -215,7 +215,7 @@ public abstract class BaseSchemaTree
 
         try {
             return JsonRef.fromString(node.get("id").textValue());
-        } catch (JsonSchemaException ignored) {
+        } catch (ProcessingException ignored) {
             return null;
         }
     }

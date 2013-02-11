@@ -22,11 +22,12 @@ import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
 import com.github.fge.jsonschema.metaschema.KeywordRegistry;
 import com.github.fge.jsonschema.metaschema.MetaSchema;
 import com.github.fge.jsonschema.metaschema.SchemaURIs;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonFragment;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.schema.AddressingMode;
-import com.github.fge.jsonschema.schema.SchemaBundle;
+import com.github.fge.jsonschema.processing.ref.SchemaBundle;
 import com.github.fge.jsonschema.schema.SchemaContext;
 import com.github.fge.jsonschema.schema.SchemaNode;
 import com.github.fge.jsonschema.schema.SchemaRegistry;
@@ -270,7 +271,7 @@ public final class JsonSchemaFactory
             ref = JsonRef.fromString(node.textValue());
             if (!validatorCaches.containsKey(ref))
                 ref = defaultSchemaURI;
-        } catch (JsonSchemaException ignored) {
+        } catch (ProcessingException ignored) {
             ref = defaultSchemaURI;
         }
 

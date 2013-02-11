@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
@@ -102,7 +103,7 @@ final class JsonResolver
              */
             try {
                 ref = JsonRef.fromString(refNode.textValue());
-            } catch (JsonSchemaException ignored) {
+            } catch (ProcessingException ignored) {
                 break;
             }
             /*

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.schema.SchemaBundle;
+import com.github.fge.jsonschema.processing.ref.SchemaBundle;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;

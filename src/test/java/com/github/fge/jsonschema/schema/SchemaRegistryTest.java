@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.schema;
 
 import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ref.SchemaBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;

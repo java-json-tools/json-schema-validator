@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
@@ -82,7 +82,7 @@ public final class SchemaTreeTest
     @Test(dataProvider = "sampleIds")
     public void topMostIdIsResolvedAgainstLoadingRef(final String loading,
         final String id)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonRef loadingRef = JsonRef.fromString(loading);
         final JsonRef idRef = JsonRef.fromString(id);
@@ -114,7 +114,7 @@ public final class SchemaTreeTest
     @Test(dataProvider = "getContexts")
     public void pointerAppendCorrectlyCalculatesContext(final String path,
         final String s)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
@@ -126,7 +126,7 @@ public final class SchemaTreeTest
     @Test(dataProvider = "getContexts")
     public void pointerSetCorrectlyCalculatesContext(final String path,
         final String s)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonPointer ptr = new JsonPointer(path);
         final JsonRef scope = JsonRef.fromString(s);
@@ -142,8 +142,8 @@ public final class SchemaTreeTest
     @Test
     public void newlyCreatedSchemasAreNotValidated()
     {
-        final JsonSchemaTree tree = new CanonicalSchemaTree(FACTORY.nullNode());
+        final SchemaTree tree = new CanonicalSchemaTree2(FACTORY.nullNode());
 
-        assertFalse(tree.isValidated());
+        assertFalse(tree.isValid());
     }
 }

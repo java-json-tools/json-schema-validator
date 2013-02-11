@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.ref;
 
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.report.Domain;
 import com.github.fge.jsonschema.report.Message;
 import com.google.common.collect.Sets;
@@ -36,7 +36,7 @@ public final class JsonRefTest
     static {
         try {
             BASE_REF = JsonRef.fromString("http://foo.bar/baz#");
-        } catch (JsonSchemaException e) {
+        } catch (ProcessingException e) {
            throw new ExceptionInInitializerError(e);
         }
     }
@@ -52,14 +52,14 @@ public final class JsonRefTest
         try {
             JsonRef.fromString(s);
             fail("No exception thrown!");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getValidationMessage(), message);
+        } catch (ProcessingException ignored) {
+            assertTrue(true);
         }
     }
 
     @Test
     public void emptyOrNoFragmentIsTheSame()
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonRef ref1 = JsonRef.fromString("http://foo.bar");
         final JsonRef ref2 = JsonRef.fromString("http://foo.bar#");
@@ -69,7 +69,7 @@ public final class JsonRefTest
 
     @Test
     public void afterURINormalizationJsonRefsShouldBeEqual()
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final String s1 = "http://foo.bar/a/b";
         final String s2 = "http://foo.bar/c/../a/./b";
@@ -81,7 +81,7 @@ public final class JsonRefTest
 
     @Test
     public void absoluteURIWithFragmentIsNotAnAbsoluteRef()
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonRef ref = JsonRef.fromString("http://foo.bar/a/b#c");
 
@@ -106,7 +106,7 @@ public final class JsonRefTest
     @Test(dataProvider = "getContainsData")
     public void testReferenceContains(final String input,
         final boolean contained)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonRef tmp = JsonRef.fromString(input);
         final JsonRef resolved = BASE_REF.resolve(tmp);
@@ -142,7 +142,7 @@ public final class JsonRefTest
     @Test(dataProvider = "getJarURIData")
     public void resolvingAgainstJarURIsWork(final String src, final String rel,
         final String dst)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonRef source = JsonRef.fromString(src);
         final JsonRef ref = JsonRef.fromString(rel);

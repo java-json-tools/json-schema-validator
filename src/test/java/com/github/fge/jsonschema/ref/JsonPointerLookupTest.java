@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.ImmutableSet;
 import org.testng.annotations.BeforeClass;
@@ -78,7 +78,7 @@ public final class JsonPointerLookupTest
     @Test(dataProvider = "getData")
     public void pointerLookupSucceed(final String input,
         final JsonNode expected, final String errmsg)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonPointer ptr = new JsonPointer(input);
 

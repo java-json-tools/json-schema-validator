@@ -19,9 +19,8 @@ package com.github.fge.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
-import com.github.fge.jsonschema.report.Domain;
-import com.github.fge.jsonschema.report.Message;
+import com.github.fge.jsonschema.processing.ProcessingException;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.base.CharMatcher;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
@@ -158,10 +157,10 @@ public final class JsonPointer
      * Constructor
      *
      * @param input The input string, guaranteed not to be JSON encoded
-     * @throws JsonSchemaException illegal JSON Pointer
+     * @throws ProcessingException illegal JSON Pointer
      */
     public JsonPointer(final String input)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         super(input);
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
@@ -353,11 +352,11 @@ public final class JsonPointer
      *
      * @param input Input string, guaranteed not to be JSON/URI encoded
      * @param builder the list builder
-     * @throws JsonSchemaException the input is not a valid JSON Pointer
+     * @throws ProcessingException the input is not a valid JSON Pointer
      */
     private static void decode(final String input,
         final ImmutableList.Builder<String> builder)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         String cooked, raw;
         String victim = input;
@@ -367,9 +366,10 @@ public final class JsonPointer
              * Skip the /
              */
             if (!victim.startsWith("/")) {
-                final Message.Builder msg
-                    = newMsg("reference token not preceeded by '/'");
-                throw new JsonSchemaException(msg.build());
+                final ProcessingMessage message = new ProcessingMessage()
+                    .msg("illegal JSON Pointer")
+                    .put("reason", "reference token not preceeded by '/'");
+                throw new ProcessingException(message);
             }
             victim = victim.substring(1);
 
@@ -397,10 +397,10 @@ public final class JsonPointer
      *
      * @param input the input string
      * @return the cooked reference token
-     * @throws JsonSchemaException the string is malformed
+     * @throws ProcessingException the string is malformed
      */
     private static String getNextRefToken(final String input)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final StringBuilder sb = new StringBuilder();
 
@@ -419,11 +419,13 @@ public final class JsonPointer
         for (final char c: array) {
             if (inEscape) {
                 if (!ESCAPED.matches(c)) {
-                    final Message.Builder msg = newMsg("bad escape sequence: " +
-                        "'~' not followed by a valid token")
-                        .addInfo("allowed", ESCAPE_REPLACEMENT_MAP.keySet())
-                        .addInfo("found", Character.valueOf(c));
-                    throw new JsonSchemaException(msg.build());
+                    final ProcessingMessage message
+                        = new ProcessingMessage().msg("illegal JSON Pointer")
+                            .put("reason", "bad escape sequence: '~' not "
+                                + "followed by a valid token")
+                            .put("allowed", ESCAPE_REPLACEMENT_MAP.keySet())
+                            .put("found", Character.valueOf(c));
+                    throw new ProcessingException(message);
                 }
                 sb.append(c);
                 inEscape = false;
@@ -436,9 +438,13 @@ public final class JsonPointer
             sb.append(c);
         }
 
-        if (inEscape)
-            throw new JsonSchemaException(newMsg("bad escape sequence: '~' " +
-                "not followed by any token").build());
+        if (inEscape) {
+            final ProcessingMessage message
+                = new ProcessingMessage().msg("illegal JSON Pointer")
+                .put("reason", "bad escape sequence: '~' not followed by any " +
+                    "token");
+            throw new ProcessingException(message);
+        }
         return sb.toString();
     }
 
@@ -507,12 +513,6 @@ public final class JsonPointer
                 sb.append(c);
 
         return sb.toString();
-    }
-
-    private static Message.Builder newMsg(final String reason)
-    {
-        return Domain.REF_RESOLVING.newMessage().setKeyword("$ref")
-            .setMessage("illegal JSON Pointer").addInfo("reason", reason);
     }
 
     /**

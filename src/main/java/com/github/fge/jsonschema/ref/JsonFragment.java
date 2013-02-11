@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.schema.AddressingMode;
 
 /**
@@ -69,7 +69,7 @@ public abstract class JsonFragment
 
         try {
             return new JsonPointer(fragment);
-        } catch (JsonSchemaException ignored) {
+        } catch (ProcessingException ignored) {
             // Not a valid JSON Pointer: illegal
             return new IllegalFragment(fragment);
         }

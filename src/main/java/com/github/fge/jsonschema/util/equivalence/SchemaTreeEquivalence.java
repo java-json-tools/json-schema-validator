@@ -17,36 +17,40 @@
 
 package com.github.fge.jsonschema.util.equivalence;
 
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
-public final class SyntaxCheckingEquivalence
-    extends Equivalence<JsonSchemaTree>
+public final class SchemaTreeEquivalence
+    extends Equivalence<SchemaTree>
 {
-    private static final Equivalence<JsonSchemaTree> INSTANCE
-        = new SyntaxCheckingEquivalence();
+    private static final Equivalence<SchemaTree> INSTANCE
+        = new SchemaTreeEquivalence();
 
-    private SyntaxCheckingEquivalence()
-    {
-    }
-
-    public static Equivalence<JsonSchemaTree> getInstance()
+    public static Equivalence<SchemaTree> getInstance()
     {
         return INSTANCE;
     }
 
-    @Override
-    protected boolean doEquivalent(final JsonSchemaTree a,
-        final JsonSchemaTree b)
+    private SchemaTreeEquivalence()
     {
-        return a.getPointer().equals(b.getPointer())
+    }
+
+    @Override
+    protected boolean doEquivalent(final SchemaTree a, final SchemaTree b)
+    {
+        return a.getLoadingRef().equals(b.getLoadingRef())
+            && a.getContext().equals(b.getContext())
+            && a.getPointer().equals(b.getPointer())
             && a.getBaseNode().equals(b.getBaseNode());
     }
 
     @Override
-    protected int doHash(final JsonSchemaTree t)
+    protected int doHash(final SchemaTree t)
     {
-        return 31 * t.getPointer().hashCode()
-            + t.getBaseNode().hashCode();
+        int ret = t.getLoadingRef().hashCode();
+        ret = 31 * ret + t.getContext().hashCode();
+        ret = 31 * ret + t.getPointer().hashCode();
+        ret = 31 * ret + t.getBaseNode().hashCode();
+        return ret;
     }
 }

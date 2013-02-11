@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.schema;
+package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -43,7 +43,7 @@ import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
  *
  * @see Builder#addSchema(URI, JsonNode)
  * @see Builder#addSchema(String, JsonNode)
- * @see SchemaRegistry#addBundle(SchemaBundle)
+ * @see com.github.fge.jsonschema.schema.SchemaRegistry#addBundle(SchemaBundle)
  */
 public final class SchemaBundle
 {

@@ -18,10 +18,10 @@
 package com.github.fge.jsonschema.metaschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.old.format.FormatAttribute;
 import com.github.fge.jsonschema.old.keyword.KeywordValidator;
 import com.github.fge.jsonschema.old.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
 
@@ -75,7 +75,7 @@ public enum BuiltinSchemas
         try {
             locator = JsonRef.fromString(uri);
             rawSchema = JsonLoader.fromResource(resource);
-        } catch (JsonSchemaException e) {
+        } catch (ProcessingException e) {
             throw new ExceptionInInitializerError(e);
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);

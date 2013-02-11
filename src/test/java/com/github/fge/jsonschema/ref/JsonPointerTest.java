@@ -20,9 +20,7 @@ package com.github.fge.jsonschema.ref;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.github.fge.jsonschema.main.JsonSchemaException;
-import com.github.fge.jsonschema.report.Domain;
-import com.github.fge.jsonschema.report.Message;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.ImmutableSet;
@@ -75,7 +73,7 @@ public final class JsonPointerTest
     @Test(dataProvider = "getPointerData")
     public void pointersResolveCorrectly(final String input,
         final JsonNode expected)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonPointer ptr = new JsonPointer(input);
         final JsonNode actual = ptr.resolve(document);
@@ -93,7 +91,7 @@ public final class JsonPointerTest
     @Test(dataProvider = "getURIData")
     public void URIEncodedPointersResolveCorrectly(final String input,
         final JsonNode expected)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonPointer ptr
             = new JsonPointer(URI.create(input).getFragment());
@@ -116,33 +114,26 @@ public final class JsonPointerTest
 
     private static Object[] mungeArguments(final JsonNode node)
     {
-        final Message.Builder msg = Domain.REF_RESOLVING.newMessage()
-            .setKeyword("$ref").setMessage("illegal JSON Pointer");
-
         final Map<String, JsonNode> map
             = JacksonUtils.asMap(node.get("info"));
 
-        for (final Map.Entry<String, JsonNode> entry: map.entrySet())
-            msg.addInfo(entry.getKey(), entry.getValue());
-
-        return new Object[] { node.get("input").textValue(), msg.build() };
+        return new Object[] { node.get("input").textValue() };
     }
 
     @Test(dataProvider = "getIllegalPointerData")
-    public void illegalJSONPointerMustBeDetectedAsSuch(final String input,
-        final Message msg)
+    public void illegalJSONPointerMustBeDetectedAsSuch(final String input)
     {
         try {
             new JsonPointer(input);
             fail(input + " was supposed to be illegal");
-        } catch (JsonSchemaException e) {
-            assertEquals(e.getValidationMessage(), msg);
+        } catch (ProcessingException ignored) {
+            assertTrue(true);
         }
     }
 
     @Test
     public void zeroPrefixedIntegersAreNotValidArrayPointers()
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonPointer ptr = new JsonPointer("/00");
         final ArrayNode node = JsonNodeFactory.instance.arrayNode()
@@ -168,7 +159,7 @@ public final class JsonPointerTest
     @Test(dataProvider = "parentData")
     public void parentRelationshipsAreCorrectlyProcessed(final String source,
         final String target, final String ret, final boolean isParent)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonPointer sourcePtr = new JsonPointer(source);
         final JsonPointer targetPtr = new JsonPointer(target);

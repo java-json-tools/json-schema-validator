@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.metaschema;
 
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 
 /**
@@ -55,7 +55,7 @@ public final class SchemaURIs
             DRAFTV3_HYPERSCHEMA = JsonRef.fromString(uri);
             uri = "http://json-schema.org/draft-04/schema#";
             DRAFTV4_CORE = JsonRef.fromString(uri);
-        } catch (JsonSchemaException e) {
+        } catch (ProcessingException e) {
             throw new ExceptionInInitializerError(e);
         }
     }

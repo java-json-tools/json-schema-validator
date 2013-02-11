@@ -19,10 +19,7 @@ package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree2;
-import com.github.fge.jsonschema.tree.JsonSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 public enum Dereferencing
@@ -34,13 +31,6 @@ public enum Dereferencing
         {
             return new InlineSchemaTree2(ref, node);
         }
-
-        @Override
-        public JsonSchemaTree newTree(final JsonRef ref,
-            final JsonNode node)
-        {
-            return new CanonicalSchemaTree(ref, node);
-        }
     },
     INLINE("inline")
     {
@@ -49,18 +39,9 @@ public enum Dereferencing
         {
             return new InlineSchemaTree2(ref, node);
         }
-
-        @Override
-        public JsonSchemaTree newTree(final JsonRef ref, final JsonNode node)
-        {
-            return new InlineSchemaTree(ref, node);
-        }
     };
 
     private final String name;
-
-    public abstract JsonSchemaTree newTree(final JsonRef ref,
-        final JsonNode node);
 
     public abstract SchemaTree newTree2(final JsonRef ref,
         final JsonNode node);
@@ -68,11 +49,6 @@ public enum Dereferencing
     Dereferencing(final String name)
     {
         this.name = name;
-    }
-
-    public JsonSchemaTree newTree(final JsonNode node)
-    {
-        return newTree(JsonRef.emptyRef(), node);
     }
 
     public SchemaTree newTree2(final JsonNode node)

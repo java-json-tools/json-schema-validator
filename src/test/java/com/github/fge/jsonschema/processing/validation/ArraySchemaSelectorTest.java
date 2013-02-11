@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.processing.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Lists;
@@ -43,7 +43,7 @@ public final class ArraySchemaSelectorTest
 
     @DataProvider
     public Iterator<Object[]> testData()
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final List<Object[]> list = Lists.newArrayList();
 

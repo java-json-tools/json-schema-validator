@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.processing.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ValidationData;
@@ -28,7 +27,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ProcessingCache;
-import com.github.fge.jsonschema.util.equivalence.JsonSchemaTreeEquivalence;
+import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
 import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheLoader;
 import com.google.common.collect.Sets;
@@ -50,7 +49,7 @@ public final class RefResolverProcessor
     {
         this.loader = loader;
         refCache = new ProcessingCache<SchemaTree, SchemaTree>(
-            JsonSchemaTreeEquivalence.getInstance(),
+            SchemaTreeEquivalence.getInstance(),
             new CacheLoader<Equivalence.Wrapper<SchemaTree>, SchemaTree>()
             {
                 @Override
@@ -88,7 +87,7 @@ public final class RefResolverProcessor
             return null;
         try {
             return JsonRef.fromString(refNode.textValue());
-        } catch (JsonSchemaException ignored) {
+        } catch (ProcessingException ignored) {
             return null;
         }
     }

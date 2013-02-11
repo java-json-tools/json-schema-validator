@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.schema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.main.JsonSchemaException;
+import com.github.fge.jsonschema.processing.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
@@ -65,7 +65,7 @@ public final class InlineSchemaContainerTest
 
     @Test(dataProvider = "getLookupData")
     public void idLookupWorksCorrectly(final String pointer, final String id)
-        throws JsonSchemaException
+        throws ProcessingException
     {
         final JsonRef ref = JsonRef.fromString(id);
         assertTrue(schemaContext.contains(ref));

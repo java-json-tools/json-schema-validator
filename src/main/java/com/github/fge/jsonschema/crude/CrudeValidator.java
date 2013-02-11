@@ -35,7 +35,7 @@ import com.github.fge.jsonschema.processing.validation.ValidationChain;
 import com.github.fge.jsonschema.processing.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.schema.SchemaBundle;
+import com.github.fge.jsonschema.processing.ref.SchemaBundle;
 import com.github.fge.jsonschema.tree.JsonTree2;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree2;
