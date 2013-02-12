@@ -1,9 +1,0 @@
-[
-    {
-        "schema": {
-            "id": "foo",
-            "$ref": "foo"
-        },
-        "path": [ "foo#" ]
-    }
-]
