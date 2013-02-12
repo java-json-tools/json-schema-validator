@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.keyword.validator;
 
+import com.github.fge.jsonschema.processors.ValidationDomain;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
@@ -33,7 +34,8 @@ public abstract class AbstractKeywordValidator
     protected final ProcessingMessage newMsg(final ValidationData data)
     {
         return data.newMessage().put("domain", "validation")
-            .put("keyword", keyword);
+            .put("keyword", keyword)
+            .setExceptionProvider(ValidationDomain.INSTANCE.exceptionProvider());
     }
 
     @Override

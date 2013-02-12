@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.util.AsJson;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.base.Preconditions;
@@ -35,11 +36,20 @@ public final class ProcessingMessage
 
     private final Map<String, JsonNode> map = Maps.newLinkedHashMap();
 
+    private ExceptionProvider exceptionProvider;
+
     private LogLevel level;
 
     public ProcessingMessage()
     {
         setLogLevel(LogLevel.INFO);
+    }
+
+    public ProcessingMessage setExceptionProvider(
+        final ExceptionProvider exceptionProvider)
+    {
+        this.exceptionProvider = exceptionProvider;
+        return this;
     }
 
     public ProcessingMessage setLogLevel(final LogLevel level)
@@ -124,6 +134,11 @@ public final class ProcessingMessage
         final ObjectNode ret = FACTORY.objectNode();
         ret.putAll(map);
         return ret;
+    }
+
+    public ProcessingException asException()
+    {
+        return exceptionProvider.doException(this);
     }
 
     @Override

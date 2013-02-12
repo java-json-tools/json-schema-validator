@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.keyword.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
+import com.github.fge.jsonschema.processors.ValidationDomain;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -73,7 +74,8 @@ public abstract class AbstractSyntaxChecker
         final T msg)
     {
         return new ProcessingMessage().put("domain", "syntax")
-            .put("schema", tree).put("keyword", keyword).message(msg);
+            .put("schema", tree).put("keyword", keyword).message(msg)
+            .setExceptionProvider(ValidationDomain.SYNTAX.exceptionProvider());
     }
 
     protected final JsonNode getNode(final SchemaTree tree)
