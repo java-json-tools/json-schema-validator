@@ -3,8 +3,8 @@
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
-<p>This is one of the very few JSON Schema implementations to have complete validation support for
-the latest draft (v4). More generally, it has quite an <a
+<p>This implementation has complete validation support for the latest draft (v4) and the previous
+draft (v3). More generally, it has quite an <a
 href="https://github.com/fge/json-schema-validator/wiki/Features">extensive list of features</a>.<p>
 
 <p>Should you wonder about it, this library is reported to <a
@@ -29,15 +29,22 @@ group</a>.</p>
 
 <h2>Current status</h2>
 
-<p>The whole core of the library is currently being changed. The goal is to allow to "chain" this
-library with other JSON-related tasks: see <a
-href="https://github.com/fge/json-schema-validator/wiki/Roadmap">here</a> for what is in store for
-2.0.x.</p>
+<p>Work is underway to get this library up to version 2.0.x. This implies <a
+href="https://github.com/fge/json-schema-validator/wiki/Roadmap">some profound changes to its
+core</a>.
+
+<p>In essence: with the new core, it will become possible to do whatever you want with your JSON
+data. And that includes generating JSON Schema from POJOs, or the reverse.</p>
+
+<p>At the time of this writing, the core processing architecture has reached a workable enough state
+that it can already be split apart, but it lacks documentation. And the primary objective is to
+provide a user API to control all validation aspects first and foremost: as of 1.99.6, the library
+is 50% there.</p>
 
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.5</b>; as the Javadoc is not done yet, no links to it, sorry!</li>
+    <li>development version: <b>1.99.6</b>; as the Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.6.0</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
