@@ -22,6 +22,11 @@ public final class LoadingConfiguration
         namespace = cfg.namespace;
     }
 
+    public Dictionary<URIDownloader> downloaders()
+    {
+        return downloaders;
+    }
+
     @Override
     public LoadingConfigurationBuilder thaw()
     {

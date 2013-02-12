@@ -38,6 +38,16 @@ public final class LoadingConfigurationBuilder
         return this;
     }
 
+    public LoadingConfigurationBuilder removeScheme(final String scheme)
+    {
+        /*
+         * No checks for null or anything there: adding entries will have been
+         * filtered out anyway, so no harm.
+         */
+        downloaders.removeEntry(scheme);
+        return this;
+    }
+
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
         namespace = checkRef(input);
@@ -59,7 +69,7 @@ public final class LoadingConfigurationBuilder
         if (scheme.isEmpty())
             throw new LoadingConfigurationError(message.message(EMPTY_SCHEME));
         try {
-            new URI(scheme, null, null);
+            new URI(scheme, "x", "y");
         } catch (URISyntaxException ignored) {
             throw new LoadingConfigurationError(message.message(ILLEGAL_SCHEME)
                 .put("scheme", scheme));

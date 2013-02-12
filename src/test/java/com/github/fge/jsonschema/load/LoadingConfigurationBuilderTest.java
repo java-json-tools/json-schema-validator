@@ -54,6 +54,18 @@ public final class LoadingConfigurationBuilderTest
     }
 
     @Test
+    public void registeringAndUnregisteringSchemeWorks()
+    {
+        final String scheme = "foo";
+
+        cfg.addScheme(scheme, downloader);
+        assertNotNull(cfg.freeze().downloaders().get(scheme));
+
+        cfg.removeScheme(scheme);
+        assertNull(cfg.freeze().downloaders().get(scheme));
+    }
+
+    @Test
     public void cannotRegisterNullNamespace()
     {
         try {
