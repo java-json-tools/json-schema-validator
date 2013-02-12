@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.util.Thawed;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -38,7 +39,10 @@ public final class DictionaryBuilder<T>
 
     public DictionaryBuilder<T> addEntry(final String key, final T value)
     {
-        entries.put(key, value);
+        entries.put(
+            Preconditions.checkNotNull(key, "key must not be null"),
+            Preconditions.checkNotNull(value, "value must not be null")
+        );
         return this;
     }
 
