@@ -48,7 +48,7 @@ import static org.testng.Assert.*;
 public abstract class AbstractFormatAttributeTest
 {
     protected static final SchemaTree SCHEMA_TREE
-        = new CanonicalSchemaTree(JacksonUtils.emptyObject());
+        = new CanonicalSchemaTree(JacksonUtils.nodeFactory().objectNode());
 
     protected final FormatAttribute attribute;
     protected final JsonNode testNode;

@@ -46,8 +46,6 @@ public final class JacksonUtils
     private static final JsonNodeFactory FACTORY
         = JsonNodeFactory.withExactBigDecimals(false);
 
-    private static final JsonNode EMPTY_OBJECT = FACTORY.objectNode();
-
     private static final ObjectReader READER = new ObjectMapper()
         .setNodeFactory(FACTORY)
         .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS).reader();
@@ -75,19 +73,6 @@ public final class JacksonUtils
     public static JsonNodeFactory nodeFactory()
     {
         return FACTORY;
-    }
-
-    /**
-     * Return a statically created {@link ObjectNode} instance
-     *
-     * <p>NOTE: this instance is MUTABLE, but right now Jackson provides no way
-     * to create immutable object nodes.</p>
-     *
-     * @return an empty object node
-     */
-    public static JsonNode emptyObject()
-    {
-        return EMPTY_OBJECT;
     }
 
     /**
