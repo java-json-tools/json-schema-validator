@@ -37,9 +37,11 @@ core</a>.
 data. And that includes generating JSON Schema from POJOs, or the reverse.</p>
 
 <p>At the time of this writing, the core processing architecture has reached a workable enough state
-that it can already be split apart, but it lacks documentation. And the primary objective is to
-provide a user API to control all validation aspects first and foremost: as of 1.99.6, the library
-is 50% there.</p>
+that it can already be split apart, but it lacks documentation and examples.
+
+<p>Furthermore, the primary objective is to provide a user API to give as much, or more, control,
+over all validation aspects than what 1.x allowed: as of 1.99.6, the core components are there, but
+the user interface is only 50% there.</p>
 
 <h2>Versions</h2>
 
