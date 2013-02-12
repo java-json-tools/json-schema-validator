@@ -49,6 +49,7 @@ public class ListProcessingReport
         if (level != null)
             setExceptionThreshold(level);
     }
+
     @Override
     public final void doLog(final ProcessingMessage message)
     {

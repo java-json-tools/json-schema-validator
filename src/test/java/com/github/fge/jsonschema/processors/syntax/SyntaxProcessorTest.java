@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.SampleNodeProvider;
-import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -49,7 +48,6 @@ import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class SyntaxProcessorTest
 {
@@ -230,25 +228,6 @@ public final class SyntaxProcessorTest
         processor.process(report, data);
         verify(checker, onlyOnce()).checkSyntax(
             anyCollectionOf(JsonPointer.class),  anyReport(), anySchema());
-    }
-
-    @Test
-    public void whenAskedToErrorOutExceptionThrownIsCorrect()
-        throws ProcessingException
-    {
-        final ObjectNode schema = FACTORY.objectNode();
-        schema.put(K2, "");
-
-        final ValidationData data = schemaToData(schema);
-
-        when(report.getExceptionThreshold()).thenReturn(LogLevel.ERROR);
-
-        try {
-            processor.process(report, data);
-            fail("No exception thrown??");
-        } catch (InvalidSchemaException ignored) {
-            assertTrue(true);
-        }
     }
 
     private static ValidationData schemaToData(final JsonNode schema)

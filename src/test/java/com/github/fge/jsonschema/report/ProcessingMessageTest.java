@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Lists;
 import org.testng.annotations.Test;
@@ -176,5 +177,36 @@ public final class ProcessingMessageTest
         final ProcessingMessage msg = new ProcessingMessage().put("foo", list);
 
         assertMessage(msg).hasField("foo", node);
+    }
+
+    @Test
+    public void settingExceptionProviderYieldsCorrectException()
+        throws ProcessingException
+    {
+        final ProcessingMessage testMessage = new ProcessingMessage();
+        testMessage.setExceptionProvider(new ExceptionProvider()
+        {
+            @Override
+            public ProcessingException doException(
+                final ProcessingMessage message)
+            {
+                return new Foo(message);
+            }
+        });
+
+        try {
+            throw testMessage.asException();
+        } catch (Foo ignored) {
+            assertTrue(true);
+        }
+    }
+
+    private static final class Foo
+        extends ProcessingException
+    {
+        private Foo(final ProcessingMessage message)
+        {
+            super(message);
+        }
     }
 }

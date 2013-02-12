@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.processors.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -78,14 +77,7 @@ public final class SyntaxProcessor
     {
         final SchemaTree schema = input.getSchema();
         final ListProcessingReport syntaxReport
-            = new ListProcessingReport(report) {
-            @Override
-            protected ProcessingException doException(
-                final ProcessingMessage message)
-            {
-                return new InvalidSchemaException(message);
-            }
-        };
+            = new ListProcessingReport(report);
 
         final ValidatedPaths paths = cache.getUnchecked(schema.getBaseNode());
         final ReentrantLock lock = paths.getLock();
