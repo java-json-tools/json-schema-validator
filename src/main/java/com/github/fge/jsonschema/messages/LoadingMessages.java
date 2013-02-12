@@ -21,8 +21,12 @@ public enum LoadingMessages
 {
     NULL_SCHEME("scheme cannot be null"),
     EMPTY_SCHEME("cannot register empty scheme"),
-    ILLEGAL_SCHEME("illegal scheme")
+    ILLEGAL_SCHEME("illegal scheme"),
+    NULL_NAMESPACE("namespace cannot be null"),
+    INVALID_URI("input is not a valid URI"),
+    REF_NOT_ABSOLUTE("input is not an absolute JSON Reference"),
     ;
+
     private final String message;
 
     LoadingMessages(final String message)

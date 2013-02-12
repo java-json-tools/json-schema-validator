@@ -52,4 +52,30 @@ public final class LoadingConfigurationBuilderTest
                 .hasField("scheme", scheme);
         }
     }
+
+    @Test
+    public void cannotRegisterNullNamespace()
+    {
+        try {
+            cfg.setNamespace(null);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_NAMESPACE);
+        }
+    }
+
+    @Test
+    public void cannotRegisterNonAbsoluteNamespace()
+    {
+        final String input = "foo";
+        try {
+            cfg.setNamespace(input);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(REF_NOT_ABSOLUTE)
+                .hasField("input", input);
+        }
+    }
 }
