@@ -5,9 +5,11 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
+import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.LoadingMessages.*;
 
@@ -18,17 +20,20 @@ public final class LoadingConfigurationBuilder
 
     final DictionaryBuilder<URIDownloader> downloaders;
     URI namespace;
+    final Map<URI, URI> schemaRedirects;
 
     LoadingConfigurationBuilder()
     {
         downloaders = DefaultDownloadersDictionary.get().thaw();
         namespace = EMPTY_NAMESPACE;
+        schemaRedirects = Maps.newHashMap();
     }
 
     LoadingConfigurationBuilder(final LoadingConfiguration cfg)
     {
         downloaders = cfg.downloaders.thaw();
         namespace = cfg.namespace;
+        schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
     }
 
     public LoadingConfigurationBuilder addScheme(final String scheme,
@@ -51,6 +56,13 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
         namespace = checkRef(input);
+        return this;
+    }
+
+    public LoadingConfigurationBuilder addSchemaRedirect(final String source,
+        final String destination)
+    {
+        schemaRedirects.put(checkRef(source), checkRef(destination));
         return this;
     }
 
@@ -84,7 +96,7 @@ public final class LoadingConfigurationBuilder
 
         if (input == null)
             throw new LoadingConfigurationError(message
-                .message(NULL_NAMESPACE));
+                .message(NULL_URI));
 
         final URI uri;
         try {

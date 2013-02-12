@@ -11,6 +11,10 @@ import static org.testng.Assert.*;
 
 public final class LoadingConfigurationBuilderTest
 {
+    private static final String NOT_A_URI = "+24://x.y/z";
+    private static final String RELATIVE_URI = "foo";
+    private static final String SAMPLE_ABSOLUTE_REF = "x://y";
+
     private final URIDownloader downloader = mock(URIDownloader.class);
     private final LoadingConfigurationBuilder cfg
         = LoadingConfiguration.newConfiguration();
@@ -73,16 +77,106 @@ public final class LoadingConfigurationBuilderTest
             fail("No exception thrown!!");
         } catch (LoadingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_NAMESPACE);
+            assertMessage(message).hasMessage(NULL_URI);
+        }
+    }
+
+    @Test
+    public void namespaceCannotBeIllegalURI()
+    {
+        try {
+            cfg.setNamespace(NOT_A_URI);
+            fail("No exception thrown!:");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(INVALID_URI)
+                .hasField("input", NOT_A_URI);
         }
     }
 
     @Test
     public void cannotRegisterNonAbsoluteNamespace()
     {
+        try {
+            cfg.setNamespace(RELATIVE_URI);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(REF_NOT_ABSOLUTE)
+                .hasField("input", RELATIVE_URI);
+        }
+    }
+
+    @Test
+    public void redirectionSourceCannotBeNull()
+    {
+        try {
+            cfg.addSchemaRedirect(null, null);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_URI);
+        }
+    }
+
+    @Test
+    public void redirectionSourceCannotBeAnInvalidURI()
+    {
+        try {
+            cfg.addSchemaRedirect(NOT_A_URI, null);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(INVALID_URI)
+                .hasField("input", NOT_A_URI);
+        }
+    }
+
+    @Test
+    public void redirectionSourceMustBeAbsolute()
+    {
         final String input = "foo";
         try {
-            cfg.setNamespace(input);
+            cfg.addSchemaRedirect(input, null);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(REF_NOT_ABSOLUTE)
+                .hasField("input", input);
+        }
+    }
+
+    @Test
+    public void redirectionDestinationCannotBeNull()
+    {
+        try {
+            cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, null);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_URI);
+        }
+    }
+
+    @Test
+    public void redirectionDestinationCannotBeAnInvalidURI()
+    {
+        try {
+            cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, NOT_A_URI);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(INVALID_URI)
+                .hasField("input", NOT_A_URI);
+        }
+    }
+
+    @Test
+    public void redirectionDestinationMustBeAbsolute()
+    {
+        final String input = "foo";
+        try {
+            cfg.addSchemaRedirect("x://y.z", input);
             fail("No exception thrown!!");
         } catch (LoadingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
