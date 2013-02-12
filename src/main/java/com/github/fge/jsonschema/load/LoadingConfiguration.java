@@ -3,6 +3,7 @@ package com.github.fge.jsonschema.load;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 
 import java.net.URI;
 import java.util.Map;
@@ -23,12 +24,17 @@ public final class LoadingConfiguration
     {
         downloaders = cfg.downloaders.freeze();
         namespace = cfg.namespace;
-        schemaRedirects = ImmutableMap.copyOf(cfg.schemaRedirects);
+        schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
     }
 
     public Dictionary<URIDownloader> downloaders()
     {
         return downloaders;
+    }
+
+    public Map<URI, URI> schemaRedirects()
+    {
+        return ImmutableMap.copyOf(schemaRedirects);
     }
 
     @Override

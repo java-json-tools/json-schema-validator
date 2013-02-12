@@ -25,6 +25,7 @@ public enum LoadingMessages
     NULL_URI("provided URI cannot be null"),
     INVALID_URI("input is not a valid URI"),
     REF_NOT_ABSOLUTE("input is not an absolute JSON Reference"),
+    REDIRECT_TO_SELF("attempt to redirect to self"),
     ;
 
     private final String message;

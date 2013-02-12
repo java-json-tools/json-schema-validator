@@ -1,8 +1,12 @@
 package com.github.fge.jsonschema.load;
 
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
+import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
+
+import java.net.URI;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.LoadingMessages.*;
@@ -176,12 +180,41 @@ public final class LoadingConfigurationBuilderTest
     {
         final String input = "foo";
         try {
-            cfg.addSchemaRedirect("x://y.z", input);
+            cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, input);
             fail("No exception thrown!!");
         } catch (LoadingConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(REF_NOT_ABSOLUTE)
                 .hasField("input", input);
+        }
+    }
+
+    @Test
+    public void redirectionsAreActuallyRegisteredAndConvertedToJsonRefs()
+        throws JsonReferenceException
+    {
+        final String dest = "z://t#";
+        final JsonRef sourceRef = JsonRef.fromString(SAMPLE_ABSOLUTE_REF);
+        final JsonRef destinationRef = JsonRef.fromString(dest);
+        cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, dest);
+
+        final LoadingConfiguration frozen = cfg.freeze();
+        assertEquals(frozen.schemaRedirects().get(sourceRef.getLocator()),
+            destinationRef.getLocator());
+    }
+
+    @Test
+    public void cannotRedirectToSelf()
+        throws JsonReferenceException
+    {
+        try {
+            cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, SAMPLE_ABSOLUTE_REF);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final URI uri = JsonRef.fromString(SAMPLE_ABSOLUTE_REF).toURI();
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(REDIRECT_TO_SELF)
+                .hasField("uri", uri);
         }
     }
 }

@@ -62,7 +62,12 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder addSchemaRedirect(final String source,
         final String destination)
     {
-        schemaRedirects.put(checkRef(source), checkRef(destination));
+        final URI sourceURI = checkRef(source);
+        final URI destinationURI = checkRef(destination);
+        schemaRedirects.put(sourceURI, destinationURI);
+        if (sourceURI.equals(destinationURI))
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(REDIRECT_TO_SELF).put("uri", sourceURI));
         return this;
     }
 
@@ -106,10 +111,11 @@ public final class LoadingConfigurationBuilder
                 .put("input", input));
         }
 
-        if (!JsonRef.fromURI(uri).isAbsolute())
+        final JsonRef ref = JsonRef.fromURI(uri);
+        if (!ref.isAbsolute())
             throw new LoadingConfigurationError(message
                 .message(REF_NOT_ABSOLUTE).put("input", input));
 
-        return uri;
+        return ref.getLocator();
     }
 }
