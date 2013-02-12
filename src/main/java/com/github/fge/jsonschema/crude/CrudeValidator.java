@@ -22,8 +22,8 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
-import com.github.fge.jsonschema.load.DefaultURIDownloader;
 import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaBundle;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIManager;
@@ -55,11 +55,10 @@ public final class CrudeValidator
         final Dereferencing dereferencing)
         throws IOException
     {
-        final URIManager manager = new URIManager();
-        manager.unregisterScheme("file");
-        manager.unregisterScheme("resource");
-        manager.unregisterScheme("jar");
-        manager.registerScheme("https", DefaultURIDownloader.getInstance());
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .removeScheme("file").removeScheme("resource").removeScheme("jar")
+            .freeze();
+        final URIManager manager = new URIManager(cfg);
 
         loader = new SchemaLoader(manager, dereferencing);
 

@@ -69,9 +69,14 @@ public final class Dictionary<T>
         return map.values();
     }
 
+    public Map<String, T> asMap()
+    {
+        return ImmutableMap.copyOf(entries);
+    }
+
     public Iterable<Map.Entry<String, T>> entries()
     {
-        return entries.entrySet();
+        return asMap().entrySet();
     }
 
     @Override

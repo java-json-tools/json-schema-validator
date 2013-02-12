@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.processors.ref;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaBundle;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
@@ -48,7 +49,6 @@ public final class SchemaLoaderTest
         throws ProcessingException, IOException
     {
         final URI fullPath = URI.create("foo:/baz#");
-        final URIManager manager = new URIManager();
         final URIDownloader downloader = spy(new URIDownloader()
         {
             @Override
@@ -61,7 +61,9 @@ public final class SchemaLoaderTest
             }
         });
 
-        manager.registerScheme("foo", downloader);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .addScheme("foo", downloader).freeze();
+        final URIManager manager = new URIManager(cfg);
 
         final URI rootns = URI.create("foo:///bar/../bar/");
 
@@ -121,8 +123,9 @@ public final class SchemaLoaderTest
         bundle.addSchema(uri, JacksonUtils.nodeFactory().objectNode());
 
         final URIDownloader mock = mock(URIDownloader.class);
-        final URIManager manager = new URIManager();
-        manager.registerScheme("http", mock);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .addScheme("http", mock).freeze();
+        final URIManager manager = new URIManager(cfg);
 
         final SchemaLoader registry = new SchemaLoader(manager,
             Dereferencing.CANONICAL);
@@ -137,7 +140,6 @@ public final class SchemaLoaderTest
         throws ProcessingException, IOException
     {
         final URI uri = URI.create("foo:/baz#");
-        final URIManager manager = new URIManager();
         final URIDownloader downloader = spy(new URIDownloader()
         {
             @Override
@@ -148,7 +150,9 @@ public final class SchemaLoaderTest
             }
         });
 
-        manager.registerScheme("foo", downloader);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .addScheme("foo", downloader).freeze();
+        final URIManager manager = new URIManager(cfg);
         final SchemaLoader loader = new SchemaLoader(manager,
             Dereferencing.CANONICAL);
 

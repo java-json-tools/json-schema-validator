@@ -21,19 +21,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
@@ -56,116 +52,19 @@ public final class URIManager
      */
     private static final ObjectReader READER = JacksonUtils.getReader();
 
-    /**
-     * Map of downloaders (schemes as keys, {@link URIDownloader} instances
-     * as values)
-     */
-    private final Map<String, URIDownloader> downloaders = Maps.newHashMap();
+    private final Map<String, URIDownloader> downloaders;
 
-    /**
-     * Map for URI redirections
-     *
-     * <p>This map will be used if you wish for an absolute URI to be redirected
-     * to another URI of your choice, which must also be absolute.</p>
-     *
-     * <p>Note that this map requires URIs to be <i>exact</i>. Currently, you
-     * cannot, for example, redirect a whole namespace this way.</p>
-     */
-    private final Map<URI, URI> URIRedirections = Maps.newHashMap();
+    private final Map<URI, URI> schemaRedirects;
 
     public URIManager()
     {
-        downloaders.put("http", DefaultURIDownloader.getInstance());
-        downloaders.put("ftp", DefaultURIDownloader.getInstance());
-        downloaders.put("file", DefaultURIDownloader.getInstance());
-        downloaders.put("jar", DefaultURIDownloader.getInstance());
-        downloaders.put("resource", ResourceURIDownloader.getInstance());
+        this(LoadingConfiguration.byDefault());
     }
 
-    /**
-     * Register a new downloader for a given URI scheme
-     *
-     * @param scheme the scheme
-     * @param downloader the {@link URIDownloader} instance
-     * @throws NullPointerException scheme is null
-     * @throws IllegalArgumentException scheme is empty, or is already
-     * registered
-     */
-    public void registerScheme(final String scheme,
-        final URIDownloader downloader)
+    public URIManager(final LoadingConfiguration cfg)
     {
-        Preconditions.checkNotNull(scheme, "scheme is null");
-        Preconditions.checkArgument(!scheme.isEmpty(), "scheme is empty");
-
-        try {
-            new URI(scheme, "x", "y");
-        } catch (URISyntaxException ignored) {
-            throw new IllegalArgumentException("illegal scheme \"" + scheme
-                + '"');
-        }
-
-        downloaders.put(scheme, downloader);
-    }
-
-    /**
-     * Unregister a downloader for a given scheme
-     *
-     * @param scheme the scheme
-     * @throws NullPointerException scheme is null
-     */
-    public void unregisterScheme(final String scheme)
-    {
-        Preconditions.checkNotNull(scheme, "scheme is null");
-        downloaders.remove(scheme);
-    }
-
-    /**
-     * Add a URI rediction
-     *
-     * <p>The typical use case for this is if you have a local copy of a schema
-     * whose id is normally unreachable. You can transform all references to
-     * this schema's URI to another URI which is reachable by your application.
-     * </p>
-     *
-     * <p>Note that the given strings will be considered as JSON References, and
-     * that both arguments must be valid absolute JSON References. For the
-     * recall, there is more to it than URIs being absolute: their fragment part
-     * must also be empty or null.</p>
-     *
-     * @param from the original URI
-     * @param to an URI which is reachable
-     * @throws NullPointerException {@code from} or {@code to} is null
-     * @throws IllegalArgumentException either {@code from} or {@code to} are
-     * invalid URIs, or are not absolute JSON References
-     */
-    public void addRedirection(final String from, final String to)
-    {
-        Preconditions.checkNotNull(from, "source URI is null");
-        Preconditions.checkNotNull(to, "destination URI is null");
-
-        final URI sourceURI, destURI;
-        JsonRef ref;
-        String errmsg;
-
-        errmsg = "source URI " + from + " is not an absolute JSON reference";
-        try {
-            ref = JsonRef.fromString(from);
-            Preconditions.checkArgument(ref.isAbsolute(), errmsg);
-            sourceURI = ref.getLocator();
-        } catch (JsonReferenceException ignored) {
-            throw new IllegalArgumentException(errmsg);
-        }
-
-        errmsg = "destination URI " + to + " is not an absolute JSON reference";
-        try {
-            ref = JsonRef.fromString(to);
-            Preconditions.checkArgument(ref.isAbsolute(), errmsg);
-            destURI = ref.getLocator();
-        } catch (JsonReferenceException ignored) {
-            throw new IllegalArgumentException(errmsg);
-        }
-
-        URIRedirections.put(sourceURI, destURI);
+        downloaders = cfg.downloaders().asMap();
+        schemaRedirects = cfg.schemaRedirects();
     }
 
     /**
@@ -181,8 +80,8 @@ public final class URIManager
     {
         Preconditions.checkNotNull(uri, "null URI");
 
-        final URI target = URIRedirections.containsKey(uri)
-            ? URIRedirections.get(uri) : uri;
+        final URI target = schemaRedirects.containsKey(uri)
+            ? schemaRedirects.get(uri) : uri;
 
         final ProcessingMessage msg = new ProcessingMessage()
             .put("uri", uri);

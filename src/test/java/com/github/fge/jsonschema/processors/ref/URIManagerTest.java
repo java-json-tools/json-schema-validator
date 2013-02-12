@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.processors.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -39,108 +40,19 @@ import static org.testng.Assert.*;
 
 public final class URIManagerTest
 {
-    private URIManager manager;
     private URIDownloader mock;
 
     @BeforeMethod
     public void setUp()
     {
-        manager = new URIManager();
         mock = mock(URIDownloader.class);
-    }
-
-    @Test
-    public void shouldBeAbleToRegisterScheme()
-        throws IOException, ProcessingException
-    {
-        final InputStream sampleStream
-            = new ByteArrayInputStream("{}".getBytes());
-
-        when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
-
-        manager.registerScheme("foo", mock);
-
-        final URI uri = URI.create("foo://bar");
-
-        manager.getContent(uri);
-        verify(mock, times(1)).fetch(uri);
-    }
-
-    @Test(dependsOnMethods = "shouldBeAbleToRegisterScheme")
-    public void shouldBeAbleToUnregisterScheme()
-        throws IOException, ProcessingException
-    {
-        final URI uri = URI.create("foo://bar");
-        final InputStream sampleStream
-            = new ByteArrayInputStream("{}".getBytes());
-
-        when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
-
-        manager.registerScheme("foo", mock);
-        manager.getContent(uri);
-
-        manager.unregisterScheme("foo");
-
-        try {
-            manager.getContent(uri);
-            fail("No exception thrown!");
-        } catch (ProcessingException e) {
-            assertMessage(e.getProcessingMessage()).hasMessage(UNHANDLED_SCHEME)
-                .hasLevel(LogLevel.FATAL).hasField("scheme", "foo")
-                .hasField("uri", uri);
-        }
-    }
-
-    @Test
-    public void shouldNotBeAbleToRegisterNullScheme()
-    {
-        try {
-            manager.registerScheme(null, mock);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), "scheme is null");
-        }
-    }
-
-    @Test
-    public void shouldNotBeAbleToRegisterEmptyScheme()
-    {
-        try {
-            manager.registerScheme("", mock);
-            fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "scheme is empty");
-        }
-    }
-
-    @Test
-    public void shouldNotBeAbleToRegisterAnIllegalScheme()
-    {
-        try {
-            manager.registerScheme("+23", mock);
-            fail("No exception thrown!");
-        } catch (IllegalArgumentException e) {
-            assertEquals(e.getMessage(), "illegal scheme \"+23\"");
-        }
-    }
-
-    @Test
-    public void shouldHandleNullURI()
-        throws ProcessingException
-    {
-        try {
-            manager.getContent(null);
-            fail("No exception thrown!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), "null URI");
-        }
     }
 
     @Test
     public void unhandledSchemeShouldBeReportedAsSuch()
     {
-        manager.registerScheme("foo", mock);
         final URI uri = URI.create("bar://baz");
+        final URIManager manager = new URIManager();
 
         try {
             manager.getContent(uri);
@@ -160,7 +72,10 @@ public final class URIManagerTest
 
         when(mock.fetch(any(URI.class))).thenThrow(foo);
 
-        manager.registerScheme("foo", mock);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .addScheme("foo", mock).freeze();
+
+        final URIManager manager = new URIManager(cfg);
 
         try {
             manager.getContent(uri);
@@ -181,7 +96,10 @@ public final class URIManagerTest
 
         when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
 
-        manager.registerScheme("foo", mock);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .addScheme("foo", mock).freeze();
+
+        final URIManager manager = new URIManager(cfg);
 
         try {
             manager.getContent(uri);
@@ -211,35 +129,36 @@ public final class URIManagerTest
          *
          * The user, however, may supply URIs which are not JsonRef-compatible.
          */
-        final String from = "http://some.site/schema.json";
-        final String to = "foo://real/location.json";
-        manager.addRedirection(from, to);
-
-        final URI source = JsonRef.fromString(from).getLocator();
-        final URI target = JsonRef.fromString(to).getLocator();
+        final String source = "http://some.site/schema.json";
+        final String destination = "foo://real/location.json";
+        final URI sourceURI = JsonRef.fromString(source).getLocator();
+        final URI destinationURI = JsonRef.fromString(destination).getLocator();
 
         /*
          * Build another mock for the original source URI protocol, make it
          * return the same thing as the target URI. Register both downloaders.
          */
+        when(mock.fetch(destinationURI)).thenReturn(sampleStream);
         final URIDownloader httpMock = mock(URIDownloader.class);
-        when(httpMock.fetch(source)).thenReturn(sampleStream);
-        manager.registerScheme("http", httpMock);
+        when(httpMock.fetch(sourceURI)).thenReturn(sampleStream);
 
-        when(mock.fetch(target)).thenReturn(sampleStream);
-        manager.registerScheme("foo", mock);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .addScheme("http", httpMock).addScheme("foo", mock)
+            .addSchemaRedirect(source, destination).freeze();
+
+        final URIManager manager = new URIManager(cfg);
 
         /*
          * Get the original source...
          */
-        final JsonNode actual = manager.getContent(source);
+        final JsonNode actual = manager.getContent(sourceURI);
 
         /*
          * And verify that it has been downloaded from the target, not the
          * source
          */
         verify(httpMock, never()).fetch(any(URI.class));
-        verify(mock).fetch(target);
+        verify(mock).fetch(destinationURI);
 
         /*
          * Finally, ensure the correctness of the downloaded content.

@@ -20,6 +20,11 @@ public final class LoadingConfiguration
         return new LoadingConfigurationBuilder();
     }
 
+    public static LoadingConfiguration byDefault()
+    {
+        return new LoadingConfigurationBuilder().freeze();
+    }
+
     LoadingConfiguration(final LoadingConfigurationBuilder cfg)
     {
         downloaders = cfg.downloaders.freeze();
