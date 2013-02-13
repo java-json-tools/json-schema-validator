@@ -33,7 +33,7 @@ public final class Library
     final Dictionary<Constructor<? extends KeywordValidator>> validators;
     final Dictionary<FormatAttribute> formatAttributes;
 
-    public static LibraryBuilder newBuilder()
+    public static LibraryBuilder newLibrary()
     {
         return new LibraryBuilder();
     }

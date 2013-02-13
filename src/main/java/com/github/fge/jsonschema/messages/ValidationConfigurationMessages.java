@@ -26,6 +26,8 @@ public enum ValidationConfigurationMessages
     NO_APPROPRIATE_CONSTRUCTOR("validator class has no appropriate constructor"
         + " (expected a constructor with a JsonNode as an argument)"),
     NO_CHECKER("cannot build a keyword without a syntax checker"),
+    NULL_FORMAT("format attribute name cannot be null"),
+    NULL_ATTRIBUTE("format attribute cannot be null"),
     ;
 
     private final String message;

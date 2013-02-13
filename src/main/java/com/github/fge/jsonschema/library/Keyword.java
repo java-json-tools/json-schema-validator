@@ -36,7 +36,7 @@ public final class Keyword
     final Digester digester;
     final Constructor<? extends KeywordValidator> constructor;
 
-    public static KeywordBuilder newBuilder(final String name)
+    public static KeywordBuilder newKeyword(final String name)
     {
         return new KeywordBuilder(name);
     }

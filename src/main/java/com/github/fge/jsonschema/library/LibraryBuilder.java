@@ -17,13 +17,17 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.Thawed;
 
 import java.lang.reflect.Constructor;
+
+import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
 public final class LibraryBuilder
     implements Thawed<Library>
@@ -47,6 +51,52 @@ public final class LibraryBuilder
         digesters = library.digesters.thaw();
         validators = library.validators.thaw();
         formatAttributes = library.formatAttributes.thaw();
+    }
+
+    LibraryBuilder addKeyword(final Keyword keyword)
+    {
+        /*
+         * The only optional element of a keyword is its validator class
+         */
+        final String name = keyword.name;
+        removeKeyword(name);
+
+        syntaxCheckers.addEntry(name, keyword.syntaxChecker);
+        digesters.addEntry(name, keyword.digester);
+        if (keyword.constructor != null)
+            validators.addEntry(name, keyword.constructor);
+        return this;
+    }
+
+    LibraryBuilder removeKeyword(final String name)
+    {
+        if (name == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_NAME));
+        syntaxCheckers.removeEntry(name);
+        digesters.removeEntry(name);
+        validators.removeEntry(name);
+        return this;
+    }
+
+    LibraryBuilder addFormatAttribute(final String name,
+        final FormatAttribute attribute)
+    {
+        removeFormatAttribute(name);
+        if (attribute == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_ATTRIBUTE));
+        formatAttributes.addEntry(name, attribute);
+        return this;
+    }
+
+    LibraryBuilder removeFormatAttribute(final String name)
+    {
+        if (name == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_FORMAT));
+        formatAttributes.removeEntry(name);
+        return this;
     }
 
     @Override
