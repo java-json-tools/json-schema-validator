@@ -21,22 +21,32 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.base.Predicate;
+
+import java.io.IOException;
 
 public enum SchemaVersion
 {
-    DRAFTV4("http://json-schema.org/draft-04/schema#", DraftV4Library.get()),
-    DRAFTV3("http://json-schema.org/draft-03/schema#", DraftV3Library.get()),
+    DRAFTV4("http://json-schema.org/draft-04/schema#", DraftV4Library.get(),
+        "/draftv4/schema"),
+    DRAFTV3("http://json-schema.org/draft-03/schema#", DraftV3Library.get(),
+        "/draftv3/schema"),
     ;
 
     private final JsonRef location;
     private final Library library;
+    private final JsonNode schema;
 
-    SchemaVersion(final String uri, final Library library)
+    SchemaVersion(final String uri, final Library library,
+        final String resource)
     {
         try {
             location = JsonRef.fromString(uri);
+            schema = JsonLoader.fromResource(resource);
         } catch (JsonReferenceException e) {
+            throw new ExceptionInInitializerError(e);
+        } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
         this.library = library;
@@ -45,6 +55,11 @@ public enum SchemaVersion
     public JsonRef getLocation()
     {
         return location;
+    }
+
+    public JsonNode getSchema()
+    {
+        return schema.deepCopy();
     }
 
     public Library getLibrary()

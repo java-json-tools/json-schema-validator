@@ -1,7 +1,9 @@
 package com.github.fge.jsonschema.load;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
@@ -21,12 +23,17 @@ public final class LoadingConfigurationBuilder
     final DictionaryBuilder<URIDownloader> downloaders;
     URI namespace;
     final Map<URI, URI> schemaRedirects;
+    final Map<URI, JsonNode> preloadedSchemas;
 
     LoadingConfigurationBuilder()
     {
         downloaders = DefaultDownloadersDictionary.get().thaw();
         namespace = EMPTY_NAMESPACE;
         schemaRedirects = Maps.newHashMap();
+        preloadedSchemas = Maps.newHashMap();
+        for (final SchemaVersion version: SchemaVersion.values())
+            preloadedSchemas.put(version.getLocation().toURI(),
+                version.getSchema());
     }
 
     LoadingConfigurationBuilder(final LoadingConfiguration cfg)
@@ -34,6 +41,7 @@ public final class LoadingConfigurationBuilder
         downloaders = cfg.downloaders.thaw();
         namespace = cfg.namespace;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
+        preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
     }
 
     public LoadingConfigurationBuilder addScheme(final String scheme,
@@ -71,6 +79,29 @@ public final class LoadingConfigurationBuilder
         return this;
     }
 
+    public LoadingConfigurationBuilder preloadSchema(final URI uri,
+        final JsonNode node)
+    {
+        final ProcessingMessage message = new ProcessingMessage();
+
+        if (uri == null)
+            throw new LoadingConfigurationError(message.message(NULL_URI));
+        if (node == null)
+            throw new LoadingConfigurationError(message.message(NULL_SCHEMA));
+        final URI key = checkRef(uri);
+        if (preloadedSchemas.containsKey(key))
+            throw new LoadingConfigurationError(message.message(DUPLICATE_URI)
+                .put("uri", key));
+        preloadedSchemas.put(key, node);
+        return this;
+    }
+
+    public LoadingConfigurationBuilder preloadSchema(final String input,
+        final JsonNode node)
+    {
+        return preloadSchema(checkRef(input), node);
+    }
+
     @Override
     public LoadingConfiguration freeze()
     {
@@ -100,8 +131,7 @@ public final class LoadingConfigurationBuilder
         final ProcessingMessage message = new ProcessingMessage();
 
         if (input == null)
-            throw new LoadingConfigurationError(message
-                .message(NULL_URI));
+            throw new LoadingConfigurationError(message.message(NULL_URI));
 
         final URI uri;
         try {
@@ -111,10 +141,16 @@ public final class LoadingConfigurationBuilder
                 .put("input", input));
         }
 
+        return checkRef(uri);
+    }
+
+    private static URI checkRef(final URI uri)
+    {
+        final ProcessingMessage message = new ProcessingMessage();
         final JsonRef ref = JsonRef.fromURI(uri);
         if (!ref.isAbsolute())
             throw new LoadingConfigurationError(message
-                .message(REF_NOT_ABSOLUTE).put("input", input));
+                .message(REF_NOT_ABSOLUTE).put("input", uri));
 
         return ref.getLocator();
     }

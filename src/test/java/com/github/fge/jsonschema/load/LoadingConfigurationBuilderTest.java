@@ -1,12 +1,16 @@
 package com.github.fge.jsonschema.load;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
+import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.util.JacksonUtils;
 import org.testng.annotations.Test;
 
 import java.net.URI;
+import java.util.Map;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.LoadingMessages.*;
@@ -215,6 +219,62 @@ public final class LoadingConfigurationBuilderTest
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(REDIRECT_TO_SELF)
                 .hasField("uri", uri);
+        }
+    }
+
+    @Test
+    public void basicConfigurationContainsCoreSchemas()
+    {
+        final Map<URI, JsonNode> map = cfg.freeze().preloadedSchemas();
+
+        URI uri;
+        JsonNode node;
+
+        for (final SchemaVersion version: SchemaVersion.values()) {
+            uri = version.getLocation().toURI();
+            node = version.getSchema();
+            assertEquals(map.get(uri), node);
+        }
+    }
+
+    @Test
+    public void cannotRegisterSchemaWithNullURI()
+    {
+        final URI uri = null;
+        try {
+            cfg.preloadSchema(uri, JacksonUtils.nodeFactory().objectNode());
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_URI);
+        }
+    }
+
+    @Test
+    public void cannotRegisterNonURI()
+    {
+        try {
+            cfg.preloadSchema(NOT_A_URI,
+                JacksonUtils.nodeFactory().objectNode());
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(INVALID_URI)
+                .hasField("input", NOT_A_URI);
+        }
+    }
+
+    @Test
+    public void cannotOverwriteAnAlreadyPresentSchema()
+    {
+        final String input = "http://json-schema.org/draft-04/schema#";
+        try {
+            cfg.preloadSchema(input, JacksonUtils.nodeFactory().objectNode());
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(DUPLICATE_URI)
+                .hasField("uri", input);
         }
     }
 }

@@ -26,6 +26,8 @@ public enum LoadingMessages
     INVALID_URI("input is not a valid URI"),
     REF_NOT_ABSOLUTE("input is not an absolute JSON Reference"),
     REDIRECT_TO_SELF("attempt to redirect to self"),
+    NULL_SCHEMA("cannot register null schema"),
+    DUPLICATE_URI("there is already a schema at that URI"),
     ;
 
     private final String message;

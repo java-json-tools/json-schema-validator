@@ -1,5 +1,6 @@
 package com.github.fge.jsonschema.load;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.collect.ImmutableMap;
@@ -14,6 +15,7 @@ public final class LoadingConfiguration
     final Dictionary<URIDownloader> downloaders;
     final URI namespace;
     final Map<URI, URI> schemaRedirects;
+    final Map<URI, JsonNode> preloadedSchemas;
 
     public static LoadingConfigurationBuilder newConfiguration()
     {
@@ -30,6 +32,7 @@ public final class LoadingConfiguration
         downloaders = cfg.downloaders.freeze();
         namespace = cfg.namespace;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
+        preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
     }
 
     public Dictionary<URIDownloader> downloaders()
@@ -40,6 +43,11 @@ public final class LoadingConfiguration
     public Map<URI, URI> schemaRedirects()
     {
         return ImmutableMap.copyOf(schemaRedirects);
+    }
+
+    public Map<URI, JsonNode> preloadedSchemas()
+    {
+        return ImmutableMap.copyOf(preloadedSchemas);
     }
 
     @Override
