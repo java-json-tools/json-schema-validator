@@ -77,14 +77,16 @@ public final class KeywordBuilder
     KeywordBuilder withIdentityDigester(final NodeType first,
         final NodeType... other)
     {
-        digester = new IdentityDigester(name, first, other);
+        digester = new IdentityDigester(name, checkType(first),
+            checkTypes(other));
         return this;
     }
 
     KeywordBuilder withSimpleDigester(final NodeType first,
         final NodeType... other)
     {
-        digester = new SimpleDigester(name, first, other);
+        digester = new SimpleDigester(name, checkType(first),
+            checkTypes(other));
         return this;
     }
 
@@ -106,8 +108,26 @@ public final class KeywordBuilder
     {
         try {
             return c.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalStateException("No appropriate constructor", e);
+        } catch (NoSuchMethodException ignored) {
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NO_APPROPRIATE_CONSTRUCTOR));
         }
+    }
+
+    private static NodeType checkType(final NodeType type)
+    {
+        if (type == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_TYPE));
+        return type;
+    }
+
+    private static NodeType[] checkTypes(final NodeType... types)
+    {
+        for (final NodeType type: types)
+            if (type == null)
+                throw new ValidationConfigurationError(new ProcessingMessage()
+                    .message(NULL_TYPE));
+        return types;
     }
 }

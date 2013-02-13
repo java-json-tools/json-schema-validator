@@ -17,13 +17,16 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.Frozen;
-import com.google.common.base.Preconditions;
 
 import java.lang.reflect.Constructor;
+
+import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
 public final class Keyword
     implements Frozen<KeywordBuilder>
@@ -41,8 +44,10 @@ public final class Keyword
     Keyword(final KeywordBuilder builder)
     {
         name = builder.name;
-        syntaxChecker = Preconditions.checkNotNull(builder.syntaxChecker,
-            "a syntax checker must be provided");
+        syntaxChecker = builder.syntaxChecker;
+        if (syntaxChecker == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NO_CHECKER));
         digester = builder.digester;
         constructor = builder.constructor;
     }

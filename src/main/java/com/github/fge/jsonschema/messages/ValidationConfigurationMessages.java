@@ -22,6 +22,10 @@ public enum ValidationConfigurationMessages
     NULL_NAME("keyword name cannot be null"),
     NULL_SYNTAX_CHECKER("syntax checker must not be null"),
     NULL_DIGESTER("digester must not be null"),
+    NULL_TYPE("type must not be null"),
+    NO_APPROPRIATE_CONSTRUCTOR("validator class has no appropriate constructor"
+        + " (expected a constructor with a JsonNode as an argument)"),
+    NO_CHECKER("cannot build a keyword without a syntax checker"),
     ;
 
     private final String message;

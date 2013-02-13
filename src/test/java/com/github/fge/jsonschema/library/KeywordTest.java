@@ -17,8 +17,16 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.util.NodeType;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
@@ -27,6 +35,14 @@ import static org.testng.Assert.*;
 
 public final class KeywordTest
 {
+    private KeywordBuilder builder;
+
+    @BeforeMethod
+    public void initBuilder()
+    {
+        builder = Keyword.newBuilder("foo");
+    }
+
     @Test
     public void cannotCreateKeywordWithNullName()
     {
@@ -43,7 +59,7 @@ public final class KeywordTest
     public void cannotInjectNullSyntaxChecker()
     {
         try {
-            Keyword.newBuilder("foo").withSyntaxChecker(null);
+            builder.withSyntaxChecker(null);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
@@ -55,11 +71,86 @@ public final class KeywordTest
     public void cannotInjectNullDigester()
     {
         try {
-            Keyword.newBuilder("foo").withDigester(null);
+            builder.withDigester(null);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_DIGESTER);
+        }
+    }
+
+    @Test
+    public void identityDigesterTypesMustNotBeNull()
+    {
+        try {
+            builder.withIdentityDigester(null);
+            fail("No exception thrown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_TYPE);
+        }
+
+        try {
+            builder.withIdentityDigester(NodeType.ARRAY, NodeType.OBJECT, null);
+            fail("No exception thrown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_TYPE);
+        }
+    }
+
+    @Test
+    public void simpleDigesterTypesMustNotBeNull()
+    {
+        try {
+            builder.withSimpleDigester(null);
+            fail("No exception thrown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_TYPE);
+        }
+
+        try {
+            builder.withSimpleDigester(NodeType.ARRAY, NodeType.OBJECT, null);
+            fail("No exception trown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_TYPE);
+        }
+    }
+
+    @Test
+    public void inappropriateConstructorThrowsAppropriateError()
+    {
+        try {
+            builder.withValidatorClass(DummyValidator.class);
+            fail("No exception thrown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NO_APPROPRIATE_CONSTRUCTOR);
+        }
+    }
+
+    @Test
+    public void whenValidatorIsPresentSyntaxCheckerMustBeThere()
+    {
+        try {
+            builder.withValidatorClass(MinItemsValidator.class).freeze();
+            fail("No exception thrown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NO_CHECKER);
+        }
+    }
+    public static class DummyValidator
+        implements KeywordValidator
+    {
+        @Override
+        public void validate(
+            final Processor<ValidationData, ProcessingReport> processor,
+            final ProcessingReport report, final ValidationData data)
+            throws ProcessingException
+        {
         }
     }
 }
