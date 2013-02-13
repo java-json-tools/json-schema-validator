@@ -20,9 +20,8 @@ package grimbo;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.DraftV3Library;
-import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
@@ -54,8 +53,9 @@ public final class NonAbsoluteSchemaUris
         throws ProcessingException
     {
         final ValidationChain chain = new ValidationChain(DraftV3Library.get());
-        final SchemaLoader loader = new SchemaLoader(new URIManager(),
-            URI.create("resource:/grimbo/"), Dereferencing.CANONICAL);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .setNamespace("resource:/grimbo/").freeze();
+        final SchemaLoader loader = new SchemaLoader(cfg);
         final RefResolverProcessor refResolver
             = new RefResolverProcessor(loader);
         tree = loader.get(URI.create("child1/child.json"));

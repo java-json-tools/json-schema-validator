@@ -63,8 +63,8 @@ public final class URIManager
 
     public URIManager(final LoadingConfiguration cfg)
     {
-        downloaders = cfg.downloaders().asMap();
-        schemaRedirects = cfg.schemaRedirects();
+        downloaders = cfg.getDownloaders().asMap();
+        schemaRedirects = cfg.getSchemaRedirects();
     }
 
     /**

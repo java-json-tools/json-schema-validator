@@ -22,6 +22,7 @@ public final class LoadingConfigurationBuilder
 
     final DictionaryBuilder<URIDownloader> downloaders;
     URI namespace;
+    Dereferencing dereferencing;
     final Map<URI, URI> schemaRedirects;
     final Map<URI, JsonNode> preloadedSchemas;
 
@@ -29,6 +30,7 @@ public final class LoadingConfigurationBuilder
     {
         downloaders = DefaultDownloadersDictionary.get().thaw();
         namespace = EMPTY_NAMESPACE;
+        dereferencing = Dereferencing.CANONICAL;
         schemaRedirects = Maps.newHashMap();
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
@@ -40,6 +42,7 @@ public final class LoadingConfigurationBuilder
     {
         downloaders = cfg.downloaders.thaw();
         namespace = cfg.namespace;
+        dereferencing = cfg.dereferencing;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
     }
@@ -64,6 +67,13 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
         namespace = checkRef(input);
+        return this;
+    }
+
+    public LoadingConfigurationBuilder dereferencing(
+        final Dereferencing dereferencing)
+    {
+        this.dereferencing = dereferencing;
         return this;
     }
 
@@ -100,6 +110,15 @@ public final class LoadingConfigurationBuilder
         final JsonNode node)
     {
         return preloadSchema(checkRef(input), node);
+    }
+
+    public LoadingConfigurationBuilder preloadSchema(final JsonNode schema)
+    {
+        final JsonNode node = schema.path("id");
+        if (!node.isTextual())
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(NO_ID_IN_SCHEMA));
+        return preloadSchema(node.textValue(), schema);
     }
 
     @Override

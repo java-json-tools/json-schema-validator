@@ -18,12 +18,10 @@
 package com.github.fge.jsonschema.processors.ref;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaBundle;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
-import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -61,14 +59,13 @@ public final class SchemaLoaderTest
             }
         });
 
+        final String namespace = "foo:///bar/../bar/";
         final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
-            .addScheme("foo", downloader).freeze();
-        final URIManager manager = new URIManager(cfg);
+            .addScheme("foo", downloader).setNamespace(namespace).freeze();
 
-        final URI rootns = URI.create("foo:///bar/../bar/");
+        final URI rootns = URI.create(namespace);
 
-        final SchemaLoader loader = new SchemaLoader(manager, rootns,
-            Dereferencing.CANONICAL);
+        final SchemaLoader loader = new SchemaLoader(cfg);
 
         final URI uri = URI.create("../baz");
         loader.get(uri);
@@ -80,15 +77,12 @@ public final class SchemaLoaderTest
     public void URIsAreNormalizedBehindTheScenes()
         throws ProcessingException
     {
-        final SchemaBundle bundle = new SchemaBundle();
         final String location = "http://toto/a/../b";
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .preloadSchema(location, JacksonUtils.nodeFactory().objectNode())
+            .freeze();
 
-        bundle.addSchema(location, JacksonUtils.nodeFactory().objectNode());
-
-        final SchemaLoader loader = new SchemaLoader(new URIManager(),
-            Dereferencing.CANONICAL);
-
-        loader.addBundle(bundle);
+        final SchemaLoader loader = new SchemaLoader(cfg);
 
         final SchemaTree tree = loader.get(URI.create(location));
 
@@ -99,8 +93,7 @@ public final class SchemaLoaderTest
     @Test
     public void NonAbsoluteURIsAreRefused()
     {
-        final SchemaLoader loader = new SchemaLoader(new URIManager(),
-            Dereferencing.CANONICAL);
+        final SchemaLoader loader = new SchemaLoader();
 
         final URI target = URI.create("moo#");
 
@@ -125,10 +118,7 @@ public final class SchemaLoaderTest
         final URIDownloader mock = mock(URIDownloader.class);
         final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
             .addScheme("http", mock).freeze();
-        final URIManager manager = new URIManager(cfg);
-
-        final SchemaLoader registry = new SchemaLoader(manager,
-            Dereferencing.CANONICAL);
+        final SchemaLoader registry = new SchemaLoader(cfg);
         registry.addBundle(bundle);
 
         registry.get(uri);
@@ -152,9 +142,7 @@ public final class SchemaLoaderTest
 
         final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
             .addScheme("foo", downloader).freeze();
-        final URIManager manager = new URIManager(cfg);
-        final SchemaLoader loader = new SchemaLoader(manager,
-            Dereferencing.CANONICAL);
+        final SchemaLoader loader = new SchemaLoader(cfg);
 
         loader.get(uri);
         loader.get(uri);

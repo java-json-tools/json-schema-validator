@@ -14,6 +14,7 @@ public final class LoadingConfiguration
 {
     final Dictionary<URIDownloader> downloaders;
     final URI namespace;
+    final Dereferencing dereferencing;
     final Map<URI, URI> schemaRedirects;
     final Map<URI, JsonNode> preloadedSchemas;
 
@@ -31,21 +32,32 @@ public final class LoadingConfiguration
     {
         downloaders = cfg.downloaders.freeze();
         namespace = cfg.namespace;
+        dereferencing = cfg.dereferencing;
         schemaRedirects = Maps.newHashMap(cfg.schemaRedirects);
         preloadedSchemas = Maps.newHashMap(cfg.preloadedSchemas);
     }
 
-    public Dictionary<URIDownloader> downloaders()
+    public Dictionary<URIDownloader> getDownloaders()
     {
         return downloaders;
     }
 
-    public Map<URI, URI> schemaRedirects()
+    public URI getNamespace()
+    {
+        return namespace;
+    }
+
+    public Dereferencing getDereferencing()
+    {
+        return dereferencing;
+    }
+
+    public Map<URI, URI> getSchemaRedirects()
     {
         return ImmutableMap.copyOf(schemaRedirects);
     }
 
-    public Map<URI, JsonNode> preloadedSchemas()
+    public Map<URI, JsonNode> getPreloadedSchemas()
     {
         return ImmutableMap.copyOf(preloadedSchemas);
     }

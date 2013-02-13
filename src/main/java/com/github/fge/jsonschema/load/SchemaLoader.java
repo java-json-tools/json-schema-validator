@@ -45,7 +45,11 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  */
 public final class SchemaLoader
 {
-    private static final URI EMPTY_NAMESPACE = URI.create("#");
+    /**
+     * The URI manager
+     */
+    private final URIManager manager;
+
     /**
      * The default namespace
      */
@@ -61,18 +65,11 @@ public final class SchemaLoader
      */
     private final Dereferencing dereferencing;
 
-    /**
-     * Constructor
-     *
-     * @param manager the URI manager to use
-     * @param namespace this registry's namespace
-     * @param dereferencing our {@link Dereferencing} mode
-     */
-    public SchemaLoader(final URIManager manager, final URI namespace,
-        final Dereferencing dereferencing)
+    public SchemaLoader(final LoadingConfiguration cfg)
     {
-        this.dereferencing = dereferencing;
-        this.namespace = JsonRef.fromURI(namespace);
+        namespace = JsonRef.fromURI(cfg.getNamespace());
+        dereferencing = cfg.getDereferencing();
+        manager = new URIManager(cfg);
         cache = CacheBuilder.newBuilder().maximumSize(100L)
             .build(new CacheLoader<URI, JsonNode>()
             {
@@ -83,12 +80,12 @@ public final class SchemaLoader
                     return manager.getContent(key);
                 }
             });
+        cache.putAll(cfg.getPreloadedSchemas());
     }
 
-    public SchemaLoader(final URIManager manager,
-        final Dereferencing dereferencing)
+    public SchemaLoader()
     {
-        this(manager, EMPTY_NAMESPACE, dereferencing);
+        this(LoadingConfiguration.byDefault());
     }
 
     public SchemaTree load(final JsonNode schema)

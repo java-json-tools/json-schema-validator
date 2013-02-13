@@ -20,9 +20,8 @@ package com.github.fge.jsonschema.other;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.DraftV3Library;
-import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
@@ -80,7 +79,7 @@ public final class JarNamespaceValidationTest
     public void callingSchemaViaAbsoluteJarURIWorks()
         throws ProcessingException
     {
-        final SchemaLoader loader = buildLoader();
+        final SchemaLoader loader = new SchemaLoader();
         final RefResolverProcessor refResolver
             = new RefResolverProcessor(loader);
 
@@ -105,7 +104,9 @@ public final class JarNamespaceValidationTest
     public void callingSchemaViaJarURINamespaceWorks()
         throws ProcessingException
     {
-        final SchemaLoader loader = buildLoader(URI.create(namespace));
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .setNamespace(namespace).freeze();
+        final SchemaLoader loader = new SchemaLoader(cfg);
         final RefResolverProcessor refResolver
             = new RefResolverProcessor(loader);
 
@@ -178,16 +179,5 @@ public final class JarNamespaceValidationTest
         }
 
         Files.copy(src, jarfh);
-    }
-
-    private static SchemaLoader buildLoader(final URI namespace)
-    {
-        return new SchemaLoader(new URIManager(), namespace,
-            Dereferencing.CANONICAL);
-    }
-
-    private static SchemaLoader buildLoader()
-    {
-        return buildLoader(URI.create("#"));
     }
 }

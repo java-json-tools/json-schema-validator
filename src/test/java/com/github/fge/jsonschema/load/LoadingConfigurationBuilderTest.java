@@ -71,10 +71,10 @@ public final class LoadingConfigurationBuilderTest
         final String scheme = "foo";
 
         cfg.addScheme(scheme, downloader);
-        assertNotNull(cfg.freeze().downloaders().get(scheme));
+        assertNotNull(cfg.freeze().getDownloaders().get(scheme));
 
         cfg.removeScheme(scheme);
-        assertNull(cfg.freeze().downloaders().get(scheme));
+        assertNull(cfg.freeze().getDownloaders().get(scheme));
     }
 
     @Test
@@ -203,7 +203,7 @@ public final class LoadingConfigurationBuilderTest
         cfg.addSchemaRedirect(SAMPLE_ABSOLUTE_REF, dest);
 
         final LoadingConfiguration frozen = cfg.freeze();
-        assertEquals(frozen.schemaRedirects().get(sourceRef.getLocator()),
+        assertEquals(frozen.getSchemaRedirects().get(sourceRef.getLocator()),
             destinationRef.getLocator());
     }
 
@@ -225,7 +225,7 @@ public final class LoadingConfigurationBuilderTest
     @Test
     public void basicConfigurationContainsCoreSchemas()
     {
-        final Map<URI, JsonNode> map = cfg.freeze().preloadedSchemas();
+        final Map<URI, JsonNode> map = cfg.freeze().getPreloadedSchemas();
 
         URI uri;
         JsonNode node;
@@ -275,6 +275,18 @@ public final class LoadingConfigurationBuilderTest
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(DUPLICATE_URI)
                 .hasField("uri", input);
+        }
+    }
+
+    @Test
+    public void cannotPreloadSchemaWithoutTopLevelId()
+    {
+        try {
+            cfg.preloadSchema(JacksonUtils.nodeFactory().objectNode());
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NO_ID_IN_SCHEMA);
         }
     }
 }

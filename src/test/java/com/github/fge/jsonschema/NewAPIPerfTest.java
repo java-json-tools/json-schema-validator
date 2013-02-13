@@ -23,8 +23,8 @@ import com.github.fge.jsonschema.library.digest.DraftV4DigesterDictionary;
 import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
@@ -58,9 +58,9 @@ public final class NewAPIPerfTest
         final Map<String, JsonNode> googleSchemas
             = JacksonUtils.asMap(googleAPI.get("schemas"));
 
-        final URIManager manager = new URIManager();
-        final SchemaLoader loader = new SchemaLoader(manager,
-            Dereferencing.INLINE);
+        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+            .dereferencing(Dereferencing.INLINE).freeze();
+        final SchemaLoader loader = new SchemaLoader(cfg);
         final RefResolverProcessor p1 = new RefResolverProcessor(loader);
         final SyntaxProcessor p2
             = new SyntaxProcessor(DraftV4SyntaxCheckerDictionary.get());

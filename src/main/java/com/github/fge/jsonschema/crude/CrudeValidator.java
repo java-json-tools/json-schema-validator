@@ -26,7 +26,6 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaBundle;
 import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.load.URIManager;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
@@ -57,10 +56,9 @@ public final class CrudeValidator
     {
         final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
             .removeScheme("file").removeScheme("resource").removeScheme("jar")
-            .freeze();
-        final URIManager manager = new URIManager(cfg);
+            .dereferencing(dereferencing).freeze();
 
-        loader = new SchemaLoader(manager, dereferencing);
+        loader = new SchemaLoader(cfg);
 
         final SchemaBundle bundle = new SchemaBundle();
         bundle.addSchema(DRAFTV4.getLocation().toURI(),
