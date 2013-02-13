@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -115,4 +116,28 @@ public final class InlineSchemaTreeTest
         assertEquals(tree.matchingPointer(ref), ptr);
     }
 
+    /*
+     * Found by pure experiments
+     */
+    @Test
+    public void inlinePointerRefsAreFavoredOverLocation()
+        throws JsonReferenceException
+    {
+        final JsonNodeFactory factory = JacksonUtils.nodeFactory();
+        final JsonNode expected = factory.nullNode();
+
+        final ObjectNode target = factory.objectNode();
+        target.put("id", "#/a");
+        target.put("b", expected);
+
+        final ObjectNode schemaNode = factory.objectNode();
+        schemaNode.put("foo", target);
+
+        final SchemaTree tree = new InlineSchemaTree(schemaNode);
+        final JsonRef ref = JsonRef.fromString("#/a/b");
+        final JsonPointer ptr = new JsonPointer("/foo/b");
+
+        assertTrue(tree.containsRef(ref));
+        assertEquals(tree.matchingPointer(ref), ptr);
+    }
 }

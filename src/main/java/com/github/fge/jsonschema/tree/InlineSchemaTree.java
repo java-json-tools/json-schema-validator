@@ -103,19 +103,21 @@ public final class InlineSchemaTree
      * Return a matching pointer for a JSON Pointer terminated fully resolved
      * reference
      *
-     * <p>This includes the loading URI.</p>
+     * <p>This includes the loading URI. Note, however, that due to "id"
+     * intricacies, the test against the loading reference is done only as a
+     * last resort.</p>
      *
      * @param ref the target reference
      * @return the matching pointer, or {@code null} if not found
      */
-
     private JsonPointer refMatchingPointer(final JsonRef ref)
     {
         final JsonPointer refPtr = (JsonPointer) ref.getFragment();
 
-        // Note: we are guaranteed that loadingRef has an empty fragment
-        if (loadingRef.contains(ref))
-            return refPtr;
+        /*
+         * When using inline addressing, we must favor whatever "id" has defined
+         * as a URI scope over what the loading URI is...
+         */
 
         JsonRef inlineRef;
         JsonPointer inlinePtr;
@@ -130,7 +132,11 @@ public final class InlineSchemaTree
             return entry.getValue().append(inlinePtr.relativize(refPtr));
         }
 
-        return null;
+        /*
+         * ... Which means this test must be done last... (since refPtr is
+         * declared final, this is safe)
+         */
+        return loadingRef.contains(ref) ? refPtr : null;
     }
 
     /**
