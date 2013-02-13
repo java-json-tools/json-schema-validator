@@ -124,17 +124,6 @@ public final class SchemaLoader
         }
     }
 
-    /**
-     * Load a schema bundle into this registry
-     *
-     * <p>As a schema bundle is guaranteed to have well-formed locators, schemas
-     * from a bundle can be directly injected into the cache.</p>
-     */
-    public void addBundle(final SchemaBundle bundle)
-    {
-        cache.putAll(bundle.getSchemas());
-    }
-
     @Override
     public String toString()
     {

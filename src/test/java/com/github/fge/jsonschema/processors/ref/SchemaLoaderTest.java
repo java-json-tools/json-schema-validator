@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.processors.ref;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.LoadingConfiguration;
-import com.github.fge.jsonschema.load.SchemaBundle;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -110,16 +109,14 @@ public final class SchemaLoaderTest
     public void injectedSchemasAreNotFetchedAgain()
         throws ProcessingException, IOException
     {
-        final URI uri = URI.create("http://foo.bar/baz#");
-        final SchemaBundle bundle = new SchemaBundle();
-
-        bundle.addSchema(uri, JacksonUtils.nodeFactory().objectNode());
-
+        final String location = "http://foo.bar/baz#";
+        final URI uri = URI.create(location);
         final URIDownloader mock = mock(URIDownloader.class);
         final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
-            .addScheme("http", mock).freeze();
+            .addScheme("http", mock)
+            .preloadSchema(location, JacksonUtils.nodeFactory().objectNode())
+            .freeze();
         final SchemaLoader registry = new SchemaLoader(cfg);
-        registry.addBundle(bundle);
 
         registry.get(uri);
         verify(mock, never()).fetch(uri);

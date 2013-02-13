@@ -24,7 +24,6 @@ import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.LoadingConfiguration;
-import com.github.fge.jsonschema.load.SchemaBundle;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
@@ -39,7 +38,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
-import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
 
@@ -59,14 +57,6 @@ public final class CrudeValidator
             .dereferencing(dereferencing).freeze();
 
         loader = new SchemaLoader(cfg);
-
-        final SchemaBundle bundle = new SchemaBundle();
-        bundle.addSchema(DRAFTV4.getLocation().toURI(),
-            JsonLoader.fromResource("/draftv4/schema"));
-        bundle.addSchema(DRAFTV3.getLocation().toURI(),
-            JsonLoader.fromResource("/draftv3/schema"));
-
-        loader.addBundle(bundle);
 
         final RefResolverProcessor refResolver = new RefResolverProcessor(loader);
 
