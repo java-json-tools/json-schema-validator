@@ -18,16 +18,19 @@
 package com.github.fge.jsonschema.library;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
 import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.Thawed;
-import com.google.common.base.Preconditions;
 
 import java.lang.reflect.Constructor;
+
+import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
 public final class KeywordBuilder
     implements Thawed<Keyword>
@@ -39,8 +42,10 @@ public final class KeywordBuilder
 
     KeywordBuilder(final String name)
     {
-        this.name = Preconditions.checkNotNull(name,
-            "a keyword must have a name");
+        if (name == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_NAME));
+        this.name = name;
     }
 
     KeywordBuilder(final Keyword keyword)
@@ -53,15 +58,19 @@ public final class KeywordBuilder
 
     KeywordBuilder withSyntaxChecker(final SyntaxChecker syntaxChecker)
     {
-        this.syntaxChecker = Preconditions.checkNotNull(syntaxChecker,
-            "syntax checker must not be null");
+        if (syntaxChecker == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_SYNTAX_CHECKER));
+        this.syntaxChecker = syntaxChecker;
         return this;
     }
 
     KeywordBuilder withDigester(final Digester digester)
     {
-        this.digester = Preconditions.checkNotNull(digester,
-            "digester must not be null");
+        if (digester == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_DIGESTER));
+        this.digester = digester;
         return this;
     }
 

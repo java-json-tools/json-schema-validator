@@ -13,9 +13,4 @@ public final class LoadingConfigurationError
     {
         super(message);
     }
-
-    public LoadingConfigurationError(final String message)
-    {
-        super(message);
-    }
 }
