@@ -70,7 +70,7 @@ public final class ValidationConfigurationTest
     public void defaultLibraryIsDraftV4()
     {
         final ValidationConfiguration defaultConfiguration
-            = ValidationConfiguration.defaultConfiguration();
+            = ValidationConfiguration.byDefault();
         assertSame(defaultConfiguration.getDefaultLibrary(),
             SchemaVersion.DRAFTV4.getLibrary());
     }

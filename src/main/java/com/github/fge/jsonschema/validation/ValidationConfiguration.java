@@ -37,7 +37,7 @@ public final class ValidationConfiguration
         return new ValidationConfigurationBuilder();
     }
 
-    public static ValidationConfiguration defaultConfiguration()
+    public static ValidationConfiguration byDefault()
     {
         return newConfiguration().freeze();
     }
