@@ -56,6 +56,7 @@ public final class JsonValidator
     {
         dereferencing = factory.loadingConfiguration.getDereferencing();
         loader = new SchemaLoader(factory.loadingConfiguration);
+
         final RefResolverProcessor refResolver
             = new RefResolverProcessor(loader);
 
@@ -63,7 +64,8 @@ public final class JsonValidator
             = ProcessorChain.startWith(refResolver)
                 .chainWith(buildProcessor(factory));
 
-        processor = new ValidationProcessor(chain.getProcessor());
+        processor = new ValidationProcessor(refResolver,
+            buildProcessor(factory));
 
         reportProvider = factory.reportProvider;
     }
