@@ -17,13 +17,18 @@
 
 package com.github.fge.jsonschema.validation;
 
+import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.util.SanityChecks;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
+
+import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
 public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
@@ -40,6 +45,20 @@ public final class ValidationConfigurationBuilder
     ValidationConfigurationBuilder(final ValidationConfiguration cfg)
     {
         libraries = Maps.newHashMap(cfg.libraries);
+    }
+
+    ValidationConfigurationBuilder addLibrary(final String uri,
+        final Library library)
+    {
+        final JsonRef ref = SanityChecks.absoluteRef(uri);
+        if (library == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_LIBRARY));
+        if (libraries.containsKey(ref))
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(DUP_LIBRARY).put("uri", ref));
+        libraries.put(ref, library);
+        return this;
     }
 
     @Override

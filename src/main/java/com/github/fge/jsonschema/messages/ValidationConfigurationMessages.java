@@ -28,6 +28,8 @@ public enum ValidationConfigurationMessages
     NO_CHECKER("cannot build a keyword without a syntax checker"),
     NULL_FORMAT("format attribute name cannot be null"),
     NULL_ATTRIBUTE("format attribute cannot be null"),
+    NULL_LIBRARY("library cannot be null"),
+    DUP_LIBRARY("a library already exists for this URI"),
     ;
 
     private final String message;

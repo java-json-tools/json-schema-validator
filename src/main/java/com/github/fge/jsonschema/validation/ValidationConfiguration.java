@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.validation;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.Frozen;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -37,6 +38,11 @@ public final class ValidationConfiguration
     ValidationConfiguration(final ValidationConfigurationBuilder cfg)
     {
         libraries = Maps.newHashMap(cfg.libraries);
+    }
+
+    public Map<JsonRef, Library> getLibraries()
+    {
+        return ImmutableMap.copyOf(libraries);
     }
 
     @Override
