@@ -29,6 +29,11 @@ public final class JsonSchemaFactory
     final LoadingConfiguration loadingConfiguration;
     final ValidationConfiguration validationConfiguration;
 
+    public static JsonSchemaFactory byDefault()
+    {
+        return newBuilder().freeze();
+    }
+
     public static JsonSchemaFactoryBuilder newBuilder()
     {
         return new JsonSchemaFactoryBuilder();
