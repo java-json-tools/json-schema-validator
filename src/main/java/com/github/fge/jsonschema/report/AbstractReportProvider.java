@@ -17,18 +17,27 @@
 
 package com.github.fge.jsonschema.report;
 
-public final class ListReportProvider
-    extends AbstractReportProvider
+public abstract class AbstractReportProvider
+    implements ReportProvider
 {
-    public ListReportProvider(final LogLevel logLevel,
+    protected final LogLevel logLevel;
+    protected final LogLevel exceptionThreshold;
+
+    protected AbstractReportProvider(final LogLevel logLevel,
         final LogLevel exceptionThreshold)
     {
-        super(logLevel, exceptionThreshold);
+        this.logLevel = logLevel;
+        this.exceptionThreshold = exceptionThreshold;
     }
 
     @Override
-    protected ProcessingReport doNewReport()
+    public final ProcessingReport newReport()
     {
-        return new ListProcessingReport();
+        final ProcessingReport report = doNewReport();
+        report.setLogLevel(logLevel);
+        report.setExceptionThreshold(exceptionThreshold);
+        return report;
     }
+
+    protected abstract ProcessingReport doNewReport();
 }

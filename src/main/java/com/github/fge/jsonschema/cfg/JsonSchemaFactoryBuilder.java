@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.cfg;
 
 import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
 import com.github.fge.jsonschema.report.ListReportProvider;
+import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Thawed;
@@ -34,7 +35,7 @@ public final class JsonSchemaFactoryBuilder
 
     JsonSchemaFactoryBuilder()
     {
-        reportProvider = ListReportProvider.getInstance();
+        reportProvider = new ListReportProvider(LogLevel.INFO, LogLevel.FATAL);
         loadingConfiguration = LoadingConfiguration.byDefault();
         validationConfiguration = ValidationConfiguration.byDefault();
     }
