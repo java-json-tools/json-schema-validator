@@ -30,16 +30,23 @@ public final class ValidationConfiguration
 {
     final Map<JsonRef, Library> libraries;
     final Library defaultLibrary;
+    final boolean useFormat;
 
     public static ValidationConfigurationBuilder newConfiguration()
     {
         return new ValidationConfigurationBuilder();
     }
 
+    public static ValidationConfiguration defaultConfiguration()
+    {
+        return newConfiguration().freeze();
+    }
+
     ValidationConfiguration(final ValidationConfigurationBuilder cfg)
     {
         libraries = Maps.newHashMap(cfg.libraries);
         defaultLibrary = cfg.defaultLibrary;
+        useFormat = cfg.useFormat;
     }
 
     public Map<JsonRef, Library> getLibraries()
@@ -50,6 +57,11 @@ public final class ValidationConfiguration
     public Library getDefaultLibrary()
     {
         return defaultLibrary;
+    }
+
+    public boolean getUseFormat()
+    {
+        return useFormat;
     }
 
     @Override

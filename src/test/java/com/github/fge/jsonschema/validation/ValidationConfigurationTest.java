@@ -69,7 +69,9 @@ public final class ValidationConfigurationTest
     @Test
     public void defaultLibraryIsDraftV4()
     {
-        assertSame(cfg.freeze().getDefaultLibrary(),
+        final ValidationConfiguration defaultConfiguration
+            = ValidationConfiguration.defaultConfiguration();
+        assertSame(defaultConfiguration.getDefaultLibrary(),
             SchemaVersion.DRAFTV4.getLibrary());
     }
 

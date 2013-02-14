@@ -35,6 +35,7 @@ public final class ValidationConfigurationBuilder
 {
     final Map<JsonRef, Library> libraries;
     Library defaultLibrary = SchemaVersion.DRAFTV4.getLibrary();
+    boolean useFormat = true;
 
     ValidationConfigurationBuilder()
     {
@@ -47,6 +48,7 @@ public final class ValidationConfigurationBuilder
     {
         libraries = Maps.newHashMap(cfg.libraries);
         defaultLibrary = cfg.defaultLibrary;
+        useFormat = cfg.useFormat;
     }
 
     ValidationConfigurationBuilder addLibrary(final String uri,
@@ -68,6 +70,12 @@ public final class ValidationConfigurationBuilder
     {
         addLibrary(uri, library);
         defaultLibrary = library;
+        return this;
+    }
+
+    ValidationConfigurationBuilder useFormat(final boolean useFormat)
+    {
+        this.useFormat = useFormat;
         return this;
     }
 
