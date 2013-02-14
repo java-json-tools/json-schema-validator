@@ -53,7 +53,7 @@ public final class InlineSchemaTree
         final JsonPointer pointer, final boolean valid)
     {
         super(loadingRef, baseNode, pointer, Dereferencing.INLINE, valid);
-        walk(currentRef, node, JsonPointer.empty(), ptrRefs, otherRefs);
+        walk(startingRef, baseNode, JsonPointer.empty(), ptrRefs, otherRefs);
     }
 
     @Override

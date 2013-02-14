@@ -83,7 +83,7 @@ public abstract class BaseSchemaTree
      * <p>It will defer from {@link #loadingRef} if there is an {@code id} at
      * the top level.</p>
      */
-    private final JsonRef startingRef;
+    protected final JsonRef startingRef;
 
     /**
      * The current resolution context
