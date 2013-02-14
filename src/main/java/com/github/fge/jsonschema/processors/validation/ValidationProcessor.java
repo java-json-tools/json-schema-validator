@@ -46,10 +46,8 @@ public final class ValidationProcessor
         final Processor<ValidationData, FullValidationContext> processor)
     {
         this.processor = processor;
-        arrayCache = CacheBuilder.newBuilder().recordStats()
-            .build(arrayLoader());
-        objectCache = CacheBuilder.newBuilder().recordStats()
-            .build(objectLoader());
+        arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
+        objectCache = CacheBuilder.newBuilder().build(objectLoader());
     }
 
     @Override
@@ -165,12 +163,6 @@ public final class ValidationProcessor
     @Override
     public String toString()
     {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("objects: ").append(objectCache.stats().toString())
-            .append('\n');
-        sb.append("arrays: ").append(arrayCache.stats().toString())
-            .append('\n');
-
-        return sb.toString();
+        return "validation processor";
     }
 }

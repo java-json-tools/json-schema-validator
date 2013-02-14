@@ -161,6 +161,6 @@ public final class RefResolverProcessor
     @Override
     public String toString()
     {
-        return refCache.toString();
+        return "ref resolver";
     }
 }

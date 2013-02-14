@@ -59,7 +59,7 @@ public final class SchemaDigester
                 typeMap.put(type, keyword);
         }
 
-        cache = CacheBuilder.newBuilder().recordStats().build(loader());
+        cache = CacheBuilder.newBuilder().build(loader());
     }
 
     @Override
@@ -101,6 +101,6 @@ public final class SchemaDigester
     @Override
     public String toString()
     {
-        return cache.stats().toString();
+        return "schema digester";
     }
 }

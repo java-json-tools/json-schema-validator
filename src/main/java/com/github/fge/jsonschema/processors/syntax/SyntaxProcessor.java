@@ -51,7 +51,7 @@ public final class SyntaxProcessor
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
         this.dict = dict;
-        cache = CacheBuilder.newBuilder().recordStats()
+        cache = CacheBuilder.newBuilder()
             .build(new CacheLoader<JsonNode, ValidatedPaths>()
             {
                 @Override
@@ -146,6 +146,6 @@ public final class SyntaxProcessor
     @Override
     public String toString()
     {
-        return "Syntax checker";
+        return "syntax checker";
     }
 }

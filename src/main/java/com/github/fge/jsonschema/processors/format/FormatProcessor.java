@@ -90,4 +90,10 @@ public final class FormatProcessor
             }
         };
     }
+
+    @Override
+    public String toString()
+    {
+        return "format attribute runner";
+    }
 }
