@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.library.format;
 
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.helpers.IPv4FormatAttribute;
+import com.github.fge.jsonschema.format.helpers.SharedHostNameAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -35,6 +36,8 @@ public final class DraftV4FormatAttributesDictionary
             = Dictionary.newBuilder();
 
         builder.addAll(CommonFormatAttributesDictionary.get());
+
+        builder.addEntry("hostname", new SharedHostNameAttribute("hostname"));
 
         builder.addEntry("ipv4", new IPv4FormatAttribute("ipv4"));
 

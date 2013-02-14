@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.format.draftv3.PhoneAttribute;
 import com.github.fge.jsonschema.format.draftv3.TimeAttribute;
 import com.github.fge.jsonschema.format.draftv3.UTCMillisecAttribute;
 import com.github.fge.jsonschema.format.helpers.IPv4FormatAttribute;
+import com.github.fge.jsonschema.format.helpers.SharedHostNameAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
@@ -45,6 +46,10 @@ public final class DraftV3FormatAttributesDictionary
 
         name = "date";
         attribute = DateAttribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "host-name";
+        attribute = new SharedHostNameAttribute("host-name");
         builder.addEntry(name, attribute);
 
         name = "ip-address";

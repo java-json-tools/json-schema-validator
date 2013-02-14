@@ -1,0 +1,28 @@
+[
+    {
+        "data": "foo",
+        "valid": true
+    },
+    {
+        "data": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.net",
+        "valid": true
+    },
+    {
+        "data": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.net",
+        "valid": false,
+        "message": "INVALID_HOSTNAME",
+        "msgData": {}
+    },
+    {
+        "data": "-a-b",
+        "valid": false,
+        "message": "INVALID_HOSTNAME",
+        "msgData": {}
+    },
+    {
+        "data": "a_b",
+        "valid": false,
+        "message": "INVALID_HOSTNAME",
+        "msgData": {}
+    }
+]

@@ -15,16 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.format.common;
+package com.github.fge.jsonschema.format.draftv4;
 
 import java.io.IOException;
 
 public final class HostnameTest
-    extends CommonFormatAttributeTest
+    extends DraftV4FormatAttributeTest
 {
     public HostnameTest()
         throws IOException
     {
-        super("host-name");
+        super("hostname");
     }
 }
