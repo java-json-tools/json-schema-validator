@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.validation;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -63,5 +64,21 @@ public final class ValidationConfigurationTest
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(DUP_LIBRARY);
         }
+    }
+
+    @Test
+    public void defaultLibraryIsDraftV4()
+    {
+        assertSame(cfg.freeze().getDefaultLibrary(),
+            SchemaVersion.DRAFTV4.getLibrary());
+    }
+
+    @Test
+    public void defaultLibraryIsAccountedFor()
+    {
+        final String ref = "x://y.z/schema#";
+        final Library library = Library.newLibrary().freeze();
+        cfg.setDefaultLibrary(ref, library);
+        assertSame(cfg.freeze().getDefaultLibrary(), library);
     }
 }

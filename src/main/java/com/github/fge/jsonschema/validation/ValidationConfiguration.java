@@ -29,6 +29,7 @@ public final class ValidationConfiguration
     implements Frozen<ValidationConfigurationBuilder>
 {
     final Map<JsonRef, Library> libraries;
+    final Library defaultLibrary;
 
     public static ValidationConfigurationBuilder newConfiguration()
     {
@@ -38,11 +39,17 @@ public final class ValidationConfiguration
     ValidationConfiguration(final ValidationConfigurationBuilder cfg)
     {
         libraries = Maps.newHashMap(cfg.libraries);
+        defaultLibrary = cfg.defaultLibrary;
     }
 
     public Map<JsonRef, Library> getLibraries()
     {
         return ImmutableMap.copyOf(libraries);
+    }
+
+    public Library getDefaultLibrary()
+    {
+        return defaultLibrary;
     }
 
     @Override

@@ -46,6 +46,7 @@ public final class ValidationConfigurationBuilder
     ValidationConfigurationBuilder(final ValidationConfiguration cfg)
     {
         libraries = Maps.newHashMap(cfg.libraries);
+        defaultLibrary = cfg.defaultLibrary;
     }
 
     ValidationConfigurationBuilder addLibrary(final String uri,
@@ -59,6 +60,14 @@ public final class ValidationConfigurationBuilder
             throw new ValidationConfigurationError(new ProcessingMessage()
                 .message(DUP_LIBRARY).put("uri", ref));
         libraries.put(ref, library);
+        return this;
+    }
+
+    ValidationConfigurationBuilder setDefaultLibrary(final String uri,
+        final Library library)
+    {
+        addLibrary(uri, library);
+        defaultLibrary = library;
         return this;
     }
 

@@ -19,8 +19,6 @@ import static org.testng.Assert.*;
 
 public final class LoadingConfigurationBuilderTest
 {
-    private static final String NOT_A_URI = "+24://x.y/z";
-    private static final String RELATIVE_URI = "foo";
     private static final String SAMPLE_ABSOLUTE_REF = "x://y";
 
     private final URIDownloader downloader = mock(URIDownloader.class);
