@@ -38,7 +38,6 @@ import com.google.common.collect.Sets;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
@@ -80,17 +79,13 @@ public final class SyntaxProcessor
             = new ListProcessingReport(report);
 
         final ValidatedPaths paths = cache.getUnchecked(schema.getBaseNode());
-        final ReentrantLock lock = paths.getLock();
-        lock.lock();
-        try {
+        synchronized (paths) {
             if (!paths.isValidated(schema.getPointer())) {
                 validate(syntaxReport, schema, paths);
                 paths.addReport(syntaxReport);
                 if (paths.isValid())
                     paths.addValidatedPath(schema.getPointer());
             }
-        } finally {
-            lock.unlock();
         }
 
         for (final ProcessingMessage message: syntaxReport.getMessages())

@@ -25,21 +25,14 @@ import com.google.common.collect.Sets;
 
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
 
 public final class ValidatedPaths
 {
-    private final ReentrantLock lock = new ReentrantLock();
     private final Set<JsonPointer> validatedPaths = Sets.newHashSet();
     private final Set<JsonPointer> uncheckedPaths = Sets.newHashSet();
     private final List<ProcessingMessage> messages = Lists.newArrayList();
 
     private boolean valid = false;
-
-    public ReentrantLock getLock()
-    {
-        return lock;
-    }
 
     public boolean isValidated(final JsonPointer currentPointer)
     {
