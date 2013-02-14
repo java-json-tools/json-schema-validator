@@ -84,7 +84,7 @@ public final class JarNamespaceValidationTest
             = new RefResolverProcessor(loader);
 
         final Processor<ValidationData, FullValidationContext> processor
-            = ProcessorChain.startWith(refResolver).chainWith(chain).end();
+            = ProcessorChain.startWith(refResolver).chainWith(chain).getProcessor();
 
         final ValidationProcessor validator
             = new ValidationProcessor(processor);
@@ -111,7 +111,7 @@ public final class JarNamespaceValidationTest
             = new RefResolverProcessor(loader);
 
         final Processor<ValidationData, FullValidationContext> processor
-            = ProcessorChain.startWith(refResolver).chainWith(chain).end();
+            = ProcessorChain.startWith(refResolver).chainWith(chain).getProcessor();
 
         final ValidationProcessor validator
             = new ValidationProcessor(processor);

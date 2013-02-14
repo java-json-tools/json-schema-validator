@@ -76,7 +76,7 @@ public final class CrudeValidator
 
         final Processor<ValidationData, FullValidationContext> fullChain
             = ProcessorChain.startWith(refResolver).chainWith(processor)
-            .end();
+            .getProcessor();
         validator = new ValidationProcessor(fullChain);
     }
 

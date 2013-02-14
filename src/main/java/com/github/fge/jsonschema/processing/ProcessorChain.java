@@ -32,7 +32,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
  *
  * <pre>
  *     final Processor&lt;X, Y&gt; chain = ProcessorChain.startWith(p1)
- *         .chainWith(p2).chainWith(...).end();
+ *         .chainWith(p2).chainWith(...).getProcessor();
  *
  *     // input is of type X
  *     final Y ret = chain.process(report, X);
@@ -86,7 +86,9 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
             }
         };
 
-        return new ProcessorChain<IN, OUT>(merge(processor, fail));
+        final ProcessorMerger<IN, OUT, OUT> merger
+            = new ProcessorMerger<IN, OUT, OUT>(processor, fail);
+        return new ProcessorChain<IN, OUT>(merger);
     }
 
     /**
@@ -102,37 +104,43 @@ public final class ProcessorChain<IN extends MessageProvider, OUT extends Messag
     public <NEWOUT extends MessageProvider> ProcessorChain<IN, NEWOUT>
         chainWith(final Processor<OUT, NEWOUT> p2)
     {
-        return new ProcessorChain<IN, NEWOUT>(merge(processor, p2));
+        final Processor<IN, NEWOUT> merger
+            = new ProcessorMerger<IN, OUT, NEWOUT>(processor, p2);
+        return new ProcessorChain<IN, NEWOUT>(merger);
     }
 
-    public Processor<IN, OUT> end()
+    public Processor<IN, OUT> getProcessor()
     {
         return processor;
     }
 
-    /**
-     * Merge two processors
-     *
-     * @param p1 the first processor
-     * @param p2 the second processor
-     * @param <X> the input type of {@code p1}
-     * @param <Y> the output type of {@code p1} and input type of {@code p2}
-     * @param <Z> the output type of {@code p2}
-     * @return a processor resulting of applying {@code p2} to the output of
-     * {@code p1}
-     */
-    private static <X extends MessageProvider, Y extends MessageProvider, Z extends MessageProvider>
-        Processor<X, Z> merge(final Processor<X, Y> p1, final Processor<Y, Z> p2)
+    private static final class ProcessorMerger<X extends MessageProvider,
+        Y extends MessageProvider, Z extends MessageProvider>
+        implements Processor<X, Z>
     {
-        return new Processor<X, Z>()
+        private final Processor<X, Y> p1;
+        private final Processor<Y, Z> p2;
+
+        private ProcessorMerger(final Processor<X, Y> p1,
+            final Processor<Y, Z> p2)
         {
-            @Override
-            public Z process(final ProcessingReport report, final X input)
-                throws ProcessingException
-            {
-                return p2.process(report, p1.process(report, input));
-            }
-        };
+            this.p1 = p1;
+            this.p2 = p2;
+        }
+
+        @Override
+        public Z process(final ProcessingReport report, final X input)
+            throws ProcessingException
+        {
+            final Y intermediate = p1.process(report, input);
+            return p2.process(report, intermediate);
+        }
+
+        @Override
+        public String toString()
+        {
+            return p1 + " -> " + p2;
+        }
     }
 }
 

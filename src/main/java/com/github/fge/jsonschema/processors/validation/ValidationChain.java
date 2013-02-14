@@ -52,7 +52,7 @@ public final class ValidationChain
 
         final Processor<ValidationData, FullValidationContext> onSuccess
             = ProcessorChain.startWith(digester).chainWith(builder)
-                .chainWith(formatProcessor).end();
+                .chainWith(formatProcessor).getProcessor();
 
         final ProcessorSelector<ValidationData, FullValidationContext> selector
             = new ProcessorSelector<ValidationData, FullValidationContext>()
@@ -60,7 +60,7 @@ public final class ValidationChain
                 .otherwise(onFailure());
 
         processor = ProcessorChain.startWith(syntaxProcessor)
-            .chainWith(selector.getProcessor()).end();
+            .chainWith(selector.getProcessor()).getProcessor();
     }
 
     @Override
@@ -97,5 +97,24 @@ public final class ValidationChain
                 return input.getSchema().isValid();
             }
         };
+    }
+
+    private static Processor<ValidationData, FullValidationContext>
+        mainProcessor(final Library library, final boolean useFormat)
+    {
+        final SchemaDigester digester
+            = new SchemaDigester(library.getDigesters());
+        final ValidatorBuilder builder
+            = new ValidatorBuilder(library.getValidators());
+        ProcessorChain<ValidationData, FullValidationContext> chain
+            = ProcessorChain.startWith(digester).chainWith(builder);
+
+        if (useFormat) {
+            final FormatProcessor formatProcessor
+                = new FormatProcessor(library.getFormatAttributes());
+            chain = chain.chainWith(formatProcessor);
+        }
+
+        return chain.getProcessor();
     }
 }

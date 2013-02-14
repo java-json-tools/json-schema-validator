@@ -60,7 +60,7 @@ public final class NonAbsoluteSchemaUris
             = new RefResolverProcessor(loader);
         tree = loader.get(URI.create("child1/child.json"));
         final Processor<ValidationData, FullValidationContext> processor
-            = ProcessorChain.startWith(refResolver).chainWith(chain).end();
+            = ProcessorChain.startWith(refResolver).chainWith(chain).getProcessor();
         validator = new ValidationProcessor(processor);
     }
 

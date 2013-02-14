@@ -39,7 +39,7 @@ public final class ProcessorChainTest
             = mock(Processor.class);
 
         final Processor<MessageProvider, MessageProvider> processor
-            = ProcessorChain.startWith(p1).failOnError().chainWith(p2).end();
+            = ProcessorChain.startWith(p1).failOnError().chainWith(p2).getProcessor();
 
         final MessageProvider input = mock(MessageProvider.class);
         final ProcessingReport report = mock(ProcessingReport.class);
@@ -68,7 +68,7 @@ public final class ProcessorChainTest
             = mock(Processor.class);
 
         final Processor<MessageProvider, MessageProvider> processor
-            = ProcessorChain.startWith(p1).failOnError().chainWith(p2).end();
+            = ProcessorChain.startWith(p1).failOnError().chainWith(p2).getProcessor();
 
         final MessageProvider input = mock(MessageProvider.class);
         final ProcessingReport report = mock(ProcessingReport.class);
