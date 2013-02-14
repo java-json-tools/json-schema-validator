@@ -8,7 +8,6 @@ import com.github.fge.jsonschema.load.DefaultDownloadersDictionary;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.util.RefSanityChecks;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
@@ -16,7 +15,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.messages.LoadingMessages.*;
+import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util;
+package com.github.fge.jsonschema.cfg;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.github.fge.jsonschema.messages.LoadingMessages.*;
+import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
 public final class RefSanityChecks
 {

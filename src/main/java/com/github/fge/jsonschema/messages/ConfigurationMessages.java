@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.messages;
 
-public enum LoadingMessages
+public enum ConfigurationMessages
 {
     NULL_SCHEME("scheme cannot be null"),
     EMPTY_SCHEME("cannot register empty scheme"),
@@ -29,11 +29,25 @@ public enum LoadingMessages
     NULL_SCHEMA("cannot register null schema"),
     DUPLICATE_URI("there is already a schema at that URI"),
     NO_ID_IN_SCHEMA("schema has no id"),
+    NULL_REPORT_PROVIDER("report provider must not be null"),
+    NULL_LOADING_CFG("loading configuration must not be null"),
+    NULL_VALIDATION_CFG("validation configuration must not be null"),
+    NULL_NAME("keyword name cannot be null"),
+    NULL_SYNTAX_CHECKER("syntax checker must not be null"),
+    NULL_DIGESTER("digester must not be null"),
+    NULL_TYPE("type must not be null"),
+    NO_APPROPRIATE_CONSTRUCTOR("validator class has no appropriate constructor"
+        + " (expected a constructor with a JsonNode as an argument)"),
+    NO_CHECKER("cannot build a keyword without a syntax checker"),
+    NULL_FORMAT("format attribute name cannot be null"),
+    NULL_ATTRIBUTE("format attribute cannot be null"),
+    NULL_LIBRARY("library cannot be null"),
+    DUP_LIBRARY("a library already exists for this URI"),
     ;
 
     private final String message;
 
-    LoadingMessages(final String message)
+    ConfigurationMessages(final String message)
     {
         this.message = message;
     }

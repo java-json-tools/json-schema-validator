@@ -14,7 +14,7 @@ import java.net.URI;
 import java.util.Map;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.LoadingMessages.*;
+import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 

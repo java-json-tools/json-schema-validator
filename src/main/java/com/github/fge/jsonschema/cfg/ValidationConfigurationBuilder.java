@@ -22,13 +22,12 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.util.RefSanityChecks;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
 
-import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
+import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
 public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>

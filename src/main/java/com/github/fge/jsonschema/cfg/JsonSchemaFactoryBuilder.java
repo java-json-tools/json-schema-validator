@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Thawed;
 
-import static com.github.fge.jsonschema.messages.FactoryMessages.*;
+import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
 public final class JsonSchemaFactoryBuilder
     implements Thawed<JsonSchemaFactory>
