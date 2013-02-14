@@ -23,7 +23,9 @@ public enum LogLevel
     INFO("info"),
     WARNING("warning"),
     ERROR("error"),
-    FATAL("fatal");
+    FATAL("fatal"),
+    NONE("none"),
+    ;
 
     private final String s;
 

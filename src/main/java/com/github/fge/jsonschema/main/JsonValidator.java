@@ -159,7 +159,7 @@ public final class JsonValidator
             .setLogLevel(LogLevel.FATAL)
             .put("info", "other messages follow (if any)");
 
-        ret.setExceptionThreshold(LogLevel.FATAL);
+        ret.setExceptionThreshold(LogLevel.NONE);
         try {
             ret.log(message);
             if (messages != null)

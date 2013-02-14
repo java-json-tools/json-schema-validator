@@ -36,7 +36,7 @@ public final class AbstractProcessingReportTest
      * All levels except fatal
      */
     private static final EnumSet<LogLevel> LEVELS
-        = EnumSet.complementOf(EnumSet.of(LogLevel.FATAL));
+        = EnumSet.complementOf(EnumSet.of(LogLevel.FATAL, LogLevel.NONE));
 
     @DataProvider
     public Iterator<Object[]> getLogLevels()
