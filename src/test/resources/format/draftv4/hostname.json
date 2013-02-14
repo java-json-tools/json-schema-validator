@@ -18,11 +18,5 @@
         "valid": false,
         "message": "INVALID_HOSTNAME",
         "msgData": {}
-    },
-    {
-        "data": "a_b",
-        "valid": false,
-        "message": "INVALID_HOSTNAME",
-        "msgData": {}
     }
 ]
