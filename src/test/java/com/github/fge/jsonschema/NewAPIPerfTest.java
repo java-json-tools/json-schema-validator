@@ -19,15 +19,9 @@ package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.library.DraftV4Library;
-import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.processors.data.ValidationData;
-import com.github.fge.jsonschema.processors.validation.ValidationChain;
-import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
-import com.github.fge.jsonschema.report.ListProcessingReport;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.github.fge.jsonschema.main.JsonValidator;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 
@@ -36,6 +30,18 @@ import java.util.Map;
 
 public final class NewAPIPerfTest
 {
+    private static final JsonValidator VALIDATOR;
+    private static final JsonNode SCHEMA;
+
+    static {
+        VALIDATOR = JsonSchemaFactory.byDefault().getValidator();
+        try {
+            SCHEMA = JsonLoader.fromResource("/draftv4/schema");
+        } catch (IOException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
     private NewAPIPerfTest()
     {
     }
@@ -48,25 +54,16 @@ public final class NewAPIPerfTest
         final Map<String, JsonNode> googleSchemas
             = JacksonUtils.asMap(googleAPI.get("schemas"));
 
-        final SchemaLoader loader = new SchemaLoader();
-        final ValidationChain chain
-            = new ValidationChain(DraftV4Library.get());
-        final ValidationProcessor processor = new ValidationProcessor(chain);
-
-        final JsonNode draftV4CoreSchema
-            = JsonLoader.fromResource("/draftv4/schema");
-        final SchemaTree schemaTree = loader.load(draftV4CoreSchema);
-
         long begin, current;
         begin = System.currentTimeMillis();
-        doValidate(googleSchemas, processor, schemaTree, -1);
+        doValidate(googleSchemas, -1);
         current = System.currentTimeMillis();
 
         System.out.println("Initial validation :" + (current - begin) + " ms");
 
         begin = System.currentTimeMillis();
         for (int i = 0; i < 500; i++) {
-            doValidate(googleSchemas, processor, schemaTree, i);
+            doValidate(googleSchemas, i);
             if (i % 20 == 0) {
                 current = System.currentTimeMillis();
                 System.out.println(String.format("Iteration %d (in %d ms)", i,
@@ -80,21 +77,17 @@ public final class NewAPIPerfTest
     }
 
     private static void doValidate(final Map<String, JsonNode> schemas,
-        final ValidationProcessor processor, final SchemaTree tree,
         final int i)
         throws ProcessingException
     {
         String name;
         JsonNode value;
-        ValidationData data;
         ProcessingReport report;
 
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
             value = entry.getValue();
-            data = new ValidationData(tree, new SimpleJsonTree(value));
-            report = new ListProcessingReport();
-            processor.process(report, data);
+            report = VALIDATOR.validate(SCHEMA, value);
             if (!report.isSuccess()) {
                 System.err.println("ERROR: schema " + name + " did not "
                     + "validate (iteration " + i + ')');
