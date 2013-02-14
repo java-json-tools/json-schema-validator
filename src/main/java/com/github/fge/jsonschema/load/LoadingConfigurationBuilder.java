@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.library.SchemaVersion;
-import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.util.RefSanityChecks;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
@@ -66,7 +66,7 @@ public final class LoadingConfigurationBuilder
 
     public LoadingConfigurationBuilder setNamespace(final String input)
     {
-        namespace = checkRef(input);
+        namespace = RefSanityChecks.absoluteLocator(input);
         return this;
     }
 
@@ -80,8 +80,8 @@ public final class LoadingConfigurationBuilder
     public LoadingConfigurationBuilder addSchemaRedirect(final String source,
         final String destination)
     {
-        final URI sourceURI = checkRef(source);
-        final URI destinationURI = checkRef(destination);
+        final URI sourceURI = RefSanityChecks.absoluteLocator(source);
+        final URI destinationURI = RefSanityChecks.absoluteLocator(destination);
         schemaRedirects.put(sourceURI, destinationURI);
         if (sourceURI.equals(destinationURI))
             throw new LoadingConfigurationError(new ProcessingMessage()
@@ -89,27 +89,19 @@ public final class LoadingConfigurationBuilder
         return this;
     }
 
-    public LoadingConfigurationBuilder preloadSchema(final URI uri,
+    public LoadingConfigurationBuilder preloadSchema(final String input,
         final JsonNode node)
     {
         final ProcessingMessage message = new ProcessingMessage();
 
-        if (uri == null)
-            throw new LoadingConfigurationError(message.message(NULL_URI));
         if (node == null)
             throw new LoadingConfigurationError(message.message(NULL_SCHEMA));
-        final URI key = checkRef(uri);
+        final URI key = RefSanityChecks.absoluteLocator(input);
         if (preloadedSchemas.containsKey(key))
             throw new LoadingConfigurationError(message.message(DUPLICATE_URI)
                 .put("uri", key));
         preloadedSchemas.put(key, node);
         return this;
-    }
-
-    public LoadingConfigurationBuilder preloadSchema(final String input,
-        final JsonNode node)
-    {
-        return preloadSchema(checkRef(input), node);
     }
 
     public LoadingConfigurationBuilder preloadSchema(final JsonNode schema)
@@ -143,34 +135,5 @@ public final class LoadingConfigurationBuilder
         }
 
         return scheme;
-    }
-
-    private static URI checkRef(final String input)
-    {
-        final ProcessingMessage message = new ProcessingMessage();
-
-        if (input == null)
-            throw new LoadingConfigurationError(message.message(NULL_URI));
-
-        final URI uri;
-        try {
-            uri = new URI(input);
-        } catch (URISyntaxException ignored) {
-            throw new LoadingConfigurationError(message.message(INVALID_URI)
-                .put("input", input));
-        }
-
-        return checkRef(uri);
-    }
-
-    private static URI checkRef(final URI uri)
-    {
-        final ProcessingMessage message = new ProcessingMessage();
-        final JsonRef ref = JsonRef.fromURI(uri);
-        if (!ref.isAbsolute())
-            throw new LoadingConfigurationError(message
-                .message(REF_NOT_ABSOLUTE).put("input", uri));
-
-        return ref.getLocator();
     }
 }

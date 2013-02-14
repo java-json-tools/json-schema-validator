@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.util.SanityChecks;
+import com.github.fge.jsonschema.util.RefSanityChecks;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
@@ -34,6 +34,7 @@ public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
     final Map<JsonRef, Library> libraries;
+    Library defaultLibrary = SchemaVersion.DRAFTV4.getLibrary();
 
     ValidationConfigurationBuilder()
     {
@@ -50,7 +51,7 @@ public final class ValidationConfigurationBuilder
     ValidationConfigurationBuilder addLibrary(final String uri,
         final Library library)
     {
-        final JsonRef ref = SanityChecks.absoluteRef(uri);
+        final JsonRef ref = RefSanityChecks.absoluteRef(uri);
         if (library == null)
             throw new ValidationConfigurationError(new ProcessingMessage()
                 .message(NULL_LIBRARY));

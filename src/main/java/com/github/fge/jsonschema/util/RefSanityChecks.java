@@ -26,26 +26,29 @@ import java.net.URISyntaxException;
 
 import static com.github.fge.jsonschema.messages.LoadingMessages.*;
 
-public final class SanityChecks
+public final class RefSanityChecks
 {
-    private SanityChecks()
+    private RefSanityChecks()
     {
     }
 
     public static JsonRef absoluteRef(final String input)
     {
+        final ProcessingMessage message = new ProcessingMessage();
+        if (input == null)
+            throw new ValidationConfigurationError(message.message(NULL_URI));
         final URI uri;
         try {
             uri = new URI(input);
         } catch (URISyntaxException ignored) {
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(INVALID_URI));
+            throw new ValidationConfigurationError(message.message(INVALID_URI)
+                .put("input", input));
         }
-        final JsonRef ret = JsonRef.fromURI(uri);
-        if (!ret.isAbsolute())
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(REF_NOT_ABSOLUTE));
-        return ret;
+        final JsonRef ref = JsonRef.fromURI(uri);
+        if (!ref.isAbsolute())
+            throw new ValidationConfigurationError(message
+                .message(REF_NOT_ABSOLUTE).put("input", ref));
+        return ref;
     }
 
     public static URI absoluteLocator(final String input)
