@@ -64,6 +64,16 @@ public final class ValidationConfigurationBuilder
         return this;
     }
 
+    public ValidationConfigurationBuilder setDefaultVersion(
+        final SchemaVersion version)
+    {
+        /*
+         * They are always in, so this is safe
+         */
+        defaultLibrary = version.getLibrary();
+        return this;
+    }
+
     public ValidationConfigurationBuilder setDefaultLibrary(final String uri,
         final Library library)
     {
