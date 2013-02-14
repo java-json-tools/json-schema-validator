@@ -57,22 +57,24 @@ public final class JsonSchemaFactoryBuilder
         return this;
     }
 
-    public void setLoadingConfiguration(
+    public JsonSchemaFactoryBuilder setLoadingConfiguration(
         final LoadingConfiguration loadingConfiguration)
     {
         if (loadingConfiguration == null)
             throw new FactoryConfigurationError(new ProcessingMessage()
                 .message(NULL_LOADING_CFG));
         this.loadingConfiguration = loadingConfiguration;
+        return this;
     }
 
-    public void setValidationConfiguration(
+    public JsonSchemaFactoryBuilder setValidationConfiguration(
         final ValidationConfiguration validationConfiguration)
     {
         if (validationConfiguration == null)
             throw new FactoryConfigurationError(new ProcessingMessage()
                 .message(NULL_VALIDATION_CFG));
         this.validationConfiguration = validationConfiguration;
+        return this;
     }
 
     @Override
