@@ -18,12 +18,12 @@
 package com.github.fge.jsonschema.crude;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.load.Dereferencing;
-import com.github.fge.jsonschema.load.LoadingConfiguration;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;

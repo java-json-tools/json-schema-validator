@@ -1,9 +1,12 @@
-package com.github.fge.jsonschema.load;
+package com.github.fge.jsonschema.cfg;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.library.SchemaVersion;
+import com.github.fge.jsonschema.load.DefaultDownloadersDictionary;
+import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.RefSanityChecks;
 import com.github.fge.jsonschema.util.Thawed;

@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.validation;
+package com.github.fge.jsonschema.cfg;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.library.Library;
