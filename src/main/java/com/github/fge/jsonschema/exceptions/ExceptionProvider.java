@@ -1,6 +1,6 @@
-package com.github.fge.jsonschema.report;
+package com.github.fge.jsonschema.exceptions;
 
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 
 public interface ExceptionProvider
 {

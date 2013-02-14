@@ -3,7 +3,7 @@ package com.github.fge.jsonschema.library;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class DictionaryBuilderTest

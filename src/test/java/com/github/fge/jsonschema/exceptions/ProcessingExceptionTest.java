@@ -4,8 +4,8 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
-import static org.testng.Assert.assertEquals;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
+import static org.testng.Assert.*;
 
 public final class ProcessingExceptionTest
 {
