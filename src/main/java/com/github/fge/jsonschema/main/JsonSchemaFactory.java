@@ -41,6 +41,11 @@ public final class JsonSchemaFactory
         validationConfiguration = builder.validationConfiguration;
     }
 
+    public JsonValidator getValidator()
+    {
+        return new JsonValidator(this);
+    }
+
     @Override
     public JsonSchemaFactoryBuilder thaw()
     {
