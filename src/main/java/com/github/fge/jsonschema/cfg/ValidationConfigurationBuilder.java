@@ -50,7 +50,7 @@ public final class ValidationConfigurationBuilder
         useFormat = cfg.useFormat;
     }
 
-    ValidationConfigurationBuilder addLibrary(final String uri,
+    public ValidationConfigurationBuilder addLibrary(final String uri,
         final Library library)
     {
         final JsonRef ref = RefSanityChecks.absoluteRef(uri);
@@ -64,7 +64,7 @@ public final class ValidationConfigurationBuilder
         return this;
     }
 
-    ValidationConfigurationBuilder setDefaultLibrary(final String uri,
+    public ValidationConfigurationBuilder setDefaultLibrary(final String uri,
         final Library library)
     {
         addLibrary(uri, library);
@@ -72,7 +72,7 @@ public final class ValidationConfigurationBuilder
         return this;
     }
 
-    ValidationConfigurationBuilder useFormat(final boolean useFormat)
+    public ValidationConfigurationBuilder useFormat(final boolean useFormat)
     {
         this.useFormat = useFormat;
         return this;
