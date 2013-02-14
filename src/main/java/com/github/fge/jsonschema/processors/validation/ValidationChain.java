@@ -39,28 +39,26 @@ public final class ValidationChain
 {
     private final Processor<ValidationData, FullValidationContext> processor;
 
-    public ValidationChain(final Library library)
+    public ValidationChain(final Library library, final boolean useFormat)
     {
         final SyntaxProcessor syntaxProcessor
             = new SyntaxProcessor(library.getSyntaxCheckers());
-        final SchemaDigester digester
-            = new SchemaDigester(library.getDigesters());
-        final ValidatorBuilder builder
-            = new ValidatorBuilder(library.getValidators());
-        final FormatProcessor formatProcessor
-            = new FormatProcessor(library.getFormatAttributes());
 
         final Processor<ValidationData, FullValidationContext> onSuccess
-            = ProcessorChain.startWith(digester).chainWith(builder)
-                .chainWith(formatProcessor).getProcessor();
+            = mainProcessor(library, useFormat);
 
         final ProcessorSelector<ValidationData, FullValidationContext> selector
             = new ProcessorSelector<ValidationData, FullValidationContext>()
-                .when(schemaIsValid()).then(onSuccess)
-                .otherwise(onFailure());
+            .when(schemaIsValid()).then(onSuccess)
+            .otherwise(onFailure());
 
         processor = ProcessorChain.startWith(syntaxProcessor)
             .chainWith(selector.getProcessor()).getProcessor();
+    }
+
+    public ValidationChain(final Library library)
+    {
+        this(library, true);
     }
 
     @Override
@@ -116,5 +114,11 @@ public final class ValidationChain
         }
 
         return chain.getProcessor();
+    }
+
+    @Override
+    public String toString()
+    {
+        return processor.toString();
     }
 }

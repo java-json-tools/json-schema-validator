@@ -19,20 +19,10 @@ package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.library.digest.DraftV4DigesterDictionary;
-import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
-import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
-import com.github.fge.jsonschema.load.Dereferencing;
-import com.github.fge.jsonschema.load.LoadingConfiguration;
+import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processing.ProcessorChain;
-import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
-import com.github.fge.jsonschema.processors.data.FullValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
-import com.github.fge.jsonschema.processors.digest.SchemaDigester;
-import com.github.fge.jsonschema.processors.ref.RefResolverProcessor;
-import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -58,21 +48,9 @@ public final class NewAPIPerfTest
         final Map<String, JsonNode> googleSchemas
             = JacksonUtils.asMap(googleAPI.get("schemas"));
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
-            .dereferencing(Dereferencing.INLINE).freeze();
-        final SchemaLoader loader = new SchemaLoader(cfg);
-        final RefResolverProcessor p1 = new RefResolverProcessor(loader);
-        final SyntaxProcessor p2
-            = new SyntaxProcessor(DraftV4SyntaxCheckerDictionary.get());
-        final SchemaDigester p3
-            = new SchemaDigester(DraftV4DigesterDictionary.get());
-        final ValidatorBuilder p4
-            = new ValidatorBuilder(DraftV4ValidatorDictionary.get());
-
-        final Processor<ValidationData, FullValidationContext> chain
-            = ProcessorChain.startWith(p1).chainWith(p2).chainWith(p3)
-                .chainWith(p4).getProcessor();
-
+        final SchemaLoader loader = new SchemaLoader();
+        final ValidationChain chain
+            = new ValidationChain(DraftV4Library.get());
         final ValidationProcessor processor = new ValidationProcessor(chain);
 
         final JsonNode draftV4CoreSchema
@@ -98,10 +76,6 @@ public final class NewAPIPerfTest
 
         final long end = System.currentTimeMillis();
         System.out.println("END -- time in ms: " + (end - begin));
-        System.out.println("ref: " + p1);
-        System.out.println("digest: " + p3);
-        System.out.println("build: " + p4);
-        System.out.println("validation: " + processor);
         System.exit(0);
     }
 
