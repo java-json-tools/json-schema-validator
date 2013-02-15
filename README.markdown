@@ -41,12 +41,12 @@ that it can already be split apart, but it lacks documentation and examples.
 
 <p>Furthermore, the primary objective is to provide a user API to give as much, or more, control,
 over all validation aspects than what 1.x allowed: as of 1.99.6, the core components are there, but
-the user interface is only 50% there.</p>
+the user interface is 80% there.</p>
 
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.8</b>; (<a
+    <li>development version: <b>1.99.9</b>; (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>). As the
     Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.6.0</b> (<a
