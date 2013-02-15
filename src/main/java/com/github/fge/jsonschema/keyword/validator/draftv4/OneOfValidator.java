@@ -46,6 +46,7 @@ public final class OneOfValidator
         throws ProcessingException
     {
         final SchemaTree tree = data.getSchema();
+        final JsonPointer schemaPointer = tree.getPointer();
         final JsonNode schemas = tree.getNode().get(keyword);
         final int size = schemas.size();
         final ObjectNode fullReport = FACTORY.objectNode();
@@ -58,8 +59,8 @@ public final class OneOfValidator
         for (int index = 0; index < size; index++) {
             subReport = new ListProcessingReport(report);
             subReport.setExceptionThreshold(LogLevel.FATAL);
-            ptr = basePointer.append(index);
-            newData = data.withSchema(tree.append(ptr));
+            ptr = schemaPointer.append(basePointer.append(index));
+            newData = data.withSchema(tree.setPointer(ptr));
             processor.process(subReport, newData);
             fullReport.put(ptr.toString(), subReport.asJson());
             if (subReport.isSuccess())

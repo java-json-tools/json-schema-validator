@@ -62,6 +62,7 @@ public final class DraftV3TypeValidator
          */
         final ObjectNode fullReport = FACTORY.objectNode();
         final SchemaTree tree = data.getSchema();
+        final JsonPointer schemaPointer = tree.getPointer();
 
         ListProcessingReport subReport;
         JsonPointer ptr;
@@ -71,8 +72,8 @@ public final class DraftV3TypeValidator
         for (final int index: schemas) {
             subReport = new ListProcessingReport(report);
             subReport.setExceptionThreshold(LogLevel.FATAL);
-            ptr = basePtr.append(index);
-            newData = data.withSchema(tree.append(ptr));
+            ptr = schemaPointer.append(basePtr.append(index));
+            newData = data.withSchema(tree.setPointer(ptr));
             processor.process(subReport, newData);
             fullReport.put(ptr.toString(), subReport.asJson());
             if (subReport.isSuccess())

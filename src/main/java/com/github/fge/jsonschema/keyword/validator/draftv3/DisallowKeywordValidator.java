@@ -56,6 +56,7 @@ public final class DisallowKeywordValidator
         }
 
         final SchemaTree tree = data.getSchema();
+        final JsonPointer schemaPointer = tree.getPointer();
         final ObjectNode fullReport = FACTORY.objectNode();
 
         JsonPointer ptr;
@@ -66,8 +67,8 @@ public final class DisallowKeywordValidator
         for (final int index: schemas) {
             subReport = new ListProcessingReport(report);
             subReport.setExceptionThreshold(LogLevel.FATAL);
-            ptr = basePtr.append(index);
-            newData = data.withSchema(tree.append(ptr));
+            ptr = schemaPointer.append(basePtr.append(index));
+            newData = data.withSchema(tree.setPointer(ptr));
             processor.process(subReport, newData);
             fullReport.put(ptr.toString(), subReport.asJson());
             if (subReport.isSuccess())
