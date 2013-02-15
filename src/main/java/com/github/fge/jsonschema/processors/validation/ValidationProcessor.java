@@ -23,7 +23,6 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
-import com.github.fge.jsonschema.processors.ref.RefResolverProcessor;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
@@ -39,29 +38,24 @@ import java.util.List;
 public final class ValidationProcessor
     implements Processor<ValidationData, ProcessingReport>
 {
-    private final RefResolverProcessor refResolver;
     private final Processor<ValidationData, FullValidationContext> processor;
     private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
     private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
 
-    public ValidationProcessor(final RefResolverProcessor refResolver,
+    public ValidationProcessor(
         final Processor<ValidationData, FullValidationContext> processor)
     {
-        this.refResolver = refResolver;
         this.processor = processor;
         arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
         objectCache = CacheBuilder.newBuilder().build(objectLoader());
     }
-
 
     @Override
     public ProcessingReport process(final ProcessingReport report,
         final ValidationData input)
         throws ProcessingException
     {
-        final ValidationData resolved = refResolver.process(report, input);
-        final FullValidationContext context
-            = processor.process(report, resolved);
+        final FullValidationContext context = processor.process(report, input);
         final ValidationData data = context.getValidationData();
 
         for (final KeywordValidator validator: context)
@@ -70,24 +64,24 @@ public final class ValidationProcessor
         if (!report.isSuccess())
             return report;
 
-        final JsonNode node = resolved.getInstance().getNode();
+        final JsonNode node = input.getInstance().getNode();
         if (node.size() == 0)
             return report;
 
         if (node.isArray())
-            processArray(report, resolved);
+            processArray(report, input);
         else
-            processObject(report, resolved);
+            processObject(report, input);
 
         return report;
     }
 
     private void processArray(final ProcessingReport report,
-        final ValidationData resolved)
+        final ValidationData input)
         throws ProcessingException
     {
-        final SchemaTree tree = resolved.getSchema();
-        final JsonTree instance = resolved.getInstance();
+        final SchemaTree tree = input.getSchema();
+        final JsonTree instance = input.getInstance();
 
         final JsonNode schema = tree.getNode();
         final JsonNode node = instance.getNode();
@@ -102,7 +96,7 @@ public final class ValidationProcessor
 
         for (int index = 0; index < size; index++) {
             newInstance = instance.append(JsonPointer.empty().append(index));
-            data = resolved.withInstance(newInstance);
+            data = input.withInstance(newInstance);
             for (final JsonPointer ptr: selector.selectSchemas(index)) {
                 data = data.withSchema(tree.append(ptr));
                 process(report, data);
@@ -111,11 +105,11 @@ public final class ValidationProcessor
     }
 
     private void processObject(final ProcessingReport report,
-        final ValidationData resolved)
+        final ValidationData input)
         throws ProcessingException
     {
-        final SchemaTree tree = resolved.getSchema();
-        final JsonTree instance = resolved.getInstance();
+        final SchemaTree tree = input.getSchema();
+        final JsonTree instance = input.getInstance();
 
         final JsonNode schema = tree.getNode();
         final JsonNode node = instance.getNode();
@@ -132,7 +126,7 @@ public final class ValidationProcessor
 
         for (final String field: fields) {
             newInstance = instance.append(JsonPointer.empty().append(field));
-            data = resolved.withInstance(newInstance);
+            data = input.withInstance(newInstance);
             for (final JsonPointer ptr: selector.selectSchemas(field)) {
                 data = data.withSchema(tree.append(ptr));
                 process(report, data);
