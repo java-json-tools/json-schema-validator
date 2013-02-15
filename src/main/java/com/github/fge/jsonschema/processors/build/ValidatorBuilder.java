@@ -21,14 +21,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.processing.ProcessingCache;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
-import com.google.common.base.Equivalence;
-import com.google.common.cache.CacheLoader;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.lang.reflect.Constructor;
@@ -39,26 +36,15 @@ import java.util.SortedMap;
 public final class ValidatorBuilder
     implements Processor<ValidationDigest, FullValidationContext>
 {
-    private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonSchemaEquivalence.getInstance();
     private static final String ERRMSG = "failed to build keyword validator";
 
-    private final Map<String, ProcessingCache<JsonNode, KeywordValidator>> caches
-        = Maps.newTreeMap();
+    private final Map<String, Constructor<? extends KeywordValidator>>
+        constructors;
 
     public ValidatorBuilder(
         final Dictionary<Constructor<? extends KeywordValidator>> dict)
     {
-        String key;
-        ProcessingCache<JsonNode, KeywordValidator> processingCache;
-
-        for (final Map.Entry<String, Constructor<? extends KeywordValidator>>
-            entry: dict.entries()) {
-            key = entry.getKey();
-            processingCache = new ProcessingCache<JsonNode, KeywordValidator>(
-                EQUIVALENCE, loader(entry.getValue()));
-            caches.put(key, processingCache);
-        }
+        constructors = ImmutableMap.copyOf(dict.asMap());
     }
 
     /**
@@ -78,40 +64,35 @@ public final class ValidatorBuilder
 
         String keyword;
         JsonNode digest;
-        ProcessingCache<JsonNode, KeywordValidator> cache;
         KeywordValidator validator;
+        Constructor<? extends KeywordValidator> constructor;
 
         for (final Map.Entry<String, JsonNode> entry:
             input.getDigests().entrySet()) {
             keyword = entry.getKey();
             digest = entry.getValue();
-            cache = caches.get(keyword);
-            validator = cache.get(digest);
+            constructor = constructors.get(keyword);
+            validator = buildKeyword(constructor, digest);
             map.put(keyword, validator);
         }
         return new FullValidationContext(input.getContext(), map.values());
     }
 
-    private static CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>
-        loader(final Constructor<? extends KeywordValidator> constructor)
+    private static KeywordValidator buildKeyword(
+        final Constructor<? extends KeywordValidator> constructor,
+        final JsonNode node
+    )
+        throws ProcessingException
     {
-        return new CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>()
-        {
-            @Override
-            public KeywordValidator load(final Equivalence.Wrapper<JsonNode> key)
-                throws ProcessingException
-            {
-                try {
-                    return constructor.newInstance(key.get());
-                } catch (InstantiationException e) {
-                    throw new ProcessingException(ERRMSG, e);
-                } catch (IllegalAccessException e) {
-                    throw new ProcessingException(ERRMSG, e);
-                } catch (InvocationTargetException e) {
-                    throw new ProcessingException(ERRMSG, e);
-                }
-            }
-        };
+        try {
+            return constructor.newInstance(node);
+        } catch (InstantiationException e) {
+            throw new ProcessingException(ERRMSG, e);
+        } catch (IllegalAccessException e) {
+            throw new ProcessingException(ERRMSG, e);
+        } catch (InvocationTargetException e) {
+            throw new ProcessingException(ERRMSG, e);
+        }
     }
 
     @Override
