@@ -46,7 +46,7 @@ the user interface is only 50% there.</p>
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.7</b>; (<a
+    <li>development version: <b>1.99.8</b>; (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>). As the
     Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.6.0</b> (<a
