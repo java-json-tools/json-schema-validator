@@ -30,12 +30,13 @@ public final class InlineSchemaTree
     extends BaseSchemaTree
 {
     /**
-     * The list of contexts whose URIs bear a JSON Pointer as a fragment part
+     * The list of contexts whose URIs are absolute JSON References
      */
-    private final Map<JsonRef, JsonPointer> ptrRefs = Maps.newHashMap();
+    private final Map<JsonRef, JsonPointer> absRefs = Maps.newHashMap();
 
     /**
-     * The list of contexts whose URIs bear a non JSON Pointer fragment part
+     * The list of contexts whose URIs are not absolute JSON References, or
+     * outright illegal JSON References
      */
     private final Map<JsonRef, JsonPointer> otherRefs = Maps.newHashMap();
 
@@ -53,7 +54,7 @@ public final class InlineSchemaTree
         final JsonPointer pointer, final boolean valid)
     {
         super(loadingRef, baseNode, pointer, Dereferencing.INLINE, valid);
-        walk(startingRef, baseNode, JsonPointer.empty(), ptrRefs, otherRefs);
+        walk(loadingRef, baseNode, JsonPointer.empty(), absRefs, otherRefs);
     }
 
     @Override
@@ -94,9 +95,11 @@ public final class InlineSchemaTree
 
     private JsonPointer getMatchingPointer(final JsonRef ref)
     {
-        return ref.getFragment().isPointer()
-            ? refMatchingPointer(ref)
-            : otherMatchingPointer(ref);
+        if (otherRefs.containsKey(ref))
+            return otherRefs.get(ref);
+        if (!ref.getFragment().isPointer())
+            return null;
+        return  refMatchingPointer(ref);
     }
 
     /**
@@ -119,39 +122,15 @@ public final class InlineSchemaTree
          * as a URI scope over what the loading URI is...
          */
 
-        JsonRef inlineRef;
-        JsonPointer inlinePtr;
-
-        for (final Map.Entry<JsonRef, JsonPointer> entry: ptrRefs.entrySet()) {
-            inlineRef = entry.getKey();
-            if (!entry.getKey().contains(ref))
-                continue;
-            inlinePtr = (JsonPointer) inlineRef.getFragment();
-            if (!inlinePtr.isParentOf(refPtr))
-                continue;
-            return entry.getValue().append(inlinePtr.relativize(refPtr));
-        }
+        for (final Map.Entry<JsonRef, JsonPointer> entry: absRefs.entrySet())
+            if (entry.getKey().contains(ref))
+                return entry.getValue().append(refPtr);
 
         /*
          * ... Which means this test must be done last... (since refPtr is
          * declared final, this is safe)
          */
         return loadingRef.contains(ref) ? refPtr : null;
-    }
-
-    /**
-     * Return a matching pointer for a non JSON Pointer terminated, fully
-     * resolved reference
-     *
-     * <p>This simply tries and retrieves a value from {@link #otherRefs},
-     * since an exact matching is required in such a case.</p>
-     *
-     * @param ref the target reference
-     * @return the matching pointer, or {@code null} if not found
-     */
-    private JsonPointer otherMatchingPointer(final JsonRef ref)
-    {
-        return otherRefs.get(ref);
     }
 
     /**
@@ -168,13 +147,13 @@ public final class InlineSchemaTree
      * @param baseRef the current context
      * @param node the current document
      * @param ptr the current pointer into the base document
-     * @param ptrMap a "JSON Pointer context" map to fill
-     * @param otherMap a non JSON Pointer context map to fill
+     * @param absMap map for absolute JSON References
+     * @param otherMap map for non absolute and/or illegal JSON References
      *
      * @see #idFromNode(JsonNode)
      */
     private static void walk(final JsonRef baseRef, final JsonNode node,
-        final JsonPointer ptr, final Map<JsonRef, JsonPointer> ptrMap,
+        final JsonPointer ptr, final Map<JsonRef, JsonPointer> absMap,
         final Map<JsonRef, JsonPointer> otherMap)
     {
         /*
@@ -191,14 +170,14 @@ public final class InlineSchemaTree
 
         if (ref != null) {
             nextRef = baseRef.resolve(ref);
-            targetMap = nextRef.getFragment().isPointer() ? ptrMap : otherMap;
+            targetMap = nextRef.getFragment().isEmpty() ? absMap : otherMap;
             targetMap.put(nextRef, ptr);
         }
 
         final Map<String, JsonNode> tmp = JacksonUtils.asMap(node);
 
         for (final Map.Entry<String, JsonNode> entry: tmp.entrySet())
-            walk(nextRef, entry.getValue(), ptr.append(entry.getKey()), ptrMap,
+            walk(nextRef, entry.getValue(), ptr.append(entry.getKey()), absMap,
                 otherMap);
     }
 }

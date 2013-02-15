@@ -18,13 +18,9 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -74,70 +70,5 @@ public final class InlineSchemaTreeTest
     {
         assertTrue(schemaTree.containsRef(ref));
         assertEquals(schemaTree.matchingPointer(ref), ptr);
-    }
-
-    @DataProvider
-    public Iterator<Object[]> cornerCases()
-    {
-        final Set<Object[]> set = Sets.newHashSet();
-        final JsonPointer empty = JsonPointer.empty();
-
-        set.add(new Object[] { "foo#", "foo#a", false, null } );
-        set.add(new Object[] { "foo#a", "foo#a", true, empty } );
-        set.add(new Object[] { "foo#a", "foo#b", false, null } );
-        set.add(new Object[] { "foo#a", "foo#a/b", false, null } );
-        set.add(new Object[] { "foo#", "foo#/a", true, null } );
-        set.add(new Object[] { "foo#/a", "foo#/a", true, empty } );
-        set.add(new Object[] { "foo#/a/b", "foo#/a", false, null } );
-        set.add(new Object[] { "foo#/a/b", "foo#/a/c", false, null } );
-        set.add(new Object[] { "foo#/a/b", "foo#/a/b", true, empty } );
-        set.add(new Object[] { "foo#/a/b", "foo#/a/b/c", true, null } );
-
-        return set.iterator();
-    }
-
-    @Test(dataProvider = "cornerCases")
-    public void cornerCasesAreHandledCorrectly(final String id,
-        final String refAsString, final boolean resolvable,
-        final JsonPointer ptr)
-        throws ProcessingException
-    {
-        final JsonNodeFactory factory = JacksonUtils.nodeFactory();
-        final ObjectNode schema = factory.objectNode();
-
-        JsonRef ref;
-
-        ref = JsonRef.fromString(id);
-        schema.put("id", factory.textNode(ref.toString()));
-        final SchemaTree tree = new InlineSchemaTree(schema);
-
-        ref = JsonRef.fromString(refAsString);
-        assertEquals(tree.containsRef(ref), resolvable);
-        assertEquals(tree.matchingPointer(ref), ptr);
-    }
-
-    /*
-     * Found by pure experiments
-     */
-    @Test
-    public void inlinePointerRefsAreFavoredOverLocation()
-        throws JsonReferenceException
-    {
-        final JsonNodeFactory factory = JacksonUtils.nodeFactory();
-        final JsonNode expected = factory.nullNode();
-
-        final ObjectNode target = factory.objectNode();
-        target.put("id", "#/a");
-        target.put("b", expected);
-
-        final ObjectNode schemaNode = factory.objectNode();
-        schemaNode.put("foo", target);
-
-        final SchemaTree tree = new InlineSchemaTree(schemaNode);
-        final JsonRef ref = JsonRef.fromString("#/a/b");
-        final JsonPointer ptr = new JsonPointer("/foo/b");
-
-        assertTrue(tree.containsRef(ref));
-        assertEquals(tree.matchingPointer(ref), ptr);
     }
 }

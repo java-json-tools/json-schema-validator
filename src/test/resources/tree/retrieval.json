@@ -228,12 +228,12 @@
             "ptr": "/properties/id"
         },
         {
-            "id": "http://json-schema.org/draft-04/addons#//anyOf/0",
-            "ptr": "/properties/additionalItems/anyOf/0"
+            "id": "http://json-schema.org/draft-04/addons#/",
+            "ptr": "/properties/additionalItems"
         },
         {
-            "id": "x://y#/a/0/anyOf/1",
-            "ptr": "/properties/additionalProperties/anyOf/1"
+            "id": "x://y#/a/0",
+            "ptr": "/properties/additionalProperties"
         }
     ]
 }
