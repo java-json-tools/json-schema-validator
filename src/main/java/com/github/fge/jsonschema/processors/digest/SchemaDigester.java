@@ -26,9 +26,6 @@ import com.github.fge.jsonschema.processors.data.ValidationDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.NodeType;
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
@@ -44,7 +41,6 @@ public final class SchemaDigester
         = ArrayListMultimap.create();
     private final Map<String, Digester> digesterMap
         = Maps.newHashMap();
-    private final LoadingCache<JsonNode, Map<String, JsonNode>> cache;
 
     public SchemaDigester(final Dictionary<Digester> dict)
     {
@@ -58,8 +54,6 @@ public final class SchemaDigester
             for (final NodeType type: digester.supportedTypes())
                 typeMap.put(type, keyword);
         }
-
-        cache = CacheBuilder.newBuilder().build(loader());
     }
 
     @Override
@@ -69,32 +63,23 @@ public final class SchemaDigester
     {
         final JsonNode schema = input.getSchema().getNode();
         final NodeType type = input.getInstanceType();
-        final Map<String, JsonNode> map
-            = Maps.newHashMap(cache.getUnchecked(schema));
+        final Map<String, JsonNode> map = Maps.newHashMap(buildDigests(schema));
         map.keySet().retainAll(typeMap.get(type));
         return new ValidationDigest(input, map);
     }
 
-    private CacheLoader<JsonNode, Map<String, JsonNode>> loader()
+    private Map<String, JsonNode> buildDigests(final JsonNode schema)
     {
-        return new CacheLoader<JsonNode, Map<String, JsonNode>>()
-        {
-            @Override
-            public Map<String, JsonNode> load(final JsonNode key)
-                throws ProcessingException
-            {
-                final ImmutableMap.Builder<String, JsonNode> builder
-                    = ImmutableMap.builder();
-                final Map<String, Digester> map = Maps.newHashMap(digesterMap);
+        final ImmutableMap.Builder<String, JsonNode> builder
+            = ImmutableMap.builder();
+        final Map<String, Digester> map = Maps.newHashMap(digesterMap);
 
-                map.keySet().retainAll(Sets.newHashSet(key.fieldNames()));
+        map.keySet().retainAll(Sets.newHashSet(schema.fieldNames()));
 
-                for (final Map.Entry<String, Digester> entry: map.entrySet())
-                    builder.put(entry.getKey(), entry.getValue().digest(key));
+        for (final Map.Entry<String, Digester> entry: map.entrySet())
+            builder.put(entry.getKey(), entry.getValue().digest(schema));
 
-                return builder.build();
-            }
-        };
+        return builder.build();
     }
 
     @Override
