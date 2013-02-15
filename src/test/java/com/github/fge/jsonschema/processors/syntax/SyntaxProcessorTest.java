@@ -141,22 +141,6 @@ public final class SyntaxProcessorTest
     }
 
     @Test
-    public void equivalentSchemasAreNotCheckedTwice()
-        throws ProcessingException
-    {
-        final ObjectNode node = FACTORY.objectNode();
-        node.put(K1, K1);
-
-        final ValidationContext context = schemaToData(node);
-
-        processor.process(report, context);
-        processor.process(report, context);
-
-        verify(checker, onlyOnce()).checkSyntax(
-            anyCollectionOf(JsonPointer.class), anyReport(), anySchema());
-    }
-
-    @Test
     public void errorsAreCorrectlyReported()
         throws ProcessingException
     {
@@ -189,46 +173,6 @@ public final class SyntaxProcessorTest
         processor.process(report, context);
         verify(checker, never()).checkSyntax(anyCollectionOf(JsonPointer.class),
             anyReport(), anySchema());
-    }
-
-    @Test
-    public void divingIntoAnUnknownPathPerformsChecking()
-        throws ProcessingException
-    {
-        final ObjectNode inner = FACTORY.objectNode();
-        inner.put(K1, "");
-        final ObjectNode schema = FACTORY.objectNode();
-        schema.put("foo", inner);
-
-        ValidationContext context = schemaToData(schema);
-        final SchemaTree tree = context.getSchema();
-        context = context.withSchema(tree.setPointer(JsonPointer.empty()
-            .append("foo")));
-
-        processor.process(report, context);
-        verify(checker).checkSyntax(anyCollectionOf(JsonPointer.class),
-            anyReport(), anySchema());
-    }
-
-    @Test
-    public void divingIntoAKnownPathDoesNotPerformCheckingAgain()
-        throws ProcessingException
-    {
-        final ObjectNode inner = FACTORY.objectNode();
-        inner.put(K1, "");
-        final ObjectNode schema = FACTORY.objectNode();
-        schema.put(K1, inner);
-        schema.put("foo", "bar");
-
-        ValidationContext context = schemaToData(schema);
-
-        processor.process(report, context);
-        final SchemaTree tree = context.getSchema();
-        context = context.withSchema(tree.setPointer(JsonPointer.empty()
-            .append(K1)));
-        processor.process(report, context);
-        verify(checker, onlyOnce()).checkSyntax(
-            anyCollectionOf(JsonPointer.class),  anyReport(), anySchema());
     }
 
     private static ValidationContext schemaToData(final JsonNode schema)
