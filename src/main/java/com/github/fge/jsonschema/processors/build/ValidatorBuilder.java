@@ -89,7 +89,7 @@ public final class ValidatorBuilder
             validator = cache.get(digest);
             map.put(keyword, validator);
         }
-        return new FullValidationContext(input.getData(), map.values());
+        return new FullValidationContext(input.getContext(), map.values());
     }
 
     private static CacheLoader<Equivalence.Wrapper<JsonNode>, KeywordValidator>

@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.ProcessingCache;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -42,7 +42,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  * Processor for ref resolving
  */
 public final class RefResolverProcessor
-    implements Processor<ValidationData, ValidationData>
+    implements Processor<ValidationContext, ValidationContext>
 {
     private final SchemaLoader loader;
     private final ProcessingCache<SchemaTree, SchemaTree> refCache;
@@ -64,19 +64,9 @@ public final class RefResolverProcessor
         );
     }
 
-    /**
-     * Resolve JSON Reference for the current schema context
-     *
-     * <p>All errors encountered at this level are fatal.</p>
-     *
-     *
-     * @param report the context
-     * @return a new schema tree
-     * @throws ProcessingException ref loop, unresolvable ref, not JSON, etc
-     */
     @Override
-    public ValidationData process(final ProcessingReport report,
-        final ValidationData input)
+    public ValidationContext process(final ProcessingReport report,
+        final ValidationContext input)
         throws ProcessingException
     {
         return input.withSchema(refCache.get(input.getSchema()));

@@ -27,6 +27,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -83,8 +84,9 @@ public final class FormatProcessorTest
     {
         final ObjectNode schema = FACTORY.objectNode();
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final ValidationData data = new ValidationData(tree, TREE);
-        final FullValidationContext in = new FullValidationContext(data,
+        final ValidationContext context
+            = new ValidationContext(tree, NodeType.NULL);
+        final FullValidationContext in = new FullValidationContext(context,
             Collections.<KeywordValidator>emptyList());
 
         final FullValidationContext out = processor.process(report, in);
@@ -101,8 +103,9 @@ public final class FormatProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", "foo");
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final ValidationData data = new ValidationData(tree, TREE);
-        final FullValidationContext in = new FullValidationContext(data,
+        final ValidationContext context
+            = new ValidationContext(tree, NodeType.NULL);
+        final FullValidationContext in = new FullValidationContext(context,
             Collections.<KeywordValidator>emptyList());
 
         final ArgumentCaptor<ProcessingMessage> captor
@@ -128,8 +131,9 @@ public final class FormatProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", FMT);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final ValidationData data = new ValidationData(tree, TREE);
-        final FullValidationContext in = new FullValidationContext(data,
+        final ValidationContext context
+            = new ValidationContext(tree, NodeType.NULL);
+        final FullValidationContext in = new FullValidationContext(context,
             Collections.<KeywordValidator>emptyList());
 
         processor.process(report, in);
@@ -154,7 +158,8 @@ public final class FormatProcessorTest
         final SchemaTree tree = new CanonicalSchemaTree(schema);
         final JsonTree instance = new SimpleJsonTree(node);
         final ValidationData data = new ValidationData(tree, instance);
-        final FullValidationContext in = new FullValidationContext(data,
+        final ValidationContext context = new ValidationContext(data);
+        final FullValidationContext in = new FullValidationContext(context,
             Collections.<KeywordValidator>emptyList());
 
         final FullValidationContext out = processor.process(report, in);
@@ -187,9 +192,9 @@ public final class FormatProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", FMT);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final JsonTree instance = new SimpleJsonTree(node);
-        final ValidationData data = new ValidationData(tree, instance);
-        final FullValidationContext in = new FullValidationContext(data,
+        final ValidationContext context
+            = new ValidationContext(tree, NodeType.getNodeType(node));
+        final FullValidationContext in = new FullValidationContext(context,
             Collections.<KeywordValidator>emptyList());
 
         final FullValidationContext out = processor.process(report, in);

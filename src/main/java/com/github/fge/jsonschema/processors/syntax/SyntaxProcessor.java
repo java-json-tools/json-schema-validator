@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.ValidatedPaths;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -42,7 +42,7 @@ import java.util.Set;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 public final class SyntaxProcessor
-    implements Processor<ValidationData, ValidationData>
+    implements Processor<ValidationContext, ValidationContext>
 {
     private final Dictionary<SyntaxChecker> dict;
     private final LoadingCache<JsonNode, ValidatedPaths> cache;
@@ -70,8 +70,8 @@ public final class SyntaxProcessor
      * @throws ProcessingException processing failed
      */
     @Override
-    public ValidationData process(final ProcessingReport report,
-        final ValidationData input)
+    public ValidationContext process(final ProcessingReport report,
+        final ValidationContext input)
         throws ProcessingException
     {
         final SchemaTree schema = input.getSchema();

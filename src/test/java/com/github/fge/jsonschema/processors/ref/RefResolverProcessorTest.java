@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.processors.ref;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -34,7 +34,7 @@ import static org.testng.Assert.*;
 
 public final class RefResolverProcessorTest
 {
-    private final Processor<ValidationData, ValidationData> processor
+    private final Processor<ValidationContext, ValidationContext> processor
         = new RefResolverProcessor(null);
     private final ProcessingReport report = mock(ProcessingReport.class);
 
@@ -46,10 +46,10 @@ public final class RefResolverProcessorTest
 
         final SchemaTree tree = new CanonicalSchemaTree(node);
 
-        final ValidationData data = new ValidationData(tree, null);
+        final ValidationContext context = new ValidationContext(tree, null);
 
         try {
-            processor.process(report, data);
+            processor.process(report, context);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage()).hasMessage(REF_LOOP);
@@ -64,10 +64,10 @@ public final class RefResolverProcessorTest
 
         final SchemaTree tree = new CanonicalSchemaTree(node);
 
-        final ValidationData data = new ValidationData(tree, null);
+        final ValidationContext context = new ValidationContext(tree, null);
 
         try {
-            processor.process(report, data);
+            processor.process(report, context);
             fail("No exception thrown!");
         } catch (ProcessingException e) {
             assertMessage(e.getProcessingMessage()).hasMessage(DANGLING_REF);

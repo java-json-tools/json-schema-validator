@@ -30,18 +30,18 @@ public final class FullValidationContext
     implements Iterable<KeywordValidator>, MessageProvider
 {
     private final List<KeywordValidator> validators;
-    private final ValidationData validationData;
+    private final ValidationContext context;
 
-    public FullValidationContext(final ValidationData validationData,
+    public FullValidationContext(final ValidationContext context,
         final Collection<KeywordValidator> validators)
     {
-        this.validationData = validationData;
+        this.context = context;
         this.validators = ImmutableList.copyOf(validators);
     }
 
-    public ValidationData getValidationData()
+    public ValidationContext getContext()
     {
-        return validationData;
+        return context;
     }
 
     @Override
@@ -53,6 +53,6 @@ public final class FullValidationContext
     @Override
     public ProcessingMessage newMessage()
     {
-        return validationData.newMessage();
+        return context.newMessage();
     }
 }

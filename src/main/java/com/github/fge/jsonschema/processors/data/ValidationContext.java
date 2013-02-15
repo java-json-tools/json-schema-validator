@@ -17,39 +17,52 @@
 
 package com.github.fge.jsonschema.processors.data;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.google.common.collect.ImmutableMap;
+import com.github.fge.jsonschema.tree.JsonTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
 
-import java.util.Map;
-
-public final class ValidationDigest
+public final class ValidationContext
     implements MessageProvider
 {
-    private final ValidationContext context;
-    private final Map<String, JsonNode> digested;
+    private final SchemaTree schema;
+    private final NodeType instanceType;
 
-    public ValidationDigest(final ValidationContext context,
-        final Map<String, JsonNode> map)
+    public ValidationContext(final ValidationData data)
     {
-        this.context = context;
-        digested = ImmutableMap.copyOf(map);
+        schema = data.getSchema();
+        final JsonTree tree = data.getInstance();
+        instanceType = tree != null
+            ? NodeType.getNodeType(tree.getNode())
+            : null;
     }
 
-    public ValidationContext getContext()
+    public ValidationContext(final SchemaTree schema,
+        final NodeType instanceType)
     {
-        return context;
+        this.schema = schema;
+        this.instanceType = instanceType;
     }
 
-    public Map<String, JsonNode> getDigests()
+    public SchemaTree getSchema()
     {
-        return digested;
+        return schema;
+    }
+
+    public NodeType getInstanceType()
+    {
+        return instanceType;
+    }
+
+    public ValidationContext withSchema(final SchemaTree schemaTree)
+    {
+        return new ValidationContext(schemaTree, instanceType);
     }
 
     @Override
     public ProcessingMessage newMessage()
     {
-        return context.newMessage();
+        return new ProcessingMessage().put("schema", schema);
     }
 }

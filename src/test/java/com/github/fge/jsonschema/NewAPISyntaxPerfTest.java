@@ -20,7 +20,7 @@ package com.github.fge.jsonschema;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -77,15 +77,16 @@ public final class NewAPISyntaxPerfTest
     {
         String name;
         JsonNode value;
-        ValidationData data;
+        ValidationContext context;
         ProcessingReport report;
 
         for (final Map.Entry<String, JsonNode> entry: schemas.entrySet()) {
             name = entry.getKey();
             value = entry.getValue();
-            data = new ValidationData(new CanonicalSchemaTree(value));
+            context = new ValidationContext(new CanonicalSchemaTree(value),
+                null);
             report = new ListProcessingReport();
-            processor.process(report, data);
+            processor.process(report, context);
             if (!report.isSuccess()) {
                 System.err.println("ERROR: schema " + name + " did not "
                     + "validate (iteration " + i + ')');

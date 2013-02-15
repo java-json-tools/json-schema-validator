@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
@@ -35,20 +35,20 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Predicate;
 
 public final class ValidationChain
-    implements Processor<ValidationData, FullValidationContext>
+    implements Processor<ValidationContext, FullValidationContext>
 {
-    private final Processor<ValidationData, FullValidationContext> processor;
+    private final Processor<ValidationContext, FullValidationContext> processor;
 
     public ValidationChain(final Library library, final boolean useFormat)
     {
         final SyntaxProcessor syntaxProcessor
             = new SyntaxProcessor(library.getSyntaxCheckers());
 
-        final Processor<ValidationData, FullValidationContext> onSuccess
+        final Processor<ValidationContext, FullValidationContext> onSuccess
             = mainProcessor(library, useFormat);
 
-        final ProcessorSelector<ValidationData, FullValidationContext> selector
-            = new ProcessorSelector<ValidationData, FullValidationContext>()
+        final ProcessorSelector<ValidationContext, FullValidationContext> selector
+            = new ProcessorSelector<ValidationContext, FullValidationContext>()
             .when(schemaIsValid()).then(onSuccess)
             .otherwise(onFailure());
 
@@ -63,19 +63,19 @@ public final class ValidationChain
 
     @Override
     public FullValidationContext process(final ProcessingReport report,
-        final ValidationData input)
+        final ValidationContext input)
         throws ProcessingException
     {
         return processor.process(report, input);
     }
 
-    private static Processor<ValidationData, FullValidationContext> onFailure()
+    private static Processor<ValidationContext, FullValidationContext> onFailure()
     {
-        return new Processor<ValidationData, FullValidationContext>()
+        return new Processor<ValidationContext, FullValidationContext>()
         {
             @Override
             public FullValidationContext process(final ProcessingReport report,
-                final ValidationData input)
+                final ValidationContext input)
                 throws ProcessingException
             {
                 final ProcessingMessage message = input.newMessage()
@@ -85,26 +85,26 @@ public final class ValidationChain
         };
     }
 
-    private static Predicate<ValidationData> schemaIsValid()
+    private static Predicate<ValidationContext> schemaIsValid()
     {
-        return new Predicate<ValidationData>()
+        return new Predicate<ValidationContext>()
         {
             @Override
-            public boolean apply(final ValidationData input)
+            public boolean apply(final ValidationContext input)
             {
                 return input.getSchema().isValid();
             }
         };
     }
 
-    private static Processor<ValidationData, FullValidationContext>
+    private static Processor<ValidationContext, FullValidationContext>
         mainProcessor(final Library library, final boolean useFormat)
     {
         final SchemaDigester digester
             = new SchemaDigester(library.getDigesters());
         final ValidatorBuilder builder
             = new ValidatorBuilder(library.getValidators());
-        ProcessorChain<ValidationData, FullValidationContext> chain
+        ProcessorChain<ValidationContext, FullValidationContext> chain
             = ProcessorChain.startWith(digester).chainWith(builder);
 
         if (useFormat) {

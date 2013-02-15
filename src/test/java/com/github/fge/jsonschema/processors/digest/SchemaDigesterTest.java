@@ -24,13 +24,11 @@ import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
-import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
@@ -100,12 +98,11 @@ public final class SchemaDigesterTest
         throws ProcessingException
     {
         final NodeType type = NodeType.getNodeType(node);
-        final JsonTree instance = new SimpleJsonTree(node);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final ValidationData data = new ValidationData(tree, instance);
+        final ValidationContext context = new ValidationContext(tree, type);
         final ProcessingReport report = mock(ProcessingReport.class);
 
-        final ValidationDigest digest  = schemaDigester.process(report, data);
+        final ValidationDigest digest = schemaDigester.process(report, context);
         verify(digester1).digest(schema);
         verify(digester2).digest(schema);
 
@@ -131,12 +128,11 @@ public final class SchemaDigesterTest
         final ObjectNode node = FACTORY.objectNode();
         node.put(K1, K1);
         final SchemaTree schemaTree = new CanonicalSchemaTree(node);
-        final JsonNode instance = FACTORY.nullNode();
-        final JsonTree tree = new SimpleJsonTree(instance);
-        final ValidationData data = new ValidationData(schemaTree, tree);
+        final ValidationContext context
+            = new ValidationContext(schemaTree, NodeType.NULL);
         final ProcessingReport report = mock(ProcessingReport.class);
 
-        schemaDigester.process(report, data);
+        schemaDigester.process(report, context);
 
         verify(digester1).digest(node);
         verify(digester2, never()).digest(any(JsonNode.class));

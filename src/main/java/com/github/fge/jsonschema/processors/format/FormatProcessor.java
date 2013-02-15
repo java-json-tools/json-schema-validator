@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
@@ -48,8 +49,8 @@ public final class FormatProcessor
         final FullValidationContext input)
         throws ProcessingException
     {
-        final ValidationData data = input.getValidationData();
-        final JsonNode node = data.getSchema().getNode().get("format");
+        final ValidationContext context = input.getContext();
+        final JsonNode node = context.getSchema().getNode().get("format");
 
         if (node == null)
             return input;
@@ -64,8 +65,7 @@ public final class FormatProcessor
             return input;
         }
 
-        final NodeType type
-            = NodeType.getNodeType(data.getInstance().getNode());
+        final NodeType type = context.getInstanceType();
 
         if (!attr.supportedTypes().contains(type))
             return input;
@@ -73,7 +73,7 @@ public final class FormatProcessor
         final List<KeywordValidator> validators = Lists.newArrayList(input);
         validators.add(formatValidator(attr));
 
-        return new FullValidationContext(data, validators);
+        return new FullValidationContext(context, validators);
     }
 
     private static KeywordValidator formatValidator(final FormatAttribute attr)

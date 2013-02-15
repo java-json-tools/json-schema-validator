@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -38,12 +39,12 @@ import java.util.List;
 public final class ValidationProcessor
     implements Processor<ValidationData, ProcessingReport>
 {
-    private final Processor<ValidationData, FullValidationContext> processor;
+    private final Processor<ValidationContext, FullValidationContext> processor;
     private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
     private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
 
     public ValidationProcessor(
-        final Processor<ValidationData, FullValidationContext> processor)
+        final Processor<ValidationContext, FullValidationContext> processor)
     {
         this.processor = processor;
         arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
@@ -55,10 +56,14 @@ public final class ValidationProcessor
         final ValidationData input)
         throws ProcessingException
     {
-        final FullValidationContext context = processor.process(report, input);
-        final ValidationData data = context.getValidationData();
+        final ValidationContext context = new ValidationContext(input);
+        final FullValidationContext fullContext
+            = processor.process(report, context);
+        final ValidationContext newContext = fullContext.getContext();
+        final ValidationData data = new ValidationData(newContext.getSchema(),
+            input.getInstance());
 
-        for (final KeywordValidator validator: context)
+        for (final KeywordValidator validator: fullContext)
             validator.validate(this, report, data);
 
         if (!report.isSuccess())

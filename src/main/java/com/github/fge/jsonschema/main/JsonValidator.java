@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorSelector;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
+import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.processors.ref.RefResolverProcessor;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
@@ -59,7 +60,7 @@ public final class JsonValidator
         final RefResolverProcessor refResolver
             = new RefResolverProcessor(loader);
 
-        final ProcessorChain<ValidationData, FullValidationContext> chain
+        final ProcessorChain<ValidationContext, FullValidationContext> chain
             = ProcessorChain.startWith(refResolver)
                 .chainWith(buildProcessor(factory));
 
@@ -99,18 +100,18 @@ public final class JsonValidator
         }
     }
 
-    private static Processor<ValidationData, FullValidationContext>
+    private static Processor<ValidationContext, FullValidationContext>
         buildProcessor(final JsonSchemaFactory factory)
     {
         final ValidationConfiguration cfg = factory.validationConfiguration;
 
-        ProcessorSelector<ValidationData, FullValidationContext> selector
-            = new ProcessorSelector<ValidationData, FullValidationContext>();
+        ProcessorSelector<ValidationContext, FullValidationContext> selector
+            = new ProcessorSelector<ValidationContext, FullValidationContext>();
 
         final Map<JsonRef, Library> libraries = cfg.getLibraries();
         final boolean useFormat = cfg.getUseFormat();
 
-        Predicate<ValidationData> predicate;
+        Predicate<ValidationContext> predicate;
         ValidationChain chain;
 
         for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
@@ -125,21 +126,21 @@ public final class JsonValidator
         return selector.getProcessor();
     }
 
-    private static Predicate<ValidationData> versionTest(final JsonRef ref)
+    private static Predicate<ValidationContext> versionTest(final JsonRef ref)
     {
-        return new Predicate<ValidationData>()
+        return new Predicate<ValidationContext>()
         {
             @Override
-            public boolean apply(final ValidationData input)
+            public boolean apply(final ValidationContext input)
             {
                 return ref.equals(extractDollarSchema(input));
             }
         };
     }
 
-    private static JsonRef extractDollarSchema(final ValidationData data)
+    private static JsonRef extractDollarSchema(final ValidationContext context)
     {
-        final JsonNode schema = data.getSchema().getBaseNode();
+        final JsonNode schema = context.getSchema().getBaseNode();
         final JsonNode node = schema.path("$schema");
         if (!node.isTextual())
             return JsonRef.emptyRef();
