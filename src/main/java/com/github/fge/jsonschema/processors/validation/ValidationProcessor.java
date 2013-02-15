@@ -64,14 +64,14 @@ public final class ValidationProcessor
         if (!report.isSuccess())
             return report;
 
-        final JsonNode node = input.getInstance().getNode();
+        final JsonNode node = data.getInstance().getNode();
         if (node.size() == 0)
             return report;
 
         if (node.isArray())
-            processArray(report, input);
+            processArray(report, data);
         else
-            processObject(report, input);
+            processObject(report, data);
 
         return report;
     }
