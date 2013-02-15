@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.processors.data;
 
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
@@ -29,7 +28,6 @@ public final class ValidationContext
 {
     private final SchemaTree schema;
     private final NodeType instanceType;
-    private ProcessingReport report;
 
     public ValidationContext(final ValidationData data)
     {
@@ -55,16 +53,6 @@ public final class ValidationContext
     public NodeType getInstanceType()
     {
         return instanceType;
-    }
-
-    public ProcessingReport getReport()
-    {
-        return report;
-    }
-
-    public void setReport(final ProcessingReport report)
-    {
-        this.report = report;
     }
 
     public ValidationContext withSchema(final SchemaTree schemaTree)

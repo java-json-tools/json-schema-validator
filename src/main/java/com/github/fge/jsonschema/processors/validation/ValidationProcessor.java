@@ -26,8 +26,6 @@ import com.github.fge.jsonschema.processors.data.FullValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
-import com.github.fge.jsonschema.report.ListProcessingReport;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -43,6 +41,9 @@ import java.util.List;
 public final class ValidationProcessor
     implements Processor<ValidationData, ProcessingReport>
 {
+    private static final ThreadLocal<ProcessingReport> REPORT
+        = new ThreadLocal<ProcessingReport>();
+
     private final ProcessingCache<ValidationContext, FullValidationContext> cache;
     private final Processor<ValidationContext, FullValidationContext> processor;
     private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
@@ -68,16 +69,13 @@ public final class ValidationProcessor
          * Build a validation context, attach a report to it
          */
         final ValidationContext context = new ValidationContext(input);
-        final ProcessingReport r = new ListProcessingReport(report);
-        context.setReport(r);
 
+        REPORT.set(report);
         /*
          * Get the full context from the cache. Inject the messages into the
          * main report.
          */
         final FullValidationContext fullContext = cache.get(context);
-        for (final ProcessingMessage message: r.getMessages())
-            report.log(message);
 
         /*
          * Get the calculated context. Build the data.
@@ -210,7 +208,7 @@ public final class ValidationProcessor
                 throws ProcessingException
             {
                 final ValidationContext context = key.get();
-                return processor.process(context.getReport(), context);
+                return processor.process(REPORT.get(), context);
             }
         };
     }
