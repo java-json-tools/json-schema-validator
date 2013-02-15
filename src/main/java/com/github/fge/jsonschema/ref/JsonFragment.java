@@ -34,7 +34,6 @@ import com.github.fge.jsonschema.exceptions.JsonReferenceException;
  * @see JsonPointer
  */
 public abstract class JsonFragment
-    implements Comparable<JsonFragment>
 {
     /**
      * This fragment as a string value
@@ -96,13 +95,6 @@ public abstract class JsonFragment
      * @return true if this fragment is an instance of {@link JsonPointer}
      */
     public abstract boolean isPointer();
-
-    @Override
-    public final int compareTo(final JsonFragment o)
-    {
-        return asString.compareTo(o.asString);
-    }
-
 
     @Override
     public final int hashCode()
