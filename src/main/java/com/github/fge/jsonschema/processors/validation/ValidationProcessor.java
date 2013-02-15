@@ -20,14 +20,18 @@ package com.github.fge.jsonschema.processors.validation;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.processing.ProcessingCache;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.report.ListProcessingReport;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -39,6 +43,7 @@ import java.util.List;
 public final class ValidationProcessor
     implements Processor<ValidationData, ProcessingReport>
 {
+    private final ProcessingCache<ValidationContext, FullValidationContext> cache;
     private final Processor<ValidationContext, FullValidationContext> processor;
     private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
     private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
@@ -49,6 +54,9 @@ public final class ValidationProcessor
         this.processor = processor;
         arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
         objectCache = CacheBuilder.newBuilder().build(objectLoader());
+        cache = new ProcessingCache<ValidationContext, FullValidationContext>(
+            ValidationContextEquivalence.getInstance(), loader()
+        );
     }
 
     @Override
@@ -56,19 +64,45 @@ public final class ValidationProcessor
         final ValidationData input)
         throws ProcessingException
     {
+        /*
+         * Build a validation context, attach a report to it
+         */
         final ValidationContext context = new ValidationContext(input);
-        final FullValidationContext fullContext
-            = processor.process(report, context);
+        final ProcessingReport r = new ListProcessingReport(report);
+        context.setReport(r);
+
+        /*
+         * Get the full context from the cache. Inject the messages into the
+         * main report.
+         */
+        final FullValidationContext fullContext = cache.get(context);
+        for (final ProcessingMessage message: r.getMessages())
+            report.log(message);
+
+        /*
+         * Get the calculated context. Build the data.
+         */
         final ValidationContext newContext = fullContext.getContext();
         final ValidationData data = new ValidationData(newContext.getSchema(),
             input.getInstance());
 
+        /*
+         * Validate against all keywords.
+         */
         for (final KeywordValidator validator: fullContext)
             validator.validate(this, report, data);
 
+        /*
+         * At that point, if the report is a failure, we quit: there is no
+         * reason to go any further.
+         */
         if (!report.isSuccess())
             return report;
 
+        /*
+         * Now check whether this is a container node with a size greater than
+         * 0. If not, no need to go see the children.
+         */
         final JsonNode node = data.getInstance().getNode();
         if (node.size() == 0)
             return report;
@@ -165,6 +199,21 @@ public final class ValidationProcessor
         };
     }
 
+    private CacheLoader<Equivalence.Wrapper<ValidationContext>, FullValidationContext>
+        loader()
+    {
+        return new CacheLoader<Equivalence.Wrapper<ValidationContext>, FullValidationContext>()
+        {
+            @Override
+            public FullValidationContext load(
+                final Equivalence.Wrapper<ValidationContext> key)
+                throws ProcessingException
+            {
+                final ValidationContext context = key.get();
+                return processor.process(context.getReport(), context);
+            }
+        };
+    }
     @Override
     public String toString()
     {

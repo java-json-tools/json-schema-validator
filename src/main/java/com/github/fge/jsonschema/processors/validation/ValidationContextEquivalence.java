@@ -31,6 +31,11 @@ public final class ValidationContextEquivalence
     private static final Equivalence<SchemaTree> TREE_EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();
 
+    public static Equivalence<ValidationContext> getInstance()
+    {
+        return INSTANCE;
+    }
+
     @Override
     protected boolean doEquivalent(final ValidationContext a,
         final ValidationContext b)
