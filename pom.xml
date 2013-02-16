@@ -48,6 +48,7 @@
                         <link>http://docs.oracle.com/javase/6/docs/api</link>
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
+                        <link>http://fge.github.com/json-schema-core/</link>
                     </links>
                     <docfilessubdirs>true</docfilessubdirs>
                 </configuration>

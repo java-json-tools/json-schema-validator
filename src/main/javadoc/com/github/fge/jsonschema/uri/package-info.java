@@ -19,7 +19,7 @@
  * Classes to handle downloading of JSON documents using any URI scheme
  *
  * <p>The following URI schemes are supported by default: {@code http}, {@code
- * file}, {@code ftp}, {@code resource} and {@code jar}.</p>
+ * https}, {@code file}, {@code ftp}, {@code resource} and {@code jar}.</p>
  *
  * <p>You can use classes in this package to extend the list of supported
  * schemes, by:</p>
@@ -28,8 +28,8 @@
  *     <li>implementing {@link com.github.fge.jsonschema.load.URIDownloader},
  *     </li>
  *     <li>registering this new downloader for a custom scheme by using {@link
- *     com.github.fge.jsonschema.main.JsonSchemaFactory.Builder#registerScheme(
- *     String, com.github.fge.jsonschema.load.URIDownloader)}.</li>
+ *     com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder#addScheme(
+ *     java.lang.String, com.github.fge.jsonschema.load.URIDownloader)}.</li>
  * </ul>
  *
  * <p>Note about {@code jar} relative URI resolutions: due to the very nature of

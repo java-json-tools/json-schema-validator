@@ -31,3 +31,5 @@
  * footprint reduced, it also allows a great simplification of keyword
  * constructors.</p>
  */
+
+package com.github.fge.jsonschema.keyword.digest;
