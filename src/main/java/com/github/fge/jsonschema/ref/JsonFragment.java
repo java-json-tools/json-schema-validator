@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.ref;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 
 /**
  * Abstract class for fragment resolution
@@ -48,28 +47,6 @@ public abstract class JsonFragment
     protected JsonFragment(final String input)
     {
         asString = input;
-    }
-
-    /**
-     * The only static factory method to obtain a fragment
-     *
-     * <p>Depending on the situation, this method will either return a
-     * {@link JsonPointer} or an {@link IllegalFragment}.</p>
-     *
-     * @param fragment the fragment as a string
-     * @return the fragment
-     */
-    public static JsonFragment fromFragment(final String fragment)
-    {
-        if (fragment.isEmpty())
-            return JsonPointer.empty();
-
-        try {
-            return new JsonPointer(fragment);
-        } catch (JsonReferenceException ignored) {
-            // Not a valid JSON Pointer: illegal
-            return new IllegalFragment(fragment);
-        }
     }
 
     /**

@@ -69,10 +69,6 @@ public final class JsonPointer
 {
     /**
      * The empty pointer
-     *
-     * <p>This is what will be returned by {@link
-     * JsonFragment#fromFragment(String)} if the submitted fragment is empty.
-     * </p>
      */
     private static final JsonPointer EMPTY
         = new JsonPointer("", ImmutableList.<String>of());

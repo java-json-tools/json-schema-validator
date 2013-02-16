@@ -122,7 +122,7 @@ public abstract class JsonRef
         try {
             this.uri = new URI(scheme, ssp, realFragment);
             locator = new URI(scheme, ssp, "");
-            fragment = JsonFragment.fromFragment(realFragment);
+            fragment = fromFragment(realFragment);
             asString = this.uri.toString();
             hashCode = asString.hashCode();
         } catch (URISyntaxException e) {
@@ -247,6 +247,19 @@ public abstract class JsonRef
     public final boolean contains(final JsonRef other)
     {
         return locator.equals(other.locator);
+    }
+
+    private static JsonFragment fromFragment(final String fragment)
+    {
+        if (fragment.isEmpty())
+            return JsonPointer.empty();
+
+        try {
+            return new JsonPointer(fragment);
+        } catch (JsonReferenceException ignored) {
+            // Not a valid JSON Pointer: illegal
+            return new IllegalFragment(fragment);
+        }
     }
 
     @Override
