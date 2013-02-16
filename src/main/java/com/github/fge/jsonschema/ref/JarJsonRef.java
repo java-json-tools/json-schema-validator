@@ -17,8 +17,6 @@
 
 package com.github.fge.jsonschema.ref;
 
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-
 import java.net.URI;
 
 /**
@@ -81,7 +79,7 @@ final class JarJsonRef
     @Override
     public boolean isAbsolute()
     {
-        return legal && pointer.equals(JsonPointer.empty());
+        return legal && pointer.isEmpty();
     }
 
     @Override
