@@ -26,7 +26,7 @@ import com.google.common.base.Preconditions;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.github.fge.jsonschema.messages.JsonRefMessages.*;
+import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 
 /**
  * Representation of a JSON Reference

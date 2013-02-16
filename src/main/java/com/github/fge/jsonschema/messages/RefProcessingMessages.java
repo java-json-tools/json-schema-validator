@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.messages;
 
 public enum RefProcessingMessages
 {
+    INVALID_URI("not a valid URI"),
     URI_NOT_ABSOLUTE("URI is not absolute"),
     UNHANDLED_SCHEME("scheme not supported"),
     URI_NOT_JSON("content at URI is not valid JSON"),
