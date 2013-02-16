@@ -32,9 +32,8 @@ public final class DependenciesValidatorTest
 {
     public DependenciesValidatorTest()
     {
-        super("dependencies",
-            JsonPointer.empty().append("dependencies").append("a"),
-            JsonPointer.empty().append("dependencies").append("b"));
+        super("dependencies", JsonPointer.of("dependencies", "a"),
+            JsonPointer.of("dependencies", "b"));
     }
 
     @Override

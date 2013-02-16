@@ -33,7 +33,7 @@ import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 public final class NotValidator
     extends AbstractKeywordValidator
 {
-    private static final JsonPointer PTR = JsonPointer.empty().append("not");
+    private static final JsonPointer PTR = JsonPointer.of("not");
 
     public NotValidator(final JsonNode digest)
     {

@@ -36,8 +36,8 @@ public final class DisallowValidatorTest
 {
     public DisallowValidatorTest()
     {
-        super("disallow", JsonPointer.empty().append("disallow").append(0),
-            JsonPointer.empty().append("disallow").append(1));
+        super("disallow", JsonPointer.of("disallow", 0),
+            JsonPointer.of("disallow", 1));
     }
 
     @Override

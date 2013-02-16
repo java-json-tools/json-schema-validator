@@ -36,8 +36,7 @@ public final class AnyOfValidatorTest
 {
     public AnyOfValidatorTest()
     {
-        super("anyOf", JsonPointer.empty().append("anyOf").append(0),
-            JsonPointer.empty().append("anyOf").append(1));
+        super("anyOf", JsonPointer.of("anyOf", 0), JsonPointer.of("anyOf", 1));
     }
 
     @Override

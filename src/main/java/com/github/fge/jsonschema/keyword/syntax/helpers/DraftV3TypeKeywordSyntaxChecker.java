@@ -42,12 +42,9 @@ public final class DraftV3TypeKeywordSyntaxChecker
     private static final Equivalence<JsonNode> EQUIVALENCE
         = JsonSchemaEquivalence.getInstance();
 
-    private final JsonPointer basePtr;
-
     public DraftV3TypeKeywordSyntaxChecker(final String keyword)
     {
         super(keyword, STRING, ARRAY);
-        basePtr = JsonPointer.empty().append(keyword);
     }
 
     @Override
@@ -77,7 +74,7 @@ public final class DraftV3TypeKeywordSyntaxChecker
             type = NodeType.getNodeType(element);
             uniqueItems = set.add(EQUIVALENCE.wrap(element));
             if (type == OBJECT) {
-                pointers.add(basePtr.append(index));
+                pointers.add(JsonPointer.of(keyword, index));
                 continue;
             }
             if (type != STRING) {

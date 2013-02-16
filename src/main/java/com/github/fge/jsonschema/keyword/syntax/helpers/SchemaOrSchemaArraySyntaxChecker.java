@@ -30,12 +30,9 @@ import java.util.Collection;
 public abstract class SchemaOrSchemaArraySyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private final JsonPointer basePointer;
-
     protected SchemaOrSchemaArraySyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.ARRAY, NodeType.OBJECT);
-        basePointer = JsonPointer.empty().append(keyword);
     }
 
     @Override
@@ -56,11 +53,11 @@ public abstract class SchemaOrSchemaArraySyntaxChecker
     {
         final JsonNode node = getNode(tree);
         if (node.isObject()) {
-            pointers.add(basePointer);
+            pointers.add(JsonPointer.of(keyword));
             return;
         }
 
         for (int index = 0; index < node.size(); index++)
-            pointers.add(basePointer.append(index));
+            pointers.add(JsonPointer.of(keyword, index));
     }
 }

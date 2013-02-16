@@ -33,12 +33,9 @@ import java.util.Set;
 public abstract class SchemaMapSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private final JsonPointer basePointer;
-
     protected SchemaMapSyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.OBJECT);
-        basePointer = JsonPointer.empty().append(keyword);
     }
 
     @Override
@@ -61,6 +58,6 @@ public abstract class SchemaMapSyntaxChecker
         // We know this is an object, so...
         final Set<String> set = Sets.newHashSet(node.fieldNames());
         for (final String s: Ordering.natural().sortedCopy(set))
-            pointers.add(basePointer.append(s));
+            pointers.add(JsonPointer.of(keyword, s));
     }
 }

@@ -47,6 +47,6 @@ public final class NotSyntaxChecker
         final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
-        pointers.add(JsonPointer.empty().append(keyword));
+        pointers.add(JsonPointer.of(keyword));
     }
 }

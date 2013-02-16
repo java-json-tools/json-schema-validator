@@ -31,12 +31,9 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 public final class SchemaArraySyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private final JsonPointer basePointer;
-
     public SchemaArraySyntaxChecker(final String keyword)
     {
         super(keyword, NodeType.ARRAY);
-        basePointer = JsonPointer.empty().append(keyword);
     }
 
     @Override
@@ -52,6 +49,6 @@ public final class SchemaArraySyntaxChecker
         }
 
         for (int index = 0; index < size; index++)
-            pointers.add(basePointer.append(index));
+            pointers.add(JsonPointer.of(keyword, index));
     }
 }

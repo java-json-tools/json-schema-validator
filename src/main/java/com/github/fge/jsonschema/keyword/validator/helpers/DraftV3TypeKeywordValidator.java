@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.keyword.validator.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
@@ -33,7 +32,6 @@ public abstract class DraftV3TypeKeywordValidator
 {
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
-    protected final JsonPointer basePtr;
     protected final EnumSet<NodeType> types = EnumSet.noneOf(NodeType.class);
     protected final List<Integer> schemas = Lists.newArrayList();
 
@@ -41,7 +39,6 @@ public abstract class DraftV3TypeKeywordValidator
         final JsonNode digested)
     {
         super(keyword);
-        basePtr = JsonPointer.empty().append(keyword);
         for (final JsonNode element: digested.get(keyword))
             types.add(NodeType.fromName(element.textValue()));
         for (final JsonNode element: digested.get("schemas"))

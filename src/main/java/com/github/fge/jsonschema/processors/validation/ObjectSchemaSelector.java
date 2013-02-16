@@ -29,11 +29,11 @@ import java.util.List;
 public final class ObjectSchemaSelector
 {
     private static final JsonPointer PROPERTIES
-        = JsonPointer.empty().append("properties");
+        = JsonPointer.of("properties");
     private static final JsonPointer PATTERNPROPERTIES
-        = JsonPointer.empty().append("patternProperties");
+        = JsonPointer.of("patternProperties");
     private static final JsonPointer ADDITIONALPROPERTIES
-        = JsonPointer.empty().append("additionalProperties");
+        = JsonPointer.of("additionalProperties");
 
     private final List<String> properties;
     private final List<String> patternProperties;

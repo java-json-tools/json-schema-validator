@@ -40,6 +40,6 @@ public final class AdditionalSyntaxChecker
         throws ProcessingException
     {
         if (getNode(tree).isObject())
-            pointers.add(JsonPointer.empty().append(keyword));
+            pointers.add(JsonPointer.of(keyword));
     }
 }

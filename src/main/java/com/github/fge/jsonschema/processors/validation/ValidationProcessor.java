@@ -162,7 +162,7 @@ public final class ValidationProcessor
         JsonTree newInstance;
 
         for (final String field: fields) {
-            newInstance = instance.append(JsonPointer.empty().append(field));
+            newInstance = instance.append(JsonPointer.of(field));
             data = input.withInstance(newInstance);
             for (final JsonPointer ptr: selector.selectSchemas(field)) {
                 data = data.withSchema(tree.append(ptr));

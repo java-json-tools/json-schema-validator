@@ -170,8 +170,7 @@ public final class ExtendsKeywordTest
     protected static final class DummyProcessor
         implements Processor<ValidationData, ProcessingReport>
     {
-        private static final JsonPointer PTR = JsonPointer.empty()
-            .append("extends");
+        private static final JsonPointer PTR = JsonPointer.of("extends");
 
         private final WantedState wanted;
         private final ProcessingMessage message;

@@ -59,7 +59,7 @@ public final class OneOfValidator
         for (int index = 0; index < size; index++) {
             subReport = new ListProcessingReport(report);
             subReport.setExceptionThreshold(LogLevel.FATAL);
-            ptr = schemaPointer.append(basePointer.append(index));
+            ptr = schemaPointer.append(JsonPointer.of(keyword, index));
             newData = data.withSchema(tree.setPointer(ptr));
             processor.process(subReport, newData);
             fullReport.put(ptr.toString(), subReport.asJson());

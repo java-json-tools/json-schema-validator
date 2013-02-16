@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.keyword.validator.helpers;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
@@ -27,12 +26,9 @@ public abstract class SchemaArrayValidator
 {
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
-    protected final JsonPointer basePointer;
-
     protected SchemaArrayValidator(final String keyword)
     {
         super(keyword);
-        basePointer = JsonPointer.empty().append(keyword);
     }
 
     @Override

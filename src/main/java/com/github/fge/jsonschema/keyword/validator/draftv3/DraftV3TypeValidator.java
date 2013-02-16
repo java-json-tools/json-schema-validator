@@ -72,7 +72,7 @@ public final class DraftV3TypeValidator
         for (final int index: schemas) {
             subReport = new ListProcessingReport(report);
             subReport.setExceptionThreshold(LogLevel.FATAL);
-            ptr = schemaPointer.append(basePtr.append(index));
+            ptr = schemaPointer.append(JsonPointer.of(keyword, index));
             newData = data.withSchema(tree.setPointer(ptr));
             processor.process(subReport, newData);
             fullReport.put(ptr.toString(), subReport.asJson());

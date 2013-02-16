@@ -56,8 +56,7 @@ public final class JsonTreeTest
     public void pushdOfJsonPointerWorks()
     {
         JsonTree tree = new SimpleJsonTree(testNode);
-        final JsonPointer ptr = JsonPointer.empty().append("object")
-            .append("a");
+        final JsonPointer ptr = JsonPointer.of("object", "a");
         tree = tree.append(ptr);
         assertSame(tree.getNode(), childObject.get("a"));
         assertEquals(tree.getPointer(), ptr);

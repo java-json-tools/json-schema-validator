@@ -36,8 +36,7 @@ public final class DraftV3TypeValidatorTest
 {
     public DraftV3TypeValidatorTest()
     {
-        super("type", JsonPointer.empty().append("type").append(0),
-            JsonPointer.empty().append("type").append(1));
+        super("type", JsonPointer.of("type", 0), JsonPointer.of("type", 1));
     }
 
     @Override

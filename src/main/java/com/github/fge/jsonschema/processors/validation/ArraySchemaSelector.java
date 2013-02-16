@@ -25,10 +25,9 @@ import java.util.Collections;
 
 final class ArraySchemaSelector
 {
-    private static final JsonPointer ITEMS
-        = JsonPointer.empty().append("items");
+    private static final JsonPointer ITEMS = JsonPointer.of("items");
     private static final JsonPointer ADDITIONAL_ITEMS
-        = JsonPointer.empty().append("additionalItems");
+        = JsonPointer.of("additionalItems");
 
     private final boolean hasItems;
     private final boolean itemsIsArray;

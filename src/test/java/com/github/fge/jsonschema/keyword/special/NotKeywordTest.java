@@ -163,8 +163,7 @@ public final class NotKeywordTest
     protected static final class DummyProcessor
         implements Processor<ValidationData, ProcessingReport>
     {
-        private static final JsonPointer PTR
-            = JsonPointer.empty().append("not");
+        private static final JsonPointer PTR = JsonPointer.of("not");
 
         private final WantedState wanted;
 

@@ -32,8 +32,8 @@ public final class ExtendsValidatorTest
 {
     public ExtendsValidatorTest()
     {
-        super("extends", JsonPointer.empty().append("extends").append(0),
-            JsonPointer.empty().append("extends").append(1));
+        super("extends", JsonPointer.of("extends", 0),
+            JsonPointer.of("extends", 1));
     }
 
     @Override

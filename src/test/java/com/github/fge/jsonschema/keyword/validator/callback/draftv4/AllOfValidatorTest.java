@@ -36,8 +36,7 @@ public final class AllOfValidatorTest
 {
     public AllOfValidatorTest()
     {
-        super("allOf", JsonPointer.empty().append("allOf").append(0),
-            JsonPointer.empty().append("allOf").append(1));
+        super("allOf", JsonPointer.of("allOf", 0), JsonPointer.of("allOf", 1));
     }
 
     @Override

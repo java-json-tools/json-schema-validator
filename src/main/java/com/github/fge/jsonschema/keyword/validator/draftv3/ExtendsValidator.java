@@ -29,9 +29,6 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 public final class ExtendsValidator
     extends AbstractKeywordValidator
 {
-    private static final JsonPointer BASE_PTR
-        = JsonPointer.empty().append("extends");
-
     public ExtendsValidator(final JsonNode digest)
     {
         super("extends");
@@ -49,7 +46,7 @@ public final class ExtendsValidator
         ValidationData newData;
 
         if (node.isObject()) {
-            newData = data.withSchema(tree.append(BASE_PTR));
+            newData = data.withSchema(tree.append(JsonPointer.of(keyword)));
             processor.process(report, newData);
             return;
         }
@@ -58,9 +55,11 @@ public final class ExtendsValidator
          * Not an object? An array
          */
         final int size = node.size();
+        JsonPointer pointer;
 
         for (int index = 0; index < size; index++) {
-            newData = data.withSchema(tree.append(BASE_PTR.append(index)));
+            pointer = JsonPointer.of(keyword, index);
+            newData = data.withSchema(tree.append(pointer));
             processor.process(report, newData);
         }
     }

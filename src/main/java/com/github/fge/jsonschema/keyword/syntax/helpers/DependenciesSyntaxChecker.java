@@ -36,9 +36,6 @@ import java.util.Map;
 public abstract class DependenciesSyntaxChecker
     extends AbstractSyntaxChecker
 {
-    private static final JsonPointer BASE_POINTER
-        = JsonPointer.empty().append("dependencies");
-
     protected static final Equivalence<JsonNode> EQUIVALENCE
         = JsonSchemaEquivalence.getInstance();
 
@@ -66,7 +63,7 @@ public abstract class DependenciesSyntaxChecker
             key = entry.getKey();
             value = entry.getValue();
             if (value.isObject())
-                pointers.add(BASE_POINTER.append(key));
+                pointers.add(JsonPointer.of(keyword, key));
             else
                 checkDependency(report, entry.getKey(), tree);
         }

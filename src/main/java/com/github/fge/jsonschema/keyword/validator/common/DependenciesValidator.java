@@ -44,9 +44,6 @@ import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 public final class DependenciesValidator
     extends AbstractKeywordValidator
 {
-    private static final JsonPointer BASE_PTR
-        = JsonPointer.empty().append("dependencies");
-
     private final Multimap<String, String> propertyDeps;
     private final Set<String> schemaDeps;
 
@@ -112,11 +109,13 @@ public final class DependenciesValidator
 
         final SchemaTree tree = data.getSchema();
         ValidationData newData;
+        JsonPointer pointer;
 
         for (final String field: schemaDeps) {
             if (!fields.contains(field))
                 continue;
-            newData = data.withSchema(tree.append(BASE_PTR.append(field)));
+            pointer = JsonPointer.of(keyword, field);
+            newData = data.withSchema(tree.append(pointer));
             processor.process(report, newData);
         }
     }
