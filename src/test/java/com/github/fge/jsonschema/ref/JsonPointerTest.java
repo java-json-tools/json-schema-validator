@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
-import com.google.common.collect.ImmutableSet;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -140,31 +139,5 @@ public final class JsonPointerTest
             .add(false);
 
         assertTrue(ptr.resolve(node).isMissingNode());
-    }
-
-    @DataProvider
-    public Iterator<Object[]> parentData()
-    {
-        return ImmutableSet.<Object[]>of(
-            new Object[] { "", "", "", true },
-            new Object[] { "/a", "", "", false },
-            new Object[] { "/a", "/b", "/b", false },
-            new Object[] { "/a", "/a/b", "/b", true },
-            new Object[] { "/x/00/t", "/x/00/t/", "/", true },
-            new Object[] { "/a/b", "//a/b", "//a/b", false },
-            new Object[] { "/definitions/a", "/definitions/a/b", "/b", true }
-        ).iterator();
-    }
-
-    @Test(dataProvider = "parentData")
-    public void parentRelationshipsAreCorrectlyProcessed(final String source,
-        final String target, final String ret, final boolean isParent)
-        throws ProcessingException
-    {
-        final JsonPointer sourcePtr = new JsonPointer(source);
-        final JsonPointer targetPtr = new JsonPointer(target);
-        final JsonPointer retPtr = new JsonPointer(ret);
-        assertEquals(sourcePtr.isParentOf(targetPtr), isParent);
-        assertEquals(sourcePtr.relativize(targetPtr), retPtr);
     }
 }

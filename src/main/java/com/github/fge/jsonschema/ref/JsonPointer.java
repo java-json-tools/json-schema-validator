@@ -26,7 +26,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 
-import java.util.Collections;
 import java.util.List;
 
 import static com.github.fge.jsonschema.messages.JsonRefMessages.*;
@@ -295,47 +294,6 @@ public final class JsonPointer
             builder.add(fromElements(ImmutableList.of(raw)));
 
         return builder.build();
-    }
-
-    /**
-     * Return true if this JSON Pointer is "parent" of another one
-     *
-     * <p>That is, its number of reference tokens is less than, or equal to,
-     * the other pointer's, and its first reference tokens are the same.</p>
-     *
-     * <p>This means that this will also return true if the pointers are equal.
-     * </p>
-     *
-     * @param other the other pointer
-     * @return true if this pointer is the parent of the other
-     */
-    public boolean isParentOf(final JsonPointer other)
-    {
-        return Collections.indexOfSubList(other.refTokens, refTokens) == 0;
-    }
-
-    /**
-     * Relativize a pointer to the current pointer
-     *
-     * <p>If {@link #isParentOf(JsonPointer)} returns false, this will return
-     * the other pointer.</p>
-     *
-     * <p>Otherwise, it will return a pointer containing all reference tokens
-     * following this pointer's reference tokens. For instance, relativizing
-     * {@code /a/b} against {@code /a/b/c} gives {@code /c}.</p>
-     *
-     * <p>If the pointers are the same, it will return an empty pointer.</p>
-     *
-     * @param other the pointer to relativize this pointer to
-     * @return a relativized pointer
-     */
-    public JsonPointer relativize(final JsonPointer other)
-    {
-        if (!isParentOf(other))
-            return other;
-        final List<String> list = other.refTokens.subList(refTokens.size(),
-            other.refTokens.size());
-        return fromElements(list);
     }
 
     @Override
