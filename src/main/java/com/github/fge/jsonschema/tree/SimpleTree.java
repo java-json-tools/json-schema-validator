@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.util.AsJson;
 
 /**

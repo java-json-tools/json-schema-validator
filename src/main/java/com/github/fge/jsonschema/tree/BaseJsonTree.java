@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
 /**
@@ -68,7 +68,7 @@ public abstract class BaseJsonTree
     protected BaseJsonTree(final JsonNode baseNode, final JsonPointer pointer)
     {
         this.baseNode = baseNode;
-        node = pointer.resolve(baseNode);
+        node = pointer.path(baseNode);
         this.pointer = pointer;
     }
 

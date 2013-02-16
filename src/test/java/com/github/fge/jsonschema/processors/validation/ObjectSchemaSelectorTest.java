@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;

@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.load.Dereferencing;
-import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Maps;
@@ -84,7 +84,7 @@ public final class InlineSchemaTree
         if (ret == null)
             return null;
 
-        return ret.resolve(baseNode).isMissingNode() ? null : ret;
+        return ret.path(baseNode).isMissingNode() ? null : ret;
     }
 
     @Override

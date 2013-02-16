@@ -21,8 +21,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.TokenResolver;
 import com.github.fge.jsonschema.load.Dereferencing;
-import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
@@ -120,7 +121,7 @@ public abstract class BaseSchemaTree
     {
         this.baseNode = baseNode;
         this.pointer = pointer;
-        node = pointer.resolve(baseNode);
+        node = pointer.path(baseNode);
         this.dereferencing = dereferencing;
         this.loadingRef = loadingRef;
 
@@ -129,7 +130,7 @@ public abstract class BaseSchemaTree
 
         startingRef = ref == null ? loadingRef : loadingRef.resolve(ref);
 
-        currentRef = nextRef(startingRef, pointer.asElements(), baseNode);
+        currentRef = nextRef(startingRef, pointer, baseNode);
         this.valid = valid;
     }
 
@@ -224,19 +225,21 @@ public abstract class BaseSchemaTree
      * Calculate the next URI context from a starting reference and node
      *
      * @param startingRef the starting reference
-     * @param pointers the list of JSON Pointers
+     * @param ptr the JSON Pointer
      * @param startingNode the starting node
      * @return the calculated reference
      */
     private static JsonRef nextRef(final JsonRef startingRef,
-        final Iterable<JsonPointer> pointers, final JsonNode startingNode)
+        final JsonPointer ptr, final JsonNode startingNode)
     {
         JsonRef ret = startingRef;
         JsonRef idRef;
         JsonNode node = startingNode;
 
-        for (final JsonPointer pointer: pointers) {
-            node = pointer.resolve(node);
+        for (final TokenResolver<JsonNode> resolver: ptr) {
+            node = resolver.get(node);
+            if (node == null)
+                break;
             idRef = idFromNode(node);
             if (idRef != null)
                 ret = ret.resolve(idRef);

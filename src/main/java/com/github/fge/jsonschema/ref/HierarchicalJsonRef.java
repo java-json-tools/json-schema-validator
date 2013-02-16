@@ -17,6 +17,8 @@
 
 package com.github.fge.jsonschema.ref;
 
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+
 import java.net.URI;
 
 /**
@@ -43,7 +45,7 @@ final class HierarchicalJsonRef
     {
         if (!legal)
             return false;
-        return locator.isAbsolute() && pointer.isEmpty();
+        return locator.isAbsolute() && pointer.equals(JsonPointer.empty());
     }
 
     @Override

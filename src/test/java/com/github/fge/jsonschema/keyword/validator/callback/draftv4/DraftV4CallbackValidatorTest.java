@@ -17,9 +17,9 @@
 
 package com.github.fge.jsonschema.keyword.validator.callback.draftv4;
 
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.callback.CallbackValidatorTest;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
-import com.github.fge.jsonschema.ref.JsonPointer;
 
 public abstract class DraftV4CallbackValidatorTest
     extends CallbackValidatorTest

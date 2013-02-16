@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.ref.JsonPointer;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.google.common.collect.ImmutableList;
 
 import java.util.Collections;
