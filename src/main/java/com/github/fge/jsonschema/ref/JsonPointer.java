@@ -65,13 +65,17 @@ import static com.github.fge.jsonschema.messages.JsonRefMessages.*;
  */
 
 public final class JsonPointer
-    extends JsonFragment
 {
     /**
      * The empty pointer
      */
     private static final JsonPointer EMPTY
         = new JsonPointer("", ImmutableList.<String>of());
+
+    /**
+     * This fragment as a string value
+     */
+    private final String asString;
 
     /**
      * Reference token separator
@@ -160,7 +164,7 @@ public final class JsonPointer
     public JsonPointer(final String input)
         throws JsonReferenceException
     {
-        super(input);
+        asString = input;
         final ImmutableList.Builder<String> builder = ImmutableList.builder();
         decode(input, builder);
 
@@ -176,7 +180,7 @@ public final class JsonPointer
      */
     private JsonPointer(final String fullPointer, final List<String> refTokens)
     {
-        super(fullPointer);
+        asString = fullPointer;
         this.refTokens = refTokens;
     }
 
@@ -254,7 +258,6 @@ public final class JsonPointer
      * @param node the node to apply the pointer to
      * @return the resulting node
      */
-    @Override
     public JsonNode resolve(final JsonNode node)
     {
         JsonNode ret = node;
@@ -272,16 +275,9 @@ public final class JsonPointer
         return ret;
     }
 
-    @Override
     public boolean isEmpty()
     {
         return asString.isEmpty();
-    }
-
-    @Override
-    public boolean isPointer()
-    {
-        return true;
     }
 
     /**
@@ -340,6 +336,33 @@ public final class JsonPointer
         final List<String> list = other.refTokens.subList(refTokens.size(),
             other.refTokens.size());
         return fromElements(list);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return asString.hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj)
+    {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+
+        final JsonPointer other = (JsonPointer) obj;
+
+        return asString.equals(other.asString);
+    }
+
+    @Override
+    public String toString()
+    {
+        return asString;
     }
 
     /**

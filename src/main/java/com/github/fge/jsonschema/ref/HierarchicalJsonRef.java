@@ -41,7 +41,9 @@ final class HierarchicalJsonRef
     @Override
     public boolean isAbsolute()
     {
-        return locator.isAbsolute() && fragment.isEmpty();
+        if (!legal)
+            return false;
+        return locator.isAbsolute() && pointer.isEmpty();
     }
 
     @Override

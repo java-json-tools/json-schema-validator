@@ -79,7 +79,7 @@ final class JarJsonRef
     @Override
     public boolean isAbsolute()
     {
-        return fragment.isEmpty();
+        return pointer.isEmpty();
     }
 
     @Override
