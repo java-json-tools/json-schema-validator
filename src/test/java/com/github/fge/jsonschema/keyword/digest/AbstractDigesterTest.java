@@ -35,10 +35,10 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractDigesterTest
 {
-    protected final String keyword;
-    protected final Digester digester;
-    protected final EnumSet<NodeType> types;
-    protected final JsonNode data;
+    private final String keyword;
+    private final Digester digester;
+    private final EnumSet<NodeType> types;
+    private final JsonNode data;
 
     protected AbstractDigesterTest(final Dictionary<Digester> dict,
         final String prefix, final String keyword, final NodeType first,

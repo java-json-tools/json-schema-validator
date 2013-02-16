@@ -64,12 +64,7 @@ public abstract class BaseSchemaTree
     /**
      * The current node.
      */
-    protected final JsonNode node;
-
-    /**
-     * Whether inline dereferencing is used
-     */
-    private final Dereferencing dereferencing;
+    private final JsonNode node;
 
     /**
      * The JSON Reference from which this node has been loaded
@@ -84,12 +79,12 @@ public abstract class BaseSchemaTree
      * <p>It will defer from {@link #loadingRef} if there is an {@code id} at
      * the top level.</p>
      */
-    protected final JsonRef startingRef;
+    private final JsonRef startingRef;
 
     /**
      * The current resolution context
      */
-    protected final JsonRef currentRef;
+    private final JsonRef currentRef;
 
     /**
      * The main constructor
@@ -122,7 +117,6 @@ public abstract class BaseSchemaTree
         this.baseNode = baseNode;
         this.pointer = pointer;
         node = pointer.path(baseNode);
-        this.dereferencing = dereferencing;
         this.loadingRef = loadingRef;
 
 

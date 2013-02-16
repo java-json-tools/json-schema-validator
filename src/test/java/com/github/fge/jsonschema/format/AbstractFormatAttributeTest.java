@@ -51,7 +51,7 @@ public abstract class AbstractFormatAttributeTest
         = new CanonicalSchemaTree(JacksonUtils.nodeFactory().objectNode());
 
     protected final FormatAttribute attribute;
-    protected final JsonNode testNode;
+    private final JsonNode testNode;
     protected final String fmt;
 
     protected ProcessingReport report;

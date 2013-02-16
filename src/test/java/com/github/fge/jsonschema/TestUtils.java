@@ -20,12 +20,7 @@ package com.github.fge.jsonschema;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import org.mockito.verification.VerificationMode;
-
-import java.util.Collections;
-import java.util.List;
 
 import static org.mockito.Mockito.*;
 
@@ -53,24 +48,5 @@ public final class TestUtils
     public static ProcessingMessage anyMessage()
     {
         return any(ProcessingMessage.class);
-    }
-
-    public static <T> List<List<T>> allPairs(final List<T> origList)
-    {
-        if (origList.size() <= 1)
-            return Collections.emptyList();
-
-        final List<List<T>> ret = Lists.newArrayList();
-        final List<T> list = Lists.newArrayList(origList);
-        T first;
-
-        while (list.size() > 2) {
-            first = list.remove(0);
-            for (final T element: list)
-                ret.add(ImmutableList.of(first, element));
-        }
-
-        ret.add(list);
-        return ret;
     }
 }

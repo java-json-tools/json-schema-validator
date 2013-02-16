@@ -7,6 +7,10 @@ public final class DefaultDownloadersDictionary
 {
     private static final Dictionary<URIDownloader> DICTIONARY;
 
+    private DefaultDownloadersDictionary()
+    {
+    }
+
     static {
         final DictionaryBuilder<URIDownloader> builder
             = Dictionary.newBuilder();

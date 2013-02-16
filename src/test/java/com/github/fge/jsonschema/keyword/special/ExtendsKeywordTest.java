@@ -54,7 +54,6 @@ public final class ExtendsKeywordTest
     private Processor<ValidationData, ProcessingReport> processor;
     private ValidationData data;
     private ProcessingReport report;
-    private SchemaTree tree;
     private ProcessingMessage msg;
 
     public ExtendsKeywordTest()
@@ -75,7 +74,7 @@ public final class ExtendsKeywordTest
 
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("extends", FACTORY.objectNode());
-        tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree = new CanonicalSchemaTree(schema);
 
         final JsonTree instance = new SimpleJsonTree(FACTORY.nullNode());
         data = new ValidationData(tree, instance);

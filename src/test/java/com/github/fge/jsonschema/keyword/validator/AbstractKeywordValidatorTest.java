@@ -49,9 +49,9 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
-    protected final String keyword;
-    protected final Constructor<? extends KeywordValidator> constructor;
-    protected final JsonNode testNode;
+    private final String keyword;
+    private final Constructor<? extends KeywordValidator> constructor;
+    private final JsonNode testNode;
 
     protected AbstractKeywordValidatorTest(
         final Dictionary<Constructor<? extends KeywordValidator>> dict,

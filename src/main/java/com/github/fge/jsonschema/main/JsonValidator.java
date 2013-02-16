@@ -49,14 +49,14 @@ import java.util.Map;
 public final class JsonValidator
 {
     private final Dereferencing dereferencing;
-    private final SchemaLoader loader;
     private final ValidationProcessor processor;
     private final ReportProvider reportProvider;
 
     JsonValidator(final JsonSchemaFactory factory)
     {
         dereferencing = factory.loadingConfiguration.getDereferencing();
-        loader = new SchemaLoader(factory.loadingConfiguration);
+        final SchemaLoader loader
+            = new SchemaLoader(factory.loadingConfiguration);
         final RefResolverProcessor refResolver
             = new RefResolverProcessor(loader);
 

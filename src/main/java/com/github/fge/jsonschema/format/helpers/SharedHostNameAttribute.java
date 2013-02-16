@@ -35,7 +35,7 @@ import static com.github.fge.jsonschema.messages.FormatMessages.*;
  * </b> require that a host name have more than one domain name component. As
  * such, {@code foo} <b>is</b> a valid hostname.</p>
  *
- * <p>Guava's {@link com.google.common.net.InternetDomainName} is used for validation.</p>
+ * <p>Guava's {@link InternetDomainName} is used for validation.</p>
  */
 public final class SharedHostNameAttribute
     extends AbstractFormatAttribute

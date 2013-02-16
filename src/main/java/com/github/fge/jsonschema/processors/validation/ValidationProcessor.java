@@ -177,7 +177,6 @@ public final class ValidationProcessor
         {
             @Override
             public ArraySchemaSelector load(final JsonNode key)
-                throws Exception
             {
                 return new ArraySchemaSelector(key);
             }
@@ -190,7 +189,6 @@ public final class ValidationProcessor
         {
             @Override
             public ObjectSchemaSelector load(final JsonNode key)
-                throws Exception
             {
                 return new ObjectSchemaSelector(key);
             }

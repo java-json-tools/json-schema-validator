@@ -53,16 +53,16 @@ public abstract class CallbackValidatorTest
     protected static final ObjectNode sub2 = FACTORY.objectNode();
 
     protected final String keyword;
-    protected final Constructor<? extends KeywordValidator> constructor;
+    private final Constructor<? extends KeywordValidator> constructor;
     protected final JsonPointer ptr1;
     protected final JsonPointer ptr2;
 
-    protected Processor<ValidationData, ProcessingReport> processor;
-    protected SchemaTree tree;
-    protected JsonTree instance;
-    protected ValidationData data;
-    protected ProcessingReport report;
-    protected KeywordValidator validator;
+    private Processor<ValidationData, ProcessingReport> processor;
+    private SchemaTree tree;
+    private JsonTree instance;
+    private ValidationData data;
+    private ProcessingReport report;
+    private KeywordValidator validator;
 
     protected CallbackValidatorTest(
         final Dictionary<Constructor<? extends KeywordValidator>> dict,
