@@ -79,7 +79,7 @@ final class JarJsonRef
     @Override
     public boolean isAbsolute()
     {
-        return pointer.isEmpty();
+        return legal && pointer.isEmpty();
     }
 
     @Override
