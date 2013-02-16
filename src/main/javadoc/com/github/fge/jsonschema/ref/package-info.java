@@ -21,11 +21,7 @@
  * <p>The main package which reprensents a JSON Reference is {@link
  * com.github.fge.jsonschema.ref.JsonRef}.</p>
  *
- * <p>Fragments play a particularly important role in JSON References, as such
- * there is a dedicated {@link com.github.fge.jsonschema.ref.JsonFragment}
- * class to help resolve a fragment into a JSON schema. While the JSON
- * reference draft dictates that fragments be {@link
- * com.github.fge.jsonschema.ref.JsonPointer JSON Pointers}, JSON Schema
- * currently allows fragments which are not JSON Pointers.</p>
+ * <p>Recall: a JSON Reference is legal if and only if its fragment part is a
+ * JSON Pointer. Any other fragment part is illegal.</p>
  */
 package com.github.fge.jsonschema.ref;
