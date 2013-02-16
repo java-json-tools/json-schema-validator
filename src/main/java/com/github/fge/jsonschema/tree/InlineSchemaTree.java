@@ -97,7 +97,7 @@ public final class InlineSchemaTree
     {
         if (otherRefs.containsKey(ref))
             return otherRefs.get(ref);
-        if (!ref.getFragment().isPointer())
+        if (!ref.isLegal())
             return null;
         return  refMatchingPointer(ref);
     }

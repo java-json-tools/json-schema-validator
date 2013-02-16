@@ -78,6 +78,14 @@ public abstract class JsonRef
     protected static final URI HASHONLY_URI = URI.create("#");
 
     /**
+     * Whether this JSON Reference is legal
+     *
+     * <p>It is legal if and only if there is no fragment, or the fragment part
+     * is a JSON Pointer.</p>
+     */
+    protected final boolean legal;
+
+    /**
      * The URI, as provided by the input, with an appended empty fragment if
      * no fragment was provided
      */
@@ -119,10 +127,21 @@ public abstract class JsonRef
 
         final String realFragment = uriFragment == null ? "" : uriFragment;
 
+        boolean isLegal = true;
+        JsonFragment f;
+
         try {
             this.uri = new URI(scheme, ssp, realFragment);
             locator = new URI(scheme, ssp, "");
-            fragment = fromFragment(realFragment);
+            try {
+                f = realFragment.isEmpty() ? JsonPointer.empty()
+                    : new JsonPointer(realFragment);
+            } catch (JsonReferenceException ignored) {
+                f = new IllegalFragment(realFragment);
+                isLegal = false;
+            }
+            legal = isLegal;
+            fragment = f;
             asString = this.uri.toString();
             hashCode = asString.hashCode();
         } catch (URISyntaxException e) {
@@ -225,6 +244,11 @@ public abstract class JsonRef
         return locator;
     }
 
+    public final boolean isLegal()
+    {
+        return legal;
+    }
+
     /**
      * Return this JSON Reference's fragment
      *
@@ -247,19 +271,6 @@ public abstract class JsonRef
     public final boolean contains(final JsonRef other)
     {
         return locator.equals(other.locator);
-    }
-
-    private static JsonFragment fromFragment(final String fragment)
-    {
-        if (fragment.isEmpty())
-            return JsonPointer.empty();
-
-        try {
-            return new JsonPointer(fragment);
-        } catch (JsonReferenceException ignored) {
-            // Not a valid JSON Pointer: illegal
-            return new IllegalFragment(fragment);
-        }
     }
 
     @Override

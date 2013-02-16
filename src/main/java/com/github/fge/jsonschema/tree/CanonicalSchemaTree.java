@@ -65,6 +65,8 @@ public final class CanonicalSchemaTree
     @Override
     public JsonPointer matchingPointer(final JsonRef ref)
     {
+        if (!ref.isLegal())
+            return null;
         final JsonFragment fragment = ref.getFragment();
 
         return fragment.resolve(baseNode).isMissingNode()
