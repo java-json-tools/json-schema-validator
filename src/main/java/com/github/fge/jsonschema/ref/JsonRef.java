@@ -105,6 +105,13 @@ public abstract class JsonRef
     protected final JsonFragment fragment;
 
     /**
+     * The pointer of this reference, if any
+     *
+     * <p>Initialized to null if the fragment part is not a JSON Pointer.</p>
+     */
+    protected final JsonPointer pointer;
+
+    /**
      * String representation
      */
     private final String asString;
@@ -129,19 +136,23 @@ public abstract class JsonRef
 
         boolean isLegal = true;
         JsonFragment f;
+        JsonPointer ptr;
 
         try {
             this.uri = new URI(scheme, ssp, realFragment);
             locator = new URI(scheme, ssp, "");
             try {
-                f = realFragment.isEmpty() ? JsonPointer.empty()
+                ptr = realFragment.isEmpty() ? JsonPointer.empty()
                     : new JsonPointer(realFragment);
+                f = ptr;
             } catch (JsonReferenceException ignored) {
                 f = new IllegalFragment(realFragment);
+                ptr = null;
                 isLegal = false;
             }
             legal = isLegal;
             fragment = f;
+            pointer = ptr;
             asString = this.uri.toString();
             hashCode = asString.hashCode();
         } catch (URISyntaxException e) {
@@ -247,6 +258,11 @@ public abstract class JsonRef
     public final boolean isLegal()
     {
         return legal;
+    }
+
+    public final JsonPointer getPointer()
+    {
+        return pointer;
     }
 
     /**

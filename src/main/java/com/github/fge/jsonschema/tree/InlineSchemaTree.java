@@ -115,7 +115,7 @@ public final class InlineSchemaTree
      */
     private JsonPointer refMatchingPointer(final JsonRef ref)
     {
-        final JsonPointer refPtr = (JsonPointer) ref.getFragment();
+        final JsonPointer refPtr = ref.getPointer();
 
         /*
          * When using inline addressing, we must favor whatever "id" has defined

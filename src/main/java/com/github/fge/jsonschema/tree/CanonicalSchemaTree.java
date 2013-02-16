@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.load.Dereferencing;
-import com.github.fge.jsonschema.ref.JsonFragment;
 import com.github.fge.jsonschema.ref.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 
@@ -67,10 +66,8 @@ public final class CanonicalSchemaTree
     {
         if (!ref.isLegal())
             return null;
-        final JsonFragment fragment = ref.getFragment();
-
-        return fragment.resolve(baseNode).isMissingNode()
-            ? null : (JsonPointer) fragment;
+        final JsonPointer ptr = ref.getPointer();
+        return ptr.resolve(baseNode).isMissingNode() ? null : ptr;
     }
 
     @Override
