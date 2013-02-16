@@ -170,7 +170,7 @@ public final class InlineSchemaTree
 
         if (ref != null) {
             nextRef = baseRef.resolve(ref);
-            targetMap = nextRef.getFragment().isEmpty() ? absMap : otherMap;
+            targetMap = nextRef.isAbsolute() ? absMap : otherMap;
             targetMap.put(nextRef, ptr);
         }
 
