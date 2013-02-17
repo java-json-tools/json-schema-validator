@@ -49,7 +49,7 @@ public final class Dictionary<T>
         return entries.get(key);
     }
 
-    public Map<String, T> asMap()
+    public Map<String, T> entries()
     {
         return ImmutableMap.copyOf(entries);
     }

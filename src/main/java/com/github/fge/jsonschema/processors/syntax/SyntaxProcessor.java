@@ -47,7 +47,7 @@ public final class SyntaxProcessor
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
-        checkers = dict.asMap();
+        checkers = dict.entries();
     }
     /**
      * Process the input

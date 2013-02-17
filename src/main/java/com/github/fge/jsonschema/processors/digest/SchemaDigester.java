@@ -47,7 +47,7 @@ public final class SchemaDigester
         String keyword;
         Digester digester;
 
-        final Map<String, Digester> map = dict.asMap();
+        final Map<String, Digester> map = dict.entries();
 
         for (final Map.Entry<String, Digester> entry: map.entrySet()) {
             keyword = entry.getKey();

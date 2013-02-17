@@ -44,7 +44,7 @@ public final class ValidatorBuilder
     public ValidatorBuilder(
         final Dictionary<Constructor<? extends KeywordValidator>> dict)
     {
-        constructors = ImmutableMap.copyOf(dict.asMap());
+        constructors = ImmutableMap.copyOf(dict.entries());
     }
 
     /**
