@@ -20,11 +20,8 @@ package com.github.fge.jsonschema.library;
 import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
 /*
  * Wrapper class over a Map<String, T>
@@ -50,14 +47,6 @@ public final class Dictionary<T>
     public T get(final String key)
     {
         return entries.get(key);
-    }
-
-    public Collection<T> valuesForKeys(final Set<String> keys)
-    {
-        final Map<String, T> map = Maps.newTreeMap();
-        map.putAll(entries);
-        map.keySet().retainAll(keys);
-        return map.values();
     }
 
     public Map<String, T> asMap()

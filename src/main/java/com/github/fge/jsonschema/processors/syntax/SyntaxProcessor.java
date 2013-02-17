@@ -30,6 +30,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
@@ -42,12 +43,10 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 public final class SyntaxProcessor
     implements Processor<ValidationContext, ValidationContext>
 {
-    private final Dictionary<SyntaxChecker> dict;
     private final Map<String, SyntaxChecker> checkers;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
-        this.dict = dict;
         checkers = dict.asMap();
     }
     /**
@@ -102,7 +101,10 @@ public final class SyntaxProcessor
                 .put("ignored", Ordering.natural().sortedCopy(set)));
 
         final List<JsonPointer> pointers = Lists.newArrayList();
-        for (final SyntaxChecker checker: dict.valuesForKeys(fieldNames))
+        final Map<String, SyntaxChecker> map = Maps.newTreeMap();
+        map.putAll(checkers);
+        map.keySet().retainAll(fieldNames);
+        for (final SyntaxChecker checker: map.values())
             checker.checkSyntax(pointers, report, tree);
 
         for (final JsonPointer pointer: pointers)
