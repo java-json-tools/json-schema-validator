@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.messages;
 public enum KeywordValidationMessages
 {
     ADDITIONAL_ITEMS_NOT_ALLOWED("additional items are not allowed"),
-    ARRAY_IS_TOO_SHORT("array has not enough elements"),
+    ARRAY_IS_TOO_SHORT("array does not have enough elements"),
     ARRAY_IS_TOO_LONG("array has too many elements"),
     ELEMENTS_NOT_UNIQUE("array must not contain duplicate elements"),
     NUMBER_TOO_SMALL("number is lower than the required minimum"),
