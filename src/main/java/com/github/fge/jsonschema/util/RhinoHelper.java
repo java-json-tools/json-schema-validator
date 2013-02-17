@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -44,8 +44,8 @@ import java.util.regex.Pattern;
 public final class RhinoHelper
 {
     /**
-     * JavaScript scriptlet defining functions {@link #regexIsValid}
-     * and {@link #regMatch}
+     * JavaScript scriptlet defining functions {@link #REGEX_IS_VALID}
+     * and {@link #REG_MATCH}
      */
     private static final String jsAsString
         = "function regexIsValid(re)"
@@ -64,36 +64,34 @@ public final class RhinoHelper
         + '}';
 
     /**
-     * Script context to use
-     */
-    private static final Context ctx;
-
-    /**
      * Script scope
      */
-    private static final Scriptable sharedScope;
+    private static final Scriptable SCOPE;
 
     /**
      * Reference to Javascript function for regex validation
      */
-    private static final Function regexIsValid;
+    private static final Function REGEX_IS_VALID;
 
     /**
      * Reference to Javascript function for regex matching
      */
-    private static final Function regMatch;
+    private static final Function REG_MATCH;
 
     private RhinoHelper()
     {
     }
 
     static {
-        ctx = Context.enter();
-        sharedScope = ctx.initStandardObjects();
-        ctx.evaluateString(sharedScope, jsAsString, "re", 1, null);
-        regexIsValid = (Function) sharedScope.get("regexIsValid", sharedScope);
-        regMatch = (Function) sharedScope.get("regMatch", sharedScope);
-        ctx.seal(null);
+        final Context ctx = Context.enter();
+        try {
+            SCOPE = ctx.initStandardObjects(null, true);
+            ctx.evaluateString(SCOPE, jsAsString, "re", 1, null);
+            REGEX_IS_VALID = (Function) SCOPE.get("regexIsValid", SCOPE);
+            REG_MATCH = (Function) SCOPE.get("regMatch", SCOPE);
+        } finally {
+            Context.exit();
+        }
     }
 
     /**
@@ -106,10 +104,7 @@ public final class RhinoHelper
     {
         final Context context = Context.enter();
         try {
-            final Scriptable scope = context.newObject(sharedScope);
-            scope.setPrototype(sharedScope);
-            scope.setParentScope(null);
-            return (Boolean) regexIsValid.call(context, scope, scope,
+            return (Boolean) REGEX_IS_VALID.call(context, SCOPE, SCOPE,
                 new Object[]{ regex });
         } finally {
             Context.exit();
@@ -134,10 +129,7 @@ public final class RhinoHelper
     {
         final Context context = Context.enter();
         try {
-            final Scriptable scope = context.newObject(sharedScope);
-            scope.setPrototype(sharedScope);
-            scope.setParentScope(null);
-            return (Boolean) regMatch.call(context, scope, scope,
+            return (Boolean) REG_MATCH.call(context, SCOPE, SCOPE,
                 new Object[]{ regex, input });
         } finally {
             Context.exit();
