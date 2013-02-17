@@ -24,10 +24,8 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.processors.ref.RefResolverProcessor;
@@ -41,7 +39,6 @@ import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
-import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.base.Function;
 
 import java.util.List;
@@ -56,17 +53,7 @@ public final class JsonValidator
     JsonValidator(final JsonSchemaFactory factory)
     {
         dereferencing = factory.loadingConfiguration.getDereferencing();
-        final SchemaLoader loader
-            = new SchemaLoader(factory.loadingConfiguration);
-        final RefResolverProcessor refResolver
-            = new RefResolverProcessor(loader);
-
-        final ProcessorChain<ValidationContext, FullValidationContext> chain
-            = ProcessorChain.startWith(new RefWrapper(refResolver))
-                .chainWith(buildProcessor(factory));
-
-        processor = new ValidationProcessor(chain.getProcessor());
-
+        processor = new ValidationProcessor(buildProcessor(factory));
         reportProvider = factory.reportProvider;
     }
 
@@ -125,11 +112,16 @@ public final class JsonValidator
     private static Processor<ValidationContext, FullValidationContext>
         buildProcessor(final JsonSchemaFactory factory)
     {
+        final SchemaLoader loader
+            = new SchemaLoader(factory.loadingConfiguration);
+        final RefResolverProcessor refResolver
+            = new RefResolverProcessor(loader);
         final ValidationConfiguration cfg = factory.validationConfiguration;
 
         final Map<JsonRef, Library> libraries = cfg.getLibraries();
         final ValidationChain defaultChain
-            = new ValidationChain(cfg.getDefaultLibrary());
+            = new ValidationChain(refResolver, cfg.getDefaultLibrary(),
+                cfg.getUseFormat());
         ProcessorMap<JsonRef, ValidationContext, FullValidationContext> map
             = new FullChain().setDefaultProcessor(defaultChain);
 
@@ -138,7 +130,8 @@ public final class JsonValidator
 
         for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
             ref = entry.getKey();
-            chain = new ValidationChain(entry.getValue());
+            chain = new ValidationChain(refResolver, entry.getValue(),
+                cfg.getUseFormat());
             map = map.addEntry(ref, chain);
         }
 
@@ -159,28 +152,6 @@ public final class JsonValidator
                     return input.getSchema().getDollarSchema();
                 }
             };
-        }
-    }
-
-    private static final class RefWrapper
-        implements Processor<ValidationContext, ValidationContext>
-    {
-        private final RefResolverProcessor processor;
-
-        private RefWrapper(final RefResolverProcessor processor)
-        {
-            this.processor = processor;
-        }
-
-        @Override
-        public ValidationContext process(final ProcessingReport report,
-            final ValidationContext input)
-            throws ProcessingException
-        {
-            final NodeType type = input.getInstanceType();
-            final SchemaHolder in = new SchemaHolder(input.getSchema());
-            final SchemaHolder out = processor.process(report, in);
-            return new ValidationContext(out.getValue(), type);
         }
     }
 }

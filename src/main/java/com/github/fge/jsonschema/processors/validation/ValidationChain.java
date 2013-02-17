@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
+import com.github.fge.jsonschema.processors.ref.RefResolverProcessor;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -36,12 +37,17 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 public final class ValidationChain
     implements Processor<ValidationContext, FullValidationContext>
 {
-    private final Processor<SchemaHolder, SchemaHolder> syntax;
+    private final Processor<SchemaHolder, SchemaHolder> refSyntax;
     private final Processor<ValidationContext, FullValidationContext> processor;
 
-    public ValidationChain(final Library library, final boolean useFormat)
+    public ValidationChain(final RefResolverProcessor refResolver,
+        final Library library, final boolean useFormat)
     {
-        syntax = new SyntaxProcessor(library.getSyntaxCheckers());
+        final SyntaxProcessor syntaxProcessor
+            = new SyntaxProcessor(library.getSyntaxCheckers());
+
+        refSyntax = ProcessorChain.startWith(refResolver)
+            .chainWith(syntaxProcessor).getProcessor();
 
         final SchemaDigester digester
             = new SchemaDigester(library.getDigesters());
@@ -60,27 +66,24 @@ public final class ValidationChain
         processor = chain.getProcessor();
     }
 
-    public ValidationChain(final Library library)
-    {
-        this(library, true);
-    }
-
     @Override
     public FullValidationContext process(final ProcessingReport report,
         final ValidationContext input)
         throws ProcessingException
     {
-        final SchemaHolder holder = new SchemaHolder(input.getSchema());
-        syntax.process(report, holder);
+        final SchemaHolder in = new SchemaHolder(input.getSchema());
+        final SchemaHolder out = refSyntax.process(report, in);
         if (!report.isSuccess())
             throw new InvalidSchemaException(new ProcessingMessage()
                 .message(SyntaxMessages.INVALID_SCHEMA));
-        return processor.process(report, input);
+        final ValidationContext output
+            = new ValidationContext(out.getValue(), input.getInstanceType());
+        return processor.process(report, output);
     }
 
     @Override
     public String toString()
     {
-        return syntax + " -> " + processor;
+        return refSyntax + " -> " + processor;
     }
 }
