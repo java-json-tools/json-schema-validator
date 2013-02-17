@@ -34,19 +34,29 @@ href="https://github.com/fge/json-schema-validator/wiki/Roadmap">some profound c
 core</a>.
 
 <p>In essence: with the new core, it will become possible to do whatever you want with your JSON
-data. And that includes generating JSON Schema from POJOs, or the reverse.</p>
+schemas and data. Among other things:</p>
 
-<p>At the time of this writing, the core processing architecture has reached a workable enough state
-that it can already be split apart, but it lacks documentation and examples.
+<ul>
+    <li>generating JSON Schemas from POJOs (very soon!), or the reverse;</li>
+    <li>converting JSON Schemas to other data description formats (Protobuf, for instance), or the
+    reverse;</li>
+    <li>or indeed anything you can think of.</li>
+</ul>
 
-<p>Furthermore, the primary objective is to provide a user API to give as much, or more, control,
-over all validation aspects than what 1.x allowed: as of 1.99.6, the core components are there, but
-the user interface is 80% there.</p>
+<p>All this with custom reporting/exception handling/etc.</p>
+
+<p>At the time of this writing, the core processing architecture is already split into its own
+package (<a href="">json-schema-core</a>) on which this package now depends; documentation is still
+not done, however.</p>
+
+<p>Another package will be created demonstrating the use of processors. The first of them will be
+using <a href="https://github.com/reinert/JJSchema">JJSchema</a> to generate a complete validation
+chain, from an annotated Java class to instance validation.</p>
 
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.9</b>; (<a
+    <li>development version: <b>1.99.10</b>; (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>). As the
     Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.6.1</b> (<a
