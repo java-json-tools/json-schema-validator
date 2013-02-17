@@ -21,7 +21,6 @@ import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 import java.util.Collection;
 import java.util.Map;
@@ -51,14 +50,6 @@ public final class Dictionary<T>
     public T get(final String key)
     {
         return entries.get(key);
-    }
-
-    public Set<String> missingEntriesFrom(final Set<String> set)
-    {
-        final Set<String> ret = Sets.newTreeSet();
-        ret.addAll(set);
-        ret.removeAll(entries.keySet());
-        return ret;
     }
 
     public Collection<T> valuesForKeys(final Set<String> keys)

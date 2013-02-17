@@ -30,9 +30,11 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
@@ -41,10 +43,12 @@ public final class SyntaxProcessor
     implements Processor<ValidationContext, ValidationContext>
 {
     private final Dictionary<SyntaxChecker> dict;
+    private final Map<String, SyntaxChecker> checkers;
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {
         this.dict = dict;
+        checkers = dict.asMap();
     }
     /**
      * Process the input
@@ -91,10 +95,11 @@ public final class SyntaxProcessor
          * Warn about ignored keywords
          */
         final Set<String> fieldNames = Sets.newHashSet(node.fieldNames());
-        final Set<String> ignored = dict.missingEntriesFrom(fieldNames);
-        if (!ignored.isEmpty())
+        final Set<String> set = Sets.newHashSet(node.fieldNames());
+        set.removeAll(checkers.keySet());
+        if (!set.isEmpty())
             report.warn(newMsg(tree).message(UNKNOWN_KEYWORDS)
-                .put("ignored", ignored));
+                .put("ignored", Ordering.natural().sortedCopy(set)));
 
         final List<JsonPointer> pointers = Lists.newArrayList();
         for (final SyntaxChecker checker: dict.valuesForKeys(fieldNames))
