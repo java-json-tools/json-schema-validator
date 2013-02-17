@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util.equivalence;
+package com.github.fge.jsonschema.processors.validation;
 
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;

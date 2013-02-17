@@ -21,7 +21,7 @@ import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationErr
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.util.Digester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.Frozen;
 
 import java.lang.reflect.Constructor;

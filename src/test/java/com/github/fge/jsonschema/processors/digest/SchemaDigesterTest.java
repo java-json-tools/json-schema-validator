@@ -29,7 +29,7 @@ import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.Digester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;

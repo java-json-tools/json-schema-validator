@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
 import com.google.common.base.Equivalence;
 
 public final class ValidationContextEquivalence

@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.keyword.digest.helpers.DraftV3TypeKeywordDigest
 import com.github.fge.jsonschema.keyword.digest.helpers.NullDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.util.Digester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 
 public final class DraftV3DigesterDictionary

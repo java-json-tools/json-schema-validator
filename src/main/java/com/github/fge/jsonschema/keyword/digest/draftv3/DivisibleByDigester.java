@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.keyword.digest.draftv3;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.digest.helpers.NumericDigester;
-import com.github.fge.jsonschema.util.Digester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 
 /**
  * Digester for {@code divisibleBy}

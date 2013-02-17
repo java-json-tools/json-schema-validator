@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.util.Digester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 import com.github.fge.jsonschema.util.Thawed;
 

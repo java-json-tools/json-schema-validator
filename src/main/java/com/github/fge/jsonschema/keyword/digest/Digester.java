@@ -15,13 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.util;
+package com.github.fge.jsonschema.keyword.digest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.validation.ArraySchemaDigester;
 import com.github.fge.jsonschema.processors.validation.ObjectSchemaDigester;
+import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 
@@ -49,7 +50,7 @@ public interface Digester
     /**
      * Return the instance types handled by this digested form
      *
-     * @return a set of {@link NodeType}
+     * @return a set of {@link com.github.fge.jsonschema.util.NodeType}
      */
     EnumSet<NodeType> supportedTypes();
 

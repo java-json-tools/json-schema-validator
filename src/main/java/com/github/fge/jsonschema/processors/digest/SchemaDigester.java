@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.Digester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
