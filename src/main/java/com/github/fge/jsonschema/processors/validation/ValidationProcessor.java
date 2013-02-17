@@ -201,8 +201,7 @@ public final class ValidationProcessor
         return new CacheLoader<Equivalence.Wrapper<SchemaContext>, ValidatorList>()
         {
             @Override
-            public ValidatorList load(
-                final Equivalence.Wrapper<SchemaContext> key)
+            public ValidatorList load(final Equivalence.Wrapper<SchemaContext> key)
                 throws ProcessingException
             {
                 final SchemaContext context = key.get();

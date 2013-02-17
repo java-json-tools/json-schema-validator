@@ -38,12 +38,10 @@ import static com.github.fge.jsonschema.messages.FormatMessages.*;
 public final class FormatProcessor
     implements Processor<ValidatorList, ValidatorList>
 {
-    private final Dictionary<FormatAttribute> dict;
     private final Map<String, FormatAttribute> attributes;
 
     public FormatProcessor(final Dictionary<FormatAttribute> dict)
     {
-        this.dict = dict;
         attributes = dict.entries();
     }
 
