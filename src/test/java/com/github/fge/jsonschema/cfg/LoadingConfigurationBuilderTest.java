@@ -1,9 +1,9 @@
 package com.github.fge.jsonschema.cfg;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
-import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
