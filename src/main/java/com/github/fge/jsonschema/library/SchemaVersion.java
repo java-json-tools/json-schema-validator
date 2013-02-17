@@ -19,10 +19,8 @@ package com.github.fge.jsonschema.library;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.processors.data.ValidationData;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
-import com.google.common.base.Predicate;
 
 import java.io.IOException;
 
@@ -65,29 +63,5 @@ public enum SchemaVersion
     public Library getLibrary()
     {
         return library;
-    }
-
-    public Predicate<ValidationData> versionTest()
-    {
-        return new Predicate<ValidationData>()
-        {
-            @Override
-            public boolean apply(final ValidationData input)
-            {
-                return versionMatches(input.getSchema().getBaseNode());
-            }
-        };
-    }
-
-    private boolean versionMatches(final JsonNode schema)
-    {
-        final JsonNode node = schema.path("$schema");
-        if (!node.isTextual())
-            return false;
-        try {
-            return location.equals(JsonRef.fromString(node.textValue()));
-        } catch (JsonReferenceException ignored) {
-            return false;
-        }
     }
 }
