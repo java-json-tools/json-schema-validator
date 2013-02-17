@@ -128,6 +128,21 @@ public abstract class BaseSchemaTree
         this.valid = valid;
     }
 
+    protected BaseSchemaTree(final BaseSchemaTree other,
+        final JsonPointer newPointer)
+    {
+        baseNode = other.baseNode;
+        loadingRef = other.loadingRef;
+
+        pointer = newPointer;
+        node = newPointer.get(baseNode);
+
+        valid = other.valid;
+
+        startingRef = other.startingRef;
+        currentRef = nextRef(startingRef, newPointer, baseNode);
+    }
+
     @Override
     public final JsonNode getBaseNode()
     {
