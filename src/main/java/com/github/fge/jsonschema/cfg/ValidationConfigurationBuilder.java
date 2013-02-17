@@ -49,9 +49,14 @@ public final class ValidationConfigurationBuilder
     ValidationConfigurationBuilder()
     {
         libraries = Maps.newHashMap();
+        JsonRef ref;
+        Library library;
         for (final Map.Entry<SchemaVersion, Library> entry:
-            DEFAULT_LIBRARIES.entrySet())
-            libraries.put(entry.getKey().getLocation(), entry.getValue());
+            DEFAULT_LIBRARIES.entrySet()) {
+            ref = JsonRef.fromURI(entry.getKey().getLocation());
+            library = entry.getValue();
+            libraries.put(ref, library);
+        }
     }
 
     ValidationConfigurationBuilder(final ValidationConfiguration cfg)

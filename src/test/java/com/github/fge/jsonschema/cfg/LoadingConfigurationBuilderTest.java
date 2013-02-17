@@ -114,7 +114,7 @@ public final class LoadingConfigurationBuilderTest
         JsonNode node;
 
         for (final SchemaVersion version: SchemaVersion.values()) {
-            uri = version.getLocation().toURI();
+            uri = version.getLocation();
             node = version.getSchema();
             assertEquals(map.get(uri), node);
         }

@@ -18,11 +18,10 @@
 package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
+import java.net.URI;
 
 public enum SchemaVersion
 {
@@ -30,22 +29,20 @@ public enum SchemaVersion
     DRAFTV3("http://json-schema.org/draft-03/schema#", "/draftv3/schema"),
     ;
 
-    private final JsonRef location;
+    private final URI location;
     private final JsonNode schema;
 
     SchemaVersion(final String uri, final String resource)
     {
         try {
-            location = JsonRef.fromString(uri);
+            location = URI.create(uri);
             schema = JsonLoader.fromResource(resource);
-        } catch (JsonReferenceException e) {
-            throw new ExceptionInInitializerError(e);
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
     }
 
-    public JsonRef getLocation()
+    public URI getLocation()
     {
         return location;
     }

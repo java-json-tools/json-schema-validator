@@ -36,8 +36,7 @@ public final class LoadingConfigurationBuilder
         schemaRedirects = Maps.newHashMap();
         preloadedSchemas = Maps.newHashMap();
         for (final SchemaVersion version: SchemaVersion.values())
-            preloadedSchemas.put(version.getLocation().toURI(),
-                version.getSchema());
+            preloadedSchemas.put(version.getLocation(), version.getSchema());
     }
 
     LoadingConfigurationBuilder(final LoadingConfiguration cfg)
