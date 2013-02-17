@@ -85,29 +85,6 @@ public abstract class BaseSchemaTree
      */
     private final JsonRef currentRef;
 
-    /**
-     * The main constructor
-     *
-     * @param loadingRef the loading reference
-     * @param baseNode the base node
-     */
-    protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
-    {
-        this(loadingRef, baseNode, JsonPointer.empty());
-    }
-
-    /**
-     * The main constructor
-     *
-     * @param loadingRef the loading reference
-     * @param baseNode the base node
-     */
-    private BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
-        final JsonPointer pointer)
-    {
-        this(loadingRef, baseNode, pointer, false);
-    }
-
     protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
         final JsonPointer pointer, final boolean valid)
     {
