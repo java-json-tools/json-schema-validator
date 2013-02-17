@@ -70,10 +70,10 @@ public final class LoadingConfigurationBuilderTest
         final String scheme = "foo";
 
         cfg.addScheme(scheme, downloader);
-        assertNotNull(cfg.freeze().getDownloaders().get(scheme));
+        assertNotNull(cfg.freeze().getDownloaders().entries().get(scheme));
 
         cfg.removeScheme(scheme);
-        assertNull(cfg.freeze().getDownloaders().get(scheme));
+        assertNull(cfg.freeze().getDownloaders().entries().get(scheme));
     }
 
     @Test

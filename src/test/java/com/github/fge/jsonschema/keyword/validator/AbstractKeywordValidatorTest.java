@@ -59,7 +59,7 @@ public abstract class AbstractKeywordValidatorTest
         throws IOException
     {
         this.keyword = keyword;
-        constructor = dict.get(keyword);
+        constructor = dict.entries().get(keyword);
         final String resourceName
             = String.format("/keyword/validators/%s/%s.json", prefix, keyword);
         testNode = JsonLoader.fromResource(resourceName);

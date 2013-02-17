@@ -94,7 +94,7 @@ public abstract class SyntaxCheckersTest
         throws JsonProcessingException
     {
         this.keyword = keyword;
-        checker = dict.get(keyword);
+        checker = dict.entries().get(keyword);
         invalidTypes = checker == null ? null
             : EnumSet.complementOf(checker.getValidTypes());
         /*

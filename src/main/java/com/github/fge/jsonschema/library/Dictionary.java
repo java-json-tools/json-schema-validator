@@ -18,7 +18,6 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.util.Frozen;
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
@@ -43,15 +42,9 @@ public final class Dictionary<T>
         entries = ImmutableMap.copyOf(builder.entries);
     }
 
-    @VisibleForTesting
-    public T get(final String key)
-    {
-        return entries.get(key);
-    }
-
     public Map<String, T> entries()
     {
-        return ImmutableMap.copyOf(entries);
+        return entries;
     }
 
     @Override

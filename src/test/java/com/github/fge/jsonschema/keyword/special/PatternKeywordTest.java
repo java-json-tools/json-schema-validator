@@ -62,7 +62,7 @@ public final class PatternKeywordTest
     public PatternKeywordTest()
         throws IOException
     {
-        constructor = CommonValidatorDictionary.get().get("pattern");
+        constructor = CommonValidatorDictionary.get().entries().get("pattern");
         testData = JsonLoader.fromResource("/keyword/special/pattern.json");
     }
 

@@ -45,7 +45,7 @@ public abstract class AbstractDigesterTest
         final NodeType... other)
         throws IOException
     {
-        digester = dict.get(keyword);
+        digester = dict.entries().get(keyword);
         types = EnumSet.of(first, other);
         this.keyword = keyword;
         final String resourceName = String.format("/keyword/digest/%s/%s.json",

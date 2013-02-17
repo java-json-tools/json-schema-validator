@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
@@ -38,10 +39,12 @@ public final class FormatProcessor
     implements Processor<FullValidationContext, FullValidationContext>
 {
     private final Dictionary<FormatAttribute> dict;
+    private final Map<String, FormatAttribute> attributes;
 
     public FormatProcessor(final Dictionary<FormatAttribute> dict)
     {
         this.dict = dict;
+        attributes = dict.entries();
     }
 
     @Override
@@ -56,7 +59,7 @@ public final class FormatProcessor
             return input;
 
         final String fmt = node.textValue();
-        final FormatAttribute attr = dict.get(fmt);
+        final FormatAttribute attr = attributes.get(fmt);
 
         if (attr == null) {
             report.warn(input.newMessage().put("domain", "validation")

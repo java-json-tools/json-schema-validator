@@ -44,7 +44,7 @@ public final class DictionaryBuilderTest
     public void insertedValueCanBeRetrieved()
     {
         builder.addEntry(KEY, MOCK1);
-        assertSame(builder.freeze().get(KEY), MOCK1);
+        assertSame(builder.freeze().entries().get(KEY), MOCK1);
     }
 
     @Test
@@ -52,7 +52,7 @@ public final class DictionaryBuilderTest
     {
         builder.addEntry(KEY, MOCK1);
         builder.removeEntry(KEY);
-        assertNull(builder.freeze().get(KEY));
+        assertNull(builder.freeze().entries().get(KEY));
     }
 
     @Test
@@ -60,7 +60,7 @@ public final class DictionaryBuilderTest
     {
         builder.addEntry(KEY, MOCK1);
         builder.addEntry(KEY, MOCK2);
-        assertSame(builder.freeze().get(KEY), MOCK2);
+        assertSame(builder.freeze().entries().get(KEY), MOCK2);
     }
 
     private interface Whatever

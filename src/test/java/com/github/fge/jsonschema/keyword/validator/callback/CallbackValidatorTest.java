@@ -69,7 +69,7 @@ public abstract class CallbackValidatorTest
         final String keyword, final JsonPointer ptr1, final JsonPointer ptr2)
     {
         this.keyword = keyword;
-        constructor = dict.get(keyword);
+        constructor = dict.entries().get(keyword);
         this.ptr1 = ptr1;
         this.ptr2 = ptr2;
     }

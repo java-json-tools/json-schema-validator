@@ -65,7 +65,7 @@ public abstract class AbstractFormatAttributeTest
             prefix, fmt);
         this.fmt = fmt;
         testNode = JsonLoader.fromResource(resourceName);
-        attribute = dict.get(fmt);
+        attribute = dict.entries().get(fmt);
     }
 
     @BeforeMethod

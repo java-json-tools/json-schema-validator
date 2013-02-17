@@ -61,7 +61,7 @@ public final class ExtendsKeywordTest
         InstantiationException
     {
         final Constructor<? extends KeywordValidator> constructor
-            = DraftV3ValidatorDictionary.get().get("extends");
+            = DraftV3ValidatorDictionary.get().entries().get("extends");
         validator = constructor == null ? null
             : constructor.newInstance(FACTORY.nullNode());
     }

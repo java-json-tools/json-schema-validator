@@ -61,7 +61,7 @@ public final class NotKeywordTest
         InstantiationException
     {
         final Constructor<? extends KeywordValidator> constructor
-            = DraftV4ValidatorDictionary.get().get("not");
+            = DraftV4ValidatorDictionary.get().entries().get("not");
         validator = constructor == null ? null
             : constructor.newInstance(FACTORY.nullNode());
     }
