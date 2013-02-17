@@ -46,6 +46,15 @@ public abstract class BaseSchemaTree
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
     /**
+     * The contents of {@code $schema} for that schema
+     *
+     * <p>Note that it is required that if it is present, it be an absolute
+     * JSON Reference. If no suitable {@code $schema} is found, an empty ref
+     * is returned.</p>
+     */
+    private final JsonRef dollarSchema;
+
+    /**
      * Whether this schema is valid
      */
     protected final boolean valid;
@@ -88,6 +97,7 @@ public abstract class BaseSchemaTree
     protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
         final JsonPointer pointer, final boolean valid)
     {
+        dollarSchema = extractDollarSchema(baseNode);
         this.baseNode = baseNode;
         this.pointer = pointer;
         node = pointer.path(baseNode);
@@ -105,6 +115,7 @@ public abstract class BaseSchemaTree
     protected BaseSchemaTree(final BaseSchemaTree other,
         final JsonPointer newPointer)
     {
+        dollarSchema = other.dollarSchema;
         baseNode = other.baseNode;
         loadingRef = other.loadingRef;
 
@@ -119,6 +130,7 @@ public abstract class BaseSchemaTree
 
     protected BaseSchemaTree(final BaseSchemaTree other, final boolean valid)
     {
+        dollarSchema = other.dollarSchema;
         baseNode = other.baseNode;
         loadingRef = other.loadingRef;
         currentRef = other.currentRef;
@@ -159,6 +171,12 @@ public abstract class BaseSchemaTree
         return currentRef.resolve(other);
     }
 
+    @Override
+    public final JsonRef getDollarSchema()
+    {
+        return dollarSchema;
+    }
+
     /**
      * Get the loading URI for that schema
      *
@@ -185,6 +203,25 @@ public abstract class BaseSchemaTree
     public final boolean isValid()
     {
         return valid;
+    }
+
+    @Override
+    public final JsonNode asJson()
+    {
+        final ObjectNode ret = FACTORY.objectNode();
+
+        ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
+        ret.put("pointer", FACTORY.textNode(pointer.toString()));
+
+        return ret;
+    }
+
+    @Override
+    public final String toString()
+    {
+        return "loading URI: " + loadingRef
+            + "; current pointer: " + pointer
+            + "; resolution context: " + currentRef;
     }
 
     /**
@@ -242,22 +279,18 @@ public abstract class BaseSchemaTree
         return ret;
     }
 
-    @Override
-    public final JsonNode asJson()
+    private static JsonRef extractDollarSchema(final JsonNode schema)
     {
-        final ObjectNode ret = FACTORY.objectNode();
+        final JsonNode node = schema.path("$schema");
 
-        ret.put("loadingURI", FACTORY.textNode(loadingRef.toString()));
-        ret.put("pointer", FACTORY.textNode(pointer.toString()));
+        if (!node.isTextual())
+            return JsonRef.emptyRef();
 
-        return ret;
-    }
-
-    @Override
-    public final String toString()
-    {
-        return "loading URI: " + loadingRef
-            + "; current pointer: " + pointer
-            + "; resolution context: " + currentRef;
+        try {
+            final JsonRef ref = JsonRef.fromString(node.textValue());
+            return ref.isAbsolute() ? ref : JsonRef.emptyRef();
+        } catch (JsonReferenceException ignored) {
+            return JsonRef.emptyRef();
+        }
     }
 }

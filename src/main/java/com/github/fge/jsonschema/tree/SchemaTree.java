@@ -77,6 +77,17 @@ public interface SchemaTree
     JsonPointer matchingPointer(final JsonRef ref);
 
     /**
+     * Return the metaschema URI for that schema (ie, {@code $schema})
+     *
+     * <p>Note: it is <b>required</b> that if present, {@code $schema} be an
+     * absolute JSON Reference. If this keyword is not present and/or is
+     * malformed, an empty reference is returned.</p>
+     *
+     * @return the contents of {@code $schema} as a {@link JsonRef}
+     */
+    JsonRef getDollarSchema();
+
+    /**
      * Get the loading URI for that schema
      *
      * @return the loading URI as a {@link JsonRef}

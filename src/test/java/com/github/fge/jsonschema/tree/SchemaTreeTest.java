@@ -20,11 +20,15 @@ package com.github.fge.jsonschema.tree;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jsonschema.SampleNodeProvider;
+import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.github.fge.jsonschema.util.JsonLoader;
+import com.github.fge.jsonschema.util.NodeType;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import org.testng.annotations.BeforeClass;
@@ -145,5 +149,84 @@ public final class SchemaTreeTest
         final SchemaTree tree = new CanonicalSchemaTree(FACTORY.nullNode());
 
         assertFalse(tree.isValid());
+    }
+
+    @DataProvider
+    public Iterator<Object[]> nonSchemas()
+    {
+        return SampleNodeProvider.getSamplesExcept(NodeType.OBJECT);
+    }
+
+    @Test(dataProvider = "nonSchemas")
+    public void nonSchemasYieldAnEmptyRef(final JsonNode node)
+    {
+        final SchemaTree tree = new CanonicalSchemaTree(node);
+        assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
+    }
+
+    @DataProvider
+    public Iterator<Object[]> nonStringDollarSchemas()
+    {
+        return SampleNodeProvider.getSamples(NodeType.STRING);
+    }
+
+    @Test
+    public void schemaWithoutDollarSchemaYieldsAnEmptyRef()
+    {
+        final SchemaTree tree = new CanonicalSchemaTree(FACTORY.objectNode());
+        assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
+    }
+
+    @Test(dataProvider = "nonStringDollarSchemas")
+    public void nonTextualDollarSchemasYieldAnEmptyRef(final JsonNode node)
+    {
+        final ObjectNode testNode = FACTORY.objectNode();
+        testNode.put("$schema", node);
+
+        final SchemaTree tree = new CanonicalSchemaTree(testNode);
+        assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
+    }
+
+    @DataProvider
+    public Iterator<Object[]> nonLegalDollarSchemas()
+    {
+        return ImmutableList.of(
+            new Object[] { "" },
+            new Object[] { "foo#" },
+            new Object[] { "http://my.site/myschema#a" }
+        ).iterator();
+    }
+
+    @Test(dataProvider = "nonLegalDollarSchemas")
+    public void nonAbsoluteDollarSchemasYieldAnEmptyRef(final String s)
+    {
+        final ObjectNode testNode = FACTORY.objectNode();
+        testNode.put("$schema", FACTORY.textNode(s));
+
+        final SchemaTree tree = new CanonicalSchemaTree(testNode);
+        assertEquals(tree.getDollarSchema(), JsonRef.emptyRef());
+    }
+
+    @DataProvider
+    public Iterator<Object[]> legalDollarSchemas()
+    {
+        return ImmutableList.of(
+            new Object[] { "http://json-schema.org/schema#" },
+            new Object[] { "http://json-schema.org/draft-03/schema" },
+            new Object[] { "http://json-schema.org/draft-04/schema#" },
+            new Object[] { "http://me.org/myschema" }
+        ).iterator();
+    }
+
+    @Test(dataProvider = "legalDollarSchemas")
+    public void legalDollarSchemasAreReturnedCorrectly(final String s)
+        throws JsonReferenceException
+    {
+        final JsonRef ref = JsonRef.fromString(s);
+        final ObjectNode testNode = FACTORY.objectNode();
+        testNode.put("$schema", FACTORY.textNode(s));
+
+        final SchemaTree tree = new CanonicalSchemaTree(testNode);
+        assertEquals(tree.getDollarSchema(), ref);
     }
 }
