@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.Dereferencing;
@@ -133,22 +132,9 @@ public final class JsonValidator
             @Override
             public boolean apply(final ValidationContext input)
             {
-                return ref.equals(extractDollarSchema(input));
+                return ref.equals(input.getSchema().getDollarSchema());
             }
         };
-    }
-
-    private static JsonRef extractDollarSchema(final ValidationContext context)
-    {
-        final JsonNode schema = context.getSchema().getBaseNode();
-        final JsonNode node = schema.path("$schema");
-        if (!node.isTextual())
-            return JsonRef.emptyRef();
-        try {
-            return JsonRef.fromString(node.textValue());
-        } catch (JsonReferenceException ignored) {
-            return JsonRef.emptyRef();
-        }
     }
 
     private ProcessingReport buildUncheckedReport
