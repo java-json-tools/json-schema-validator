@@ -32,7 +32,7 @@ public interface SyntaxChecker
     @VisibleForTesting
     EnumSet<NodeType> getValidTypes();
 
-    void checkSyntax(Collection<JsonPointer> pointers,
-        ProcessingReport report, SchemaTree tree)
+    void checkSyntax(final Collection<JsonPointer> pointers,
+        final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException;
 }

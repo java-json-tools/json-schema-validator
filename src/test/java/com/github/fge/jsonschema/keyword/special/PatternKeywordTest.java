@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
 import com.github.fge.jsonschema.messages.KeywordValidationMessages;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -99,11 +99,11 @@ public final class PatternKeywordTest
     {
         final SchemaTree tree = new CanonicalSchemaTree(schema);
         final JsonTree instance = new SimpleJsonTree(node);
-        final ValidationData data = new ValidationData(tree, instance);
+        final FullData data = new FullData(tree, instance);
 
         final ProcessingReport report = mock(ProcessingReport.class);
         @SuppressWarnings("unchecked")
-        final Processor<ValidationData, ProcessingReport> processor
+        final Processor<FullData, ProcessingReport> processor
             =  mock(Processor.class);
 
         // It is a null node which is ignored by the constructor, so we can

@@ -24,23 +24,23 @@ import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
-import com.github.fge.jsonschema.processors.data.FullValidationContext;
+import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
+import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
-import com.github.fge.jsonschema.processors.ref.RefResolverProcessor;
+import com.github.fge.jsonschema.processors.ref.RefResolver;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 public final class ValidationChain
-    implements Processor<ValidationContext, FullValidationContext>
+    implements Processor<SchemaContext, ValidatorList>
 {
     private final Processor<SchemaHolder, SchemaHolder> refSyntax;
-    private final Processor<ValidationContext, FullValidationContext> processor;
+    private final Processor<SchemaContext, ValidatorList> processor;
 
-    public ValidationChain(final RefResolverProcessor refResolver,
+    public ValidationChain(final RefResolver refResolver,
         final Library library, final boolean useFormat)
     {
         final SyntaxProcessor syntaxProcessor
@@ -54,7 +54,7 @@ public final class ValidationChain
         final ValidatorBuilder builder
             = new ValidatorBuilder(library.getValidators());
 
-        ProcessorChain<ValidationContext, FullValidationContext> chain
+        ProcessorChain<SchemaContext, ValidatorList> chain
             = ProcessorChain.startWith(digester).chainWith(builder);
 
         if (useFormat) {
@@ -67,8 +67,8 @@ public final class ValidationChain
     }
 
     @Override
-    public FullValidationContext process(final ProcessingReport report,
-        final ValidationContext input)
+    public ValidatorList process(final ProcessingReport report,
+        final SchemaContext input)
         throws ProcessingException
     {
         final SchemaHolder in = new SchemaHolder(input.getSchema());
@@ -76,8 +76,8 @@ public final class ValidationChain
         if (!report.isSuccess())
             throw new InvalidSchemaException(new ProcessingMessage()
                 .message(SyntaxMessages.INVALID_SCHEMA));
-        final ValidationContext output
-            = new ValidationContext(out.getValue(), input.getInstanceType());
+        final SchemaContext output = new SchemaContext(out.getValue(),
+            input.getInstanceType());
         return processor.process(report, output);
     }
 

@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -57,10 +57,8 @@ public abstract class CallbackValidatorTest
     protected final JsonPointer ptr1;
     protected final JsonPointer ptr2;
 
-    private Processor<ValidationData, ProcessingReport> processor;
-    private SchemaTree tree;
-    private JsonTree instance;
-    private ValidationData data;
+    private Processor<FullData, ProcessingReport> processor;
+    private FullData data;
     private ProcessingReport report;
     private KeywordValidator validator;
 
@@ -82,9 +80,9 @@ public abstract class CallbackValidatorTest
         if (constructor == null)
             return;
 
-        tree = new CanonicalSchemaTree(generateSchema());
-        instance = new SimpleJsonTree(generateInstance());
-        data = new ValidationData(tree, instance);
+        final SchemaTree tree = new CanonicalSchemaTree(generateSchema());
+        final JsonTree instance = new SimpleJsonTree(generateInstance());
+        data = new FullData(tree, instance);
         report = mock(ProcessingReport.class);
         validator = constructor.newInstance(generateDigest());
     }
@@ -108,8 +106,7 @@ public abstract class CallbackValidatorTest
         } catch (ProcessingException ignored) {
         }
 
-        verify(processor, onlyOnce())
-            .process(anyReport(), any(ValidationData.class));
+        verify(processor, onlyOnce()).process(anyReport(), any(FullData.class));
     }
 
     @Test(dependsOnMethods = "keywordExists")
@@ -125,8 +122,7 @@ public abstract class CallbackValidatorTest
         } catch (ProcessingException ignored) {
         }
 
-        verify(processor, times(2))
-            .process(anyReport(), any(ValidationData.class));
+        verify(processor, times(2)).process(anyReport(), any(FullData.class));
     }
 
     @Test(dependsOnMethods = "keywordExists")
@@ -137,8 +133,7 @@ public abstract class CallbackValidatorTest
             ptr2));
 
         validator.validate(processor, report, data);
-        verify(processor, times(2))
-            .process(anyReport(), any(ValidationData.class));
+        verify(processor, times(2)).process(anyReport(), any(FullData.class));
 
         checkOkOk(report);
     }
@@ -154,8 +149,7 @@ public abstract class CallbackValidatorTest
             ptr2));
 
         validator.validate(processor, report, data);
-        verify(processor, times(2))
-            .process(anyReport(), any(ValidationData.class));
+        verify(processor, times(2)).process(anyReport(), any(FullData.class));
 
         checkOkKo(report);
     }
@@ -171,8 +165,7 @@ public abstract class CallbackValidatorTest
             ptr2));
 
         validator.validate(processor, report, data);
-        verify(processor, times(2))
-            .process(anyReport(), any(ValidationData.class));
+        verify(processor, times(2)).process(anyReport(), any(FullData.class));
 
         checkKoKo(report);
     }
@@ -219,7 +212,7 @@ public abstract class CallbackValidatorTest
     }
 
     protected static class DummyProcessor
-        implements Processor<ValidationData, ProcessingReport>
+        implements Processor<FullData, ProcessingReport>
     {
         private final WantedState wanted1;
         private final WantedState wanted2;
@@ -238,7 +231,7 @@ public abstract class CallbackValidatorTest
 
         @Override
         public ProcessingReport process(final ProcessingReport report,
-            final ValidationData input)
+            final FullData input)
             throws ProcessingException
         {
             final JsonNode schema = input.getSchema().getNode();

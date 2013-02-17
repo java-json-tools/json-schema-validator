@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.format.draftv3;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
@@ -85,7 +85,7 @@ public final class UTCMillisecTest
         throws ProcessingException
     {
         final JsonTree tree = new SimpleJsonTree(input);
-        final ValidationData data = new ValidationData(SCHEMA_TREE, tree);
+        final FullData data = new FullData(SCHEMA_TREE, tree);
 
         attribute.validate(report, data);
 
@@ -125,7 +125,7 @@ public final class UTCMillisecTest
         throws ProcessingException
     {
         final JsonTree tree = new SimpleJsonTree(input);
-        final ValidationData data = new ValidationData(SCHEMA_TREE, tree);
+        final FullData data = new FullData(SCHEMA_TREE, tree);
 
         attribute.validate(report, data);
 

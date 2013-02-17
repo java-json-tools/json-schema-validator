@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 
@@ -47,8 +47,8 @@ public abstract class NumericValidator
 
     @Override
     public final void validate(
-        final Processor<ValidationData, ProcessingReport> processor,
-        final ProcessingReport report, final ValidationData data)
+        final Processor<FullData, ProcessingReport> processor,
+        final ProcessingReport report, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -66,7 +66,7 @@ public abstract class NumericValidator
      * @param data the validation data
      */
     protected abstract void validateLong(final ProcessingReport report,
-        ValidationData data)
+        FullData data)
         throws ProcessingException;
 
     /**
@@ -77,7 +77,7 @@ public abstract class NumericValidator
      * @param data the validation data
      */
     protected abstract void validateDecimal(final ProcessingReport report,
-        ValidationData data)
+        FullData data)
         throws ProcessingException;
 
     @Override

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.BooleanNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.helpers.NumericValidator;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.math.BigDecimal;
@@ -41,7 +41,7 @@ public final class MaximumValidator
 
     @Override
     protected void validateLong(final ProcessingReport report,
-        final ValidationData data)
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -66,7 +66,7 @@ public final class MaximumValidator
 
     @Override
     protected void validateDecimal(final ProcessingReport report,
-        final ValidationData data)
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();

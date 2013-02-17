@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.helpers.DraftV3TypeKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -41,9 +41,8 @@ public final class DisallowKeywordValidator
     }
 
     @Override
-    public void validate(
-        final Processor<ValidationData, ProcessingReport> processor,
-        final ProcessingReport report, final ValidationData data)
+    public void validate(final Processor<FullData, ProcessingReport> processor,
+        final ProcessingReport report, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -61,7 +60,7 @@ public final class DisallowKeywordValidator
 
         JsonPointer ptr;
         ListProcessingReport subReport;
-        ValidationData newData;
+        FullData newData;
         int nrSuccess = 0;
 
         for (final int index: schemas) {

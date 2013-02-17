@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -41,9 +41,8 @@ public final class NotValidator
     }
 
     @Override
-    public void validate(
-        final Processor<ValidationData, ProcessingReport> processor,
-        final ProcessingReport report, final ValidationData data)
+    public void validate(final Processor<FullData, ProcessingReport> processor,
+        final ProcessingReport report, final FullData data)
         throws ProcessingException
     {
         final SchemaTree tree = data.getSchema();

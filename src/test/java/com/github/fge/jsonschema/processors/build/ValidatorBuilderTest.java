@@ -23,9 +23,9 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.FullValidationContext;
-import com.github.fge.jsonschema.processors.data.ValidationData;
-import com.github.fge.jsonschema.processors.data.ValidationDigest;
+import com.github.fge.jsonschema.processors.data.FullData;
+import com.github.fge.jsonschema.processors.data.SchemaDigest;
+import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Lists;
@@ -72,7 +72,7 @@ public final class ValidatorBuilderTest
         digests.put(K1, JacksonUtils.nodeFactory().nullNode());
         digests.put(CHALLENGED, JacksonUtils.nodeFactory().nullNode());
 
-        final ValidationDigest digest = new ValidationDigest(null, digests);
+        final SchemaDigest digest = new SchemaDigest(null, digests);
         final ProcessingReport report = mock(ProcessingReport.class);
 
         try {
@@ -89,10 +89,10 @@ public final class ValidatorBuilderTest
         final Map<String, JsonNode> digests = Maps.newTreeMap();
         digests.put(K1, JacksonUtils.nodeFactory().nullNode());
 
-        final ValidationDigest digest = new ValidationDigest(null, digests);
+        final SchemaDigest digest = new SchemaDigest(null, digests);
         final ProcessingReport report = mock(ProcessingReport.class);
 
-        final FullValidationContext context
+        final ValidatorList context
             = validatorBuilder.process(report, digest);
 
         final List<KeywordValidator> list = Lists.newArrayList(context);
@@ -109,10 +109,10 @@ public final class ValidatorBuilderTest
         digests.put(K1, JacksonUtils.nodeFactory().nullNode());
         digests.put(K2, JacksonUtils.nodeFactory().nullNode());
 
-        final ValidationDigest digest = new ValidationDigest(null, digests);
+        final SchemaDigest digest = new SchemaDigest(null, digests);
         final ProcessingReport report = mock(ProcessingReport.class);
 
-        final FullValidationContext context
+        final ValidatorList context
             = validatorBuilder.process(report, digest);
 
         final List<KeywordValidator> list = Lists.newArrayList(context);
@@ -131,8 +131,8 @@ public final class ValidatorBuilderTest
 
         @Override
         public void validate(
-            final Processor<ValidationData, ProcessingReport> processor,
-            final ProcessingReport report, final ValidationData data)
+            final Processor<FullData, ProcessingReport> processor,
+            final ProcessingReport report, final FullData data)
             throws ProcessingException
         {
         }
@@ -147,8 +147,8 @@ public final class ValidatorBuilderTest
 
         @Override
         public void validate(
-            final Processor<ValidationData, ProcessingReport> processor,
-            final ProcessingReport report, final ValidationData data)
+            final Processor<FullData, ProcessingReport> processor,
+            final ProcessingReport report, final FullData data)
             throws ProcessingException
         {
         }
@@ -164,8 +164,8 @@ public final class ValidatorBuilderTest
 
         @Override
         public void validate(
-            final Processor<ValidationData, ProcessingReport> processor,
-            final ProcessingReport report, final ValidationData data)
+            final Processor<FullData, ProcessingReport> processor,
+            final ProcessingReport report, final FullData data)
             throws ProcessingException
         {
         }

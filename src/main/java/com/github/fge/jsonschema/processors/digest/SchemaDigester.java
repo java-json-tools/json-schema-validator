@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
-import com.github.fge.jsonschema.processors.data.ValidationDigest;
+import com.github.fge.jsonschema.processors.data.SchemaContext;
+import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.Digester;
 import com.github.fge.jsonschema.util.NodeType;
@@ -35,7 +35,7 @@ import com.google.common.collect.Sets;
 import java.util.Map;
 
 public final class SchemaDigester
-    implements Processor<ValidationContext, ValidationDigest>
+    implements Processor<SchemaContext, SchemaDigest>
 {
     private final ListMultimap<NodeType, String> typeMap
         = ArrayListMultimap.create();
@@ -59,15 +59,15 @@ public final class SchemaDigester
     }
 
     @Override
-    public ValidationDigest process(final ProcessingReport report,
-        final ValidationContext input)
+    public SchemaDigest process(final ProcessingReport report,
+        final SchemaContext input)
         throws ProcessingException
     {
         final JsonNode schema = input.getSchema().getNode();
         final NodeType type = input.getInstanceType();
         final Map<String, JsonNode> map = Maps.newHashMap(buildDigests(schema));
         map.keySet().retainAll(typeMap.get(type));
-        return new ValidationDigest(input, map);
+        return new SchemaDigest(input, map);
     }
 
     private Map<String, JsonNode> buildDigests(final JsonNode schema)

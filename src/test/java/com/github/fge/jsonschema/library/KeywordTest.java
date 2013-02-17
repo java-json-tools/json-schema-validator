@@ -22,7 +22,7 @@ import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationErr
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
@@ -147,8 +147,8 @@ public final class KeywordTest
     {
         @Override
         public void validate(
-            final Processor<ValidationData, ProcessingReport> processor,
-            final ProcessingReport report, final ValidationData data)
+            final Processor<FullData, ProcessingReport> processor,
+            final ProcessingReport report, final FullData data)
             throws ProcessingException
         {
         }

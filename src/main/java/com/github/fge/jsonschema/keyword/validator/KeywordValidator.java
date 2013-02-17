@@ -19,12 +19,12 @@ package com.github.fge.jsonschema.keyword.validator;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 public interface KeywordValidator
 {
-    void validate(Processor<ValidationData, ProcessingReport> processor,
-        ProcessingReport report, ValidationData data)
+    void validate(final Processor<FullData, ProcessingReport> processor,
+        final ProcessingReport report, final FullData data)
         throws ProcessingException;
 }

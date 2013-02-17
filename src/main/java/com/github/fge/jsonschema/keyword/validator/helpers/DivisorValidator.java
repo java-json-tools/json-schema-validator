@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.keyword.validator.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.math.BigDecimal;
@@ -36,7 +36,7 @@ public abstract class DivisorValidator
 
     @Override
     protected final void validateLong(final ProcessingReport report,
-        final ValidationData data)
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode node = data.getInstance().getNode();
@@ -54,7 +54,7 @@ public abstract class DivisorValidator
 
     @Override
     protected final void validateDecimal(final ProcessingReport report,
-        final ValidationData data)
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode node = data.getInstance().getNode();

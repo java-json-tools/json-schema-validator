@@ -22,8 +22,8 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.FullValidationContext;
-import com.github.fge.jsonschema.processors.data.ValidationDigest;
+import com.github.fge.jsonschema.processors.data.SchemaDigest;
+import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
@@ -34,7 +34,7 @@ import java.util.Map;
 import java.util.SortedMap;
 
 public final class ValidatorBuilder
-    implements Processor<ValidationDigest, FullValidationContext>
+    implements Processor<SchemaDigest, ValidatorList>
 {
     private static final String ERRMSG = "failed to build keyword validator";
 
@@ -56,8 +56,8 @@ public final class ValidatorBuilder
      * @throws ProcessingException processing failed
      */
     @Override
-    public FullValidationContext process(final ProcessingReport report,
-        final ValidationDigest input)
+    public ValidatorList process(final ProcessingReport report,
+        final SchemaDigest input)
         throws ProcessingException
     {
         final SortedMap<String, KeywordValidator> map = Maps.newTreeMap();
@@ -75,13 +75,12 @@ public final class ValidatorBuilder
             validator = buildKeyword(constructor, digest);
             map.put(keyword, validator);
         }
-        return new FullValidationContext(input.getContext(), map.values());
+        return new ValidatorList(input.getContext(), map.values());
     }
 
     private static KeywordValidator buildKeyword(
         final Constructor<? extends KeywordValidator> constructor,
-        final JsonNode node
-    )
+        final JsonNode node)
         throws ProcessingException
     {
         try {

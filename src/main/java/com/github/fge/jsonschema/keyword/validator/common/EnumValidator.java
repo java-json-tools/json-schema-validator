@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.equivalence.JsonSchemaEquivalence;
 import com.google.common.base.Equivalence;
@@ -44,9 +44,8 @@ public final class EnumValidator
     }
 
     @Override
-    public void validate(
-        final Processor<ValidationData, ProcessingReport> processor,
-        final ProcessingReport report, final ValidationData data)
+    public void validate(final Processor<FullData, ProcessingReport> processor,
+        final ProcessingReport report, final FullData data)
         throws ProcessingException
     {
         final JsonNode node = data.getInstance().getNode();

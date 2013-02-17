@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.format.draftv3;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -58,8 +58,7 @@ public final class PhoneAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report,
-        final ValidationData data)
+    public void validate(final ProcessingReport report, final FullData data)
         throws ProcessingException
     {
         final String input = data.getInstance().getNode().textValue();

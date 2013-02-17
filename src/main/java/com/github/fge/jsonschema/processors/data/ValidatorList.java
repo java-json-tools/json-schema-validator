@@ -17,34 +17,37 @@
 
 package com.github.fge.jsonschema.processors.data;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 
-import java.util.Map;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
-public final class ValidationDigest
-    implements MessageProvider
+public final class ValidatorList
+    implements Iterable<KeywordValidator>, MessageProvider
 {
-    private final ValidationContext context;
-    private final Map<String, JsonNode> digested;
+    private final List<KeywordValidator> validators;
+    private final SchemaContext context;
 
-    public ValidationDigest(final ValidationContext context,
-        final Map<String, JsonNode> map)
+    public ValidatorList(final SchemaContext context,
+        final Collection<KeywordValidator> validators)
     {
         this.context = context;
-        digested = ImmutableMap.copyOf(map);
+        this.validators = ImmutableList.copyOf(validators);
     }
 
-    public ValidationContext getContext()
+    public SchemaContext getContext()
     {
         return context;
     }
 
-    public Map<String, JsonNode> getDigests()
+    @Override
+    public Iterator<KeywordValidator> iterator()
     {
-        return digested;
+        return validators.iterator();
     }
 
     @Override

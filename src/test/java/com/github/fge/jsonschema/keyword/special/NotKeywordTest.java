@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -52,8 +52,8 @@ public final class NotKeywordTest
 
     private final KeywordValidator validator;
 
-    private Processor<ValidationData, ProcessingReport> processor;
-    private ValidationData data;
+    private Processor<FullData, ProcessingReport> processor;
+    private FullData data;
     private ProcessingReport report;
 
     public NotKeywordTest()
@@ -77,7 +77,7 @@ public final class NotKeywordTest
 
         final SchemaTree tree = new CanonicalSchemaTree(schema);
         final JsonTree instance = new SimpleJsonTree(FACTORY.nullNode());
-        data = new ValidationData(tree, instance);
+        data = new FullData(tree, instance);
         report = mock(ProcessingReport.class);
     }
 
@@ -161,7 +161,7 @@ public final class NotKeywordTest
     }
 
     protected static final class DummyProcessor
-        implements Processor<ValidationData, ProcessingReport>
+        implements Processor<FullData, ProcessingReport>
     {
         private static final JsonPointer PTR = JsonPointer.of("not");
 
@@ -174,7 +174,7 @@ public final class NotKeywordTest
 
         @Override
         public ProcessingReport process(final ProcessingReport report,
-            final ValidationData input)
+            final FullData input)
             throws ProcessingException
         {
             assertEquals(input.getSchema().getPointer(), PTR);

@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.format;
 
 import com.github.fge.jsonschema.messages.FormatMessages;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.NodeType;
 
@@ -75,7 +75,7 @@ public abstract class AbstractFormatAttribute
      * @return a new message
      * @see FormatMessages
      */
-    protected final <T> ProcessingMessage newMsg(final ValidationData data,
+    protected final <T> ProcessingMessage newMsg(final FullData data,
         final T message)
     {
         return data.newMessage().put("domain", "validation")

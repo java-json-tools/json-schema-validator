@@ -24,8 +24,8 @@ import com.github.fge.jsonschema.SampleNodeProvider;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
-import com.github.fge.jsonschema.processors.data.ValidationDigest;
+import com.github.fge.jsonschema.processors.data.SchemaContext;
+import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -99,10 +99,10 @@ public final class SchemaDigesterTest
     {
         final NodeType type = NodeType.getNodeType(node);
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final ValidationContext context = new ValidationContext(tree, type);
+        final SchemaContext context = new SchemaContext(tree, type);
         final ProcessingReport report = mock(ProcessingReport.class);
 
-        final ValidationDigest digest = schemaDigester.process(report, context);
+        final SchemaDigest digest = schemaDigester.process(report, context);
         verify(digester1).digest(schema);
         verify(digester2).digest(schema);
 
@@ -128,8 +128,8 @@ public final class SchemaDigesterTest
         final ObjectNode node = FACTORY.objectNode();
         node.put(K1, K1);
         final SchemaTree schemaTree = new CanonicalSchemaTree(node);
-        final ValidationContext context
-            = new ValidationContext(schemaTree, NodeType.NULL);
+        final SchemaContext context
+            = new SchemaContext(schemaTree, NodeType.NULL);
         final ProcessingReport report = mock(ProcessingReport.class);
 
         schemaDigester.process(report, context);

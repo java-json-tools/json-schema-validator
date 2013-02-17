@@ -31,10 +31,9 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
-public final class RefResolverProcessorTest
+public final class RefResolverTest
 {
-    private final RefResolverProcessor processor
-        = new RefResolverProcessor(null);
+    private final RefResolver processor = new RefResolver(null);
     private final ProcessingReport report = mock(ProcessingReport.class);
 
     @Test

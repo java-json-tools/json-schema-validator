@@ -21,28 +21,27 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.NodeType;
 
-/**
- * Validation data for a validation processor
- *
- * <p>The included data are the schema (in the shape of a {@link SchemaTree} and
- * the instance to validate (in the shape of a {@link JsonTree}.</p>
- */
-public final class ValidationData
+public final class SchemaContext
     implements MessageProvider
 {
     private final SchemaTree schema;
-    private final JsonTree instance;
+    private final NodeType instanceType;
 
-    public ValidationData(final SchemaTree schema, final JsonTree instance)
+    public SchemaContext(final FullData data)
     {
-        this.schema = schema;
-        this.instance = instance;
+        schema = data.getSchema();
+        final JsonTree tree = data.getInstance();
+        instanceType = tree != null
+            ? NodeType.getNodeType(tree.getNode())
+            : null;
     }
 
-    public ValidationData(final SchemaTree schema)
+    public SchemaContext(final SchemaTree schema, final NodeType instanceType)
     {
-        this(schema, null);
+        this.schema = schema;
+        this.instanceType = instanceType;
     }
 
     public SchemaTree getSchema()
@@ -50,29 +49,19 @@ public final class ValidationData
         return schema;
     }
 
-    public JsonTree getInstance()
+    public NodeType getInstanceType()
     {
-        return instance;
+        return instanceType;
     }
 
-    public ValidationData withSchema(final SchemaTree schema)
+    public SchemaContext withSchema(final SchemaTree schemaTree)
     {
-        return new ValidationData(schema, instance);
-    }
-
-    public ValidationData withInstance(final JsonTree instance)
-    {
-        return new ValidationData(schema, instance);
+        return new SchemaContext(schemaTree, instanceType);
     }
 
     @Override
     public ProcessingMessage newMessage()
     {
-        final ProcessingMessage ret = new ProcessingMessage();
-        if (schema != null)
-            ret.put("schema", schema);
-        if (instance != null)
-            ret.put("instance", instance);
-        return ret;
+        return new ProcessingMessage().put("schema", schema);
     }
 }

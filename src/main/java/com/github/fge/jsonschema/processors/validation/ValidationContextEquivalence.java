@@ -17,35 +17,34 @@
 
 package com.github.fge.jsonschema.processors.validation;
 
-import com.github.fge.jsonschema.processors.data.ValidationContext;
+import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
 import com.google.common.base.Equivalence;
 
 public final class ValidationContextEquivalence
-    extends Equivalence<ValidationContext>
+    extends Equivalence<SchemaContext>
 {
-    private static final Equivalence<ValidationContext> INSTANCE
+    private static final Equivalence<SchemaContext> INSTANCE
         = new ValidationContextEquivalence();
 
     private static final Equivalence<SchemaTree> TREE_EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();
 
-    public static Equivalence<ValidationContext> getInstance()
+    public static Equivalence<SchemaContext> getInstance()
     {
         return INSTANCE;
     }
 
     @Override
-    protected boolean doEquivalent(final ValidationContext a,
-        final ValidationContext b)
+    protected boolean doEquivalent(final SchemaContext a, final SchemaContext b)
     {
         return TREE_EQUIVALENCE.equivalent(a.getSchema(), b.getSchema())
             && a.getInstanceType() == b.getInstanceType();
     }
 
     @Override
-    protected int doHash(final ValidationContext t)
+    protected int doHash(final SchemaContext t)
     {
         return 31 * TREE_EQUIVALENCE.hash(t.getSchema())
             + t.getInstanceType().hashCode();

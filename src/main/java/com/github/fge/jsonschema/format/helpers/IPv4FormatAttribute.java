@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.format.helpers;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.net.InetAddresses;
@@ -43,8 +43,7 @@ public final class IPv4FormatAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report,
-        final ValidationData data)
+    public void validate(final ProcessingReport report, final FullData data)
         throws ProcessingException
     {
         final String ipaddr = data.getInstance().getNode().textValue();

@@ -37,12 +37,12 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 /**
  * Processor for ref resolving
  */
-public final class RefResolverProcessor
+public final class RefResolver
     implements Processor<SchemaHolder, SchemaHolder>
 {
     private final SchemaLoader loader;
 
-    public RefResolverProcessor(final SchemaLoader loader)
+    public RefResolver(final SchemaLoader loader)
     {
         this.loader = loader;
     }

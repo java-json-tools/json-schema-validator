@@ -23,9 +23,9 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processing.ProcessingCache;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.FullValidationContext;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
+import com.github.fge.jsonschema.processors.data.SchemaContext;
+import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -39,49 +39,49 @@ import java.util.Collections;
 import java.util.List;
 
 public final class ValidationProcessor
-    implements Processor<ValidationData, ProcessingReport>
+    implements Processor<FullData, ProcessingReport>
 {
     private static final ThreadLocal<ProcessingReport> REPORT
         = new ThreadLocal<ProcessingReport>();
 
-    private final ProcessingCache<ValidationContext, FullValidationContext> cache;
-    private final Processor<ValidationContext, FullValidationContext> processor;
+    private final ProcessingCache<SchemaContext, ValidatorList> cache;
+    private final Processor<SchemaContext, ValidatorList> processor;
     private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
     private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
 
     public ValidationProcessor(
-        final Processor<ValidationContext, FullValidationContext> processor)
+        final Processor<SchemaContext, ValidatorList> processor)
     {
         this.processor = processor;
         arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
         objectCache = CacheBuilder.newBuilder().build(objectLoader());
-        cache = new ProcessingCache<ValidationContext, FullValidationContext>(
+        cache = new ProcessingCache<SchemaContext, ValidatorList>(
             ValidationContextEquivalence.getInstance(), loader()
         );
     }
 
     @Override
     public ProcessingReport process(final ProcessingReport report,
-        final ValidationData input)
+        final FullData input)
         throws ProcessingException
     {
         /*
          * Build a validation context, attach a report to it
          */
-        final ValidationContext context = new ValidationContext(input);
+        final SchemaContext context = new SchemaContext(input);
 
         REPORT.set(report);
         /*
          * Get the full context from the cache. Inject the messages into the
          * main report.
          */
-        final FullValidationContext fullContext = cache.get(context);
+        final ValidatorList fullContext = cache.get(context);
 
         /*
          * Get the calculated context. Build the data.
          */
-        final ValidationContext newContext = fullContext.getContext();
-        final ValidationData data = new ValidationData(newContext.getSchema(),
+        final SchemaContext newContext = fullContext.getContext();
+        final FullData data = new FullData(newContext.getSchema(),
             input.getInstance());
 
         /*
@@ -114,7 +114,7 @@ public final class ValidationProcessor
     }
 
     private void processArray(final ProcessingReport report,
-        final ValidationData input)
+        final FullData input)
         throws ProcessingException
     {
         final SchemaTree tree = input.getSchema();
@@ -128,7 +128,7 @@ public final class ValidationProcessor
 
         final int size = node.size();
 
-        ValidationData data;
+        FullData data;
         JsonTree newInstance;
 
         for (int index = 0; index < size; index++) {
@@ -142,7 +142,7 @@ public final class ValidationProcessor
     }
 
     private void processObject(final ProcessingReport report,
-        final ValidationData input)
+        final FullData input)
         throws ProcessingException
     {
         final SchemaTree tree = input.getSchema();
@@ -158,7 +158,7 @@ public final class ValidationProcessor
         final List<String> fields = Lists.newArrayList(node.fieldNames());
         Collections.sort(fields);
 
-        ValidationData data;
+        FullData data;
         JsonTree newInstance;
 
         for (final String field: fields) {
@@ -195,17 +195,17 @@ public final class ValidationProcessor
         };
     }
 
-    private CacheLoader<Equivalence.Wrapper<ValidationContext>, FullValidationContext>
+    private CacheLoader<Equivalence.Wrapper<SchemaContext>, ValidatorList>
         loader()
     {
-        return new CacheLoader<Equivalence.Wrapper<ValidationContext>, FullValidationContext>()
+        return new CacheLoader<Equivalence.Wrapper<SchemaContext>, ValidatorList>()
         {
             @Override
-            public FullValidationContext load(
-                final Equivalence.Wrapper<ValidationContext> key)
+            public ValidatorList load(
+                final Equivalence.Wrapper<SchemaContext> key)
                 throws ProcessingException
             {
-                final ValidationContext context = key.get();
+                final SchemaContext context = key.get();
                 return processor.process(REPORT.get(), context);
             }
         };

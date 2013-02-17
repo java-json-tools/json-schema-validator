@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.format;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 
@@ -48,6 +48,6 @@ public interface FormatAttribute
      * @throws ProcessingException an exception occurs (normally, never for a
      * format attribute)
      */
-    void validate(final ProcessingReport report, ValidationData data)
+    void validate(final ProcessingReport report, final FullData data)
         throws ProcessingException;
 }

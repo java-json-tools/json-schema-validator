@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.format.helpers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
-import com.github.fge.jsonschema.processors.data.ValidationData;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 import org.joda.time.format.DateTimeFormat;
@@ -55,7 +55,7 @@ public abstract class DateFormatAttribute
 
     @Override
     public final void validate(final ProcessingReport report,
-        final ValidationData data)
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
