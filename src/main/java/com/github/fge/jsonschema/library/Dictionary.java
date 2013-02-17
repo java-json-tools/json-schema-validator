@@ -74,11 +74,6 @@ public final class Dictionary<T>
         return ImmutableMap.copyOf(entries);
     }
 
-    public Iterable<Map.Entry<String, T>> entries()
-    {
-        return asMap().entrySet();
-    }
-
     @Override
     public DictionaryBuilder<T> thaw()
     {
