@@ -19,9 +19,9 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -32,13 +32,13 @@ public final class InlineSchemaTree
     /**
      * The list of contexts whose URIs are absolute JSON References
      */
-    private final Map<JsonRef, JsonPointer> absRefs = Maps.newHashMap();
+    private final Map<JsonRef, JsonPointer> absRefs;
 
     /**
      * The list of contexts whose URIs are not absolute JSON References, or
      * outright illegal JSON References
      */
-    private final Map<JsonRef, JsonPointer> otherRefs = Maps.newHashMap();
+    private final Map<JsonRef, JsonPointer> otherRefs;
 
     public InlineSchemaTree(final JsonNode baseNode)
     {
@@ -47,28 +47,41 @@ public final class InlineSchemaTree
 
     public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
     {
-        this(loadingRef, baseNode, JsonPointer.empty(), false);
+        super(loadingRef, baseNode, JsonPointer.empty(), false);
+        final Map<JsonRef, JsonPointer> abs = Maps.newHashMap();
+        final Map<JsonRef, JsonPointer> other = Maps.newHashMap();
+        walk(loadingRef, baseNode, JsonPointer.empty(), abs, other);
+        absRefs = ImmutableMap.copyOf(abs);
+        otherRefs = ImmutableMap.copyOf(other);
     }
 
-    private InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
-        final JsonPointer pointer, final boolean valid)
+    private InlineSchemaTree(final InlineSchemaTree other,
+        final JsonPointer newPointer)
     {
-        super(loadingRef, baseNode, pointer, Dereferencing.INLINE, valid);
-        walk(loadingRef, baseNode, JsonPointer.empty(), absRefs, otherRefs);
+        super(other, newPointer);
+        absRefs = other.absRefs;
+        otherRefs = other.otherRefs;
+    }
+
+    private InlineSchemaTree(final InlineSchemaTree other,
+        final boolean valid)
+    {
+        super(other, valid);
+        absRefs = other.absRefs;
+        otherRefs = other.otherRefs;
     }
 
     @Override
     public SchemaTree append(final JsonPointer pointer)
     {
-        return new InlineSchemaTree(loadingRef, baseNode,
-            this.pointer.append(pointer), valid);
+        return new InlineSchemaTree(this, valid);
     }
 
     @Override
     public SchemaTree setPointer(final JsonPointer pointer)
     {
 
-        return new InlineSchemaTree(loadingRef, baseNode, pointer, valid);
+        return new InlineSchemaTree(this, pointer);
     }
 
     @Override
@@ -90,7 +103,7 @@ public final class InlineSchemaTree
     @Override
     public SchemaTree withValidationStatus(final boolean valid)
     {
-        return new InlineSchemaTree(loadingRef, baseNode, pointer, valid);
+        return new InlineSchemaTree(this, valid);
     }
 
     private JsonPointer getMatchingPointer(final JsonRef ref)

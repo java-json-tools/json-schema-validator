@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.tree;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonRef;
 
 public final class CanonicalSchemaTree
@@ -33,26 +32,32 @@ public final class CanonicalSchemaTree
     public CanonicalSchemaTree(final JsonRef loadingRef,
         final JsonNode baseNode)
     {
-        this(loadingRef, baseNode, JsonPointer.empty(), false);
+        super(loadingRef, baseNode, JsonPointer.empty(), false);
     }
 
-    private CanonicalSchemaTree(final JsonRef loadingRef,
-        final JsonNode baseNode, final JsonPointer pointer, final boolean valid)
+    private CanonicalSchemaTree(final CanonicalSchemaTree other,
+        final JsonPointer newPointer)
     {
-        super(loadingRef, baseNode, pointer, Dereferencing.CANONICAL, valid);
+        super(other, newPointer);
+    }
+
+    private CanonicalSchemaTree(final CanonicalSchemaTree other,
+        final boolean valid)
+    {
+        super(other, valid);
     }
 
     @Override
     public SchemaTree append(final JsonPointer pointer)
     {
-        return new CanonicalSchemaTree(loadingRef, baseNode,
-            this.pointer.append(pointer), valid);
+        final JsonPointer newPointer = this.pointer.append(pointer);
+        return new CanonicalSchemaTree(this, newPointer);
     }
 
     @Override
     public SchemaTree setPointer(final JsonPointer pointer)
     {
-        return new CanonicalSchemaTree(loadingRef, baseNode, pointer, valid);
+        return new CanonicalSchemaTree(this, pointer);
     }
 
     @Override
@@ -73,6 +78,6 @@ public final class CanonicalSchemaTree
     @Override
     public SchemaTree withValidationStatus(final boolean valid)
     {
-        return new CanonicalSchemaTree(loadingRef, baseNode, pointer, valid);
+        return new CanonicalSchemaTree(this, valid);
     }
 }

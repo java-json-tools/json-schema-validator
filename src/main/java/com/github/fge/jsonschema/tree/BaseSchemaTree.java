@@ -23,7 +23,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.jsonpointer.TokenResolver;
-import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
@@ -92,10 +91,9 @@ public abstract class BaseSchemaTree
      * @param loadingRef the loading reference
      * @param baseNode the base node
      */
-    protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
-        final Dereferencing dereferencing)
+    protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
     {
-        this(loadingRef, baseNode, JsonPointer.empty(), dereferencing);
+        this(loadingRef, baseNode, JsonPointer.empty());
     }
 
     /**
@@ -105,14 +103,13 @@ public abstract class BaseSchemaTree
      * @param baseNode the base node
      */
     private BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
-        final JsonPointer pointer, final Dereferencing dereferencing)
+        final JsonPointer pointer)
     {
-        this(loadingRef, baseNode, pointer, dereferencing, false);
+        this(loadingRef, baseNode, pointer, false);
     }
 
     protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
-        final JsonPointer pointer, final Dereferencing dereferencing,
-        final boolean valid)
+        final JsonPointer pointer, final boolean valid)
     {
         this.baseNode = baseNode;
         this.pointer = pointer;
@@ -141,6 +138,17 @@ public abstract class BaseSchemaTree
 
         startingRef = other.startingRef;
         currentRef = nextRef(startingRef, newPointer, baseNode);
+    }
+
+    protected BaseSchemaTree(final BaseSchemaTree other, final boolean valid)
+    {
+        baseNode = other.baseNode;
+        loadingRef = other.loadingRef;
+        currentRef = other.currentRef;
+        pointer = other.pointer;
+        node = other.node;
+        startingRef = other.startingRef;
+        this.valid = valid;
     }
 
     @Override
