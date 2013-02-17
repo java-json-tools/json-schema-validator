@@ -55,11 +55,6 @@ public abstract class BaseSchemaTree
     private final JsonRef dollarSchema;
 
     /**
-     * Whether this schema is valid
-     */
-    protected final boolean valid;
-
-    /**
      * The initial node
      */
     protected final JsonNode baseNode;
@@ -95,7 +90,7 @@ public abstract class BaseSchemaTree
     private final JsonRef currentRef;
 
     protected BaseSchemaTree(final JsonRef loadingRef, final JsonNode baseNode,
-        final JsonPointer pointer, final boolean valid)
+        final JsonPointer pointer)
     {
         dollarSchema = extractDollarSchema(baseNode);
         this.baseNode = baseNode;
@@ -109,7 +104,6 @@ public abstract class BaseSchemaTree
         startingRef = ref == null ? loadingRef : loadingRef.resolve(ref);
 
         currentRef = nextRef(startingRef, pointer, baseNode);
-        this.valid = valid;
     }
 
     protected BaseSchemaTree(final BaseSchemaTree other,
@@ -122,22 +116,8 @@ public abstract class BaseSchemaTree
         pointer = newPointer;
         node = newPointer.get(baseNode);
 
-        valid = other.valid;
-
         startingRef = other.startingRef;
         currentRef = nextRef(startingRef, newPointer, baseNode);
-    }
-
-    protected BaseSchemaTree(final BaseSchemaTree other, final boolean valid)
-    {
-        dollarSchema = other.dollarSchema;
-        baseNode = other.baseNode;
-        loadingRef = other.loadingRef;
-        currentRef = other.currentRef;
-        pointer = other.pointer;
-        node = other.node;
-        startingRef = other.startingRef;
-        this.valid = valid;
     }
 
     @Override
@@ -197,12 +177,6 @@ public abstract class BaseSchemaTree
     public final JsonRef getContext()
     {
         return currentRef;
-    }
-
-    @Override
-    public final boolean isValid()
-    {
-        return valid;
     }
 
     @Override

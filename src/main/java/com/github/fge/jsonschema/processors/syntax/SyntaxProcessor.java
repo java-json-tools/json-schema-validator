@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
+import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -41,7 +41,7 @@ import java.util.Set;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 public final class SyntaxProcessor
-    implements Processor<ValidationContext, ValidationContext>
+    implements Processor<SchemaHolder, SchemaHolder>
 {
     private final Map<String, SyntaxChecker> checkers;
 
@@ -49,29 +49,21 @@ public final class SyntaxProcessor
     {
         checkers = dict.entries();
     }
-    /**
-     * Process the input
-     *
-     * @param report the report to use while processing
-     * @param input the input for this processor
-     * @return the output
-     * @throws ProcessingException processing failed
-     */
+
     @Override
-    public ValidationContext process(final ProcessingReport report,
-        final ValidationContext input)
+    public SchemaHolder process(final ProcessingReport report,
+        final SchemaHolder input)
         throws ProcessingException
     {
-        final SchemaTree schema = input.getSchema();
+        final SchemaTree schema = input.getValue();
         final ListProcessingReport syntaxReport
             = new ListProcessingReport(report);
         validate(syntaxReport, schema);
-        final boolean valid = syntaxReport.isSuccess();
 
         for (final ProcessingMessage message: syntaxReport.getMessages())
             report.log(message);
 
-        return input.withSchema(schema.withValidationStatus(valid));
+        return input;
     }
 
     private void validate(final ProcessingReport report, final SchemaTree tree)

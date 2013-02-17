@@ -47,7 +47,7 @@ public final class InlineSchemaTree
 
     public InlineSchemaTree(final JsonRef loadingRef, final JsonNode baseNode)
     {
-        super(loadingRef, baseNode, JsonPointer.empty(), false);
+        super(loadingRef, baseNode, JsonPointer.empty());
         final Map<JsonRef, JsonPointer> abs = Maps.newHashMap();
         final Map<JsonRef, JsonPointer> other = Maps.newHashMap();
         walk(loadingRef, baseNode, JsonPointer.empty(), abs, other);
@@ -63,18 +63,11 @@ public final class InlineSchemaTree
         otherRefs = other.otherRefs;
     }
 
-    private InlineSchemaTree(final InlineSchemaTree other,
-        final boolean valid)
-    {
-        super(other, valid);
-        absRefs = other.absRefs;
-        otherRefs = other.otherRefs;
-    }
-
     @Override
     public SchemaTree append(final JsonPointer pointer)
     {
-        return new InlineSchemaTree(this, valid);
+        final JsonPointer newPointer = this.pointer.append(pointer);
+        return new InlineSchemaTree(this, newPointer);
     }
 
     @Override
@@ -98,12 +91,6 @@ public final class InlineSchemaTree
             return null;
 
         return ret.path(baseNode).isMissingNode() ? null : ret;
-    }
-
-    @Override
-    public SchemaTree withValidationStatus(final boolean valid)
-    {
-        return new InlineSchemaTree(this, valid);
     }
 
     private JsonPointer getMatchingPointer(final JsonRef ref)

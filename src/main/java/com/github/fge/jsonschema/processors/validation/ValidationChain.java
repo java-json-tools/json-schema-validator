@@ -23,37 +23,41 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
-import com.github.fge.jsonschema.processing.ProcessorSelector;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.FullValidationContext;
+import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.data.ValidationContext;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.base.Predicate;
 
 public final class ValidationChain
     implements Processor<ValidationContext, FullValidationContext>
 {
+    private final Processor<SchemaHolder, SchemaHolder> syntax;
     private final Processor<ValidationContext, FullValidationContext> processor;
 
     public ValidationChain(final Library library, final boolean useFormat)
     {
-        final SyntaxProcessor syntaxProcessor
-            = new SyntaxProcessor(library.getSyntaxCheckers());
+        syntax = new SyntaxProcessor(library.getSyntaxCheckers());
 
-        final Processor<ValidationContext, FullValidationContext> onSuccess
-            = mainProcessor(library, useFormat);
+        final SchemaDigester digester
+            = new SchemaDigester(library.getDigesters());
+        final ValidatorBuilder builder
+            = new ValidatorBuilder(library.getValidators());
 
-        final ProcessorSelector<ValidationContext, FullValidationContext> selector
-            = new ProcessorSelector<ValidationContext, FullValidationContext>()
-            .when(schemaIsValid()).then(onSuccess)
-            .otherwise(onFailure());
+        ProcessorChain<ValidationContext, FullValidationContext> chain
+            = ProcessorChain.startWith(digester).chainWith(builder);
 
-        processor = ProcessorChain.startWith(syntaxProcessor)
-            .chainWith(selector.getProcessor()).getProcessor();
+        if (useFormat) {
+            final FormatProcessor formatProcessor
+                = new FormatProcessor(library.getFormatAttributes());
+            chain = chain.chainWith(formatProcessor);
+        }
+
+        processor = chain.getProcessor();
     }
 
     public ValidationChain(final Library library)
@@ -66,59 +70,17 @@ public final class ValidationChain
         final ValidationContext input)
         throws ProcessingException
     {
+        final SchemaHolder holder = new SchemaHolder(input.getSchema());
+        syntax.process(report, holder);
+        if (!report.isSuccess())
+            throw new InvalidSchemaException(new ProcessingMessage()
+                .message(SyntaxMessages.INVALID_SCHEMA));
         return processor.process(report, input);
-    }
-
-    private static Processor<ValidationContext, FullValidationContext> onFailure()
-    {
-        return new Processor<ValidationContext, FullValidationContext>()
-        {
-            @Override
-            public FullValidationContext process(final ProcessingReport report,
-                final ValidationContext input)
-                throws ProcessingException
-            {
-                final ProcessingMessage message = input.newMessage()
-                    .message(SyntaxMessages.INVALID_SCHEMA);
-                throw new InvalidSchemaException(message);
-            }
-        };
-    }
-
-    private static Predicate<ValidationContext> schemaIsValid()
-    {
-        return new Predicate<ValidationContext>()
-        {
-            @Override
-            public boolean apply(final ValidationContext input)
-            {
-                return input.getSchema().isValid();
-            }
-        };
-    }
-
-    private static Processor<ValidationContext, FullValidationContext>
-        mainProcessor(final Library library, final boolean useFormat)
-    {
-        final SchemaDigester digester
-            = new SchemaDigester(library.getDigesters());
-        final ValidatorBuilder builder
-            = new ValidatorBuilder(library.getValidators());
-        ProcessorChain<ValidationContext, FullValidationContext> chain
-            = ProcessorChain.startWith(digester).chainWith(builder);
-
-        if (useFormat) {
-            final FormatProcessor formatProcessor
-                = new FormatProcessor(library.getFormatAttributes());
-            chain = chain.chainWith(formatProcessor);
-        }
-
-        return chain.getProcessor();
     }
 
     @Override
     public String toString()
     {
-        return processor.toString();
+        return syntax + " -> " + processor;
     }
 }

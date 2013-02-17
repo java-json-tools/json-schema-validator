@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
+import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -38,7 +38,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  * Processor for ref resolving
  */
 public final class RefResolverProcessor
-    implements Processor<ValidationContext, ValidationContext>
+    implements Processor<SchemaHolder, SchemaHolder>
 {
     private final SchemaLoader loader;
 
@@ -48,11 +48,11 @@ public final class RefResolverProcessor
     }
 
     @Override
-    public ValidationContext process(final ProcessingReport report,
-        final ValidationContext input)
+    public SchemaHolder process(final ProcessingReport report,
+        final SchemaHolder input)
         throws ProcessingException
     {
-        return input.withSchema(loadRef(input.getSchema()));
+        return new SchemaHolder(loadRef(input.getValue()));
     }
 
     private static JsonRef nodeAsRef(final JsonNode node)

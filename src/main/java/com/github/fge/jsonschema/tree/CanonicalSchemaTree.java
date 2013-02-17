@@ -32,19 +32,13 @@ public final class CanonicalSchemaTree
     public CanonicalSchemaTree(final JsonRef loadingRef,
         final JsonNode baseNode)
     {
-        super(loadingRef, baseNode, JsonPointer.empty(), false);
+        super(loadingRef, baseNode, JsonPointer.empty());
     }
 
     private CanonicalSchemaTree(final CanonicalSchemaTree other,
         final JsonPointer newPointer)
     {
         super(other, newPointer);
-    }
-
-    private CanonicalSchemaTree(final CanonicalSchemaTree other,
-        final boolean valid)
-    {
-        super(other, valid);
     }
 
     @Override
@@ -73,11 +67,5 @@ public final class CanonicalSchemaTree
             return null;
         final JsonPointer ptr = ref.getPointer();
         return ptr.path(baseNode).isMissingNode() ? null : ptr;
-    }
-
-    @Override
-    public SchemaTree withValidationStatus(final boolean valid)
-    {
-        return new CanonicalSchemaTree(this, valid);
     }
 }

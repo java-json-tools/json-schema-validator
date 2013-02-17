@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
+import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -102,9 +102,9 @@ public final class SyntaxProcessorTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        final ValidationContext context = schemaToData(node);
+        final SchemaHolder holder = schemaToData(node);
 
-        processor.process(report, context);
+        processor.process(report, holder);
 
         verify(report).log(captor.capture());
 
@@ -121,7 +121,7 @@ public final class SyntaxProcessorTest
         node.put("foo", "");
         node.put("bar", "");
 
-        final ValidationContext context = schemaToData(node);
+        final SchemaHolder holder = schemaToData(node);
 
         final ArrayNode ignored = FACTORY.arrayNode();
         // They appear in alphabetical order in the report!
@@ -131,7 +131,7 @@ public final class SyntaxProcessorTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        processor.process(report, context);
+        processor.process(report, holder);
         verify(report).log(captor.capture());
 
         final ProcessingMessage message = captor.getValue();
@@ -150,9 +150,9 @@ public final class SyntaxProcessorTest
         final ObjectNode schema = FACTORY.objectNode();
         schema.put(K2, "");
 
-        final ValidationContext context = schemaToData(schema);
+        final SchemaHolder holder = schemaToData(schema);
 
-        processor.process(report, context);
+        processor.process(report, holder);
 
         verify(report).log(captor.capture());
 
@@ -168,16 +168,16 @@ public final class SyntaxProcessorTest
         node.put(K1, K1);
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("foo", node);
-        final ValidationContext context = schemaToData(schema);
+        final SchemaHolder holder = schemaToData(schema);
 
-        processor.process(report, context);
+        processor.process(report, holder);
         verify(checker, never()).checkSyntax(anyCollectionOf(JsonPointer.class),
             anyReport(), anySchema());
     }
 
-    private static ValidationContext schemaToData(final JsonNode schema)
+    private static SchemaHolder schemaToData(final JsonNode schema)
     {
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        return new ValidationContext(tree, null);
+        return new SchemaHolder(tree);
     }
 }

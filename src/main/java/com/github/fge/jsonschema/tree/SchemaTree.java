@@ -100,19 +100,4 @@ public interface SchemaTree
      * @return the context as a {@link JsonRef}
      */
     JsonRef getContext();
-
-    /**
-     * Tell whether this schema has been deemed valid by the syntax processor
-     *
-     * @return true if the schema is valid
-     */
-    boolean isValid();
-
-    /**
-     * Return a new schema tree with a new validation status
-     *
-     * @param valid the new validation status
-     * @return a new tree
-     */
-    SchemaTree withValidationStatus(final boolean valid);
 }

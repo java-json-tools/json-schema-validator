@@ -143,14 +143,6 @@ public final class SchemaTreeTest
         assertEquals(tree.getContext(), origRef);
     }
 
-    @Test
-    public void newlyCreatedSchemasAreNotValidated()
-    {
-        final SchemaTree tree = new CanonicalSchemaTree(FACTORY.nullNode());
-
-        assertFalse(tree.isValid());
-    }
-
     @DataProvider
     public Iterator<Object[]> nonSchemas()
     {

@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.syntax.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.ValidationContext;
+import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -42,13 +42,13 @@ public final class NewSyntaxDemo
     {
         final JsonNode schema = JsonLoader.fromResource("/draftv4/schema");
         final SchemaTree tree = new CanonicalSchemaTree(schema);
-        final ValidationContext context = new ValidationContext(tree, null);
+        final SchemaHolder holder = new SchemaHolder(tree);
 
         final ProcessingReport report = new ListProcessingReport();
 
-        final Processor<ValidationContext, ValidationContext> processor
+        final Processor<SchemaHolder, SchemaHolder> processor
             = new SyntaxProcessor(DraftV4SyntaxCheckerDictionary.get());
 
-        processor.process(report, context);
+        processor.process(report, holder);
     }
 }
