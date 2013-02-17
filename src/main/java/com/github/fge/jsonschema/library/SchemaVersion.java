@@ -26,18 +26,14 @@ import java.io.IOException;
 
 public enum SchemaVersion
 {
-    DRAFTV4("http://json-schema.org/draft-04/schema#", DraftV4Library.get(),
-        "/draftv4/schema"),
-    DRAFTV3("http://json-schema.org/draft-03/schema#", DraftV3Library.get(),
-        "/draftv3/schema"),
+    DRAFTV4("http://json-schema.org/draft-04/schema#", "/draftv4/schema"),
+    DRAFTV3("http://json-schema.org/draft-03/schema#", "/draftv3/schema"),
     ;
 
     private final JsonRef location;
-    private final Library library;
     private final JsonNode schema;
 
-    SchemaVersion(final String uri, final Library library,
-        final String resource)
+    SchemaVersion(final String uri, final String resource)
     {
         try {
             location = JsonRef.fromString(uri);
@@ -47,7 +43,6 @@ public enum SchemaVersion
         } catch (IOException e) {
             throw new ExceptionInInitializerError(e);
         }
-        this.library = library;
     }
 
     public JsonRef getLocation()
@@ -58,10 +53,5 @@ public enum SchemaVersion
     public JsonNode getSchema()
     {
         return schema.deepCopy();
-    }
-
-    public Library getLibrary()
-    {
-        return library;
     }
 }

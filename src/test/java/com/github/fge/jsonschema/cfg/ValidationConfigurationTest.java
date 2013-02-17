@@ -18,8 +18,8 @@
 package com.github.fge.jsonschema.cfg;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -72,7 +72,7 @@ public final class ValidationConfigurationTest
         final ValidationConfiguration defaultConfiguration
             = ValidationConfiguration.byDefault();
         assertSame(defaultConfiguration.getDefaultLibrary(),
-            SchemaVersion.DRAFTV4.getLibrary());
+            DraftV4Library.get());
     }
 
     @Test

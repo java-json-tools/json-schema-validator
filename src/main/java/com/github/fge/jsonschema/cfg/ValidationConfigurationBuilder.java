@@ -18,6 +18,8 @@
 package com.github.fge.jsonschema.cfg;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.library.DraftV3Library;
+import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.SchemaVersion;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -32,15 +34,24 @@ import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
+    private static final Map<SchemaVersion, Library> DEFAULT_LIBRARIES;
+
+    static {
+        DEFAULT_LIBRARIES = Maps.newEnumMap(SchemaVersion.class);
+        DEFAULT_LIBRARIES.put(SchemaVersion.DRAFTV3, DraftV3Library.get());
+        DEFAULT_LIBRARIES.put(SchemaVersion.DRAFTV4, DraftV4Library.get());
+    }
+
     final Map<JsonRef, Library> libraries;
-    Library defaultLibrary = SchemaVersion.DRAFTV4.getLibrary();
+    Library defaultLibrary = DEFAULT_LIBRARIES.get(SchemaVersion.DRAFTV4);
     boolean useFormat = true;
 
     ValidationConfigurationBuilder()
     {
         libraries = Maps.newHashMap();
-        for (final SchemaVersion version: SchemaVersion.values())
-            libraries.put(version.getLocation(), version.getLibrary());
+        for (final Map.Entry<SchemaVersion, Library> entry:
+            DEFAULT_LIBRARIES.entrySet())
+            libraries.put(entry.getKey().getLocation(), entry.getValue());
     }
 
     ValidationConfigurationBuilder(final ValidationConfiguration cfg)
@@ -70,7 +81,7 @@ public final class ValidationConfigurationBuilder
         /*
          * They are always in, so this is safe
          */
-        defaultLibrary = version.getLibrary();
+        defaultLibrary = DEFAULT_LIBRARIES.get(version);
         return this;
     }
 
