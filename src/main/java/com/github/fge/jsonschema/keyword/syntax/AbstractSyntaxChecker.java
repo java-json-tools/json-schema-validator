@@ -18,10 +18,11 @@
 package com.github.fge.jsonschema.keyword.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.ExceptionProvider;
+import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.messages.SyntaxMessages;
-import com.github.fge.jsonschema.processors.ValidationDomain;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -33,6 +34,16 @@ import java.util.EnumSet;
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {
+    private static final ExceptionProvider EXCEPTION_PROVIDER
+        = new ExceptionProvider()
+    {
+        @Override
+        public ProcessingException doException(final ProcessingMessage message)
+        {
+            return new InvalidSchemaException(message);
+        }
+    };
+
     protected final String keyword;
     private final EnumSet<NodeType> types;
 
@@ -75,7 +86,7 @@ public abstract class AbstractSyntaxChecker
     {
         return new ProcessingMessage().put("domain", "syntax")
             .put("schema", tree).put("keyword", keyword).message(msg)
-            .setExceptionProvider(ValidationDomain.SYNTAX.exceptionProvider());
+            .setExceptionProvider(EXCEPTION_PROVIDER);
     }
 
     protected final JsonNode getNode(final SchemaTree tree)

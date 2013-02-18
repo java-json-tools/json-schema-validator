@@ -17,13 +17,25 @@
 
 package com.github.fge.jsonschema.keyword.validator;
 
-import com.github.fge.jsonschema.processors.ValidationDomain;
+import com.github.fge.jsonschema.exceptions.ExceptionProvider;
+import com.github.fge.jsonschema.exceptions.InvalidInstanceException;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 public abstract class AbstractKeywordValidator
     implements KeywordValidator
 {
+    private static final ExceptionProvider EXCEPTION_PROVIDER
+        = new ExceptionProvider()
+    {
+        @Override
+        public ProcessingException doException(final ProcessingMessage message)
+        {
+            return new InvalidInstanceException(message);
+        }
+    };
+
     protected final String keyword;
 
     protected AbstractKeywordValidator(final String keyword)
@@ -35,7 +47,7 @@ public abstract class AbstractKeywordValidator
     {
         return data.newMessage().put("domain", "validation")
             .put("keyword", keyword)
-            .setExceptionProvider(ValidationDomain.INSTANCE.exceptionProvider());
+            .setExceptionProvider(EXCEPTION_PROVIDER);
     }
 
     @Override
