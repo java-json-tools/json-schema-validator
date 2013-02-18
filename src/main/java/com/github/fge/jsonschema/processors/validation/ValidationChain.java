@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
 import com.github.fge.jsonschema.processors.ref.RefResolver;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
@@ -72,10 +73,20 @@ public final class ValidationChain
         throws ProcessingException
     {
         final SchemaHolder in = new SchemaHolder(input.getSchema());
-        final SchemaHolder out = refSyntax.process(report, in);
-        if (!report.isSuccess())
+
+        /*
+         * We have to go through an intermediate report. If we re-enter this
+         * function with a report already telling there is an error, we don't
+         * want to raise an InvalidSchemaException if the schema is valid.
+         */
+        final ListProcessingReport r = new ListProcessingReport(report);
+        final SchemaHolder out = refSyntax.process(r, in);
+        for (final ProcessingMessage message: r.getMessages())
+            report.log(message);
+        if (!r.isSuccess())
             throw new InvalidSchemaException(new ProcessingMessage()
                 .message(SyntaxMessages.INVALID_SCHEMA));
+
         final SchemaContext output = new SchemaContext(out.getValue(),
             input.getInstanceType());
         return processor.process(report, output);
