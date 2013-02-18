@@ -56,7 +56,7 @@ chain, from an annotated Java class to instance validation.</p>
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.11</b>; (<a
+    <li>development version: <b>1.99.12</b>; (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>). As the
     Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.6.1</b> (<a
