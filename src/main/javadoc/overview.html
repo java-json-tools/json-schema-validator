@@ -27,10 +27,30 @@ performance, in that order
 language of choice. You may, <b>or may not</b>, use it in your Java Web
 application; this library has no dependencies on anything Web-related.</p>
 
+<h2>Warning: draft v3 and custom simple types</h2>
+
+<p>Theoretically, you can extend <tt>type</tt> to support arbitrary string
+values. However:</p>
+
+<ul>
+    <li>nobody does that,</li>
+    <li>there's <tt>$ref</tt>.</li>
+</ul>
+
+<p>As such, this implementation <b>deliberately breaks compatibility</b> by
+considering all non primitive type values (that is, <tt>array</tt>,
+<tt>boolean</tt>, <tt>integer</tt>, <tt>null</tt>, <tt>number</tt>,
+<tt>object</tt>, <tt>string</tt> and <tt>any</tt>) as <b>illegal</b>.</p>
+
+<p>The provided core metaschema for draft v3 reflects this, and as such, differs
+from the official core metaschema on json-schema.org.</p>
+
 <h2>Strong points</h2>
 
-<p>This library has complete draft v3 validation support. This includes all
-"exotic" features of the draft, such as:</p>
+<p>This library has <b>full validation support for the current draft (v4)</b>.
+And apart from the point above, this library also has complete draft v3
+validation support. This includes all "exotic" features of the draft, such as:
+</p>
 
 <ul>
     <li>multiple schemas in {@code extends};</li>
