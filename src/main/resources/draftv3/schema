@@ -5,9 +5,9 @@
 
     "properties": {
         "type": {
-            "type": [ "string", "array" ],
+            "type": [ { "$ref": "#/definitions/simpleType" }, "array" ],
             "items": {
-                "type": [ "string", { "$ref": "#" } ]
+                "type": [ { "$ref": "#/definitions/simpleType" }, { "$ref": "#" } ]
             },
             "uniqueItems": true,
             "default": "any"
@@ -170,5 +170,11 @@
         "exclusiveMaximum": "maximum"
     },
 
-    "default": {}
+    "default": {},
+
+    "definitions": {
+        "simpleType": {
+            "enum": [ "array", "boolean", "integer", "null", "number", "object", "string", "any" ]
+        }
+    }
 }
