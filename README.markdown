@@ -29,12 +29,13 @@ group</a>.</p>
 
 <h2>Current status</h2>
 
-<p>Work is underway to get this library up to version 2.0.x. This implies <a
-href="https://github.com/fge/json-schema-validator/wiki/Roadmap">some profound changes to its
-core</a>.
+<p>Work is underway to get this library up to version 2.0.x. This library will depend on a <a
+href="https://github.com/fge/json-schema-core">core library</a> which already has <a
+href="https://github.com/fge/json-schema-core/wiki/Architecture">a lot of components
+written</a>.</p>
 
-<p>In essence: with the new core, it will become possible to do whatever you want with your JSON
-schemas and data. Among other things:</p>
+<p>This new core library allows you to do whatever you want with your JSON schemas and data. Among
+other things:</p>
 
 <ul>
     <li>generating JSON Schemas from POJOs (very soon!), or the reverse;</li>
@@ -45,9 +46,8 @@ schemas and data. Among other things:</p>
 
 <p>All this with custom reporting/exception handling/etc.</p>
 
-<p>At the time of this writing, the core processing architecture is already split into its own
-package (<a href="">json-schema-core</a>) on which this package now depends; documentation is still
-not done, however.</p>
+<p>At the time of this writing, the core feature set is entirely implemented, although some changes
+will happen before it reaches a stable state.</p>
 
 <p>Another package will be created demonstrating the use of processors. The first of them will be
 using <a href="https://github.com/reinert/JJSchema">JJSchema</a> to generate a complete validation
