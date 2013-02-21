@@ -21,11 +21,11 @@ import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
-public final class ValidationContextEquivalence
+public final class SchemaContextEquivalence
     extends Equivalence<SchemaContext>
 {
     private static final Equivalence<SchemaContext> INSTANCE
-        = new ValidationContextEquivalence();
+        = new SchemaContextEquivalence();
 
     private static final Equivalence<SchemaTree> TREE_EQUIVALENCE
         = SchemaTreeEquivalence.getInstance();

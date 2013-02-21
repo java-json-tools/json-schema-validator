@@ -56,7 +56,7 @@ public final class ValidationProcessor
         arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
         objectCache = CacheBuilder.newBuilder().build(objectLoader());
         cache = new ProcessingCache<SchemaContext, ValidatorList>(
-            ValidationContextEquivalence.getInstance(), loader()
+            SchemaContextEquivalence.getInstance(), loader()
         );
     }
 
