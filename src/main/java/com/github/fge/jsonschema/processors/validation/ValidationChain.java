@@ -17,10 +17,8 @@
 
 package com.github.fge.jsonschema.processors.validation;
 
-import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.messages.SyntaxMessages;
 import com.github.fge.jsonschema.processing.CachingProcessor;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
@@ -33,7 +31,6 @@ import com.github.fge.jsonschema.processors.format.FormatProcessor;
 import com.github.fge.jsonschema.processors.ref.RefResolver;
 import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
@@ -87,8 +84,7 @@ public final class ValidationChain
         final SchemaHolder out = resolver.process(r, in);
         report.mergeWith(r);
         if (!r.isSuccess())
-            throw new InvalidSchemaException(new ProcessingMessage()
-                .message(SyntaxMessages.INVALID_SCHEMA));
+            return null;
 
         final SchemaContext output = new SchemaContext(out.getValue(),
             input.getInstanceType());
