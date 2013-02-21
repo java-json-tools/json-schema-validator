@@ -39,7 +39,7 @@ import java.util.Collections;
 import java.util.List;
 
 public final class ValidationProcessor
-    implements Processor<FullData, ProcessingReport>
+    implements Processor<FullData, FullData>
 {
     private static final ThreadLocal<ProcessingReport> REPORT
         = new ThreadLocal<ProcessingReport>();
@@ -61,7 +61,7 @@ public final class ValidationProcessor
     }
 
     @Override
-    public ProcessingReport process(final ProcessingReport report,
+    public FullData process(final ProcessingReport report,
         final FullData input)
         throws ProcessingException
     {
@@ -95,7 +95,7 @@ public final class ValidationProcessor
          * reason to go any further.
          */
         if (!report.isSuccess())
-            return report;
+            return input;
 
         /*
          * Now check whether this is a container node with a size greater than
@@ -103,14 +103,14 @@ public final class ValidationProcessor
          */
         final JsonNode node = data.getInstance().getNode();
         if (node.size() == 0)
-            return report;
+            return input;
 
         if (node.isArray())
             processArray(report, data);
         else
             processObject(report, data);
 
-        return report;
+        return input;
     }
 
     private void processArray(final ProcessingReport report,

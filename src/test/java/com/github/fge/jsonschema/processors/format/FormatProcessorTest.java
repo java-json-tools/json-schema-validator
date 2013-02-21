@@ -164,7 +164,7 @@ public final class FormatProcessorTest
         assertEquals(validators.size(), 1);
 
         @SuppressWarnings("unchecked")
-        final Processor<FullData, ProcessingReport> p = mock(Processor.class);
+        final Processor<FullData, FullData> p = mock(Processor.class);
 
         validators.get(0).validate(p, report, data);
         verify(attribute).validate(report, data);

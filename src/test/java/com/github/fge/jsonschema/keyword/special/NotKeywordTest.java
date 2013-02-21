@@ -52,7 +52,7 @@ public final class NotKeywordTest
 
     private final KeywordValidator validator;
 
-    private Processor<FullData, ProcessingReport> processor;
+    private Processor<FullData, FullData> processor;
     private FullData data;
     private ProcessingReport report;
 
@@ -161,7 +161,7 @@ public final class NotKeywordTest
     }
 
     protected static final class DummyProcessor
-        implements Processor<FullData, ProcessingReport>
+        implements Processor<FullData, FullData>
     {
         private static final JsonPointer PTR = JsonPointer.of("not");
 
@@ -173,13 +173,13 @@ public final class NotKeywordTest
         }
 
         @Override
-        public ProcessingReport process(final ProcessingReport report,
+        public FullData process(final ProcessingReport report,
             final FullData input)
             throws ProcessingException
         {
             assertEquals(input.getSchema().getPointer(), PTR);
             wanted.doIt(report);
-            return report;
+            return input;
         }
     }
 }

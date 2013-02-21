@@ -103,8 +103,7 @@ public final class PatternKeywordTest
 
         final ProcessingReport report = mock(ProcessingReport.class);
         @SuppressWarnings("unchecked")
-        final Processor<FullData, ProcessingReport> processor
-            =  mock(Processor.class);
+        final Processor<FullData, FullData> processor =  mock(Processor.class);
 
         // It is a null node which is ignored by the constructor, so we can
         // do that

@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 public interface KeywordValidator
 {
-    void validate(final Processor<FullData, ProcessingReport> processor,
+    void validate(final Processor<FullData, FullData> processor,
         final ProcessingReport report, final FullData data)
         throws ProcessingException;
 }

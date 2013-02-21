@@ -51,7 +51,7 @@ public final class ExtendsKeywordTest
 
     private final KeywordValidator validator;
 
-    private Processor<FullData, ProcessingReport> processor;
+    private Processor<FullData, FullData> processor;
     private FullData data;
     private ProcessingReport report;
     private ProcessingMessage msg;
@@ -167,7 +167,7 @@ public final class ExtendsKeywordTest
     }
 
     protected static final class DummyProcessor
-        implements Processor<FullData, ProcessingReport>
+        implements Processor<FullData, FullData>
     {
         private static final JsonPointer PTR = JsonPointer.of("extends");
 
@@ -182,13 +182,13 @@ public final class ExtendsKeywordTest
         }
 
         @Override
-        public ProcessingReport process(final ProcessingReport report,
+        public FullData process(final ProcessingReport report,
             final FullData input)
             throws ProcessingException
         {
             assertEquals(input.getSchema().getPointer(), PTR);
             wanted.doIt(report, message);
-            return report;
+            return input;
         }
     }
 }

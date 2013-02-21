@@ -57,7 +57,7 @@ public abstract class CallbackValidatorTest
     protected final JsonPointer ptr1;
     protected final JsonPointer ptr2;
 
-    private Processor<FullData, ProcessingReport> processor;
+    private Processor<FullData, FullData> processor;
     private FullData data;
     private ProcessingReport report;
     private KeywordValidator validator;
@@ -212,7 +212,7 @@ public abstract class CallbackValidatorTest
     }
 
     protected static class DummyProcessor
-        implements Processor<FullData, ProcessingReport>
+        implements Processor<FullData, FullData>
     {
         private final WantedState wanted1;
         private final WantedState wanted2;
@@ -230,7 +230,7 @@ public abstract class CallbackValidatorTest
         }
 
         @Override
-        public ProcessingReport process(final ProcessingReport report,
+        public FullData process(final ProcessingReport report,
             final FullData input)
             throws ProcessingException
         {
@@ -242,7 +242,7 @@ public abstract class CallbackValidatorTest
 
             final WantedState wanted = schema == sub1 ? wanted1 : wanted2;
             wanted.doIt(report);
-            return report;
+            return input;
         }
     }
 }

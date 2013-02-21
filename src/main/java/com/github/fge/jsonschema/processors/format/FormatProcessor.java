@@ -83,7 +83,7 @@ public final class FormatProcessor
         {
             @Override
             public void validate(
-                final Processor<FullData, ProcessingReport> processor,
+                final Processor<FullData, FullData> processor,
                 final ProcessingReport report, final FullData data)
                 throws ProcessingException
             {

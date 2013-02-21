@@ -105,8 +105,7 @@ public abstract class AbstractKeywordValidatorTest
 
         final ProcessingReport report = mock(ProcessingReport.class);
         @SuppressWarnings("unchecked")
-        final Processor<FullData, ProcessingReport> processor
-            = mock(Processor.class);
+        final Processor<FullData, FullData> processor = mock(Processor.class);
 
         final KeywordValidator validator = constructor.newInstance(digest);
         validator.validate(processor, report, data);
