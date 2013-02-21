@@ -44,24 +44,19 @@ public final class ValidationChain
     public ValidationChain(final RefResolver refResolver,
         final Library library, final boolean useFormat)
     {
-        final SyntaxProcessor syntaxProcessor
-            = new SyntaxProcessor(library.getSyntaxCheckers());
-
+        final SyntaxProcessor syntaxProcessor = new SyntaxProcessor(library);
         refSyntax = ProcessorChain.startWith(refResolver)
             .chainWith(syntaxProcessor).getProcessor();
 
-        final SchemaDigester digester
-            = new SchemaDigester(library.getDigesters());
-        final ValidatorBuilder builder
-            = new ValidatorBuilder(library.getValidators());
+        final SchemaDigester digester = new SchemaDigester(library);
+        final ValidatorBuilder builder = new ValidatorBuilder(library);
 
         ProcessorChain<SchemaContext, ValidatorList> chain
             = ProcessorChain.startWith(digester).chainWith(builder);
 
         if (useFormat) {
-            final FormatProcessor formatProcessor
-                = new FormatProcessor(library.getFormatAttributes());
-            chain = chain.chainWith(formatProcessor);
+            final FormatProcessor format = new FormatProcessor(library);
+            chain = chain.chainWith(format);
         }
 
         processor = chain.getProcessor();

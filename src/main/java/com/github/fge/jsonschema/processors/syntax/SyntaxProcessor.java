@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.report.ListProcessingReport;
@@ -44,6 +45,11 @@ public final class SyntaxProcessor
     implements Processor<SchemaHolder, SchemaHolder>
 {
     private final Map<String, SyntaxChecker> checkers;
+
+    public SyntaxProcessor(final Library library)
+    {
+        checkers = library.getSyntaxCheckers().entries();
+    }
 
     public SyntaxProcessor(final Dictionary<SyntaxChecker> dict)
     {

@@ -21,11 +21,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 
 import java.lang.reflect.Constructor;
@@ -41,10 +41,15 @@ public final class ValidatorBuilder
     private final Map<String, Constructor<? extends KeywordValidator>>
         constructors;
 
+    public ValidatorBuilder(final Library library)
+    {
+        constructors = library.getValidators().entries();
+    }
+
     public ValidatorBuilder(
         final Dictionary<Constructor<? extends KeywordValidator>> dict)
     {
-        constructors = ImmutableMap.copyOf(dict.entries());
+        constructors = dict.entries();
     }
 
     /**

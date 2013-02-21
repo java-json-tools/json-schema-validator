@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
@@ -39,6 +40,11 @@ public final class FormatProcessor
     implements Processor<ValidatorList, ValidatorList>
 {
     private final Map<String, FormatAttribute> attributes;
+
+    public FormatProcessor(final Library library)
+    {
+        attributes = library.getFormatAttributes().entries();
+    }
 
     public FormatProcessor(final Dictionary<FormatAttribute> dict)
     {
