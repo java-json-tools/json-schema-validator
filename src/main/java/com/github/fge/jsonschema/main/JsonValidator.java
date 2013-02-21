@@ -113,14 +113,13 @@ public final class JsonValidator
     {
         final SchemaLoader loader
             = new SchemaLoader(factory.loadingConfiguration);
-        final RefResolver refResolver
-            = new RefResolver(loader);
+        final RefResolver resolver = new RefResolver(loader);
         final ValidationConfiguration cfg = factory.validationConfiguration;
+        final boolean useFormat = cfg.getUseFormat();
 
         final Map<JsonRef, Library> libraries = cfg.getLibraries();
         final ValidationChain defaultChain
-            = new ValidationChain(refResolver, cfg.getDefaultLibrary(),
-                cfg.getUseFormat());
+            = new ValidationChain(resolver, cfg.getDefaultLibrary(), useFormat);
         ProcessorMap<JsonRef, SchemaContext, ValidatorList> map
             = new FullChain().setDefaultProcessor(defaultChain);
 
@@ -129,8 +128,7 @@ public final class JsonValidator
 
         for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
             ref = entry.getKey();
-            chain = new ValidationChain(refResolver, entry.getValue(),
-                cfg.getUseFormat());
+            chain = new ValidationChain(resolver, entry.getValue(), useFormat);
             map = map.addEntry(ref, chain);
         }
 

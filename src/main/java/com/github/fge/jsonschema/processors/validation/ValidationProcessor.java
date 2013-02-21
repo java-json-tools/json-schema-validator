@@ -21,7 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.processing.ProcessingCache;
+import com.github.fge.jsonschema.processing.CachingProcessor;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
@@ -29,7 +29,6 @@ import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.google.common.base.Equivalence;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -41,10 +40,6 @@ import java.util.List;
 public final class ValidationProcessor
     implements Processor<FullData, FullData>
 {
-    private static final ThreadLocal<ProcessingReport> REPORT
-        = new ThreadLocal<ProcessingReport>();
-
-    private final ProcessingCache<SchemaContext, ValidatorList> cache;
     private final Processor<SchemaContext, ValidatorList> processor;
     private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
     private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
@@ -52,12 +47,11 @@ public final class ValidationProcessor
     public ValidationProcessor(
         final Processor<SchemaContext, ValidatorList> processor)
     {
-        this.processor = processor;
+        this.processor = new CachingProcessor<SchemaContext, ValidatorList>(
+            processor, SchemaContextEquivalence.getInstance()
+        );
         arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
         objectCache = CacheBuilder.newBuilder().build(objectLoader());
-        cache = new ProcessingCache<SchemaContext, ValidatorList>(
-            SchemaContextEquivalence.getInstance(), loader()
-        );
     }
 
     @Override
@@ -70,12 +64,11 @@ public final class ValidationProcessor
          */
         final SchemaContext context = new SchemaContext(input);
 
-        REPORT.set(report);
         /*
          * Get the full context from the cache. Inject the messages into the
          * main report.
          */
-        final ValidatorList fullContext = cache.get(context);
+        final ValidatorList fullContext = processor.process(report, context);
 
         /*
          * Get the calculated context. Build the data.
@@ -191,21 +184,6 @@ public final class ValidationProcessor
             public ObjectSchemaSelector load(final JsonNode key)
             {
                 return new ObjectSchemaSelector(key);
-            }
-        };
-    }
-
-    private CacheLoader<Equivalence.Wrapper<SchemaContext>, ValidatorList>
-        loader()
-    {
-        return new CacheLoader<Equivalence.Wrapper<SchemaContext>, ValidatorList>()
-        {
-            @Override
-            public ValidatorList load(final Equivalence.Wrapper<SchemaContext> key)
-                throws ProcessingException
-            {
-                final SchemaContext context = key.get();
-                return processor.process(REPORT.get(), context);
             }
         };
     }
