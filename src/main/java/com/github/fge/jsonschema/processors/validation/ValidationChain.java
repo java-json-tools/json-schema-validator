@@ -78,7 +78,7 @@ public final class ValidationChain
         /*
          * We have to go through an intermediate report. If we re-enter this
          * function with a report already telling there is an error, we don't
-         * want to raise an InvalidSchemaException if the schema is valid.
+         * want to wrongly report that the schema is invalid.
          */
         final ListProcessingReport r = new ListProcessingReport(report);
         final SchemaHolder out = resolver.process(r, in);
