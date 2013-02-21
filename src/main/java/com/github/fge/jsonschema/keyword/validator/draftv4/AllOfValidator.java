@@ -56,8 +56,8 @@ public final class AllOfValidator
         FullData newData;
 
         for (int index = 0; index < size; index++) {
-            subReport = new ListProcessingReport(report);
-            subReport.setExceptionThreshold(LogLevel.FATAL);
+            subReport = new ListProcessingReport(report.getLogLevel(),
+                LogLevel.FATAL);
             ptr = schemaPointer.append(JsonPointer.of(keyword, index));
             newData = data.withSchema(tree.setPointer(ptr));
             processor.process(subReport, newData);

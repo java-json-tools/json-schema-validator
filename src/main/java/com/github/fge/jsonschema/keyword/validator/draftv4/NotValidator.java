@@ -46,8 +46,8 @@ public final class NotValidator
         throws ProcessingException
     {
         final SchemaTree tree = data.getSchema();
-        final ProcessingReport subReport = new ListProcessingReport(report);
-        subReport.setExceptionThreshold(LogLevel.FATAL);
+        final ProcessingReport subReport
+            = new ListProcessingReport(report.getLogLevel(), LogLevel.FATAL);
 
         processor.process(subReport, data.withSchema(tree.append(PTR)));
 

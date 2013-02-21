@@ -81,8 +81,7 @@ public final class ValidationChain
          */
         final ListProcessingReport r = new ListProcessingReport(report);
         final SchemaHolder out = refSyntax.process(r, in);
-        for (final ProcessingMessage message: r.getMessages())
-            report.log(message);
+        report.mergeWith(r);
         if (!r.isSuccess())
             throw new InvalidSchemaException(new ProcessingMessage()
                 .message(SyntaxMessages.INVALID_SCHEMA));

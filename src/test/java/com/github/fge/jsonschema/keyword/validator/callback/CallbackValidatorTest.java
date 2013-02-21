@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
+import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -84,6 +85,7 @@ public abstract class CallbackValidatorTest
         final JsonTree instance = new SimpleJsonTree(generateInstance());
         data = new FullData(tree, instance);
         report = mock(ProcessingReport.class);
+        when(report.getLogLevel()).thenReturn(LogLevel.DEBUG);
         validator = constructor.newInstance(generateDigest());
     }
 

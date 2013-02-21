@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
+import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
@@ -79,6 +80,7 @@ public final class NotKeywordTest
         final JsonTree instance = new SimpleJsonTree(FACTORY.nullNode());
         data = new FullData(tree, instance);
         report = mock(ProcessingReport.class);
+        when(report.getLogLevel()).thenReturn(LogLevel.DEBUG);
     }
 
     @Test

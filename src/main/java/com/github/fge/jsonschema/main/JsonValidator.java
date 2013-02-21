@@ -32,6 +32,7 @@ import com.github.fge.jsonschema.processors.ref.RefResolver;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -41,7 +42,6 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.google.common.base.Function;
 
-import java.util.List;
 import java.util.Map;
 
 public final class JsonValidator
@@ -91,18 +91,17 @@ public final class JsonValidator
     private ProcessingReport buildUncheckedReport
         (final ProcessingReport report, final ProcessingException e)
     {
-        final ProcessingReport ret = reportProvider.newReport();
-        final List<ProcessingMessage> messages = report.getMessages();
+        final ProcessingReport ret
+            = reportProvider.newReport(report.getLogLevel(), LogLevel.NONE);
         final ProcessingMessage message = e.getProcessingMessage()
             .setLogLevel(LogLevel.FATAL)
             .put("info", "other messages follow (if any)");
-
-        ret.setExceptionThreshold(LogLevel.NONE);
+        final ListProcessingReport r
+            = new ListProcessingReport(report.getLogLevel(), LogLevel.NONE);
+        r.log(LogLevel.FATAL, message);
         try {
-            ret.log(message);
-            if (messages != null)
-                for (final ProcessingMessage msg: messages)
-                    ret.log(msg);
+            r.mergeWith(report);
+            ret.mergeWith(r);
         } catch (ProcessingException ignored) {
         }
 

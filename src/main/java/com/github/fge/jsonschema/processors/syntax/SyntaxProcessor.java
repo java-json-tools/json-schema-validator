@@ -60,8 +60,7 @@ public final class SyntaxProcessor
             = new ListProcessingReport(report);
         validate(syntaxReport, schema);
 
-        for (final ProcessingMessage message: syntaxReport.getMessages())
-            report.log(message);
+        report.mergeWith(syntaxReport);
 
         return input;
     }

@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
+import com.github.fge.jsonschema.report.AbstractProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -56,14 +57,14 @@ public final class SyntaxProcessorTest
     private static final String K2 = "k2";
     private static final String ERRMSG = "foo";
 
-    private ProcessingReport report;
+    private AbstractProcessingReport report;
     private SyntaxProcessor processor;
     private SyntaxChecker checker;
 
     @BeforeMethod
     public void initialize()
     {
-        report = mock(ProcessingReport.class);
+        report = spy(new TestProcessingReport());
         final DictionaryBuilder<SyntaxChecker> builder
             = Dictionary.newBuilder();
 
@@ -106,10 +107,10 @@ public final class SyntaxProcessorTest
 
         processor.process(report, holder);
 
-        verify(report).log(captor.capture());
+        verify(report).log(same(LogLevel.ERROR), captor.capture());
 
         final ProcessingMessage message = captor.getValue();
-        assertMessage(message).hasMessage(NOT_A_SCHEMA).hasLevel(LogLevel.ERROR)
+        assertMessage(message).hasMessage(NOT_A_SCHEMA)
         .hasField("found", NodeType.getNodeType(node));
     }
 
@@ -132,12 +133,12 @@ public final class SyntaxProcessorTest
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
         processor.process(report, holder);
-        verify(report).log(captor.capture());
+        verify(report).log(same(LogLevel.WARNING), captor.capture());
 
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message).hasMessage(UNKNOWN_KEYWORDS)
-            .hasField("ignored", ignored).hasLevel(LogLevel.WARNING);
+            .hasField("ignored", ignored);
     }
 
     @Test
@@ -154,10 +155,10 @@ public final class SyntaxProcessorTest
 
         processor.process(report, holder);
 
-        verify(report).log(captor.capture());
+        verify(report).log(same(LogLevel.ERROR), captor.capture());
 
         final ProcessingMessage msg = captor.getValue();
-        assertMessage(msg).hasMessage(ERRMSG).hasLevel(LogLevel.ERROR);
+        assertMessage(msg).hasMessage(ERRMSG);
     }
 
     @Test
@@ -179,5 +180,14 @@ public final class SyntaxProcessorTest
     {
         final SchemaTree tree = new CanonicalSchemaTree(schema);
         return new SchemaHolder(tree);
+    }
+
+    private static class TestProcessingReport
+        extends AbstractProcessingReport
+    {
+        @Override
+        public void log(final LogLevel level, final ProcessingMessage message)
+        {
+        }
     }
 }
