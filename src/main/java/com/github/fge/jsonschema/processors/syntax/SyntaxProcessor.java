@@ -25,7 +25,6 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
-import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -61,13 +60,8 @@ public final class SyntaxProcessor
         final SchemaHolder input)
         throws ProcessingException
     {
-        final SchemaTree schema = input.getValue();
-        final ListProcessingReport syntaxReport
-            = new ListProcessingReport(report);
-        validate(syntaxReport, schema);
 
-        report.mergeWith(syntaxReport);
-
+        validate(report, input.getValue());
         return input;
     }
 
