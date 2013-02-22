@@ -60,7 +60,6 @@ public final class SyntaxProcessor
         final SchemaHolder input)
         throws ProcessingException
     {
-
         validate(report, input.getValue());
         return input;
     }
@@ -68,12 +67,12 @@ public final class SyntaxProcessor
     private void validate(final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
-        /*
-         * Only called if the schema has _not_ been validated yet
-         */
         final JsonNode node = tree.getNode();
         final NodeType type = NodeType.getNodeType(node);
 
+        /*
+         * Barf if not an object, and don't even try to go any further
+         */
         if (type != NodeType.OBJECT) {
             final ProcessingMessage msg = newMsg(tree).message(NOT_A_SCHEMA)
                 .put("found", type);
@@ -82,22 +81,33 @@ public final class SyntaxProcessor
         }
 
         /*
-         * Warn about ignored keywords
+         * Grab all checkers and object member names. Retain in checkers only
+         * existing keywords, and remove from the member names set what is in
+         * the checkers' key set: if non empty, some keywords are missing,
+         * report them.
          */
-        final Set<String> fieldNames = Sets.newHashSet(node.fieldNames());
-        final Set<String> set = Sets.newHashSet(node.fieldNames());
-        set.removeAll(checkers.keySet());
-        if (!set.isEmpty())
-            report.warn(newMsg(tree).message(UNKNOWN_KEYWORDS)
-                .put("ignored", Ordering.natural().sortedCopy(set)));
-
-        final List<JsonPointer> pointers = Lists.newArrayList();
         final Map<String, SyntaxChecker> map = Maps.newTreeMap();
         map.putAll(checkers);
+
+        final Set<String> fieldNames = Sets.newHashSet(node.fieldNames());
         map.keySet().retainAll(fieldNames);
+        fieldNames.removeAll(map.keySet());
+
+        if (!fieldNames.isEmpty())
+            report.warn(newMsg(tree).message(UNKNOWN_KEYWORDS)
+                .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
+
+        /*
+         * Now, check syntax of each keyword, and collect pointers for further
+         * analysis.
+         */
+        final List<JsonPointer> pointers = Lists.newArrayList();
         for (final SyntaxChecker checker: map.values())
             checker.checkSyntax(pointers, report, tree);
 
+        /*
+         * Operate on these pointers.
+         */
         for (final JsonPointer pointer: pointers)
             validate(report, tree.append(pointer));
     }
