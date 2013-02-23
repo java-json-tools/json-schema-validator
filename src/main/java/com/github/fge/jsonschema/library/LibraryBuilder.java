@@ -29,14 +29,42 @@ import java.lang.reflect.Constructor;
 
 import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
+/**
+ * Mutable version of a library
+ *
+ * <p>This is what you will use when you wish to create your own metaschema and
+ * add either new keywords or format attributes to it.</p>
+ *
+ * <p><b>Important note:</b> if you add a keyword which already existed in this
+ * builder, all traces of its previous definition, if any, will be
+ * <b>removed</b>.</p>
+ */
 public final class LibraryBuilder
     implements Thawed<Library>
 {
+    /**
+     * Dictionary builder of syntax checkers
+     */
     final DictionaryBuilder<SyntaxChecker> syntaxCheckers;
+
+    /**
+     * Dictionary builder of digesters
+     */
     final DictionaryBuilder<Digester> digesters;
+
+    /**
+     * Dictionary builder of keyword validator constructors
+     */
     final DictionaryBuilder<Constructor<? extends KeywordValidator>> validators;
+
+    /**
+     * Dictionary builder of format attributes
+     */
     final DictionaryBuilder<FormatAttribute> formatAttributes;
 
+    /**
+     * No-arg constructor providing an empty library builder
+     */
     LibraryBuilder()
     {
         syntaxCheckers = Dictionary.newBuilder();
@@ -45,6 +73,12 @@ public final class LibraryBuilder
         formatAttributes = Dictionary.newBuilder();
     }
 
+    /**
+     * Constructor from an already existing library
+     *
+     * @param library the library
+     * @see Library#thaw()
+     */
     LibraryBuilder(final Library library)
     {
         syntaxCheckers = library.syntaxCheckers.thaw();
@@ -53,21 +87,37 @@ public final class LibraryBuilder
         formatAttributes = library.formatAttributes.thaw();
     }
 
+    /**
+     * Add a new keyword to this library
+     *
+     * @param keyword the keyword
+     * @return this
+     * @throws ValidationConfigurationError keyword is null
+     */
     LibraryBuilder addKeyword(final Keyword keyword)
     {
-        /*
-         * The only optional element of a keyword is its validator class
-         */
+        if (keyword == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_KEYWORD));
         final String name = keyword.name;
         removeKeyword(name);
 
         syntaxCheckers.addEntry(name, keyword.syntaxChecker);
-        digesters.addEntry(name, keyword.digester);
-        if (keyword.constructor != null)
+
+        if (keyword.constructor != null) {
+            digesters.addEntry(name, keyword.digester);
             validators.addEntry(name, keyword.constructor);
+        }
         return this;
     }
 
+    /**
+     * Remove a keyword by its name
+     *
+     * @param name the name
+     * @return this
+     * @throws ValidationConfigurationError name is null
+     */
     LibraryBuilder removeKeyword(final String name)
     {
         if (name == null)
@@ -79,6 +129,14 @@ public final class LibraryBuilder
         return this;
     }
 
+    /**
+     * Add a format attribute
+     *
+     * @param name the name for this attribute
+     * @param attribute the format attribute
+     * @return this
+     * @throws ValidationConfigurationError the name or attribute is null
+     */
     LibraryBuilder addFormatAttribute(final String name,
         final FormatAttribute attribute)
     {
@@ -90,6 +148,13 @@ public final class LibraryBuilder
         return this;
     }
 
+    /**
+     * Remove a format attribute by its name
+     *
+     * @param name the format attribute name
+     * @return this
+     * @throws ValidationConfigurationError name is null
+     */
     LibraryBuilder removeFormatAttribute(final String name)
     {
         if (name == null)
@@ -99,6 +164,12 @@ public final class LibraryBuilder
         return this;
     }
 
+    /**
+     * Return a frozen version of this builder
+     *
+     * @return a new {@link Library}
+     * @see Library#Library(LibraryBuilder)
+     */
     @Override
     public Library freeze()
     {

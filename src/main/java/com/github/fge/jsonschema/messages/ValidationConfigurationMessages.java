@@ -32,6 +32,7 @@ public enum ValidationConfigurationMessages
     NULL_ATTRIBUTE("format attribute cannot be null"),
     NULL_LIBRARY("library cannot be null"),
     DUP_LIBRARY("a library already exists for this URI"),
+    NULL_KEYWORD("keyword cannot be null"),
     ;
 
     private final String message;
