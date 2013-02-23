@@ -35,6 +35,9 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 import java.lang.reflect.Constructor;
 
+/**
+ * Keyword validator constructors common to draft v4 and v3
+ */
 public final class CommonValidatorDictionary
 {
     private static final Dictionary<Constructor<? extends KeywordValidator>>

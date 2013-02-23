@@ -29,6 +29,9 @@ import com.github.fge.jsonschema.keyword.digest.Digester;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 
+/**
+ * Draft v4 specific digesters
+ */
 public final class DraftV4DigesterDictionary
 {
     private static final Dictionary<Digester> DICTIONARY;

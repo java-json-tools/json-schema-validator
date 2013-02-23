@@ -32,6 +32,9 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 import static com.github.fge.jsonschema.util.NodeType.*;
 
+/**
+ * Syntax checkers common to draft v4 and v3
+ */
 public final class CommonSyntaxCheckerDictionary
 {
     private static final Dictionary<SyntaxChecker> DICTIONARY;

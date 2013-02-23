@@ -23,6 +23,9 @@ import com.github.fge.jsonschema.format.helpers.SharedHostNameAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
+/**
+ * Draft v4 specific format attributes
+ */
 public final class DraftV4FormatAttributesDictionary
 {
     private static final Dictionary<FormatAttribute> DICTIONARY;

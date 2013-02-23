@@ -31,6 +31,9 @@ import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaArraySyntaxChecker
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
+/**
+ * Draft v4 specific syntax checkers
+ */
 public final class DraftV4SyntaxCheckerDictionary
 {
     private static final Dictionary<SyntaxChecker> DICTIONARY;

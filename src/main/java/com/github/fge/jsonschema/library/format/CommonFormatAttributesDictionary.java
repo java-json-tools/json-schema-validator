@@ -26,6 +26,9 @@ import com.github.fge.jsonschema.format.common.URIAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
+/**
+ * Format attributes common to draft v4 and v3
+ */
 public final class CommonFormatAttributesDictionary
 {
     private static final Dictionary<FormatAttribute> DICTIONARY;

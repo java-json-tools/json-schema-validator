@@ -27,6 +27,9 @@ import com.github.fge.jsonschema.format.helpers.SharedHostNameAttribute;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
+/**
+ * Draft v3 specific format attributes
+ */
 public final class DraftV3FormatAttributesDictionary
 {
     private static final Dictionary<FormatAttribute> DICTIONARY;
