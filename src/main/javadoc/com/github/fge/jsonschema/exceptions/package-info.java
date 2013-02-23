@@ -15,18 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.exceptions.unchecked;
-
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
 /**
- * Exception thrown on factory configuration errors
+ * Validation processing exceptions
  */
-public final class FactoryConfigurationError
-    extends ProcessingConfigurationError
-{
-    public FactoryConfigurationError(final ProcessingMessage message)
-    {
-        super(message);
-    }
-}
+package com.github.fge.jsonschema.exceptions;

@@ -19,6 +19,9 @@ package com.github.fge.jsonschema.exceptions.unchecked;
 
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
+/**
+ * Exception thrown on validation configuration errors
+ */
 public final class ValidationConfigurationError
     extends ProcessingConfigurationError
 {

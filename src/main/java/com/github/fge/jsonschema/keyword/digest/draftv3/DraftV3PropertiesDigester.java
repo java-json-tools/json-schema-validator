@@ -28,6 +28,11 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Digester for draft v3's {@code properties} keyword
+ *
+ * <p>This stores the same information as draft v4's {@code required}.</p>
+ */
 public final class DraftV3PropertiesDigester
     extends AbstractDigester
 {

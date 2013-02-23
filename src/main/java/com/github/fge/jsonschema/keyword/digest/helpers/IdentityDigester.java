@@ -31,6 +31,13 @@ import com.github.fge.jsonschema.util.NodeType;
 public final class IdentityDigester
     extends AbstractDigester
 {
+    /**
+     * Constructor
+     *
+     * @param keyword the name for this keyword
+     * @param first the first supported type
+     * @param other other supported types, if any
+     */
     public IdentityDigester(final String keyword, final NodeType first,
         final NodeType... other)
     {

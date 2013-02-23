@@ -50,7 +50,7 @@ public interface Digester
     /**
      * Return the instance types handled by this digested form
      *
-     * @return a set of {@link com.github.fge.jsonschema.util.NodeType}
+     * @return a set of {@link NodeType}s
      */
     EnumSet<NodeType> supportedTypes();
 

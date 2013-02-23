@@ -40,8 +40,7 @@ public final class SchemaDigester
 {
     private final ListMultimap<NodeType, String> typeMap
         = ArrayListMultimap.create();
-    private final Map<String, Digester> digesterMap
-        = Maps.newHashMap();
+    private final Map<String, Digester> digesterMap = Maps.newHashMap();
 
     public SchemaDigester(final Library library)
     {
