@@ -26,6 +26,10 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.Collection;
 
+/**
+ * Helper class to validate the syntax of keywords only requiring that their
+ * value be of certain types
+ */
 public final class TypeOnlySyntaxChecker
     extends AbstractSyntaxChecker
 {

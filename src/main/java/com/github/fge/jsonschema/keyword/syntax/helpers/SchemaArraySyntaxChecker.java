@@ -28,6 +28,12 @@ import java.util.Collection;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Helper class to validate the syntax of all keywords taking a schema array as
+ * a value
+ *
+ * <p>These keywords are, among others, {@code allOf}, {@code anyOf}, etc.</p>
+ */
 public final class SchemaArraySyntaxChecker
     extends AbstractSyntaxChecker
 {

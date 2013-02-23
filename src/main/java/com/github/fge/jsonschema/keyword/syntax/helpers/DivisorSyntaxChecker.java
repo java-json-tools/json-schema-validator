@@ -30,6 +30,10 @@ import java.util.Collection;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Helper class to check the syntax of {@code multipleOf} (draft v4) and {@code
+ * divisibleBy} (draft v3)
+ */
 public final class DivisorSyntaxChecker
     extends AbstractSyntaxChecker
 {
@@ -47,7 +51,6 @@ public final class DivisorSyntaxChecker
         final BigDecimal divisor = node.decimalValue();
 
         if (divisor.compareTo(BigDecimal.ZERO) <= 0)
-            report.error(newMsg(tree, ILLEGAL_DIVISOR)
-                .put("found", node));
+            report.error(newMsg(tree, ILLEGAL_DIVISOR).put("found", node));
     }
 }

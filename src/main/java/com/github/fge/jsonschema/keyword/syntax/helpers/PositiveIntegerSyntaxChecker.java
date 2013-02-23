@@ -29,6 +29,10 @@ import java.util.Collection;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Helper class to check the syntax of all keywords having a positive integer
+ * as a valid value
+ */
 public final class PositiveIntegerSyntaxChecker
     extends AbstractSyntaxChecker
 {

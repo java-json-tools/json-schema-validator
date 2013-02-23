@@ -27,6 +27,9 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.Collection;
 
+/**
+ * Syntax checker for draft v4's {@code not} keyword
+ */
 public final class NotSyntaxChecker
     extends AbstractSyntaxChecker
 {

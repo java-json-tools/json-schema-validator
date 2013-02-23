@@ -34,6 +34,11 @@ import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Syntax checker for the {@code enum} keyword
+ *
+ * @see JsonSchemaEquivalence
+ */
 public final class EnumSyntaxChecker
     extends AbstractSyntaxChecker
 {

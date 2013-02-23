@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.keyword.syntax.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.syntax.AbstractSyntaxChecker;
@@ -30,6 +31,10 @@ import com.google.common.collect.Sets;
 import java.util.Collection;
 import java.util.Set;
 
+/**
+ * Helper class for keywords having an object as a value whose values are
+ * schemas
+ */
 public abstract class SchemaMapSyntaxChecker
     extends AbstractSyntaxChecker
 {
@@ -48,6 +53,13 @@ public abstract class SchemaMapSyntaxChecker
         extraChecks(report, tree);
     }
 
+    /**
+     * Perform extra checks on the value
+     *
+     * @param report the report to use
+     * @param tree the schema
+     * @throws InvalidSchemaException schema is invalid
+     */
     protected abstract void extraChecks(final ProcessingReport report,
         final SchemaTree tree)
         throws ProcessingException;

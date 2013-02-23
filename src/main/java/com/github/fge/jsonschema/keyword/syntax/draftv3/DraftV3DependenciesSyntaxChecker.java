@@ -32,6 +32,9 @@ import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Syntax checker for draft v3's {@code dependencies} keyword
+ */
 public final class DraftV3DependenciesSyntaxChecker
     extends DependenciesSyntaxChecker
 {

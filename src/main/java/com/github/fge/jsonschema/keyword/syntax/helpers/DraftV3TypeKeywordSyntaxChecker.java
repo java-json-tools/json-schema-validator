@@ -35,6 +35,10 @@ import java.util.Set;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static com.github.fge.jsonschema.util.NodeType.*;
 
+/**
+ * Helper class to validate the syntax of draft v3's {@code type} and {@code
+ * disallow}
+ */
 public final class DraftV3TypeKeywordSyntaxChecker
     extends AbstractSyntaxChecker
 {

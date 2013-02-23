@@ -26,6 +26,10 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.Collection;
 
+/**
+ * Syntax checker for draft v4's (and v3's) {@code additionalItems} and {@code
+ * additionalProperties}
+ */
 public final class AdditionalSyntaxChecker
     extends AbstractSyntaxChecker
 {

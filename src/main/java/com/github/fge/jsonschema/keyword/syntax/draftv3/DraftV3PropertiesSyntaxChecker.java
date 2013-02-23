@@ -32,6 +32,9 @@ import java.util.SortedMap;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Syntax checker for draft v3's {@code properties} keyword
+ */
 public final class DraftV3PropertiesSyntaxChecker
     extends SchemaMapSyntaxChecker
 {

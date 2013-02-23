@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.keyword.syntax.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.syntax.AbstractSyntaxChecker;
@@ -33,14 +34,31 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Map;
 
+/**
+ * Helper class for syntax checking of draft v4 and v3 {@code dependencies}
+ *
+ * <p>The validation check also fills the JSON Pointer list with the
+ * appropriate paths when schema dependencies are encountered.</p>
+ */
 public abstract class DependenciesSyntaxChecker
     extends AbstractSyntaxChecker
 {
+    /**
+     * JSON Schema equivalence
+     */
     protected static final Equivalence<JsonNode> EQUIVALENCE
         = JsonSchemaEquivalence.getInstance();
 
+    /**
+     * Valid types for one dependency value
+     */
     protected final EnumSet<NodeType> dependencyTypes;
 
+    /**
+     * Protected constructor
+     *
+     * @param depTypes valid types for one dependency value
+     */
     protected DependenciesSyntaxChecker(final NodeType... depTypes)
     {
         super("dependencies", NodeType.OBJECT);
@@ -70,6 +88,14 @@ public abstract class DependenciesSyntaxChecker
 
     }
 
+    /**
+     * Check one dependency which is not a schema dependency
+     *
+     * @param report the processing report to use
+     * @param name the property dependency name
+     * @param tree the schema
+     * @throws InvalidSchemaException keyword is invalid
+     */
     protected abstract void checkDependency(final ProcessingReport report,
         final String name, final SchemaTree tree)
         throws ProcessingException;

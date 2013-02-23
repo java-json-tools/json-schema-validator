@@ -23,6 +23,9 @@ import com.github.fge.jsonschema.keyword.syntax.helpers.SchemaMapSyntaxChecker;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
+/**
+ * Syntax checker for draft v4's {@code properties} keyword
+ */
 public final class DraftV4PropertiesSyntaxChecker
     extends SchemaMapSyntaxChecker
 {

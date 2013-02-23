@@ -30,6 +30,11 @@ import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Syntax checker for the {@code patternProperties} keyword
+ *
+ * @see RhinoHelper
+ */
 public final class PatternPropertiesSyntaxChecker
     extends SchemaMapSyntaxChecker
 {

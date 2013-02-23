@@ -29,6 +29,9 @@ import java.util.Collection;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Syntax checker for the {@code exclusiveMaximum} keyword
+ */
 public final class ExclusiveMaximumSyntaxChecker
     extends AbstractSyntaxChecker
 {

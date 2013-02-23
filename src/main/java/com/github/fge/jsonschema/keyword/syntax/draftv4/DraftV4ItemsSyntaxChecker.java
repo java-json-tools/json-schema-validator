@@ -26,6 +26,9 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Syntax checker for draft v4's {@code items} keyword
+ */
 public final class DraftV4ItemsSyntaxChecker
     extends SchemaOrSchemaArraySyntaxChecker
 {

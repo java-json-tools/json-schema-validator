@@ -30,6 +30,11 @@ import java.util.Collection;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Helper class to validate the syntax of all keywords whose value must be a URI
+ *
+ * <p>Note that this checker checks that URIs are normalized.</p>
+ */
 public final class URISyntaxChecker
     extends AbstractSyntaxChecker
 {
