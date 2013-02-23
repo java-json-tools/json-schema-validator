@@ -19,4 +19,4 @@
  * Keyword validator helper classes
  */
 
-package com.github.fge.jsonschema.keyword.syntax.helpers;
+package com.github.fge.jsonschema.keyword.validator.helpers;

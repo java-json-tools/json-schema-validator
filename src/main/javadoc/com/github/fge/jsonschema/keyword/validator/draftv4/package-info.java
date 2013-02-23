@@ -19,4 +19,4 @@
  * Keyword validators specific to draft v4
  */
 
-package com.github.fge.jsonschema.keyword.syntax.draftv4;
+package com.github.fge.jsonschema.keyword.validator.draftv4;
