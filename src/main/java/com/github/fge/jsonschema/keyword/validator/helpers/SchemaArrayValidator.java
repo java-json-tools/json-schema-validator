@@ -21,6 +21,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.util.JacksonUtils;
 
+/**
+ * Helper validator class for keywords whose value is a schema array
+ */
 public abstract class SchemaArrayValidator
     extends AbstractKeywordValidator
 {

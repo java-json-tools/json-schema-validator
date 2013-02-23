@@ -28,6 +28,11 @@ import com.google.common.base.Equivalence;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for {@code enum}
+ *
+ * @see JsonSchemaEquivalence
+ */
 public final class EnumValidator
     extends AbstractKeywordValidator
 {

@@ -29,6 +29,9 @@ import java.util.EnumSet;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for draft v4's {@code type}
+ */
 public final class DraftV4TypeValidator
     extends AbstractKeywordValidator
 {

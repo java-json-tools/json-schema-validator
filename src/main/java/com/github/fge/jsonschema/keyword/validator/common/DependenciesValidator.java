@@ -41,6 +41,12 @@ import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
  * In spite of syntax differences, the digested data is the same, which is why
  * this validator is in common/
  */
+/**
+ * Keyword validator for draft v4 and v3 {@code dependencies}
+ *
+ * <p>In spite of syntax differences, the digested data used to build the
+ * validator is the same, which is why this validator is located here.</p>
+ */
 public final class DependenciesValidator
     extends AbstractKeywordValidator
 {

@@ -26,6 +26,9 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
+/**
+ * Keyword validator for draft v3's {@code extends}
+ */
 public final class ExtendsValidator
     extends AbstractKeywordValidator
 {

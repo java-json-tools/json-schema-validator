@@ -20,6 +20,9 @@ package com.github.fge.jsonschema.keyword.validator.draftv3;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.helpers.DivisorValidator;
 
+/**
+ * Keyword validator for draft v3's {@code divisibleBy}
+ */
 public final class DivisibleByValidator
     extends DivisorValidator
 {

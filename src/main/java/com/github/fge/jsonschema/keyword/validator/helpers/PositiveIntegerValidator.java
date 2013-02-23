@@ -20,6 +20,9 @@ package com.github.fge.jsonschema.keyword.validator.helpers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 
+/**
+ * Helper validator class for keywords whose value is a positive integer
+ */
 public abstract class PositiveIntegerValidator
     extends AbstractKeywordValidator
 {

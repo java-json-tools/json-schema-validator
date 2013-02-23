@@ -32,6 +32,9 @@ import com.github.fge.jsonschema.util.NodeType;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for draft v3's {@code disallow}
+ */
 public final class DisallowKeywordValidator
     extends DraftV3TypeKeywordValidator
 {

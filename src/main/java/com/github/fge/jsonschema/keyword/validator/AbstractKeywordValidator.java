@@ -23,6 +23,12 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
+/**
+ * Base abstract class for keyword validators
+ *
+ * <p>This class provides a template message for error reporting, with all
+ * details about the current validation context already filled.</p>
+ */
 public abstract class AbstractKeywordValidator
     implements KeywordValidator
 {
@@ -38,6 +44,11 @@ public abstract class AbstractKeywordValidator
 
     protected final String keyword;
 
+    /**
+     * Protected constructor
+     *
+     * @param keyword the keyword's name
+     */
     protected AbstractKeywordValidator(final String keyword)
     {
         this.keyword = keyword;

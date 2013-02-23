@@ -26,6 +26,9 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for draft v4's {@code maxProperties}
+ */
 public final class MaxPropertiesValidator
     extends PositiveIntegerValidator
 {

@@ -26,6 +26,10 @@ import java.math.BigDecimal;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Helper keyword validator for draft v4's {@code multipleOf} and draft v3's
+ * {@code divisibleBy}
+ */
 public abstract class DivisorValidator
     extends NumericValidator
 {

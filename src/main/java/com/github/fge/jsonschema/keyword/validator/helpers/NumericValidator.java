@@ -25,6 +25,15 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 
+/**
+ * Helper class for keywords validating numeric values
+ *
+ * <p>This class' role is to switch between two different validation methods:
+ * {@link #validateLong(ProcessingReport, FullData)} if both the keyword value
+ * and instance fit exactly into a {@code long} (for performance reasons),
+ * {@link #validateDecimal(ProcessingReport, FullData)} otherwise (for accuracy
+ * reasons).</p>
+ */
 public abstract class NumericValidator
     extends AbstractKeywordValidator
 {

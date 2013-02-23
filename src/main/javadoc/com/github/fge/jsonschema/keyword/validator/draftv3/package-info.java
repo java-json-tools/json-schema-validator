@@ -15,19 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.keyword.validator.draftv4;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.keyword.validator.helpers.DivisorValidator;
-
 /**
- * Keyword validator for draft v4's {@code multipleOf}
+ * Keyword validators specific to draft v3
  */
-public final class MultipleOfValidator
-    extends DivisorValidator
-{
-    public MultipleOfValidator(final JsonNode digest)
-    {
-        super("multipleOf", digest);
-    }
-}
+
+package com.github.fge.jsonschema.keyword.validator.draftv3;

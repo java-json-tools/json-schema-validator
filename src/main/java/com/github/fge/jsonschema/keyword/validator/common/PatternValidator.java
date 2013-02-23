@@ -27,6 +27,11 @@ import com.github.fge.jsonschema.util.RhinoHelper;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for {@code pattern}
+ *
+ * @see RhinoHelper
+ */
 public final class PatternValidator
     extends AbstractKeywordValidator
 {

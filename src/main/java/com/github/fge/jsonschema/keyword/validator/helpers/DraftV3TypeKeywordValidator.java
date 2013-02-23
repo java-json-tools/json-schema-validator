@@ -27,6 +27,12 @@ import com.google.common.collect.Lists;
 import java.util.EnumSet;
 import java.util.List;
 
+/**
+ * Helper keyword validator for draft v3's {@code type} and {@code disallow}
+ *
+ * <p>Their validation logic differ, however their digest is the same; therefore
+ * they are built in the same way.</p>
+ */
 public abstract class DraftV3TypeKeywordValidator
     extends AbstractKeywordValidator
 {

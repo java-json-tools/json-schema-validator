@@ -26,6 +26,9 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for {@code maxItems}
+ */
 public final class MaxItemsValidator
     extends PositiveIntegerValidator
 {

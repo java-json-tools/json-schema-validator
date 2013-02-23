@@ -31,6 +31,9 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for draft v4's {@code allOf}
+ */
 public final class AllOfValidator
     extends SchemaArrayValidator
 {

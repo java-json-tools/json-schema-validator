@@ -28,6 +28,9 @@ import java.math.BigDecimal;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for {@code maximum}
+ */
 public final class MaximumValidator
     extends NumericValidator
 {

@@ -31,6 +31,11 @@ import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for {@code uniqueItems}
+ *
+ * @see JsonSchemaEquivalence
+ */
 public final class UniqueItemsValidator
     extends AbstractKeywordValidator
 {

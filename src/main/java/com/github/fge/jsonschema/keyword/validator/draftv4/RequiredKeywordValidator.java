@@ -30,6 +30,9 @@ import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for draft v4's {@code required}
+ */
 public final class RequiredKeywordValidator
     extends AbstractKeywordValidator
 {

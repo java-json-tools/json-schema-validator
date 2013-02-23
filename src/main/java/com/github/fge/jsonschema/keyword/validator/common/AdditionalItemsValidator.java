@@ -26,6 +26,9 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 
+/**
+ * Keyword validator for {@code additionalItems}
+ */
 public final class AdditionalItemsValidator
     extends AbstractKeywordValidator
 {
