@@ -28,19 +28,55 @@ import java.lang.reflect.Constructor;
 
 import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
+/**
+ * Frozen keyword
+ *
+ * @see KeywordBuilder
+ */
 public final class Keyword
     implements Frozen<KeywordBuilder>
 {
+    /**
+     * Name of this keyword
+     */
     final String name;
+
+    /**
+     * Syntax checker
+     */
     final SyntaxChecker syntaxChecker;
+
+    /**
+     * Digester
+     */
     final Digester digester;
+
+    /**
+     * {@link KeywordValidator} constructor
+     */
     final Constructor<? extends KeywordValidator> constructor;
 
+    /**
+     * Instantiate a new keyword builder
+     *
+     * @param name the name for this keyword
+     * @return a new {@link KeywordBuilder}
+     * @throws ValidationConfigurationError provided name is null
+     * @see KeywordBuilder#KeywordBuilder(String)
+     */
     public static KeywordBuilder newKeyword(final String name)
     {
         return new KeywordBuilder(name);
     }
 
+    /**
+     * Build a frozen keyword out of a thawed one
+     *
+     * @param builder the keyword builder to build from
+     * @see KeywordBuilder#freeze()
+     * @throws ValidationConfigurationError no syntax checker defined, or a
+     * validator class is defined but no digester has been found
+     */
     Keyword(final KeywordBuilder builder)
     {
         name = builder.name;
@@ -48,10 +84,19 @@ public final class Keyword
         if (syntaxChecker == null)
             throw new ValidationConfigurationError(new ProcessingMessage()
                 .message(NO_CHECKER));
+        if (builder.constructor != null && builder.digester == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(MALFORMED_KEYWORD));
         digester = builder.digester;
         constructor = builder.constructor;
     }
 
+    /**
+     * Create a thawed version of this keyword
+     *
+     * @return a {@link KeywordBuilder}
+     * @see KeywordBuilder#KeywordBuilder(Keyword)
+     */
     @Override
     public KeywordBuilder thaw()
     {

@@ -32,6 +32,13 @@ import java.lang.reflect.Constructor;
 
 import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
+/**
+ * A keyword builder -- the thawed version of a {@link Keyword}
+ *
+ * <p>Note that you may only supply a {@link SyntaxChecker} for a keyword, but
+ * if you supply a validator class, the digester <b>must</b> also be present.
+ * </p>
+ */
 public final class KeywordBuilder
     implements Thawed<Keyword>
 {
@@ -40,6 +47,13 @@ public final class KeywordBuilder
     Digester digester;
     Constructor<? extends KeywordValidator> constructor;
 
+    /**
+     * Create a new, empty keyword builder
+     *
+     * @param name the name of this keyword
+     * @throws ValidationConfigurationError name is null
+     * @see Keyword#newKeyword(String)
+     */
     KeywordBuilder(final String name)
     {
         if (name == null)
@@ -48,6 +62,12 @@ public final class KeywordBuilder
         this.name = name;
     }
 
+    /**
+     * Create a thawed version of a frozen keyword
+     *
+     * @param keyword the keyword
+     * @see Keyword#thaw()
+     */
     KeywordBuilder(final Keyword keyword)
     {
         name = keyword.name;
@@ -56,6 +76,13 @@ public final class KeywordBuilder
         constructor = keyword.constructor;
     }
 
+    /**
+     * Add a syntax checker to this builder
+     *
+     * @param syntaxChecker the syntax checker
+     * @return this
+     * @throws ValidationConfigurationError syntax checker is null
+     */
     KeywordBuilder withSyntaxChecker(final SyntaxChecker syntaxChecker)
     {
         if (syntaxChecker == null)
@@ -65,6 +92,13 @@ public final class KeywordBuilder
         return this;
     }
 
+    /**
+     * Add a digester to this builder
+     *
+     * @param digester the digester
+     * @return this
+     * @throws ValidationConfigurationError digester is null
+     */
     KeywordBuilder withDigester(final Digester digester)
     {
         if (digester == null)
@@ -74,6 +108,14 @@ public final class KeywordBuilder
         return this;
     }
 
+    /**
+     * Set this keyword's digester to be an {@link IdentityDigester}
+     *
+     * @param first the first instance type supported by this keyword
+     * @param other other instance types supported by this keyword
+     * @return this
+     * @throws ValidationConfigurationError one or more type(s) are null
+     */
     KeywordBuilder withIdentityDigester(final NodeType first,
         final NodeType... other)
     {
@@ -82,6 +124,14 @@ public final class KeywordBuilder
         return this;
     }
 
+    /**
+     * Set this keyword's digester to be a {@link SimpleDigester}
+     *
+     * @param first the first instance type supported by this keyword
+     * @param other other instance types supported by this keyword
+     * @return this
+     * @throws ValidationConfigurationError one or more type(s) are null
+     */
     KeywordBuilder withSimpleDigester(final NodeType first,
         final NodeType... other)
     {
@@ -90,12 +140,26 @@ public final class KeywordBuilder
         return this;
     }
 
+    /**
+     * Set the validator class for this keyword
+     *
+     * @param c the class
+     * @return this
+     * @throws ValidationConfigurationError failed to find an appropriate
+     * constructor
+     */
     KeywordBuilder withValidatorClass(final Class<? extends KeywordValidator> c)
     {
         constructor = getConstructor(c);
         return this;
     }
 
+    /**
+     * Build a frozen version of this builder
+     *
+     * @return a {@link Keyword}
+     * @see Keyword#Keyword(KeywordBuilder)
+     */
     @Override
     public Keyword freeze()
     {

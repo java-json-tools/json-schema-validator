@@ -19,8 +19,10 @@ package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
+import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -31,6 +33,7 @@ import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
+import static org.mockito.Mockito.mock;
 import static org.testng.Assert.*;
 
 public final class KeywordTest
@@ -142,6 +145,20 @@ public final class KeywordTest
             assertMessage(message).hasMessage(NO_CHECKER);
         }
     }
+
+    @Test
+    public void validatorClassMustBePairedWithDigester()
+    {
+        try {
+            builder.withSyntaxChecker(mock(SyntaxChecker.class))
+                .withValidatorClass(NotValidator.class).freeze();
+            fail("No exception thrown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(MALFORMED_KEYWORD);
+        }
+    }
+
     public static class DummyValidator
         implements KeywordValidator
     {

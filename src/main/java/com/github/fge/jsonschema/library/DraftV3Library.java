@@ -22,6 +22,9 @@ import com.github.fge.jsonschema.library.format.DraftV3FormatAttributesDictionar
 import com.github.fge.jsonschema.library.syntax.DraftV3SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.library.validator.DraftV3ValidatorDictionary;
 
+/**
+ * Library of all draft v3 core schema keywords and format attributes
+ */
 public final class DraftV3Library
 {
     private static final Library LIBRARY = new Library(
