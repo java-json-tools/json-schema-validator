@@ -67,6 +67,18 @@ public final class ValidationConfigurationTest
     }
 
     @Test
+    public void defaultVersionCannotBeNull()
+    {
+        try {
+            cfg.setDefaultVersion(null);
+            fail("No exception thrown!!");
+        } catch (ValidationConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_VERSION);
+        }
+    }
+
+    @Test
     public void defaultLibraryIsDraftV4()
     {
         final ValidationConfiguration defaultConfiguration

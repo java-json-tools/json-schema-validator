@@ -22,6 +22,7 @@ public enum ConfigurationMessages
     NULL_SCHEME("scheme cannot be null"),
     EMPTY_SCHEME("cannot register empty scheme"),
     ILLEGAL_SCHEME("illegal scheme"),
+    NULL_DEREFERENCING_MODE("dereferencing mode cannot be null"),
     NULL_URI("provided URI cannot be null"),
     INVALID_URI("input is not a valid URI"),
     REF_NOT_ABSOLUTE("input is not an absolute JSON Reference"),
@@ -43,6 +44,7 @@ public enum ConfigurationMessages
     NULL_ATTRIBUTE("format attribute cannot be null"),
     NULL_LIBRARY("library cannot be null"),
     DUP_LIBRARY("a library already exists for this URI"),
+    NULL_VERSION("version cannot be null"),
     ;
 
     private final String message;

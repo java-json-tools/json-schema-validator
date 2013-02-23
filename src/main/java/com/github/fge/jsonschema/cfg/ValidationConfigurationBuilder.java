@@ -31,9 +31,23 @@ import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
+/**
+ * Validation configuration (mutable instance)
+ *
+ * @see ValidationConfiguration
+ */
 public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
+    /**
+     * Default libraries to use
+     *
+     * <p>Those are the libraries for draft v3 core and draft v4 core.</p>
+     *
+     * @see SchemaVersion
+     * @see DraftV3Library
+     * @see DraftV4Library
+     */
     private static final Map<SchemaVersion, Library> DEFAULT_LIBRARIES;
 
     static {
@@ -42,8 +56,19 @@ public final class ValidationConfigurationBuilder
         DEFAULT_LIBRARIES.put(SchemaVersion.DRAFTV4, DraftV4Library.get());
     }
 
+    /**
+     * The set of libraries to use
+     */
     final Map<JsonRef, Library> libraries;
+
+    /**
+     * The default library to use (draft v4 by default)
+     */
     Library defaultLibrary = DEFAULT_LIBRARIES.get(SchemaVersion.DRAFTV4);
+
+    /**
+     * Whether to use {@code format} ({@code true} by default)
+     */
     boolean useFormat = true;
 
     ValidationConfigurationBuilder()
@@ -59,6 +84,12 @@ public final class ValidationConfigurationBuilder
         }
     }
 
+    /**
+     * Constructor from a frozen instance
+     *
+     * @param cfg the frozen configuration
+     * @see ValidationConfiguration#thaw()
+     */
     ValidationConfigurationBuilder(final ValidationConfiguration cfg)
     {
         libraries = Maps.newHashMap(cfg.libraries);
@@ -66,6 +97,16 @@ public final class ValidationConfigurationBuilder
         useFormat = cfg.useFormat;
     }
 
+    /**
+     * Add a {@code $schema} and matching library to this configuration
+     *
+     * @param uri the value for {@code $schema}
+     * @param library the library
+     * @return this
+     * @throws ValidationConfigurationError provided URI is null, not a URI, or
+     * not an absolute JSON Reference; library is null; or there already exists
+     * a library for this value of {@code $schema}
+     */
     public ValidationConfigurationBuilder addLibrary(final String uri,
         final Library library)
     {
@@ -80,9 +121,22 @@ public final class ValidationConfigurationBuilder
         return this;
     }
 
+    /**
+     * Set the default schema version for this configuration
+     *
+     * <p>This will set the default library to use to the one registered for
+     * this schema version.</p>
+     *
+     * @param version the version
+     * @return this
+     * @throws ValidationConfigurationError version is null
+     */
     public ValidationConfigurationBuilder setDefaultVersion(
         final SchemaVersion version)
     {
+        if (version == null)
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(NULL_VERSION));
         /*
          * They are always in, so this is safe
          */
@@ -90,6 +144,14 @@ public final class ValidationConfigurationBuilder
         return this;
     }
 
+    /**
+     * Add a library and sets it as the default
+     *
+     * @param uri the value for {@code $schema}
+     * @param library the library
+     * @return this
+     * @see #addLibrary(String, Library)
+     */
     public ValidationConfigurationBuilder setDefaultLibrary(final String uri,
         final Library library)
     {
@@ -98,12 +160,24 @@ public final class ValidationConfigurationBuilder
         return this;
     }
 
-    public ValidationConfigurationBuilder useFormat(final boolean useFormat)
+    /**
+     * Tell whether the resulting configuration has support for {@code format}
+     *
+     * @param useFormat {@code true} if it must be used
+     * @return this
+     */
+    public ValidationConfigurationBuilder setUseFormat(final boolean useFormat)
     {
         this.useFormat = useFormat;
         return this;
     }
 
+    /**
+     * Return a frozen version of this configuration
+     *
+     * @return a {@link ValidationConfiguration}
+     * @see ValidationConfiguration#ValidationConfiguration(ValidationConfigurationBuilder)
+     */
     @Override
     public ValidationConfiguration freeze()
     {

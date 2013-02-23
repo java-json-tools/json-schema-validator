@@ -77,6 +77,18 @@ public final class LoadingConfigurationBuilderTest
     }
 
     @Test
+    public void cannotSetNullDereferencingMode()
+    {
+        try {
+            cfg.dereferencing(null);
+            fail("No exception thrown!!");
+        } catch (LoadingConfigurationError e) {
+            final ProcessingMessage message = e.getProcessingMessage();
+            assertMessage(message).hasMessage(NULL_DEREFERENCING_MODE);
+        }
+    }
+
+    @Test
     public void redirectionsAreActuallyRegisteredAndConvertedToJsonRefs()
         throws JsonReferenceException
     {

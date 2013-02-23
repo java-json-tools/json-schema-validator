@@ -26,12 +26,23 @@ import java.net.URISyntaxException;
 
 import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
+/**
+ * Utility class to perform sanity checks on URI string inputs
+ */
 public final class RefSanityChecks
 {
     private RefSanityChecks()
     {
     }
 
+    /**
+     * Return an absolute JSON Reference from a string input
+     *
+     * @param input the input
+     * @return an absolute JSON Reference
+     * @throws ValidationConfigurationError null input, invalid URI or not an
+     * absolute JSON Reference
+     */
     public static JsonRef absoluteRef(final String input)
     {
         final ProcessingMessage message = new ProcessingMessage();
@@ -51,6 +62,14 @@ public final class RefSanityChecks
         return ref;
     }
 
+    /**
+     * Return an absolute JSON Reference from a string input as a URI
+     *
+     * @param input the input
+     * @return an absolute JSON Reference
+     * @throws ValidationConfigurationError null input, invalid URI or not an
+     * absolute JSON Reference
+     */
     public static URI absoluteLocator(final String input)
     {
         return absoluteRef(input).getLocator();
