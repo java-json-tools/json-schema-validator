@@ -32,14 +32,14 @@ public final class JsonSchemaFactoryBuilder
     implements Thawed<JsonSchemaFactory>
 {
     ReportProvider reportProvider;
-    LoadingConfiguration loadingConfiguration;
-    ValidationConfiguration validationConfiguration;
+    LoadingConfiguration loadingCfg;
+    ValidationConfiguration validationCfg;
 
     JsonSchemaFactoryBuilder()
     {
         reportProvider = new ListReportProvider(LogLevel.INFO, LogLevel.FATAL);
-        loadingConfiguration = LoadingConfiguration.byDefault();
-        validationConfiguration = ValidationConfiguration.byDefault();
+        loadingCfg = LoadingConfiguration.byDefault();
+        validationCfg = ValidationConfiguration.byDefault();
     }
 
     JsonSchemaFactoryBuilder(final JsonSchemaFactory factory)
@@ -58,22 +58,22 @@ public final class JsonSchemaFactoryBuilder
     }
 
     public JsonSchemaFactoryBuilder setLoadingConfiguration(
-        final LoadingConfiguration loadingConfiguration)
+        final LoadingConfiguration loadingCfg)
     {
-        if (loadingConfiguration == null)
+        if (loadingCfg == null)
             throw new FactoryConfigurationError(new ProcessingMessage()
                 .message(NULL_LOADING_CFG));
-        this.loadingConfiguration = loadingConfiguration;
+        this.loadingCfg = loadingCfg;
         return this;
     }
 
     public JsonSchemaFactoryBuilder setValidationConfiguration(
-        final ValidationConfiguration validationConfiguration)
+        final ValidationConfiguration validationCfg)
     {
-        if (validationConfiguration == null)
+        if (validationCfg == null)
             throw new FactoryConfigurationError(new ProcessingMessage()
                 .message(NULL_VALIDATION_CFG));
-        this.validationConfiguration = validationConfiguration;
+        this.validationCfg = validationCfg;
         return this;
     }
 

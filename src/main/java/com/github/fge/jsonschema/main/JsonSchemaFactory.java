@@ -19,15 +19,29 @@ package com.github.fge.jsonschema.main;
 
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
+import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processing.ProcessorMap;
+import com.github.fge.jsonschema.processors.data.SchemaContext;
+import com.github.fge.jsonschema.processors.data.ValidatorList;
+import com.github.fge.jsonschema.processors.ref.RefResolver;
+import com.github.fge.jsonschema.processors.validation.ValidationChain;
+import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
+import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Frozen;
+import com.google.common.base.Function;
+
+import java.util.Map;
 
 public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
 {
     final ReportProvider reportProvider;
-    final LoadingConfiguration loadingConfiguration;
-    final ValidationConfiguration validationConfiguration;
+    final LoadingConfiguration loadingCfg;
+    final ValidationConfiguration validationCfg;
+    final JsonValidator validator;
 
     public static JsonSchemaFactory byDefault()
     {
@@ -42,18 +56,66 @@ public final class JsonSchemaFactory
     JsonSchemaFactory(final JsonSchemaFactoryBuilder builder)
     {
         reportProvider = builder.reportProvider;
-        loadingConfiguration = builder.loadingConfiguration;
-        validationConfiguration = builder.validationConfiguration;
+        loadingCfg = builder.loadingCfg;
+        validationCfg = builder.validationCfg;
+        final Processor<SchemaContext, ValidatorList> processor
+            = buildProcessor(loadingCfg, validationCfg);
+        validator = new JsonValidator(loadingCfg.getDereferencing(),
+            new ValidationProcessor(processor), reportProvider);
     }
 
     public JsonValidator getValidator()
     {
-        return new JsonValidator(this);
+        return validator;
     }
 
     @Override
     public JsonSchemaFactoryBuilder thaw()
     {
         return new JsonSchemaFactoryBuilder(this);
+    }
+
+    private static Processor<SchemaContext, ValidatorList>
+        buildProcessor(final LoadingConfiguration loadingCfg,
+            final ValidationConfiguration validationCfg)
+    {
+        final SchemaLoader loader = new SchemaLoader(loadingCfg);
+        final RefResolver resolver = new RefResolver(loader);
+        final boolean useFormat = validationCfg.getUseFormat();
+
+        final Map<JsonRef, Library> libraries = validationCfg.getLibraries();
+        final Library defaultLibrary = validationCfg.getDefaultLibrary();
+        final ValidationChain defaultChain
+            = new ValidationChain(resolver, defaultLibrary, useFormat);
+        ProcessorMap<JsonRef, SchemaContext, ValidatorList> map
+            = new FullChain().setDefaultProcessor(defaultChain);
+
+        JsonRef ref;
+        ValidationChain chain;
+
+        for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
+            ref = entry.getKey();
+            chain = new ValidationChain(resolver, entry.getValue(), useFormat);
+            map = map.addEntry(ref, chain);
+        }
+
+        return map.getProcessor();
+    }
+
+    private static final class FullChain
+        extends ProcessorMap<JsonRef, SchemaContext, ValidatorList>
+    {
+        @Override
+        protected Function<SchemaContext, JsonRef> f()
+        {
+            return new Function<SchemaContext, JsonRef>()
+            {
+                @Override
+                public JsonRef apply(final SchemaContext input)
+                {
+                    return input.getSchema().getDollarSchema();
+                }
+            };
+        }
     }
 }
