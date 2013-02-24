@@ -23,9 +23,6 @@ import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
-import com.github.fge.jsonschema.report.ListProcessingReport;
-import com.github.fge.jsonschema.report.LogLevel;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.tree.JsonTree;
@@ -73,26 +70,6 @@ public final class JsonValidator
         final FullData data = buildData(schema, instance);
         return ProcessingResult.uncheckedResult(processor, report, data)
             .getReport();
-    }
-
-    private ProcessingReport buildUncheckedReport
-        (final ProcessingReport report, final ProcessingException e)
-    {
-        final ProcessingReport ret
-            = reportProvider.newReport(report.getLogLevel(), LogLevel.NONE);
-        final ProcessingMessage message = e.getProcessingMessage()
-            .setLogLevel(LogLevel.FATAL)
-            .put("info", "other messages follow (if any)");
-        final ListProcessingReport r
-            = new ListProcessingReport(report.getLogLevel(), LogLevel.NONE);
-        r.log(LogLevel.FATAL, message);
-        try {
-            r.mergeWith(report);
-            ret.mergeWith(r);
-        } catch (ProcessingException ignored) {
-        }
-
-        return ret;
     }
 
     private FullData buildData(final JsonNode schema, final JsonNode instance)
