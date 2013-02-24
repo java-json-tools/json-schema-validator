@@ -52,7 +52,7 @@ public final class KeywordBuilder
      *
      * @param name the name of this keyword
      * @throws ValidationConfigurationError name is null
-     * @see Keyword#newKeyword(String)
+     * @see Keyword#newBuilder(String)
      */
     KeywordBuilder(final String name)
     {

@@ -79,7 +79,7 @@ public final class LoadingConfiguration
      *
      * @return a {@link LoadingConfigurationBuilder}
      */
-    public static LoadingConfigurationBuilder newConfiguration()
+    public static LoadingConfigurationBuilder newBuilder()
     {
         return new LoadingConfigurationBuilder();
     }
@@ -88,7 +88,7 @@ public final class LoadingConfiguration
      * Create a default, immutable loading configuration
      *
      * <p>This is the result of calling {@link Thawed#freeze()} on {@link
-     * #newConfiguration()}.</p>
+     * #newBuilder()}.</p>
      *
      * @return a default configuration
      */

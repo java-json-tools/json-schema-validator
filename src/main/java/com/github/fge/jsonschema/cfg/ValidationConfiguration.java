@@ -74,7 +74,7 @@ public final class ValidationConfiguration
      * @return a new configuration builder
      * @see ValidationConfigurationBuilder#ValidationConfigurationBuilder()
      */
-    public static ValidationConfigurationBuilder newConfiguration()
+    public static ValidationConfigurationBuilder newBuilder()
     {
         return new ValidationConfigurationBuilder();
     }
@@ -86,7 +86,7 @@ public final class ValidationConfiguration
      */
     public static ValidationConfiguration byDefault()
     {
-        return newConfiguration().freeze();
+        return newBuilder().freeze();
     }
 
     /**

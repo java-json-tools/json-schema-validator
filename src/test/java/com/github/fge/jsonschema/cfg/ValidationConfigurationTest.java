@@ -35,7 +35,7 @@ public final class ValidationConfigurationTest
     @BeforeMethod
     public void initConfiguration()
     {
-        cfg = ValidationConfiguration.newConfiguration();
+        cfg = ValidationConfiguration.newBuilder();
     }
 
     @Test
@@ -55,7 +55,7 @@ public final class ValidationConfigurationTest
     public void cannotOverrideExistingLibrary()
     {
         final String ref = "x://y.z/schema#";
-        final Library library = Library.newLibrary().freeze();
+        final Library library = Library.newBuilder().freeze();
         try {
             cfg.addLibrary(ref, library);
             cfg.addLibrary(ref, library);
@@ -91,7 +91,7 @@ public final class ValidationConfigurationTest
     public void defaultLibraryIsAccountedFor()
     {
         final String ref = "x://y.z/schema#";
-        final Library library = Library.newLibrary().freeze();
+        final Library library = Library.newBuilder().freeze();
         cfg.setDefaultLibrary(ref, library);
         assertSame(cfg.freeze().getDefaultLibrary(), library);
     }

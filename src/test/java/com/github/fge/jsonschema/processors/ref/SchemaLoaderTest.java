@@ -59,7 +59,7 @@ public final class SchemaLoaderTest
         });
 
         final String namespace = "foo:///bar/../bar/";
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("foo", downloader).setNamespace(namespace).freeze();
 
         final URI rootns = URI.create(namespace);
@@ -77,7 +77,7 @@ public final class SchemaLoaderTest
         throws ProcessingException
     {
         final String location = "http://toto/a/../b";
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .preloadSchema(location, JacksonUtils.nodeFactory().objectNode())
             .freeze();
 
@@ -112,7 +112,7 @@ public final class SchemaLoaderTest
         final String location = "http://foo.bar/baz#";
         final URI uri = URI.create(location);
         final URIDownloader mock = mock(URIDownloader.class);
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("http", mock)
             .preloadSchema(location, JacksonUtils.nodeFactory().objectNode())
             .freeze();
@@ -137,7 +137,7 @@ public final class SchemaLoaderTest
             }
         });
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("foo", downloader).freeze();
         final SchemaLoader loader = new SchemaLoader(cfg);
 

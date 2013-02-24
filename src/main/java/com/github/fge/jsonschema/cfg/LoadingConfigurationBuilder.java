@@ -75,7 +75,7 @@ public final class LoadingConfigurationBuilder
     /**
      * Return a new, default mutable loading configuration
      *
-     * @see LoadingConfiguration#newConfiguration()
+     * @see LoadingConfiguration#newBuilder()
      */
     LoadingConfigurationBuilder()
     {

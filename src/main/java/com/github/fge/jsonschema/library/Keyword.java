@@ -64,7 +64,7 @@ public final class Keyword
      * @throws ValidationConfigurationError provided name is null
      * @see KeywordBuilder#KeywordBuilder(String)
      */
-    public static KeywordBuilder newKeyword(final String name)
+    public static KeywordBuilder newBuilder(final String name)
     {
         return new KeywordBuilder(name);
     }

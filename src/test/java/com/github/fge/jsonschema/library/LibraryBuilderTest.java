@@ -33,7 +33,7 @@ public final class LibraryBuilderTest
     public void cannotAddNullKeyword()
     {
         try {
-            Library.newLibrary().addKeyword(null);
+            Library.newBuilder().addKeyword(null);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
@@ -45,7 +45,7 @@ public final class LibraryBuilderTest
     public void cannotRemoveNullKeyword()
     {
         try {
-            Library.newLibrary().removeKeyword(null);
+            Library.newBuilder().removeKeyword(null);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
@@ -57,7 +57,7 @@ public final class LibraryBuilderTest
     public void cannotAddFormatAttributeWithNullName()
     {
         try {
-            Library.newLibrary().addFormatAttribute(null,
+            Library.newBuilder().addFormatAttribute(null,
                 mock(FormatAttribute.class));
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
@@ -70,7 +70,7 @@ public final class LibraryBuilderTest
     public void cannotAddNullFormatAttribute()
     {
         try {
-            Library.newLibrary().addFormatAttribute("foo", null);
+            Library.newBuilder().addFormatAttribute("foo", null);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
@@ -82,7 +82,7 @@ public final class LibraryBuilderTest
     public void cannotRemoveFormatAttributeWithNullName()
     {
         try {
-            Library.newLibrary().removeFormatAttribute(null);
+            Library.newBuilder().removeFormatAttribute(null);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();

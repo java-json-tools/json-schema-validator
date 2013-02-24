@@ -72,7 +72,7 @@ public final class URIManagerTest
 
         when(mock.fetch(any(URI.class))).thenThrow(foo);
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("foo", mock).freeze();
 
         final URIManager manager = new URIManager(cfg);
@@ -96,7 +96,7 @@ public final class URIManagerTest
 
         when(mock.fetch(any(URI.class))).thenReturn(sampleStream);
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("foo", mock).freeze();
 
         final URIManager manager = new URIManager(cfg);
@@ -142,7 +142,7 @@ public final class URIManagerTest
         final URIDownloader httpMock = mock(URIDownloader.class);
         when(httpMock.fetch(sourceURI)).thenReturn(sampleStream);
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newConfiguration()
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .addScheme("http", httpMock).addScheme("foo", mock)
             .addSchemaRedirect(source, destination).freeze();
 

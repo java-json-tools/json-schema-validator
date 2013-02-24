@@ -24,7 +24,7 @@ public final class LoadingConfigurationBuilderTest
 
     private final URIDownloader downloader = mock(URIDownloader.class);
     private final LoadingConfigurationBuilder cfg
-        = LoadingConfiguration.newConfiguration();
+        = LoadingConfiguration.newBuilder();
 
     @Test
     public void cannotRegisterNullScheme()

@@ -43,14 +43,14 @@ public final class KeywordTest
     @BeforeMethod
     public void initBuilder()
     {
-        builder = Keyword.newKeyword("foo");
+        builder = Keyword.newBuilder("foo");
     }
 
     @Test
     public void cannotCreateKeywordWithNullName()
     {
         try {
-            Keyword.newKeyword(null);
+            Keyword.newBuilder(null);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();

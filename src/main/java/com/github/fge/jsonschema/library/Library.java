@@ -65,7 +65,7 @@ public final class Library
      *
      * @return a {@link LibraryBuilder}
      */
-    public static LibraryBuilder newLibrary()
+    public static LibraryBuilder newBuilder()
     {
         return new LibraryBuilder();
     }
