@@ -36,7 +36,7 @@ import java.net.URI;
 public final class ResourceURIDownloader
     implements URIDownloader
 {
-    private static final Class<ResourceURIDownloader> myself
+    private static final Class<ResourceURIDownloader> MYSELF
         = ResourceURIDownloader.class;
 
     private static final URIDownloader INSTANCE = new ResourceURIDownloader();
@@ -55,7 +55,7 @@ public final class ResourceURIDownloader
         throws IOException
     {
         final String resource = source.getPath();
-        final InputStream in = myself.getResourceAsStream(resource);
+        final InputStream in = MYSELF.getResourceAsStream(resource);
 
         if (in == null)
             throw new IOException("resource " + resource + " not found");

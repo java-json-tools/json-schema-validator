@@ -15,24 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.load;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-
 /**
- * URI downloader for a given scheme
+ * Schema loading and preloading classes
+ *
+ * <p>This package contains all components necessary to load and preload JSON
+ * schemas.</p>
+ *
+ * <p>The main loading class is {@link
+ * com.github.fge.jsonschema.load.SchemaLoader}. It relies on downloaders
+ * configured in a {@link com.github.fge.jsonschema.load.URIManager} to load
+ * schemas it does not already know of.</p>
+ *
+ * <p>Note that you can configure the latter to support an arbitrary set of URI
+ * schemes. The default supported set is defined in {@link
+ * com.github.fge.jsonschema.load.DefaultDownloadersDictionary}.</p>
  */
-public interface URIDownloader
-{
-    /**
-     * Fetch the content at a given URI
-     *
-     * @param source the URI
-     * @return an {@link InputStream}
-     * @throws IOException unable to find an input stream
-     */
-    InputStream fetch(final URI source)
-        throws IOException;
-}
+package com.github.fge.jsonschema.load;

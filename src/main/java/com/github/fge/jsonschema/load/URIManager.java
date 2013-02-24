@@ -25,7 +25,6 @@ import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.JacksonUtils;
-import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.base.Preconditions;
 
 import java.io.IOException;
@@ -44,13 +43,11 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  *
  * <p>Normally, you will never use this class directly.</p>
  *
- * @see JsonLoader
+ * @see DefaultDownloadersDictionary
+ * @see SchemaLoader
  */
 public final class URIManager
 {
-    /**
-     * Our object reader
-     */
     private static final ObjectReader READER = JacksonUtils.getReader();
 
     private final Map<String, URIDownloader> downloaders;

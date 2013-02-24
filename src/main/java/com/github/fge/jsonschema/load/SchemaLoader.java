@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.load;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -27,6 +28,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import net.jcip.annotations.ThreadSafe;
 
 import java.net.URI;
 import java.util.concurrent.ExecutionException;
@@ -34,7 +36,7 @@ import java.util.concurrent.ExecutionException;
 import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 
 /**
- * A JSON Schema registry
+ * JSON Schema loader
  *
  * <p>All schema registering and downloading is done through this class.</p>
  *
@@ -42,8 +44,8 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  * is absolute and it has no fragment part, or an empty fragment), then the
  * whole schema will be considered anonymous.</p>
  *
- * <p>This class is thread safe.</p>
  */
+@ThreadSafe
 public final class SchemaLoader
 {
     /**
@@ -66,12 +68,19 @@ public final class SchemaLoader
      */
     private final Dereferencing dereferencing;
 
+    /**
+     * Create a new schema loader with a given loading configuration
+     *
+     * @param cfg the configuration
+     * @see LoadingConfiguration
+     * @see LoadingConfigurationBuilder
+     */
     public SchemaLoader(final LoadingConfiguration cfg)
     {
         namespace = JsonRef.fromURI(cfg.getNamespace());
         dereferencing = cfg.getDereferencing();
         manager = new URIManager(cfg);
-        cache = CacheBuilder.newBuilder().maximumSize(100L)
+        cache = CacheBuilder.newBuilder()
             .build(new CacheLoader<URI, JsonNode>()
             {
                 @Override
@@ -84,13 +93,27 @@ public final class SchemaLoader
         cache.putAll(cfg.getPreloadedSchemas());
     }
 
+    /**
+     * Create a new schema loader with the default loading configuration
+     */
     public SchemaLoader()
     {
         this(LoadingConfiguration.byDefault());
     }
 
+    /**
+     * Create a new tree from a schema
+     *
+     * <p>Note that it will always create an "anonymous" tree, that is a tree
+     * with an empty loading URI.</p>
+     *
+     * @param schema the schema
+     * @return a new tree
+     * @see Dereferencing#newTree(JsonNode)
+     */
     public SchemaTree load(final JsonNode schema)
     {
+        // TODO: replace
         Preconditions.checkNotNull(schema, "cannot register null schema");
         return dereferencing.newTree(schema);
     }
@@ -128,6 +151,6 @@ public final class SchemaLoader
     @Override
     public String toString()
     {
-        return cache.stats().toString();
+        return cache.toString();
     }
 }

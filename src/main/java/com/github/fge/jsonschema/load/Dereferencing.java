@@ -23,8 +23,23 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.InlineSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
+/**
+ * Dereferencing modes
+ *
+ * <p>Draft v4 defines two dereferencing modes: canonical and inline. This enum
+ * defines those two modes, along with methods to generate appropriate schema
+ * trees.</p>
+ *
+ * @see InlineSchemaTree
+ * @see CanonicalSchemaTree
+ */
 public enum Dereferencing
 {
+    /**
+     * Canonical dereferencing
+     *
+     * @see CanonicalSchemaTree
+     */
     CANONICAL("canonical")
     {
         @Override
@@ -33,6 +48,11 @@ public enum Dereferencing
             return new CanonicalSchemaTree(ref, node);
         }
     },
+    /**
+     * Inline dereferencing
+     *
+     * @see InlineSchemaTree
+     */
     INLINE("inline")
     {
         @Override
@@ -44,6 +64,13 @@ public enum Dereferencing
 
     private final String name;
 
+    /**
+     * Create a new schema tree with a given loading URI and JSON Schema
+     *
+     * @param ref the location
+     * @param node the schema
+     * @return a new tree
+     */
     public abstract SchemaTree newTree(final JsonRef ref, final JsonNode node);
 
     Dereferencing(final String name)
@@ -51,6 +78,12 @@ public enum Dereferencing
         this.name = name;
     }
 
+    /**
+     * Create a new schema tree with an empty loading URI
+     *
+     * @param node the schema
+     * @return a new tree
+     */
     public SchemaTree newTree(final JsonNode node)
     {
         return newTree(JsonRef.emptyRef(), node);
