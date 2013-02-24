@@ -30,8 +30,6 @@ public enum ValidationConfigurationMessages
         + "a digester must also be present"),
     NULL_FORMAT("format attribute name cannot be null"),
     NULL_ATTRIBUTE("format attribute cannot be null"),
-    NULL_LIBRARY("library cannot be null"),
-    DUP_LIBRARY("a library already exists for this URI"),
     NULL_KEYWORD("keyword cannot be null"),
     ;
 

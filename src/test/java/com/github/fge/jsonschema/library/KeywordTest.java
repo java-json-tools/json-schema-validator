@@ -33,7 +33,7 @@ import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class KeywordTest

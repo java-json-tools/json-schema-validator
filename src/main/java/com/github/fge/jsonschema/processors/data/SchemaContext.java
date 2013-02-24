@@ -54,11 +54,6 @@ public final class SchemaContext
         return instanceType;
     }
 
-    public SchemaContext withSchema(final SchemaTree schemaTree)
-    {
-        return new SchemaContext(schemaTree, instanceType);
-    }
-
     @Override
     public ProcessingMessage newMessage()
     {

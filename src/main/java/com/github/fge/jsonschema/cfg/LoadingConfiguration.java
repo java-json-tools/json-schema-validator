@@ -167,7 +167,6 @@ public final class LoadingConfiguration
      *
      * @return a thawed copy
      * @see LoadingConfigurationBuilder#LoadingConfigurationBuilder(LoadingConfiguration)
-     * @see Frozen#thaw()
      */
     @Override
     public LoadingConfigurationBuilder thaw()

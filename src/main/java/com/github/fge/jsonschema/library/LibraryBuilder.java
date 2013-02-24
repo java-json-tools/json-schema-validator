@@ -19,10 +19,10 @@ package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.Thawed;
 
 import java.lang.reflect.Constructor;
