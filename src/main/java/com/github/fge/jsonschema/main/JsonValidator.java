@@ -44,16 +44,6 @@ public final class JsonValidator
         this.reportProvider = reportProvider;
     }
 
-    private void doValidate(final JsonNode schema, final JsonNode instance,
-        final ProcessingReport report)
-        throws ProcessingException
-    {
-        final SchemaTree schemaTree = dereferencing.newTree(schema);
-        final JsonTree tree = new SimpleJsonTree(instance);
-        final FullData data = new FullData(schemaTree, tree);
-        processor.process(report, data);
-    }
-
     public ProcessingReport validate(final JsonNode schema,
         final JsonNode instance)
         throws ProcessingException
