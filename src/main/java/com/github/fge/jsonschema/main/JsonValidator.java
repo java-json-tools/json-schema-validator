@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.Dereferencing;
+import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
@@ -61,20 +62,17 @@ public final class JsonValidator
         throws ProcessingException
     {
         final ProcessingReport report = reportProvider.newReport();
-        doValidate(schema, instance, report);
-        return report;
+        final FullData data = buildData(schema, instance);
+        return ProcessingResult.of(processor, report, data).getReport();
     }
 
     public ProcessingReport validateUnchecked(final JsonNode schema,
         final JsonNode instance)
     {
         final ProcessingReport report = reportProvider.newReport();
-        try {
-            doValidate(schema, instance, report);
-            return report;
-        } catch (ProcessingException e) {
-            return buildUncheckedReport(report, e);
-        }
+        final FullData data = buildData(schema, instance);
+        return ProcessingResult.uncheckedResult(processor, report, data)
+            .getReport();
     }
 
     private ProcessingReport buildUncheckedReport
@@ -95,5 +93,12 @@ public final class JsonValidator
         }
 
         return ret;
+    }
+
+    private FullData buildData(final JsonNode schema, final JsonNode instance)
+    {
+        final SchemaTree schemaTree = dereferencing.newTree(schema);
+        final JsonTree tree = new SimpleJsonTree(instance);
+        return new FullData(schemaTree, tree);
     }
 }
