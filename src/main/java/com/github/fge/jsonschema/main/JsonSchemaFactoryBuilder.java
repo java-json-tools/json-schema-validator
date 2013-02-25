@@ -45,6 +45,8 @@ public final class JsonSchemaFactoryBuilder
     JsonSchemaFactoryBuilder(final JsonSchemaFactory factory)
     {
         reportProvider = factory.reportProvider;
+        loadingCfg = factory.loadingCfg;
+        validationCfg = factory.validationCfg;
     }
 
     public JsonSchemaFactoryBuilder setReportProvider(
