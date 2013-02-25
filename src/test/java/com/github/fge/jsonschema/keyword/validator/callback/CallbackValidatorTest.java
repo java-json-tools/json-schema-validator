@@ -181,7 +181,7 @@ public abstract class CallbackValidatorTest
 
     protected abstract JsonNode generateDigest();
 
-    protected enum WantedState {
+    private enum WantedState {
         OK
         {
             @Override
@@ -213,7 +213,7 @@ public abstract class CallbackValidatorTest
             throws ProcessingException;
     }
 
-    protected static class DummyProcessor
+    private static class DummyProcessor
         implements Processor<FullData, FullData>
     {
         private final WantedState wanted1;

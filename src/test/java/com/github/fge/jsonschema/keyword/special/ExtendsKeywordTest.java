@@ -130,7 +130,7 @@ public final class ExtendsKeywordTest
         verify(report, never()).error(anyMessage());
     }
 
-    protected enum WantedState {
+    private enum WantedState {
         OK
         {
             @Override
@@ -166,7 +166,7 @@ public final class ExtendsKeywordTest
             throws ProcessingException;
     }
 
-    protected static final class DummyProcessor
+    private static final class DummyProcessor
         implements Processor<FullData, FullData>
     {
         private static final JsonPointer PTR = JsonPointer.of("extends");
