@@ -83,7 +83,7 @@ public final class KeywordBuilder
      * @return this
      * @throws ValidationConfigurationError syntax checker is null
      */
-    KeywordBuilder withSyntaxChecker(final SyntaxChecker syntaxChecker)
+    public KeywordBuilder withSyntaxChecker(final SyntaxChecker syntaxChecker)
     {
         if (syntaxChecker == null)
             throw new ValidationConfigurationError(new ProcessingMessage()
@@ -99,7 +99,7 @@ public final class KeywordBuilder
      * @return this
      * @throws ValidationConfigurationError digester is null
      */
-    KeywordBuilder withDigester(final Digester digester)
+    public KeywordBuilder withDigester(final Digester digester)
     {
         if (digester == null)
             throw new ValidationConfigurationError(new ProcessingMessage()
@@ -116,7 +116,7 @@ public final class KeywordBuilder
      * @return this
      * @throws ValidationConfigurationError one or more type(s) are null
      */
-    KeywordBuilder withIdentityDigester(final NodeType first,
+    public KeywordBuilder withIdentityDigester(final NodeType first,
         final NodeType... other)
     {
         digester = new IdentityDigester(name, checkType(first),
@@ -132,7 +132,7 @@ public final class KeywordBuilder
      * @return this
      * @throws ValidationConfigurationError one or more type(s) are null
      */
-    KeywordBuilder withSimpleDigester(final NodeType first,
+    public KeywordBuilder withSimpleDigester(final NodeType first,
         final NodeType... other)
     {
         digester = new SimpleDigester(name, checkType(first),
@@ -148,7 +148,8 @@ public final class KeywordBuilder
      * @throws ValidationConfigurationError failed to find an appropriate
      * constructor
      */
-    KeywordBuilder withValidatorClass(final Class<? extends KeywordValidator> c)
+    public KeywordBuilder withValidatorClass(
+        final Class<? extends KeywordValidator> c)
     {
         constructor = getConstructor(c);
         return this;

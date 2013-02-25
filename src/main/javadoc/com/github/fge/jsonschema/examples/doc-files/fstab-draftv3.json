@@ -1,17 +1,21 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$schema": "http://json-schema.org/draft-03/schema#",
     "title": "/etc/fstab",
     "description": "JSON representation of /etc/fstab",
     "type": "object",
-    "required": [ "/", "swap" ],
     "properties": {
+        "/": {
+            "required": true,
+            "$ref": "#/definitions/mntent"
+        },
         "swap": {
-            "$ref": "#mntent"
+            "required": true,
+            "$ref": "#/definitions/mntent"
         }
     },
     "patternProperties": {
         "^/[^/]+(/[^/]+)*$": {
-            "$ref": "#mntent"
+            "$ref": "#/definitions/mntent"
         }
     },
     "additionalProperties": false,
@@ -22,10 +26,12 @@
             "type": "object",
             "properties": {
                 "device": {
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                 },
                 "fstype": {
-                    "type": "string"
+                    "type": "string",
+                    "required": true
                 },
                 "options": {
                     "type": "array",
@@ -41,7 +47,6 @@
                     "minimum": 0
                 }
             },
-            "required": [ "device", "fstype" ],
             "additionalItems": false
         }
     }

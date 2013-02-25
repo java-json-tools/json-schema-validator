@@ -94,7 +94,7 @@ public final class LibraryBuilder
      * @return this
      * @throws ValidationConfigurationError keyword is null
      */
-    LibraryBuilder addKeyword(final Keyword keyword)
+    public LibraryBuilder addKeyword(final Keyword keyword)
     {
         if (keyword == null)
             throw new ValidationConfigurationError(new ProcessingMessage()
@@ -118,7 +118,7 @@ public final class LibraryBuilder
      * @return this
      * @throws ValidationConfigurationError name is null
      */
-    LibraryBuilder removeKeyword(final String name)
+    public LibraryBuilder removeKeyword(final String name)
     {
         if (name == null)
             throw new ValidationConfigurationError(new ProcessingMessage()
@@ -137,7 +137,7 @@ public final class LibraryBuilder
      * @return this
      * @throws ValidationConfigurationError the name or attribute is null
      */
-    LibraryBuilder addFormatAttribute(final String name,
+    public LibraryBuilder addFormatAttribute(final String name,
         final FormatAttribute attribute)
     {
         removeFormatAttribute(name);
@@ -155,7 +155,7 @@ public final class LibraryBuilder
      * @return this
      * @throws ValidationConfigurationError name is null
      */
-    LibraryBuilder removeFormatAttribute(final String name)
+    public LibraryBuilder removeFormatAttribute(final String name)
     {
         if (name == null)
             throw new ValidationConfigurationError(new ProcessingMessage()

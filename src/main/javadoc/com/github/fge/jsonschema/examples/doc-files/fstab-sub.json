@@ -2,19 +2,21 @@
     "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "/etc/fstab",
     "description": "JSON representation of /etc/fstab",
-    "type": "object",
-    "properties": {
-        "swap": {
-            "$ref": "#/mntent"
-        }
+    "fstab": {
+        "type": "object",
+        "properties": {
+            "swap": {
+                "$ref": "#/mntent"
+            }
+        },
+        "patternProperties": {
+            "^/([^/]+(/[^/]+)*)?$": {
+                "$ref": "#/mntent"
+            }
+        },
+        "required": [ "/", "swap" ],
+        "additionalProperties": false
     },
-    "patternProperties": {
-        "^/([^/]+(/[^/]+)*)?$": {
-            "$ref": "#/mntent"
-        }
-    },
-    "required": [ "/", "swap" ],
-    "additionalProperties": false,
     "mntent": {
         "title": "mntent",
         "description": "An fstab entry",
