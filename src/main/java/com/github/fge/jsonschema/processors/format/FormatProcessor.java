@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
@@ -36,6 +37,24 @@ import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
+/**
+ * Format attribute handler
+ *
+ * <p>This processor is run after {@link ValidatorBuilder} if and only if the
+ * user has chosen to perform {@code format} validation (it is enabled by
+ * default).</p>
+ *
+ * <p>It will append a specific {@link KeywordValidator} to the list of already
+ * existing validators if and only if:</p>
+ *
+ * <ul>
+ *     <li>there is a {@link format} keyword in the current schema;</li>
+ *     <li>the specified format attribute is supported;</li>
+ *     <li>the instance type is supported by this format attribute.</li>
+ * </ul>
+ *
+ * <p>Note that it will warn if the format attribute is not recognized.</p>
+ */
 public final class FormatProcessor
     implements Processor<ValidatorList, ValidatorList>
 {
@@ -101,6 +120,6 @@ public final class FormatProcessor
     @Override
     public String toString()
     {
-        return "format attribute runner";
+        return "format attribute handler";
     }
 }

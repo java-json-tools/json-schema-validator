@@ -17,9 +17,14 @@
 
 package com.github.fge.jsonschema.processors.data;
 
+import com.github.fge.jsonschema.processors.ref.RefResolver;
+import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.AsJsonValueHolder;
 
+/**
+ * Input/output of {@link RefResolver} and {@link SyntaxProcessor}
+ */
 public final class SchemaHolder
     extends AsJsonValueHolder<SchemaTree>
 {

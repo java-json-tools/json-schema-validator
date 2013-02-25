@@ -25,6 +25,8 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
+import com.github.fge.jsonschema.processors.ref.RefResolver;
+import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -40,6 +42,13 @@ import java.util.Set;
 
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
+/**
+ * Syntax processor
+ *
+ * <p>This processor runs right after {@link RefResolver}. Note that it never
+ * throws exceptions by itself if the schema is invalid: this role is left to
+ * {@link ValidationChain}.</p>
+ */
 public final class SyntaxProcessor
     implements Processor<SchemaHolder, SchemaHolder>
 {

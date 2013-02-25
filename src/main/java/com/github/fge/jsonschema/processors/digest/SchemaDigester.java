@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
+import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.ArrayListMultimap;
@@ -35,6 +36,12 @@ import com.google.common.collect.Sets;
 
 import java.util.Map;
 
+/**
+ * The schema digester
+ *
+ * <p>This processor is called by a {@link ValidationChain} after it has made
+ * sure that the schema is syntactically valid.</p>
+ */
 public final class SchemaDigester
     implements Processor<SchemaContext, SchemaDigest>
 {

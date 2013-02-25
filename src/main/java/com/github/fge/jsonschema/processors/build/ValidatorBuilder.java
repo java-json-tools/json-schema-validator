@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
+import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.collect.Maps;
 
@@ -33,6 +34,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 import java.util.SortedMap;
 
+/**
+ * Keyword builder processor
+ *
+ * <p>This takes a {@link SchemaDigest} as an input and outputs a {@link
+ * ValidatorList}. The main processor, {@link ValidationProcessor}, then uses
+ * this validator list to perform actual instance validation.</p>
+ *
+ * @see ValidationProcessor
+ */
 public final class ValidatorBuilder
     implements Processor<SchemaDigest, ValidatorList>
 {

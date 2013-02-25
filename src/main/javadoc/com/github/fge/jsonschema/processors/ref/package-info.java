@@ -15,32 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.messages;
-
 /**
- * Messages used by JSON Reference processing exceptions
+ * JSON Reference resolver
  */
-public enum RefProcessingMessages
-{
-    URI_NOT_ABSOLUTE("URI is not absolute"),
-    UNHANDLED_SCHEME("scheme not supported"),
-    URI_NOT_JSON("content at URI is not valid JSON"),
-    URI_IOERROR("cannot dereference URI (IOException)"),
-    REF_LOOP("JSON Reference loop detected"),
-    DANGLING_REF("unresolvable JSON Reference"),
-    ILLEGAL_JSON_REF("illegal JSON Reference (fragment is not a JSON Pointer)"),
-    ;
-
-    private final String message;
-
-    RefProcessingMessages(final String message)
-    {
-        this.message = message;
-    }
-
-    @Override
-    public String toString()
-    {
-        return message;
-    }
-}
+package com.github.fge.jsonschema.processors.ref;

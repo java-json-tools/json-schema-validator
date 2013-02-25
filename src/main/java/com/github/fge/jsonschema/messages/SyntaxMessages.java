@@ -17,6 +17,9 @@
 
 package com.github.fge.jsonschema.messages;
 
+/**
+ * Messages used by syntax checking
+ */
 public enum SyntaxMessages
 {
     NOT_A_SCHEMA("JSON value is not a JSON Schema: not an object"),

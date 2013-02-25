@@ -17,6 +17,10 @@
 
 package com.github.fge.jsonschema.messages;
 
+/**
+ * Messages used by {@code format} keyword validation
+ */
+//TODO: reorganize
 public enum FormatMessages
 {
     FORMAT_NOT_SUPPORTED("format attribute not supported"),

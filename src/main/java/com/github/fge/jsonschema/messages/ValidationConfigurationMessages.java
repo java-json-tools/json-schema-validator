@@ -17,6 +17,9 @@
 
 package com.github.fge.jsonschema.messages;
 
+/**
+ * Messages used by validation configuration errors
+ */
 public enum ValidationConfigurationMessages
 {
     NULL_NAME("keyword name cannot be null"),

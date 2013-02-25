@@ -21,13 +21,18 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import net.jcip.annotations.Immutable;
 
 /**
  * Validation data for a validation processor
  *
  * <p>The included data are the schema (in the shape of a {@link SchemaTree} and
  * the instance to validate (in the shape of a {@link JsonTree}.</p>
+ *
+ * <p>The {@link ProcessingMessage} template generated contains information
+ * about both the schema and instance.</p>
  */
+@Immutable
 public final class FullData
     implements MessageProvider
 {
@@ -55,11 +60,23 @@ public final class FullData
         return instance;
     }
 
+    /**
+     * Return a new full data with another schema
+     *
+     * @param schema the schema
+     * @return a new full data instance
+     */
     public FullData withSchema(final SchemaTree schema)
     {
         return new FullData(schema, instance);
     }
 
+    /**
+     * Return a new full data with another instance
+     *
+     * @param instance the new instance
+     * @return a new full data instance
+     */
     public FullData withInstance(final JsonTree instance)
     {
         return new FullData(schema, instance);

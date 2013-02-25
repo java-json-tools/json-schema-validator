@@ -17,6 +17,10 @@
 
 package com.github.fge.jsonschema.messages;
 
+/**
+ * Messages used by keyword validation
+ */
+//TODO: reorganize
 public enum KeywordValidationMessages
 {
     ADDITIONAL_ITEMS_NOT_ALLOWED("additional items are not allowed"),

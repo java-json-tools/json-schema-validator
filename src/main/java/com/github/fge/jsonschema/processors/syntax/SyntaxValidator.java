@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.processors.syntax;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
@@ -33,10 +34,25 @@ import com.google.common.base.Function;
 
 import java.util.Map;
 
+/**
+ * Standalone syntax validator
+ *
+ * <p>This is the syntax validator built, and returned, by {@link
+ * JsonSchemaFactory#getSyntaxValidator()}. It can be used to validate schemas
+ * independently of the validation chain. Among other features, it detects
+ * {@code $schema} and acts accordingly.</p>
+ *
+ * <p>Note that the reports used are alwaus {@link ListProcessingReport}s.</p>
+ */
 public final class SyntaxValidator
 {
     private final Processor<SchemaHolder, SchemaHolder> processor;
 
+    /**
+     * Constructor
+     *
+     * @param cfg the validation configuration to use
+     */
     public SyntaxValidator(final ValidationConfiguration cfg)
     {
         ProcessorMap<JsonRef, SchemaHolder, SchemaHolder> map = new SchemaMap();
@@ -60,12 +76,24 @@ public final class SyntaxValidator
         processor = map.getProcessor();
     }
 
+    /**
+     * Tell whether a schema is valid
+     *
+     * @param schema the schema
+     * @return true if the schema is valid
+     */
     public boolean schemaIsValid(final JsonNode schema)
     {
         final ProcessingReport report = new DevNullProcessingReport();
         return getResult(schema, report).isSuccess();
     }
 
+    /**
+     * Validate a schema and return a report
+     *
+     * @param schema the schema
+     * @return a report
+     */
     public ProcessingReport validateSchema(final JsonNode schema)
     {
         final ProcessingReport report = new ListProcessingReport();

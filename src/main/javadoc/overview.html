@@ -179,26 +179,5 @@ reference resolver processor).</p>
 <p>The processor in charge of this step is {@link
 com.github.fge.jsonschema.processing.validation.ValidationProcessor}.</p>
 
-<h1>More</h1>
-
-<h2>Processing customization</h2>
-
-<p>The core interfaces used for the mechanism above are really simple:</p>
-
-<ul>
-    <li>{@link com.github.fge.jsonschema.processing.Processor} denotes an
-    individual processor in the chain;</li>
-    <li>{@link com.github.fge.jsonschema.processing.ProcessorChain} allows you
-    to chain processors to make another processor;</li>
-    <li>{@link com.github.fge.jsonschema.report.ProcessingReport} covers all
-    logging needs, and you can customize it;</li>
-    <li>{@link com.github.fge.jsonschema.report.MessageProvider} allows you to
-    grab a context dependent message template for informative logging.</li>
-</ul>
-
-<p>This library is therefore not limited to pure validation anymore: you can
-imagine -- and code -- any processor of your choice and chain it with others.
-</p>
-
 </body>
 </html>
