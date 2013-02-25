@@ -30,4 +30,4 @@
  *     performs the schema-to-keyword conversion.</li>
  * </ul>
  */
-package com.github.fge.jsonschema.processors.syntax;
+package com.github.fge.jsonschema.processors.validation;

@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
+import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.ref.RefResolver;
@@ -202,6 +203,20 @@ public final class JsonSchemaFactory
             throw new LoadingConfigurationError(new ProcessingMessage()
                 .message(NULL_URI));
         return validator.buildJsonSchema(uri);
+    }
+
+    /**
+     * Return the raw validation processor
+     *
+     * <p>This will allow you to chain the full validation processor with other
+     * processors of your choice. Useful if, for instance, you wish to add post
+     * checking which JSON Schema cannot do by itself.</p>
+     *
+     * @return the processor.
+     */
+    public Processor<FullData, FullData> getProcessor()
+    {
+        return validator.getProcessor();
     }
 
     /**

@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.ProcessingResult;
+import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -154,6 +155,16 @@ public final class JsonValidator
             throw new JsonReferenceException(new ProcessingMessage()
                 .message(DANGLING_REF));
         return new JsonSchema(processor, tree, reportProvider);
+    }
+
+    /**
+     * Get the raw processor for this validator (package private)
+     *
+     * @return the processor (a {@link ValidationProcessor}
+     */
+    Processor<FullData, FullData> getProcessor()
+    {
+        return processor;
     }
 
     private FullData buildData(final JsonNode schema, final JsonNode instance)

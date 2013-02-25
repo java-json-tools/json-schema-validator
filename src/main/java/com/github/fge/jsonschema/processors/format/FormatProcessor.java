@@ -48,7 +48,7 @@ import static com.github.fge.jsonschema.messages.FormatMessages.*;
  * existing validators if and only if:</p>
  *
  * <ul>
- *     <li>there is a {@link format} keyword in the current schema;</li>
+ *     <li>there is a {@code format} keyword in the current schema;</li>
  *     <li>the specified format attribute is supported;</li>
  *     <li>the instance type is supported by this format attribute.</li>
  * </ul>
