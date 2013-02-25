@@ -57,11 +57,6 @@ application; this library has no dependencies on anything Web-related.</p>
     <li>instance validation (ie, validate your data).</li>
 </ul>
 
-<p>All these steps are performed through a series of {@link
-com.github.fge.jsonschema.processing.Processor}s, and you can write your
-own. Note that all of these processors also cache results (using a {@link
-com.google.common.cache.LoadingCache} for future reuse.</p>
-
 <h2><tt>$ref</tt> resolution</h2>
 
 <p>This is a critically important part of the validation process. You may
@@ -89,7 +84,7 @@ this implementation does.</p>
 <p>Note that any failure in $ref validation is considered a fatal error.</p>
 
 <p>The processor in charge of this step is {@link
-com.github.fge.jsonschema.processors.ref.RefResolverProcessor}.</p>
+com.github.fge.jsonschema.processors.ref.RefResolver.</p>
 
 <h2>Schema syntax checking</h2>
 
@@ -104,7 +99,7 @@ formed: this simplifies later processing. Note however that syntax checking will
 not follow JSON References.</p>
 
 <p>The processor in charge of this step is {@link
-com.github.fge.jsonschema.processing.syntax.SyntaxProcessor}.</p>
+com.github.fge.jsonschema.processors.syntax.SyntaxProcessor}.</p>
 
 <h2>Digesting</h2>
 
@@ -156,7 +151,7 @@ validation can now take place.</p>
 context-free, a same result can be reused across different schemas.</p>
 
 <p>The processor in charge of this step is {@link
-com.github.fge.jsonschema.processing.build.KeywordBuilder}.</p>
+com.github.fge.jsonschema.processors.build.ValidatorBuilder}.</p>
 
 <h2>Instance (aka data) validation</h2>
 
@@ -177,7 +172,7 @@ manner, this processor also needs a reference to the start of the chain (the
 reference resolver processor).</p>
 
 <p>The processor in charge of this step is {@link
-com.github.fge.jsonschema.processing.validation.ValidationProcessor}.</p>
+com.github.fge.jsonschema.processors.validation.ValidationProcessor}.</p>
 
 </body>
 </html>
