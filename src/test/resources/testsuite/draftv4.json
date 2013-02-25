@@ -1,0 +1,3417 @@
+[
+    {
+        "data": [
+            null, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "additional items match schema", 
+        "schema": {
+            "additionalItems": {
+                "type": "integer"
+            }, 
+            "items": [
+                {}
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            null, 
+            2, 
+            3, 
+            "foo"
+        ], 
+        "description": "additional items do not match schema", 
+        "schema": {
+            "additionalItems": {
+                "type": "integer"
+            }, 
+            "items": [
+                {}
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1, 
+            2, 
+            3, 
+            4, 
+            5
+        ], 
+        "description": "all items match schema", 
+        "schema": {
+            "additionalItems": false, 
+            "items": {}
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            2, 
+            3
+        ], 
+        "description": "no additional items present", 
+        "schema": {
+            "additionalItems": false, 
+            "items": [
+                {}, 
+                {}, 
+                {}
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            2, 
+            3, 
+            4
+        ], 
+        "description": "additional items are not permitted", 
+        "schema": {
+            "additionalItems": false, 
+            "items": [
+                {}, 
+                {}, 
+                {}
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1, 
+            2, 
+            3, 
+            4, 
+            5
+        ], 
+        "description": "items defaults to empty schema so everything is valid", 
+        "schema": {
+            "additionalItems": false
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": "bar"
+        }, 
+        "description": "ignores non-arrays", 
+        "schema": {
+            "additionalItems": false
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            "foo", 
+            false
+        ], 
+        "description": "only the first item is validated", 
+        "schema": {
+            "items": [
+                {
+                    "type": "integer"
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "no additional properties is valid", 
+        "schema": {
+            "additionalProperties": false, 
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1, 
+            "quux": "boom"
+        }, 
+        "description": "an additional property is invalid", 
+        "schema": {
+            "additionalProperties": false, 
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1, 
+            2, 
+            3
+        ], 
+        "description": "ignores non-objects", 
+        "schema": {
+            "additionalProperties": false, 
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "no additional properties is valid", 
+        "schema": {
+            "additionalProperties": {
+                "type": "boolean"
+            }, 
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1, 
+            "quux": true
+        }, 
+        "description": "an additional valid property is valid", 
+        "schema": {
+            "additionalProperties": {
+                "type": "boolean"
+            }, 
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1, 
+            "quux": 12
+        }, 
+        "description": "an additional invalid property is invalid", 
+        "schema": {
+            "additionalProperties": {
+                "type": "boolean"
+            }, 
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1, 
+            "quux": true
+        }, 
+        "description": "additional properties are allowed", 
+        "schema": {
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": "baz"
+        }, 
+        "description": "allOf", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }
+                    }, 
+                    "required": [
+                        "bar"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": "baz"
+        }, 
+        "description": "mismatch second", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }
+                    }, 
+                    "required": [
+                        "bar"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 2
+        }, 
+        "description": "mismatch first", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }
+                    }, 
+                    "required": [
+                        "bar"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": "quux", 
+            "foo": "baz"
+        }, 
+        "description": "wrong type", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }
+                    }, 
+                    "required": [
+                        "bar"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "baz": null, 
+            "foo": "quux"
+        }, 
+        "description": "valid", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "baz": {
+                            "type": "null"
+                        }
+                    }, 
+                    "required": [
+                        "baz"
+                    ]
+                }
+            ], 
+            "properties": {
+                "bar": {
+                    "type": "integer"
+                }
+            }, 
+            "required": [
+                "bar"
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "baz": null, 
+            "foo": "quux"
+        }, 
+        "description": "mismatch base schema", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "baz": {
+                            "type": "null"
+                        }
+                    }, 
+                    "required": [
+                        "baz"
+                    ]
+                }
+            ], 
+            "properties": {
+                "bar": {
+                    "type": "integer"
+                }
+            }, 
+            "required": [
+                "bar"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "baz": null
+        }, 
+        "description": "mismatch first allOf", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "baz": {
+                            "type": "null"
+                        }
+                    }, 
+                    "required": [
+                        "baz"
+                    ]
+                }
+            ], 
+            "properties": {
+                "bar": {
+                    "type": "integer"
+                }
+            }, 
+            "required": [
+                "bar"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": "quux"
+        }, 
+        "description": "mismatch second allOf", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "baz": {
+                            "type": "null"
+                        }
+                    }, 
+                    "required": [
+                        "baz"
+                    ]
+                }
+            ], 
+            "properties": {
+                "bar": {
+                    "type": "integer"
+                }
+            }, 
+            "required": [
+                "bar"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 2
+        }, 
+        "description": "mismatch both", 
+        "schema": {
+            "allOf": [
+                {
+                    "properties": {
+                        "foo": {
+                            "type": "string"
+                        }
+                    }, 
+                    "required": [
+                        "foo"
+                    ]
+                }, 
+                {
+                    "properties": {
+                        "baz": {
+                            "type": "null"
+                        }
+                    }, 
+                    "required": [
+                        "baz"
+                    ]
+                }
+            ], 
+            "properties": {
+                "bar": {
+                    "type": "integer"
+                }
+            }, 
+            "required": [
+                "bar"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 25, 
+        "description": "valid", 
+        "schema": {
+            "allOf": [
+                {
+                    "maximum": 30
+                }, 
+                {
+                    "minimum": 20
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 35, 
+        "description": "mismatch one", 
+        "schema": {
+            "allOf": [
+                {
+                    "maximum": 30
+                }, 
+                {
+                    "minimum": 20
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "first anyOf valid", 
+        "schema": {
+            "anyOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 2.5, 
+        "description": "second anyOf valid", 
+        "schema": {
+            "anyOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 3, 
+        "description": "both anyOf valid", 
+        "schema": {
+            "anyOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1.5, 
+        "description": "neither anyOf valid", 
+        "schema": {
+            "anyOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 3, 
+        "description": "mismatch base schema", 
+        "schema": {
+            "anyOf": [
+                {
+                    "maxLength": 2
+                }, 
+                {
+                    "minLength": 4
+                }
+            ], 
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foobar", 
+        "description": "one anyOf valid", 
+        "schema": {
+            "anyOf": [
+                {
+                    "maxLength": 2
+                }, 
+                {
+                    "minLength": 4
+                }
+            ], 
+            "type": "string"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "foo", 
+        "description": "both anyOf invalid", 
+        "schema": {
+            "anyOf": [
+                {
+                    "maxLength": 2
+                }, 
+                {
+                    "minLength": 4
+                }
+            ], 
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "definitions": {
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "description": "valid definition schema", 
+        "schema": {
+            "$ref": "http://json-schema.org/draft-04/schema#"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "definitions": {
+                "foo": {
+                    "type": 1
+                }
+            }
+        }, 
+        "description": "invalid definition schema", 
+        "schema": {
+            "$ref": "http://json-schema.org/draft-04/schema#"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "neither", 
+        "schema": {
+            "dependencies": {
+                "bar": [
+                    "foo"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "nondependant", 
+        "schema": {
+            "dependencies": {
+                "bar": [
+                    "foo"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1
+        }, 
+        "description": "with dependency", 
+        "schema": {
+            "dependencies": {
+                "bar": [
+                    "foo"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2
+        }, 
+        "description": "missing dependency", 
+        "schema": {
+            "dependencies": {
+                "bar": [
+                    "foo"
+                ]
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "ignores non-objects", 
+        "schema": {
+            "dependencies": {
+                "bar": [
+                    "foo"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {}, 
+        "description": "neither", 
+        "schema": {
+            "dependencies": {
+                "quux": [
+                    "foo", 
+                    "bar"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1
+        }, 
+        "description": "nondependants", 
+        "schema": {
+            "dependencies": {
+                "quux": [
+                    "foo", 
+                    "bar"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1, 
+            "quux": 3
+        }, 
+        "description": "with dependencies", 
+        "schema": {
+            "dependencies": {
+                "quux": [
+                    "foo", 
+                    "bar"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1, 
+            "quux": 2
+        }, 
+        "description": "missing dependency", 
+        "schema": {
+            "dependencies": {
+                "quux": [
+                    "foo", 
+                    "bar"
+                ]
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 1, 
+            "quux": 2
+        }, 
+        "description": "missing other dependency", 
+        "schema": {
+            "dependencies": {
+                "quux": [
+                    "foo", 
+                    "bar"
+                ]
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "quux": 1
+        }, 
+        "description": "missing both dependencies", 
+        "schema": {
+            "dependencies": {
+                "quux": [
+                    "foo", 
+                    "bar"
+                ]
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1
+        }, 
+        "description": "valid", 
+        "schema": {
+            "dependencies": {
+                "bar": {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }, 
+                        "foo": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": "quux"
+        }, 
+        "description": "no dependency", 
+        "schema": {
+            "dependencies": {
+                "bar": {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }, 
+                        "foo": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": "quux"
+        }, 
+        "description": "wrong type", 
+        "schema": {
+            "dependencies": {
+                "bar": {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }, 
+                        "foo": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": "quux", 
+            "foo": 2
+        }, 
+        "description": "wrong type other", 
+        "schema": {
+            "dependencies": {
+                "bar": {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }, 
+                        "foo": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": "quux", 
+            "foo": "quux"
+        }, 
+        "description": "wrong type both", 
+        "schema": {
+            "dependencies": {
+                "bar": {
+                    "properties": {
+                        "bar": {
+                            "type": "integer"
+                        }, 
+                        "foo": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "one of the enum is valid", 
+        "schema": {
+            "enum": [
+                1, 
+                2, 
+                3
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 4, 
+        "description": "something else is invalid", 
+        "schema": {
+            "enum": [
+                1, 
+                2, 
+                3
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "one of the enum is valid", 
+        "schema": {
+            "enum": [
+                6, 
+                "foo", 
+                [], 
+                true, 
+                {
+                    "foo": 12
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": null, 
+        "description": "something else is invalid", 
+        "schema": {
+            "enum": [
+                6, 
+                "foo", 
+                [], 
+                true, 
+                {
+                    "foo": 12
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "foo": false
+        }, 
+        "description": "objects are deep compared", 
+        "schema": {
+            "enum": [
+                6, 
+                "foo", 
+                [], 
+                true, 
+                {
+                    "foo": 12
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1, 
+            2, 
+            3
+        ], 
+        "description": "valid items", 
+        "schema": {
+            "items": {
+                "type": "integer"
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            "x"
+        ], 
+        "description": "wrong type of items", 
+        "schema": {
+            "items": {
+                "type": "integer"
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "foo": "bar"
+        }, 
+        "description": "ignores non-arrays", 
+        "schema": {
+            "items": {
+                "type": "integer"
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            "foo"
+        ], 
+        "description": "correct types", 
+        "schema": {
+            "items": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "type": "string"
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            "foo", 
+            1
+        ], 
+        "description": "wrong types", 
+        "schema": {
+            "items": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "type": "string"
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1
+        ], 
+        "description": "shorter is valid", 
+        "schema": {
+            "maxItems": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            2
+        ], 
+        "description": "exact length is valid", 
+        "schema": {
+            "maxItems": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            2, 
+            3
+        ], 
+        "description": "too long is invalid", 
+        "schema": {
+            "maxItems": 2
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foobar", 
+        "description": "ignores non-arrays", 
+        "schema": {
+            "maxItems": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "f", 
+        "description": "shorter is valid", 
+        "schema": {
+            "maxLength": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "fo", 
+        "description": "exact length is valid", 
+        "schema": {
+            "maxLength": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "foo", 
+        "description": "too long is invalid", 
+        "schema": {
+            "maxLength": 2
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 10, 
+        "description": "ignores non-strings", 
+        "schema": {
+            "maxLength": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "shorter is valid", 
+        "schema": {
+            "maxProperties": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1
+        }, 
+        "description": "exact length is valid", 
+        "schema": {
+            "maxProperties": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "baz": 3, 
+            "foo": 1
+        }, 
+        "description": "too long is invalid", 
+        "schema": {
+            "maxProperties": 2
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foobar", 
+        "description": "ignores non-objects", 
+        "schema": {
+            "maxProperties": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 2.6, 
+        "description": "below the maximum is valid", 
+        "schema": {
+            "maximum": 3.0
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 3.5, 
+        "description": "above the maximum is invalid", 
+        "schema": {
+            "maximum": 3.0
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "x", 
+        "description": "ignores non-numbers", 
+        "schema": {
+            "maximum": 3.0
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 2.2, 
+        "description": "below the maximum is still valid", 
+        "schema": {
+            "exclusiveMaximum": true, 
+            "maximum": 3.0
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 3.0, 
+        "description": "boundary point is invalid", 
+        "schema": {
+            "exclusiveMaximum": true, 
+            "maximum": 3.0
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1, 
+            2
+        ], 
+        "description": "longer is valid", 
+        "schema": {
+            "minItems": 1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1
+        ], 
+        "description": "exact length is valid", 
+        "schema": {
+            "minItems": 1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [], 
+        "description": "too short is invalid", 
+        "schema": {
+            "minItems": 1
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "", 
+        "description": "ignores non-arrays", 
+        "schema": {
+            "minItems": 1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "foo", 
+        "description": "longer is valid", 
+        "schema": {
+            "minLength": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "fo", 
+        "description": "exact length is valid", 
+        "schema": {
+            "minLength": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "f", 
+        "description": "too short is invalid", 
+        "schema": {
+            "minLength": 2
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "ignores non-strings", 
+        "schema": {
+            "minLength": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 2, 
+            "foo": 1
+        }, 
+        "description": "longer is valid", 
+        "schema": {
+            "minProperties": 1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "exact length is valid", 
+        "schema": {
+            "minProperties": 1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {}, 
+        "description": "too short is invalid", 
+        "schema": {
+            "minProperties": 1
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "", 
+        "description": "ignores non-objects", 
+        "schema": {
+            "minProperties": 1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 2.6, 
+        "description": "above the minimum is valid", 
+        "schema": {
+            "minimum": 1.1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 0.6, 
+        "description": "below the minimum is invalid", 
+        "schema": {
+            "minimum": 1.1
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "x", 
+        "description": "ignores non-numbers", 
+        "schema": {
+            "minimum": 1.1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1.2, 
+        "description": "above the minimum is still valid", 
+        "schema": {
+            "exclusiveMinimum": true, 
+            "minimum": 1.1
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1.1, 
+        "description": "boundary point is invalid", 
+        "schema": {
+            "exclusiveMinimum": true, 
+            "minimum": 1.1
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 10, 
+        "description": "int by int", 
+        "schema": {
+            "multipleOf": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 7, 
+        "description": "int by int fail", 
+        "schema": {
+            "multipleOf": 2
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "ignores non-numbers", 
+        "schema": {
+            "multipleOf": 2
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 0, 
+        "description": "zero is multiple of anything", 
+        "schema": {
+            "multipleOf": 1.5
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 4.5, 
+        "description": "4.5 is multiple of 1.5", 
+        "schema": {
+            "multipleOf": 1.5
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 35, 
+        "description": "35 is not multiple of 1.5", 
+        "schema": {
+            "multipleOf": 1.5
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 0.0075, 
+        "description": "0.0075 is multiple of 0.0001", 
+        "schema": {
+            "multipleOf": 0.0001
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 0.00751, 
+        "description": "0.00751 is not multiple of 0.0001", 
+        "schema": {
+            "multipleOf": 0.0001
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "allowed", 
+        "schema": {
+            "not": {
+                "type": "integer"
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1, 
+        "description": "disallowed", 
+        "schema": {
+            "not": {
+                "type": "integer"
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "valid", 
+        "schema": {
+            "not": {
+                "type": [
+                    "integer", 
+                    "boolean"
+                ]
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1, 
+        "description": "mismatch", 
+        "schema": {
+            "not": {
+                "type": [
+                    "integer", 
+                    "boolean"
+                ]
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "other mismatch", 
+        "schema": {
+            "not": {
+                "type": [
+                    "integer", 
+                    "boolean"
+                ]
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "match", 
+        "schema": {
+            "not": {
+                "properties": {
+                    "foo": {
+                        "type": "string"
+                    }
+                }, 
+                "type": "object"
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "other match", 
+        "schema": {
+            "not": {
+                "properties": {
+                    "foo": {
+                        "type": "string"
+                    }
+                }, 
+                "type": "object"
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": "bar"
+        }, 
+        "description": "mismatch", 
+        "schema": {
+            "not": {
+                "properties": {
+                    "foo": {
+                        "type": "string"
+                    }
+                }, 
+                "type": "object"
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "first oneOf valid", 
+        "schema": {
+            "oneOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 2.5, 
+        "description": "second oneOf valid", 
+        "schema": {
+            "oneOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 3, 
+        "description": "both oneOf valid", 
+        "schema": {
+            "oneOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1.5, 
+        "description": "neither oneOf valid", 
+        "schema": {
+            "oneOf": [
+                {
+                    "type": "integer"
+                }, 
+                {
+                    "minimum": 2
+                }
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 3, 
+        "description": "mismatch base schema", 
+        "schema": {
+            "oneOf": [
+                {
+                    "minLength": 2
+                }, 
+                {
+                    "maxLength": 4
+                }
+            ], 
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foobar", 
+        "description": "one oneOf valid", 
+        "schema": {
+            "oneOf": [
+                {
+                    "minLength": 2
+                }, 
+                {
+                    "maxLength": 4
+                }
+            ], 
+            "type": "string"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "foo", 
+        "description": "both oneOf valid", 
+        "schema": {
+            "oneOf": [
+                {
+                    "minLength": 2
+                }, 
+                {
+                    "maxLength": 4
+                }
+            ], 
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "aaa", 
+        "description": "a matching pattern is valid", 
+        "schema": {
+            "pattern": "^a*$"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "abc", 
+        "description": "a non-matching pattern is invalid", 
+        "schema": {
+            "pattern": "^a*$"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "ignores non-strings", 
+        "schema": {
+            "pattern": "^a*$"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "a single valid match is valid", 
+        "schema": {
+            "patternProperties": {
+                "f.*o": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": 1, 
+            "foooooo": 2
+        }, 
+        "description": "multiple valid matches is valid", 
+        "schema": {
+            "patternProperties": {
+                "f.*o": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": "bar", 
+            "fooooo": 2
+        }, 
+        "description": "a single invalid match is invalid", 
+        "schema": {
+            "patternProperties": {
+                "f.*o": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "foo": "bar", 
+            "foooooo": "baz"
+        }, 
+        "description": "multiple invalid matches is invalid", 
+        "schema": {
+            "patternProperties": {
+                "f.*o": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 12, 
+        "description": "ignores non-objects", 
+        "schema": {
+            "patternProperties": {
+                "f.*o": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "a": 21
+        }, 
+        "description": "a single valid match is valid", 
+        "schema": {
+            "patternProperties": {
+                "a*": {
+                    "type": "integer"
+                }, 
+                "aaa*": {
+                    "maximum": 20
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "aaaa": 18
+        }, 
+        "description": "a simultaneous match is valid", 
+        "schema": {
+            "patternProperties": {
+                "a*": {
+                    "type": "integer"
+                }, 
+                "aaa*": {
+                    "maximum": 20
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "a": 21, 
+            "aaaa": 18
+        }, 
+        "description": "multiple matches is valid", 
+        "schema": {
+            "patternProperties": {
+                "a*": {
+                    "type": "integer"
+                }, 
+                "aaa*": {
+                    "maximum": 20
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "a": "bar"
+        }, 
+        "description": "an invalid due to one is invalid", 
+        "schema": {
+            "patternProperties": {
+                "a*": {
+                    "type": "integer"
+                }, 
+                "aaa*": {
+                    "maximum": 20
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "aaaa": 31
+        }, 
+        "description": "an invalid due to the other is invalid", 
+        "schema": {
+            "patternProperties": {
+                "a*": {
+                    "type": "integer"
+                }, 
+                "aaa*": {
+                    "maximum": 20
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "aaa": "foo", 
+            "aaaa": 31
+        }, 
+        "description": "an invalid due to both is invalid", 
+        "schema": {
+            "patternProperties": {
+                "a*": {
+                    "type": "integer"
+                }, 
+                "aaa*": {
+                    "maximum": 20
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "answer 1": "42"
+        }, 
+        "description": "non recognized members are ignored", 
+        "schema": {
+            "patternProperties": {
+                "X_": {
+                    "type": "string"
+                }, 
+                "[0-9]{2,}": {
+                    "type": "boolean"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "a31b": null
+        }, 
+        "description": "recognized members are accounted for", 
+        "schema": {
+            "patternProperties": {
+                "X_": {
+                    "type": "string"
+                }, 
+                "[0-9]{2,}": {
+                    "type": "boolean"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "a_x_3": 3
+        }, 
+        "description": "regexes are case sensitive", 
+        "schema": {
+            "patternProperties": {
+                "X_": {
+                    "type": "string"
+                }, 
+                "[0-9]{2,}": {
+                    "type": "boolean"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "a_X_3": 3
+        }, 
+        "description": "regexes are case sensitive, 2", 
+        "schema": {
+            "patternProperties": {
+                "X_": {
+                    "type": "string"
+                }, 
+                "[0-9]{2,}": {
+                    "type": "boolean"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": "baz", 
+            "foo": 1
+        }, 
+        "description": "both properties present and valid is valid", 
+        "schema": {
+            "properties": {
+                "bar": {
+                    "type": "string"
+                }, 
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": {}, 
+            "foo": 1
+        }, 
+        "description": "one property invalid is invalid", 
+        "schema": {
+            "properties": {
+                "bar": {
+                    "type": "string"
+                }, 
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": {}, 
+            "foo": []
+        }, 
+        "description": "both properties invalid is invalid", 
+        "schema": {
+            "properties": {
+                "bar": {
+                    "type": "string"
+                }, 
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "quux": []
+        }, 
+        "description": "doesn't invalidate other properties", 
+        "schema": {
+            "properties": {
+                "bar": {
+                    "type": "string"
+                }, 
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [], 
+        "description": "ignores non-objects", 
+        "schema": {
+            "properties": {
+                "bar": {
+                    "type": "string"
+                }, 
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": [
+                1, 
+                2
+            ]
+        }, 
+        "description": "property validates property", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": [
+                1, 
+                2, 
+                3, 
+                4
+            ]
+        }, 
+        "description": "property invalidates property", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "foo": []
+        }, 
+        "description": "patternProperty invalidates property", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "fxo": [
+                1, 
+                2
+            ]
+        }, 
+        "description": "patternProperty validates nonproperty", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "fxo": []
+        }, 
+        "description": "patternProperty invalidates nonproperty", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": []
+        }, 
+        "description": "additionalProperty ignores property", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "quux": 3
+        }, 
+        "description": "additionalProperty validates others", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "quux": "foo"
+        }, 
+        "description": "additionalProperty invalidates others", 
+        "schema": {
+            "additionalProperties": {
+                "type": "integer"
+            }, 
+            "patternProperties": {
+                "f.o": {
+                    "minItems": 2
+                }
+            }, 
+            "properties": {
+                "bar": {
+                    "type": "array"
+                }, 
+                "foo": {
+                    "maxItems": 3, 
+                    "type": "array"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "foo": 1
+        }, 
+        "description": "present required property is valid", 
+        "schema": {
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }, 
+            "required": [
+                "foo"
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": 1
+        }, 
+        "description": "non-present required property is invalid", 
+        "schema": {
+            "properties": {
+                "bar": {}, 
+                "foo": {}
+            }, 
+            "required": [
+                "foo"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "not required by default", 
+        "schema": {
+            "properties": {
+                "foo": {}
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1, 
+        "description": "an integer is an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is not an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is not an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is not an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "an array is not an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is not an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": null, 
+        "description": "null is not an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "an integer is a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is not a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is not a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "an array is not a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is not a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": null, 
+        "description": "null is not a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "1 is not a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is not a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is not a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "an array is not a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is not a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": null, 
+        "description": "null is not a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "an integer is not an object", 
+        "schema": {
+            "type": "object"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is not an object", 
+        "schema": {
+            "type": "object"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is not an object", 
+        "schema": {
+            "type": "object"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is an object", 
+        "schema": {
+            "type": "object"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [], 
+        "description": "an array is not an object", 
+        "schema": {
+            "type": "object"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is not an object", 
+        "schema": {
+            "type": "object"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": null, 
+        "description": "null is not an object", 
+        "schema": {
+            "type": "object"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "an integer is not an array", 
+        "schema": {
+            "type": "array"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is not an array", 
+        "schema": {
+            "type": "array"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is not an array", 
+        "schema": {
+            "type": "array"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is not an array", 
+        "schema": {
+            "type": "array"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "an array is not an array", 
+        "schema": {
+            "type": "array"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is not an array", 
+        "schema": {
+            "type": "array"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": null, 
+        "description": "null is not an array", 
+        "schema": {
+            "type": "array"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "an integer is not a boolean", 
+        "schema": {
+            "type": "boolean"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is not a boolean", 
+        "schema": {
+            "type": "boolean"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is not a boolean", 
+        "schema": {
+            "type": "boolean"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is not a boolean", 
+        "schema": {
+            "type": "boolean"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "an array is not a boolean", 
+        "schema": {
+            "type": "boolean"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is not a boolean", 
+        "schema": {
+            "type": "boolean"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": null, 
+        "description": "null is not a boolean", 
+        "schema": {
+            "type": "boolean"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1, 
+        "description": "an integer is not null", 
+        "schema": {
+            "type": "null"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is not null", 
+        "schema": {
+            "type": "null"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is not null", 
+        "schema": {
+            "type": "null"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is not null", 
+        "schema": {
+            "type": "null"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "an array is not null", 
+        "schema": {
+            "type": "null"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is not null", 
+        "schema": {
+            "type": "null"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": null, 
+        "description": "null is null", 
+        "schema": {
+            "type": "null"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1, 
+        "description": "an integer is valid", 
+        "schema": {
+            "type": [
+                "integer", 
+                "string"
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "foo", 
+        "description": "a string is valid", 
+        "schema": {
+            "type": [
+                "integer", 
+                "string"
+            ]
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 1.1, 
+        "description": "a float is invalid", 
+        "schema": {
+            "type": [
+                "integer", 
+                "string"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {}, 
+        "description": "an object is invalid", 
+        "schema": {
+            "type": [
+                "integer", 
+                "string"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [], 
+        "description": "an array is invalid", 
+        "schema": {
+            "type": [
+                "integer", 
+                "string"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": true, 
+        "description": "a boolean is invalid", 
+        "schema": {
+            "type": [
+                "integer", 
+                "string"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": null, 
+        "description": "null is invalid", 
+        "schema": {
+            "type": [
+                "integer", 
+                "string"
+            ]
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1, 
+            2
+        ], 
+        "description": "unique array of integers is valid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            1, 
+            1
+        ], 
+        "description": "non-unique array of integers is invalid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1.0, 
+            1.0, 
+            1
+        ], 
+        "description": "numbers are unique if mathematically unequal", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            {
+                "foo": "bar"
+            }, 
+            {
+                "foo": "baz"
+            }
+        ], 
+        "description": "unique array of objects is valid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            {
+                "foo": "bar"
+            }, 
+            {
+                "foo": "bar"
+            }
+        ], 
+        "description": "non-unique array of objects is invalid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            {
+                "foo": {
+                    "bar": {
+                        "baz": true
+                    }
+                }
+            }, 
+            {
+                "foo": {
+                    "bar": {
+                        "baz": false
+                    }
+                }
+            }
+        ], 
+        "description": "unique array of nested objects is valid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            {
+                "foo": {
+                    "bar": {
+                        "baz": true
+                    }
+                }
+            }, 
+            {
+                "foo": {
+                    "bar": {
+                        "baz": true
+                    }
+                }
+            }
+        ], 
+        "description": "non-unique array of nested objects is invalid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            [
+                "foo"
+            ], 
+            [
+                "bar"
+            ]
+        ], 
+        "description": "unique array of arrays is valid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            [
+                "foo"
+            ], 
+            [
+                "foo"
+            ]
+        ], 
+        "description": "non-unique array of arrays is invalid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": [
+            1, 
+            true
+        ], 
+        "description": "1 and true are unique", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            0, 
+            false
+        ], 
+        "description": "0 and false are unique", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            {}, 
+            [
+                1
+            ], 
+            true, 
+            null, 
+            1
+        ], 
+        "description": "unique heterogeneous types are valid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": [
+            {}, 
+            [
+                1
+            ], 
+            true, 
+            null, 
+            {}, 
+            1
+        ], 
+        "description": "non-unique heterogeneous types are invalid", 
+        "schema": {
+            "uniqueItems": true
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "foo": false
+        }, 
+        "description": "match", 
+        "schema": {
+            "additionalProperties": false, 
+            "properties": {
+                "foo": {
+                    "$ref": "#"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "foo": {
+                "foo": false
+            }
+        }, 
+        "description": "recursive match", 
+        "schema": {
+            "additionalProperties": false, 
+            "properties": {
+                "foo": {
+                    "$ref": "#"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": false
+        }, 
+        "description": "mismatch", 
+        "schema": {
+            "additionalProperties": false, 
+            "properties": {
+                "foo": {
+                    "$ref": "#"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "foo": {
+                "bar": false
+            }
+        }, 
+        "description": "recursive mismatch", 
+        "schema": {
+            "additionalProperties": false, 
+            "properties": {
+                "foo": {
+                    "$ref": "#"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "bar": 3
+        }, 
+        "description": "match", 
+        "schema": {
+            "properties": {
+                "bar": {
+                    "$ref": "#/properties/foo"
+                }, 
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "bar": true
+        }, 
+        "description": "mismatch", 
+        "schema": {
+            "properties": {
+                "bar": {
+                    "$ref": "#/properties/foo"
+                }, 
+                "foo": {
+                    "type": "integer"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "slash": "aoeu"
+        }, 
+        "description": "slash", 
+        "schema": {
+            "percent%field": {
+                "type": "integer"
+            }, 
+            "properties": {
+                "percent": {
+                    "$ref": "#/percent%25field"
+                }, 
+                "slash": {
+                    "$ref": "#/slash~1field"
+                }, 
+                "tilda": {
+                    "$ref": "#/tilda~0field"
+                }
+            }, 
+            "slash/field": {
+                "type": "integer"
+            }, 
+            "tilda~field": {
+                "type": "integer"
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "tilda": "aoeu"
+        }, 
+        "description": "tilda", 
+        "schema": {
+            "percent%field": {
+                "type": "integer"
+            }, 
+            "properties": {
+                "percent": {
+                    "$ref": "#/percent%25field"
+                }, 
+                "slash": {
+                    "$ref": "#/slash~1field"
+                }, 
+                "tilda": {
+                    "$ref": "#/tilda~0field"
+                }
+            }, 
+            "slash/field": {
+                "type": "integer"
+            }, 
+            "tilda~field": {
+                "type": "integer"
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "percent": "aoeu"
+        }, 
+        "description": "percent", 
+        "schema": {
+            "percent%field": {
+                "type": "integer"
+            }, 
+            "properties": {
+                "percent": {
+                    "$ref": "#/percent%25field"
+                }, 
+                "slash": {
+                    "$ref": "#/slash~1field"
+                }, 
+                "tilda": {
+                    "$ref": "#/tilda~0field"
+                }
+            }, 
+            "slash/field": {
+                "type": "integer"
+            }, 
+            "tilda~field": {
+                "type": "integer"
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 5, 
+        "description": "nested ref valid", 
+        "schema": {
+            "$ref": "#/definitions/c", 
+            "definitions": {
+                "a": {
+                    "type": "integer"
+                }, 
+                "b": {
+                    "$ref": "#/definitions/a"
+                }, 
+                "c": {
+                    "$ref": "#/definitions/b"
+                }
+            }
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "a", 
+        "description": "nested ref invalid", 
+        "schema": {
+            "$ref": "#/definitions/c", 
+            "definitions": {
+                "a": {
+                    "type": "integer"
+                }, 
+                "b": {
+                    "$ref": "#/definitions/a"
+                }, 
+                "c": {
+                    "$ref": "#/definitions/b"
+                }
+            }
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": {
+            "minLength": 1
+        }, 
+        "description": "remote ref valid", 
+        "schema": {
+            "$ref": "http://json-schema.org/draft-04/schema#"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": {
+            "minLength": -1
+        }, 
+        "description": "remote ref invalid", 
+        "schema": {
+            "$ref": "http://json-schema.org/draft-04/schema#"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 1.0, 
+        "description": "a float is not an integer even without fractional part", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 12345678910111213141516171819202122232425262728293031, 
+        "description": "a bignum is an integer", 
+        "schema": {
+            "type": "integer"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 98249283749234923498293171823948729348710298301928331, 
+        "description": "a bignum is a number", 
+        "schema": {
+            "type": "number"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": 98249283749234923498293171823948729348710298301928331, 
+        "description": "a bignum is not a string", 
+        "schema": {
+            "type": "string"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": 9.727837981879871e+26, 
+        "description": "comparison works for high numbers", 
+        "schema": {
+            "exclusiveMaximum": true, 
+            "maximum": 9.727837981879871e+26
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "06/19/1963 08:30:06 PST", 
+        "description": "an invalid date-time string", 
+        "schema": {
+            "format": "date-time"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "http://foo.bar/?baz=qux#quux", 
+        "description": "a valid URI", 
+        "schema": {
+            "format": "uri"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "\\\\WINDOWS\\fileshare", 
+        "description": "an invalid URI", 
+        "schema": {
+            "format": "uri"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "joe.bloggs@example.com", 
+        "description": "a valid e-mail address", 
+        "schema": {
+            "format": "email"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "2962", 
+        "description": "an invalid e-mail address", 
+        "schema": {
+            "format": "email"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "192.168.0.1", 
+        "description": "a valid IP address", 
+        "schema": {
+            "format": "ipv4"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "127.0.0.0.1", 
+        "description": "an IP address with too many components", 
+        "schema": {
+            "format": "ipv4"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "256.256.256.256", 
+        "description": "an IP address with out-of-range values", 
+        "schema": {
+            "format": "ipv4"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "::1", 
+        "description": "a valid IPv6 address", 
+        "schema": {
+            "format": "ipv6"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "12345::", 
+        "description": "an IPv6 address with out-of-range values", 
+        "schema": {
+            "format": "ipv6"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "1:1:1:1:1:1:1:1:1:1:1:1:1:1:1:1", 
+        "description": "an IPv6 address with too many components", 
+        "schema": {
+            "format": "ipv6"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "::laptop", 
+        "description": "an IPv6 address containing illegal characters", 
+        "schema": {
+            "format": "ipv6"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "www.example.com", 
+        "description": "a valid host name", 
+        "schema": {
+            "format": "hostname"
+        }, 
+        "valid": true
+    }, 
+    {
+        "data": "-a-host-name-that-starts-with--", 
+        "description": "a host name starting with an illegal character", 
+        "schema": {
+            "format": "hostname"
+        }, 
+        "valid": false
+    }, 
+    {
+        "data": "a-vvvvvvvvvvvvvvvveeeeeeeeeeeeeeeerrrrrrrrrrrrrrrryyyyyyyyyyyyyyyy-long-host-name-component", 
+        "description": "a host name with a component too long", 
+        "schema": {
+            "format": "hostname"
+        }, 
+        "valid": false
+    }
+]
