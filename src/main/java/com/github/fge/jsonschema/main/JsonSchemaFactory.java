@@ -39,9 +39,16 @@ import java.util.Map;
 public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
 {
+    /*
+     * Elements provided by the builder
+     */
     final ReportProvider reportProvider;
     final LoadingConfiguration loadingCfg;
     final ValidationConfiguration validationCfg;
+
+    /*
+     * Generated elements
+     */
     private final JsonValidator validator;
     private final SyntaxValidator syntaxValidator;
 
