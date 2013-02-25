@@ -27,36 +27,26 @@ on Android</a> :)</p>
 href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
 group</a>.</p>
 
-<h2>Current status</h2>
+<h2>Status of 2.0.x development</h2>
 
-<p>Work is underway to get this library up to version 2.0.x. This library will depend on a <a
-href="https://github.com/fge/json-schema-core">core library</a> which already has <a
-href="https://github.com/fge/json-schema-core/wiki/Architecture">a lot of components
-written</a>.</p>
+<p>2.0.x is nearing completion; all that is left to do is finish the Javadoc and re-adding
+examples.</p>
 
-<p>This new core library allows you to do whatever you want with your JSON schemas and data. Among
-other things:</p>
+<p>This library now depends on a <a href="https://github.com/fge/json-schema-core">new core
+library</a>, whose components are already used to demonstrate capabilities far beyond what 1.x can
+do.</p>
 
-<ul>
-    <li>generating JSON Schemas from POJOs (very soon!), or the reverse;</li>
-    <li>converting JSON Schemas to other data description formats (Protobuf, for instance), or the
-    reverse;</li>
-    <li>or indeed anything you can think of.</li>
-</ul>
+<p>For instance, a processor has already been written to allow generations of JSON Schemas out of
+a plain Java source, and this is even <a
+href="http://json-schema-validator.herokuapp.com/jjschema.html">being demonstrated online</a>.</p>
 
-<p>All this with custom reporting/exception handling/etc.</p>
-
-<p>At the time of this writing, the core feature set is entirely implemented, although some changes
-will happen before it reaches a stable state.</p>
-
-<p>Another package will be created demonstrating the use of processors. The first of them will be
-using <a href="https://github.com/reinert/JJSchema">JJSchema</a> to generate a complete validation
-chain, from an annotated Java class to instance validation.</p>
+<p>See <a href="https://github.com/fge/json-schema-processor-examples">this project</a> for more
+information.</p>
 
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.13</b>; (<a
+    <li>development version: <b>1.99.14</b>; (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>). As the
     Javadoc is not done yet, no links to it, sorry!</li>
     <li>stable version: <b>1.6.2</b> (<a
