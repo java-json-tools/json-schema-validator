@@ -23,6 +23,15 @@ import com.google.common.collect.ImmutableList;
 
 import java.util.Collections;
 
+/**
+ * JSON Schema subschema selector for array instances
+ *
+ * <p>Its role is to select which subschemas apply to a given array index of an
+ * instance, given a digest built by {@link ArraySchemaDigester}.</p>
+ *
+ * <p>It may happen that no schemas apply at all (in which case the document at
+ * the given array index will always validate successfully).</p>
+ */
 final class ArraySchemaSelector
 {
     private static final JsonPointer ITEMS = JsonPointer.of("items");

@@ -26,6 +26,13 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * JSON Schema selector for member values of JSON Object instances
+ *
+ * <p>Unlike what happens with arrays, for a given member name of an instance,
+ * here there can be more than one subschema which the member value must be
+ * valid against.</p>
+ */
 public final class ObjectSchemaSelector
 {
     private static final JsonPointer PROPERTIES

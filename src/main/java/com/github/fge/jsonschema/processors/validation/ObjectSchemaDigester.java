@@ -28,6 +28,9 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
+/**
+ * JSON Schema digester for an {@link ObjectSchemaDigester}
+ */
 public final class ObjectSchemaDigester
     extends AbstractDigester
 {

@@ -21,6 +21,20 @@ import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
+/**
+ * Equivalence for schema contexts
+ *
+ * <p>This is used by {@link ValidationChain} and {@link ValidationProcessor} to
+ * cache computation results. Two schema contexts are considered equivalent if:
+ * </p>
+ *
+ * <ul>
+ *     <li>schema trees are considered equivalent,</li>
+ *     <li>and the type of the instance is the same.</li>
+ * </ul>
+ *
+ * @see SchemaTreeEquivalence
+ */
 public final class SchemaContextEquivalence
     extends Equivalence<SchemaContext>
 {

@@ -23,6 +23,9 @@ import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.util.NodeType;
 
+/**
+ * JSON Schema digester for an {@link ArraySchemaSelector}
+ */
 public final class ArraySchemaDigester
     extends AbstractDigester
 {

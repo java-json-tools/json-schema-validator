@@ -35,6 +35,20 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
+/**
+ * A validation chain
+ *
+ * <p>This processor performs the following:</p>
+ *
+ * <ul>
+ *     <li>perform reference lookup then syntax validation;</li>
+ *     <li>throw an exception if the previous step fails;</li>
+ *     <li>then perform schema digesting and keyword building.</li>
+ * </ul>
+ *
+ * <p>A validation chain handles one schema version. Switching schema versions
+ * is done by {@link ValidationProcessor}.</p>
+ */
 public final class ValidationChain
     implements Processor<SchemaContext, ValidatorList>
 {

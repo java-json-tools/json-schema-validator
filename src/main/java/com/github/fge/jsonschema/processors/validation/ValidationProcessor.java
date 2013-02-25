@@ -40,6 +40,9 @@ import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Main validation processor
+ */
 public final class ValidationProcessor
     implements Processor<FullData, FullData>
 {

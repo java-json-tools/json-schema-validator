@@ -20,6 +20,15 @@ package com.github.fge.jsonschema.processors.validation;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
+/**
+ * Schema tree equivalence
+ *
+ * <p>This is used by {@link ValidationChain} to cache results of the JSON
+ * Reference resolution -> syntax validation chain.</p>
+ *
+ * <p>Two schema trees are considered equivant if their loading URI, current
+ * URI context, base node and pointers are equivalent.</p>
+ */
 public final class SchemaTreeEquivalence
     extends Equivalence<SchemaTree>
 {
