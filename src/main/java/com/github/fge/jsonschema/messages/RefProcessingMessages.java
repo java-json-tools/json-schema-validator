@@ -24,7 +24,9 @@ public enum RefProcessingMessages
     URI_NOT_JSON("content at URI is not valid JSON"),
     URI_IOERROR("cannot dereference URI (IOException)"),
     REF_LOOP("JSON Reference loop detected"),
-    DANGLING_REF("unresolvable JSON Reference");
+    DANGLING_REF("unresolvable JSON Reference"),
+    ILLEGAL_JSON_REF("illegal JSON Reference (fragment is not a JSON Pointer)"),
+    ;
 
     private final String message;
 

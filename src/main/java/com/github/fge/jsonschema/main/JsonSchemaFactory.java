@@ -17,8 +17,12 @@
 
 package com.github.fge.jsonschema.main;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.Processor;
@@ -30,11 +34,14 @@ import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.base.Function;
 
 import java.util.Map;
+
+import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
 public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
@@ -49,6 +56,7 @@ public final class JsonSchemaFactory
     /*
      * Generated elements
      */
+    private final SchemaLoader loader;
     private final JsonValidator validator;
     private final SyntaxValidator syntaxValidator;
 
@@ -67,9 +75,11 @@ public final class JsonSchemaFactory
         reportProvider = builder.reportProvider;
         loadingCfg = builder.loadingCfg;
         validationCfg = builder.validationCfg;
+
+        loader = new SchemaLoader(loadingCfg);
         final Processor<SchemaContext, ValidatorList> processor
-            = buildProcessor(loadingCfg, validationCfg);
-        validator = new JsonValidator(loadingCfg.getDereferencing(),
+            = buildProcessor();
+        validator = new JsonValidator(loader,
             new ValidationProcessor(processor), reportProvider);
         syntaxValidator = new SyntaxValidator(validationCfg);
     }
@@ -84,17 +94,44 @@ public final class JsonSchemaFactory
         return syntaxValidator;
     }
 
+    public JsonSchema getJsonSchema(final JsonNode schema)
+        throws ProcessingException
+    {
+        if (schema == null)
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(NULL_SCHEMA));
+        return validator.buildJsonSchema(schema, JsonPointer.empty());
+    }
+
+    public JsonSchema getJsonSchema(final JsonNode schema, final String ptr)
+        throws ProcessingException
+    {
+        if (schema == null)
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(NULL_SCHEMA));
+        if (ptr == null)
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(NULL_URI));
+        return validator.buildJsonSchema(schema, new JsonPointer(ptr));
+    }
+
+    public JsonSchema getJsonSchema(final String uri)
+        throws ProcessingException
+    {
+        if (uri == null)
+            throw new LoadingConfigurationError(new ProcessingMessage()
+                .message(NULL_URI));
+        return validator.buildJsonSchema(uri);
+    }
+
     @Override
     public JsonSchemaFactoryBuilder thaw()
     {
         return new JsonSchemaFactoryBuilder(this);
     }
 
-    private static Processor<SchemaContext, ValidatorList>
-        buildProcessor(final LoadingConfiguration loadingCfg,
-            final ValidationConfiguration validationCfg)
+    private Processor<SchemaContext, ValidatorList> buildProcessor()
     {
-        final SchemaLoader loader = new SchemaLoader(loadingCfg);
         final RefResolver resolver = new RefResolver(loader);
         final boolean useFormat = validationCfg.getUseFormat();
 

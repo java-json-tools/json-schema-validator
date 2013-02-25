@@ -126,6 +126,8 @@ public final class SchemaLoader
      *
      * @param uri the URI
      * @return a schema tree
+     * @throws ProcessingException URI is not an absolute JSON reference, or
+     * failed to dereference this URI
      */
     public SchemaTree get(final URI uri)
         throws ProcessingException
