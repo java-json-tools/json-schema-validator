@@ -18,8 +18,11 @@
 package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.processing.ProcessingResult;
@@ -32,15 +35,36 @@ import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import net.jcip.annotations.Immutable;
 
+import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 
+/**
+ * A generic schema/instance validator
+ *
+ * <p>One such instance exists per {@link JsonSchemaFactory}. In fact, you have
+ * to go through a factory to obtain an instance.</p>
+ *
+ * <p>This class is also responsible for building {@link JsonSchema} instances.
+ * </p>
+ *
+ * @see JsonSchemaFactory#getValidator()
+ */
+@Immutable
 public final class JsonValidator
 {
     private final SchemaLoader loader;
     private final ValidationProcessor processor;
     private final ReportProvider reportProvider;
 
+    /**
+     * Package private (and only) constructor
+     *
+     * @param loader the schema loader
+     * @param processor the validation processor
+     * @param reportProvider the report provider
+     */
     JsonValidator(final SchemaLoader loader,
         final ValidationProcessor processor,
         final ReportProvider reportProvider)
@@ -50,6 +74,15 @@ public final class JsonValidator
         this.reportProvider = reportProvider;
     }
 
+    /**
+     * Validate a schema/instance pair
+     *
+     * @param schema the schema
+     * @param instance the instance
+     * @return a validation report
+     * @throws ProcessingException an exception occurred during validation
+     * @throws ProcessingError the schema or instance is null
+     */
     public ProcessingReport validate(final JsonNode schema,
         final JsonNode instance)
         throws ProcessingException
@@ -59,6 +92,17 @@ public final class JsonValidator
         return ProcessingResult.of(processor, report, data).getReport();
     }
 
+    /**
+     * Validate a schema/instance pair (unchecked mode)
+     *
+     * <p>The same warnings as described in {@link
+     * JsonSchema#validateUnchecked(JsonNode)} apply</p>
+     *
+     * @param schema the schema
+     * @param instance the instance
+     * @return a validation report
+     * @throws ProcessingError the schema or instance is null
+     */
     public ProcessingReport validateUnchecked(final JsonNode schema,
         final JsonNode instance)
     {
@@ -68,6 +112,16 @@ public final class JsonValidator
             .getReport();
     }
 
+    /**
+     * Build a {@link JsonSchema} instance
+     *
+     * @param schema the schema
+     * @param pointer the pointer into the schema
+     * @return a new {@link JsonSchema}
+     * @throws ProcessingException resolving the pointer against the schema
+     * leads to a {@link MissingNode}
+     * @throws ProcessingError the schema or pointer is null
+     */
     JsonSchema buildJsonSchema(final JsonNode schema, final JsonPointer pointer)
         throws ProcessingException
     {
@@ -78,6 +132,15 @@ public final class JsonValidator
         return new JsonSchema(processor, tree, reportProvider);
     }
 
+    /**
+     * Build a {@link JsonSchema} instance
+     *
+     * @param uri the URI to load the schema from
+     * @return a {@link JsonSchema}
+     * @throws ProcessingException invalid URI, or URI did not resolve to a
+     * JSON Schema
+     * @throws JsonReferenceError URI is null
+     */
     JsonSchema buildJsonSchema(final String uri)
         throws ProcessingException
     {
@@ -95,6 +158,12 @@ public final class JsonValidator
 
     private FullData buildData(final JsonNode schema, final JsonNode instance)
     {
+        if (schema == null)
+            throw new ProcessingError(new ProcessingMessage()
+                .message(NULL_SCHEMA));
+        if (instance == null)
+            throw new ProcessingError(new ProcessingMessage()
+                .message(NULL_INSTANCE));
         final SchemaTree schemaTree = loader.load(schema);
         final JsonTree tree = new SimpleJsonTree(instance);
         return new FullData(schemaTree, tree);

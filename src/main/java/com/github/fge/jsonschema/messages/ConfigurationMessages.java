@@ -36,6 +36,7 @@ public enum ConfigurationMessages
     NULL_LIBRARY("library cannot be null"),
     DUP_LIBRARY("a library already exists for this URI"),
     NULL_VERSION("version cannot be null"),
+    NULL_INSTANCE("instance cannot be null"),
     ;
 
     private final String message;

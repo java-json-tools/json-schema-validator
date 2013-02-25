@@ -21,10 +21,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
+import com.github.fge.jsonschema.messages.ConfigurationMessages;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.google.common.base.Preconditions;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -110,11 +112,13 @@ public final class SchemaLoader
      * @param schema the schema
      * @return a new tree
      * @see Dereferencing#newTree(JsonNode)
+     * @throws ProcessingError schema is null
      */
     public SchemaTree load(final JsonNode schema)
     {
-        // TODO: replace
-        Preconditions.checkNotNull(schema, "cannot register null schema");
+        if (schema == null)
+            throw new ProcessingError(new ProcessingMessage()
+                .message(ConfigurationMessages.NULL_SCHEMA));
         return dereferencing.newTree(schema);
     }
 
@@ -128,6 +132,7 @@ public final class SchemaLoader
      * @return a schema tree
      * @throws ProcessingException URI is not an absolute JSON reference, or
      * failed to dereference this URI
+     * @throws JsonReferenceError URI is null
      */
     public SchemaTree get(final URI uri)
         throws ProcessingException

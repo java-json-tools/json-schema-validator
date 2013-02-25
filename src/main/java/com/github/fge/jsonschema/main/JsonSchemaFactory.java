@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
@@ -38,11 +39,28 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Frozen;
 import com.google.common.base.Function;
+import net.jcip.annotations.Immutable;
 
 import java.util.Map;
 
 import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
+/**
+ * The main validator provider
+ *
+ * <p>From an instance of this factory, you can obtain the following:</p>
+ *
+ * <ul>
+ *     <li>a {@link SyntaxValidator}, to validate schemas;</li>
+ *     <li>a {@link JsonValidator}, to validate an instance against a schema;
+ *     </li>
+ *     <li>a {@link JsonSchema}, to validate instances against a fixed schema.
+ *     </li>
+ * </ul>
+ *
+ * @see JsonSchemaFactoryBuilder
+ */
+@Immutable
 public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
 {
@@ -60,16 +78,36 @@ public final class JsonSchemaFactory
     private final JsonValidator validator;
     private final SyntaxValidator syntaxValidator;
 
+    /**
+     * Return a default factory
+     *
+     * <p>This default factory has validators for both draft v4 and draft v3. It
+     * defaults to draft v4.</p>
+     *
+     * @return a factory with default settings
+     * @see JsonSchemaFactoryBuilder#JsonSchemaFactoryBuilder()
+     */
     public static JsonSchemaFactory byDefault()
     {
         return newBuilder().freeze();
     }
 
+    /**
+     * Return a factory builder
+     *
+     * @return a {@link JsonSchemaFactoryBuilder}
+     */
     public static JsonSchemaFactoryBuilder newBuilder()
     {
         return new JsonSchemaFactoryBuilder();
     }
 
+    /**
+     * Package private constructor to build a factory out of a builder
+     *
+     * @param builder the builder
+     * @see JsonSchemaFactoryBuilder#freeze()
+     */
     JsonSchemaFactory(final JsonSchemaFactoryBuilder builder)
     {
         reportProvider = builder.reportProvider;
@@ -84,16 +122,37 @@ public final class JsonSchemaFactory
         syntaxValidator = new SyntaxValidator(validationCfg);
     }
 
+    /**
+     * Return the main schema/instance validator provided by this factory
+     *
+     * @return a {@link JsonValidator}
+     */
     public JsonValidator getValidator()
     {
         return validator;
     }
 
+    /**
+     * Return the syntax validator provided by this factory
+     *
+     * @return a {@link SyntaxValidator}
+     */
     public SyntaxValidator getSyntaxValidator()
     {
         return syntaxValidator;
     }
 
+    /**
+     * Build an instance validator tied to a schema
+     *
+     * <p>Note that the validity of the schema is <b>not</b> checked. Use {@link
+     * #getSyntaxValidator()} if you are not sure.</p>
+     *
+     * @param schema the schema
+     * @return a {@link JsonSchema}
+     * @throws ProcessingException schema is a {@link MissingNode}
+     * @throws LoadingConfigurationError schema is null
+     */
     public JsonSchema getJsonSchema(final JsonNode schema)
         throws ProcessingException
     {
@@ -103,6 +162,19 @@ public final class JsonSchemaFactory
         return validator.buildJsonSchema(schema, JsonPointer.empty());
     }
 
+    /**
+     * Build an instance validator tied to a subschema from a main schema
+     *
+     * <p>Note that the validity of the schema is <b>not</b> checked. Use {@link
+     * #getSyntaxValidator()} if you are not sure.</p>
+     *
+     * @param schema the schema
+     * @param ptr a JSON Pointer as a string
+     * @return a {@link JsonSchema}
+     * @throws ProcessingException {@code ptr} is not a valid JSON Pointer, or
+     * resolving the pointer against the schema leads to a {@link MissingNode}
+     * @throws LoadingConfigurationError the schema or pointer is null
+     */
     public JsonSchema getJsonSchema(final JsonNode schema, final String ptr)
         throws ProcessingException
     {
@@ -115,6 +187,14 @@ public final class JsonSchemaFactory
         return validator.buildJsonSchema(schema, new JsonPointer(ptr));
     }
 
+    /**
+     * Build an instance validator out of a schema loaded from a URI
+     *
+     * @param uri the URI
+     * @return a {@link JsonSchema}
+     * @throws ProcessingException failed to load from this URI
+     * @throws LoadingConfigurationError URI is null
+     */
     public JsonSchema getJsonSchema(final String uri)
         throws ProcessingException
     {
@@ -124,6 +204,12 @@ public final class JsonSchemaFactory
         return validator.buildJsonSchema(uri);
     }
 
+    /**
+     * Return a thawed instance of that factory
+     *
+     * @return a {@link JsonSchemaFactoryBuilder}
+     * @see JsonSchemaFactoryBuilder#JsonSchemaFactoryBuilder(JsonSchemaFactory)
+     */
     @Override
     public JsonSchemaFactoryBuilder thaw()
     {
