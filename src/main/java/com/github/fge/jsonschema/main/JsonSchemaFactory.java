@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.ref.RefResolver;
+import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
@@ -41,7 +42,8 @@ public final class JsonSchemaFactory
     final ReportProvider reportProvider;
     final LoadingConfiguration loadingCfg;
     final ValidationConfiguration validationCfg;
-    final JsonValidator validator;
+    private final JsonValidator validator;
+    private final SyntaxValidator syntaxValidator;
 
     public static JsonSchemaFactory byDefault()
     {
@@ -62,11 +64,17 @@ public final class JsonSchemaFactory
             = buildProcessor(loadingCfg, validationCfg);
         validator = new JsonValidator(loadingCfg.getDereferencing(),
             new ValidationProcessor(processor), reportProvider);
+        syntaxValidator = new SyntaxValidator(validationCfg);
     }
 
     public JsonValidator getValidator()
     {
         return validator;
+    }
+
+    public SyntaxValidator getSyntaxValidator()
+    {
+        return syntaxValidator;
     }
 
     @Override
