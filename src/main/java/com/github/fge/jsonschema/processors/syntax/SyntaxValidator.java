@@ -42,7 +42,7 @@ import java.util.Map;
  * independently of the validation chain. Among other features, it detects
  * {@code $schema} and acts accordingly.</p>
  *
- * <p>Note that the reports used are alwaus {@link ListProcessingReport}s.</p>
+ * <p>Note that the reports used are always {@link ListProcessingReport}s.</p>
  */
 public final class SyntaxValidator
 {
@@ -98,6 +98,18 @@ public final class SyntaxValidator
     {
         final ProcessingReport report = new ListProcessingReport();
         return getResult(schema, report).getReport();
+    }
+
+    /**
+     * Return the underlying processor
+     *
+     * <p>You can use this processor to chain it with your own.</p>
+     *
+     * @return a processor performing full syntax validation
+     */
+    public Processor<SchemaHolder, SchemaHolder> getProcessor()
+    {
+        return processor;
     }
 
     private ProcessingResult<SchemaHolder> getResult(final JsonNode schema,
