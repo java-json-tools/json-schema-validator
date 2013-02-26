@@ -13,16 +13,9 @@ href="https://github.com/fge/json-schema-validator/wiki/Features">extensive list
 href="http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema">work
 on Android</a> :)</p>
 
-<p>Quick start:</p>
-
-<ul>
-    <li>you can <a href="http://json-schema-validator.herokuapp.com">test this library online</a>;
-    you can even <a href="https://github.com/fge/json-schema-validator-demo">fork this application
-    and run it yourself</a>;</li>
-    <li>you can have a look at the <a
-    href="http://fge.github.com/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
-    samples</a>.</li>
-</ul>
+<p>You can <a href="http://json-schema-validator.herokuapp.com">test this library online</a>; you
+can even <a href="https://github.com/fge/json-schema-validator-demo">fork this web site and run it
+yourself</a>.</p>
 
 
 <p>This project also has a dedicated <a
@@ -35,10 +28,14 @@ group</a>.</p>
 <ul>
     <li>stable version: <b>2.0.0</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
-    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
+    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
+    href="http://fge.github.com/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
+    samples</a>).</li>
     <li>old version: <b>1.6.2</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.old">ChangeLog</a>, <a
-    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
+    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
+    href="http://fge.github.com/json-schema-validator/old/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
+    samples</a>).</li>
 </ul>
 
 <h2>Maven artifact</h2>
