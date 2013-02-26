@@ -20,7 +20,7 @@ on Android</a> :)</p>
     you can even <a href="https://github.com/fge/json-schema-validator-demo">fork this application
     and run it yourself</a>;</li>
     <li>you can have a look at the <a
-    href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
+    href="http://fge.github.com/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
     samples</a>.</li>
 </ul>
 
