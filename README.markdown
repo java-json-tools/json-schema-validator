@@ -1,5 +1,7 @@
 <h2>Read me first</h2>
 
+<p><b>Version 2.0.0 is out</b>!</p>
+
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
@@ -19,7 +21,7 @@ on Android</a> :)</p>
     and run it yourself</a>;</li>
     <li>you can have a look at the <a
     href="http://fge.github.com/json-schema-validator/stable/index.html?org/eel/kitchen/jsonschema/examples/package-summary.html">code
-    samples</a> (note: stable version).</li>
+    samples</a>.</li>
 </ul>
 
 
@@ -27,31 +29,16 @@ on Android</a> :)</p>
 href="https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator">Google
 group</a>.</p>
 
-<h2>Status of 2.0.x development</h2>
-
-<p>2.0.x is nearing completion; all that is left to do is finish the Javadoc and re-adding
-examples.</p>
-
-<p>This library now depends on a <a href="https://github.com/fge/json-schema-core">new core
-library</a>, whose components are already used to demonstrate capabilities far beyond what 1.x can
-do.</p>
-
-<p>For instance, a processor has already been written to allow generations of JSON Schemas out of
-a plain Java source, and this is even <a
-href="http://json-schema-validator.herokuapp.com/jjschema.html">being demonstrated online</a>.</p>
-
-<p>See <a href="https://github.com/fge/json-schema-processor-examples">this project</a> for more
-information.</p>
 
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>1.99.14</b>; (<a
-    href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>). As the
-    Javadoc is not done yet, no links to it, sorry!</li>
-    <li>stable version: <b>1.6.2</b> (<a
+    <li>stable version: <b>2.0.0</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
-    href="http://fge.github.com/json-schema-validator/stable/index.html">Javadoc</a>).</li>
+    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
+    <li>old version: <b>1.6.2</b> (<a
+    href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.old">ChangeLog</a>, <a
+    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>).</li>
 </ul>
 
 <h2>Maven artifact</h2>
@@ -65,6 +52,19 @@ information.</p>
     <version>your-version-here</version>
 </dependency>
 ```
+
+<h2>Demonstration of extension capabilities</h2>
+
+<p>This library's dependency on <a
+href="https://github.com/fge/json-schema-core">json-schema-core</a> opens up many possibilities for
+extensions. A <a href="https://github.com/fge/json-schema-processor-examples">decicated project</a>
+shows what is possible, and it barely scratches the surface.</p>
+
+<p>Despite that, a processor has already been written to allow generations of JSON Schemas out of
+a plain Java source, and this is even <a
+href="http://json-schema-validator.herokuapp.com/jjschema.html">being demonstrated online</a>. This
+means you can create a validation chain validating instances using a Java class directly, without
+having to write a JSON Schema!</p>
 
 <h2>Versioning scheme policy</h2>
 
