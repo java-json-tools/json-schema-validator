@@ -18,14 +18,15 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.load.Dereferencing;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
-import com.github.fge.jsonschema.schema.AddressingMode;
+import com.github.fge.jsonschema.main.JsonSchemaFactoryBuilder;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
-
-import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * Second example: inline schema addressing
@@ -39,32 +40,34 @@ import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
  * here</a>.</p>
  *
  * <p>In order to use inline schema addressing, we cannot use the default
- * factory: we must go through {@link Builder} and use the {@link
- * Builder#addressingMode(AddressingMode)} method, specifying that we want
- * {@link AddressingMode#INLINE} addressing.</p>
+ * factory: we must go through a {@link JsonSchemaFactoryBuilder} and use a
+ * modified {@link LoadingConfiguration} to tell that we want to use inline
+ * dereferencing.</p>
  *
  * <p>Apart from these, the files used for validation and validation results
  * are the same as {@link Example1}.</p>
  *
- * @see AddressingMode
+ * @see Dereferencing
  */
 public final class Example2
     extends ExampleBase
 {
     public static void main(final String... args)
-        throws IOException
+        throws IOException, ProcessingException
     {
         final JsonNode fstabSchema = loadResource("/fstab-inline.json");
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .addressingMode(AddressingMode.INLINE).build();
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .dereferencing(Dereferencing.INLINE).freeze();
+        final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
+            .setLoadingConfiguration(cfg).freeze();
 
-        final JsonSchema schema = factory.fromSchema(fstabSchema);
+        final JsonSchema schema = factory.getJsonSchema(fstabSchema);
 
-        ValidationReport report;
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);

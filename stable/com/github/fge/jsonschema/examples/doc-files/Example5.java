@@ -18,14 +18,16 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.main.JsonSchemaFactoryBuilder;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
-
-import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * Fifth example: setting a URI namespace; relative URI resolution
@@ -34,10 +36,15 @@ import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
  *
  * <p>This example demonstrates another capability of {@link JsonSchemaFactory}:
  * the ability to set a URI namespace. This requires to customize the factory,
- * and therefore go through {@link Builder}, and more precisely {@link
- * Builder#setNamespace(String)}. After this, {@link JsonSchemaFactory#fromURI(
- * String)} and assimilates will resolve all URIs against this namespace (which
- * is empty by default).</p>
+ * and therefore go through {@link JsonSchemaFactoryBuilder} again.</p>
+ *
+ * <p>In order to set a URI namespace, we must grab a {@link
+ * LoadingConfigurationBuilder}, set the namespace, freeze it, and pass it to
+ * the factory builder and then freeze the factory.</p>
+ *
+ * <p>The net effect is that all schema loading done by {@link SchemaLoader}
+ * will now resolve against this namespace, and this includes arguments to
+ * {@link JsonSchemaFactory#getJsonSchema(String)}.</p>
  *
  * <p>The schemas are split in two:</p>
  *
@@ -62,18 +69,21 @@ public final class Example5
         = "resource:/com/github/fge/jsonschema/examples/split/";
 
     public static void main(final String... args)
-        throws IOException, JsonSchemaException
+        throws IOException, ProcessingException
     {
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .setNamespace(NAMESPACE).build();
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .setNamespace(NAMESPACE).freeze();
 
-        final JsonSchema schema = factory.fromURI("fstab.json");
+        final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
+            .setLoadingConfiguration(cfg).freeze();
 
-        ValidationReport report;
+        final JsonSchema schema = factory.getJsonSchema("fstab.json");
+
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);

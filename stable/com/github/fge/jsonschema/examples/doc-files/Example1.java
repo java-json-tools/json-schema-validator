@@ -18,9 +18,10 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
 
@@ -30,12 +31,13 @@ import java.io.IOException;
  * <p><a href="doc-files/Example1.java">link to source code</a></p>
  *
  * <p>This shows a basic usage example. The schema used for validation is
- * <a href="doc-files/fstab.json">here</a>, which conforms to draft v3. You will
- * notice that a JSON Pointer ({@code #/mntent}) is used to address the mntent
- * subschema.</p>
+ * <a href="doc-files/fstab.json">here</a>, which conforms to draft v4, which is
+ * the default version. You will notice that a JSON Pointer ({@code
+ * #/definitions/mntent}) is used to address a subschema defining a mount entry.
+ * </p>
  *
- * <p>This example uses {@link JsonSchemaFactory#defaultFactory()}, and uses
- * {@link JsonSchemaFactory#fromSchema(JsonNode)} to create the {@link
+ * <p>This example uses {@link JsonSchemaFactory#byDefault()}, and uses
+ * {@link JsonSchemaFactory#getJsonSchema(JsonNode)}  to create the {@link
  * JsonSchema} instance.</p>
  *
  * <p>The first sample (<a href="doc-files/fstab-good.json">here</a>) validates
@@ -61,18 +63,18 @@ public final class Example1
     extends ExampleBase
 {
     public static void main(final String... args)
-        throws IOException
+        throws IOException, ProcessingException
     {
         final JsonNode fstabSchema = loadResource("/fstab.json");
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
+        final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
-        final JsonSchema schema = factory.fromSchema(fstabSchema);
+        final JsonSchema schema = factory.getJsonSchema(fstabSchema);
 
-        ValidationReport report;
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);

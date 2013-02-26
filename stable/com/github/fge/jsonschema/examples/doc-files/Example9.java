@@ -18,27 +18,42 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
-import com.github.fge.jsonschema.keyword.KeywordValidator;
+import com.github.fge.jsonschema.cfg.ValidationConfiguration;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
+import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
+import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
+import com.github.fge.jsonschema.keyword.syntax.AbstractSyntaxChecker;
+import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.library.DraftV4Library;
+import com.github.fge.jsonschema.library.Keyword;
+import com.github.fge.jsonschema.library.KeywordBuilder;
+import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.library.LibraryBuilder;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.main.Keyword;
-import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
-import com.github.fge.jsonschema.metaschema.MetaSchema;
-import com.github.fge.jsonschema.report.Message;
-import com.github.fge.jsonschema.report.ValidationReport;
-import com.github.fge.jsonschema.syntax.AbstractSyntaxChecker;
-import com.github.fge.jsonschema.syntax.SyntaxChecker;
-import com.github.fge.jsonschema.syntax.SyntaxValidator;
+import com.github.fge.jsonschema.processing.Processor;
+import com.github.fge.jsonschema.processors.data.FullData;
+import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.NodeType;
-import com.github.fge.jsonschema.validator.ValidationContext;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.SortedSet;
+
+import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 /**
  * Ninth example: augmenting schemas with custom keywords
@@ -47,35 +62,40 @@ import java.util.Set;
  *
  * <p><a href="doc-files/custom-keyword.json">link to schema</a></p>
  *
- * <p>This example adds a custom keyword with syntax checking and keyword
- * validation. The chosen keyword is {@code divisors}: it applies to integer
- * values and takes an array of (unique) integers as an argument. The
- * validation is the same as for {@code divisibleBy} (or {@code multipleOf}),
- * except that the result must be zero for all divisors. For instance, if the
- * value of this keyword is {@code [2, 3]}, then 6 validates successfully but
- * 14 does not (it is divisible by 2 but not 3).</p>
+ * <p>This example adds a custom keyword with syntax checking, digesting and
+ * keyword validation. The chosen keyword is {@code divisors}: it applies to
+ * integer values and takes an array of (unique) integers as an argument.</p>
  *
- * <p>The principle is the same as adding format attributes (see {@link
- * Example8}), with the difference that the keyword is built using the {@link
- * Keyword} class. You need three elements to add a custom keyword:</p>
+ * <p>The validation is the same as for {@code multipleOf} except that it is
+ * restricted to integer values and the instance must be a multiple of all
+ * divisors. For instance, if the value of this keyword is {@code [2, 3]}, then
+ * 6 validates successfully but 14 does not (it is divisible by 2 but not 3).
+ * </p>
+ *
+ * <p>For this, you need to create your own keyword. This is done using {@link
+ * Keyword#newBuilder(String)}, where the argument is the name of your keyword,
+ * and then add the following elements:</p>
  *
  * <ul>
- *     <li>its name (obviously enough),</li>
- *     <li>a {@link SyntaxChecker} (optional),</li>
- *     <li>a {@link KeywordValidator} (optional).</li>
+ *     <li>a {@link SyntaxChecker} (using {@link
+ *     KeywordBuilder#withSyntaxChecker(SyntaxChecker)};</li>
+ *     <li> a {@link Digester} (using {@link
+ *     KeywordBuilder#withDigester(Digester)};</li>
+ *     <li>and finally, a {@link KeywordValidator} (using {@link
+ *     KeywordBuilder#withValidatorClass(Class)}.</li>
  * </ul>
  *
- * <p>Even though you may omit syntax validation, it is not recommended: this
- * means you would need to do type argument checking in the keyword validator
- * constructor. It is all the less recommended that all keyword validators are
- * built using reflection.</p>
+ * <p>Then, as in {@link Example8}, you need to get hold of a {@link Library}
+ * (we choose again to extend the draft v4 library) and add the (frozen)
+ * keyword to it using {@link LibraryBuilder#addKeyword(Keyword)}.</p>
  *
  * <p>The keyword validator <b>must</b> have a single constructor taking a
- * {@link JsonNode} as an argument (this will be the schema).</p>
- *
- * <p>Unlike for {@link Example8}, here we choose to augment draft v4 instead
- * of draft v3, and not making it the default (which means the schema must
- * have a {@code $schema} member with the appropriate value).</p>
+ * {@link JsonNode} as an argument (which will be the result of the {@link
+ * Digester}). Note that you may omit to write a digester and choose instead to
+ * use an {@link IdentityDigester} or a {@link SimpleDigester} (which you inject
+ * into a keyword using {@link
+ * KeywordBuilder#withIdentityDigester(NodeType, NodeType...)} and {@link
+ * KeywordBuilder#withSimpleDigester(NodeType, NodeType...)} respectively).</p>
  *
  * <p>Two sample files are given: the first (<a
  * href="doc-files/custom-keyword-good.json">link</a>) is valid, the other (<a
@@ -86,27 +106,29 @@ public final class Example9
     extends ExampleBase
 {
     public static void main(final String... args)
-        throws IOException
+        throws IOException, ProcessingException
     {
         final JsonNode customSchema = loadResource("/custom-keyword.json");
         final JsonNode good = loadResource("/custom-keyword-good.json");
         final JsonNode bad = loadResource("/custom-keyword-bad.json");
 
-        final Keyword keyword = Keyword.withName("divisors")
+        final Keyword keyword = Keyword.newBuilder("divisors")
             .withSyntaxChecker(DivisorsSyntaxChecker.getInstance())
-            .withValidatorClass(DivisorsKeywordValidator.class)
-            .build();
+            .withDigester(DivisorsDigesters.getInstance())
+            .withValidatorClass(DivisorsKeywordValidator.class).freeze();
 
-        final MetaSchema metaSchema
-            = MetaSchema.basedOn(BuiltinSchemas.DRAFTV4_CORE)
-                .addKeyword(keyword).build();
+        final Library library = DraftV4Library.get().thaw()
+            .addKeyword(keyword).freeze();
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .addMetaSchema(metaSchema, false).build();
+        final ValidationConfiguration cfg = ValidationConfiguration.newBuilder()
+            .setDefaultLibrary("http://my.site/myschema#", library).freeze();
 
-        final JsonSchema schema = factory.fromSchema(customSchema);
+        final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
+            .setValidationConfiguration(cfg).freeze();
 
-        ValidationReport report;
+        final JsonSchema schema = factory.getJsonSchema(customSchema);
+
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);
@@ -139,8 +161,9 @@ public final class Example9
         }
 
         @Override
-        public void checkValue(final SyntaxValidator validator,
-            final List<Message> messages, final JsonNode schema)
+        protected void checkValue(final Collection<JsonPointer> pointers,
+            final ProcessingReport report, final SchemaTree tree)
+            throws ProcessingException
         {
             /*
              * Using AbstractSyntaxChecker as a base, we know that when we reach
@@ -152,42 +175,93 @@ public final class Example9
              * through all elements of the array and check each element. If we
              * encounter a non integer argument, add a message.
              *
-             * We must also check that there is at lease one element, and that
-             * the array contains no duplicates.
+             * We must also check that there is at lease one element, that the
+             * array contains no duplicates and that all elements are positive
+             * integers and strictly greater than 0.
+             *
+             * The getNode() method grabs the value of this keyword for us, so
+             * use that. Note that we also reuse some messages already defined
+             * in SyntaxMessages.
              */
-            final JsonNode node = schema.get(keyword);
-            final Message.Builder msg = newMsg();
+            final JsonNode node = getNode(tree);
 
             final int size = node.size();
 
             if (size == 0) {
-                msg.setMessage("array must have at least one element");
-                messages.add(msg.build());
+                report.error(newMsg(tree, EMPTY_ARRAY));
                 return;
             }
 
             NodeType type;
             JsonNode element;
+            boolean uniqueItems = true;
 
             final Set<JsonNode> set = Sets.newHashSet();
 
             for (int index = 0; index < size; index++) {
                 element = node.get(index);
                 type = NodeType.getNodeType(element);
-                if (!set.add(element)) {
-                    msg.clearInfo().setMessage("duplicate elements in array");
-                    messages.add(msg.build());
-                    return;
-                }
-                if (type != NodeType.INTEGER) {
-                    msg.setMessage("array element has incorrect type")
-                        .addInfo("expected", NodeType.INTEGER)
-                        .addInfo("index", index);
-                    messages.add(msg.build());
-                }
+                if (type != NodeType.INTEGER)
+                    report.error(newMsg(tree, INCORRECT_ELEMENT_TYPE)
+                        .put("expected", NodeType.INTEGER)
+                        .put("found", type));
+                else if (element.bigIntegerValue().compareTo(BigInteger.ONE) < 0)
+                    report.error(newMsg(tree, INTEGER_IS_NEGATIVE)
+                        .put("value", element));
+                uniqueItems = set.add(element);
             }
+
+            if (!uniqueItems)
+                report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
         }
     }
+
+    /*
+     * Our custom digester
+     *
+     * We take the opportunity to build a digested form where, for instance,
+     * [ 3, 5 ] and [ 5, 3 ] give the same digest.
+     */
+    private static final class DivisorsDigesters
+        extends AbstractDigester
+    {
+        private static final Digester INSTANCE = new DivisorsDigesters();
+
+        public static Digester getInstance()
+        {
+            return INSTANCE;
+        }
+
+        private DivisorsDigesters()
+        {
+            super("divisors", NodeType.INTEGER);
+        }
+
+        @Override
+        public JsonNode digest(final JsonNode schema)
+        {
+            final SortedSet<JsonNode> set = Sets.newTreeSet(COMPARATOR);
+            for (final JsonNode element: schema.get(keyword))
+                set.add(element);
+
+            return FACTORY.arrayNode().addAll(set);
+        }
+
+        /*
+         * Custom Comparator. We compare BigInteger values, since all integers
+         * are representable using this class.
+         */
+        private static final Comparator<JsonNode> COMPARATOR
+            = new Comparator<JsonNode>()
+        {
+            @Override
+            public int compare(final JsonNode o1, final JsonNode o2)
+            {
+                return o1.bigIntegerValue().compareTo(o2.bigIntegerValue());
+            }
+        };
+    }
+
 
     /**
      * Custom keyword validator for {@link Example9}
@@ -195,35 +269,40 @@ public final class Example9
      * It must be {@code public} because it is built by reflection.
      */
     public static final class DivisorsKeywordValidator
-        extends KeywordValidator
+        extends AbstractKeywordValidator
     {
         /*
          * We want to validate arbitrarily large integer values, we therefore
          * use BigInteger.
          */
-        private final Set<BigInteger> divisors;
+        private final List<BigInteger> divisors;
 
-        public DivisorsKeywordValidator(final JsonNode schema)
+        public DivisorsKeywordValidator(final JsonNode digest)
         {
-            super("divisors", NodeType.INTEGER);
+            super("divisors");
 
-            /*
-             * Use Google's ImmutableSet
-             */
-            final ImmutableSet.Builder<BigInteger> set = ImmutableSet.builder();
+            final ImmutableList.Builder<BigInteger> list
+                = ImmutableList.builder();
 
-            for (final JsonNode element: schema.get(keyword))
-                set.add(element.bigIntegerValue());
+            for (final JsonNode element: digest)
+                list.add(element.bigIntegerValue());
 
-            divisors = set.build();
+            divisors = list.build();
         }
 
         @Override
-        public void validate(final ValidationContext context,
-            final ValidationReport report, final JsonNode instance)
+        public void validate(final Processor<FullData, FullData> processor,
+            final ProcessingReport report, final FullData data)
+            throws ProcessingException
         {
-            final BigInteger value = instance.bigIntegerValue();
-            final Set<BigInteger> failed = Sets.newHashSet();
+            final BigInteger value
+                = data.getInstance().getNode().bigIntegerValue();
+            /*
+             * We use a plain list to store failed divisors: remember that the
+             * digested form was built with divisors in order, we therefore
+             * only need insertion order, and a plain ArrayList guarantees that.
+             */
+            final List<BigInteger> failed = Lists.newArrayList();
 
             for (final BigInteger divisor: divisors)
                 if (!value.mod(divisor).equals(BigInteger.ZERO))
@@ -234,22 +313,16 @@ public final class Example9
 
             /*
              * There are missed divisors: report.
-             *
-             * For nicer report, order the divisors using Google's Ordering.
              */
-            final Message msg = newMsg()
-                .setMessage("integer value is not a multiple of all divisors")
-                .addInfo("divisors", Ordering.natural().sortedCopy(divisors))
-                .addInfo("failed", Ordering.natural().sortedCopy(failed))
-                .build();
-
-            report.addMessage(msg);
+            report.error(newMsg(data)
+                .message("integer value is not a multiple of all divisors")
+                .put("divisors", divisors).put("failed", failed));
         }
 
         @Override
         public String toString()
         {
-            return "divisors: " + Ordering.natural().sortedCopy(divisors);
+            return "divisors: " + divisors;
         }
     }
 }

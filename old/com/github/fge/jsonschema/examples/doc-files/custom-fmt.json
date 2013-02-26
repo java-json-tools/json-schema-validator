@@ -1,0 +1,18 @@
+{
+    "title": "custom format attribute demonstration",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "id": {
+                "type": "string",
+                "format": "uuid",
+                "required": true
+            },
+            "name": {
+                "type": "string",
+                "required": true
+            }
+        }
+    }
+}

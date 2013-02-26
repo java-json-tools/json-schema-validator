@@ -18,10 +18,10 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
 
@@ -32,28 +32,22 @@ import java.io.IOException;
  *
  * <p><a href="doc-files/fstab-sub.json">link to schema</a></p>
  *
- * <p>This demonstrates three capabilities of {@link JsonSchemaFactory}:</p>
+ * <p>This demonstrates two capabilities of {@link JsonSchemaFactory}:</p>
  *
  * <ul>
  *     <li>the ability to load schemas via URIs;</li>
- *     <li>the ability to address subschemas in a schema;</li>
- *     <li>the ability to detect schema versions via {@code $schema} (as in
- *     {@link Example2}).</li>
+ *     <li>the ability to address subschemas in a schema.</li>
  * </ul>
  *
  * <p>The implementation provides a {@code resource} scheme which allows to load
  * JSON from files in the classpath. It is strictly equivalent to calling {@link
- * Class#getResourceAsStream(String)}. The URI used is {@code
+ * Class#getResourceAsStream(String)}.</p>
+ *
+ * <p>The URI used is {@code
  * resource:/org/eel/kitchen/jsonschema/examples/fstab-sub.json}. Because we
  * want to validate against the {@code fstab} subschema, we use {@link
- * JsonSchemaFactory#fromURI(String, String)} to load the actual schema, with
- * the second argument being JSON Pointer {@code /fstab}. Note that unlike
- * methods which load schemas directly from JSON, this method and other similar
- * methods can throw {@link JsonSchemaException}.</p>
- *
- * <p>Since the root schema declares {@code $schema} to be draft v4, the set of
- * validators used will be validators defined for draft v4 (instead of the
- * default draft v3).</p>
+ * JsonSchemaFactory#getJsonSchema(String)} to load the actual schema; the URI
+ * used as an argument also has a JSON Pointer as a fragment.</p>
  *
  * <p>Files validated, and the validation outputs, are the same as for {@link
  * Example2}.</p>
@@ -62,20 +56,20 @@ public final class Example4
     extends ExampleBase
 {
     private static final String SCHEMA_URI
-        = "resource:/com/github/fge/jsonschema/examples/fstab-sub.json";
+        = "resource:/com/github/fge/jsonschema/examples/fstab-sub.json#/fstab";
 
     public static void main(final String... args)
-        throws IOException, JsonSchemaException
+        throws IOException, ProcessingException
     {
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
+        final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
-        final JsonSchema schema = factory.fromURI(SCHEMA_URI, "/fstab");
+        final JsonSchema schema = factory.getJsonSchema(SCHEMA_URI);
 
-        ValidationReport report;
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);

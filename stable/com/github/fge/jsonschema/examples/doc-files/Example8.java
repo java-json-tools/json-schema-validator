@@ -18,13 +18,17 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.cfg.ValidationConfiguration;
+import com.github.fge.jsonschema.cfg.ValidationConfigurationBuilder;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.library.DraftV4Library;
+import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.metaschema.BuiltinSchemas;
-import com.github.fge.jsonschema.metaschema.MetaSchema;
-import com.github.fge.jsonschema.report.Message;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.processors.data.FullData;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.NodeType;
 
 import java.io.IOException;
@@ -40,32 +44,20 @@ import java.util.UUID;
  * <p>This example adds a custom format attribute named {@code uuid}, which
  * checks whether a string instance is a valid UUID.</p>
  *
- * <p>This kind of customization requires three steps:</p>
+ * <p>For this, you need to write an implementation of {@link FormatAttribute},
+ * registering it in a {@link Library}, and feed that library to a {@link
+ * ValidationConfiguration} which you submit to the {@link JsonSchemaFactory}.
+ * </p>
  *
- * <ul>
- *     <li>grabbing a
- *     {@link com.github.fge.jsonschema.metaschema.MetaSchema.Builder};</li>
- *     <li>augmenting it as needed;</li>
- *     <li>registering it to the {@link JsonSchemaFactory} (via a {@link
- *     com.github.fge.jsonschema.main.JsonSchemaFactory.Builder}, as for all
- *     customizations).</li>
- * </ul>
- *
- * <p>Here, we choose to augment the draft v3 core schema. We can base our new
- * meta-schema by using {@link MetaSchema#basedOn(BuiltinSchemas)} with
- * {@link BuiltinSchemas#DRAFTV3_CORE} as an argument, add our format attribute
- * to it, build it and add it to our factory, using {@link
- * com.github.fge.jsonschema.main.JsonSchemaFactory.Builder#addMetaSchema
- * (MetaSchema, boolean)}. Note that the
- * second argument is {@code true} so that our new meta-schema is regarded as
- * the default.</p>
+ * <p>Here, we choose to augment the draft v4 library, which we get hold of
+ * using {@link DraftV4Library#get()}; we thaw it, add the new attribute and
+ * freeze it again. We also choose to make this new library the default by
+ * using {@link
+ * ValidationConfigurationBuilder#setDefaultLibrary(String, Library)}.</p>
  *
  * <p>Note also that the schema has no {@code $schema} defined; as a result, the
- * default meta-schema is used (it is <b>not</b> recommended to omit {@code
- * $schema} in your own schemas).</p>
- *
- * <p>Adding a custom format attribute is done by extending the {@link
- * FormatAttribute} class.</p>
+ * default library is used (it is <b>not</b> recommended to omit {@code $schema}
+ * in your schemas, however).</p>
  *
  * <p>Two sample files are given: the first (<a
  * href="doc-files/custom-fmt-good.json">link</a>) is valid, the other (<a
@@ -76,23 +68,25 @@ public final class Example8
     extends ExampleBase
 {
     public static void main(final String... args)
-        throws IOException
+        throws IOException, ProcessingException
     {
         final JsonNode customSchema = loadResource("/custom-fmt.json");
         final JsonNode good = loadResource("/custom-fmt-good.json");
         final JsonNode bad = loadResource("/custom-fmt-bad.json");
 
-        final MetaSchema metaSchema
-            = MetaSchema.basedOn(BuiltinSchemas.DRAFTV3_CORE)
-                .addFormatAttribute("uuid", UUIDFormatAttribute.getInstance())
-                .build();
+        final Library library = DraftV4Library.get().thaw()
+            .addFormatAttribute("uuid", UUIDFormatAttribute.getInstance())
+            .freeze();
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .addMetaSchema(metaSchema, true).build();
+        final ValidationConfiguration cfg = ValidationConfiguration.newBuilder()
+            .setDefaultLibrary("http://my.site/myschema#", library).freeze();
 
-        final JsonSchema schema = factory.fromSchema(customSchema);
+        final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
+            .setValidationConfiguration(cfg).freeze();
 
-        ValidationReport report;
+        final JsonSchema schema = factory.getJsonSchema(customSchema);
+
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);
@@ -102,14 +96,14 @@ public final class Example8
     }
 
     private static final class UUIDFormatAttribute
-        extends FormatAttribute
+        extends AbstractFormatAttribute
     {
         private static final FormatAttribute INSTANCE
             = new UUIDFormatAttribute();
 
         private UUIDFormatAttribute()
         {
-            super(NodeType.STRING);
+            super("uuid", NodeType.STRING);
         }
 
         public static FormatAttribute getInstance()
@@ -118,17 +112,16 @@ public final class Example8
         }
 
         @Override
-        public void checkValue(final String fmt, final ValidationReport report,
-            final JsonNode value)
+        public void validate(final ProcessingReport report, final FullData data)
+            throws ProcessingException
         {
+            final String value = data.getInstance().getNode().textValue();
             try {
-                UUID.fromString(value.textValue());
+                UUID.fromString(value);
             } catch (IllegalArgumentException ignored) {
-                final Message.Builder msg = newMsg(fmt).addInfo("value", value)
-                    .setMessage("string is not a valid UUID");
-                report.addMessage(msg.build());
+                report.error(newMsg(data, "input is not a valid UUID")
+                    .put("input", value));
             }
         }
-
     }
 }

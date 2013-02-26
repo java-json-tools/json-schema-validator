@@ -18,15 +18,15 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
-
-import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * Sixth example: URI redirection
@@ -40,9 +40,10 @@ import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
  * located under URI {@code
  * resource:/org/eel/kitchen/jsonschema/examples/fstab.json#}.</p>
  *
- * <p>The solution is to use another method from {@link Builder}: {@link
- * Builder#addRedirection(String, String)}. This method can be called for as
- * many schemas as you wish to redirect.</p>
+ * <p>The solution is here again to build a custom {@link LoadingConfiguration},
+ * which allows to add schema redirections (using {@link
+ * LoadingConfigurationBuilder#addSchemaRedirect(String, String)}. This method
+ * can be called for as many schemas as you wish to redirect.</p>
  *
  * <p>The effect is that if you required a schema via URI {@code
  * http://my.site/schemas/fstab.json#}, it will silently transform this URI into
@@ -59,18 +60,21 @@ public final class Example6
         = "resource:/com/github/fge/jsonschema/examples/fstab.json#";
 
     public static void main(final String... args)
-        throws IOException, JsonSchemaException
+        throws IOException, ProcessingException
     {
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .addRedirection(FROM, TO).build();
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .addSchemaRedirect(FROM, TO).freeze();
 
-        final JsonSchema schema = factory.fromURI(FROM);
+        final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
+            .setLoadingConfiguration(cfg).freeze();
 
-        ValidationReport report;
+        final JsonSchema schema = factory.getJsonSchema(FROM);
+
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);

@@ -1,15 +1,11 @@
 {
-    "$schema": "http://json-schema.org/draft-03/schema#",
+    "$schema": "http://json-schema.org/draft-04/schema#",
     "title": "/etc/fstab",
     "description": "JSON representation of /etc/fstab",
     "type": "object",
+    "required": [ "/", "swap" ],
     "properties": {
-        "/": {
-            "required": true,
-            "$ref": "#mntent"
-        },
         "swap": {
-            "required": true,
             "$ref": "#mntent"
         }
     },
@@ -19,34 +15,34 @@
         }
     },
     "additionalProperties": false,
-    "mntent": {
-        "id": "#mntent",
-        "title": "mntent",
-        "description": "An fstab entry",
-        "type": "object",
-        "properties": {
-            "device": {
-                "type": "string",
-                "required": true
+    "definitions": {
+        "mntent": {
+            "title": "mntent",
+            "description": "An fstab entry",
+            "type": "object",
+            "properties": {
+                "device": {
+                    "type": "string"
+                },
+                "fstype": {
+                    "type": "string"
+                },
+                "options": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "type": "string" }
+                },
+                "dump": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "fsck": {
+                    "type": "integer",
+                    "minimum": 0
+                }
             },
-            "fstype": {
-                "type": "string",
-                "required": true
-            },
-            "options": {
-                "type": "array",
-                "minItems": 1,
-                "items": { "type": "string" }
-            },
-            "dump": {
-                "type": "integer",
-                "minimum": 0
-            },
-            "fsck": {
-                "type": "integer",
-                "minimum": 0
-            }
-        },
-        "additionalItems": false
+            "required": [ "device", "fstype" ],
+            "additionalItems": false
+        }
     }
 }

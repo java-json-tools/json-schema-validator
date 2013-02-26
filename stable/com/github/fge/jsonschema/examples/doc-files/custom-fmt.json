@@ -3,15 +3,14 @@
     "type": "array",
     "items": {
         "type": "object",
+        "required": [ "id", "name" ],
         "properties": {
             "id": {
                 "type": "string",
-                "format": "uuid",
-                "required": true
+                "format": "uuid"
             },
             "name": {
-                "type": "string",
-                "required": true
+                "type": "string"
             }
         }
     }

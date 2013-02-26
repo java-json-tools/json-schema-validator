@@ -18,17 +18,17 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.cfg.LoadingConfiguration;
+import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.load.URIDownloader;
 import com.github.fge.jsonschema.main.JsonSchema;
-import com.github.fge.jsonschema.main.JsonSchemaException;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
-import com.github.fge.jsonschema.uri.URIDownloader;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-
-import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
 
 /**
  * Seventh example: custom URI scheme
@@ -37,13 +37,20 @@ import static com.github.fge.jsonschema.main.JsonSchemaFactory.*;
  *
  * <p>This demonstrates {@link JsonSchemaFactory}'s ability to register a
  * custom URI scheme. In this example, the scheme is {@code foobar}, and it is
- * simply an alias to fetch a resource from the current package. As with all
- * customizations, you must go through {@link Builder} to do this.</p>
+ * simply an alias to fetch a resource from the current package.</p>
  *
- * <p>You can add a custom URI scheme by providing an implementation of {@link
- * URIDownloader}, and register it using {@link Builder#registerScheme(String,
- * URIDownloader)}. You are then able to fetch schemas via URIs (using {@link
- * JsonSchemaFactory#fromURI(URI)} or similar) using your custom scheme.</p>
+ * <p>Two things are needed:</p>
+ *
+ * <ul>
+ *     <li>an implementation of {@link URIDownloader} for this scheme,</li>
+ *     <li>registering this scheme using {@link
+ *     LoadingConfigurationBuilder#addScheme(String, URIDownloader)}.</li>
+ * </ul>
+ *
+ * <p>Once this is done, this scheme, when encountered anywhere in JSON
+ * References, will use this downloader, and you are also able to use it when
+ * loading schemas using {@link JsonSchemaFactory#getJsonSchema(String)}, which
+ * is what this example does.</p>
  *
  * <p>The schema and files used are the same as for {@link Example2}.</p>
  */
@@ -51,19 +58,22 @@ public final class Example7
     extends ExampleBase
 {
     public static void main(final String... args)
-        throws IOException, JsonSchemaException
+        throws IOException, ProcessingException
     {
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.builder()
-            .registerScheme("foobar", CustomDownloader.getInstance()).build();
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .addScheme("foobar", CustomDownloader.getInstance()).freeze();
+
+        final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
+            .setLoadingConfiguration(cfg).freeze();
 
         final JsonSchema schema
-            = factory.fromURI("foobar:/fstab-draftv4.json#");
+            = factory.getJsonSchema("foobar:/fstab.json#");
 
-        ValidationReport report;
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);

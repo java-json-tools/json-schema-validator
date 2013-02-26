@@ -18,42 +18,43 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.report.ValidationReport;
+import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
 
 /**
- * Third example: draft v4 detection via $schema
+ * Third example: draft v3 detection via {@code $schema}
  *
  * <p><a href="doc-files/Example3.java">link to source code</a></p>
  *
  * <p>This shows a basic usage example. This is the same source code as for
  * {@link Example1}, except this time the schema (<a
- * href="doc-files/fstab-draftv4.json">here</a>) conforms to draft v4 instead of
- * draft v3 (the {@code $schema} value differs).</p>
+ * href="doc-files/fstab-draftv3.json">here</a>) conforms to draft v3 instead of
+ * draft v4 (the {@code $schema} value differs).</p>
  *
  * <p>One thing to note is a difference in the validation messages: while
- * required properties were in charge of the {@code properties} keyword for
- * draft v3, it is now in charge of the {@code required} keyword.</p>
+ * required properties are described using the {@code required} keyword, with
+ * draft v3, they were in charge of the {@code properties} keyword.</p>
  */
 public final class Example3
     extends ExampleBase
 {
     public static void main(final String... args)
-        throws IOException
+        throws IOException, ProcessingException
     {
-        final JsonNode fstabSchema = loadResource("/fstab-draftv4.json");
+        final JsonNode fstabSchema = loadResource("/fstab-draftv3.json");
         final JsonNode good = loadResource("/fstab-good.json");
         final JsonNode bad = loadResource("/fstab-bad.json");
         final JsonNode bad2 = loadResource("/fstab-bad2.json");
 
-        final JsonSchemaFactory factory = JsonSchemaFactory.defaultFactory();
+        final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
-        final JsonSchema schema = factory.fromSchema(fstabSchema);
+        final JsonSchema schema = factory.getJsonSchema(fstabSchema);
 
-        ValidationReport report;
+        ProcessingReport report;
 
         report = schema.validate(good);
         printReport(report);
