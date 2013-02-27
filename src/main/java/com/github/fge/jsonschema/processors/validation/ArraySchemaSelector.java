@@ -32,7 +32,7 @@ import java.util.Collections;
  * <p>It may happen that no schemas apply at all (in which case the document at
  * the given array index will always validate successfully).</p>
  */
-final class ArraySchemaSelector
+public final class ArraySchemaSelector
 {
     private static final JsonPointer ITEMS = JsonPointer.of("items");
     private static final JsonPointer ADDITIONAL_ITEMS
