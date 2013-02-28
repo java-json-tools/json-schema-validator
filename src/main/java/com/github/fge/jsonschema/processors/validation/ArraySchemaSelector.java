@@ -43,7 +43,7 @@ public final class ArraySchemaSelector
     private final int itemsSize;
     private final boolean hasAdditional;
 
-    ArraySchemaSelector(final JsonNode digest)
+    public ArraySchemaSelector(final JsonNode digest)
     {
         hasItems = digest.get("hasItems").booleanValue();
         itemsIsArray = digest.get("itemsIsArray").booleanValue();
@@ -51,7 +51,7 @@ public final class ArraySchemaSelector
         hasAdditional = digest.get("hasAdditional").booleanValue();
     }
 
-    Iterable<JsonPointer> selectSchemas(final int index)
+    public Iterable<JsonPointer> selectSchemas(final int index)
     {
         if (!hasItems)
             return hasAdditional

@@ -31,7 +31,7 @@ public final class ArraySchemaDigester
 {
     private static final Digester INSTANCE = new ArraySchemaDigester();
 
-    static Digester getInstance()
+    public static Digester getInstance()
     {
         return INSTANCE;
     }
