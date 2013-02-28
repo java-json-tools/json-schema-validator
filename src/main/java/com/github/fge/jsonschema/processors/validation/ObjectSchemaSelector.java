@@ -46,7 +46,7 @@ public final class ObjectSchemaSelector
     private final List<String> patternProperties;
     private final boolean hasAdditional;
 
-    ObjectSchemaSelector(final JsonNode digest)
+    public ObjectSchemaSelector(final JsonNode digest)
     {
         hasAdditional = digest.get("hasAdditional").booleanValue();
 
@@ -63,7 +63,7 @@ public final class ObjectSchemaSelector
         patternProperties = ImmutableList.copyOf(list);
     }
 
-    Iterable<JsonPointer> selectSchemas(final String memberName)
+    public Iterable<JsonPointer> selectSchemas(final String memberName)
     {
         final List<JsonPointer> list = Lists.newArrayList();
 
