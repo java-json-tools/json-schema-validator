@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.processors.walk.common.AdditionalItemsPointerCo
 import com.github.fge.jsonschema.processors.walk.common.AdditionalPropertiesPointerCollector;
 import com.github.fge.jsonschema.processors.walk.common.DependenciesPointerCollector;
 import com.github.fge.jsonschema.processors.walk.common.PatternPropertiesPointerCollector;
+import com.github.fge.jsonschema.processors.walk.helpers.SchemaOrSchemaArrayPointerCollector;
 
 public final class CommonPointerCollectorDictionary
 {
@@ -53,6 +54,10 @@ public final class CommonPointerCollectorDictionary
 
         keyword = "dependencies";
         collector = DependenciesPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "items";
+        collector = new SchemaOrSchemaArrayPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
         DICTIONARY = builder.freeze();

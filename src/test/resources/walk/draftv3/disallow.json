@@ -1,0 +1,31 @@
+[
+    {
+        "schema": {
+            "disallow": "string"
+        },
+        "pointers": []
+    },
+    {
+        "schema": {
+            "disallow": [ "string", "number" ]
+        },
+        "pointers": []
+    },
+    {
+        "schema": {
+            "disallow": [ "null", {}, "string", 1, false ]
+        },
+        "pointers": [ "/disallow/1" ]
+    },
+    {
+        "schema": {
+            "disallow": [
+                {},
+                {},
+                "string",
+                {}
+            ]
+        },
+        "pointers": [ "/disallow/0", "/disallow/1", "/disallow/3" ]
+    }
+]

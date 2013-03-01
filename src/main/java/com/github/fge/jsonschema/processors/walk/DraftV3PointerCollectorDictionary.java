@@ -19,6 +19,8 @@ package com.github.fge.jsonschema.processors.walk;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.processors.walk.helpers.DraftV3TypeKeywordPointerCollector;
+import com.github.fge.jsonschema.processors.walk.helpers.SchemaOrSchemaArrayPointerCollector;
 
 public final class DraftV3PointerCollectorDictionary
 {
@@ -36,6 +38,14 @@ public final class DraftV3PointerCollectorDictionary
 
         String keyword;
         PointerCollector collector;
+
+        keyword = "disallow";
+        collector = new DraftV3TypeKeywordPointerCollector(keyword);
+        builder.addEntry(keyword, collector);
+
+        keyword = "extends";
+        collector = new SchemaOrSchemaArrayPointerCollector(keyword);
+        builder.addEntry(keyword, collector);
 
         DICTIONARY = builder.freeze();
     }

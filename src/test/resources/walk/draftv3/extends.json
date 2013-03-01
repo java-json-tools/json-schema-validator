@@ -1,0 +1,24 @@
+[
+    {
+        "schema": {
+            "extends": {}
+        },
+        "pointers": [ "/extends" ]
+    },
+    {
+        "schema": {
+            "extends": [
+                {},
+                1,
+                {}
+            ]
+        },
+        "pointers": [ "/extends/0", "/extends/1", "/extends/2" ]
+    },
+    {
+        "schema": {
+            "extends": []
+        },
+        "pointers": []
+    }
+]
