@@ -22,15 +22,16 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-public abstract class SchemaArrayPointerCollector
+public final class SchemaArrayPointerCollector
     extends AbstractPointerCollector
 {
-    protected SchemaArrayPointerCollector(final String keyword) {
+    public SchemaArrayPointerCollector(final String keyword)
+    {
         super(keyword);
     }
 
     @Override
-    public final void collect(final Collection<JsonPointer> pointers,
+    public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
         final int size = getNode(tree).size();
