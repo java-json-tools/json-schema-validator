@@ -54,15 +54,18 @@ public abstract class SchemaWalker
         return input;
     }
 
-    public abstract void processCurrent(final ProcessingReport report,
+    public abstract SchemaTree processCurrent(final ProcessingReport report,
         final SchemaTree tree)
         throws ProcessingException;
 
     private void walk(final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
-        processCurrent(report, tree);
-        final JsonNode node = tree.getNode();
+        /*
+         * First grab the transformed tree, and operate on it
+         */
+        final SchemaTree newTree = processCurrent(report, tree);
+        final JsonNode node = newTree.getNode();
 
         final Map<String, PointerCollector> map = Maps.newTreeMap();
         map.putAll(collectors);
@@ -74,18 +77,15 @@ public abstract class SchemaWalker
          */
         final List<JsonPointer> pointers = Lists.newArrayList();
         for (final PointerCollector collector: map.values())
-            collector.collect(pointers, tree);
+            collector.collect(pointers, newTree);
 
         /*
          * Operate on these pointers.
          */
         for (final JsonPointer pointer: pointers)
-            walk(report, tree.append(pointer));
+            walk(report, newTree.append(pointer));
     }
 
     @Override
-    public String toString()
-    {
-        return "schema waler";
-    }
+    public abstract String toString();
 }
