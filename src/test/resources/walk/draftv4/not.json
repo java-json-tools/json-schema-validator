@@ -1,0 +1,10 @@
+[
+    {
+        "schema": { "not": "inMyLife" },
+        "pointers": [ "/not" ]
+    },
+    {
+        "schema": { "not": {} },
+        "pointers": [ "/not" ]
+    }
+]

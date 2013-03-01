@@ -19,6 +19,11 @@ package com.github.fge.jsonschema.processors.walk;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
+import com.github.fge.jsonschema.processors.walk.draftv4.AllOfPointerCollector;
+import com.github.fge.jsonschema.processors.walk.draftv4.AnyOfPointerCollector;
+import com.github.fge.jsonschema.processors.walk.draftv4.DefinitionsPointerCollector;
+import com.github.fge.jsonschema.processors.walk.draftv4.NotPointerCollector;
+import com.github.fge.jsonschema.processors.walk.draftv4.OneOfPointerCollector;
 
 public final class DraftV4PointerCollectorDictionary
 {
@@ -36,6 +41,26 @@ public final class DraftV4PointerCollectorDictionary
 
         String keyword;
         PointerCollector collector;
+
+        keyword = "allOf";
+        collector = AllOfPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "anyOf";
+        collector = AnyOfPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "definitions";
+        collector = DefinitionsPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "not";
+        collector = NotPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "oneOf";
+        collector = OneOfPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
 
         DICTIONARY = builder.freeze();
     }
