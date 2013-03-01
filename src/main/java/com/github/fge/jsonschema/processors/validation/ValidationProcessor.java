@@ -135,7 +135,7 @@ public final class ValidationProcessor
         JsonTree newInstance;
 
         for (int index = 0; index < size; index++) {
-            newInstance = instance.append(JsonPointer.empty().append(index));
+            newInstance = instance.append(JsonPointer.of(index));
             data = input.withInstance(newInstance);
             for (final JsonPointer ptr: selector.selectSchemas(index)) {
                 data = data.withSchema(tree.append(ptr));
