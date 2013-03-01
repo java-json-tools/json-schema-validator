@@ -1,0 +1,16 @@
+[
+    {
+        "schema": {
+            "patternProperties": {
+                "b": {},
+                "a++": {},
+                "c": null
+            }
+        },
+        "pointers": [
+            "/patternProperties/a++",
+            "/patternProperties/b",
+            "/patternProperties/c"
+        ]
+    }
+]

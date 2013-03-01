@@ -20,6 +20,8 @@ package com.github.fge.jsonschema.processors.walk;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processors.walk.common.AdditionalItemsPointerCollector;
+import com.github.fge.jsonschema.processors.walk.common.AdditionalPropertiesPointerCollector;
+import com.github.fge.jsonschema.processors.walk.common.PatternPropertiesPointerCollector;
 
 public final class CommonPointerCollectorDictionary
 {
@@ -38,6 +40,14 @@ public final class CommonPointerCollectorDictionary
 
         keyword = "additionalItems";
         collector = AdditionalItemsPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "additionalProperties";
+        collector = AdditionalPropertiesPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "patternProperties";
+        collector = PatternPropertiesPointerCollector.getInstance();
         builder.addEntry(keyword, collector);
 
         DICTIONARY = builder.freeze();

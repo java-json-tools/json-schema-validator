@@ -1,0 +1,20 @@
+[
+    {
+        "schema": {
+            "additionalProperties": false
+        },
+        "pointers": []
+    },
+    {
+        "schema": {
+            "additionalProperties": true
+        },
+        "pointers": []
+    },
+    {
+        "schema": {
+            "additionalProperties": {}
+        },
+        "pointers": [ "/additionalProperties" ]
+    }
+]
