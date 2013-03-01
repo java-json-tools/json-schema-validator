@@ -37,12 +37,14 @@ public final class SchemaWalkerTest
     private static final String K1 = "k1";
     private static final String K2 = "k2";
     private static final SchemaTree SCHEMA;
+    private static final SchemaTree SCHEMA2;
 
     static {
         final ObjectNode schema = JacksonUtils.nodeFactory().objectNode();
         schema.put(K1, K1);
         schema.put(K2, K2);
         SCHEMA = new CanonicalSchemaTree(schema);
+        SCHEMA2 = new CanonicalSchemaTree(schema);
     }
 
     private PointerCollector collector1;
@@ -69,7 +71,7 @@ public final class SchemaWalkerTest
 
         dict.addEntry(K1, collector1);
 
-        walker = new TestWalker(dict.freeze());
+        walker = new TestWalker(dict.freeze(), SCHEMA);
         walker.process(report, input);
         verify(collector1, only())
             .collect(anyCollectionOf(JsonPointer.class), same(SCHEMA));
@@ -85,7 +87,7 @@ public final class SchemaWalkerTest
 
         dict.addEntry(K1, collector1).addEntry(K2, collector2);
 
-        walker = new TestWalker(dict.freeze());
+        walker = new TestWalker(dict.freeze(), SCHEMA);
         walker.process(report, input);
         verify(collector1, only())
             .collect(anyCollectionOf(JsonPointer.class), same(SCHEMA));
@@ -93,13 +95,34 @@ public final class SchemaWalkerTest
             .collect(anyCollectionOf(JsonPointer.class), same(SCHEMA));
     }
 
+    @Test
+    public void whenNewTreeIsReturnedOldTreeIsNotWalked()
+        throws ProcessingException
+    {
+        final DictionaryBuilder<PointerCollector> dict
+            = Dictionary.newBuilder();
+
+        dict.addEntry(K1, collector1).addEntry(K2, collector2);
+
+        walker = new TestWalker(dict.freeze(), SCHEMA2);
+        walker.process(report, input);
+        verify(collector1, only())
+            .collect(anyCollectionOf(JsonPointer.class), same(SCHEMA2));
+        verify(collector2, only())
+            .collect(anyCollectionOf(JsonPointer.class), same(SCHEMA2));
+
+    }
 
     private static final class TestWalker
         extends SchemaWalker
     {
-        private TestWalker(final Dictionary<PointerCollector> dict)
+        private final SchemaTree newTree;
+
+        private TestWalker(final Dictionary<PointerCollector> dict,
+            final SchemaTree tree)
         {
             super(dict);
+            newTree = tree;
         }
 
         @Override
@@ -107,7 +130,7 @@ public final class SchemaWalkerTest
             final SchemaTree tree)
             throws ProcessingException
         {
-            return tree;
+            return newTree;
         }
 
         @Override
