@@ -17,16 +17,12 @@
 
 package com.github.fge.jsonschema.processors.walk;
 
-import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-public interface KeywordWalker
+public interface PointerCollector
 {
-    void walk(final Collection<JsonPointer> pointers,
-        final ProcessingReport report, final SchemaTree tree)
-        throws ProcessingException;
+    void collect(final Collection<JsonPointer> pointers, final SchemaTree tree);
 }

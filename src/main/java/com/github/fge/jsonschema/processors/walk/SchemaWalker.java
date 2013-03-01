@@ -23,35 +23,30 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.SchemaHolder;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 
 /*
  * NOTE NOTE NOTE: the schema MUST be valid at this point
  */
-public final class SchemaWalker
+public abstract class SchemaWalker
     implements Processor<SchemaHolder, SchemaHolder>
 {
-    private final Map<String, KeywordWalker> walkers;
+    private final Map<String, PointerCollector> collectors;
 
-    public SchemaWalker(final Dictionary<KeywordWalker> dict)
+    protected SchemaWalker(final Dictionary<PointerCollector> dict)
     {
-        walkers = dict.entries();
+        collectors = dict.entries();
     }
 
     @Override
-    public SchemaHolder process(final ProcessingReport report,
+    public final SchemaHolder process(final ProcessingReport report,
         final SchemaHolder input)
         throws ProcessingException
     {
@@ -59,45 +54,33 @@ public final class SchemaWalker
         return input;
     }
 
+    public abstract void processCurrent(final ProcessingReport report,
+        final SchemaTree tree)
+        throws ProcessingException;
+
     private void walk(final ProcessingReport report, final SchemaTree tree)
         throws ProcessingException
     {
+        processCurrent(report, tree);
         final JsonNode node = tree.getNode();
 
-        /*
-         * Grab all walkers and object member names. Retain walkers only for
-         * registered keywords, and remove from the member names set what is in
-         * the walkers' key set: if non empty, some walkers are missing (on
-         * purpose or not), report them.
-         */
-        final Map<String, KeywordWalker> map = Maps.newTreeMap();
-        map.putAll(walkers);
+        final Map<String, PointerCollector> map = Maps.newTreeMap();
+        map.putAll(collectors);
 
-        final Set<String> fieldNames = Sets.newHashSet(node.fieldNames());
-        map.keySet().retainAll(fieldNames);
-        fieldNames.removeAll(map.keySet());
-
-        if (!fieldNames.isEmpty())
-            report.warn(newMsg(tree).message(UNKNOWN_KEYWORDS)
-                .put("ignored", Ordering.natural().sortedCopy(fieldNames)));
+        map.keySet().retainAll(Sets.newHashSet(node.fieldNames()));
 
         /*
-         * Now, walk each keyword, and collect pointers for further processing.
+         * Collect pointers for further processing.
          */
         final List<JsonPointer> pointers = Lists.newArrayList();
-        for (final KeywordWalker walker: map.values())
-            walker.walk(pointers, report, tree);
+        for (final PointerCollector collector: map.values())
+            collector.collect(pointers, tree);
 
         /*
          * Operate on these pointers.
          */
         for (final JsonPointer pointer: pointers)
             walk(report, tree.append(pointer));
-    }
-
-    private static ProcessingMessage newMsg(final SchemaTree tree)
-    {
-        return new ProcessingMessage().put("schema", tree);
     }
 
     @Override
