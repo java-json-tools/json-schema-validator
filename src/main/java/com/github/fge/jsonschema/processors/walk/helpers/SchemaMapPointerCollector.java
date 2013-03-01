@@ -15,11 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.common;
+package com.github.fge.jsonschema.processors.walk.helpers;
 
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.processors.walk.PointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.AbstractPointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.Lists;
 
@@ -27,20 +25,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public final class PatternPropertiesPointerCollector
+public final class SchemaMapPointerCollector
     extends AbstractPointerCollector
 {
-    private static final PointerCollector INSTANCE
-        = new PatternPropertiesPointerCollector();
-
-    private PatternPropertiesPointerCollector()
+    public SchemaMapPointerCollector(final String keyword)
     {
-        super("patternProperties");
-    }
-
-    public static PointerCollector getInstance()
-    {
-        return INSTANCE;
+        super(keyword);
     }
 
     @Override

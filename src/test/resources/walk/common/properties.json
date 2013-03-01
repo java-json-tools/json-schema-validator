@@ -1,0 +1,16 @@
+[
+    {
+        "schema": {
+            "properties": {
+                "b": {},
+                "a++": {},
+                "c": null
+            }
+        },
+        "pointers": [
+            "/properties/a++",
+            "/properties/b",
+            "/properties/c"
+        ]
+    }
+]
