@@ -21,6 +21,7 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processors.walk.common.AdditionalItemsPointerCollector;
 import com.github.fge.jsonschema.processors.walk.common.AdditionalPropertiesPointerCollector;
+import com.github.fge.jsonschema.processors.walk.common.DependenciesPointerCollector;
 import com.github.fge.jsonschema.processors.walk.common.PatternPropertiesPointerCollector;
 
 public final class CommonPointerCollectorDictionary
@@ -48,6 +49,10 @@ public final class CommonPointerCollectorDictionary
 
         keyword = "patternProperties";
         collector = PatternPropertiesPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "dependencies";
+        collector = DependenciesPointerCollector.getInstance();
         builder.addEntry(keyword, collector);
 
         DICTIONARY = builder.freeze();
