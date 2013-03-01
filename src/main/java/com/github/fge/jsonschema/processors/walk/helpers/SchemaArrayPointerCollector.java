@@ -25,15 +25,16 @@ import java.util.Collection;
 public abstract class SchemaArrayPointerCollector
     extends AbstractPointerCollector
 {
-    protected SchemaArrayPointerCollector(String keyword) {
+    protected SchemaArrayPointerCollector(final String keyword) {
         super(keyword);
     }
 
     @Override
-    public void collect(final Collection<JsonPointer> pointers,
+    public final void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        for(int i = 0; i < getNode(tree).size(); i++)
-            pointers.add(basePointer.append(i));
+        final int size = getNode(tree).size();
+        for(int index = 0; index < size; index++)
+            pointers.add(basePointer.append(index));
     }
 }

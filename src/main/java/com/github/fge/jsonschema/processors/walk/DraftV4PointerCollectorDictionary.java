@@ -21,9 +21,9 @@ import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 import com.github.fge.jsonschema.processors.walk.draftv4.AllOfPointerCollector;
 import com.github.fge.jsonschema.processors.walk.draftv4.AnyOfPointerCollector;
-import com.github.fge.jsonschema.processors.walk.draftv4.DefinitionsPointerCollector;
 import com.github.fge.jsonschema.processors.walk.draftv4.NotPointerCollector;
 import com.github.fge.jsonschema.processors.walk.draftv4.OneOfPointerCollector;
+import com.github.fge.jsonschema.processors.walk.helpers.SchemaMapPointerCollector;
 
 public final class DraftV4PointerCollectorDictionary
 {
@@ -51,7 +51,7 @@ public final class DraftV4PointerCollectorDictionary
         builder.addEntry(keyword, collector);
 
         keyword = "definitions";
-        collector = DefinitionsPointerCollector.getInstance();
+        collector = new SchemaMapPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
         keyword = "not";
