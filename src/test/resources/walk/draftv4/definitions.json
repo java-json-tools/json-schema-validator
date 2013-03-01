@@ -1,0 +1,16 @@
+[
+    {
+        "schema": {
+            "definitions": {
+                "b": {},
+                "a++": {},
+                "c": null
+            }
+        },
+        "pointers": [
+            "/definitions/a++",
+            "/definitions/b",
+            "/definitions/c"
+        ]
+    }
+]

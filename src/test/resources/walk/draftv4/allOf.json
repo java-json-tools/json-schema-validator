@@ -1,0 +1,6 @@
+[
+    {
+        "schema": { "allOf": [ {}, null, "hello world" ] },
+        "pointers": [ "/allOf/0", "/allOf/1", "/allOf/2" ]
+    }
+]
