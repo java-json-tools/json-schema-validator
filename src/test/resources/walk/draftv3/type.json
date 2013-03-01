@@ -1,0 +1,31 @@
+[
+    {
+        "schema": {
+            "type": "string"
+        },
+        "pointers": []
+    },
+    {
+        "schema": {
+            "type": [ "string", "number" ]
+        },
+        "pointers": []
+    },
+    {
+        "schema": {
+            "type": [ "null", {}, "string", 1, false ]
+        },
+        "pointers": [ "/type/1" ]
+    },
+    {
+        "schema": {
+            "type": [
+                {},
+                {},
+                "string",
+                {}
+            ]
+        },
+        "pointers": [ "/type/0", "/type/1", "/type/3" ]
+    }
+]

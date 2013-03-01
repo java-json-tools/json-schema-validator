@@ -47,6 +47,10 @@ public final class DraftV3PointerCollectorDictionary
         collector = new SchemaOrSchemaArrayPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
+        keyword = "type";
+        collector = new DraftV3TypeKeywordPointerCollector(keyword);
+        builder.addEntry(keyword, collector);
+
         DICTIONARY = builder.freeze();
     }
 

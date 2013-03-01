@@ -44,8 +44,16 @@ public final class CommonPointerCollectorDictionary
         collector = AdditionalItemsPointerCollector.getInstance();
         builder.addEntry(keyword, collector);
 
+        keyword = "items";
+        collector = new SchemaOrSchemaArrayPointerCollector(keyword);
+        builder.addEntry(keyword, collector);
+
         keyword = "additionalProperties";
         collector = AdditionalPropertiesPointerCollector.getInstance();
+        builder.addEntry(keyword, collector);
+
+        keyword = "properties";
+        collector = new SchemaMapPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
         keyword = "patternProperties";
@@ -54,10 +62,6 @@ public final class CommonPointerCollectorDictionary
 
         keyword = "dependencies";
         collector = DependenciesPointerCollector.getInstance();
-        builder.addEntry(keyword, collector);
-
-        keyword = "items";
-        collector = new SchemaOrSchemaArrayPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
         DICTIONARY = builder.freeze();
