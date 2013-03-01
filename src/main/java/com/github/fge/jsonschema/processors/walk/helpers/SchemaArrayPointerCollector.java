@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2013, Kelvin Pho <pho.kelvin@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the Lesser GNU General Public License as
@@ -33,8 +33,7 @@ public abstract class SchemaArrayPointerCollector
     public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        if(getNode(tree).isArray())
-          for(int i = 0; i < getNode(tree).size(); i++)
+        for(int i = 0; i < getNode(tree).size(); i++)
             pointers.add(basePointer.append(i));
     }
 }
