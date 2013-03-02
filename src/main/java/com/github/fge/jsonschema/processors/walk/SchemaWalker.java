@@ -21,8 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.collect.Lists;
@@ -36,36 +35,43 @@ import java.util.Map;
  * NOTE NOTE NOTE: the schema MUST be valid at this point
  */
 public abstract class SchemaWalker
-    implements Processor<SchemaHolder, SchemaHolder>
 {
+    protected SchemaTree tree;
+
     private final Map<String, PointerCollector> collectors;
 
-    protected SchemaWalker(final Dictionary<PointerCollector> dict)
+    protected SchemaWalker(final Dictionary<PointerCollector> dict,
+        final SchemaTree tree)
     {
         collectors = dict.entries();
+        this.tree = tree;
     }
 
-    @Override
-    public final SchemaHolder process(final ProcessingReport report,
-        final SchemaHolder input)
+    public final void walk(final SchemaListener listener,
+        final ProcessingReport report)
         throws ProcessingException
     {
-        walk(report, input.getValue());
-        return input;
+        report.debug(new ProcessingMessage().message("entering tree")
+            .put("tree", tree));
+        listener.onEnter(tree);
+        doWalk(listener, report);
+        report.debug(
+            new ProcessingMessage().message("exiting tree").put("tree", tree));
+        listener.onExit(tree);
     }
 
-    public abstract SchemaTree processCurrent(final ProcessingReport report,
-        final SchemaTree tree)
+    public abstract void resolveTree(final ProcessingReport report)
         throws ProcessingException;
 
-    private void walk(final ProcessingReport report, final SchemaTree tree)
+    private void doWalk(final SchemaListener listener,
+        final ProcessingReport report)
         throws ProcessingException
     {
-        /*
-         * First grab the transformed tree, and operate on it
-         */
-        final SchemaTree newTree = processCurrent(report, tree);
-        final JsonNode node = newTree.getNode();
+        resolveTree(report);
+        report.debug(new ProcessingMessage().message("walking tree")
+            .put("tree", tree));
+        listener.onWalk(tree);
+        final JsonNode node = tree.getNode();
 
         final Map<String, PointerCollector> map = Maps.newTreeMap();
         map.putAll(collectors);
@@ -77,13 +83,18 @@ public abstract class SchemaWalker
          */
         final List<JsonPointer> pointers = Lists.newArrayList();
         for (final PointerCollector collector: map.values())
-            collector.collect(pointers, newTree);
+            collector.collect(pointers, tree);
 
         /*
          * Operate on these pointers.
          */
-        for (final JsonPointer pointer: pointers)
-            walk(report, newTree.append(pointer));
+        SchemaTree current;
+        for (final JsonPointer pointer: pointers) {
+            current = tree;
+            tree = tree.append(pointer);
+            doWalk(listener, report);
+            tree = current;
+        }
     }
 
     @Override
