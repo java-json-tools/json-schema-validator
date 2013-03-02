@@ -151,6 +151,7 @@
     <developers>
         <developer>
             <name>Francis Galiegue</name>
+            <email>fgaliegue@gmail.com</email>
             <roles>
                 <role>Initial developer</role>
             </roles>
@@ -160,6 +161,10 @@
         <contributor>
             <name>Corey Sciuto</name>
             <email>corey.sciuto@gmail.com</email>
+        </contributor>
+        <contributor>
+            <name>Kelvin Pho</name>
+            <email>pho.kelvin@gmail.com</email>
         </contributor>
     </contributors>
     <parent>
