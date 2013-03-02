@@ -15,32 +15,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.helpers;
+package com.github.fge.jsonschema.walk.draftv4;
 
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.walk.PointerCollector;
+import com.github.fge.jsonschema.walk.helpers.AbstractPointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.google.common.collect.Lists;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
-public final class SchemaMapPointerCollector
+public final class NotPointerCollector
     extends AbstractPointerCollector
 {
-    public SchemaMapPointerCollector(final String keyword)
+    private static final PointerCollector INSTANCE
+        = new NotPointerCollector();
+
+    private NotPointerCollector()
     {
-        super(keyword);
+        super("not");
+    }
+
+    public static PointerCollector getInstance()
+    {
+        return INSTANCE;
     }
 
     @Override
     public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        final List<String> regexes
-            = Lists.newArrayList(getNode(tree).fieldNames());
-        Collections.sort(regexes);
-        for (final String regex: regexes)
-            pointers.add(basePointer.append(regex));
+        pointers.add(basePointer);
     }
 }

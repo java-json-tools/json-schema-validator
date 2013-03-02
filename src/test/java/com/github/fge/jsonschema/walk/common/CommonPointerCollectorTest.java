@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.walk.common;
 
-import com.github.fge.jsonschema.processors.walk.CommonPointerCollectorDictionary;
+import com.github.fge.jsonschema.walk.CommonPointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.AbstractPointerCollectorTest;
 
 import java.io.IOException;

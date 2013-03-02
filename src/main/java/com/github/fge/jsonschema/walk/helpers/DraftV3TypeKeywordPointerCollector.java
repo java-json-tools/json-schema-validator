@@ -15,36 +15,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.common;
+package com.github.fge.jsonschema.walk.helpers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.processors.walk.PointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.AbstractPointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-public final class AdditionalItemsPointerCollector
+public final class DraftV3TypeKeywordPointerCollector
     extends AbstractPointerCollector
 {
-    private static final PointerCollector INSTANCE
-        = new AdditionalItemsPointerCollector();
-
-    private AdditionalItemsPointerCollector()
+    public DraftV3TypeKeywordPointerCollector(final String keyword)
     {
-        super("additionalItems");
-    }
-
-    public static PointerCollector getInstance()
-    {
-        return INSTANCE;
+        super(keyword);
     }
 
     @Override
     public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        if (getNode(tree).isObject())
-            pointers.add(basePointer);
+        final JsonNode node = getNode(tree);
+        /*
+         * No need to test if the node is an array: if it is not, Iterable
+         * returns an empty iterator.
+         */
+        final int size = node.size();
+        for (int index = 0; index < size; index++)
+            if (node.get(index).isObject())
+                pointers.add(basePointer.append(index));
     }
 }

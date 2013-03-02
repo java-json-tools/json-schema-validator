@@ -15,14 +15,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk;
+package com.github.fge.jsonschema.walk;
 
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-import java.util.Collection;
-
-public interface PointerCollector
+public final class SimpleSchemaWalker
+    extends SchemaWalker
 {
-    void collect(final Collection<JsonPointer> pointers, final SchemaTree tree);
+    public SimpleSchemaWalker(final Dictionary<PointerCollector> dict,
+        final SchemaTree tree)
+    {
+        super(dict, tree);
+    }
+
+    @Override
+    public void resolveTree(final SchemaListener listener,
+        final ProcessingReport report)
+        throws ProcessingException
+    {
+    }
+
+    @Override
+    public String toString()
+    {
+        return "simple schema walker";
+    }
 }

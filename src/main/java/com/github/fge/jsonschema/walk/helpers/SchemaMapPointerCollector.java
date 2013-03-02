@@ -15,17 +15,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.helpers;
+package com.github.fge.jsonschema.walk.helpers;
 
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.google.common.collect.Lists;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-public final class SchemaArrayPointerCollector
+public final class SchemaMapPointerCollector
     extends AbstractPointerCollector
 {
-    public SchemaArrayPointerCollector(final String keyword)
+    public SchemaMapPointerCollector(final String keyword)
     {
         super(keyword);
     }
@@ -34,8 +37,10 @@ public final class SchemaArrayPointerCollector
     public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        final int size = getNode(tree).size();
-        for(int index = 0; index < size; index++)
-            pointers.add(basePointer.append(index));
+        final List<String> regexes
+            = Lists.newArrayList(getNode(tree).fieldNames());
+        Collections.sort(regexes);
+        for (final String regex: regexes)
+            pointers.add(basePointer.append(regex));
     }
 }

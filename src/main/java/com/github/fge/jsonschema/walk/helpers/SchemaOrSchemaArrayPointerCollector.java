@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.helpers;
+package com.github.fge.jsonschema.walk.helpers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;

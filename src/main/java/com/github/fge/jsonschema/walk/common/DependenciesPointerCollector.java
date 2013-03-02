@@ -15,20 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.helpers;
+package com.github.fge.jsonschema.walk.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.walk.PointerCollector;
+import com.github.fge.jsonschema.walk.helpers.AbstractPointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.google.common.collect.Lists;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-public final class DraftV3TypeKeywordPointerCollector
+public final class DependenciesPointerCollector
     extends AbstractPointerCollector
 {
-    public DraftV3TypeKeywordPointerCollector(final String keyword)
+    private static final PointerCollector INSTANCE
+        = new DependenciesPointerCollector();
+
+    private DependenciesPointerCollector()
     {
-        super(keyword);
+        super("dependencies");
+    }
+
+    public static PointerCollector getInstance()
+    {
+        return INSTANCE;
     }
 
     @Override
@@ -36,13 +49,10 @@ public final class DraftV3TypeKeywordPointerCollector
         final SchemaTree tree)
     {
         final JsonNode node = getNode(tree);
-        /*
-         * No need to test if the node is an array: if it is not, Iterable
-         * returns an empty iterator.
-         */
-        final int size = node.size();
-        for (int index = 0; index < size; index++)
-            if (node.get(index).isObject())
-                pointers.add(basePointer.append(index));
+        final List<String> deps = Lists.newArrayList(node.fieldNames());
+        Collections.sort(deps);
+        for (final String dep: deps)
+            if (node.get(dep).isObject())
+                pointers.add(basePointer.append(dep));
     }
 }

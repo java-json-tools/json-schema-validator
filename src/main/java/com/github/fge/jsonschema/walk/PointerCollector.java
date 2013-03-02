@@ -15,29 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk;
+package com.github.fge.jsonschema.walk;
 
-import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-public interface SchemaListener
+import java.util.Collection;
+
+public interface PointerCollector
 {
-    void onInit(final SchemaTree tree)
-        throws ProcessingException;
-
-    void onNewTree(final SchemaTree oldTree, final SchemaTree newTree)
-        throws ProcessingException;
-
-    void onPushd(final JsonPointer pointer)
-        throws ProcessingException;
-
-    void onWalk(final SchemaTree tree)
-        throws ProcessingException;
-
-    void onPopd()
-        throws ProcessingException;
-
-    void onExit()
-        throws ProcessingException;
+    void collect(final Collection<JsonPointer> pointers, final SchemaTree tree);
 }

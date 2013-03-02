@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk;
+package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processors.walk.draftv4.NotPointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.SchemaArrayPointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.SchemaMapPointerCollector;
+import com.github.fge.jsonschema.walk.draftv4.NotPointerCollector;
+import com.github.fge.jsonschema.walk.helpers.SchemaArrayPointerCollector;
+import com.github.fge.jsonschema.walk.helpers.SchemaMapPointerCollector;
 
 public final class DraftV4PointerCollectorDictionary
 {

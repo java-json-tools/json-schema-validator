@@ -15,32 +15,27 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk;
+package com.github.fge.jsonschema.walk.helpers;
 
-import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.report.ProcessingReport;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.walk.PointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-public final class SimpleSchemaWalker
-    extends SchemaWalker
+public abstract class AbstractPointerCollector
+    implements PointerCollector
 {
-    public SimpleSchemaWalker(final Dictionary<PointerCollector> dict,
-        final SchemaTree tree)
+    protected final String keyword;
+    protected final JsonPointer basePointer;
+
+    protected AbstractPointerCollector(final String keyword)
     {
-        super(dict, tree);
+        this.keyword = keyword;
+        basePointer = JsonPointer.of(keyword);
     }
 
-    @Override
-    public void resolveTree(final SchemaListener listener,
-        final ProcessingReport report)
-        throws ProcessingException
+    protected final JsonNode getNode(final SchemaTree tree)
     {
-    }
-
-    @Override
-    public String toString()
-    {
-        return "simple schema walker";
+        return tree.getNode().get(keyword);
     }
 }

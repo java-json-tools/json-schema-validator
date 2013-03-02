@@ -15,27 +15,29 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.helpers;
+package com.github.fge.jsonschema.walk;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.processors.walk.PointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-public abstract class AbstractPointerCollector
-    implements PointerCollector
+public interface SchemaListener
 {
-    protected final String keyword;
-    protected final JsonPointer basePointer;
+    void onInit(final SchemaTree tree)
+        throws ProcessingException;
 
-    protected AbstractPointerCollector(final String keyword)
-    {
-        this.keyword = keyword;
-        basePointer = JsonPointer.of(keyword);
-    }
+    void onNewTree(final SchemaTree oldTree, final SchemaTree newTree)
+        throws ProcessingException;
 
-    protected final JsonNode getNode(final SchemaTree tree)
-    {
-        return tree.getNode().get(keyword);
-    }
+    void onPushd(final JsonPointer pointer)
+        throws ProcessingException;
+
+    void onWalk(final SchemaTree tree)
+        throws ProcessingException;
+
+    void onPopd()
+        throws ProcessingException;
+
+    void onExit()
+        throws ProcessingException;
 }

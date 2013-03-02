@@ -15,21 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk;
+package com.github.fge.jsonschema.walk;
 
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
-import com.github.fge.jsonschema.processors.walk.common.AdditionalItemsPointerCollector;
-import com.github.fge.jsonschema.processors.walk.common.AdditionalPropertiesPointerCollector;
-import com.github.fge.jsonschema.processors.walk.common.DependenciesPointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.SchemaMapPointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.SchemaOrSchemaArrayPointerCollector;
+import com.github.fge.jsonschema.walk.helpers.DraftV3TypeKeywordPointerCollector;
+import com.github.fge.jsonschema.walk.helpers.SchemaOrSchemaArrayPointerCollector;
 
-public final class CommonPointerCollectorDictionary
+public final class DraftV3PointerCollectorDictionary
 {
     private static final Dictionary<PointerCollector> DICTIONARY;
 
-    private CommonPointerCollectorDictionary()
+    private DraftV3PointerCollectorDictionary()
     {
     }
 
@@ -37,31 +34,21 @@ public final class CommonPointerCollectorDictionary
         final DictionaryBuilder<PointerCollector> builder
             = Dictionary.newBuilder();
 
+        builder.addAll(CommonPointerCollectorDictionary.get());
+
         String keyword;
         PointerCollector collector;
 
-        keyword = "additionalItems";
-        collector = AdditionalItemsPointerCollector.getInstance();
+        keyword = "disallow";
+        collector = new DraftV3TypeKeywordPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
-        keyword = "items";
+        keyword = "extends";
         collector = new SchemaOrSchemaArrayPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
-        keyword = "additionalProperties";
-        collector = AdditionalPropertiesPointerCollector.getInstance();
-        builder.addEntry(keyword, collector);
-
-        keyword = "properties";
-        collector = new SchemaMapPointerCollector(keyword);
-        builder.addEntry(keyword, collector);
-
-        keyword = "patternProperties";
-        collector = new SchemaMapPointerCollector(keyword);
-        builder.addEntry(keyword, collector);
-
-        keyword = "dependencies";
-        collector = DependenciesPointerCollector.getInstance();
+        keyword = "type";
+        collector = new DraftV3TypeKeywordPointerCollector(keyword);
         builder.addEntry(keyword, collector);
 
         DICTIONARY = builder.freeze();

@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.walk.draftv4;
 
-import com.github.fge.jsonschema.processors.walk.DraftV4PointerCollectorDictionary;
+import com.github.fge.jsonschema.walk.DraftV4PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.AbstractPointerCollectorTest;
 
 import java.io.IOException;

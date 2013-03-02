@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.walk.draftv3;
 
-import com.github.fge.jsonschema.processors.walk.DraftV3PointerCollectorDictionary;
+import com.github.fge.jsonschema.walk.DraftV3PointerCollectorDictionary;
 import com.github.fge.jsonschema.walk.AbstractPointerCollectorTest;
 
 import java.io.IOException;

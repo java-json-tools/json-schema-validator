@@ -15,24 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.common;
+package com.github.fge.jsonschema.walk.common;
 
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.processors.walk.PointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.AbstractPointerCollector;
+import com.github.fge.jsonschema.walk.PointerCollector;
+import com.github.fge.jsonschema.walk.helpers.AbstractPointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 import java.util.Collection;
 
-public final class AdditionalPropertiesPointerCollector
+public final class AdditionalItemsPointerCollector
     extends AbstractPointerCollector
 {
     private static final PointerCollector INSTANCE
-        = new AdditionalPropertiesPointerCollector();
+        = new AdditionalItemsPointerCollector();
 
-    private AdditionalPropertiesPointerCollector()
+    private AdditionalItemsPointerCollector()
     {
-        super("additionalProperties");
+        super("additionalItems");
     }
 
     public static PointerCollector getInstance()

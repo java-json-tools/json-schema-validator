@@ -15,28 +15,24 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.fge.jsonschema.processors.walk.common;
+package com.github.fge.jsonschema.walk.common;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.processors.walk.PointerCollector;
-import com.github.fge.jsonschema.processors.walk.helpers.AbstractPointerCollector;
+import com.github.fge.jsonschema.walk.PointerCollector;
+import com.github.fge.jsonschema.walk.helpers.AbstractPointerCollector;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.google.common.collect.Lists;
 
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
-public final class DependenciesPointerCollector
+public final class AdditionalPropertiesPointerCollector
     extends AbstractPointerCollector
 {
     private static final PointerCollector INSTANCE
-        = new DependenciesPointerCollector();
+        = new AdditionalPropertiesPointerCollector();
 
-    private DependenciesPointerCollector()
+    private AdditionalPropertiesPointerCollector()
     {
-        super("dependencies");
+        super("additionalProperties");
     }
 
     public static PointerCollector getInstance()
@@ -48,11 +44,7 @@ public final class DependenciesPointerCollector
     public void collect(final Collection<JsonPointer> pointers,
         final SchemaTree tree)
     {
-        final JsonNode node = getNode(tree);
-        final List<String> deps = Lists.newArrayList(node.fieldNames());
-        Collections.sort(deps);
-        for (final String dep: deps)
-            if (node.get(dep).isObject())
-                pointers.add(basePointer.append(dep));
+        if (getNode(tree).isObject())
+            pointers.add(basePointer);
     }
 }
