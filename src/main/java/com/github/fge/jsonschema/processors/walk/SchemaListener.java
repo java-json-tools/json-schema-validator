@@ -17,20 +17,27 @@
 
 package com.github.fge.jsonschema.processors.walk;
 
+import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 public interface SchemaListener
 {
-    void onInit(final SchemaTree tree);
+    void onInit(final SchemaTree tree)
+        throws ProcessingException;
 
-    void onNewTree(final SchemaTree oldTree, final SchemaTree newTree);
+    void onNewTree(final SchemaTree oldTree, final SchemaTree newTree)
+        throws ProcessingException;
 
-    void onPushd(final JsonPointer pointer);
+    void onPushd(final JsonPointer pointer)
+        throws ProcessingException;
 
-    void onWalk(final SchemaTree tree);
+    void onWalk(final SchemaTree tree)
+        throws ProcessingException;
 
-    void onPopd();
+    void onPopd()
+        throws ProcessingException;
 
-    void onExit();
+    void onExit()
+        throws ProcessingException;
 }
