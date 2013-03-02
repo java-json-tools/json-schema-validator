@@ -21,20 +21,21 @@ package com.github.fge.jsonschema.messages;
  * Messages used by the configuration process
  */
 //TODO: reorganize
-public enum ConfigurationMessages
+public enum LoadingConfigurationMessages
 {
-    NULL_REPORT_PROVIDER("report provider must not be null"),
-    NULL_LOADING_CFG("loading configuration must not be null"),
-    NULL_VALIDATION_CFG("validation configuration must not be null"),
-    NULL_LIBRARY("library cannot be null"),
-    DUP_LIBRARY("a library already exists for this URI"),
-    NULL_VERSION("version cannot be null"),
-    NULL_INSTANCE("instance cannot be null"),
+    NULL_SCHEME("scheme cannot be null"),
+    EMPTY_SCHEME("cannot register empty scheme"),
+    ILLEGAL_SCHEME("illegal scheme"),
+    NULL_DEREFERENCING_MODE("dereferencing mode cannot be null"),
+    REDIRECT_TO_SELF("attempt to redirect to self"),
+    NULL_SCHEMA("cannot register null schema"),
+    DUPLICATE_URI("there is already a schema at that URI"),
+    NO_ID_IN_SCHEMA("schema has no id"),
     ;
 
     private final String message;
 
-    ConfigurationMessages(final String message)
+    LoadingConfigurationMessages(final String message)
     {
         this.message = message;
     }

@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.cfg.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
-import com.github.fge.jsonschema.messages.ConfigurationMessages;
+import com.github.fge.jsonschema.messages.LoadingConfigurationMessages;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -118,7 +118,7 @@ public final class SchemaLoader
     {
         if (schema == null)
             throw new ProcessingError(new ProcessingMessage()
-                .message(ConfigurationMessages.NULL_SCHEMA));
+                .message(LoadingConfigurationMessages.NULL_SCHEMA));
         return dereferencing.newTree(schema);
     }
 

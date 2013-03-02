@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.messages.JsonReferenceErrors;
+import com.github.fge.jsonschema.messages.LoadingConfigurationMessages;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -161,7 +162,7 @@ public final class JsonSchemaFactory
     {
         if (schema == null)
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(NULL_SCHEMA));
+                .message(LoadingConfigurationMessages.NULL_SCHEMA));
         return validator.buildJsonSchema(schema, JsonPointer.empty());
     }
 
@@ -184,7 +185,7 @@ public final class JsonSchemaFactory
     {
         if (schema == null)
             throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(NULL_SCHEMA));
+                .message(LoadingConfigurationMessages.NULL_SCHEMA));
         if (ptr == null)
             throw new JsonReferenceError(new ProcessingMessage()
                 .message(JsonReferenceErrors.NULL_JSON_POINTER));

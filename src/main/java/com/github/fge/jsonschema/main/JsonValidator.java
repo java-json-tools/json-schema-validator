@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.messages.LoadingConfigurationMessages;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -171,7 +172,7 @@ public final class JsonValidator
     {
         if (schema == null)
             throw new ProcessingError(new ProcessingMessage()
-                .message(NULL_SCHEMA));
+                .message(LoadingConfigurationMessages.NULL_SCHEMA));
         if (instance == null)
             throw new ProcessingError(new ProcessingMessage()
                 .message(NULL_INSTANCE));

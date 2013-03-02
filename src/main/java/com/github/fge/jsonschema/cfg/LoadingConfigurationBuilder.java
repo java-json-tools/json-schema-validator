@@ -20,7 +20,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
+import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
 
 /**
  * Loading configuration (mutable instance)
