@@ -38,6 +38,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
+// TODO REMOVE
 public final class URIManagerTest
 {
     private URIDownloader mock;

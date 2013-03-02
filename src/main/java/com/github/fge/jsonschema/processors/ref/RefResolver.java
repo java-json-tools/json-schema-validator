@@ -47,6 +47,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  * <p>It relies on a {@link SchemaLoader} to load JSON References which are not
  * resolvable within the current schema itself.</p>
  */
+// TODO REMOVE
 public final class RefResolver
     implements Processor<SchemaHolder, SchemaHolder>
 {

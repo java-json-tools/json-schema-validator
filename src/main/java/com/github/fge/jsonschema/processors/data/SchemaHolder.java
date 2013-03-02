@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.util.AsJsonValueHolder;
 /**
  * Input/output of {@link RefResolver} and {@link SyntaxProcessor}
  */
+// TODO REMOVE
 public final class SchemaHolder
     extends AsJsonValueHolder<SchemaTree>
 {
