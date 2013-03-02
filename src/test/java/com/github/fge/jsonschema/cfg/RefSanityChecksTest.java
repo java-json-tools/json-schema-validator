@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.cfg;
 
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
@@ -33,7 +33,7 @@ public final class RefSanityChecksTest
         try {
             RefSanityChecks.absoluteRef(null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
+        } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(NULL_URI);
         }
@@ -46,7 +46,7 @@ public final class RefSanityChecksTest
         try {
             RefSanityChecks.absoluteRef(input);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
+        } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(INVALID_URI)
                 .hasField("input", input);
@@ -60,7 +60,7 @@ public final class RefSanityChecksTest
         try {
             RefSanityChecks.absoluteRef(input);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
+        } catch (JsonReferenceError e) {
             final ProcessingMessage message = e.getProcessingMessage();
             assertMessage(message).hasMessage(REF_NOT_ABSOLUTE)
                 .hasField("input", input);

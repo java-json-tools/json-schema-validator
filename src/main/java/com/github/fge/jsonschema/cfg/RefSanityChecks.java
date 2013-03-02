@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.cfg;
 
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
@@ -40,25 +40,25 @@ public final class RefSanityChecks
      *
      * @param input the input
      * @return an absolute JSON Reference
-     * @throws ValidationConfigurationError null input, invalid URI or not an
-     * absolute JSON Reference
+     * @throws JsonReferenceError null input, invalid URI or not an absolute
+     * JSON Reference
      */
     public static JsonRef absoluteRef(final String input)
     {
         final ProcessingMessage message = new ProcessingMessage();
         if (input == null)
-            throw new ValidationConfigurationError(message.message(NULL_URI));
+            throw new JsonReferenceError(message.message(NULL_URI));
         final URI uri;
         try {
             uri = new URI(input);
         } catch (URISyntaxException ignored) {
-            throw new ValidationConfigurationError(message.message(INVALID_URI)
+            throw new JsonReferenceError(message.message(INVALID_URI)
                 .put("input", input));
         }
         final JsonRef ref = JsonRef.fromURI(uri);
         if (!ref.isAbsolute())
-            throw new ValidationConfigurationError(message
-                .message(REF_NOT_ABSOLUTE).put("input", ref));
+            throw new JsonReferenceError(message.message(REF_NOT_ABSOLUTE)
+                .put("input", ref));
         return ref;
     }
 
@@ -67,7 +67,7 @@ public final class RefSanityChecks
      *
      * @param input the input
      * @return an absolute JSON Reference
-     * @throws ValidationConfigurationError null input, invalid URI or not an
+     * @throws JsonReferenceError null input, invalid URI or not an
      * absolute JSON Reference
      */
     public static URI absoluteLocator(final String input)
