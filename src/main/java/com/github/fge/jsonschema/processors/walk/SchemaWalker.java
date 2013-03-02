@@ -55,8 +55,8 @@ public abstract class SchemaWalker
             .put("tree", tree));
         listener.onEnter(tree);
         doWalk(listener, report);
-        report.debug(
-            new ProcessingMessage().message("exiting tree").put("tree", tree));
+        report.debug(new ProcessingMessage().message("exiting tree")
+            .put("tree", tree));
         listener.onExit(tree);
     }
 
