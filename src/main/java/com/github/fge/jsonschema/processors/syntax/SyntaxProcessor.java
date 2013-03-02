@@ -49,6 +49,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  * throws exceptions by itself if the schema is invalid: this role is left to
  * {@link ValidationChain}.</p>
  */
+// TODO REMOVE
 public final class SyntaxProcessor
     implements Processor<SchemaHolder, SchemaHolder>
 {

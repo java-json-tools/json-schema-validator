@@ -40,6 +40,7 @@ import java.util.Map;
  * <p>The validation check also fills the JSON Pointer list with the
  * appropriate paths when schema dependencies are encountered.</p>
  */
+//TODO REMOVE
 public abstract class DependenciesSyntaxChecker
     extends AbstractSyntaxChecker
 {

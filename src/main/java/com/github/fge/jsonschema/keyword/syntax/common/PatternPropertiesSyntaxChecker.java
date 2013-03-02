@@ -35,6 +35,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  *
  * @see RhinoHelper
  */
+//TODO REMOVE
 public final class PatternPropertiesSyntaxChecker
     extends SchemaMapSyntaxChecker
 {

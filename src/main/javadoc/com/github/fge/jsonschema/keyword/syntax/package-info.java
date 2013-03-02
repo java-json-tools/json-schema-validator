@@ -47,3 +47,4 @@
  */
 
 package com.github.fge.jsonschema.keyword.syntax;
+//TODO REMOVE

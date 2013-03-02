@@ -39,6 +39,7 @@ import java.util.EnumSet;
  * a customized exception provider (throwing a {@link InvalidSchemaException}
  * instead of the base {@link ProcessingException}.</p>
  */
+//TODO REMOVE
 public abstract class AbstractSyntaxChecker
     implements SyntaxChecker
 {

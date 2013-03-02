@@ -32,6 +32,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 /**
  * Syntax checker for the {@code exclusiveMaximum} keyword
  */
+//TODO REMOVE
 public final class ExclusiveMaximumSyntaxChecker
     extends AbstractSyntaxChecker
 {

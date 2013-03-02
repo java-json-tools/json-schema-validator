@@ -39,6 +39,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  *
  * @see JsonSchemaEquivalence
  */
+//TODO REMOVE
 public final class EnumSyntaxChecker
     extends AbstractSyntaxChecker
 {

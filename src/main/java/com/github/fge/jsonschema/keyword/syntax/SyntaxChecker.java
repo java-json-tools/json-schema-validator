@@ -41,6 +41,7 @@ import java.util.EnumSet;
  *
  * @see SyntaxProcessor
  */
+//TODO REMOVE
 public interface SyntaxChecker
 {
     // FIXME: I should get rid of that -- it is used in only one place.

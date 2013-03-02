@@ -30,6 +30,7 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
 /**
  * Draft v3 specific syntax checkers
  */
+// TODO REMOVE
 public final class DraftV3SyntaxCheckerDictionary
 {
     private static final Dictionary<SyntaxChecker> DICTIONARY;

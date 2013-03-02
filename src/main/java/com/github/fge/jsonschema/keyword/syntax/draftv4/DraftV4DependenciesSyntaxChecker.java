@@ -35,6 +35,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 /**
  * Syntax checker for draft v4's {@code dependencies} keyword
  */
+//TODO REMOVE
 public final class DraftV4DependenciesSyntaxChecker
     extends DependenciesSyntaxChecker
 {

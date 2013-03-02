@@ -39,6 +39,7 @@ import static com.github.fge.jsonschema.util.NodeType.*;
  * Helper class to validate the syntax of draft v3's {@code type} and {@code
  * disallow}
  */
+//TODO REMOVE
 public final class DraftV3TypeKeywordSyntaxChecker
     extends AbstractSyntaxChecker
 {

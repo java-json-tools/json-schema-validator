@@ -35,6 +35,7 @@ import java.util.Set;
  * Helper class for keywords having an object as a value whose values are
  * schemas
  */
+//TODO REMOVE
 public abstract class SchemaMapSyntaxChecker
     extends AbstractSyntaxChecker
 {

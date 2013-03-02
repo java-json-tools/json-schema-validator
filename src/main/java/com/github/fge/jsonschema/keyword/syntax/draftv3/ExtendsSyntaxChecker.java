@@ -29,6 +29,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 /**
  * Syntax checker for draft v3's {@code extends} keyword
  */
+//TODO REMOVE
 public final class ExtendsSyntaxChecker
     extends SchemaOrSchemaArraySyntaxChecker
 {

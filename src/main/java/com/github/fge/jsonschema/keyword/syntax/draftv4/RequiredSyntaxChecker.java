@@ -38,6 +38,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 /**
  * Syntax checker for draft v4's {@code required} keyword
  */
+//TODO REMOVE
 public final class RequiredSyntaxChecker
     extends AbstractSyntaxChecker
 {

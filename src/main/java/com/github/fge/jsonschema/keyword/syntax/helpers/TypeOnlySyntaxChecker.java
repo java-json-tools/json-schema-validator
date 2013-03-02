@@ -30,6 +30,7 @@ import java.util.Collection;
  * Helper class to validate the syntax of keywords only requiring that their
  * value be of certain types
  */
+//TODO REMOVE
 public final class TypeOnlySyntaxChecker
     extends AbstractSyntaxChecker
 {

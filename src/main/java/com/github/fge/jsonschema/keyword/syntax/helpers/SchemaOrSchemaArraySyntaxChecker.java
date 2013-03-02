@@ -32,6 +32,7 @@ import java.util.Collection;
  * Helper class to validate the syntax of keywords having either a schema or
  * schema array as a value
  */
+//TODO REMOVE
 public abstract class SchemaOrSchemaArraySyntaxChecker
     extends AbstractSyntaxChecker
 {

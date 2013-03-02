@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 /**
  * Syntax checker for draft v4's {@code properties} keyword
  */
+//TODO REMOVE
 public final class DraftV4PropertiesSyntaxChecker
     extends SchemaMapSyntaxChecker
 {

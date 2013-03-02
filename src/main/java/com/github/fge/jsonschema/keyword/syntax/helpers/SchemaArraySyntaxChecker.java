@@ -34,6 +34,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  *
  * <p>These keywords are, among others, {@code allOf}, {@code anyOf}, etc.</p>
  */
+//TODO REMOVE
 public final class SchemaArraySyntaxChecker
     extends AbstractSyntaxChecker
 {

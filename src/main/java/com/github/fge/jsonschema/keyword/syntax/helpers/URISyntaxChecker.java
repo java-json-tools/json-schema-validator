@@ -35,6 +35,7 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  *
  * <p>Note that this checker checks that URIs are normalized.</p>
  */
+//TODO REMOVE
 public final class URISyntaxChecker
     extends AbstractSyntaxChecker
 {

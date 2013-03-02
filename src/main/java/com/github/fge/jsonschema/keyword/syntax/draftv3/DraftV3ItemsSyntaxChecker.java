@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.tree.SchemaTree;
 /**
  * Syntax checker for draft v3's {@code items} keyword
  */
+//TODO REMOVE
 public final class DraftV3ItemsSyntaxChecker
     extends SchemaOrSchemaArraySyntaxChecker
 {

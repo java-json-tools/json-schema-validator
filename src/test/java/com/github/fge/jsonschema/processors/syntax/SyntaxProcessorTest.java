@@ -50,6 +50,7 @@ import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
 import static org.mockito.Mockito.*;
 
+//TODO REMOVE
 public final class SyntaxProcessorTest
 {
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();

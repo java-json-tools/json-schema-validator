@@ -30,6 +30,7 @@ import java.util.Collection;
 /**
  * Syntax checker for draft v4's {@code not} keyword
  */
+//TODO REMOVE
 public final class NotSyntaxChecker
     extends AbstractSyntaxChecker
 {
