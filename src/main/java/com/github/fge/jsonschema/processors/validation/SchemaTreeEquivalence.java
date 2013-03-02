@@ -29,6 +29,7 @@ import com.google.common.base.Equivalence;
  * <p>Two schema trees are considered equivant if their loading URI, current
  * URI context, base node and pointers are equivalent.</p>
  */
+// TODO REMOVE
 public final class SchemaTreeEquivalence
     extends Equivalence<SchemaTree>
 {
