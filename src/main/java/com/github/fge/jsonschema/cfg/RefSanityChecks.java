@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
+import static com.github.fge.jsonschema.messages.JsonReferenceErrors.*;
 
 /**
  * Utility class to perform sanity checks on URI string inputs

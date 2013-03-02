@@ -22,10 +22,12 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -174,7 +176,8 @@ public final class JsonSchemaFactory
      * @return a {@link JsonSchema}
      * @throws ProcessingException {@code ptr} is not a valid JSON Pointer, or
      * resolving the pointer against the schema leads to a {@link MissingNode}
-     * @throws LoadingConfigurationError the schema or pointer is null
+     * @throws LoadingConfigurationError schema is null
+     * @throws JsonReferenceError pointer is null
      */
     public JsonSchema getJsonSchema(final JsonNode schema, final String ptr)
         throws ProcessingException
@@ -183,8 +186,8 @@ public final class JsonSchemaFactory
             throw new LoadingConfigurationError(new ProcessingMessage()
                 .message(NULL_SCHEMA));
         if (ptr == null)
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(NULL_URI));
+            throw new JsonReferenceError(new ProcessingMessage()
+                .message(JsonReferenceErrors.NULL_JSON_POINTER));
         return validator.buildJsonSchema(schema, new JsonPointer(ptr));
     }
 
@@ -194,14 +197,14 @@ public final class JsonSchemaFactory
      * @param uri the URI
      * @return a {@link JsonSchema}
      * @throws ProcessingException failed to load from this URI
-     * @throws LoadingConfigurationError URI is null
+     * @throws JsonReferenceError URI is null
      */
     public JsonSchema getJsonSchema(final String uri)
         throws ProcessingException
     {
         if (uri == null)
-            throw new LoadingConfigurationError(new ProcessingMessage()
-                .message(NULL_URI));
+            throw new JsonReferenceError(new ProcessingMessage()
+                .message(JsonReferenceErrors.NULL_URI));
         return validator.buildJsonSchema(uri);
     }
 
