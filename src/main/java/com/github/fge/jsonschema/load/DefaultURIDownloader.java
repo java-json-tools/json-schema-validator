@@ -31,6 +31,7 @@ import java.net.URL;
  *
  * @see URL#openStream()
  */
+// TODO REMOVE
 public final class DefaultURIDownloader
     implements URIDownloader
 {

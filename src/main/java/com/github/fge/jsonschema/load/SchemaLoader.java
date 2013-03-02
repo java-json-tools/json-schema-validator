@@ -48,6 +48,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  *
  */
 @ThreadSafe
+// TODO REMOVE
 public final class SchemaLoader
 {
     /**

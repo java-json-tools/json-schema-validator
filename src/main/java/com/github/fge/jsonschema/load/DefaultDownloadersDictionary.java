@@ -20,6 +20,7 @@ import com.github.fge.jsonschema.library.DictionaryBuilder;
  * @see DefaultURIDownloader
  * @see ResourceURIDownloader
  */
+// TODO REMOVE
 public final class DefaultDownloadersDictionary
 {
     private static final Dictionary<URIDownloader> DICTIONARY;

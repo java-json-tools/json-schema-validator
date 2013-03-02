@@ -24,6 +24,7 @@ import java.net.URI;
 /**
  * URI downloader for a given scheme
  */
+// TODO REMOVE
 public interface URIDownloader
 {
     /**

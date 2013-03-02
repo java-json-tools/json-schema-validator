@@ -46,6 +46,7 @@ import static com.github.fge.jsonschema.messages.RefProcessingMessages.*;
  * @see DefaultDownloadersDictionary
  * @see SchemaLoader
  */
+// TODO REMOVE
 public final class URIManager
 {
     private static final ObjectReader READER = JacksonUtils.getReader();

@@ -33,6 +33,7 @@ import java.net.URI;
  * thrown if the resource cannot be found (instead of returning {@code null}).
  * </p>
  */
+// TODO REMOVE
 public final class ResourceURIDownloader
     implements URIDownloader
 {

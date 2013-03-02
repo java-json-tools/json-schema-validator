@@ -33,6 +33,7 @@ import com.github.fge.jsonschema.tree.SchemaTree;
  * @see InlineSchemaTree
  * @see CanonicalSchemaTree
  */
+// TODO REMOVE
 public enum Dereferencing
 {
     /**
