@@ -17,10 +17,7 @@
 
 package com.github.fge.jsonschema.messages;
 
-/**
- * Messages used by the configuration process
- */
-//TODO: reorganize
+//TODO REMOVE
 public enum JsonReferenceErrors
 {
     NULL_URI("provided URI cannot be null"),

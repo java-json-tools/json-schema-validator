@@ -25,6 +25,7 @@ import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static com.github.fge.jsonschema.messages.JsonReferenceErrors.*;
 import static org.testng.Assert.*;
 
+// TODO REMOVE
 public final class RefSanityChecksTest
 {
     @Test

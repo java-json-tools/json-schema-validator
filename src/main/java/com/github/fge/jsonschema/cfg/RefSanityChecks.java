@@ -29,6 +29,7 @@ import static com.github.fge.jsonschema.messages.JsonReferenceErrors.*;
 /**
  * Utility class to perform sanity checks on URI string inputs
  */
+// TODO REMOVE
 public final class RefSanityChecks
 {
     private RefSanityChecks()
