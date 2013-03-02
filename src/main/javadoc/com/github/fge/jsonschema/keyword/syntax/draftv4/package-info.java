@@ -20,3 +20,4 @@
  */
 
 package com.github.fge.jsonschema.keyword.syntax.draftv4;
+//TODO REMOVE

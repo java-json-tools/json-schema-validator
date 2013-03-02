@@ -24,3 +24,4 @@
  * this detection being performed for it.</p>
  */
 package com.github.fge.jsonschema.processors.syntax;
+//TODO remove

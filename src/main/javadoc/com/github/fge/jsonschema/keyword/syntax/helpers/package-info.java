@@ -20,3 +20,4 @@
  */
 
 package com.github.fge.jsonschema.keyword.syntax.helpers;
+//TODO REMOVE
