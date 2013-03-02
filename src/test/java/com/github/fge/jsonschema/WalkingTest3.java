@@ -87,22 +87,27 @@ public final class WalkingTest3
         }
 
         @Override
-        public void onExit()
+        public void onPopd()
         {
             mutableTree.pop();
         }
 
         @Override
-        public void onTreeChange(final SchemaTree oldTree,
+        public void onNewTree(final SchemaTree oldTree,
             final SchemaTree newTree)
         {
             mutableTree.setCurrentNode(newTree.getNode());
         }
 
         @Override
-        public void onEnter(final JsonPointer pointer)
+        public void onPushd(final JsonPointer pointer)
         {
             mutableTree.pushd(pointer);
+        }
+
+        @Override
+        public void onExit()
+        {
         }
 
         public JsonNode getNode()

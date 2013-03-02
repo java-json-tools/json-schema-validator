@@ -24,11 +24,13 @@ public interface SchemaListener
 {
     void onInit(final SchemaTree tree);
 
-    void onTreeChange(final SchemaTree oldTree, final SchemaTree newTree);
+    void onNewTree(final SchemaTree oldTree, final SchemaTree newTree);
 
-    void onEnter(final JsonPointer pointer);
+    void onPushd(final JsonPointer pointer);
 
     void onWalk(final SchemaTree tree);
+
+    void onPopd();
 
     void onExit();
 }

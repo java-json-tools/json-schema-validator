@@ -61,7 +61,7 @@ public final class RecursiveSchemaWalker
             return;
         report.debug(new ProcessingMessage().message("tree change")
             .put("old", tree).put("new", newTree));
-        listener.onTreeChange(tree, newTree);
+        listener.onNewTree(tree, newTree);
         tree = newTree;
     }
 
