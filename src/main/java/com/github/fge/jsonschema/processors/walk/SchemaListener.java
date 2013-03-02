@@ -17,15 +17,18 @@
 
 package com.github.fge.jsonschema.processors.walk;
 
+import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
 public interface SchemaListener
 {
-    void onEnter(final SchemaTree tree);
-
-    void onWalk(final SchemaTree tree);
+    void onInit(final SchemaTree tree);
 
     void onTreeChange(final SchemaTree oldTree, final SchemaTree newTree);
 
-    void onExit(final SchemaTree tree);
+    void onEnter(final JsonPointer pointer);
+
+    void onWalk(final SchemaTree tree);
+
+    void onExit();
 }

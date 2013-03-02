@@ -53,11 +53,10 @@ public abstract class SchemaWalker
     {
         report.debug(new ProcessingMessage().message("entering tree")
             .put("tree", tree));
-        listener.onEnter(tree);
+        listener.onInit(tree);
         doWalk(listener, report);
         report.debug(new ProcessingMessage().message("exiting tree")
             .put("tree", tree));
-        listener.onExit(tree);
     }
 
     public abstract void resolveTree(final SchemaListener listener,
@@ -68,10 +67,10 @@ public abstract class SchemaWalker
         final ProcessingReport report)
         throws ProcessingException
     {
-        resolveTree(listener, report);
         report.debug(new ProcessingMessage().message("walking tree")
             .put("tree", tree));
         listener.onWalk(tree);
+        resolveTree(listener, report);
         final JsonNode node = tree.getNode();
 
         final Map<String, PointerCollector> map = Maps.newTreeMap();
@@ -93,7 +92,9 @@ public abstract class SchemaWalker
         for (final JsonPointer pointer: pointers) {
             current = tree;
             tree = tree.append(pointer);
+            listener.onEnter(pointer);
             doWalk(listener, report);
+            listener.onExit();
             tree = current;
         }
     }

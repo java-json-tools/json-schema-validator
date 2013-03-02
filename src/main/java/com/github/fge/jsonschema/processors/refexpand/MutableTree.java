@@ -21,26 +21,50 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.util.JacksonUtils;
+import com.google.common.collect.Queues;
 
-final class MutableTree
+import java.util.Deque;
+
+public final class MutableTree
 {
     private final ObjectNode baseNode = JacksonUtils.nodeFactory().objectNode();
 
     private ObjectNode currentNode = baseNode;
+
+    private final Deque<ObjectNode> nodeStack = Queues.newArrayDeque();
+
+    private JsonPointer currentPointer = JsonPointer.empty();
+
+    private final Deque<JsonPointer> pointerStack = Queues.newArrayDeque();
 
     public ObjectNode getBaseNode()
     {
         return baseNode;
     }
 
-    void setPointer(final JsonPointer pointer)
+    public void pushd(final JsonPointer pointer)
     {
-        currentNode = (ObjectNode) pointer.get(baseNode);
+        nodeStack.push(currentNode);
+        pointerStack.push(currentPointer);
+        currentNode = (ObjectNode) pointer.get(currentNode);
+        currentPointer = currentPointer.append(pointer);
     }
 
-    void setCurrentNode(final JsonNode node)
+    public void pop()
+    {
+        currentNode = nodeStack.pop();
+        currentPointer = pointerStack.pop();
+    }
+
+    public void setCurrentNode(final JsonNode node)
     {
         currentNode.removeAll();
         currentNode.putAll(JacksonUtils.asMap(node));
+    }
+
+    @Override
+    public String toString()
+    {
+        return "pointer: " + currentPointer + "; node: " + baseNode;
     }
 }
