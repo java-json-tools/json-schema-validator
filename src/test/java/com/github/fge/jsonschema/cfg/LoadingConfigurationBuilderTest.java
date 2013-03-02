@@ -18,6 +18,7 @@ import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
+// TODO REMOVE
 public final class LoadingConfigurationBuilderTest
 {
     private static final String SAMPLE_ABSOLUTE_REF = "x://y";

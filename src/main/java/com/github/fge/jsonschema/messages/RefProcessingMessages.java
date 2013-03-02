@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.messages;
 /**
  * Messages used by JSON Reference processing exceptions
  */
+// TODO REMOVE
 public enum RefProcessingMessages
 {
     URI_NOT_ABSOLUTE("URI is not absolute"),

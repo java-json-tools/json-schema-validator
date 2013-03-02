@@ -37,6 +37,7 @@ import java.util.Map;
  * @see URIManager
  * @see SchemaLoader
  */
+// TODO remove
 public final class LoadingConfiguration
     implements Frozen<LoadingConfigurationBuilder>
 {

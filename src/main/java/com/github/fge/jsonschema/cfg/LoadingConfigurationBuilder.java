@@ -27,6 +27,7 @@ import static com.github.fge.jsonschema.messages.LoadingConfigurationMessages.*;
  *
  * @see LoadingConfiguration
  */
+// TODO REMOVE
 public final class LoadingConfigurationBuilder
     implements Thawed<LoadingConfiguration>
 {
