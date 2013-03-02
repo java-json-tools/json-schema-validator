@@ -60,14 +60,15 @@ public abstract class SchemaWalker
         listener.onExit(tree);
     }
 
-    public abstract void resolveTree(final ProcessingReport report)
+    public abstract void resolveTree(final SchemaListener listener,
+        final ProcessingReport report)
         throws ProcessingException;
 
     private void doWalk(final SchemaListener listener,
         final ProcessingReport report)
         throws ProcessingException
     {
-        resolveTree(report);
+        resolveTree(listener, report);
         report.debug(new ProcessingMessage().message("walking tree")
             .put("tree", tree));
         listener.onWalk(tree);

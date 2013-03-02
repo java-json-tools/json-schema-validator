@@ -1,0 +1,6 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "id": "my://schemas/sub1.json",
+    "type": "array",
+    "items": { "type": "string" }
+}
