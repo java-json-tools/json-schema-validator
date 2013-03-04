@@ -1,6 +1,6 @@
 <h2>Read me first</h2>
 
-<p><b>Version 2.0.0 is out</b>!</p>
+<p><b>Version 2.0.x is out</b>!</p>
 
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
@@ -26,7 +26,7 @@ group</a>.</p>
 <h2>Versions</h2>
 
 <ul>
-    <li>stable version: <b>2.0.0</b> (<a
+    <li>stable version: <b>2.0.1</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
