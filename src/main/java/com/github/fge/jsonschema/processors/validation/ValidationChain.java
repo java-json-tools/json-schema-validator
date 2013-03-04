@@ -58,7 +58,8 @@ public final class ValidationChain
     public ValidationChain(final RefResolver refResolver,
         final Library library, final boolean useFormat)
     {
-        final SyntaxProcessor syntaxProcessor = new SyntaxProcessor(library);
+        final SyntaxProcessor syntaxProcessor
+            = new SyntaxProcessor(library.getSyntaxCheckers());
         final ProcessorChain<SchemaHolder, SchemaHolder> chain1
             = ProcessorChain.startWith(refResolver).chainWith(syntaxProcessor);
 

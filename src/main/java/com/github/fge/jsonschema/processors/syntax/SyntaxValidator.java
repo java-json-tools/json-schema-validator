@@ -19,6 +19,8 @@ package com.github.fge.jsonschema.processors.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
+import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
+import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.processing.ProcessingResult;
@@ -44,6 +46,7 @@ import java.util.Map;
  *
  * <p>Note that the reports used are always {@link ListProcessingReport}s.</p>
  */
+// TODO REMOVE
 public final class SyntaxValidator
 {
     private final Processor<SchemaHolder, SchemaHolder> processor;
@@ -58,7 +61,7 @@ public final class SyntaxValidator
         ProcessorMap<JsonRef, SchemaHolder, SchemaHolder> map = new SchemaMap();
 
         final SyntaxProcessor byDefault
-            = new SyntaxProcessor(cfg.getDefaultLibrary());
+            = new SyntaxProcessor(cfg.getDefaultLibrary().getSyntaxCheckers());
 
         map = map.setDefaultProcessor(byDefault);
 
@@ -66,10 +69,12 @@ public final class SyntaxValidator
 
         JsonRef ref;
         SyntaxProcessor syntaxProcessor;
+        Dictionary<SyntaxChecker> dict;
 
         for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
             ref = entry.getKey();
-            syntaxProcessor = new SyntaxProcessor(entry.getValue());
+            dict = entry.getValue().getSyntaxCheckers();
+            syntaxProcessor = new SyntaxProcessor(dict);
             map = map.addEntry(ref, syntaxProcessor);
         }
 
