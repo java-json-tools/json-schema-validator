@@ -13,11 +13,6 @@ com.github.fge.jsonschema.keyword.digest.common
 com.github.fge.jsonschema.keyword.digest.draftv3
 com.github.fge.jsonschema.keyword.digest.draftv4
 com.github.fge.jsonschema.keyword.digest.helpers
-com.github.fge.jsonschema.keyword.syntax
-com.github.fge.jsonschema.keyword.syntax.common
-com.github.fge.jsonschema.keyword.syntax.draftv3
-com.github.fge.jsonschema.keyword.syntax.draftv4
-com.github.fge.jsonschema.keyword.syntax.helpers
 com.github.fge.jsonschema.keyword.validator
 com.github.fge.jsonschema.keyword.validator.common
 com.github.fge.jsonschema.keyword.validator.draftv3
@@ -26,9 +21,7 @@ com.github.fge.jsonschema.keyword.validator.helpers
 com.github.fge.jsonschema.library
 com.github.fge.jsonschema.library.digest
 com.github.fge.jsonschema.library.format
-com.github.fge.jsonschema.library.syntax
 com.github.fge.jsonschema.library.validator
-com.github.fge.jsonschema.load
 com.github.fge.jsonschema.main
 com.github.fge.jsonschema.messages
 com.github.fge.jsonschema.processors
