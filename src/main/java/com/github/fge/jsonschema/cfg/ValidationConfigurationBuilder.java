@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationErr
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.load.configuration.RefSanityChecks;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;

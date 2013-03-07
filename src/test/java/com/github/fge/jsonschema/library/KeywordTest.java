@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
@@ -27,6 +26,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.NodeType;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

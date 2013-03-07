@@ -19,19 +19,21 @@ package com.github.fge.jsonschema.processors.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
-import com.github.fge.jsonschema.keyword.syntax.SyntaxChecker;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.DevNullProcessingReport;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.SyntaxProcessor;
+import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
+import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.ValueHolder;
 import com.google.common.base.Function;
 
 import java.util.Map;
@@ -49,7 +51,7 @@ import java.util.Map;
 // TODO REMOVE
 public final class SyntaxValidator
 {
-    private final Processor<SchemaHolder, SchemaHolder> processor;
+    private final Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> processor;
 
     /**
      * Constructor
@@ -58,7 +60,7 @@ public final class SyntaxValidator
      */
     public SyntaxValidator(final ValidationConfiguration cfg)
     {
-        ProcessorMap<JsonRef, SchemaHolder, SchemaHolder> map = new SchemaMap();
+        ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> map = new SchemaMap();
 
         final SyntaxProcessor byDefault
             = new SyntaxProcessor(cfg.getDefaultLibrary().getSyntaxCheckers());
@@ -112,33 +114,34 @@ public final class SyntaxValidator
      *
      * @return a processor performing full syntax validation
      */
-    public Processor<SchemaHolder, SchemaHolder> getProcessor()
+    public Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> getProcessor()
     {
         return processor;
     }
 
-    private ProcessingResult<SchemaHolder> getResult(final JsonNode schema,
+    private ProcessingResult<ValueHolder<SchemaTree>> getResult(final JsonNode schema,
         final ProcessingReport report)
     {
-        final SchemaHolder holder = holder(schema);
+        final ValueHolder<SchemaTree> holder = holder(schema);
         return ProcessingResult.uncheckedResult(processor, report, holder);
     }
 
-    private static SchemaHolder holder(final JsonNode node)
+    private static ValueHolder<SchemaTree> holder(final JsonNode node)
     {
-        return new SchemaHolder(new CanonicalSchemaTree(node));
+        return ValueHolder.<SchemaTree>hold("schema",
+            new CanonicalSchemaTree(node));
     }
 
     private static final class SchemaMap
-        extends ProcessorMap<JsonRef, SchemaHolder, SchemaHolder>
+        extends ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
     {
         @Override
-        protected Function<SchemaHolder, JsonRef> f()
+        protected Function<ValueHolder<SchemaTree>, JsonRef> f()
         {
-            return new Function<SchemaHolder, JsonRef>()
+            return new Function<ValueHolder<SchemaTree>, JsonRef>()
             {
                 @Override
-                public JsonRef apply(final SchemaHolder input)
+                public JsonRef apply(final ValueHolder<SchemaTree> input)
                 {
                     return input.getValue().getDollarSchema();
                 }

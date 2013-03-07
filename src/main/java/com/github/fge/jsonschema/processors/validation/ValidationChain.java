@@ -19,20 +19,21 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.processing.CachingProcessor;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
-import com.github.fge.jsonschema.processors.data.SchemaHolder;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
-import com.github.fge.jsonschema.processors.ref.RefResolver;
-import com.github.fge.jsonschema.processors.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.util.ValueHolder;
+import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
 import com.google.common.base.Equivalence;
 
 /**
@@ -52,7 +53,8 @@ import com.google.common.base.Equivalence;
 public final class ValidationChain
     implements Processor<SchemaContext, ValidatorList>
 {
-    private final Processor<SchemaHolder, SchemaHolder> resolver;
+    private final Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
+        resolver;
     private final Processor<SchemaContext, ValidatorList> builder;
 
     public ValidationChain(final RefResolver refResolver,
@@ -60,10 +62,10 @@ public final class ValidationChain
     {
         final SyntaxProcessor syntaxProcessor
             = new SyntaxProcessor(library.getSyntaxCheckers());
-        final ProcessorChain<SchemaHolder, SchemaHolder> chain1
+        final ProcessorChain<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> chain1
             = ProcessorChain.startWith(refResolver).chainWith(syntaxProcessor);
 
-        resolver = new CachingProcessor<SchemaHolder, SchemaHolder>(
+        resolver = new CachingProcessor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>(
             chain1.getProcessor(), SchemaHolderEquivalence.INSTANCE
         );
 
@@ -88,7 +90,8 @@ public final class ValidationChain
         final SchemaContext input)
         throws ProcessingException
     {
-        final SchemaHolder in = new SchemaHolder(input.getSchema());
+        final ValueHolder<SchemaTree> in
+            = ValueHolder.hold("schema", input.getSchema());
 
         /*
          * We have to go through an intermediate report. If we re-enter this
@@ -96,7 +99,7 @@ public final class ValidationChain
          * want to wrongly report that the schema is invalid.
          */
         final ListProcessingReport r = new ListProcessingReport(report);
-        final SchemaHolder out = resolver.process(r, in);
+        final ValueHolder<SchemaTree> out = resolver.process(r, in);
         report.mergeWith(r);
         if (!r.isSuccess())
             return null;
@@ -113,23 +116,23 @@ public final class ValidationChain
     }
 
     private static final class SchemaHolderEquivalence
-        extends Equivalence<SchemaHolder>
+        extends Equivalence<ValueHolder<SchemaTree>>
     {
-        private static final Equivalence<SchemaHolder> INSTANCE
+        private static final Equivalence<ValueHolder<SchemaTree>> INSTANCE
             = new SchemaHolderEquivalence();
 
         private static final Equivalence<SchemaTree> EQUIVALENCE
             = SchemaTreeEquivalence.getInstance();
 
         @Override
-        protected boolean doEquivalent(final SchemaHolder a,
-            final SchemaHolder b)
+        protected boolean doEquivalent(final ValueHolder<SchemaTree> a,
+            final ValueHolder<SchemaTree> b)
         {
             return EQUIVALENCE.equivalent(a.getValue(), b.getValue());
         }
 
         @Override
-        protected int doHash(final SchemaHolder t)
+        protected int doHash(final ValueHolder<SchemaTree> t)
         {
             return EQUIVALENCE.hash(t.getValue());
         }

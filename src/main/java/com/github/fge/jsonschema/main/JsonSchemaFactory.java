@@ -19,14 +19,15 @@ package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
-import com.github.fge.jsonschema.cfg.LoadingConfiguration;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonReferenceErrors;
 import com.github.fge.jsonschema.messages.LoadingConfigurationMessages;
 import com.github.fge.jsonschema.processing.Processor;
@@ -34,7 +35,6 @@ import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
-import com.github.fge.jsonschema.processors.ref.RefResolver;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
@@ -46,8 +46,6 @@ import com.google.common.base.Function;
 import net.jcip.annotations.Immutable;
 
 import java.util.Map;
-
-import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
 /**
  * The main validator provider
