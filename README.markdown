@@ -55,13 +55,11 @@ group</a>.</p>
 <p>This library's dependency on <a
 href="https://github.com/fge/json-schema-core">json-schema-core</a> opens up many possibilities for
 extensions. A <a href="https://github.com/fge/json-schema-processor-examples">decicated project</a>
-shows what is possible, and it barely scratches the surface.</p>
+already has a few examples.</p>
 
-<p>Despite that, a processor has already been written to allow generations of JSON Schemas out of
-a plain Java source, and this is even <a
-href="http://json-schema-validator.herokuapp.com/jjschema.html">being demonstrated online</a>. This
-means you can create a validation chain validating instances using a Java class directly, without
-having to write a JSON Schema!</p>
+<p>The <a href="http://json-schema-validator.herokuapp.com">site mentioned above</a> already has a
+few examples of what is possible. Much more is doable. In fact, the only limiting factor is your own
+imagination!</p>
 
 <h2>Versioning scheme policy</h2>
 
