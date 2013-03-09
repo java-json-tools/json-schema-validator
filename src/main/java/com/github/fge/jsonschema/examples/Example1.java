@@ -60,15 +60,14 @@ import java.io.IOException;
  * </ul>
  */
 public final class Example1
-    extends ExampleBase
 {
     public static void main(final String... args)
         throws IOException, ProcessingException
     {
-        final JsonNode fstabSchema = loadResource("/fstab.json");
-        final JsonNode good = loadResource("/fstab-good.json");
-        final JsonNode bad = loadResource("/fstab-bad.json");
-        final JsonNode bad2 = loadResource("/fstab-bad2.json");
+        final JsonNode fstabSchema = Utils.loadResource("/fstab.json");
+        final JsonNode good = Utils.loadResource("/fstab-good.json");
+        final JsonNode bad = Utils.loadResource("/fstab-bad.json");
+        final JsonNode bad2 = Utils.loadResource("/fstab-bad2.json");
 
         final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
@@ -77,12 +76,12 @@ public final class Example1
         ProcessingReport report;
 
         report = schema.validate(good);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad2);
-        printReport(report);
+        System.out.println(report);
     }
 }

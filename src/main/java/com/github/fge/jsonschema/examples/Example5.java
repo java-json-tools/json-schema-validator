@@ -63,7 +63,6 @@ import java.io.IOException;
  * Example2}.</p>
  */
 public final class Example5
-    extends ExampleBase
 {
     private static final String NAMESPACE
         = "resource:/com/github/fge/jsonschema/examples/split/";
@@ -71,9 +70,9 @@ public final class Example5
     public static void main(final String... args)
         throws IOException, ProcessingException
     {
-        final JsonNode good = loadResource("/fstab-good.json");
-        final JsonNode bad = loadResource("/fstab-bad.json");
-        final JsonNode bad2 = loadResource("/fstab-bad2.json");
+        final JsonNode good = Utils.loadResource("/fstab-good.json");
+        final JsonNode bad = Utils.loadResource("/fstab-bad.json");
+        final JsonNode bad2 = Utils.loadResource("/fstab-bad2.json");
 
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
             .setNamespace(NAMESPACE).freeze();
@@ -86,12 +85,12 @@ public final class Example5
         ProcessingReport report;
 
         report = schema.validate(good);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad2);
-        printReport(report);
+        System.out.println(report);
     }
 }

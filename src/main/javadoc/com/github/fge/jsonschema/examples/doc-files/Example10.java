@@ -51,7 +51,6 @@ import java.io.IOException;
  *
  */
 public final class Example10
-    extends ExampleBase
 {
     private static final String URI_BASE = "xxx://foo.bar/path/to/";
 
@@ -64,11 +63,11 @@ public final class Example10
         JsonNode node;
         String uri;
 
-        node = loadResource("/split/fstab.json");
+        node = Utils.loadResource("/split/fstab.json");
         uri = URI_BASE + "fstab.json";
         builder.preloadSchema(uri, node);
 
-        node = loadResource("/split/mntent.json");
+        node = Utils.loadResource("/split/mntent.json");
         uri = URI_BASE + "mntent.json";
         builder.preloadSchema(uri, node);
 
@@ -78,19 +77,19 @@ public final class Example10
         final JsonSchema schema
             = factory.getJsonSchema(URI_BASE + "fstab.json");
 
-        final JsonNode good = loadResource("/fstab-good.json");
-        final JsonNode bad = loadResource("/fstab-bad.json");
-        final JsonNode bad2 = loadResource("/fstab-bad2.json");
+        final JsonNode good = Utils.loadResource("/fstab-good.json");
+        final JsonNode bad = Utils.loadResource("/fstab-bad.json");
+        final JsonNode bad2 = Utils.loadResource("/fstab-bad2.json");
 
         ProcessingReport report;
 
         report = schema.validate(good);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad2);
-        printReport(report);
+        System.out.println(report);
     }
 }

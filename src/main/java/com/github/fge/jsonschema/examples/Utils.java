@@ -18,43 +18,24 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
 
 /**
- * Base abstract class for all examples
+ * Utility class for examples
  */
-public abstract class ExampleBase
+public final class Utils
 {
     private static final String PKGBASE;
 
     static {
-        final String pkgName = ExampleBase.class.getPackage().getName();
+        final String pkgName = Utils.class.getPackage().getName();
         PKGBASE = '/' + pkgName.replace(".", "/");
     }
 
-    /**
-     * Print a validation report to stdout
-     *
-     * <p>Will print whether validation succeeded. In the event of a failure,
-     * dumps validation error messages.</p>
-     *
-     * @param report the report
-     */
-    protected static void printReport(final ProcessingReport report)
+    private Utils()
     {
-        final boolean success = report.isSuccess();
-        System.out.println("Validation " + (success ? "succeeded" : "failed"));
-
-        if (!success) {
-            System.out.println("---- BEGIN REPORT ----");
-            for (final ProcessingMessage message : report)
-                System.out.println(message);
-            System.out.println("---- END REPORT ----");
-        }
     }
 
     /**
@@ -64,7 +45,7 @@ public abstract class ExampleBase
      * @return a JSON document
      * @throws IOException resource not found
      */
-    protected static JsonNode loadResource(final String name)
+    public static JsonNode loadResource(final String name)
         throws IOException
     {
         return JsonLoader.fromResource(PKGBASE + name);

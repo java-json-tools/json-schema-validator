@@ -40,15 +40,14 @@ import java.io.IOException;
  * draft v3, they were in charge of the {@code properties} keyword.</p>
  */
 public final class Example3
-    extends ExampleBase
 {
     public static void main(final String... args)
         throws IOException, ProcessingException
     {
-        final JsonNode fstabSchema = loadResource("/fstab-draftv3.json");
-        final JsonNode good = loadResource("/fstab-good.json");
-        final JsonNode bad = loadResource("/fstab-bad.json");
-        final JsonNode bad2 = loadResource("/fstab-bad2.json");
+        final JsonNode fstabSchema = Utils.loadResource("/fstab-draftv3.json");
+        final JsonNode good = Utils.loadResource("/fstab-good.json");
+        final JsonNode bad = Utils.loadResource("/fstab-bad.json");
+        final JsonNode bad2 = Utils.loadResource("/fstab-bad2.json");
 
         final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
 
@@ -57,12 +56,12 @@ public final class Example3
         ProcessingReport report;
 
         report = schema.validate(good);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad2);
-        printReport(report);
+        System.out.println(report);
     }
 }

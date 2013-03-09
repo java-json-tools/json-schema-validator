@@ -65,14 +65,13 @@ import java.util.UUID;
  * for the second array element is invalid).</p>
  */
 public final class Example8
-    extends ExampleBase
 {
     public static void main(final String... args)
         throws IOException, ProcessingException
     {
-        final JsonNode customSchema = loadResource("/custom-fmt.json");
-        final JsonNode good = loadResource("/custom-fmt-good.json");
-        final JsonNode bad = loadResource("/custom-fmt-bad.json");
+        final JsonNode customSchema = Utils.loadResource("/custom-fmt.json");
+        final JsonNode good = Utils.loadResource("/custom-fmt-good.json");
+        final JsonNode bad = Utils.loadResource("/custom-fmt-bad.json");
 
         final Library library = DraftV4Library.get().thaw()
             .addFormatAttribute("uuid", UUIDFormatAttribute.getInstance())
@@ -89,10 +88,10 @@ public final class Example8
         ProcessingReport report;
 
         report = schema.validate(good);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad);
-        printReport(report);
+        System.out.println(report);
     }
 
     private static final class UUIDFormatAttribute

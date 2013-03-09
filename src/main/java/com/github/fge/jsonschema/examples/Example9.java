@@ -103,14 +103,13 @@ import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
  * elements fail to divide by one or more factors).</p>
  */
 public final class Example9
-    extends ExampleBase
 {
     public static void main(final String... args)
         throws IOException, ProcessingException
     {
-        final JsonNode customSchema = loadResource("/custom-keyword.json");
-        final JsonNode good = loadResource("/custom-keyword-good.json");
-        final JsonNode bad = loadResource("/custom-keyword-bad.json");
+        final JsonNode customSchema = Utils.loadResource("/custom-keyword.json");
+        final JsonNode good = Utils.loadResource("/custom-keyword-good.json");
+        final JsonNode bad = Utils.loadResource("/custom-keyword-bad.json");
 
         final Keyword keyword = Keyword.newBuilder("divisors")
             .withSyntaxChecker(DivisorsSyntaxChecker.getInstance())
@@ -131,10 +130,10 @@ public final class Example9
         ProcessingReport report;
 
         report = schema.validate(good);
-        printReport(report);
+        System.out.println(report);
 
         report = schema.validate(bad);
-        printReport(report);
+        System.out.println(report);
     }
 
     /*
