@@ -1,7 +1,5 @@
 <h2>Read me first</h2>
 
-<p><b>Version 2.0.x is out</b>!</p>
-
 <p>The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
 text.</p>
 
@@ -26,6 +24,11 @@ group</a>.</p>
 <h2>Versions</h2>
 
 <ul>
+    <li>development version: <b>2.1.0</b> (<a
+    href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
+    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
+    href="http://fge.github.com/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
+    samples</a>).</li>
     <li>stable version: <b>2.0.1</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
@@ -50,7 +53,7 @@ group</a>.</p>
 </dependency>
 ```
 
-<h2>Demonstration of extension capabilities</h2>
+<h2>Extending usage beyond validation</h2>
 
 <p>This library's dependency on <a
 href="https://github.com/fge/json-schema-core">json-schema-core</a> opens up many possibilities for
