@@ -13,18 +13,18 @@
     },
     {
         "data": "2012-08-07T20:42:32.123Z",
-        "valid": false,
-        "message": "INVALID_DATE_FORMAT",
-        "msgData": {
-            "expected": "yyyy-MM-dd'T'HH:mm:ssZ"
-        }
+        "valid": true
+    },
+    {
+        "data": "2012-08-07T20:42:32.13Z",
+        "valid": true
     },
     {
         "data": "2012-02-30T00:00:00+0000",
         "valid": false,
         "message": "INVALID_DATE_FORMAT",
         "msgData": {
-            "expected": "yyyy-MM-dd'T'HH:mm:ssZ"
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
         }
     },
     {
@@ -32,7 +32,7 @@
         "valid": false,
         "message": "INVALID_DATE_FORMAT",
         "msgData": {
-            "expected": "yyyy-MM-dd'T'HH:mm:ssZ"
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
         }
     }
 ]
