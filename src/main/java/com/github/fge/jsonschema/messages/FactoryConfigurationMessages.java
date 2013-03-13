@@ -17,20 +17,23 @@
 
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+
 /**
  * Messages used by the configuration process
  */
-public enum ConfigurationMessages
+//TODO: reorganize
+public enum FactoryConfigurationMessages
 {
-    NULL_LIBRARY("library cannot be null"),
-    DUP_LIBRARY("a library already exists for this URI"),
-    NULL_VERSION("version cannot be null"),
-    NULL_INSTANCE("instance cannot be null"),
+    NULL_REPORT_PROVIDER("report provider must not be null"),
+    NULL_LOADING_CFG("loading configuration must not be null"),
+    NULL_VALIDATION_CFG("validation configuration must not be null"),
     ;
 
     private final String message;
 
-    ConfigurationMessages(final String message)
+    FactoryConfigurationMessages(final String message)
     {
         this.message = message;
     }
@@ -39,5 +42,12 @@ public enum ConfigurationMessages
     public String toString()
     {
         return message;
+    }
+
+    public void checkThat(final boolean condition)
+    {
+        if (!condition)
+            throw new FactoryConfigurationError(new ProcessingMessage()
+                .message(this));
     }
 }

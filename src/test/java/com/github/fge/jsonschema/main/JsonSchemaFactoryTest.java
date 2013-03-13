@@ -23,7 +23,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
+import static com.github.fge.jsonschema.messages.FactoryConfigurationMessages.*;
 import static org.testng.Assert.*;
 
 public final class JsonSchemaFactoryTest

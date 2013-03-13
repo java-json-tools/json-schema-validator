@@ -22,12 +22,11 @@ import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.report.ListReportProvider;
 import com.github.fge.jsonschema.report.LogLevel;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Thawed;
 import net.jcip.annotations.NotThreadSafe;
 
-import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
+import static com.github.fge.jsonschema.messages.FactoryConfigurationMessages.*;
 
 /**
  * Thawed instance of a {@link JsonSchemaFactory}
@@ -86,9 +85,7 @@ public final class JsonSchemaFactoryBuilder
     public JsonSchemaFactoryBuilder setReportProvider(
         final ReportProvider reportProvider)
     {
-        if (reportProvider == null)
-            throw new FactoryConfigurationError(new ProcessingMessage()
-                .message(NULL_REPORT_PROVIDER));
+        NULL_REPORT_PROVIDER.checkThat(reportProvider != null);
         this.reportProvider = reportProvider;
         return this;
     }
@@ -103,9 +100,7 @@ public final class JsonSchemaFactoryBuilder
     public JsonSchemaFactoryBuilder setLoadingConfiguration(
         final LoadingConfiguration loadingCfg)
     {
-        if (loadingCfg == null)
-            throw new FactoryConfigurationError(new ProcessingMessage()
-                .message(NULL_LOADING_CFG));
+        NULL_LOADING_CFG.checkThat(loadingCfg != null);
         this.loadingCfg = loadingCfg;
         return this;
     }
@@ -120,9 +115,7 @@ public final class JsonSchemaFactoryBuilder
     public JsonSchemaFactoryBuilder setValidationConfiguration(
         final ValidationConfiguration validationCfg)
     {
-        if (validationCfg == null)
-            throw new FactoryConfigurationError(new ProcessingMessage()
-                .message(NULL_VALIDATION_CFG));
+        NULL_VALIDATION_CFG.checkThat(validationCfg != null);
         this.validationCfg = validationCfg;
         return this;
     }
