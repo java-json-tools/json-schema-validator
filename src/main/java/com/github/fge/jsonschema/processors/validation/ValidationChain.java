@@ -98,7 +98,7 @@ public final class ValidationChain
          * function with a report already telling there is an error, we don't
          * want to wrongly report that the schema is invalid.
          */
-        final ListProcessingReport r = new ListProcessingReport(report);
+        final ProcessingReport r = new ListProcessingReport(report);
         final ValueHolder<SchemaTree> out = resolver.process(r, in);
         report.mergeWith(r);
         if (!r.isSuccess())
