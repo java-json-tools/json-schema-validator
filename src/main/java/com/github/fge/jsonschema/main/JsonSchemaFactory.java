@@ -66,6 +66,16 @@ import java.util.Map;
 public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
 {
+    private static final Function<SchemaContext, JsonRef> FUNCTION
+        = new Function<SchemaContext, JsonRef>()
+    {
+        @Override
+        public JsonRef apply(final SchemaContext input)
+        {
+            return input.getSchema().getDollarSchema();
+        }
+    };
+
     /*
      * Elements provided by the builder
      */
@@ -242,8 +252,9 @@ public final class JsonSchemaFactory
         final Library defaultLibrary = validationCfg.getDefaultLibrary();
         final ValidationChain defaultChain
             = new ValidationChain(resolver, defaultLibrary, useFormat);
-        ProcessorMap<JsonRef, SchemaContext, ValidatorList> map
-            = new FullChain().setDefaultProcessor(defaultChain);
+        final ProcessorMap<JsonRef, SchemaContext, ValidatorList> map
+            = new ProcessorMap<JsonRef, SchemaContext, ValidatorList>(FUNCTION);
+        map.setDefaultProcessor(defaultChain);
 
         JsonRef ref;
         ValidationChain chain;
@@ -251,26 +262,9 @@ public final class JsonSchemaFactory
         for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
             ref = entry.getKey();
             chain = new ValidationChain(resolver, entry.getValue(), useFormat);
-            map = map.addEntry(ref, chain);
+            map.addEntry(ref, chain);
         }
 
         return map.getProcessor();
-    }
-
-    private static final class FullChain
-        extends ProcessorMap<JsonRef, SchemaContext, ValidatorList>
-    {
-        @Override
-        protected Function<SchemaContext, JsonRef> f()
-        {
-            return new Function<SchemaContext, JsonRef>()
-            {
-                @Override
-                public JsonRef apply(final SchemaContext input)
-                {
-                    return input.getSchema().getDollarSchema();
-                }
-            };
-        }
     }
 }

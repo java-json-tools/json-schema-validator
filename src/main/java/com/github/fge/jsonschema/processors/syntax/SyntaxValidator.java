@@ -51,6 +51,16 @@ import java.util.Map;
 // TODO REMOVE
 public final class SyntaxValidator
 {
+    private static final Function<ValueHolder<SchemaTree>, JsonRef> FUNCTION
+        = new Function<ValueHolder<SchemaTree>, JsonRef>()
+    {
+        @Override
+        public JsonRef apply(final ValueHolder<SchemaTree> input)
+        {
+            return input.getValue().getDollarSchema();
+        }
+    };
+
     private final Processor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> processor;
 
     /**
@@ -60,12 +70,13 @@ public final class SyntaxValidator
      */
     public SyntaxValidator(final ValidationConfiguration cfg)
     {
-        ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> map = new SchemaMap();
+        final ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
+            map = new ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>(FUNCTION);
 
         final SyntaxProcessor byDefault
             = new SyntaxProcessor(cfg.getDefaultLibrary().getSyntaxCheckers());
 
-        map = map.setDefaultProcessor(byDefault);
+        map.setDefaultProcessor(byDefault);
 
         final Map<JsonRef,Library> libraries = cfg.getLibraries();
 
@@ -77,7 +88,7 @@ public final class SyntaxValidator
             ref = entry.getKey();
             dict = entry.getValue().getSyntaxCheckers();
             syntaxProcessor = new SyntaxProcessor(dict);
-            map = map.addEntry(ref, syntaxProcessor);
+            map.addEntry(ref, syntaxProcessor);
         }
 
         processor = map.getProcessor();
@@ -130,22 +141,5 @@ public final class SyntaxValidator
     {
         return ValueHolder.<SchemaTree>hold("schema",
             new CanonicalSchemaTree(node));
-    }
-
-    private static final class SchemaMap
-        extends ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
-    {
-        @Override
-        protected Function<ValueHolder<SchemaTree>, JsonRef> f()
-        {
-            return new Function<ValueHolder<SchemaTree>, JsonRef>()
-            {
-                @Override
-                public JsonRef apply(final ValueHolder<SchemaTree> input)
-                {
-                    return input.getValue().getDollarSchema();
-                }
-            };
-        }
     }
 }
