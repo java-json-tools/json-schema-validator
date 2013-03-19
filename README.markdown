@@ -24,7 +24,7 @@ group</a>.</p>
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>2.1.0</b> (<a
+    <li>development version: <b>2.1.1</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
@@ -33,11 +33,6 @@ group</a>.</p>
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
     href="http://fge.github.com/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
-    samples</a>).</li>
-    <li>old version: <b>1.6.2</b> (<a
-    href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.old">ChangeLog</a>, <a
-    href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
-    href="http://fge.github.com/json-schema-validator/old/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
     samples</a>).</li>
 </ul>
 
