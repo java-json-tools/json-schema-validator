@@ -18,12 +18,12 @@
 package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.JacksonUtils;
-import com.github.fge.jsonschema.util.JsonLoader;
 
 import java.io.IOException;
 import java.util.Map;

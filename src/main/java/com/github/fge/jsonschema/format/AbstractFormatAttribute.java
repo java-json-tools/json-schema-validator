@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.format;
 
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.messages.FormatMessages;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 

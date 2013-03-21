@@ -27,7 +27,7 @@ import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.DictionaryBuilder;
 
-import static com.github.fge.jsonschema.util.NodeType.*;
+import static com.github.fge.jackson.NodeType.*;
 
 /**
  * Digesters common to draft v4 and v3

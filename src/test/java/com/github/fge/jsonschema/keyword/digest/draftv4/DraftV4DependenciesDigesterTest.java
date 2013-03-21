@@ -17,7 +17,8 @@
 
 package com.github.fge.jsonschema.keyword.digest.draftv4;
 
-import com.github.fge.jsonschema.util.NodeType;
+
+import com.github.fge.jackson.NodeType;
 
 import java.io.IOException;
 

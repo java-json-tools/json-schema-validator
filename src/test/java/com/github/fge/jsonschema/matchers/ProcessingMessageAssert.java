@@ -20,11 +20,11 @@ package com.github.fge.jsonschema.matchers;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.AsJson;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import org.fest.assertions.GenericAssert;
 
 import java.util.Collection;

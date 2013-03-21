@@ -18,11 +18,11 @@
 package com.github.fge.jsonschema.keyword.digest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.validation.ArraySchemaDigester;
 import com.github.fge.jsonschema.processors.validation.ObjectSchemaDigester;
-import com.github.fge.jsonschema.util.NodeType;
 
 import java.util.EnumSet;
 

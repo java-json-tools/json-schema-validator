@@ -17,9 +17,9 @@
 
 package com.github.fge.jsonschema.keyword.digest.draftv4;
 
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigesterTest;
 import com.github.fge.jsonschema.library.digest.DraftV4DigesterDictionary;
-import com.github.fge.jsonschema.util.NodeType;
 
 import java.io.IOException;
 

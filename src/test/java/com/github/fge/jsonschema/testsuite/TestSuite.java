@@ -1,13 +1,13 @@
 package com.github.fge.jsonschema.testsuite;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.JsonValidator;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.*;
 
 public abstract class TestSuite
 {

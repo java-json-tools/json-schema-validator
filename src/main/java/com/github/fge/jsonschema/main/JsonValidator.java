@@ -19,11 +19,11 @@ package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.messages.LoadingConfigurationMessages;
 import com.github.fge.jsonschema.processing.ProcessingResult;

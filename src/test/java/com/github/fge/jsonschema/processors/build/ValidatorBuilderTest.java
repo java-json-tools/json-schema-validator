@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processors.build;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -27,7 +28,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.JacksonUtils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.testng.annotations.Test;

@@ -17,9 +17,9 @@
 
 package com.github.fge.jsonschema.keyword.digest.common;
 
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigesterTest;
 import com.github.fge.jsonschema.library.digest.CommonDigesterDictionary;
-import com.github.fge.jsonschema.util.NodeType;
 
 import java.io.IOException;
 

@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processors.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
@@ -29,7 +30,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.Lists;
 
 import java.util.List;

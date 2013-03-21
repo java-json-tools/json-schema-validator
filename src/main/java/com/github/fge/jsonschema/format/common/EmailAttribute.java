@@ -18,12 +18,12 @@
 package com.github.fge.jsonschema.format.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.NodeType;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

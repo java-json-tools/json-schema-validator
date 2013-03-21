@@ -19,8 +19,8 @@ package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.github.fge.jsonschema.util.JacksonUtils;
-import com.github.fge.jsonschema.util.NodeType;
+import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jackson.NodeType;
 import com.google.common.base.Function;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Maps;

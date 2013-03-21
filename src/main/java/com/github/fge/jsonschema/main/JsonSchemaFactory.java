@@ -19,11 +19,13 @@ package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
@@ -197,7 +199,15 @@ public final class JsonSchemaFactory
         if (ptr == null)
             throw new JsonReferenceError(new ProcessingMessage()
                 .message(JsonReferenceErrors.NULL_JSON_POINTER));
-        return validator.buildJsonSchema(schema, new JsonPointer(ptr));
+        final JsonPointer pointer;
+        try {
+            pointer = new JsonPointer(ptr);
+            return validator.buildJsonSchema(schema, pointer);
+        } catch (JsonPointerException ignored) {
+            // Cannot happen
+        }
+        throw new ProcessingError(new ProcessingMessage()
+            .message("How did I get there??"));
     }
 
     /**

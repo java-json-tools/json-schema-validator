@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.keyword.special;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
@@ -31,7 +32,6 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
-import com.github.fge.jsonschema.util.JsonLoader;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;

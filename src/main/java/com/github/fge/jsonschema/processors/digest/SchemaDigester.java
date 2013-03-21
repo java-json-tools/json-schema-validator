@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.processors.digest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.library.Dictionary;
@@ -27,7 +28,6 @@ import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;

@@ -18,9 +18,10 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jackson.NodeType;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
@@ -40,7 +41,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.NodeType;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

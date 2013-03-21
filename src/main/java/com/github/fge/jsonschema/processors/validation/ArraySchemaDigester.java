@@ -19,9 +19,9 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.keyword.digest.AbstractDigester;
 import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.util.NodeType;
 
 /**
  * JSON Schema digester for an {@link ArraySchemaSelector}
