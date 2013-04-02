@@ -4,6 +4,14 @@
         "valid": true
     },
     {
+        "data": "2:33:33",
+        "valid": false,
+        "message": "INVALID_DATE_FORMAT",
+        "msgData": {
+            "expected": "HH:mm:ss"
+        }
+    },
+    {
         "data": "8pm",
         "valid": false,
         "message": "INVALID_DATE_FORMAT",
