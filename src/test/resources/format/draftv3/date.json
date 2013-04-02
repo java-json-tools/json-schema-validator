@@ -4,6 +4,14 @@
         "valid": true
     },
     {
+        "data": "12-12-02",
+        "valid": false,
+        "message": "INVALID_DATE_FORMAT",
+        "msgData": {
+            "expected": "yyyy-MM-dd"
+        }
+    },
+    {
         "data": "20121202",
         "valid": false,
         "message": "INVALID_DATE_FORMAT",
