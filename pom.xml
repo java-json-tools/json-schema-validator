@@ -21,7 +21,7 @@
     <artifactId>json-schema-validator</artifactId>
     <name>json-schema-validator</name>
     <version>2.1.4-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>bundle</packaging>
     <description>A Java implementation of the JSON Schema specification</description>
     <url>https://github.com/fge/json-schema-validator</url>
     <build>
@@ -74,6 +74,22 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <extensions>true</extensions>
+                <version>2.3.7</version>
+                <configuration>
+                    <instructions>
+                        <Import-Package>
+                            com.google.i18n.phonenumbers.*;resolution:=optional,
+                            javax.mail.internet.*;resolution:=optional,
+                            org.joda.time.*;resolution:=optional,
+                            *
+                        </Import-Package>
+                    </instructions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
