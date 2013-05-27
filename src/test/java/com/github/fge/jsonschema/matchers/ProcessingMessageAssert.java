@@ -161,7 +161,7 @@ public final class ProcessingMessageAssert
     }
 
     public <T> ProcessingMessageAssert isFormatMessage(final String fmt,
-        final T msg)
+        final String msg)
     {
         return hasField("keyword", "format").hasField("attribute", fmt)
             .hasMessage(msg).hasField("domain", "validation");

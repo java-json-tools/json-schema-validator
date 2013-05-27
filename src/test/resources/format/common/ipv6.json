@@ -2,19 +2,19 @@
     {
         "data": "10.121.13.3",
         "valid": false,
-        "message": "INVALID_IPV6_ADDR",
+        "message": "invalidIPV6Addr",
         "msgData": {}
     },
     {
         "data": "fffg::1",
         "valid": false,
-        "message": "INVALID_IPV6_ADDR",
+        "message": "invalidIPV6Addr",
         "msgData": {}
     },
     {
         "data": "slashdot.org",
         "valid": false,
-        "message": "INVALID_IPV6_ADDR",
+        "message": "invalidIPV6Addr",
         "msgData": {}
     },
     {

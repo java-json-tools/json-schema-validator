@@ -14,7 +14,7 @@
     {
         "data": "+23:aa",
         "valid": false,
-        "message": "INVALID_URI",
+        "message": "invalidURI",
         "msgData": {}
     }
 ]

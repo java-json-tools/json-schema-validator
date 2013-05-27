@@ -6,19 +6,19 @@
     {
         "data": "foo",
         "valid": false,
-        "message": "INVALID_EMAIL",
+        "message": "invalidEmail",
         "msgData": {}
     },
     {
         "data": "éioaj@my.name",
         "valid": false,
-        "message": "INVALID_EMAIL",
+        "message": "invalidEmail",
         "msgData": {}
     },
     {
         "data": "a@",
         "valid": false,
-        "message": "INVALID_EMAIL",
+        "message": "invalidEmail",
         "msgData": {}
     }
 ]

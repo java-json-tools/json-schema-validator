@@ -38,7 +38,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
 import static org.mockito.Mockito.*;
 
 public final class UTCMillisecTest
@@ -96,7 +95,8 @@ public final class UTCMillisecTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isFormatMessage(fmt, EPOCH_NEGATIVE);
+        assertMessage(message).isFormatMessage(fmt,
+            BUNDLE.getString("epochNegative"));
     }
 
     @DataProvider
@@ -136,6 +136,7 @@ public final class UTCMillisecTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isFormatMessage(fmt, EPOCH_OVERFLOW);
+        assertMessage(message)
+            .isFormatMessage(fmt, BUNDLE.getString("epochOverflow"));
     }
 }

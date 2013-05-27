@@ -6,7 +6,7 @@
     {
         "data": "a++",
         "valid": false,
-        "message": "INVALID_ECMA_262_REGEX",
+        "message": "invalidECMA262Regex",
         "msgData": {}
     },
     {
@@ -20,7 +20,7 @@
     {
         "data": "a{4,5}(?<=b)",
         "valid": false,
-        "message": "INVALID_ECMA_262_REGEX",
+        "message": "invalidECMA262Regex",
         "msgData": {}
     }
 ]

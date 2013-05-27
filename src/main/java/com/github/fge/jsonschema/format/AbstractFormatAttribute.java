@@ -18,7 +18,8 @@
 package com.github.fge.jsonschema.format;
 
 import com.github.fge.jackson.NodeType;
-import com.github.fge.jsonschema.messages.FormatMessages;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
@@ -34,6 +35,8 @@ import java.util.EnumSet;
 public abstract class AbstractFormatAttribute
     implements FormatAttribute
 {
+    private static final MessageBundle BUNDLE = ValidationBundles.FORMAT;
+
     /**
      * The set of supported types
      */
@@ -70,16 +73,15 @@ public abstract class AbstractFormatAttribute
      * Return a new message for this format attribute
      *
      * @param data the validation context
-     * @param message the message
-     * @param <T> the type of the message
+     * @param key key in the format bundle message
      * @return a new message
-     * @see FormatMessages
      */
-    protected final <T> ProcessingMessage newMsg(final FullData data,
-        final T message)
+    protected final ProcessingMessage newMsg(final FullData data,
+        final String key)
     {
         return data.newMessage().put("domain", "validation")
-            .put("keyword", "format").put("attribute", fmt).message(message)
+            .put("keyword", "format").put("attribute", fmt)
+            .message(BUNDLE.getString(key))
             .put("value", data.getInstance().getNode());
     }
 }

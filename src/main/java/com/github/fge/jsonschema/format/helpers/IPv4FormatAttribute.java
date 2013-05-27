@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.net.InetAddresses;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Validator for both the {@code ip-address} (draft v3) and {@code ipv4} (draft
  * v4) format attributes.
@@ -52,6 +50,6 @@ public final class IPv4FormatAttribute
             .forString(ipaddr).getAddress().length == IPV4_LENGTH)
             return;
 
-        report.error(newMsg(data, INVALID_IPV4_ADDR));
+        report.error(newMsg(data, "invalidIPV4Addr"));
     }
 }

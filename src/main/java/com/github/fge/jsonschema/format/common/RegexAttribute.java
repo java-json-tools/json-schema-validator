@@ -26,8 +26,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.RhinoHelper;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Validator for the {@code regex} format attribute.
  *
@@ -58,6 +56,6 @@ public final class RegexAttribute
         final JsonNode instance = data.getInstance().getNode();
 
         if (!RhinoHelper.regexIsValid(instance.textValue()))
-            report.error(newMsg(data, INVALID_ECMA_262_REGEX));
+            report.error(newMsg(data, "invalidECMA262Regex"));
     }
 }

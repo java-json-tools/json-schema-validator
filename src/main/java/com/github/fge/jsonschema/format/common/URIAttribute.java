@@ -27,8 +27,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Validator for the {@code uri} format attribute.
  *
@@ -57,7 +55,7 @@ public final class URIAttribute
         try {
             new URI(data.getInstance().getNode().textValue());
         } catch (URISyntaxException ignored) {
-            report.error(newMsg(data, INVALID_URI));
+            report.error(newMsg(data, "invalidURI"));
         }
     }
 }

@@ -28,8 +28,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Validator for the {@code email} format attribute.
  *
@@ -63,7 +61,7 @@ public final class EmailAttribute
         try {
             new InternetAddress(instance.textValue(), true);
         } catch (AddressException ignored) {
-            report.error(newMsg(data, INVALID_EMAIL));
+            report.error(newMsg(data, "invalidEmail"));
         }
     }
 }

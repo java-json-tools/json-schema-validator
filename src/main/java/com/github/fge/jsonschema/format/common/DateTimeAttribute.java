@@ -21,7 +21,6 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
-import com.github.fge.jsonschema.messages.FormatMessages;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.collect.ImmutableList;
@@ -89,7 +88,7 @@ public final class DateTimeAttribute
         try {
             FORMATTER.parseDateTime(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, FormatMessages.INVALID_DATE_FORMAT)
+            report.error(newMsg(data, "invalidDateFormat")
                 .put("expected", FORMATS));
         }
     }

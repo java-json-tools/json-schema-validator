@@ -27,8 +27,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.math.BigInteger;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Validator for the {@code utc-millisec} format attribute.
  *
@@ -75,13 +73,13 @@ public final class UTCMillisecAttribute
         BigInteger epoch = instance.bigIntegerValue();
 
         if (epoch.signum() == -1) {
-            report.warn(newMsg(data, EPOCH_NEGATIVE));
+            report.warn(newMsg(data, "epochNegative"));
             return;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
         if (epoch.bitLength() > EPOCH_BITLENGTH)
-            report.warn(newMsg(data, EPOCH_OVERFLOW));
+            report.warn(newMsg(data, "epochOverflow"));
     }
 }

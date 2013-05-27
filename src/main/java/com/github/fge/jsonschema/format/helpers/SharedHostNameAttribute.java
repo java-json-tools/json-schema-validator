@@ -25,8 +25,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.net.InternetDomainName;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Validator for the {@code host-name} format attribute.
  *
@@ -54,7 +52,7 @@ public final class SharedHostNameAttribute
         try {
             InternetDomainName.from(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, INVALID_HOSTNAME));
+            report.error(newMsg(data, "invalidHostname"));
         }
     }
 }

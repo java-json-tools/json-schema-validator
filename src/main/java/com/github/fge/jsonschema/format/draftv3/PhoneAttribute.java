@@ -26,8 +26,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Attempt to validate the {@code phone} format attribute.
  *
@@ -79,7 +77,7 @@ public final class PhoneAttribute
             else
                 PARSER.parse(input, "FR");
         } catch (NumberParseException ignored) {
-            report.error(newMsg(data, INVALID_PHONE_NUMBER));
+            report.error(newMsg(data, "invalidPhoneNumber"));
         }
     }
 }

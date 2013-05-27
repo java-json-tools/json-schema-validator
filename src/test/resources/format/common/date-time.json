@@ -22,7 +22,7 @@
     {
         "data": "2012-02-30T00:00:00+0000",
         "valid": false,
-        "message": "INVALID_DATE_FORMAT",
+        "message": "invalidDateFormat",
         "msgData": {
             "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
         }
@@ -30,7 +30,7 @@
     {
         "data": "201202030",
         "valid": false,
-        "message": "INVALID_DATE_FORMAT",
+        "message": "invalidDateFormat",
         "msgData": {
             "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
         }

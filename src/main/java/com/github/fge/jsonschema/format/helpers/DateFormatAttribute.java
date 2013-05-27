@@ -28,8 +28,6 @@ import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Abstract class for date/time related format attributes
  *
@@ -63,7 +61,7 @@ public abstract class DateFormatAttribute
         try {
             formatter.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, INVALID_DATE_FORMAT)
+            report.error(newMsg(data, "invalidDateFormat")
                 .put("expected", format));
         }
     }

@@ -26,8 +26,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.net.InetAddresses;
 
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
-
 /**
  * Validator for the {@code ipv6} format attribute.
  *
@@ -61,6 +59,6 @@ public final class IPv6Attribute
             .forString(ipaddr).getAddress().length == IPV6_LENGTH)
             return;
 
-        report.error(newMsg(data, INVALID_IPV6_ADDR));
+        report.error(newMsg(data, "invalidIPV6Addr"));
     }
 }
