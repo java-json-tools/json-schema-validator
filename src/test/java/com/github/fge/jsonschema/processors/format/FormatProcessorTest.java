@@ -27,6 +27,8 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
@@ -49,12 +51,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class FormatProcessorTest
 {
+    private static final MessageBundle BUNDLE = ValidationBundles.FORMAT;
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String FMT = "fmt";
     private static final EnumSet<NodeType> SUPPORTED
@@ -115,7 +117,8 @@ public final class FormatProcessorTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).hasMessage(FORMAT_NOT_SUPPORTED)
+        assertMessage(message)
+            .hasMessage(BUNDLE.getString("formatNotSupported"))
             .hasField("domain", "validation").hasField("keyword", "format")
             .hasField("attribute", "foo");
     }

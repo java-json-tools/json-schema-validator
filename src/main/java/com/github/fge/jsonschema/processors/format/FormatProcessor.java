@@ -24,6 +24,8 @@ import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -34,8 +36,6 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.Map;
-
-import static com.github.fge.jsonschema.messages.FormatMessages.*;
 
 /**
  * Format attribute handler
@@ -58,6 +58,8 @@ import static com.github.fge.jsonschema.messages.FormatMessages.*;
 public final class FormatProcessor
     implements Processor<ValidatorList, ValidatorList>
 {
+    private static final MessageBundle BUNDLE = ValidationBundles.FORMAT;
+
     private final Map<String, FormatAttribute> attributes;
 
     public FormatProcessor(final Library library)
@@ -86,7 +88,8 @@ public final class FormatProcessor
 
         if (attr == null) {
             report.warn(input.newMessage().put("domain", "validation")
-                .put("keyword", "format").message(FORMAT_NOT_SUPPORTED)
+                .put("keyword", "format")
+                .message(BUNDLE.getString("formatNotSupported"))
                 .put("attribute", fmt));
             return input;
         }
