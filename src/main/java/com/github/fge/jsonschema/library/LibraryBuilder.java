@@ -21,13 +21,12 @@ import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationErr
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Thawed;
 
 import java.lang.reflect.Constructor;
-
-import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
 /**
  * Mutable version of a library
@@ -42,6 +41,8 @@ import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages
 public final class LibraryBuilder
     implements Thawed<Library>
 {
+    private static final MessageBundle BUNDLE
+        = ValidationBundles.VALIDATION_CFG;
     /**
      * Dictionary builder of syntax checkers
      */
@@ -96,9 +97,7 @@ public final class LibraryBuilder
      */
     public LibraryBuilder addKeyword(final Keyword keyword)
     {
-        if (keyword == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_KEYWORD));
+        BUNDLE.checkNotNull(keyword, "nullKeyword");
         final String name = keyword.name;
         removeKeyword(name);
 
@@ -120,9 +119,7 @@ public final class LibraryBuilder
      */
     public LibraryBuilder removeKeyword(final String name)
     {
-        if (name == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_NAME));
+        BUNDLE.checkNotNull(name, "nullName");
         syntaxCheckers.removeEntry(name);
         digesters.removeEntry(name);
         validators.removeEntry(name);
@@ -141,9 +138,7 @@ public final class LibraryBuilder
         final FormatAttribute attribute)
     {
         removeFormatAttribute(name);
-        if (attribute == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_ATTRIBUTE));
+        BUNDLE.checkNotNull(attribute, "nullAttribute");
         formatAttributes.addEntry(name, attribute);
         return this;
     }
@@ -157,9 +152,7 @@ public final class LibraryBuilder
      */
     public LibraryBuilder removeFormatAttribute(final String name)
     {
-        if (name == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_FORMAT));
+        BUNDLE.checkNotNull(name, "nullFormat");
         formatAttributes.removeEntry(name);
         return this;
     }

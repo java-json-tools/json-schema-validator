@@ -19,16 +19,20 @@ package com.github.fge.jsonschema.library;
 
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class LibraryBuilderTest
 {
+    private static final MessageBundle BUNDLE
+        = ValidationBundles.VALIDATION_CFG;
+
     @Test
     public void cannotAddNullKeyword()
     {
@@ -37,7 +41,7 @@ public final class LibraryBuilderTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_KEYWORD);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullKeyword"));
         }
     }
 
@@ -49,7 +53,7 @@ public final class LibraryBuilderTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_NAME);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullName"));
         }
     }
 
@@ -62,7 +66,7 @@ public final class LibraryBuilderTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_FORMAT);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullFormat"));
         }
     }
 
@@ -74,7 +78,8 @@ public final class LibraryBuilderTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_ATTRIBUTE);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullAttribute"));
         }
     }
 
@@ -86,7 +91,7 @@ public final class LibraryBuilderTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_FORMAT);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullFormat"));
         }
     }
 }

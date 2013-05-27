@@ -24,13 +24,13 @@ import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
 import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Thawed;
 
 import java.lang.reflect.Constructor;
-
-import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
 /**
  * A keyword builder -- the thawed version of a {@link Keyword}
@@ -42,6 +42,8 @@ import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages
 public final class KeywordBuilder
     implements Thawed<Keyword>
 {
+    private static final MessageBundle BUNDLE
+        = ValidationBundles.VALIDATION_CFG;
     final String name;
     SyntaxChecker syntaxChecker;
     Digester digester;
@@ -56,9 +58,7 @@ public final class KeywordBuilder
      */
     KeywordBuilder(final String name)
     {
-        if (name == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_NAME));
+        BUNDLE.checkNotNull(name, "nullName");
         this.name = name;
     }
 
@@ -85,9 +85,7 @@ public final class KeywordBuilder
      */
     public KeywordBuilder withSyntaxChecker(final SyntaxChecker syntaxChecker)
     {
-        if (syntaxChecker == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_SYNTAX_CHECKER));
+        BUNDLE.checkNotNull(syntaxChecker, "nullSyntaxChecker");
         this.syntaxChecker = syntaxChecker;
         return this;
     }
@@ -101,9 +99,7 @@ public final class KeywordBuilder
      */
     public KeywordBuilder withDigester(final Digester digester)
     {
-        if (digester == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_DIGESTER));
+        BUNDLE.checkNotNull(digester, "nullDigester");
         this.digester = digester;
         return this;
     }
@@ -175,24 +171,20 @@ public final class KeywordBuilder
             return c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException ignored) {
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NO_APPROPRIATE_CONSTRUCTOR));
+                .message(BUNDLE.getString("noAppropriateConstructor")));
         }
     }
 
     private static NodeType checkType(final NodeType type)
     {
-        if (type == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_TYPE));
+        BUNDLE.checkNotNull(type, "nullType");
         return type;
     }
 
     private static NodeType[] checkTypes(final NodeType... types)
     {
         for (final NodeType type: types)
-            if (type == null)
-                throw new ValidationConfigurationError(new ProcessingMessage()
-                    .message(NULL_TYPE));
+            BUNDLE.checkNotNull(type, "nullType");
         return types;
     }
 }

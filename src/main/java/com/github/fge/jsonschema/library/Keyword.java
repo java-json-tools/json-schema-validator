@@ -20,13 +20,13 @@ package com.github.fge.jsonschema.library;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Frozen;
 
 import java.lang.reflect.Constructor;
 
-import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages.*;
 
 /**
  * Frozen keyword
@@ -36,6 +36,8 @@ import static com.github.fge.jsonschema.messages.ValidationConfigurationMessages
 public final class Keyword
     implements Frozen<KeywordBuilder>
 {
+    private static final MessageBundle BUNDLE
+        = ValidationBundles.VALIDATION_CFG;
     /**
      * Name of this keyword
      */
@@ -81,12 +83,9 @@ public final class Keyword
     {
         name = builder.name;
         syntaxChecker = builder.syntaxChecker;
-        if (syntaxChecker == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NO_CHECKER));
-        if (builder.constructor != null && builder.digester == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(MALFORMED_KEYWORD));
+        BUNDLE.checkNotNull(syntaxChecker, "noChecker");
+        if (builder.constructor != null)
+            BUNDLE.checkNotNull(builder.digester, "malformedKeyword");
         digester = builder.digester;
         constructor = builder.constructor;
     }
