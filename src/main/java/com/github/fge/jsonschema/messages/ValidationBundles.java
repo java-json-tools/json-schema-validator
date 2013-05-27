@@ -8,6 +8,7 @@ public final class ValidationBundles
 {
     public static final MessageBundle VALIDATION_CFG;
     public static final MessageBundle FACTORY_CFG;
+    public static final MessageBundle FORMAT;
 
     static {
         String name;
@@ -34,6 +35,18 @@ public final class ValidationBundles
             }
         };
         FACTORY_CFG = new MessageBundle(name, provider);
+
+        provider = new MessageBundle.ErrorProvider()
+        {
+            @Override
+            public ProcessingError doError(final String msg)
+            {
+                return new ProcessingError(msg);
+            }
+        };
+
+        name = "format";
+        FORMAT = new MessageBundle(name, provider);
     }
 
     private ValidationBundles()
