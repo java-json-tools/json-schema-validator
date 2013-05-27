@@ -26,14 +26,12 @@ import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.messages.MessageBundle;
 import com.github.fge.jsonschema.messages.MessageBundles;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.util.Thawed;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
-
-import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 
 /**
  * Validation configuration (mutable instance)
@@ -43,6 +41,8 @@ import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
+    private static final MessageBundle BUNDLE
+        = ValidationBundles.VALIDATION_CFG;
     private static final MessageBundle REF_BUNDLE
         = MessageBundles.JSON_REF;
 
@@ -126,12 +126,10 @@ public final class ValidationConfigurationBuilder
         } catch (JsonReferenceException e) {
             throw new JsonReferenceError(e.getProcessingMessage());
         }
-        if (library == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_LIBRARY));
+        BUNDLE.checkNotNull(library, "nullLibrary");
         if (libraries.containsKey(ref))
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(DUP_LIBRARY).put("uri", ref));
+            throw new ValidationConfigurationError(BUNDLE.message("dupLibrary")
+                .put("uri", ref));
         libraries.put(ref, library);
         return this;
     }
@@ -149,9 +147,7 @@ public final class ValidationConfigurationBuilder
     public ValidationConfigurationBuilder setDefaultVersion(
         final SchemaVersion version)
     {
-        if (version == null)
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(NULL_VERSION));
+        BUNDLE.checkNotNull(version, "nullVersion");
         /*
          * They are always in, so this is safe
          */

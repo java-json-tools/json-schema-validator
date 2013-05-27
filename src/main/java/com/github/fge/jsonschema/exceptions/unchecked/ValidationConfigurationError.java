@@ -25,6 +25,11 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 public final class ValidationConfigurationError
     extends ProcessingConfigurationError
 {
+    public ValidationConfigurationError(final String msg)
+    {
+        super(msg);
+    }
+
     public ValidationConfigurationError(final ProcessingMessage message)
     {
         super(message);

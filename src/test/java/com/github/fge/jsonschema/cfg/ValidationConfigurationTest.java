@@ -20,16 +20,20 @@ package com.github.fge.jsonschema.cfg;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.ConfigurationMessages.*;
 import static org.testng.Assert.*;
 
 public final class ValidationConfigurationTest
 {
+    private static final MessageBundle BUNDLE
+        = ValidationBundles.VALIDATION_CFG;
+
     private ValidationConfigurationBuilder cfg;
 
     @BeforeMethod
@@ -47,7 +51,7 @@ public final class ValidationConfigurationTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_LIBRARY);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullLibrary"));
         }
     }
 
@@ -62,7 +66,7 @@ public final class ValidationConfigurationTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(DUP_LIBRARY);
+            assertMessage(message).hasMessage(BUNDLE.getString("dupLibrary"));
         }
     }
 
@@ -74,7 +78,7 @@ public final class ValidationConfigurationTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_VERSION);
+            assertMessage(message).hasMessage(BUNDLE.getString("nullVersion"));
         }
     }
 
