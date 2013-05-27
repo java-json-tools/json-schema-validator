@@ -27,7 +27,8 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
-import net.jcip.annotations.Immutable;
+
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Single-schema instance validator

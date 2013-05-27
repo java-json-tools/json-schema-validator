@@ -21,7 +21,8 @@ import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import net.jcip.annotations.Immutable;
+
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Validation data for a validation processor

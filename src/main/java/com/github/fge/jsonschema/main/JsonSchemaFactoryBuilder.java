@@ -24,7 +24,8 @@ import com.github.fge.jsonschema.report.ListReportProvider;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Thawed;
-import net.jcip.annotations.NotThreadSafe;
+
+import javax.annotation.concurrent.NotThreadSafe;
 
 import static com.github.fge.jsonschema.messages.FactoryConfigurationMessages.*;
 

@@ -22,13 +22,12 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.messages.SyntaxMessages;
+import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.processing.CachingProcessor;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -77,8 +76,8 @@ public final class ValidationProcessor
         final ValidatorList fullContext = processor.process(report, context);
 
         if (fullContext == null)
-            throw new InvalidSchemaException(new ProcessingMessage()
-                .message(SyntaxMessages.INVALID_SCHEMA));
+            throw new InvalidSchemaException(MessageBundles.SYNTAX
+                .message("invalidSchema"));
 
         /*
          * Get the calculated context. Build the data.

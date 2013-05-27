@@ -53,8 +53,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
 
-import static com.github.fge.jsonschema.messages.SyntaxMessages.*;
-
 /**
  * Ninth example: augmenting schemas with custom keywords
  *
@@ -187,7 +185,7 @@ public final class Example9
             final int size = node.size();
 
             if (size == 0) {
-                report.error(newMsg(tree, EMPTY_ARRAY));
+                report.error(newMsg(tree, "emptyArray"));
                 return;
             }
 
@@ -201,17 +199,17 @@ public final class Example9
                 element = node.get(index);
                 type = NodeType.getNodeType(element);
                 if (type != NodeType.INTEGER)
-                    report.error(newMsg(tree, INCORRECT_ELEMENT_TYPE)
+                    report.error(newMsg(tree, "incorrectElementType")
                         .put("expected", NodeType.INTEGER)
                         .put("found", type));
                 else if (element.bigIntegerValue().compareTo(BigInteger.ONE) < 0)
-                    report.error(newMsg(tree, INTEGER_IS_NEGATIVE)
+                    report.error(newMsg(tree, "integerIsNegative")
                         .put("value", element));
                 uniqueItems = set.add(element);
             }
 
             if (!uniqueItems)
-                report.error(newMsg(tree, ELEMENTS_NOT_UNIQUE));
+                report.error(newMsg(tree, "elementsNotUnique"));
         }
     }
 
