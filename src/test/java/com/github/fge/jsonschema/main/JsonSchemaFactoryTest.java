@@ -18,16 +18,19 @@
 package com.github.fge.jsonschema.main;
 
 import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.FactoryConfigurationMessages.*;
 import static org.testng.Assert.*;
 
 public final class JsonSchemaFactoryTest
 {
+    private static final MessageBundle BUNDLE = ValidationBundles.FACTORY_CFG;
+
     private JsonSchemaFactoryBuilder builder;
 
     @BeforeMethod
@@ -44,7 +47,8 @@ public final class JsonSchemaFactoryTest
             fail("No exception thrown!!");
         } catch (FactoryConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_LOADING_CFG);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullLoadingCfg"));
         }
     }
 
@@ -56,7 +60,8 @@ public final class JsonSchemaFactoryTest
             fail("No exception thrown!!");
         } catch (FactoryConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_VALIDATION_CFG);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullValidationCfg"));
         }
     }
 
@@ -68,7 +73,8 @@ public final class JsonSchemaFactoryTest
             fail("No exception thrown!!");
         } catch (FactoryConfigurationError e) {
             final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(NULL_REPORT_PROVIDER);
+            assertMessage(message)
+                .hasMessage(BUNDLE.getString("nullReportProvider"));
         }
     }
 }

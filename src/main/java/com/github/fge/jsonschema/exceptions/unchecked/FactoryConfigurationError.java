@@ -25,6 +25,11 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
 public final class FactoryConfigurationError
     extends ProcessingConfigurationError
 {
+    public FactoryConfigurationError(final String msg)
+    {
+        super(msg);
+    }
+
     public FactoryConfigurationError(final ProcessingMessage message)
     {
         super(message);

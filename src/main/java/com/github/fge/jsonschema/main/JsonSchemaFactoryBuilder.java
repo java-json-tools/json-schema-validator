@@ -20,14 +20,14 @@ package com.github.fge.jsonschema.main;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.report.ListReportProvider;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.util.Thawed;
 
 import javax.annotation.concurrent.NotThreadSafe;
-
-import static com.github.fge.jsonschema.messages.FactoryConfigurationMessages.*;
 
 /**
  * Thawed instance of a {@link JsonSchemaFactory}
@@ -47,6 +47,8 @@ import static com.github.fge.jsonschema.messages.FactoryConfigurationMessages.*;
 public final class JsonSchemaFactoryBuilder
     implements Thawed<JsonSchemaFactory>
 {
+    private static final MessageBundle BUNDLE = ValidationBundles.FACTORY_CFG;
+
     ReportProvider reportProvider;
     LoadingConfiguration loadingCfg;
     ValidationConfiguration validationCfg;
@@ -86,7 +88,7 @@ public final class JsonSchemaFactoryBuilder
     public JsonSchemaFactoryBuilder setReportProvider(
         final ReportProvider reportProvider)
     {
-        NULL_REPORT_PROVIDER.checkThat(reportProvider != null);
+        BUNDLE.checkNotNull(reportProvider, "nullReportProvider");
         this.reportProvider = reportProvider;
         return this;
     }
@@ -101,7 +103,7 @@ public final class JsonSchemaFactoryBuilder
     public JsonSchemaFactoryBuilder setLoadingConfiguration(
         final LoadingConfiguration loadingCfg)
     {
-        NULL_LOADING_CFG.checkThat(loadingCfg != null);
+        BUNDLE.checkNotNull(loadingCfg, "nullLoadingCfg");
         this.loadingCfg = loadingCfg;
         return this;
     }
@@ -116,7 +118,7 @@ public final class JsonSchemaFactoryBuilder
     public JsonSchemaFactoryBuilder setValidationConfiguration(
         final ValidationConfiguration validationCfg)
     {
-        NULL_VALIDATION_CFG.checkThat(validationCfg != null);
+        BUNDLE.checkNotNull(validationCfg, "nullValidationCfg");
         this.validationCfg = validationCfg;
         return this;
     }

@@ -1,11 +1,13 @@
 package com.github.fge.jsonschema.messages;
 
+import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 
 public final class ValidationBundles
 {
-    public final static MessageBundle VALIDATION_CFG;
+    public static final MessageBundle VALIDATION_CFG;
+    public static final MessageBundle FACTORY_CFG;
 
     static {
         String name;
@@ -20,8 +22,18 @@ public final class ValidationBundles
                 return new ValidationConfigurationError(msg);
             }
         };
-
         VALIDATION_CFG = new MessageBundle(name, provider);
+
+        name = "factoryCfg";
+        provider = new MessageBundle.ErrorProvider()
+        {
+            @Override
+            public ProcessingError doError(final String msg)
+            {
+                return new FactoryConfigurationError(msg);
+            }
+        };
+        FACTORY_CFG = new MessageBundle(name, provider);
     }
 
     private ValidationBundles()
