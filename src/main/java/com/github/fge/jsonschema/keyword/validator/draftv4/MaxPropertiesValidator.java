@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for draft v4's {@code maxProperties}
  */
@@ -44,7 +42,7 @@ public final class MaxPropertiesValidator
     {
         final int size = data.getInstance().getNode().size();
         if (size > intValue)
-            report.error(newMsg(data).message(TOO_MANY_MEMBERS_IN_OBJECT)
+            report.error(newMsg(data, "TOO_MANY_MEMBERS_IN_OBJECT")
                 .put("required", intValue).put("found", size));
     }
 }

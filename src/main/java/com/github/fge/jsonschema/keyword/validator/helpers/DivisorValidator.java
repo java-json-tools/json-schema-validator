@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.math.BigDecimal;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Helper keyword validator for draft v4's {@code multipleOf} and draft v3's
  * {@code divisibleBy}
@@ -52,7 +50,7 @@ public abstract class DivisorValidator
         if (remainder == 0L)
             return;
 
-        report.error(newMsg(data).message(NON_ZERO_DIVISION_REMAINDER)
+        report.error(newMsg(data, "NON_ZERO_DIVISION_REMAINDER")
             .put("value", node).put("divisor", number));
     }
 
@@ -75,7 +73,7 @@ public abstract class DivisorValidator
         if (remainder.compareTo(BigDecimal.ZERO) == 0)
             return;
 
-        report.error(newMsg(data).message(NON_ZERO_DIVISION_REMAINDER)
+        report.error(newMsg(data, "NON_ZERO_DIVISION_REMAINDER")
             .put("value", node).put("divisor", number));
     }
 }

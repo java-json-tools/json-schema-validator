@@ -29,8 +29,6 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code uniqueItems}
  *
@@ -63,7 +61,7 @@ public final class UniqueItemsValidator
 
         for (final JsonNode element: node)
             if (!set.add(EQUIVALENCE.wrap(element))) {
-                report.error(newMsg(data).message(ELEMENTS_NOT_UNIQUE));
+                report.error(newMsg(data, "ELEMENTS_NOT_UNIQUE"));
                 return;
             }
     }

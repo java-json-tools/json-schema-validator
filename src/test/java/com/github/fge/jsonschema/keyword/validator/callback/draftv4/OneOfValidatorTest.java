@@ -28,7 +28,6 @@ import org.mockito.ArgumentCaptor;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 import static org.mockito.Mockito.*;
 
 public final class OneOfValidatorTest
@@ -55,7 +54,8 @@ public final class OneOfValidatorTest
         reports.put(ptr1.toString(), oneReport);
         reports.put(ptr2.toString(), oneReport);
 
-        assertMessage(message).isValidationError(keyword, ONEOF_FAIL)
+        assertMessage(message)
+            .isValidationError(keyword, BUNDLE.getString("ONEOF_FAIL"))
             .hasField("reports", reports).hasField("nrSchemas", 2)
             .hasField("matched", 2);
     }
@@ -84,7 +84,8 @@ public final class OneOfValidatorTest
         reports.put(ptr1.toString(), oneReport);
         reports.put(ptr2.toString(), oneReport);
 
-        assertMessage(message).isValidationError(keyword, ONEOF_FAIL)
+        assertMessage(message)
+            .isValidationError(keyword, BUNDLE.getString("ONEOF_FAIL"))
             .hasField("reports", reports).hasField("nrSchemas", 2)
             .hasField("matched", 0);
     }

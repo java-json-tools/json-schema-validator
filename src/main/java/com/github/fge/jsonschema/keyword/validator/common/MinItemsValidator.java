@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code minItems}
  */
@@ -44,7 +42,7 @@ public final class MinItemsValidator
     {
         final int size = data.getInstance().getNode().size();
         if (size < intValue)
-            report.error(newMsg(data).message(ARRAY_IS_TOO_SHORT)
+            report.error(newMsg(data, "ARRAY_IS_TOO_SHORT")
                 .put(keyword, intValue).put("found", size));
     }
 }

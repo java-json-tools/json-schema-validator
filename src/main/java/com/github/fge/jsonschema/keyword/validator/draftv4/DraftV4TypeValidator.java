@@ -27,8 +27,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.util.EnumSet;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for draft v4's {@code type}
  */
@@ -53,7 +51,7 @@ public final class DraftV4TypeValidator
             = NodeType.getNodeType(data.getInstance().getNode());
 
         if (!types.contains(type))
-            report.error(newMsg(data).message(TYPE_NO_MATCH)
+            report.error(newMsg(data, "TYPE_NO_MATCH")
                 .put("expected", types).put("found", type));
     }
 

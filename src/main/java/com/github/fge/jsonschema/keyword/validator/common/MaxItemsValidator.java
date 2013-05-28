@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code maxItems}
  */
@@ -44,7 +42,7 @@ public final class MaxItemsValidator
     {
         final int size = data.getInstance().getNode().size();
         if (size > intValue)
-            report.error(newMsg(data).message(ARRAY_IS_TOO_LONG)
+            report.error(newMsg(data, "ARRAY_IS_TOO_LONG")
                 .put(keyword, intValue).put("found", size));
     }
 }

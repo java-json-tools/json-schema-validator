@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code additionalItems}
  */
@@ -52,7 +50,7 @@ public final class AdditionalItemsValidator
 
         final int size = data.getInstance().getNode().size();
         if (size > itemsSize)
-            report.error(newMsg(data).message(ADDITIONAL_ITEMS_NOT_ALLOWED)
+            report.error(newMsg(data, "ADDITIONAL_ITEMS_NOT_ALLOWED")
                 .put("allowed", itemsSize).put("found", size));
     }
 

@@ -25,6 +25,8 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.LogLevel;
@@ -46,9 +48,9 @@ import static org.testng.Assert.*;
 
 public abstract class CallbackValidatorTest
 {
+    protected static final MessageBundle BUNDLE = ValidationBundles.VALIDATION;
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     protected static final ProcessingMessage MSG = new ProcessingMessage();
-
 
     protected static final ObjectNode sub1 = FACTORY.objectNode();
     protected static final ObjectNode sub2 = FACTORY.objectNode();

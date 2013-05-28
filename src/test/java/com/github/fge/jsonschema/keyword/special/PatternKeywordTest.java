@@ -23,7 +23,8 @@ import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
-import com.github.fge.jsonschema.messages.KeywordValidationMessages;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -56,6 +57,8 @@ public final class PatternKeywordTest
      * comes with the validation data itself (the schema to be precise).
      */
 
+    private static final MessageBundle BUNDLE = ValidationBundles.VALIDATION;
+
     private final Constructor<? extends KeywordValidator> constructor;
     private final JsonNode testData;
 
@@ -77,13 +80,13 @@ public final class PatternKeywordTest
     {
         final List<Object[]> list = Lists.newArrayList();
 
-        KeywordValidationMessages msg;
+        String msg;
         JsonNode msgNode;
 
         for (final JsonNode node: testData) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : KeywordValidationMessages.valueOf(msgNode.textValue());
+                : BUNDLE.getString(msgNode.textValue());
             list.add(new Object[]{ node.get("schema"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
@@ -92,7 +95,7 @@ public final class PatternKeywordTest
 
     @Test(dataProvider = "getValueTests", dependsOnMethods = "keywordExists")
     public void instancesAreValidatedCorrectly(final JsonNode schema,
-        final JsonNode node, final KeywordValidationMessages msg,
+        final JsonNode node, final String msg,
         final boolean valid, final ObjectNode msgData)
         throws IllegalAccessException, InvocationTargetException,
         InstantiationException, ProcessingException

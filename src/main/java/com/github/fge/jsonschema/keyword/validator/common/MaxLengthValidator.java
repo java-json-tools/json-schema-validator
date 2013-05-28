@@ -24,8 +24,6 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code maxLength}
  */
@@ -45,7 +43,7 @@ public final class MaxLengthValidator
             .length();
 
         if (size > intValue)
-            report.error(newMsg(data).message(STRING_TOO_LONG)
-                .put(keyword, intValue).put("found", size));
+            report.error(newMsg(data, "STRING_TOO_LONG").put(keyword, intValue)
+                .put("found", size));
     }
 }

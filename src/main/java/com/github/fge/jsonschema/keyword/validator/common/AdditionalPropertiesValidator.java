@@ -31,8 +31,6 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code additionalProperties}
  */
@@ -91,7 +89,7 @@ public final class AdditionalPropertiesValidator
         /*
          * Display extra properties in order in the report
          */
-        report.error(newMsg(data).message(ADDITIONAL_PROPERTIES_NOT_ALLOWED)
+        report.error(newMsg(data, "ADDITIONAL_PROPERTIES_NOT_ALLOWED")
             .put("unwanted", Ordering.natural().sortedCopy(fields)));
     }
 

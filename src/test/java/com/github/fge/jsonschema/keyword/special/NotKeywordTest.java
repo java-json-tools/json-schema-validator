@@ -24,6 +24,8 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.LogLevel;
@@ -42,12 +44,12 @@ import java.lang.reflect.InvocationTargetException;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
 public final class NotKeywordTest
 {
+    private static final MessageBundle BUNDLE = ValidationBundles.VALIDATION;
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final ProcessingMessage MSG = new ProcessingMessage();
 
@@ -116,7 +118,8 @@ public final class NotKeywordTest
 
         final ProcessingMessage message = captor.getValue();
 
-        assertMessage(message).isValidationError("not", NOT_FAIL);
+        assertMessage(message).isValidationError("not",
+            BUNDLE.getString("NOT_FAIL"));
     }
 
     @Test(dependsOnMethods = "keywordExists")

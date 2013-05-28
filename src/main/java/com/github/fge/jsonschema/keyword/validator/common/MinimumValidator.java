@@ -26,8 +26,6 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.math.BigDecimal;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code minimum}
  */
@@ -55,7 +53,7 @@ public final class MinimumValidator
             return;
 
         if (instanceValue < longValue) {
-            report.error(newMsg(data).message(NUMBER_TOO_SMALL).put(keyword, number)
+            report.error(newMsg(data, "NUMBER_TOO_SMALL").put(keyword, number)
                 .put("found", instance));
             return;
         }
@@ -63,7 +61,7 @@ public final class MinimumValidator
         if (!exclusive)
             return;
 
-        report.error(newMsg(data).message(NUMBER_EX_SMALL).put(keyword, number)
+        report.error(newMsg(data, "NUMBER_EX_SMALL").put (keyword, number)
             .put("exclusiveMinimum", BooleanNode.TRUE));
     }
 
@@ -82,7 +80,7 @@ public final class MinimumValidator
             return;
 
         if (cmp < 0) {
-            report.error(newMsg(data).message(NUMBER_TOO_SMALL).put(keyword, number)
+            report.error(newMsg(data, "NUMBER_TOO_SMALL").put(keyword, number)
                 .put("found", instance));
             return;
         }
@@ -90,7 +88,7 @@ public final class MinimumValidator
         if (!exclusive)
             return;
 
-        report.error(newMsg(data).message(NUMBER_EX_SMALL).put(keyword, number)
+        report.error(newMsg(data, "NUMBER_EX_SMALL").put(keyword, number)
             .put("exclusiveMinimum", BooleanNode.TRUE));
     }
 }

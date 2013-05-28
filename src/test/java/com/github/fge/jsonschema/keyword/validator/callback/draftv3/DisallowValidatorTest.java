@@ -28,7 +28,6 @@ import org.mockito.ArgumentCaptor;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
 import static org.mockito.Mockito.*;
 
 public final class DisallowValidatorTest
@@ -56,7 +55,8 @@ public final class DisallowValidatorTest
         reports.put(ptr1.toString(), oneReport);
         reports.put(ptr2.toString(), oneReport);
 
-        assertMessage(message).isValidationError(keyword, DISALLOW_SCHEMA)
+        assertMessage(message)
+            .isValidationError(keyword, BUNDLE.getString("DISALLOW_SCHEMA"))
             .hasField("reports", reports);
     }
 
@@ -77,7 +77,8 @@ public final class DisallowValidatorTest
         reports.put(ptr1.toString(), FACTORY.arrayNode());
         reports.put(ptr2.toString(), oneReport);
 
-        assertMessage(message).isValidationError(keyword, DISALLOW_SCHEMA)
+        assertMessage(message)
+            .isValidationError(keyword, BUNDLE.getString("DISALLOW_SCHEMA"))
             .hasField("reports", reports);
     }
 

@@ -28,8 +28,6 @@ import com.google.common.collect.Sets;
 
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for draft v3's {@code properties}
  */
@@ -59,7 +57,7 @@ public final class PropertiesValidator
             .fieldNames()));
 
         if (!set.isEmpty())
-            report.error(newMsg(data).message(MISSING_REQUIRED_MEMBERS)
+            report.error(newMsg(data, "MISSING_REQUIRED_MEMBERS")
                 .put("required", required).put("missing", set));
     }
 

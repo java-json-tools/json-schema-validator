@@ -26,8 +26,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.google.common.base.Equivalence;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code enum}
  *
@@ -59,7 +57,7 @@ public final class EnumValidator
             if (EQUIVALENCE.equivalent(enumValue, node))
                 return;
 
-        report.error(newMsg(data).message(VALUE_NOT_IN_ENUM).put(keyword, values)
+        report.error(newMsg(data, "VALUE_NOT_IN_ENUM").put(keyword, values)
             .put("value", node));
     }
 

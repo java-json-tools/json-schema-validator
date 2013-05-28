@@ -30,8 +30,6 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for draft v3's {@code type}
  */
@@ -94,11 +92,10 @@ public final class DraftV3TypeValidator
          * primitive types...
          */
         if (!types.isEmpty())
-            report.error(newMsg(data).message(TYPE_NO_MATCH).put("expected", types)
+            report.error(newMsg(data, "TYPE_NO_MATCH").put("expected", types)
                 .put("found", type));
 
         if (!schemas.isEmpty())
-            report.error(newMsg(data).message(ANYOF_FAIL)
-                .put("reports", fullReport));
+            report.error(newMsg(data, "ANYOF_FAIL").put("reports", fullReport));
     }
 }

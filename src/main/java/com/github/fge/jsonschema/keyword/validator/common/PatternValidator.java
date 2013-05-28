@@ -25,8 +25,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.RhinoHelper;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for {@code pattern}
  *
@@ -49,7 +47,7 @@ public final class PatternValidator
             .textValue();
         final String value = data.getInstance().getNode().textValue();
         if (!RhinoHelper.regMatch(regex, value))
-            report.error(newMsg(data).message(REGEX_NO_MATCH).put("regex", regex)
+            report.error(newMsg(data, "REGEX_NO_MATCH").put("regex", regex)
                 .put("string", value));
     }
 

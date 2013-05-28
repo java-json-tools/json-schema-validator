@@ -28,8 +28,6 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for draft v4's {@code not}
  */
@@ -55,7 +53,7 @@ public final class NotValidator
         processor.process(subReport, data.withSchema(tree.append(PTR)));
 
         if (subReport.isSuccess())
-            report.error(newMsg(data).message(NOT_FAIL));
+            report.error(newMsg(data, "NOT_FAIL"));
     }
 
     @Override

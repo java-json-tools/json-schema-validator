@@ -30,8 +30,6 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for draft v3's {@code disallow}
  */
@@ -52,7 +50,7 @@ public final class DisallowKeywordValidator
         final NodeType type = NodeType.getNodeType(instance);
 
         if (types.contains(type)) {
-            report.error(newMsg(data).message(DISALLOWED_TYPE)
+            report.error(newMsg(data, "DISALLOWED_TYPE")
                 .put("disallowed", types).put("found", type));
             return;
         }
@@ -78,7 +76,7 @@ public final class DisallowKeywordValidator
         }
 
         if (nrSuccess != 0)
-            report.error(newMsg(data).message(DISALLOW_SCHEMA)
+            report.error(newMsg(data, "DISALLOW_SCHEMA")
                 .put("reports", fullReport));
     }
 }

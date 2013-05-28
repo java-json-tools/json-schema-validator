@@ -35,8 +35,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /*
  * In spite of syntax differences, the digested data is the same, which is why
  * this validator is in common/
@@ -104,7 +102,7 @@ public final class DependenciesValidator
             set = Sets.newLinkedHashSet(collection);
             set.removeAll(fields);
             if (!set.isEmpty())
-                report.error(newMsg(data).message(MISSING_PROPERTY_DEPS)
+                report.error(newMsg(data, "MISSING_PROPERTY_DEPS")
                     .put("property", field).put("required", collection)
                     .put("missing", set));
         }

@@ -29,8 +29,6 @@ import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
 
-import static com.github.fge.jsonschema.messages.KeywordValidationMessages.*;
-
 /**
  * Keyword validator for draft v4's {@code allOf}
  */
@@ -70,7 +68,7 @@ public final class AllOfValidator
         }
 
         if (nrSuccess != size)
-            report.error(newMsg(data).message(ALLOF_FAIL).put("nrSchemas", size)
+            report.error(newMsg(data, "ALLOF_FAIL").put("nrSchemas", size)
                 .put("matched", nrSuccess).put("reports", fullReport));
     }
 }
