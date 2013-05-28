@@ -9,6 +9,7 @@ public final class ValidationBundles
     public static final MessageBundle VALIDATION_CFG;
     public static final MessageBundle FACTORY_CFG;
     public static final MessageBundle FORMAT;
+    public static final MessageBundle VALIDATION;
 
     static {
         String name;
@@ -47,6 +48,9 @@ public final class ValidationBundles
 
         name = "format";
         FORMAT = new MessageBundle(name, provider);
+
+        name = "validation";
+        VALIDATION = new MessageBundle(name, provider);
     }
 
     private ValidationBundles()
