@@ -22,7 +22,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.messages.KeywordValidationMessages;
+import com.github.fge.jsonschema.messages.MessageBundle;
+import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
@@ -49,6 +50,8 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractKeywordValidatorTest
 {
+    private static final MessageBundle BUNDLE = ValidationBundles.VALIDATION;
+
     private final String keyword;
     private final Constructor<? extends KeywordValidator> constructor;
     private final JsonNode testNode;
@@ -76,13 +79,13 @@ public abstract class AbstractKeywordValidatorTest
     {
         final List<Object[]> list = Lists.newArrayList();
 
-        KeywordValidationMessages msg;
+        String msg;
         JsonNode msgNode;
 
         for (final JsonNode node: testNode) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : KeywordValidationMessages.valueOf(msgNode.textValue());
+                : BUNDLE.getString(msgNode.textValue());
             list.add(new Object[]{ node.get("digest"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }
@@ -93,8 +96,8 @@ public abstract class AbstractKeywordValidatorTest
     // Unfortunately, the suppress warning annotation is needed
     @Test(dataProvider = "getValueTests", dependsOnMethods = "keywordExists")
     public final void instancesAreValidatedCorrectly(final JsonNode digest,
-        final JsonNode node, final KeywordValidationMessages msg,
-        final boolean valid, final ObjectNode msgData)
+        final JsonNode node, final String msg, final boolean valid,
+        final ObjectNode msgData)
         throws IllegalAccessException, InvocationTargetException,
         InstantiationException, ProcessingException
     {
