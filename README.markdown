@@ -24,7 +24,7 @@ group</a>.</p>
 <h2>Versions</h2>
 
 <ul>
-    <li>development version: <b>2.1.3</b> (<a
+    <li>development version: <b>2.1.4</b> (<a
     href="https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel">ChangeLog</a>, <a
     href="http://fge.github.com/json-schema-validator/old/index.html">Javadoc</a>, <a
     href="http://fge.github.com/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html">code
