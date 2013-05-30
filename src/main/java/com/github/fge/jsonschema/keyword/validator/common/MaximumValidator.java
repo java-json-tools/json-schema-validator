@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.helpers.NumericValidator;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.math.BigDecimal;
 
@@ -42,7 +43,7 @@ public final class MaximumValidator
 
     @Override
     protected void validateLong(final ProcessingReport report,
-        final FullData data)
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -53,21 +54,21 @@ public final class MaximumValidator
             return;
 
         if (instanceValue > longValue) {
-            report.error(newMsg(data, "NUMBER_TOO_LARGE").put(keyword, number)
-                .put("found", instance));
+            report.error(newMsg(data, bundle, "NUMBER_TOO_LARGE")
+                .put(keyword, number).put("found", instance));
             return;
         }
 
         if (!exclusive)
             return;
 
-        report.error(newMsg(data, "NUMBER_EX_LARGE").put(keyword, number)
-            .put("exclusiveMaximum", BooleanNode.TRUE));
+        report.error(newMsg(data, bundle, "NUMBER_EX_LARGE")
+            .put(keyword, number).put("exclusiveMaximum", BooleanNode.TRUE));
     }
 
     @Override
     protected void validateDecimal(final ProcessingReport report,
-        final FullData data)
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -80,15 +81,15 @@ public final class MaximumValidator
             return;
 
         if (cmp > 0) {
-            report.error(newMsg(data, "NUMBER_TOO_LARGE").put(keyword, number)
-                .put("found", instance));
+            report.error(newMsg(data, bundle, "NUMBER_TOO_LARGE")
+                .put(keyword, number).put("found", instance));
             return;
         }
 
         if (!exclusive)
             return;
 
-        report.error(newMsg(data, "NUMBER_EX_LARGE").put(keyword, number)
-            .put("exclusiveMaximum", BooleanNode.TRUE));
+        report.error(newMsg(data, bundle, "NUMBER_EX_LARGE")
+            .put(keyword, number).put("exclusiveMaximum", BooleanNode.TRUE));
     }
 }

@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.processors.validation;
 
+import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.RefResolver;
@@ -58,10 +59,10 @@ public final class ValidationChain
     private final Processor<SchemaContext, ValidatorList> builder;
 
     public ValidationChain(final RefResolver refResolver,
-        final Library library, final boolean useFormat)
+        final Library library, final ValidationConfiguration cfg)
     {
-        final SyntaxProcessor syntaxProcessor
-            = new SyntaxProcessor(library.getSyntaxCheckers());
+        final SyntaxProcessor syntaxProcessor = new SyntaxProcessor(
+            cfg.getSyntaxMessages(), library.getSyntaxCheckers());
         final ProcessorChain<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> chain1
             = ProcessorChain.startWith(refResolver).chainWith(syntaxProcessor);
 
@@ -75,8 +76,9 @@ public final class ValidationChain
         ProcessorChain<SchemaContext, ValidatorList> chain2
             = ProcessorChain.startWith(digester).chainWith(keywordBuilder);
 
-        if (useFormat) {
-            final FormatProcessor format = new FormatProcessor(library);
+        if (cfg.getUseFormat()) {
+            final FormatProcessor format
+                = new FormatProcessor(library, cfg);
             chain2 = chain2.chainWith(format);
         }
 

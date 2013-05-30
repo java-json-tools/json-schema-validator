@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableList;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
@@ -80,7 +81,8 @@ public final class DateTimeAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final String value = data.getInstance().getNode().textValue();
@@ -88,7 +90,7 @@ public final class DateTimeAttribute
         try {
             FORMATTER.parseDateTime(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, "invalidDateFormat")
+            report.error(newMsg(data, bundle, "invalidDateFormat")
                 .put("expected", FORMATS));
         }
     }

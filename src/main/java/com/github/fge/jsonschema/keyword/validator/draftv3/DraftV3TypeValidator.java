@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for draft v3's {@code type}
@@ -43,7 +44,8 @@ public final class DraftV3TypeValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -92,10 +94,11 @@ public final class DraftV3TypeValidator
          * primitive types...
          */
         if (!types.isEmpty())
-            report.error(newMsg(data, "TYPE_NO_MATCH").put("expected", types)
-                .put("found", type));
+            report.error(newMsg(data, bundle, "TYPE_NO_MATCH")
+                .put("expected", types).put("found", type));
 
         if (!schemas.isEmpty())
-            report.error(newMsg(data, "ANYOF_FAIL").put("reports", fullReport));
+            report.error(newMsg(data, bundle, "ANYOF_FAIL")
+                .put("reports", fullReport));
     }
 }

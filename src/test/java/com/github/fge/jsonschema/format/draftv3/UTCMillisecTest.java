@@ -86,7 +86,7 @@ public final class UTCMillisecTest
         final JsonTree tree = new SimpleJsonTree(input);
         final FullData data = new FullData(SCHEMA_TREE, tree);
 
-        attribute.validate(report, data);
+        attribute.validate(report, BUNDLE, data);
 
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
@@ -96,7 +96,7 @@ public final class UTCMillisecTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message).isFormatMessage(fmt,
-            BUNDLE.getString("epochNegative"));
+            BUNDLE.getKey("epochNegative"));
     }
 
     @DataProvider
@@ -127,7 +127,7 @@ public final class UTCMillisecTest
         final JsonTree tree = new SimpleJsonTree(input);
         final FullData data = new FullData(SCHEMA_TREE, tree);
 
-        attribute.validate(report, data);
+        attribute.validate(report, BUNDLE, data);
 
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
@@ -137,6 +137,6 @@ public final class UTCMillisecTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message)
-            .isFormatMessage(fmt, BUNDLE.getString("epochOverflow"));
+            .isFormatMessage(fmt, BUNDLE.getKey("epochOverflow"));
     }
 }

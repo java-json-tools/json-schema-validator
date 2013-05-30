@@ -17,6 +17,7 @@
 
 package com.github.fge.jsonschema.cfg;
 
+import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
@@ -24,11 +25,12 @@ import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationErr
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
-import com.github.fge.jsonschema.messages.ValidationBundles;
+import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.jsonschema.util.Thawed;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -41,10 +43,10 @@ import java.util.Map;
 public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
-    private static final MessageBundle BUNDLE
-        = ValidationBundles.VALIDATION_CFG;
-    private static final MessageBundle REF_BUNDLE
-        = MessageBundles.JSON_REF;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
+    private static final CoreMessageBundle CORE_BUNDLE
+        = CoreMessageBundle.getInstance();
 
     /**
      * Default libraries to use
@@ -78,6 +80,16 @@ public final class ValidationConfigurationBuilder
      */
     boolean useFormat = true;
 
+    /**
+     * The set of syntax messages
+     */
+    MessageBundle syntaxMessages;
+
+    /**
+     * The set of validation messages
+     */
+    MessageBundle validationMessages;
+
     ValidationConfigurationBuilder()
     {
         libraries = Maps.newHashMap();
@@ -89,6 +101,8 @@ public final class ValidationConfigurationBuilder
             library = entry.getValue();
             libraries.put(ref, library);
         }
+        syntaxMessages = SyntaxMessageBundle.get();
+        validationMessages = ValidationMessageBundle.get();
     }
 
     /**
@@ -110,26 +124,31 @@ public final class ValidationConfigurationBuilder
      * @param uri the value for {@code $schema}
      * @param library the library
      * @return this
-     * @throws ValidationConfigurationError provided URI is null, not a URI, or
-     * not an absolute JSON Reference; library is null; or there already exists
-     * a library for this value of {@code $schema}
+     * @throws NullPointerException URI us null or library is null
+     * @throws ValidationConfigurationError string is not a URI, or not an
+     * absolute JSON Reference; or there already exists a library for this URI.
      */
     public ValidationConfigurationBuilder addLibrary(final String uri,
         final Library library)
     {
         final JsonRef ref;
+
         try {
             ref = JsonRef.fromString(uri);
             if (!ref.isAbsolute())
-                throw new JsonReferenceError(
-                    REF_BUNDLE.getString("uriNotAbsolute"));
+                throw new JsonReferenceError(new ProcessingMessage()
+                    .message(CORE_BUNDLE.getKey("uriNotAbsolute"))
+                    .put("ref", ref));
         } catch (JsonReferenceException e) {
             throw new JsonReferenceError(e.getProcessingMessage());
         }
+
         BUNDLE.checkNotNull(library, "nullLibrary");
+
         if (libraries.containsKey(ref))
-            throw new ValidationConfigurationError(BUNDLE.message("dupLibrary")
-                .put("uri", ref));
+            throw new ValidationConfigurationError(new ProcessingMessage()
+                .message(BUNDLE.getKey("dupLibrary")).put("uri", ref));
+
         libraries.put(ref, library);
         return this;
     }
@@ -142,7 +161,7 @@ public final class ValidationConfigurationBuilder
      *
      * @param version the version
      * @return this
-     * @throws ValidationConfigurationError version is null
+     * @throws NullPointerException version is null
      */
     public ValidationConfigurationBuilder setDefaultVersion(
         final SchemaVersion version)
@@ -180,6 +199,22 @@ public final class ValidationConfigurationBuilder
     public ValidationConfigurationBuilder setUseFormat(final boolean useFormat)
     {
         this.useFormat = useFormat;
+        return this;
+    }
+
+    public ValidationConfigurationBuilder setSyntaxMessages(
+        final MessageBundle syntaxMessages)
+    {
+        BUNDLE.checkNotNull(syntaxMessages, "nullMessageBundle");
+        this.syntaxMessages = syntaxMessages;
+        return this;
+    }
+
+    public ValidationConfigurationBuilder setValidationMessages(
+        final MessageBundle validationMessages)
+    {
+        BUNDLE.checkNotNull(validationMessages, "nullMessageBundle");
+        this.validationMessages = validationMessages;
         return this;
     }
 

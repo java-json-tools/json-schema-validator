@@ -19,19 +19,21 @@ package com.github.fge.jsonschema.processors.format;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
+import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
+import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 
 import java.util.List;
@@ -58,18 +60,21 @@ import java.util.Map;
 public final class FormatProcessor
     implements Processor<ValidatorList, ValidatorList>
 {
-    private static final MessageBundle BUNDLE = ValidationBundles.FORMAT;
-
     private final Map<String, FormatAttribute> attributes;
+    private final MessageBundle bundle;
 
-    public FormatProcessor(final Library library)
+    public FormatProcessor(final Library library,
+        final ValidationConfiguration cfg)
     {
         attributes = library.getFormatAttributes().entries();
+        bundle = cfg.getValidationMessages();
     }
 
-    public FormatProcessor(final Dictionary<FormatAttribute> dict)
+    @VisibleForTesting
+    FormatProcessor(final Dictionary<FormatAttribute> dict)
     {
         attributes = dict.entries();
+        bundle = ValidationMessageBundle.get();
     }
 
     @Override
@@ -89,7 +94,7 @@ public final class FormatProcessor
         if (attr == null) {
             report.warn(input.newMessage().put("domain", "validation")
                 .put("keyword", "format")
-                .message(BUNDLE.getString("formatNotSupported"))
+                .message(bundle.getKey("formatNotSupported"))
                 .put("attribute", fmt));
             return input;
         }
@@ -112,10 +117,11 @@ public final class FormatProcessor
             @Override
             public void validate(
                 final Processor<FullData, FullData> processor,
-                final ProcessingReport report, final FullData data)
+                final ProcessingReport report, final MessageBundle bundle,
+                final FullData data)
                 throws ProcessingException
             {
-                attr.validate(report, data);
+                attr.validate(report, bundle, data);
             }
         };
     }

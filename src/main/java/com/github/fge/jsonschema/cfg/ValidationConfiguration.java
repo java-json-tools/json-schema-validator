@@ -21,6 +21,7 @@ import com.github.fge.jsonschema.library.Keyword;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.util.Frozen;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
@@ -69,6 +70,16 @@ public final class ValidationConfiguration
     final boolean useFormat;
 
     /**
+     * The set of syntax messages
+     */
+    final MessageBundle syntaxMessages;
+
+    /**
+     * The set of validation messages
+     */
+    final MessageBundle validationMessages;
+
+    /**
      * Return a new thawed instance of the default configuration
      *
      * @return a new configuration builder
@@ -92,14 +103,16 @@ public final class ValidationConfiguration
     /**
      * Build a new frozen configuration out of a thawed one
      *
-     * @param cfg the source configuration
+     * @param builder the source configuration
      * @see ValidationConfigurationBuilder#freeze()
      */
-    ValidationConfiguration(final ValidationConfigurationBuilder cfg)
+    ValidationConfiguration(final ValidationConfigurationBuilder builder)
     {
-        libraries = ImmutableMap.copyOf(cfg.libraries);
-        defaultLibrary = cfg.defaultLibrary;
-        useFormat = cfg.useFormat;
+        libraries = ImmutableMap.copyOf(builder.libraries);
+        defaultLibrary = builder.defaultLibrary;
+        useFormat = builder.useFormat;
+        syntaxMessages = builder.syntaxMessages;
+        validationMessages = builder.validationMessages;
     }
 
     /**
@@ -130,6 +143,16 @@ public final class ValidationConfiguration
     public boolean getUseFormat()
     {
         return useFormat;
+    }
+
+    public MessageBundle getSyntaxMessages()
+    {
+        return syntaxMessages;
+    }
+
+    public MessageBundle getValidationMessages()
+    {
+        return validationMessages;
     }
 
     /**

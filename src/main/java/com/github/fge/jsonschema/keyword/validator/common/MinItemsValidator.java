@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.keyword.validator.helpers.PositiveIntegerValida
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for {@code minItems}
@@ -37,12 +38,13 @@ public final class MinItemsValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final int size = data.getInstance().getNode().size();
         if (size < intValue)
-            report.error(newMsg(data, "ARRAY_IS_TOO_SHORT")
+            report.error(newMsg(data, bundle, "ARRAY_IS_TOO_SHORT")
                 .put(keyword, intValue).put("found", size));
     }
 }

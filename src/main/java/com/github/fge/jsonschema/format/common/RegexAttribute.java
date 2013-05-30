@@ -25,6 +25,7 @@ import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.RhinoHelper;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Validator for the {@code regex} format attribute.
@@ -50,12 +51,13 @@ public final class RegexAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
 
         if (!RhinoHelper.regexIsValid(instance.textValue()))
-            report.error(newMsg(data, "invalidECMA262Regex"));
+            report.error(newMsg(data, bundle, "invalidECMA262Regex"));
     }
 }

@@ -21,17 +21,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
+import com.github.fge.jsonschema.CoreMessageBundle;
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.exceptions.unchecked.LoadingConfigurationError;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -68,10 +66,10 @@ import java.util.Map;
 public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
 {
-    private static final MessageBundle LOAD_BUNDLE
-        = MessageBundles.LOADING_CFG;
-    private static final MessageBundle REF_BUNDLE
-        = MessageBundles.JSON_REF;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
+    private static final CoreMessageBundle CORE_BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private static final Function<SchemaContext, JsonRef> FUNCTION
         = new Function<SchemaContext, JsonRef>()
@@ -137,7 +135,7 @@ public final class JsonSchemaFactory
         final Processor<SchemaContext, ValidatorList> processor
             = buildProcessor();
         validator = new JsonValidator(loader,
-            new ValidationProcessor(processor), reportProvider);
+            new ValidationProcessor(validationCfg, processor), reportProvider);
         syntaxValidator = new SyntaxValidator(validationCfg);
     }
 
@@ -170,12 +168,12 @@ public final class JsonSchemaFactory
      * @param schema the schema
      * @return a {@link JsonSchema}
      * @throws ProcessingException schema is a {@link MissingNode}
-     * @throws LoadingConfigurationError schema is null
+     * @throws NullPointerException schema is null
      */
     public JsonSchema getJsonSchema(final JsonNode schema)
         throws ProcessingException
     {
-        LOAD_BUNDLE.checkNotNull(schema, "nullSchema");
+        BUNDLE.checkNotNull(schema, "nullSchema");
         return validator.buildJsonSchema(schema, JsonPointer.empty());
     }
 
@@ -190,14 +188,13 @@ public final class JsonSchemaFactory
      * @return a {@link JsonSchema}
      * @throws ProcessingException {@code ptr} is not a valid JSON Pointer, or
      * resolving the pointer against the schema leads to a {@link MissingNode}
-     * @throws LoadingConfigurationError schema is null
-     * @throws JsonReferenceError pointer is null
+     * @throws NullPointerException schema is null, or pointer is null
      */
     public JsonSchema getJsonSchema(final JsonNode schema, final String ptr)
         throws ProcessingException
     {
-        LOAD_BUNDLE.checkNotNull(schema, "nullSchema");
-        REF_BUNDLE.checkNotNull(ptr, "nullPointer");
+        BUNDLE.checkNotNull(schema, "nullSchema");
+        CORE_BUNDLE.checkNotNull(ptr, "nullPointer");
         final JsonPointer pointer;
         try {
             pointer = new JsonPointer(ptr);
@@ -215,12 +212,12 @@ public final class JsonSchemaFactory
      * @param uri the URI
      * @return a {@link JsonSchema}
      * @throws ProcessingException failed to load from this URI
-     * @throws JsonReferenceError URI is null
+     * @throws NullPointerException URI is null
      */
     public JsonSchema getJsonSchema(final String uri)
         throws ProcessingException
     {
-        REF_BUNDLE.checkNotNull(uri, "nullURI");
+        CORE_BUNDLE.checkNotNull(uri, "nullURI");
         return validator.buildJsonSchema(uri);
     }
 
@@ -258,7 +255,7 @@ public final class JsonSchemaFactory
         final Map<JsonRef, Library> libraries = validationCfg.getLibraries();
         final Library defaultLibrary = validationCfg.getDefaultLibrary();
         final ValidationChain defaultChain
-            = new ValidationChain(resolver, defaultLibrary, useFormat);
+            = new ValidationChain(resolver, defaultLibrary, validationCfg);
         final ProcessorMap<JsonRef, SchemaContext, ValidatorList> map
             = new ProcessorMap<JsonRef, SchemaContext, ValidatorList>(FUNCTION);
         map.setDefaultProcessor(defaultChain);
@@ -268,7 +265,8 @@ public final class JsonSchemaFactory
 
         for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
             ref = entry.getKey();
-            chain = new ValidationChain(resolver, entry.getValue(), useFormat);
+            chain = new ValidationChain(resolver, entry.getValue(),
+                validationCfg);
             map.addEntry(ref, chain);
         }
 

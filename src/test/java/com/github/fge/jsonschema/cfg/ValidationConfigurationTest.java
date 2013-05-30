@@ -20,9 +20,6 @@ package com.github.fge.jsonschema.cfg;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -31,8 +28,8 @@ import static org.testng.Assert.*;
 
 public final class ValidationConfigurationTest
 {
-    private static final MessageBundle BUNDLE
-        = ValidationBundles.VALIDATION_CFG;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
 
     private ValidationConfigurationBuilder cfg;
 
@@ -49,9 +46,8 @@ public final class ValidationConfigurationTest
         try {
             cfg.addLibrary(ref, null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullLibrary"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullLibrary"));
         }
     }
 
@@ -65,8 +61,8 @@ public final class ValidationConfigurationTest
             cfg.addLibrary(ref, library);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("dupLibrary"));
+            assertMessage(e.getProcessingMessage()).hasField("uri", ref)
+                .hasMessage(BUNDLE.getKey("dupLibrary"));
         }
     }
 
@@ -76,9 +72,30 @@ public final class ValidationConfigurationTest
         try {
             cfg.setDefaultVersion(null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullVersion"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullVersion"));
+        }
+    }
+
+    @Test
+    public void cannotPutNullSyntaxMessageBundle()
+    {
+        try {
+            cfg.setSyntaxMessages(null);
+            fail("No exception thrown!!");
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullMessageBundle"));
+        }
+    }
+
+    @Test
+    public void cannotPutNullValidationMessageBundle()
+    {
+        try {
+            cfg.setValidationMessages(null);
+            fail("No exception thrown!!");
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullMessageBundle"));
         }
     }
 

@@ -17,11 +17,9 @@
 
 package com.github.fge.jsonschema.main;
 
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
-import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.report.ListReportProvider;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ReportProvider;
@@ -47,7 +45,8 @@ import javax.annotation.concurrent.NotThreadSafe;
 public final class JsonSchemaFactoryBuilder
     implements Thawed<JsonSchemaFactory>
 {
-    private static final MessageBundle BUNDLE = ValidationBundles.FACTORY_CFG;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
 
     ReportProvider reportProvider;
     LoadingConfiguration loadingCfg;
@@ -83,7 +82,7 @@ public final class JsonSchemaFactoryBuilder
      *
      * @param reportProvider the report provider
      * @return this
-     * @throws FactoryConfigurationError provider is null
+     * @throws NullPointerException provider is null
      */
     public JsonSchemaFactoryBuilder setReportProvider(
         final ReportProvider reportProvider)
@@ -98,7 +97,7 @@ public final class JsonSchemaFactoryBuilder
      *
      * @param loadingCfg the loading configuration
      * @return this
-     * @throws FactoryConfigurationError configuration is null
+     * @throws NullPointerException configuration is null
      */
     public JsonSchemaFactoryBuilder setLoadingConfiguration(
         final LoadingConfiguration loadingCfg)
@@ -113,7 +112,7 @@ public final class JsonSchemaFactoryBuilder
      *
      * @param validationCfg the validation configuration
      * @return this
-     * @throws FactoryConfigurationError configuration is null
+     * @throws NullPointerException configuration is null
      */
     public JsonSchemaFactoryBuilder setValidationConfiguration(
         final ValidationConfiguration validationCfg)

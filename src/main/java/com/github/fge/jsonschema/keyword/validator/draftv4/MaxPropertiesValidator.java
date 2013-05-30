@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.keyword.validator.helpers.PositiveIntegerValida
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for draft v4's {@code maxProperties}
@@ -37,12 +38,13 @@ public final class MaxPropertiesValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final int size = data.getInstance().getNode().size();
         if (size > intValue)
-            report.error(newMsg(data, "TOO_MANY_MEMBERS_IN_OBJECT")
+            report.error(newMsg(data, bundle, "TOO_MANY_MEMBERS_IN_OBJECT")
                 .put("required", intValue).put("found", size));
     }
 }

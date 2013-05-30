@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.math.BigDecimal;
 
@@ -38,7 +39,7 @@ public abstract class DivisorValidator
 
     @Override
     protected final void validateLong(final ProcessingReport report,
-        final FullData data)
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode node = data.getInstance().getNode();
@@ -50,13 +51,13 @@ public abstract class DivisorValidator
         if (remainder == 0L)
             return;
 
-        report.error(newMsg(data, "NON_ZERO_DIVISION_REMAINDER")
+        report.error(newMsg(data, bundle, "NON_ZERO_DIVISION_REMAINDER")
             .put("value", node).put("divisor", number));
     }
 
     @Override
     protected final void validateDecimal(final ProcessingReport report,
-        final FullData data)
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode node = data.getInstance().getNode();
@@ -73,7 +74,7 @@ public abstract class DivisorValidator
         if (remainder.compareTo(BigDecimal.ZERO) == 0)
             return;
 
-        report.error(newMsg(data, "NON_ZERO_DIVISION_REMAINDER")
+        report.error(newMsg(data, bundle, "NON_ZERO_DIVISION_REMAINDER")
             .put("value", node).put("divisor", number));
     }
 }

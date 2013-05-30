@@ -17,11 +17,9 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Frozen;
 
@@ -36,8 +34,9 @@ import java.lang.reflect.Constructor;
 public final class Keyword
     implements Frozen<KeywordBuilder>
 {
-    private static final MessageBundle BUNDLE
-        = ValidationBundles.VALIDATION_CFG;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
+
     /**
      * Name of this keyword
      */
@@ -63,7 +62,7 @@ public final class Keyword
      *
      * @param name the name for this keyword
      * @return a new {@link KeywordBuilder}
-     * @throws ValidationConfigurationError provided name is null
+     * @throws NullPointerException provided name is null
      * @see KeywordBuilder#KeywordBuilder(String)
      */
     public static KeywordBuilder newBuilder(final String name)
@@ -76,8 +75,8 @@ public final class Keyword
      *
      * @param builder the keyword builder to build from
      * @see KeywordBuilder#freeze()
-     * @throws ValidationConfigurationError no syntax checker defined, or a
-     * validator class is defined but no digester has been found
+     * @throws NullPointerException no syntax checker defined, or a validator
+     * class is defined but no digester has been found
      */
     Keyword(final KeywordBuilder builder)
     {

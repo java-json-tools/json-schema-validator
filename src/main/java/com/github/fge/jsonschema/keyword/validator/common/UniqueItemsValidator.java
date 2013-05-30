@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Sets;
 
@@ -50,7 +51,8 @@ public final class UniqueItemsValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         if (!uniqueItems)
@@ -61,7 +63,7 @@ public final class UniqueItemsValidator
 
         for (final JsonNode element: node)
             if (!set.add(EQUIVALENCE.wrap(element))) {
-                report.error(newMsg(data, "ELEMENTS_NOT_UNIQUE"));
+                report.error(newMsg(data, bundle, "ELEMENTS_NOT_UNIQUE"));
                 return;
             }
     }

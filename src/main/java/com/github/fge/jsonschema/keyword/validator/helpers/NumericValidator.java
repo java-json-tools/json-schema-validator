@@ -24,15 +24,16 @@ import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Helper class for keywords validating numeric values
  *
  * <p>This class' role is to switch between two different validation methods:
- * {@link #validateLong(ProcessingReport, FullData)} if both the keyword value
- * and instance fit exactly into a {@code long} (for performance reasons),
- * {@link #validateDecimal(ProcessingReport, FullData)} otherwise (for accuracy
- * reasons).</p>
+ * {@link #validateLong(ProcessingReport, MessageBundle, FullData)} if both the
+ * keyword value and instance fit exactly into a {@code long} (for performance
+ * reasons), {@link #validateDecimal(ProcessingReport, MessageBundle, FullData)}
+ * otherwise (for accuracy reasons).</p>
  */
 public abstract class NumericValidator
     extends AbstractKeywordValidator
@@ -55,16 +56,16 @@ public abstract class NumericValidator
     }
 
     @Override
-    public final void validate(
-        final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+    public final void validate(final Processor<FullData, FullData> processor,
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
         if (valueIsLong(instance) && isLong)
-            validateLong(report, data);
+            validateLong(report, bundle, data);
         else
-            validateDecimal(report, data);
+            validateDecimal(report, bundle, data);
     }
 
     /**
@@ -72,10 +73,11 @@ public abstract class NumericValidator
      * value and instance value fit into a {@code long}
      *
      * @param report the validation report
+     * @param bundle the message bundle to use
      * @param data the validation data
      */
     protected abstract void validateLong(final ProcessingReport report,
-        FullData data)
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException;
 
     /**
@@ -83,10 +85,11 @@ public abstract class NumericValidator
      * keyword value or instance value do <b>not</b> fit into a {@code long}
      *
      * @param report the validation report
+     * @param bundle the message bundle to use
      * @param data the validation data
      */
     protected abstract void validateDecimal(final ProcessingReport report,
-        FullData data)
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException;
 
     @Override

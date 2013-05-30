@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.net.InternetDomainName;
 
 /**
@@ -44,7 +45,8 @@ public final class SharedHostNameAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -52,7 +54,7 @@ public final class SharedHostNameAttribute
         try {
             InternetDomainName.from(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, "invalidHostname"));
+            report.error(newMsg(data, bundle, "invalidHostname"));
         }
     }
 }

@@ -23,9 +23,8 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.LogLevel;
@@ -35,6 +34,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -49,7 +49,7 @@ import static org.testng.Assert.*;
 
 public final class NotKeywordTest
 {
-    private static final MessageBundle BUNDLE = ValidationBundles.VALIDATION;
+    private static final MessageBundle BUNDLE = ValidationMessageBundle.get();
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final ProcessingMessage MSG = new ProcessingMessage();
 
@@ -97,7 +97,7 @@ public final class NotKeywordTest
         processor = new DummyProcessor(WantedState.EX);
 
         try {
-            validator.validate(processor, report, data);
+            validator.validate(processor, report, BUNDLE, data);
             fail("No exception thrown??");
         } catch (ProcessingException ignored) {
         }
@@ -112,14 +112,14 @@ public final class NotKeywordTest
         final ArgumentCaptor<ProcessingMessage> captor
             = ArgumentCaptor.forClass(ProcessingMessage.class);
 
-        validator.validate(processor, report, data);
+        validator.validate(processor, report, BUNDLE, data);
 
         verify(report).error(captor.capture());
 
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message).isValidationError("not",
-            BUNDLE.getString("NOT_FAIL"));
+            BUNDLE.getKey("NOT_FAIL"));
     }
 
     @Test(dependsOnMethods = "keywordExists")
@@ -128,7 +128,7 @@ public final class NotKeywordTest
     {
         processor = new DummyProcessor(WantedState.KO);
 
-        validator.validate(processor, report, data);
+        validator.validate(processor, report, BUNDLE, data);
 
         verify(report, never()).error(anyMessage());
     }

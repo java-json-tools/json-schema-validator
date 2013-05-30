@@ -21,6 +21,7 @@ import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.util.EnumSet;
 
@@ -44,10 +45,12 @@ public interface FormatAttribute
      * Validate the instance against this format attribute
      *
      * @param report the report to use
+     * @param bundle the message bundle to use
      * @param data the validation data
      * @throws ProcessingException an exception occurs (normally, never for a
      * format attribute)
      */
-    void validate(final ProcessingReport report, final FullData data)
+    void validate(final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException;
 }

@@ -18,18 +18,17 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jackson.NodeType;
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -39,8 +38,8 @@ import static org.testng.Assert.*;
 
 public final class KeywordTest
 {
-    private static final MessageBundle BUNDLE
-        = ValidationBundles.VALIDATION_CFG;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
 
     private KeywordBuilder builder;
 
@@ -56,9 +55,8 @@ public final class KeywordTest
         try {
             Keyword.newBuilder(null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullName"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullName"));
         }
     }
 
@@ -68,10 +66,8 @@ public final class KeywordTest
         try {
             builder.withSyntaxChecker(null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullSyntaxChecker"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullSyntaxChecker"));
         }
     }
 
@@ -81,9 +77,8 @@ public final class KeywordTest
         try {
             builder.withDigester(null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullDigester"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullDigester"));
         }
     }
 
@@ -93,17 +88,15 @@ public final class KeywordTest
         try {
             builder.withIdentityDigester(null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullType"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
         }
 
         try {
             builder.withIdentityDigester(NodeType.ARRAY, NodeType.OBJECT, null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullType"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
         }
     }
 
@@ -113,17 +106,15 @@ public final class KeywordTest
         try {
             builder.withSimpleDigester(null);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullType"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
         }
 
         try {
             builder.withSimpleDigester(NodeType.ARRAY, NodeType.OBJECT, null);
             fail("No exception trown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("nullType"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
         }
     }
 
@@ -134,9 +125,8 @@ public final class KeywordTest
             builder.withValidatorClass(DummyValidator.class);
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("noAppropriateConstructor"));
+            assertMessage(e.getProcessingMessage())
+                .hasMessage(BUNDLE.getKey("noAppropriateConstructor"));
         }
     }
 
@@ -146,9 +136,8 @@ public final class KeywordTest
         try {
             builder.withValidatorClass(MinItemsValidator.class).freeze();
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message).hasMessage(BUNDLE.getString("noChecker"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("noChecker"));
         }
     }
 
@@ -159,10 +148,8 @@ public final class KeywordTest
             builder.withSyntaxChecker(mock(SyntaxChecker.class))
                 .withValidatorClass(NotValidator.class).freeze();
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("malformedKeyword"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("malformedKeyword"));
         }
     }
 
@@ -172,7 +159,8 @@ public final class KeywordTest
         @Override
         public void validate(
             final Processor<FullData, FullData> processor,
-            final ProcessingReport report, final FullData data)
+            final ProcessingReport report, final MessageBundle bundle,
+            final FullData data)
             throws ProcessingException
         {
         }

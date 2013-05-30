@@ -70,7 +70,7 @@ public final class DraftV3TypeValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getString("ANYOF_FAIL"))
+            .isValidationError(keyword, BUNDLE.getKey("ANYOF_FAIL"))
             .hasField("reports", reports);
     }
 

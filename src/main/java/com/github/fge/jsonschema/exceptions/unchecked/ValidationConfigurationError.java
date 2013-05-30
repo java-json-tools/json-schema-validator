@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.report.ProcessingMessage;
  * Exception thrown on validation configuration errors
  */
 public final class ValidationConfigurationError
-    extends ProcessingConfigurationError
+    extends ProcessingError
 {
     public ValidationConfigurationError(final String msg)
     {

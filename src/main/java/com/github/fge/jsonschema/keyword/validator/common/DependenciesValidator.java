@@ -26,6 +26,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
@@ -86,7 +87,8 @@ public final class DependenciesValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -102,7 +104,7 @@ public final class DependenciesValidator
             set = Sets.newLinkedHashSet(collection);
             set.removeAll(fields);
             if (!set.isEmpty())
-                report.error(newMsg(data, "MISSING_PROPERTY_DEPS")
+                report.error(newMsg(data, bundle, "MISSING_PROPERTY_DEPS")
                     .put("property", field).put("required", collection)
                     .put("missing", set));
         }

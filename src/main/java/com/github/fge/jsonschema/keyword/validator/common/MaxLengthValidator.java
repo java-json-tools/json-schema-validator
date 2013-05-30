@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.keyword.validator.helpers.PositiveIntegerValida
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for {@code maxLength}
@@ -36,14 +37,15 @@ public final class MaxLengthValidator
     }
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final int size = data.getInstance().getNode().textValue()
             .length();
 
         if (size > intValue)
-            report.error(newMsg(data, "STRING_TOO_LONG").put(keyword, intValue)
-                .put("found", size));
+            report.error(newMsg(data, bundle, "STRING_TOO_LONG")
+                .put(keyword, intValue).put("found", size));
     }
 }

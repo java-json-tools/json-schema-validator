@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.math.BigInteger;
 
@@ -65,7 +66,8 @@ public final class UTCMillisecAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -73,13 +75,13 @@ public final class UTCMillisecAttribute
         BigInteger epoch = instance.bigIntegerValue();
 
         if (epoch.signum() == -1) {
-            report.warn(newMsg(data, "epochNegative"));
+            report.warn(newMsg(data, bundle, "epochNegative"));
             return;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
         if (epoch.bitLength() > EPOCH_BITLENGTH)
-            report.warn(newMsg(data, "epochOverflow"));
+            report.warn(newMsg(data, bundle, "epochOverflow"));
     }
 }

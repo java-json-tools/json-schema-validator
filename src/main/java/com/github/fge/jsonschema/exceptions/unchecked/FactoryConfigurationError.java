@@ -17,21 +17,14 @@
 
 package com.github.fge.jsonschema.exceptions.unchecked;
 
-import com.github.fge.jsonschema.report.ProcessingMessage;
-
 /**
  * Exception thrown on factory configuration errors
  */
 public final class FactoryConfigurationError
-    extends ProcessingConfigurationError
+    extends ProcessingError
 {
     public FactoryConfigurationError(final String msg)
     {
         super(msg);
-    }
-
-    public FactoryConfigurationError(final ProcessingMessage message)
-    {
-        super(message);
     }
 }

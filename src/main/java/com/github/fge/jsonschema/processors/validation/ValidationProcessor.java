@@ -19,18 +19,20 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.messages.MessageBundles;
 import com.github.fge.jsonschema.processing.CachingProcessor;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
@@ -45,13 +47,17 @@ import java.util.List;
 public final class ValidationProcessor
     implements Processor<FullData, FullData>
 {
+    private final MessageBundle syntaxMessages;
+    private final MessageBundle validationMessages;
     private final Processor<SchemaContext, ValidatorList> processor;
     private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
     private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
 
-    public ValidationProcessor(
+    public ValidationProcessor(final ValidationConfiguration cfg,
         final Processor<SchemaContext, ValidatorList> processor)
     {
+        syntaxMessages = cfg.getSyntaxMessages();
+        validationMessages = cfg.getValidationMessages();
         this.processor = new CachingProcessor<SchemaContext, ValidatorList>(
             processor, SchemaContextEquivalence.getInstance()
         );
@@ -76,8 +82,8 @@ public final class ValidationProcessor
         final ValidatorList fullContext = processor.process(report, context);
 
         if (fullContext == null)
-            throw new InvalidSchemaException(MessageBundles.SYNTAX
-                .message("invalidSchema"));
+            throw new InvalidSchemaException(new ProcessingMessage()
+                .message(syntaxMessages.getKey("invalidSchema")));
 
         /*
          * Get the calculated context. Build the data.
@@ -90,7 +96,7 @@ public final class ValidationProcessor
          * Validate against all keywords.
          */
         for (final KeywordValidator validator: fullContext)
-            validator.validate(this, report, data);
+            validator.validate(this, report, validationMessages, data);
 
         /*
          * At that point, if the report is a failure, we quit: there is no

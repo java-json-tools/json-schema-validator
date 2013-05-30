@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.text.SimpleDateFormat;
@@ -52,7 +53,7 @@ public abstract class AbstractDateFormatAttribute
 
     @Override
     public final void validate(final ProcessingReport report,
-        final FullData data)
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -61,7 +62,7 @@ public abstract class AbstractDateFormatAttribute
         try {
             formatter.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, "invalidDateFormat")
+            report.error(newMsg(data, bundle, "invalidDateFormat")
                 .put("expected", format));
         }
     }

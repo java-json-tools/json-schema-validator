@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Equivalence;
 
 /**
@@ -48,7 +49,8 @@ public final class EnumValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode node = data.getInstance().getNode();
@@ -57,8 +59,8 @@ public final class EnumValidator
             if (EQUIVALENCE.equivalent(enumValue, node))
                 return;
 
-        report.error(newMsg(data, "VALUE_NOT_IN_ENUM").put(keyword, values)
-            .put("value", node));
+        report.error(newMsg(data, bundle, "VALUE_NOT_IN_ENUM")
+            .put(keyword, values).put("value", node));
     }
 
     @Override

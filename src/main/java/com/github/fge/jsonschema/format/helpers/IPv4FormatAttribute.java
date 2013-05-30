@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.net.InetAddresses;
 
 /**
@@ -41,7 +42,8 @@ public final class IPv4FormatAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final String ipaddr = data.getInstance().getNode().textValue();
@@ -50,6 +52,6 @@ public final class IPv4FormatAttribute
             .forString(ipaddr).getAddress().length == IPV4_LENGTH)
             return;
 
-        report.error(newMsg(data, "invalidIPV4Addr"));
+        report.error(newMsg(data, bundle, "invalidIPV4Addr"));
     }
 }

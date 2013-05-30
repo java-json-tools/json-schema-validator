@@ -27,8 +27,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
+import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
@@ -39,6 +38,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
@@ -56,7 +56,8 @@ import static org.testng.Assert.*;
 
 public final class FormatProcessorTest
 {
-    private static final MessageBundle BUNDLE = ValidationBundles.FORMAT;
+    private static final MessageBundle BUNDLE
+        = ValidationMessageBundle.get();
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String FMT = "fmt";
     private static final EnumSet<NodeType> SUPPORTED
@@ -118,7 +119,7 @@ public final class FormatProcessorTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message)
-            .hasMessage(BUNDLE.getString("formatNotSupported"))
+            .hasMessage(BUNDLE.getKey("formatNotSupported"))
             .hasField("domain", "validation").hasField("keyword", "format")
             .hasField("attribute", "foo");
     }
@@ -169,8 +170,8 @@ public final class FormatProcessorTest
         @SuppressWarnings("unchecked")
         final Processor<FullData, FullData> p = mock(Processor.class);
 
-        validators.get(0).validate(p, report, data);
-        verify(attribute).validate(report, data);
+        validators.get(0).validate(p, report, BUNDLE, data);
+        verify(attribute).validate(report, BUNDLE, data);
     }
 
     @DataProvider

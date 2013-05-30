@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.RhinoHelper;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for {@code pattern}
@@ -40,15 +41,16 @@ public final class PatternValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final String regex = data.getSchema().getNode().get(keyword)
             .textValue();
         final String value = data.getInstance().getNode().textValue();
         if (!RhinoHelper.regMatch(regex, value))
-            report.error(newMsg(data, "REGEX_NO_MATCH").put("regex", regex)
-                .put("string", value));
+            report.error(newMsg(data, bundle, "REGEX_NO_MATCH")
+                .put("regex", regex).put("string", value));
     }
 
     @Override

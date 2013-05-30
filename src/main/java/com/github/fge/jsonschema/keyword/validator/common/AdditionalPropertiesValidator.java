@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.util.RhinoHelper;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Ordering;
@@ -63,7 +64,8 @@ public final class AdditionalPropertiesValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         if (additionalOK)
@@ -89,7 +91,7 @@ public final class AdditionalPropertiesValidator
         /*
          * Display extra properties in order in the report
          */
-        report.error(newMsg(data, "ADDITIONAL_PROPERTIES_NOT_ALLOWED")
+        report.error(newMsg(data, bundle, "ADDITIONAL_PROPERTIES_NOT_ALLOWED")
             .put("unwanted", Ordering.natural().sortedCopy(fields)));
     }
 

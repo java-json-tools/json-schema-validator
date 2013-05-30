@@ -23,8 +23,7 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
+import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -32,6 +31,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
@@ -48,7 +48,8 @@ import static org.testng.Assert.*;
 
 public abstract class AbstractFormatAttributeTest
 {
-    protected static final MessageBundle BUNDLE = ValidationBundles.FORMAT;
+    protected static final MessageBundle BUNDLE
+        = ValidationMessageBundle.get();
     protected static final SchemaTree SCHEMA_TREE
         = new CanonicalSchemaTree(JacksonUtils.nodeFactory().objectNode());
 
@@ -94,7 +95,7 @@ public abstract class AbstractFormatAttributeTest
         for (final JsonNode node: testNode) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : BUNDLE.getString(msgNode.textValue());
+                : BUNDLE.getKey(msgNode.textValue());
             list.add(new Object[]{ node.get("data"),
                 node.get("valid").booleanValue(), msg, node.get("msgData") });
         }
@@ -113,7 +114,7 @@ public abstract class AbstractFormatAttributeTest
         final JsonTree tree = new SimpleJsonTree(instance);
         final FullData data = new FullData(SCHEMA_TREE, tree);
 
-        attribute.validate(report, data);
+        attribute.validate(report, BUNDLE, data);
 
         if (valid) {
             verifyZeroInteractions(report);

@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Interface for a keyword validator
@@ -41,11 +42,13 @@ public interface KeywordValidator
      *
      * @param processor the main validation processor
      * @param report the report to use
+     * @param bundle the message bundle to use
      * @param data the validation data
      * @throws InvalidInstanceException instance is invalid, and the report has
      * been configured to throw an exception instead of logging errors
      */
     void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException;
 }

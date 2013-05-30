@@ -23,6 +23,7 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.library.validator.DraftV3ValidatorDictionary;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -32,6 +33,7 @@ import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -46,6 +48,7 @@ import static org.testng.Assert.*;
 
 public final class ExtendsKeywordTest
 {
+    private static final MessageBundle BUNDLE = ValidationMessageBundle.get();
     private static final String FOO = "foo";
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
 
@@ -95,7 +98,7 @@ public final class ExtendsKeywordTest
         processor = new DummyProcessor(WantedState.EX, msg);
 
         try {
-            validator.validate(processor, report, data);
+            validator.validate(processor, report, BUNDLE, data);
             fail("No exception thrown??");
         } catch (ProcessingException ignored) {
         }
@@ -110,7 +113,7 @@ public final class ExtendsKeywordTest
 
         processor = new DummyProcessor(WantedState.KO, msg);
 
-        validator.validate(processor, report, data);
+        validator.validate(processor, report, BUNDLE, data);
 
         verify(report).error(captor.capture());
 
@@ -125,7 +128,7 @@ public final class ExtendsKeywordTest
     {
         processor = new DummyProcessor(WantedState.OK, msg);
 
-        validator.validate(processor, report, data);
+        validator.validate(processor, report, BUNDLE, data);
 
         verify(report, never()).error(anyMessage());
     }

@@ -34,6 +34,7 @@ import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.util.ValueHolder;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Function;
 
 import java.util.Map;
@@ -70,11 +71,15 @@ public final class SyntaxValidator
      */
     public SyntaxValidator(final ValidationConfiguration cfg)
     {
+        final MessageBundle syntaxMessages = cfg.getSyntaxMessages();
         final ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
             map = new ProcessorMap<JsonRef, ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>(FUNCTION);
 
-        final SyntaxProcessor byDefault
-            = new SyntaxProcessor(cfg.getDefaultLibrary().getSyntaxCheckers());
+        Dictionary<SyntaxChecker> dict;
+        dict = cfg.getDefaultLibrary().getSyntaxCheckers();
+
+        final SyntaxProcessor byDefault = new SyntaxProcessor(
+            cfg.getSyntaxMessages(), dict);
 
         map.setDefaultProcessor(byDefault);
 
@@ -82,12 +87,11 @@ public final class SyntaxValidator
 
         JsonRef ref;
         SyntaxProcessor syntaxProcessor;
-        Dictionary<SyntaxChecker> dict;
 
         for (final Map.Entry<JsonRef, Library> entry: libraries.entrySet()) {
             ref = entry.getKey();
             dict = entry.getValue().getSyntaxCheckers();
-            syntaxProcessor = new SyntaxProcessor(dict);
+            syntaxProcessor = new SyntaxProcessor(syntaxMessages, dict);
             map.addEntry(ref, syntaxProcessor);
         }
 

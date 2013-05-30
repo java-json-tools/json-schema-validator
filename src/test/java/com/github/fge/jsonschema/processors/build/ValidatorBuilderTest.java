@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.testng.annotations.Test;
@@ -130,9 +131,9 @@ public final class ValidatorBuilderTest
         }
 
         @Override
-        public void validate(
-            final Processor<FullData, FullData> processor,
-            final ProcessingReport report, final FullData data)
+        public void validate(final Processor<FullData, FullData> processor,
+            final ProcessingReport report, final MessageBundle bundle,
+            final FullData data)
             throws ProcessingException
         {
         }
@@ -148,7 +149,8 @@ public final class ValidatorBuilderTest
         @Override
         public void validate(
             final Processor<FullData, FullData> processor,
-            final ProcessingReport report, final FullData data)
+            final ProcessingReport report, final MessageBundle bundle,
+            final FullData data)
             throws ProcessingException
         {
         }
@@ -165,7 +167,8 @@ public final class ValidatorBuilderTest
         @Override
         public void validate(
             final Processor<FullData, FullData> processor,
-            final ProcessingReport report, final FullData data)
+            final ProcessingReport report, final MessageBundle bundle,
+            final FullData data)
             throws ProcessingException
         {
         }

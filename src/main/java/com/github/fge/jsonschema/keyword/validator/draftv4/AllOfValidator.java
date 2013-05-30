@@ -28,6 +28,7 @@ import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for draft v4's {@code allOf}
@@ -42,7 +43,8 @@ public final class AllOfValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final SchemaTree tree = data.getSchema();
@@ -68,7 +70,8 @@ public final class AllOfValidator
         }
 
         if (nrSuccess != size)
-            report.error(newMsg(data, "ALLOF_FAIL").put("nrSchemas", size)
-                .put("matched", nrSuccess).put("reports", fullReport));
+            report.error(newMsg(data, bundle, "ALLOF_FAIL")
+                .put("nrSchemas", size).put("matched", nrSuccess)
+                .put("reports", fullReport));
     }
 }

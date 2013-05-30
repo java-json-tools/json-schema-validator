@@ -17,19 +17,16 @@
 
 package com.github.fge.jsonschema.main;
 
-import com.github.fge.jsonschema.exceptions.unchecked.FactoryConfigurationError;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
-import com.github.fge.jsonschema.report.ProcessingMessage;
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.testng.Assert.*;
 
 public final class JsonSchemaFactoryTest
 {
-    private static final MessageBundle BUNDLE = ValidationBundles.FACTORY_CFG;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
 
     private JsonSchemaFactoryBuilder builder;
 
@@ -45,10 +42,8 @@ public final class JsonSchemaFactoryTest
         try {
             builder.setLoadingConfiguration(null);
             fail("No exception thrown!!");
-        } catch (FactoryConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullLoadingCfg"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullLoadingCfg"));
         }
     }
 
@@ -58,10 +53,8 @@ public final class JsonSchemaFactoryTest
         try {
             builder.setValidationConfiguration(null);
             fail("No exception thrown!!");
-        } catch (FactoryConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullValidationCfg"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullValidationCfg"));
         }
     }
 
@@ -71,10 +64,8 @@ public final class JsonSchemaFactoryTest
         try {
             builder.setReportProvider(null);
             fail("No exception thrown!!");
-        } catch (FactoryConfigurationError e) {
-            final ProcessingMessage message = e.getProcessingMessage();
-            assertMessage(message)
-                .hasMessage(BUNDLE.getString("nullReportProvider"));
+        } catch (NullPointerException e) {
+            assertEquals(e.getMessage(), BUNDLE.getKey("nullReportProvider"));
         }
     }
 }

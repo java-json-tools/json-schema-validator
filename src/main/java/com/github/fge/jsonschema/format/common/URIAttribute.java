@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -49,13 +50,14 @@ public final class URIAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         try {
             new URI(data.getInstance().getNode().textValue());
         } catch (URISyntaxException ignored) {
-            report.error(newMsg(data, "invalidURI"));
+            report.error(newMsg(data, bundle, "invalidURI"));
         }
     }
 }

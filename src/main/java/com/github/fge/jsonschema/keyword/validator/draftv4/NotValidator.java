@@ -27,6 +27,7 @@ import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for draft v4's {@code not}
@@ -43,7 +44,8 @@ public final class NotValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final SchemaTree tree = data.getSchema();
@@ -53,7 +55,7 @@ public final class NotValidator
         processor.process(subReport, data.withSchema(tree.append(PTR)));
 
         if (subReport.isSuccess())
-            report.error(newMsg(data, "NOT_FAIL"));
+            report.error(newMsg(data, bundle, "NOT_FAIL"));
     }
 
     @Override

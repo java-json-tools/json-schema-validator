@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for {@code additionalItems}
@@ -42,7 +43,8 @@ public final class AdditionalItemsValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         if (additionalOK)
@@ -50,7 +52,7 @@ public final class AdditionalItemsValidator
 
         final int size = data.getInstance().getNode().size();
         if (size > itemsSize)
-            report.error(newMsg(data, "ADDITIONAL_ITEMS_NOT_ALLOWED")
+            report.error(newMsg(data, bundle, "ADDITIONAL_ITEMS_NOT_ALLOWED")
                 .put("allowed", itemsSize).put("found", size));
     }
 

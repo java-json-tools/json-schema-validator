@@ -33,6 +33,7 @@ import com.github.fge.jsonschema.library.Keyword;
 import com.github.fge.jsonschema.library.KeywordBuilder;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.LibraryBuilder;
+import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.processing.Processor;
@@ -41,7 +42,11 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.source.MapMessageSource;
+import com.github.fge.msgsimple.source.MessageSource;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -109,16 +114,38 @@ public final class Example9
         final JsonNode good = Utils.loadResource("/custom-keyword-good.json");
         final JsonNode bad = Utils.loadResource("/custom-keyword-bad.json");
 
+        /*
+         * Build the new keyword
+         */
         final Keyword keyword = Keyword.newBuilder("divisors")
             .withSyntaxChecker(DivisorsSyntaxChecker.getInstance())
             .withDigester(DivisorsDigesters.getInstance())
             .withValidatorClass(DivisorsKeywordValidator.class).freeze();
 
+        /*
+         * Build a library, based on the v4 library, with this new keyword
+         */
         final Library library = DraftV4Library.get().thaw()
             .addKeyword(keyword).freeze();
 
+        /*
+         * Complement the validation message bundle with a dedicated message
+         * for our keyword validator
+         */
+        final String key = "missingDivisors";
+        final String value = "integer value is not a multiple of all divisors";
+        final MessageSource source
+            = new MapMessageSource(ImmutableMap.of(key, value));
+        final MessageBundle bundle = ValidationMessageBundle.get().copy()
+            .appendSource(source).build();
+
+        /*
+         * Build a custom validation configuration: add our custom library and
+         * message bundle
+         */
         final ValidationConfiguration cfg = ValidationConfiguration.newBuilder()
-            .setDefaultLibrary("http://my.site/myschema#", library).freeze();
+            .setDefaultLibrary("http://my.site/myschema#", library)
+            .setValidationMessages(bundle).freeze();
 
         final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
             .setValidationConfiguration(cfg).freeze();
@@ -159,7 +186,8 @@ public final class Example9
 
         @Override
         protected void checkValue(final Collection<JsonPointer> pointers,
-            final ProcessingReport report, final SchemaTree tree)
+            final MessageBundle bundle, final ProcessingReport report,
+            final SchemaTree tree)
             throws ProcessingException
         {
             /*
@@ -185,7 +213,7 @@ public final class Example9
             final int size = node.size();
 
             if (size == 0) {
-                report.error(newMsg(tree, "emptyArray"));
+                report.error(newMsg(tree, bundle, "emptyArray"));
                 return;
             }
 
@@ -199,17 +227,17 @@ public final class Example9
                 element = node.get(index);
                 type = NodeType.getNodeType(element);
                 if (type != NodeType.INTEGER)
-                    report.error(newMsg(tree, "incorrectElementType")
+                    report.error(newMsg(tree, bundle, "incorrectElementType")
                         .put("expected", NodeType.INTEGER)
                         .put("found", type));
                 else if (element.bigIntegerValue().compareTo(BigInteger.ONE) < 0)
-                    report.error(newMsg(tree, "integerIsNegative")
+                    report.error(newMsg(tree, bundle, "integerIsNegative")
                         .put("value", element));
                 uniqueItems = set.add(element);
             }
 
             if (!uniqueItems)
-                report.error(newMsg(tree, "elementsNotUnique"));
+                report.error(newMsg(tree, bundle, "elementsNotUnique"));
         }
     }
 
@@ -289,7 +317,8 @@ public final class Example9
 
         @Override
         public void validate(final Processor<FullData, FullData> processor,
-            final ProcessingReport report, final FullData data)
+            final ProcessingReport report, final MessageBundle bundle,
+            final FullData data)
             throws ProcessingException
         {
             final BigInteger value
@@ -311,8 +340,7 @@ public final class Example9
             /*
              * There are missed divisors: report.
              */
-            report.error(newMsg(data)
-                .message("integer value is not a multiple of all divisors")
+            report.error(newMsg(data, bundle, "missingDivisors")
                 .put("divisors", divisors).put("failed", failed));
         }
 

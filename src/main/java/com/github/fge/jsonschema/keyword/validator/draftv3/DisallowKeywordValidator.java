@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 /**
  * Keyword validator for draft v3's {@code disallow}
@@ -43,14 +44,15 @@ public final class DisallowKeywordValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
         final NodeType type = NodeType.getNodeType(instance);
 
         if (types.contains(type)) {
-            report.error(newMsg(data, "DISALLOWED_TYPE")
+            report.error(newMsg(data, bundle, "DISALLOWED_TYPE")
                 .put("disallowed", types).put("found", type));
             return;
         }
@@ -76,7 +78,7 @@ public final class DisallowKeywordValidator
         }
 
         if (nrSuccess != 0)
-            report.error(newMsg(data, "DISALLOW_SCHEMA")
+            report.error(newMsg(data, bundle, "DISALLOW_SCHEMA")
                 .put("reports", fullReport));
     }
 }

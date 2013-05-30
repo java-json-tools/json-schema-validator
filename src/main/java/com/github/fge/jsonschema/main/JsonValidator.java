@@ -20,19 +20,18 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jsonschema.CoreMessageBundle;
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.load.SchemaLoader;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.MessageBundles;
-import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
+import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.tree.JsonTree;
@@ -55,8 +54,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class JsonValidator
 {
-    private static final MessageBundle REF_BUNDLE
-        = MessageBundles.REF_PROCESSING;
+    private static final CoreMessageBundle BUNDLE
+        = CoreMessageBundle.getInstance();
 
     private final SchemaLoader loader;
     private final ValidationProcessor processor;
@@ -85,7 +84,7 @@ public final class JsonValidator
      * @param instance the instance
      * @return a validation report
      * @throws ProcessingException an exception occurred during validation
-     * @throws ProcessingError the schema or instance is null
+     * @throws NullPointerException the schema or instance is null
      */
     public ProcessingReport validate(final JsonNode schema,
         final JsonNode instance)
@@ -105,7 +104,7 @@ public final class JsonValidator
      * @param schema the schema
      * @param instance the instance
      * @return a validation report
-     * @throws ProcessingError the schema or instance is null
+     * @throws NullPointerException the schema or instance is null
      */
     public ProcessingReport validateUnchecked(final JsonNode schema,
         final JsonNode instance)
@@ -124,14 +123,15 @@ public final class JsonValidator
      * @return a new {@link JsonSchema}
      * @throws ProcessingException resolving the pointer against the schema
      * leads to a {@link MissingNode}
-     * @throws ProcessingError the schema or pointer is null
+     * @throws NullPointerException the schema or pointer is null
      */
     JsonSchema buildJsonSchema(final JsonNode schema, final JsonPointer pointer)
         throws ProcessingException
     {
         final SchemaTree tree = loader.load(schema).setPointer(pointer);
         if (tree.getNode().isMissingNode())
-            throw new JsonReferenceException(REF_BUNDLE.message("danglingRef"));
+            throw new JsonReferenceException(new ProcessingMessage()
+                .message(BUNDLE.getKey("danglingRef")));
         return new JsonSchema(processor, tree, reportProvider);
     }
 
@@ -149,12 +149,13 @@ public final class JsonValidator
     {
         final JsonRef ref = JsonRef.fromString(uri);
         if (!ref.isLegal())
-            throw new JsonReferenceException(
-                REF_BUNDLE.message("illegalJsonRef"));
+            throw new JsonReferenceException(new ProcessingMessage()
+                .message(BUNDLE.getKey("illegalJsonRef")));
         final SchemaTree tree
             = loader.get(ref.getLocator()).setPointer(ref.getPointer());
         if (tree.getNode().isMissingNode())
-            throw new JsonReferenceException(REF_BUNDLE.message("danglingRef"));
+            throw new JsonReferenceException(new ProcessingMessage()
+                .message(BUNDLE.getKey("danglingRef")));
         return new JsonSchema(processor, tree, reportProvider);
     }
 
@@ -170,8 +171,9 @@ public final class JsonValidator
 
     private FullData buildData(final JsonNode schema, final JsonNode instance)
     {
-        MessageBundles.LOADING_CFG.checkNotNull(schema, "nullSchema");
-        ValidationBundles.VALIDATION_CFG.checkNotNull(instance, "nullInstance");
+        BUNDLE.checkNotNull(schema, "nullSchema");
+        ConfigurationMessageBundle.getInstance()
+            .checkNotNull(instance, "nullInstance");
         final SchemaTree schemaTree = loader.load(schema);
         final JsonTree tree = new SimpleJsonTree(instance);
         return new FullData(schemaTree, tree);

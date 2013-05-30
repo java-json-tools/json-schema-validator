@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
@@ -53,7 +54,8 @@ public final class EmailAttribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -61,7 +63,7 @@ public final class EmailAttribute
         try {
             new InternetAddress(instance.textValue(), true);
         } catch (AddressException ignored) {
-            report.error(newMsg(data, "invalidEmail"));
+            report.error(newMsg(data, bundle, "invalidEmail"));
         }
     }
 }

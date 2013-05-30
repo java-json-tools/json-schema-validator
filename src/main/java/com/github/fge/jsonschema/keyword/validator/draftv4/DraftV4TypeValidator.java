@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 
 import java.util.EnumSet;
 
@@ -44,14 +45,15 @@ public final class DraftV4TypeValidator
 
     @Override
     public void validate(final Processor<FullData, FullData> processor,
-        final ProcessingReport report, final FullData data)
+        final ProcessingReport report, final MessageBundle bundle,
+        final FullData data)
         throws ProcessingException
     {
         final NodeType type
             = NodeType.getNodeType(data.getInstance().getNode());
 
         if (!types.contains(type))
-            report.error(newMsg(data, "TYPE_NO_MATCH")
+            report.error(newMsg(data, bundle, "TYPE_NO_MATCH")
                 .put("expected", types).put("found", type));
     }
 

@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.net.InetAddresses;
 
 /**
@@ -49,7 +50,8 @@ public final class IPv6Attribute
     }
 
     @Override
-    public void validate(final ProcessingReport report, final FullData data)
+    public void validate(final ProcessingReport report,
+        final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
         final JsonNode instance = data.getInstance().getNode();
@@ -59,6 +61,6 @@ public final class IPv6Attribute
             .forString(ipaddr).getAddress().length == IPV6_LENGTH)
             return;
 
-        report.error(newMsg(data, "invalidIPV6Addr"));
+        report.error(newMsg(data, bundle, "invalidIPV6Addr"));
     }
 }

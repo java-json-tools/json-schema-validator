@@ -17,12 +17,10 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Thawed;
 
@@ -41,8 +39,8 @@ import java.lang.reflect.Constructor;
 public final class LibraryBuilder
     implements Thawed<Library>
 {
-    private static final MessageBundle BUNDLE
-        = ValidationBundles.VALIDATION_CFG;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
     /**
      * Dictionary builder of syntax checkers
      */
@@ -93,7 +91,7 @@ public final class LibraryBuilder
      *
      * @param keyword the keyword
      * @return this
-     * @throws ValidationConfigurationError keyword is null
+     * @throws NullPointerException keyword is null
      */
     public LibraryBuilder addKeyword(final Keyword keyword)
     {
@@ -115,7 +113,7 @@ public final class LibraryBuilder
      *
      * @param name the name
      * @return this
-     * @throws ValidationConfigurationError name is null
+     * @throws NullPointerException name is null
      */
     public LibraryBuilder removeKeyword(final String name)
     {
@@ -132,7 +130,7 @@ public final class LibraryBuilder
      * @param name the name for this attribute
      * @param attribute the format attribute
      * @return this
-     * @throws ValidationConfigurationError the name or attribute is null
+     * @throws NullPointerException the name or attribute is null
      */
     public LibraryBuilder addFormatAttribute(final String name,
         final FormatAttribute attribute)
@@ -148,7 +146,7 @@ public final class LibraryBuilder
      *
      * @param name the format attribute name
      * @return this
-     * @throws ValidationConfigurationError name is null
+     * @throws NullPointerException name is null
      */
     public LibraryBuilder removeFormatAttribute(final String name)
     {

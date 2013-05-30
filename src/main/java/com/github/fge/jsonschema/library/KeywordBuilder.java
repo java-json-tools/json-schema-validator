@@ -19,13 +19,12 @@ package com.github.fge.jsonschema.library;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
+import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
 import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.messages.MessageBundle;
-import com.github.fge.jsonschema.messages.ValidationBundles;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.util.Thawed;
@@ -42,8 +41,8 @@ import java.lang.reflect.Constructor;
 public final class KeywordBuilder
     implements Thawed<Keyword>
 {
-    private static final MessageBundle BUNDLE
-        = ValidationBundles.VALIDATION_CFG;
+    private static final ConfigurationMessageBundle BUNDLE
+        = ConfigurationMessageBundle.getInstance();
     final String name;
     SyntaxChecker syntaxChecker;
     Digester digester;
@@ -53,7 +52,7 @@ public final class KeywordBuilder
      * Create a new, empty keyword builder
      *
      * @param name the name of this keyword
-     * @throws ValidationConfigurationError name is null
+     * @throws NullPointerException name is null
      * @see Keyword#newBuilder(String)
      */
     KeywordBuilder(final String name)
@@ -81,7 +80,7 @@ public final class KeywordBuilder
      *
      * @param syntaxChecker the syntax checker
      * @return this
-     * @throws ValidationConfigurationError syntax checker is null
+     * @throws NullPointerException syntax checker is null
      */
     public KeywordBuilder withSyntaxChecker(final SyntaxChecker syntaxChecker)
     {
@@ -95,7 +94,7 @@ public final class KeywordBuilder
      *
      * @param digester the digester
      * @return this
-     * @throws ValidationConfigurationError digester is null
+     * @throws NullPointerException digester is null
      */
     public KeywordBuilder withDigester(final Digester digester)
     {
@@ -110,7 +109,7 @@ public final class KeywordBuilder
      * @param first the first instance type supported by this keyword
      * @param other other instance types supported by this keyword
      * @return this
-     * @throws ValidationConfigurationError one or more type(s) are null
+     * @throws NullPointerException one or more type(s) are null
      */
     public KeywordBuilder withIdentityDigester(final NodeType first,
         final NodeType... other)
@@ -126,7 +125,7 @@ public final class KeywordBuilder
      * @param first the first instance type supported by this keyword
      * @param other other instance types supported by this keyword
      * @return this
-     * @throws ValidationConfigurationError one or more type(s) are null
+     * @throws NullPointerException one or more type(s) are null
      */
     public KeywordBuilder withSimpleDigester(final NodeType first,
         final NodeType... other)
@@ -141,6 +140,7 @@ public final class KeywordBuilder
      *
      * @param c the class
      * @return this
+     * @throws NullPointerException class is null
      * @throws ValidationConfigurationError failed to find an appropriate
      * constructor
      */
@@ -171,7 +171,7 @@ public final class KeywordBuilder
             return c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException ignored) {
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getString("noAppropriateConstructor")));
+                .message(BUNDLE.getKey("noAppropriateConstructor")));
         }
     }
 
