@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.cfg;
 
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
@@ -26,7 +25,6 @@ import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.testng.Assert.*;
 
 public final class ValidationConfigurationTest
@@ -63,9 +61,8 @@ public final class ValidationConfigurationTest
             cfg.addLibrary(ref, library);
             cfg.addLibrary(ref, library);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            assertMessage(e.getProcessingMessage()).hasField("uri", ref)
-                .hasMessage(BUNDLE.printf("dupLibrary", ref));
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),BUNDLE.printf("dupLibrary", ref));
         }
     }
 

@@ -19,7 +19,6 @@ package com.github.fge.jsonschema.library;
 
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
@@ -33,7 +32,6 @@ import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
@@ -128,9 +126,9 @@ public final class KeywordTest
         try {
             builder.withValidatorClass(DummyValidator.class);
             fail("No exception thrown!!");
-        } catch (ValidationConfigurationError e) {
-            assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.printf("noAppropriateConstructor", KEYWORD,
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.printf("noAppropriateConstructor", KEYWORD,
                     DummyValidator.class.getCanonicalName()));
         }
     }

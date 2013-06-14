@@ -21,7 +21,6 @@ import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
@@ -128,8 +127,9 @@ public final class ValidationConfigurationBuilder
      * @param library the library
      * @return this
      * @throws NullPointerException URI us null or library is null
-     * @throws ValidationConfigurationError string is not a URI, or not an
-     * absolute JSON Reference; or there already exists a library for this URI.
+     * @throws IllegalArgumentException a library already exists for that URI
+     * @throws JsonReferenceError string is not a URI, or not an absolute JSON
+     * Reference
      */
     public ValidationConfigurationBuilder addLibrary(final String uri,
         final Library library)
@@ -147,13 +147,8 @@ public final class ValidationConfigurationBuilder
         }
 
         BUNDLE.checkNotNull(library, "nullLibrary");
-
-        if (libraries.containsKey(ref))
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("dupLibrary"))
-                .putArgument("uri", ref));
-
-        libraries.put(ref, library);
+        BUNDLE.checkArgumentPrintf(libraries.put(ref, library) == null,
+            "dupLibrary", ref);
         return this;
     }
 

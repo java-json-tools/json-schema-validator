@@ -20,13 +20,11 @@ package com.github.fge.jsonschema.library;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.NodeType;
-import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
 import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
@@ -143,7 +141,7 @@ public final class KeywordBuilder
      * @param c the class
      * @return this
      * @throws NullPointerException class is null
-     * @throws ValidationConfigurationError failed to find an appropriate
+     * @throws IllegalArgumentException failed to find an appropriate
      * constructor
      */
     public KeywordBuilder withValidatorClass(
@@ -181,10 +179,9 @@ public final class KeywordBuilder
         try {
             return c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException ignored) {
-            throw new ValidationConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("noAppropriateConstructor"))
-                .putArgument("keyword", name)
-                .putArgument("class", c.getCanonicalName()));
+            throw new IllegalArgumentException(BUNDLE.printf(
+                "noAppropriateConstructor", name, c.getCanonicalName()
+            ));
         }
     }
 
