@@ -24,6 +24,9 @@
     <packaging>bundle</packaging>
     <description>A Java implementation of the JSON Schema specification</description>
     <url>https://github.com/fge/json-schema-validator</url>
+    <properties>
+        <serviceName>com.github.fge.msgsimple.serviceloader.MessageBundleProvider</serviceName>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -36,6 +39,24 @@
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>eu.somatik.serviceloader-maven-plugin</groupId>
+                <artifactId>serviceloader-maven-plugin</artifactId>
+                <version>1.0.2</version>
+                <configuration>
+                    <services>
+                        <param>${serviceName}</param>
+                    </services>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
