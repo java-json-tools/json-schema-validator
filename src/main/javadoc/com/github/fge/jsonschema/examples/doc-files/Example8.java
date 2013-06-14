@@ -26,12 +26,13 @@ import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.github.fge.msgsimple.source.MapMessageSource;
 import com.github.fge.msgsimple.source.MessageSource;
 
@@ -91,8 +92,9 @@ public final class Example8
         final String value = "input is not a valid UUID";
         final MessageSource source = MapMessageSource.newBuilder()
             .put(key, value).build();
-        final MessageBundle bundle = ValidationMessageBundle.get().thaw()
-            .appendSource(source).freeze();
+        final MessageBundle bundle
+            = MessageBundleFactory.getBundle(JsonSchemaValidationBundle.class)
+            .thaw().appendSource(source).freeze();
 
         /*
          * Build our dedicated validation configuration

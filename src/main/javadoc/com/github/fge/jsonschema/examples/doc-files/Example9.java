@@ -33,9 +33,9 @@ import com.github.fge.jsonschema.library.Keyword;
 import com.github.fge.jsonschema.library.KeywordBuilder;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.LibraryBuilder;
-import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -43,6 +43,7 @@ import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.github.fge.msgsimple.source.MapMessageSource;
 import com.github.fge.msgsimple.source.MessageSource;
 import com.google.common.collect.ImmutableList;
@@ -135,8 +136,9 @@ public final class Example9
         final String value = "integer value is not a multiple of all divisors";
         final MessageSource source = MapMessageSource.newBuilder()
             .put(key, value).build();
-        final MessageBundle bundle = ValidationMessageBundle.get().thaw()
-            .appendSource(source).freeze();
+        final MessageBundle bundle
+            = MessageBundleFactory.getBundle(JsonSchemaValidationBundle.class)
+            .thaw().appendSource(source).freeze();
 
         /*
          * Build a custom validation configuration: add our custom library and

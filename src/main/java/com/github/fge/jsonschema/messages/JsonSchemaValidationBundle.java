@@ -4,7 +4,7 @@ import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.bundle.PropertiesBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleProvider;
 
-public final class JsonSchemaValidatorValidationBundle
+public final class JsonSchemaValidationBundle
     implements MessageBundleProvider
 {
     private static final String PATH

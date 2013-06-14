@@ -25,9 +25,9 @@ import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationErr
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
@@ -104,7 +104,8 @@ public final class ValidationConfigurationBuilder
             libraries.put(ref, library);
         }
         syntaxMessages = SyntaxMessageBundle.get();
-        validationMessages = ValidationMessageBundle.get();
+        validationMessages = MessageBundleFactory
+            .getBundle(JsonSchemaValidationBundle.class);
     }
 
     /**

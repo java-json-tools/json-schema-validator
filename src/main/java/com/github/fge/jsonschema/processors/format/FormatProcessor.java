@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.library.ValidationMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -33,6 +33,7 @@ import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 
@@ -74,7 +75,8 @@ public final class FormatProcessor
     FormatProcessor(final Dictionary<FormatAttribute> dict)
     {
         attributes = dict.entries();
-        bundle = ValidationMessageBundle.get();
+        bundle = MessageBundleFactory
+            .getBundle(JsonSchemaValidationBundle.class);
     }
 
     @Override
