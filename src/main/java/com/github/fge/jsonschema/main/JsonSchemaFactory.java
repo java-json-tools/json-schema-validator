@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.Frozen;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
-import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
@@ -31,6 +30,7 @@ import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -68,8 +68,9 @@ import java.util.Map;
 public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
 {
-    private static final ConfigurationMessageBundle BUNDLE
-        = ConfigurationMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle
+        (JsonSchemaValidatorConfigurationBundle.class);
     private static final MessageBundle CORE_BUNDLE
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 

@@ -17,8 +17,10 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.Test;
 
 import static org.mockito.Mockito.*;
@@ -26,8 +28,9 @@ import static org.testng.Assert.*;
 
 public final class LibraryBuilderTest
 {
-    private static final ConfigurationMessageBundle BUNDLE
-        = ConfigurationMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle
+        (JsonSchemaValidatorConfigurationBundle.class);
 
     @Test
     public void cannotAddNullKeyword()
@@ -36,7 +39,7 @@ public final class LibraryBuilderTest
             Library.newBuilder().addKeyword(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullKeyword"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullKeyword"));
         }
     }
 
@@ -47,7 +50,7 @@ public final class LibraryBuilderTest
             Library.newBuilder().removeKeyword(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullName"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullName"));
         }
     }
 
@@ -59,7 +62,7 @@ public final class LibraryBuilderTest
                 mock(FormatAttribute.class));
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullFormat"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullFormat"));
         }
     }
 
@@ -70,7 +73,7 @@ public final class LibraryBuilderTest
             Library.newBuilder().addFormatAttribute("foo", null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullAttribute"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullAttribute"));
         }
     }
 
@@ -81,7 +84,7 @@ public final class LibraryBuilderTest
             Library.newBuilder().removeFormatAttribute(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullFormat"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullFormat"));
         }
     }
 }

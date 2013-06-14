@@ -18,17 +18,18 @@
 package com.github.fge.jsonschema.library;
 
 import com.github.fge.jackson.NodeType;
-import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
+import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -38,8 +39,9 @@ import static org.testng.Assert.*;
 
 public final class KeywordTest
 {
-    private static final ConfigurationMessageBundle BUNDLE
-        = ConfigurationMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle
+        (JsonSchemaValidatorConfigurationBundle.class);
 
     private KeywordBuilder builder;
 
@@ -56,7 +58,7 @@ public final class KeywordTest
             Keyword.newBuilder(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullName"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullName"));
         }
     }
 
@@ -67,7 +69,8 @@ public final class KeywordTest
             builder.withSyntaxChecker(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullSyntaxChecker"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("nullSyntaxChecker"));
         }
     }
 
@@ -78,7 +81,7 @@ public final class KeywordTest
             builder.withDigester(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullDigester"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullDigester"));
         }
     }
 
@@ -89,14 +92,14 @@ public final class KeywordTest
             builder.withIdentityDigester(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullType"));
         }
 
         try {
             builder.withIdentityDigester(NodeType.ARRAY, NodeType.OBJECT, null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullType"));
         }
     }
 
@@ -107,14 +110,14 @@ public final class KeywordTest
             builder.withSimpleDigester(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullType"));
         }
 
         try {
             builder.withSimpleDigester(NodeType.ARRAY, NodeType.OBJECT, null);
             fail("No exception trown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullType"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullType"));
         }
     }
 
@@ -126,7 +129,7 @@ public final class KeywordTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getKey("noAppropriateConstructor"));
+                .hasMessage(BUNDLE.getMessage("noAppropriateConstructor"));
         }
     }
 
@@ -137,7 +140,7 @@ public final class KeywordTest
             builder.withValidatorClass(MinItemsValidator.class).freeze();
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("noChecker"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("noChecker"));
         }
     }
 
@@ -149,7 +152,7 @@ public final class KeywordTest
                 .withValidatorClass(NotValidator.class).freeze();
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("malformedKeyword"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("malformedKeyword"));
         }
     }
 

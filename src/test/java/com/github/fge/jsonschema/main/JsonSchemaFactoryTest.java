@@ -17,7 +17,9 @@
 
 package com.github.fge.jsonschema.main;
 
-import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -25,8 +27,9 @@ import static org.testng.Assert.*;
 
 public final class JsonSchemaFactoryTest
 {
-    private static final ConfigurationMessageBundle BUNDLE
-        = ConfigurationMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle
+        (JsonSchemaValidatorConfigurationBundle.class);
 
     private JsonSchemaFactoryBuilder builder;
 
@@ -43,7 +46,7 @@ public final class JsonSchemaFactoryTest
             builder.setLoadingConfiguration(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullLoadingCfg"));
+            assertEquals(e.getMessage(), BUNDLE.getMessage("nullLoadingCfg"));
         }
     }
 
@@ -54,7 +57,8 @@ public final class JsonSchemaFactoryTest
             builder.setValidationConfiguration(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullValidationCfg"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("nullValidationCfg"));
         }
     }
 
@@ -65,7 +69,8 @@ public final class JsonSchemaFactoryTest
             builder.setReportProvider(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getKey("nullReportProvider"));
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("nullReportProvider"));
         }
     }
 }

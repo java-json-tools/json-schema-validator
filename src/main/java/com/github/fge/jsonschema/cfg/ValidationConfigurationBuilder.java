@@ -27,6 +27,7 @@ import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.ValidationMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
@@ -44,8 +45,9 @@ import java.util.Map;
 public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
-    private static final ConfigurationMessageBundle BUNDLE
-        = ConfigurationMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle
+        (JsonSchemaValidatorConfigurationBundle.class);
     private static final MessageBundle CORE_BUNDLE
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
@@ -148,7 +150,7 @@ public final class ValidationConfigurationBuilder
 
         if (libraries.containsKey(ref))
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getKey("dupLibrary")).put("uri", ref));
+                .setMessage(BUNDLE.getMessage("dupLibrary")).put("uri", ref));
 
         libraries.put(ref, library);
         return this;

@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
@@ -174,7 +173,7 @@ public final class JsonValidator
     private FullData buildData(final JsonNode schema, final JsonNode instance)
     {
         BUNDLE.checkNotNull(schema, "nullSchema");
-        ConfigurationMessageBundle.getInstance()
+        MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class)
             .checkNotNull(instance, "nullInstance");
         final SchemaTree schemaTree = loader.load(schema);
         final JsonTree tree = new SimpleJsonTree(instance);

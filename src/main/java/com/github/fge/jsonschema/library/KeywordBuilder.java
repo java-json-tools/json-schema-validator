@@ -20,14 +20,16 @@ package com.github.fge.jsonschema.library;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.NodeType;
-import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
 import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 
 import java.lang.reflect.Constructor;
 
@@ -41,8 +43,9 @@ import java.lang.reflect.Constructor;
 public final class KeywordBuilder
     implements Thawed<Keyword>
 {
-    private static final ConfigurationMessageBundle BUNDLE
-        = ConfigurationMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle
+        (JsonSchemaValidatorConfigurationBundle.class);
     final String name;
     SyntaxChecker syntaxChecker;
     Digester digester;
@@ -171,7 +174,7 @@ public final class KeywordBuilder
             return c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException ignored) {
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getKey("noAppropriateConstructor")));
+                .setMessage(BUNDLE.getMessage("noAppropriateConstructor")));
         }
     }
 
