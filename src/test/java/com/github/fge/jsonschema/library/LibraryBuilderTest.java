@@ -72,7 +72,8 @@ public final class LibraryBuilderTest
             Library.newBuilder().addFormatAttribute("foo", null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getMessage("nullAttribute"));
+            assertEquals(e.getMessage(),
+                BUNDLE.printf("nullAttribute", "foo"));
         }
     }
 

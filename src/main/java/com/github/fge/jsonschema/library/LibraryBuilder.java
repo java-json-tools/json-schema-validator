@@ -138,7 +138,7 @@ public final class LibraryBuilder
         final FormatAttribute attribute)
     {
         removeFormatAttribute(name);
-        BUNDLE.checkNotNull(attribute, "nullAttribute");
+        BUNDLE.checkNotNullPrintf(attribute, "nullAttribute", name);
         formatAttributes.addEntry(name, attribute);
         return this;
     }

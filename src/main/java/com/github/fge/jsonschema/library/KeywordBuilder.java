@@ -187,8 +187,7 @@ public final class KeywordBuilder
 
     private static NodeType checkType(final NodeType type)
     {
-        BUNDLE.checkNotNull(type, "nullType");
-        return type;
+        return BUNDLE.checkNotNull(type, "nullType");
     }
 
     private static NodeType[] checkTypes(final NodeType... types)
