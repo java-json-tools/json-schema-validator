@@ -86,7 +86,7 @@ public final class KeywordBuilder
      */
     public KeywordBuilder withSyntaxChecker(final SyntaxChecker syntaxChecker)
     {
-        BUNDLE.checkNotNull(syntaxChecker, "nullSyntaxChecker");
+        BUNDLE.checkNotNullPrintf(syntaxChecker, "nullSyntaxChecker", name);
         this.syntaxChecker = syntaxChecker;
         return this;
     }
@@ -100,7 +100,7 @@ public final class KeywordBuilder
      */
     public KeywordBuilder withDigester(final Digester digester)
     {
-        BUNDLE.checkNotNull(digester, "nullDigester");
+        BUNDLE.checkNotNullPrintf(digester, "nullDigester", name);
         this.digester = digester;
         return this;
     }
@@ -149,7 +149,7 @@ public final class KeywordBuilder
     public KeywordBuilder withValidatorClass(
         final Class<? extends KeywordValidator> c)
     {
-        constructor = getConstructor(c);
+        constructor = getConstructor(name, c);
         return this;
     }
 
@@ -157,23 +157,34 @@ public final class KeywordBuilder
      * Build a frozen version of this builder
      *
      * @return a {@link Keyword}
+     * @throws IllegalArgumentException no syntax checker; or a constructor has
+     * been supplied without a digester
      * @see Keyword#Keyword(KeywordBuilder)
      */
     @Override
     public Keyword freeze()
     {
+        BUNDLE.checkArgumentPrintf(syntaxChecker != null, "noChecker", name);
+        /*
+         * We can have a keyword without a validator; however, if there is one,
+         * there must be a digester.
+         */
+        BUNDLE.checkArgumentPrintf(constructor == null || digester != null,
+            "malformedKeyword", name);
         return new Keyword(this);
     }
 
 
     private static Constructor<? extends KeywordValidator> getConstructor(
-        final Class<? extends KeywordValidator> c)
+        final String name, final Class<? extends KeywordValidator> c)
     {
         try {
             return c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException ignored) {
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("noAppropriateConstructor")));
+                .setMessage(BUNDLE.getMessage("noAppropriateConstructor"))
+                .putArgument("keyword", name)
+                .putArgument("class", c.getCanonicalName()));
         }
     }
 

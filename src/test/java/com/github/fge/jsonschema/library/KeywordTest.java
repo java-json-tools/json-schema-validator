@@ -41,13 +41,14 @@ public final class KeywordTest
 {
     private static final MessageBundle BUNDLE
         = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
+    private static final String KEYWORD = "foo";
 
     private KeywordBuilder builder;
 
     @BeforeMethod
     public void initBuilder()
     {
-        builder = Keyword.newBuilder("foo");
+        builder = Keyword.newBuilder(KEYWORD);
     }
 
     @Test
@@ -69,7 +70,7 @@ public final class KeywordTest
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
             assertEquals(e.getMessage(),
-                BUNDLE.getMessage("nullSyntaxChecker"));
+                BUNDLE.printf("nullSyntaxChecker", KEYWORD));
         }
     }
 
@@ -80,7 +81,8 @@ public final class KeywordTest
             builder.withDigester(null);
             fail("No exception thrown!!");
         } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getMessage("nullDigester"));
+            assertEquals(e.getMessage(),
+                BUNDLE.printf("nullDigester", KEYWORD));
         }
     }
 
@@ -128,7 +130,8 @@ public final class KeywordTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             assertMessage(e.getProcessingMessage())
-                .hasMessage(BUNDLE.getMessage("noAppropriateConstructor"));
+                .hasMessage(BUNDLE.printf("noAppropriateConstructor", KEYWORD,
+                    DummyValidator.class.getCanonicalName()));
         }
     }
 
@@ -138,8 +141,8 @@ public final class KeywordTest
         try {
             builder.withValidatorClass(MinItemsValidator.class).freeze();
             fail("No exception thrown!!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getMessage("noChecker"));
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(), BUNDLE.printf("noChecker", KEYWORD));
         }
     }
 
@@ -150,8 +153,9 @@ public final class KeywordTest
             builder.withSyntaxChecker(mock(SyntaxChecker.class))
                 .withValidatorClass(NotValidator.class).freeze();
             fail("No exception thrown!!");
-        } catch (NullPointerException e) {
-            assertEquals(e.getMessage(), BUNDLE.getMessage("malformedKeyword"));
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.printf("malformedKeyword", KEYWORD));
         }
     }
 

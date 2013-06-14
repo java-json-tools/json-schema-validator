@@ -65,7 +65,7 @@ public final class ValidationConfigurationTest
             fail("No exception thrown!!");
         } catch (ValidationConfigurationError e) {
             assertMessage(e.getProcessingMessage()).hasField("uri", ref)
-                .hasMessage(BUNDLE.getMessage("dupLibrary"));
+                .hasMessage(BUNDLE.printf("dupLibrary", ref));
         }
     }
 

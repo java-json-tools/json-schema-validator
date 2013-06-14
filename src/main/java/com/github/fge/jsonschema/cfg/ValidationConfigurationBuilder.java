@@ -150,7 +150,8 @@ public final class ValidationConfigurationBuilder
 
         if (libraries.containsKey(ref))
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .setMessage(BUNDLE.getMessage("dupLibrary")).put("uri", ref));
+                .setMessage(BUNDLE.getMessage("dupLibrary"))
+                .putArgument("uri", ref));
 
         libraries.put(ref, library);
         return this;

@@ -77,16 +77,11 @@ public final class Keyword
      *
      * @param builder the keyword builder to build from
      * @see KeywordBuilder#freeze()
-     * @throws NullPointerException no syntax checker defined, or a validator
-     * class is defined but no digester has been found
      */
     Keyword(final KeywordBuilder builder)
     {
         name = builder.name;
         syntaxChecker = builder.syntaxChecker;
-        BUNDLE.checkNotNull(syntaxChecker, "noChecker");
-        if (builder.constructor != null)
-            BUNDLE.checkNotNull(builder.digester, "malformedKeyword");
         digester = builder.digester;
         constructor = builder.constructor;
     }
