@@ -33,7 +33,7 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.source.MapMessageSource;
-import com.google.common.collect.ImmutableMap;
+import com.github.fge.msgsimple.source.MessageSource;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -89,9 +89,10 @@ public final class Example8
          */
         final String key = "invalidUUID";
         final String value = "input is not a valid UUID";
-        final MessageBundle bundle = ValidationMessageBundle.get().copy()
-            .appendSource(new MapMessageSource(ImmutableMap.of(key, value)))
-            .build();
+        final MessageSource source = MapMessageSource.newBuilder()
+            .put(key, value).build();
+        final MessageBundle bundle = ValidationMessageBundle.get().thaw()
+            .appendSource(source).freeze();
 
         /*
          * Build our dedicated validation configuration
