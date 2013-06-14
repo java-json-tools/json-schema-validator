@@ -29,17 +29,17 @@ public final class ConfigurationMessageBundle
             throw new ExceptionInInitializerError(e);
         }
 
-        bundle = new MessageBundle.Builder().appendSource(source).build();
+        bundle = MessageBundle.newBuilder().appendSource(source).freeze();
     }
 
     public String getKey(final String key)
     {
-        return bundle.getKey(key);
+        return bundle.getMessage(key);
     }
 
     public void checkNotNull(final Object obj, final String key)
     {
         if (obj == null)
-            throw new NullPointerException(bundle.getKey(key));
+            throw new NullPointerException(bundle.getMessage(key));
     }
 }

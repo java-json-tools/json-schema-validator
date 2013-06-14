@@ -20,12 +20,12 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -37,6 +37,8 @@ import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -54,8 +56,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 public final class JsonValidator
 {
-    private static final CoreMessageBundle BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final SchemaLoader loader;
     private final ValidationProcessor processor;
@@ -131,7 +133,7 @@ public final class JsonValidator
         final SchemaTree tree = loader.load(schema).setPointer(pointer);
         if (tree.getNode().isMissingNode())
             throw new JsonReferenceException(new ProcessingMessage()
-                .message(BUNDLE.getKey("danglingRef")));
+                .setMessage(BUNDLE.getMessage("danglingRef")));
         return new JsonSchema(processor, tree, reportProvider);
     }
 
@@ -150,12 +152,12 @@ public final class JsonValidator
         final JsonRef ref = JsonRef.fromString(uri);
         if (!ref.isLegal())
             throw new JsonReferenceException(new ProcessingMessage()
-                .message(BUNDLE.getKey("illegalJsonRef")));
+                .setMessage(BUNDLE.getMessage("illegalJsonRef")));
         final SchemaTree tree
             = loader.get(ref.getLocator()).setPointer(ref.getPointer());
         if (tree.getNode().isMissingNode())
             throw new JsonReferenceException(new ProcessingMessage()
-                .message(BUNDLE.getKey("danglingRef")));
+                .setMessage(BUNDLE.getMessage("danglingRef")));
         return new JsonSchema(processor, tree, reportProvider);
     }
 

@@ -78,7 +78,7 @@ public abstract class AbstractFormatAttribute
     {
         return data.newMessage().put("domain", "validation")
             .put("keyword", "format").put("attribute", fmt)
-            .message(bundle.getKey(key))
+            .setMessage(bundle.getMessage(key))
             .put("value", data.getInstance().getNode());
     }
 }

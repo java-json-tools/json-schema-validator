@@ -94,7 +94,7 @@ public final class FormatProcessor
         if (attr == null) {
             report.warn(input.newMessage().put("domain", "validation")
                 .put("keyword", "format")
-                .message(bundle.getKey("formatNotSupported"))
+                .setMessage(bundle.getMessage("formatNotSupported"))
                 .put("attribute", fmt));
             return input;
         }

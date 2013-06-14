@@ -66,7 +66,7 @@ public abstract class AbstractKeywordValidator
         final MessageBundle bundle, final String key)
     {
         return data.newMessage().put("domain", "validation")
-            .put("keyword", keyword).message(bundle.getKey(key))
+            .put("keyword", keyword).setMessage(bundle.getMessage(key))
             .setExceptionProvider(EXCEPTION_PROVIDER);
     }
 

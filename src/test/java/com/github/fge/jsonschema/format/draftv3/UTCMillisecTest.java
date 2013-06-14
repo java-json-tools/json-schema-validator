@@ -96,7 +96,7 @@ public final class UTCMillisecTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message).isFormatMessage(fmt,
-            BUNDLE.getKey("epochNegative"));
+            BUNDLE.getMessage("epochNegative"));
     }
 
     @DataProvider
@@ -137,6 +137,6 @@ public final class UTCMillisecTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message)
-            .isFormatMessage(fmt, BUNDLE.getKey("epochOverflow"));
+            .isFormatMessage(fmt, BUNDLE.getMessage("epochOverflow"));
     }
 }

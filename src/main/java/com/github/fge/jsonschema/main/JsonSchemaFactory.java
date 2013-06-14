@@ -19,9 +19,9 @@ package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.MissingNode;
+import com.github.fge.Frozen;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
-import com.github.fge.jsonschema.CoreMessageBundle;
 import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
@@ -30,6 +30,7 @@ import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processing.ProcessorMap;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -41,7 +42,8 @@ import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ReportProvider;
-import com.github.fge.jsonschema.util.Frozen;
+import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.base.Function;
 
 import javax.annotation.concurrent.Immutable;
@@ -68,8 +70,8 @@ public final class JsonSchemaFactory
 {
     private static final ConfigurationMessageBundle BUNDLE
         = ConfigurationMessageBundle.getInstance();
-    private static final CoreMessageBundle CORE_BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle CORE_BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final Function<SchemaContext, JsonRef> FUNCTION
         = new Function<SchemaContext, JsonRef>()
@@ -203,7 +205,7 @@ public final class JsonSchemaFactory
             // Cannot happen
         }
         throw new ProcessingError(new ProcessingMessage()
-            .message("How did I get there??"));
+            .setMessage("How did I get there??"));
     }
 
     /**

@@ -63,7 +63,7 @@ public final class AllOfValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getKey("ALLOF_FAIL"))
+            .isValidationError(keyword, BUNDLE.getMessage("ALLOF_FAIL"))
             .hasField("reports", reports).hasField("nrSchemas", 2)
             .hasField("matched", 1);
     }
@@ -86,7 +86,7 @@ public final class AllOfValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getKey("ALLOF_FAIL"))
+            .isValidationError(keyword, BUNDLE.getMessage("ALLOF_FAIL"))
             .hasField("reports", reports).hasField("nrSchemas", 2)
             .hasField("matched", 0);
     }

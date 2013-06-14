@@ -46,7 +46,6 @@ import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.source.MapMessageSource;
 import com.github.fge.msgsimple.source.MessageSource;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
@@ -134,10 +133,10 @@ public final class Example9
          */
         final String key = "missingDivisors";
         final String value = "integer value is not a multiple of all divisors";
-        final MessageSource source
-            = new MapMessageSource(ImmutableMap.of(key, value));
-        final MessageBundle bundle = ValidationMessageBundle.get().copy()
-            .appendSource(source).build();
+        final MessageSource source = MapMessageSource.newBuilder()
+            .put(key, value).build();
+        final MessageBundle bundle = ValidationMessageBundle.get().thaw()
+            .appendSource(source).freeze();
 
         /*
          * Build a custom validation configuration: add our custom library and

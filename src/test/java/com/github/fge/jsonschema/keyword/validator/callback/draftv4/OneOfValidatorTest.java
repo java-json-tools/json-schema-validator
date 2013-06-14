@@ -55,7 +55,7 @@ public final class OneOfValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getKey("ONEOF_FAIL"))
+            .isValidationError(keyword, BUNDLE.getMessage("ONEOF_FAIL"))
             .hasField("reports", reports).hasField("nrSchemas", 2)
             .hasField("matched", 2);
     }
@@ -85,7 +85,7 @@ public final class OneOfValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getKey("ONEOF_FAIL"))
+            .isValidationError(keyword, BUNDLE.getMessage("ONEOF_FAIL"))
             .hasField("reports", reports).hasField("nrSchemas", 2)
             .hasField("matched", 0);
     }

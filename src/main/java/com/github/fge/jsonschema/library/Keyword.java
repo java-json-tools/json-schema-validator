@@ -17,11 +17,11 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.Frozen;
 import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.util.Frozen;
 
 import java.lang.reflect.Constructor;
 

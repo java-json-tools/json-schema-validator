@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.cfg;
 
-import com.github.fge.jsonschema.CoreMessageBundle;
+import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
@@ -26,11 +26,12 @@ import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.ValidationMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
-import com.github.fge.jsonschema.util.Thawed;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -45,8 +46,8 @@ public final class ValidationConfigurationBuilder
 {
     private static final ConfigurationMessageBundle BUNDLE
         = ConfigurationMessageBundle.getInstance();
-    private static final CoreMessageBundle CORE_BUNDLE
-        = CoreMessageBundle.getInstance();
+    private static final MessageBundle CORE_BUNDLE
+        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * Default libraries to use
@@ -137,7 +138,7 @@ public final class ValidationConfigurationBuilder
             ref = JsonRef.fromString(uri);
             if (!ref.isAbsolute())
                 throw new JsonReferenceError(new ProcessingMessage()
-                    .message(CORE_BUNDLE.getKey("uriNotAbsolute"))
+                    .setMessage(CORE_BUNDLE.getMessage("uriNotAbsolute"))
                     .put("ref", ref));
         } catch (JsonReferenceException e) {
             throw new JsonReferenceError(e.getProcessingMessage());
@@ -147,7 +148,7 @@ public final class ValidationConfigurationBuilder
 
         if (libraries.containsKey(ref))
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getKey("dupLibrary")).put("uri", ref));
+                .setMessage(BUNDLE.getKey("dupLibrary")).put("uri", ref));
 
         libraries.put(ref, library);
         return this;

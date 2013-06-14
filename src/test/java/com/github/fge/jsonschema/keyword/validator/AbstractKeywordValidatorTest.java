@@ -85,7 +85,7 @@ public abstract class AbstractKeywordValidatorTest
         for (final JsonNode node: testNode) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : BUNDLE.getKey(msgNode.textValue());
+                : BUNDLE.getMessage(msgNode.textValue());
             list.add(new Object[]{ node.get("digest"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }

@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.cfg;
 
+import com.github.fge.Frozen;
 import com.github.fge.jsonschema.library.Keyword;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.util.Frozen;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableMap;
 

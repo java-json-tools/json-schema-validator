@@ -86,7 +86,7 @@ public final class PatternKeywordTest
         for (final JsonNode node: testData) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : BUNDLE.getKey(msgNode.textValue());
+                : BUNDLE.getMessage(msgNode.textValue());
             list.add(new Object[]{ node.get("schema"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }

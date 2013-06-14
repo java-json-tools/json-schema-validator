@@ -95,7 +95,7 @@ public abstract class AbstractFormatAttributeTest
         for (final JsonNode node: testNode) {
             msgNode = node.get("message");
             msg = msgNode == null ? null
-                : BUNDLE.getKey(msgNode.textValue());
+                : BUNDLE.getMessage(msgNode.textValue());
             list.add(new Object[]{ node.get("data"),
                 node.get("valid").booleanValue(), msg, node.get("msgData") });
         }

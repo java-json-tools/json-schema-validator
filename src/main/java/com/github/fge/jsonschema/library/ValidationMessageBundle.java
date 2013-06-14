@@ -19,7 +19,7 @@ public final class ValidationMessageBundle
             throw new ExceptionInInitializerError(e);
         }
 
-        BUNDLE = new MessageBundle.Builder().appendSource(source).build();
+        BUNDLE = MessageBundle.newBuilder().appendSource(source).freeze();
     }
 
     private ValidationMessageBundle()

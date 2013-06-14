@@ -83,7 +83,7 @@ public final class ExtendsKeywordTest
         data = new FullData(tree, instance);
 
         report = mock(ProcessingReport.class);
-        msg = new ProcessingMessage().message(FOO);
+        msg = new ProcessingMessage().setMessage(FOO);
     }
 
     @Test

@@ -18,6 +18,7 @@
 package com.github.fge.jsonschema.library;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.Thawed;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.cfg.ConfigurationMessageBundle;
 import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationError;
@@ -27,7 +28,6 @@ import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
-import com.github.fge.jsonschema.util.Thawed;
 
 import java.lang.reflect.Constructor;
 
@@ -171,7 +171,7 @@ public final class KeywordBuilder
             return c.getConstructor(JsonNode.class);
         } catch (NoSuchMethodException ignored) {
             throw new ValidationConfigurationError(new ProcessingMessage()
-                .message(BUNDLE.getKey("noAppropriateConstructor")));
+                .setMessage(BUNDLE.getKey("noAppropriateConstructor")));
         }
     }
 

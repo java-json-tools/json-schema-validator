@@ -83,7 +83,7 @@ public final class ValidationProcessor
 
         if (fullContext == null)
             throw new InvalidSchemaException(new ProcessingMessage()
-                .message(syntaxMessages.getKey("invalidSchema")));
+                .setMessage(syntaxMessages.getMessage("invalidSchema")));
 
         /*
          * Get the calculated context. Build the data.
