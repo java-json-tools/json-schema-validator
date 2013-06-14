@@ -23,7 +23,7 @@ import com.github.fge.jsonschema.exceptions.unchecked.ValidationConfigurationErr
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
-import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -40,8 +40,7 @@ import static org.testng.Assert.*;
 public final class KeywordTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle
-        (JsonSchemaValidatorConfigurationBundle.class);
+        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
 
     private KeywordBuilder builder;
 

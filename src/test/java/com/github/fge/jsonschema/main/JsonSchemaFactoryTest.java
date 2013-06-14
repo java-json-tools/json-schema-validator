@@ -17,7 +17,7 @@
 
 package com.github.fge.jsonschema.main;
 
-import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import org.testng.annotations.BeforeMethod;
@@ -28,8 +28,7 @@ import static org.testng.Assert.*;
 public final class JsonSchemaFactoryTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle
-        (JsonSchemaValidatorConfigurationBundle.class);
+        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
 
     private JsonSchemaFactoryBuilder builder;
 

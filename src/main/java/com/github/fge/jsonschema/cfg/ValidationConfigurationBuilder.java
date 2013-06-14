@@ -26,8 +26,8 @@ import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.ValidationMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
-import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
@@ -46,8 +46,7 @@ public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle
-        (JsonSchemaValidatorConfigurationBundle.class);
+        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
     private static final MessageBundle CORE_BUNDLE
         = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
 

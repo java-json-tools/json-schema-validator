@@ -20,7 +20,7 @@ package com.github.fge.jsonschema.main;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.report.ListReportProvider;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ReportProvider;
@@ -48,8 +48,7 @@ public final class JsonSchemaFactoryBuilder
     implements Thawed<JsonSchemaFactory>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle
-        (JsonSchemaValidatorConfigurationBundle.class);
+        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
 
     ReportProvider reportProvider;
     LoadingConfiguration loadingCfg;

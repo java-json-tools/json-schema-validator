@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
 import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-import com.github.fge.jsonschema.messages.JsonSchemaValidatorConfigurationBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -44,8 +44,7 @@ public final class KeywordBuilder
     implements Thawed<Keyword>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle
-        (JsonSchemaValidatorConfigurationBundle.class);
+        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
     final String name;
     SyntaxChecker syntaxChecker;
     Digester digester;
