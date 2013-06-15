@@ -1,3 +1,12 @@
+### 2.1.5
+
+* Update json-schema-core dependency to 1.1.6.
+* Use [msg-simple](https://github.com/fge/msg-simple) for message bundles.
+* Remove all unchecked exceptions, now unneeded.
+* Improve, test all error messages.
+* pom.xml improvements.
+* Remove obsolete code.
+
 ### 2.1.4
 
 * Update -core dependency.
