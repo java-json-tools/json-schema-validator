@@ -70,8 +70,9 @@ public final class OneOfValidator
         }
 
         if (nrSuccess != 1)
-            report.error(newMsg(data, bundle, "ONEOF_FAIL")
-                .put("nrSchemas", size).put("matched", nrSuccess)
+            report.error(newMsg(data, bundle, "err.draftv4.oneOf.fail")
+                .putArgument("matched", nrSuccess)
+                .putArgument("nrSchemas", size)
                 .put("reports", fullReport));
     }
 }

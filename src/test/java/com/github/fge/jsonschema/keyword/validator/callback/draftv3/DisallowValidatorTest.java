@@ -56,8 +56,10 @@ public final class DisallowValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getMessage("DISALLOW_SCHEMA"))
-            .hasField("reports", reports);
+            .isValidationError(keyword,
+                BUNDLE.printf("err.draftv3.disallow.schema", 2, 2))
+                .hasField("matched", 2).hasField("nrSchemas", 2)
+                .hasField("reports", reports);
     }
 
     @Override
@@ -78,7 +80,9 @@ public final class DisallowValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getMessage("DISALLOW_SCHEMA"))
+            .isValidationError(keyword,
+                BUNDLE.printf("err.draftv3.disallow.schema", 1, 2))
+            .hasField("matched", 1).hasField("nrSchemas", 2)
             .hasField("reports", reports);
     }
 

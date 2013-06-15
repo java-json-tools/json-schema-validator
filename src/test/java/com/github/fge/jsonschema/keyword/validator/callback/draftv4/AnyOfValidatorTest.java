@@ -70,7 +70,8 @@ public final class AnyOfValidatorTest
         reports.put(ptr2.toString(), oneReport);
 
         assertMessage(message)
-            .isValidationError(keyword, BUNDLE.getMessage("ANYOF_FAIL"))
+            .isValidationError(keyword,
+                BUNDLE.printf("err.common.schema.noMatch", 2))
             .hasField("reports", reports);
     }
 

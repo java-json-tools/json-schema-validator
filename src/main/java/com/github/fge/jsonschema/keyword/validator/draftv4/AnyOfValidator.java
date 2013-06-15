@@ -70,7 +70,7 @@ public final class AnyOfValidator
         }
 
         if (nrSuccess == 0)
-            report.error(newMsg(data, bundle, "ANYOF_FAIL")
-                .put("reports", fullReport));
+            report.error(newMsg(data, bundle, "err.common.schema.noMatch")
+                .putArgument("nrSchemas", size).put("reports", fullReport));
     }
 }

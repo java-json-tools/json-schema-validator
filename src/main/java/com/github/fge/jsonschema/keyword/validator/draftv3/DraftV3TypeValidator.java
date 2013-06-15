@@ -99,7 +99,8 @@ public final class DraftV3TypeValidator
                 .putArgument("expected", toArrayNode(types)));
 
         if (!schemas.isEmpty())
-            report.error(newMsg(data, bundle, "ANYOF_FAIL")
+            report.error(newMsg(data, bundle, "err.common.schema.noMatch")
+                .putArgument("nrSchemas", schemas.size())
                 .put("reports", fullReport));
     }
 }

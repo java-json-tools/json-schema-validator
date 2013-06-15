@@ -70,8 +70,9 @@ public final class AllOfValidator
         }
 
         if (nrSuccess != size)
-            report.error(newMsg(data, bundle, "ALLOF_FAIL")
-                .put("nrSchemas", size).put("matched", nrSuccess)
+            report.error(newMsg(data, bundle, "err.draftv4.allOf.fail")
+                .putArgument("matched", nrSuccess)
+                .putArgument("nrSchemas", size)
                 .put("reports", fullReport));
     }
 }

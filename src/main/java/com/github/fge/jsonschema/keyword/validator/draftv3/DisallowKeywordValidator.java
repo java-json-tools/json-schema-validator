@@ -52,8 +52,9 @@ public final class DisallowKeywordValidator
         final NodeType type = NodeType.getNodeType(instance);
 
         if (types.contains(type)) {
-            report.error(newMsg(data, bundle, "DISALLOWED_TYPE")
-                .put("disallowed", types).put("found", type));
+            report.error(newMsg(data, bundle, "err.draftv3.disallow.type")
+                .putArgument("found", type)
+                .putArgument("disallowed", toArrayNode(types)));
             return;
         }
 
@@ -78,7 +79,9 @@ public final class DisallowKeywordValidator
         }
 
         if (nrSuccess != 0)
-            report.error(newMsg(data, bundle, "DISALLOW_SCHEMA")
+            report.error(newMsg(data, bundle, "err.draftv3.disallow.schema")
+                .putArgument("matched", nrSuccess)
+                .putArgument("nrSchemas", schemas.size())
                 .put("reports", fullReport));
     }
 }

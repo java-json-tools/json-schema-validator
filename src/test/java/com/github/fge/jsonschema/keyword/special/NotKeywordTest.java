@@ -121,7 +121,7 @@ public final class NotKeywordTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message).isValidationError("not",
-            BUNDLE.getMessage("NOT_FAIL"));
+            BUNDLE.getMessage("err.draftv4.not.fail"));
     }
 
     @Test(dependsOnMethods = "keywordExists")
