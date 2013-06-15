@@ -252,7 +252,6 @@ public final class JsonSchemaFactory
     private Processor<SchemaContext, ValidatorList> buildProcessor()
     {
         final RefResolver resolver = new RefResolver(loader);
-        final boolean useFormat = validationCfg.getUseFormat();
 
         final Map<JsonRef, Library> libraries = validationCfg.getLibraries();
         final Library defaultLibrary = validationCfg.getDefaultLibrary();
