@@ -120,7 +120,7 @@ public final class FormatProcessorTest
         final ProcessingMessage message = captor.getValue();
 
         assertMessage(message)
-            .hasMessage(BUNDLE.getMessage("formatNotSupported"))
+            .hasMessage(BUNDLE.printf("warn.format.notSupported", "foo"))
             .hasField("domain", "validation").hasField("keyword", "format")
             .hasField("attribute", "foo");
     }

@@ -62,7 +62,7 @@ public abstract class DateFormatAttribute
         try {
             formatter.parseDateTime(instance.textValue());
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, bundle, "invalidDateFormat")
+            report.error(newMsg(data, bundle, "err.common.invalidDate")
                 .put("expected", format));
         }
     }

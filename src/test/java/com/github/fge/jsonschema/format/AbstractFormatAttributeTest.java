@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
+import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
@@ -91,14 +92,16 @@ public abstract class AbstractFormatAttributeTest
         final List<Object[]> list = Lists.newArrayList();
 
         String msg;
-        JsonNode msgNode;
+        JsonNode msgNode, msgData, msgParams;
 
         for (final JsonNode node: testNode) {
             msgNode = node.get("message");
+            msgData = node.get("msgData");
+            msgParams = node.get("msgParams");
             msg = msgNode == null ? null
-                : BUNDLE.getMessage(msgNode.textValue());
+                : buildMessage(msgNode.textValue(), msgParams, msgData);
             list.add(new Object[]{ node.get("data"),
-                node.get("valid").booleanValue(), msg, node.get("msgData") });
+                node.get("valid").booleanValue(), msg, msgData });
         }
 
         return list.iterator();
@@ -131,5 +134,47 @@ public abstract class AbstractFormatAttributeTest
 
         assertMessage(message).isFormatMessage(fmt, msg).hasContents(msgData)
             .hasField("value", instance);
+    }
+
+    private static String buildMessage(final String key, final JsonNode params,
+        final JsonNode data)
+    {
+        final ProcessingMessage message = new ProcessingMessage()
+            .setMessage(BUNDLE.getMessage(key));
+        if (params != null) {
+            String name;
+            JsonNode value;
+            for (final JsonNode node: params) {
+                name = node.textValue();
+                value = data.get(name);
+                message.putArgument(name, valueToArgument(value));
+            }
+        }
+        return message.getMessage();
+    }
+
+    private static Object valueToArgument(final JsonNode value)
+    {
+        final NodeType type = NodeType.getNodeType(value);
+
+        switch (type) {
+            case STRING:
+                return value.textValue();
+            case INTEGER:
+                return value.bigIntegerValue();
+            case NUMBER:
+                return value.decimalValue().toPlainString();
+            case NULL:
+                return value;
+            case BOOLEAN:
+                return value.booleanValue();
+            case ARRAY:
+                final List<Object> list = Lists.newArrayList();
+                for (final JsonNode element: value)
+                    list.add(valueToArgument(element));
+                return list;
+            default:
+                throw new UnsupportedOperationException();
+        }
     }
 }

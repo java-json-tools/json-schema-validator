@@ -22,17 +22,21 @@
     {
         "data": "2012-02-30T00:00:00+0000",
         "valid": false,
-        "message": "invalidDateFormat",
+        "message": "err.common.invalidDate",
         "msgData": {
+            "value": "2012-02-30T00:00:00+0000",
             "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
-        }
+        },
+        "msgParams": [ "value", "expected" ]
     },
     {
         "data": "201202030",
         "valid": false,
-        "message": "invalidDateFormat",
+        "message": "err.common.invalidDate",
         "msgData": {
+            "value": "201202030",
             "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
-        }
+        },
+        "msgParams": [ "value", "expected" ]
     }
 ]

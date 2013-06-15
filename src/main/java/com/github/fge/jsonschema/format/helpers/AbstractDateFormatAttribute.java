@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.format.helpers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
@@ -56,14 +55,14 @@ public abstract class AbstractDateFormatAttribute
         final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getNode();
         final DateTimeFormatter formatter = getFormatter();
+        final String value = data.getInstance().getNode().textValue();
 
         try {
-            formatter.parseDateTime(instance.textValue());
+            formatter.parseDateTime(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, bundle, "invalidDateFormat")
-                .put("expected", format));
+            report.error(newMsg(data, bundle, "err.common.invalidDate")
+                .putArgument("value", value).putArgument("expected", format));
         }
     }
 }

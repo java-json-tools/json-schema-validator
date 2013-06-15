@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.format.common;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
@@ -58,12 +57,13 @@ public final class EmailAttribute
         final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getNode();
+        final String value = data.getInstance().getNode().textValue();
 
         try {
-            new InternetAddress(instance.textValue(), true);
+            new InternetAddress(value, true);
         } catch (AddressException ignored) {
-            report.error(newMsg(data, bundle, "invalidEmail"));
+            report.error(newMsg(data, bundle, "err.common.invalidEmail")
+                .putArgument("value", value));
         }
     }
 }

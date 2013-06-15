@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.format.helpers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
@@ -49,12 +48,13 @@ public final class SharedHostNameAttribute
         final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getNode();
+        final String value = data.getInstance().getNode().textValue();
 
         try {
-            InternetDomainName.from(instance.textValue());
+            InternetDomainName.from(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, bundle, "invalidHostname"));
+            report.error(newMsg(data, bundle, "invalidHostname")
+                .putArgument("value", value));
         }
     }
 }

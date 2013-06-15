@@ -6,19 +6,28 @@
     {
         "data": "foo",
         "valid": false,
-        "message": "invalidEmail",
-        "msgData": {}
+        "message": "err.common.invalidEmail",
+        "msgData": {
+            "value": "foo"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "éioaj@my.name",
         "valid": false,
-        "message": "invalidEmail",
-        "msgData": {}
+        "message": "err.common.invalidEmail",
+        "msgData": {
+            "value": "éioaj@my.name"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "a@",
         "valid": false,
-        "message": "invalidEmail",
-        "msgData": {}
+        "message": "err.common.invalidEmail",
+        "msgData": {
+            "value": "a@"
+        },
+        "msgParams": [ "value" ]
     }
 ]
