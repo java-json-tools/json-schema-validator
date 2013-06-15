@@ -19,8 +19,8 @@
  * Helper classes for format attributes
  *
  * <p>The one you may want to reuse is {@link
- * com.github.fge.jsonschema.format.helpers.DateFormatAttribute}, which can be
- * used to validate any date format using Joda Time's {@link
+ * com.github.fge.jsonschema.format.helpers.AbstractDateFormatAttribute}, which
+ * can be used to validate any date format using Joda Time's {@link
  * org.joda.time.format.DateTimeFormat}.</p>
  */
 package com.github.fge.jsonschema.format.helpers;
