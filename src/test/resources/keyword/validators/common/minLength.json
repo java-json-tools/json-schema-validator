@@ -3,11 +3,13 @@
         "digest": { "minLength": 4 },
         "data": "foo",
         "valid": false,
-        "message": "STRING_TOO_SHORT",
+        "message": "err.common.minLength.tooShort",
         "msgData": {
+            "value": "foo",
             "minLength": 4,
             "found": 3
-        }
+        },
+        "msgParams": [ "value", "found", "minLength" ]
     },
     {
         "digest": { "minLength": 4 },

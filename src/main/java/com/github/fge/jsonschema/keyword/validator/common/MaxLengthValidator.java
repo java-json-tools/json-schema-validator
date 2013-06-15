@@ -41,11 +41,12 @@ public final class MaxLengthValidator
         final FullData data)
         throws ProcessingException
     {
-        final int size = data.getInstance().getNode().textValue()
-            .length();
+        final String value = data.getInstance().getNode().textValue();
+        final int size = value.length();
 
         if (size > intValue)
-            report.error(newMsg(data, bundle, "STRING_TOO_LONG")
-                .put(keyword, intValue).put("found", size));
+            report.error(newMsg(data, bundle, "err.common.maxLength.tooLong")
+                .putArgument("value", value).putArgument("found", size)
+                .putArgument(keyword, intValue));
     }
 }

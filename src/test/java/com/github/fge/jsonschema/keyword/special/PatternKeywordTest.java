@@ -20,6 +20,7 @@ package com.github.fge.jsonschema.keyword.special;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JsonLoader;
+import com.github.fge.jsonschema.TestUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
@@ -83,12 +84,15 @@ public final class PatternKeywordTest
         final List<Object[]> list = Lists.newArrayList();
 
         String msg;
-        JsonNode msgNode;
+        JsonNode msgNode, msgData, msgParams;
 
         for (final JsonNode node: testData) {
             msgNode = node.get("message");
+            msgData = node.get("msgData");
+            msgParams = node.get("msgParams");
             msg = msgNode == null ? null
-                : BUNDLE.getMessage(msgNode.textValue());
+                : TestUtils.buildMessage(BUNDLE, msgNode.textValue(),
+                    msgParams, msgData);
             list.add(new Object[]{ node.get("schema"), node.get("data"), msg,
                 node.get("valid").booleanValue(), node.get("msgData") });
         }

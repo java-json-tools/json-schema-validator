@@ -7,11 +7,12 @@
         },
         "data": 1,
         "valid": false,
-        "message": "NUMBER_TOO_LARGE",
+        "message": "err.common.maximum.tooLarge",
         "msgData": {
             "maximum": 0,
             "found": 1
-        }
+        },
+        "msgParams": [ "maximum", "found" ]
     },
     {
         "digest": {
@@ -30,8 +31,9 @@
         },
         "data": 0,
         "valid": false,
-        "message": "NUMBER_EX_LARGE",
-        "msgData": { "maximum": 0 }
+        "message": "err.common.maximum.notExclusive",
+        "msgData": { "maximum": 0 },
+        "msgParams": [ "maximum" ]
     },
     {
         "digest": {
@@ -50,11 +52,12 @@
         },
         "data": 98091239809812309812312.4330,
         "valid": false,
-        "message": "NUMBER_TOO_LARGE",
+        "message": "err.common.maximum.tooLarge",
         "msgData": {
             "maximum": 98091239809812309812312.43298,
             "found": 98091239809812309812312.4330
-        }
+        },
+        "msgParams": [ "maximum", "found" ]
     },
     {
         "digest": {
@@ -73,10 +76,11 @@
         },
         "data": 98091239809812309812312.43298,
         "valid": false,
-        "message": "NUMBER_EX_LARGE",
+        "message": "err.common.maximum.notExclusive",
         "msgData": {
             "maximum": 98091239809812309812312.43298
-        }
+        },
+        "msgParams": [ "maximum" ]
     },
     {
         "digest": {

@@ -18,6 +18,8 @@
 package com.github.fge.jsonschema.keyword.validator.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processing.Processor;
@@ -91,8 +93,12 @@ public final class AdditionalPropertiesValidator
         /*
          * Display extra properties in order in the report
          */
-        report.error(newMsg(data, bundle, "ADDITIONAL_PROPERTIES_NOT_ALLOWED")
-            .put("unwanted", Ordering.natural().sortedCopy(fields)));
+        final ArrayNode node = JacksonUtils.nodeFactory().arrayNode();
+        for (final String field: Ordering.natural().sortedCopy(fields))
+            node.add(field);
+        report.error(newMsg(data, bundle,
+            "err.common.additionalProperties.notAllowed")
+            .putArgument("unwanted", node));
     }
 
     @Override

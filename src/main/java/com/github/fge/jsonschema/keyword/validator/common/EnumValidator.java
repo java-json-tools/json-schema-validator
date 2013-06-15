@@ -59,8 +59,8 @@ public final class EnumValidator
             if (EQUIVALENCE.equivalent(enumValue, node))
                 return;
 
-        report.error(newMsg(data, bundle, "VALUE_NOT_IN_ENUM")
-            .put(keyword, values).put("value", node));
+        report.error(newMsg(data, bundle, "err.common.enum.notInEnum")
+            .putArgument("value", node).putArgument(keyword, values));
     }
 
     @Override

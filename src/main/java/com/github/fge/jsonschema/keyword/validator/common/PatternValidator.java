@@ -49,8 +49,8 @@ public final class PatternValidator
             .textValue();
         final String value = data.getInstance().getNode().textValue();
         if (!RhinoHelper.regMatch(regex, value))
-            report.error(newMsg(data, bundle, "REGEX_NO_MATCH")
-                .put("regex", regex).put("string", value));
+            report.error(newMsg(data, bundle, "err.common.pattern.noMatch")
+                .putArgument("regex", regex).putArgument("string", value));
     }
 
     @Override

@@ -54,16 +54,17 @@ public final class MaximumValidator
             return;
 
         if (instanceValue > longValue) {
-            report.error(newMsg(data, bundle, "NUMBER_TOO_LARGE")
-                .put(keyword, number).put("found", instance));
+            report.error(newMsg(data, bundle, "err.common.maximum.tooLarge")
+                .putArgument(keyword, number).putArgument("found", instance));
             return;
         }
 
         if (!exclusive)
             return;
 
-        report.error(newMsg(data, bundle, "NUMBER_EX_LARGE")
-            .put(keyword, number).put("exclusiveMaximum", BooleanNode.TRUE));
+        report.error(newMsg(data, bundle, "err.common.maximum.notExclusive")
+            .putArgument(keyword, number)
+            .put("exclusiveMaximum", BooleanNode.TRUE));
     }
 
     @Override
@@ -81,15 +82,16 @@ public final class MaximumValidator
             return;
 
         if (cmp > 0) {
-            report.error(newMsg(data, bundle, "NUMBER_TOO_LARGE")
-                .put(keyword, number).put("found", instance));
+            report.error(newMsg(data, bundle, "err.common.maximum.tooLarge")
+                .putArgument(keyword, number).putArgument("found", instance));
             return;
         }
 
         if (!exclusive)
             return;
 
-        report.error(newMsg(data, bundle, "NUMBER_EX_LARGE")
-            .put(keyword, number).put("exclusiveMaximum", BooleanNode.TRUE));
+        report.error(newMsg(data, bundle, "err.common.maximum.notExclusive")
+            .putArgument(keyword, number)
+            .put("exclusiveMaximum", BooleanNode.TRUE));
     }
 }

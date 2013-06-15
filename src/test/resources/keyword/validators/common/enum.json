@@ -5,11 +5,12 @@
         },
         "data": false,
         "valid": false,
-        "message": "VALUE_NOT_IN_ENUM",
+        "message": "err.common.enum.notInEnum",
         "msgData": {
             "enum": [ true ],
             "value": false
-        }
+        },
+        "msgParams": [ "value", "enum" ]
     },
     {
         "digest": {
@@ -24,11 +25,12 @@
         },
         "data": { "a": "b" },
         "valid": false,
-        "message": "VALUE_NOT_IN_ENUM",
+        "message": "err.common.enum.notInEnum",
         "msgData": {
             "enum": [ 1, {}, [ 1, 2, 3 ] ],
             "value": { "a": "b" }
-        }
+        },
+        "msgParams": [ "value", "enum" ]
     },
     {
         "digest": {

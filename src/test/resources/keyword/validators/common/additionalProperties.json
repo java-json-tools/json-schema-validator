@@ -9,10 +9,11 @@
             "p3": null
         },
         "valid": false,
-        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "message": "err.common.additionalProperties.notAllowed",
         "msgData": {
             "unwanted": [ "p3" ]
-        }
+        },
+        "msgParams": [ "unwanted" ]
     },
     {
         "digest": {
@@ -35,10 +36,11 @@
             "p": false
         },
         "valid": false,
-        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "message": "err.common.additionalProperties.notAllowed",
         "msgData": {
             "unwanted": [ "p" ]
-        }
+        },
+        "msgParams": [ "unwanted" ]
     },
     {
         "digest": {
@@ -82,10 +84,11 @@
             "p3": "however, yes"
         },
         "valid": false,
-        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "message": "err.common.additionalProperties.notAllowed",
         "msgData": {
             "unwanted": [ "p1", "p2" ]
-        }
+        },
+        "msgParams": [ "unwanted" ]
     },
     {
         "digest": {
@@ -97,10 +100,11 @@
             "p": false
         },
         "valid": false,
-        "message": "ADDITIONAL_PROPERTIES_NOT_ALLOWED",
+        "message": "err.common.additionalProperties.notAllowed",
         "msgData": {
             "unwanted": [ "p" ]
-        }
+        },
+        "msgParams": [ "unwanted" ]
     },
     {
         "digest": {

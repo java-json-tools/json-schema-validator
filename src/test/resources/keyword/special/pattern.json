@@ -13,10 +13,11 @@
         "schema": { "pattern": "^[Aa]" },
         "data": "foobar",
         "valid": false,
-        "message": "REGEX_NO_MATCH",
+        "message": "err.common.pattern.noMatch",
         "msgData": {
             "regex": "^[Aa]",
             "string": "foobar"
-        }
+        },
+        "msgParams": [ "regex", "string" ]
     }
 ]

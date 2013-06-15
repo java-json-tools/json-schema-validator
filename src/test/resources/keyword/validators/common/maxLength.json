@@ -3,11 +3,13 @@
         "digest": { "maxLength": 4 },
         "data": "foobar",
         "valid": false,
-        "message": "STRING_TOO_LONG",
+        "message": "err.common.maxLength.tooLong",
         "msgData": {
+            "value": "foobar",
             "maxLength": 4,
             "found": 6
-        }
+        },
+        "msgParams": [ "value", "found", "maxLength" ]
     },
     {
         "digest": { "maxLength": 4 },

@@ -160,15 +160,15 @@ public abstract class AbstractKeywordValidatorTest
                 return value.textValue();
             case INTEGER:
                 return value.bigIntegerValue();
-            case NUMBER: case NULL:
+            case NUMBER: case NULL: case OBJECT: case ARRAY:
                 return value;
             case BOOLEAN:
                 return value.booleanValue();
-            case ARRAY:
-                final List<Object> list = Lists.newArrayList();
-                for (final JsonNode element: value)
-                    list.add(valueToArgument(element));
-                return list;
+//            case ARRAY:
+//                final List<Object> list = Lists.newArrayList();
+//                for (final JsonNode element: value)
+//                    list.add(valueToArgument(element));
+//                return list;
             default:
                 throw new UnsupportedOperationException();
         }
