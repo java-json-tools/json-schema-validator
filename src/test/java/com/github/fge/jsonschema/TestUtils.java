@@ -56,6 +56,7 @@ public final class TestUtils
         return any(ProcessingMessage.class);
     }
 
+    // TODO: while we're at it, the @DataProvider could be factorized!
     public static String buildMessage(final MessageBundle BUNDLE,
         final String key,
         final JsonNode params, final JsonNode data)
