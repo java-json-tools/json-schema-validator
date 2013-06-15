@@ -59,8 +59,9 @@ public final class RequiredKeywordValidator
             .fieldNames()));
 
         if (!set.isEmpty())
-            report.error(newMsg(data, bundle, "MISSING_REQUIRED_MEMBERS")
-                .put("required", required).put("missing", set));
+            report.error(newMsg(data, bundle, "err.common.object.missingMembers")
+                .put("required", required)
+                .putArgument("missing", toArrayNode(set)));
     }
 
     @Override

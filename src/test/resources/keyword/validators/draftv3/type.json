@@ -8,21 +8,23 @@
         "digest": { "type": [ "string" ], "schemas": [] },
         "data": [],
         "valid": false,
-        "message": "TYPE_NO_MATCH",
+        "message": "err.common.typeNoMatch",
         "msgData": {
             "expected": [ "string" ],
             "found": "array"
-        }
+        },
+        "msgParams": [ "found", "expected" ]
     },
     {
         "digest": { "type": [ "string" ], "schemas": [] },
         "data": null,
         "valid": false,
-        "message": "TYPE_NO_MATCH",
+        "message": "err.common.typeNoMatch",
         "msgData": {
             "expected": [ "string" ],
             "found": "null"
-        }
+        },
+        "msgParams": [ "found", "expected" ]
     },
     {
         "digest": { "type": [ "integer", "number" ], "schemas": [] },
@@ -38,21 +40,23 @@
         "digest": { "type": [ "integer" ], "schemas": [] },
         "data": 3.1,
         "valid": false,
-        "message": "TYPE_NO_MATCH",
+        "message": "err.common.typeNoMatch",
         "msgData": {
             "expected": [ "integer" ],
             "found": "number"
-        }
+        },
+        "msgParams": [ "found", "expected" ]
     },
     {
         "digest": { "type": [ "integer" ], "schemas": [] },
         "data": 3.0,
         "valid": false,
-        "message": "TYPE_NO_MATCH",
+        "message": "err.common.typeNoMatch",
         "msgData": {
             "expected": [ "integer" ],
             "found": "number"
-        }
+        },
+        "msgParams": [ "found", "expected" ]
     },
     {
         "digest": { "type": [ "integer" ], "schemas": [] },
@@ -68,11 +72,12 @@
         "digest": { "type": [ "integer", "number" ], "schemas": [] },
         "data": null,
         "valid": false,
-        "message": "TYPE_NO_MATCH",
+        "message": "err.common.typeNoMatch",
         "msgData": {
             "expected": [ "integer", "number" ],
             "found": "null"
-        }
+        },
+        "msgParams": [ "found", "expected" ]
     },
     {
         "digest": { "type": [ "null", "object" ], "schemas": [] },
@@ -88,10 +93,11 @@
         "digest": { "type": [ "null", "object" ], "schemas": [] },
         "data": false,
         "valid": false,
-        "message": "TYPE_NO_MATCH",
+        "message": "err.common.typeNoMatch",
         "msgData": {
             "expected": [ "null", "object" ],
             "found": "boolean"
-        }
+        },
+        "msgParams": [ "found", "expected" ]
     }
 ]

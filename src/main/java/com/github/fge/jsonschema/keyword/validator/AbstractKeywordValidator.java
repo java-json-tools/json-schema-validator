@@ -17,12 +17,17 @@
 
 package com.github.fge.jsonschema.keyword.validator;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.exceptions.ExceptionProvider;
 import com.github.fge.jsonschema.exceptions.InvalidInstanceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+
+import java.util.Collection;
 
 /**
  * Base abstract class for keyword validators
@@ -68,6 +73,14 @@ public abstract class AbstractKeywordValidator
         return data.newMessage().put("domain", "validation")
             .put("keyword", keyword).setMessage(bundle.getMessage(key))
             .setExceptionProvider(EXCEPTION_PROVIDER);
+    }
+
+    protected static <T> JsonNode toArrayNode(final Collection<T> collection)
+    {
+        final ArrayNode node = JacksonUtils.nodeFactory().arrayNode();
+        for (final T element: collection)
+            node.add(element.toString());
+        return node;
     }
 
     @Override

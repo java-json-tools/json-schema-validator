@@ -51,8 +51,8 @@ public abstract class DivisorValidator
         if (remainder == 0L)
             return;
 
-        report.error(newMsg(data, bundle, "NON_ZERO_DIVISION_REMAINDER")
-            .put("value", node).put("divisor", number));
+        report.error(newMsg(data, bundle, "err.common.divisor.nonZeroRemainder")
+            .putArgument("value", node).putArgument("divisor", number));
     }
 
     @Override
@@ -74,7 +74,7 @@ public abstract class DivisorValidator
         if (remainder.compareTo(BigDecimal.ZERO) == 0)
             return;
 
-        report.error(newMsg(data, bundle, "NON_ZERO_DIVISION_REMAINDER")
-            .put("value", node).put("divisor", number));
+        report.error(newMsg(data, bundle, "err.common.divisor.nonZeroRemainder")
+            .putArgument("value", node).putArgument("divisor", number));
     }
 }

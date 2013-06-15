@@ -3,11 +3,12 @@
         "digest": { "minProperties": 4 },
         "data": { "one": 1, "two": 2, "three": 3 },
         "valid": false,
-        "message": "NOT_ENOUGH_MEMBERS_IN_OBJECT",
+        "message": "err.draftv4.minProperties.notEnoughMembers",
         "msgData": {
             "required": 4,
             "found": 3
-        }
+        },
+        "msgParams": [ "found", "required" ]
     },
     {
         "digest": { "minProperties": 4 },

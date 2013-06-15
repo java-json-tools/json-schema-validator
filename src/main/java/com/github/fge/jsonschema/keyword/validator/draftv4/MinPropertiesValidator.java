@@ -44,7 +44,8 @@ public final class MinPropertiesValidator
     {
         final int size = data.getInstance().getNode().size();
         if (size < intValue)
-            report.error(newMsg(data, bundle, "NOT_ENOUGH_MEMBERS_IN_OBJECT")
-                .put("required", intValue).put("found", size));
+            report.error(newMsg(data, bundle,
+                "err.draftv4.minProperties.notEnoughMembers")
+                .putArgument("found", size).putArgument("required", intValue));
     }
 }

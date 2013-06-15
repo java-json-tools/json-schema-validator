@@ -27,11 +27,12 @@
             "c": false
         },
         "valid": false,
-        "message": "MISSING_PROPERTY_DEPS",
+        "message": "err.common.dependencies.missingPropertyDeps",
         "msgData": {
             "property": "a",
             "required": [ "b", "c" ],
             "missing": [ "b" ]
-        }
+        },
+        "msgParams": [ "property", "required", "missing" ]
     }
 ]

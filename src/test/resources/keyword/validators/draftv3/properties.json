@@ -19,10 +19,11 @@
             "p": "yeah, right"
         },
         "valid": false,
-        "message": "MISSING_REQUIRED_MEMBERS",
+        "message": "err.common.object.missingMembers",
         "msgData": {
             "required": [ "a1", "a2", "a3" ],
             "missing": [ "a2", "a3" ]
-        }
+        },
+        "msgParams": [ "missing" ]
     }
 ]

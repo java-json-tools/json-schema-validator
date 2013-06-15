@@ -94,8 +94,9 @@ public final class DraftV3TypeValidator
          * primitive types...
          */
         if (!types.isEmpty())
-            report.error(newMsg(data, bundle, "TYPE_NO_MATCH")
-                .put("expected", types).put("found", type));
+            report.error(newMsg(data, bundle, "err.common.typeNoMatch")
+                .putArgument("found", type)
+                .putArgument("expected", toArrayNode(types)));
 
         if (!schemas.isEmpty())
             report.error(newMsg(data, bundle, "ANYOF_FAIL")

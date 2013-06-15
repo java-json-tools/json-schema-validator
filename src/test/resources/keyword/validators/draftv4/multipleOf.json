@@ -14,11 +14,12 @@
         },
         "data": 3,
         "valid": false,
-        "message": "NON_ZERO_DIVISION_REMAINDER",
+        "message": "err.common.divisor.nonZeroRemainder",
         "msgData": {
             "value": 3,
             "divisor": 1.1
-        }
+        },
+        "msgParams": [ "value", "divisor" ]
     },
     {
         "digest": {
@@ -35,10 +36,11 @@
         },
         "data": 9812938091283098.11,
         "valid": false,
-        "message": "NON_ZERO_DIVISION_REMAINDER",
+        "message": "err.common.divisor.nonZeroRemainder",
         "msgData": {
             "value": 9812938091283098.11,
             "divisor": 9812938091283098.1
-        }
+        },
+        "msgParams": [ "value", "divisor" ]
     }
 ]
