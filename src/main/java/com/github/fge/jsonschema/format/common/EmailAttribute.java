@@ -62,7 +62,7 @@ public final class EmailAttribute
         try {
             new InternetAddress(value, true);
         } catch (AddressException ignored) {
-            report.error(newMsg(data, bundle, "err.common.invalidEmail")
+            report.error(newMsg(data, bundle, "err.format.invalidEmail")
                 .putArgument("value", value));
         }
     }

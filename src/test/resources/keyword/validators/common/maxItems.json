@@ -13,10 +13,11 @@
         "digest": { "maxItems": 4 },
         "data": [ 1, 2, 3, 4, 5 ],
         "valid": false,
-        "message": "ARRAY_IS_TOO_LONG",
+        "message": "err.common.maxItems.arrayTooLarge",
         "msgData": {
             "maxItems": 4,
             "found": 5
-        }
+        },
+        "msgParams": [ "maxItems", "found" ]
     }
 ]

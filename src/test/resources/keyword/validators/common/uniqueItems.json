@@ -8,7 +8,7 @@
         "digest": { "uniqueItems": true },
         "data": [ 1, 1.0 ],
         "valid": false,
-        "message": "ELEMENTS_NOT_UNIQUE",
+        "message": "err.common.uniqueItems.duplicateElements",
         "msgData": {}
     },
     {

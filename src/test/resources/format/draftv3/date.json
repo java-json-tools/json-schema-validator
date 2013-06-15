@@ -6,7 +6,7 @@
     {
         "data": "12-12-02",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "12-12-02",
             "expected": "yyyy-MM-dd"
@@ -16,7 +16,7 @@
     {
         "data": "20121202",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "20121202",
             "expected": "yyyy-MM-dd"
@@ -26,7 +26,7 @@
     {
         "data": "2012/12/02",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "2012/12/02",
             "expected": "yyyy-MM-dd"
@@ -36,7 +36,7 @@
     {
         "data": "1922-02-30",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "1922-02-30",
             "expected": "yyyy-MM-dd"

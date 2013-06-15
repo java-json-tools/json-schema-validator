@@ -90,7 +90,7 @@ public final class DateTimeAttribute
         try {
             FORMATTER.parseDateTime(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, bundle, "err.common.invalidDate")
+            report.error(newMsg(data, bundle, "err.format.invalidDate")
                 .putArgument("value", value).putArgument("expected", FORMATS));
         }
     }

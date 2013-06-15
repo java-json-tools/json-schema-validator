@@ -53,7 +53,7 @@ public final class SharedHostNameAttribute
         try {
             InternetDomainName.from(value);
         } catch (IllegalArgumentException ignored) {
-            report.error(newMsg(data, bundle, "invalidHostname")
+            report.error(newMsg(data, bundle, "err.format.invalidHostname")
                 .putArgument("value", value));
         }
     }

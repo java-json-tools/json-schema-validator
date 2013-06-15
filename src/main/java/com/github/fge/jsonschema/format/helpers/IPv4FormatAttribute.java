@@ -52,6 +52,7 @@ public final class IPv4FormatAttribute
             .forString(ipaddr).getAddress().length == IPV4_LENGTH)
             return;
 
-        report.error(newMsg(data, bundle, "invalidIPV4Addr"));
+        report.error(newMsg(data, bundle, "err.format.invalidIPv4Address")
+            .putArgument("value", ipaddr));
     }
 }

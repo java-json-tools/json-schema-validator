@@ -75,13 +75,15 @@ public final class UTCMillisecAttribute
         BigInteger epoch = instance.bigIntegerValue();
 
         if (epoch.signum() == -1) {
-            report.warn(newMsg(data, bundle, "epochNegative"));
+            report.warn(newMsg(data, bundle, "warn.format.epoch.negative")
+                .putArgument("value", instance));
             return;
         }
 
         epoch = epoch.divide(ONE_THOUSAND);
 
         if (epoch.bitLength() > EPOCH_BITLENGTH)
-            report.warn(newMsg(data, bundle, "epochOverflow"));
+            report.warn(newMsg(data, bundle, "warn.format.epoch.overflow")
+                .putArgument("value", instance));
     }
 }

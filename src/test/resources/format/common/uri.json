@@ -14,7 +14,10 @@
     {
         "data": "+23:aa",
         "valid": false,
-        "message": "invalidURI",
-        "msgData": {}
+        "message": "err.format.invalidURI",
+        "msgData": {
+            "value": "+23:aa"
+        },
+        "msgParams": [ "value" ]
     }
 ]

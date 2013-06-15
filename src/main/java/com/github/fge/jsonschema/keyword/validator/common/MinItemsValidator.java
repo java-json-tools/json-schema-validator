@@ -44,7 +44,8 @@ public final class MinItemsValidator
     {
         final int size = data.getInstance().getNode().size();
         if (size < intValue)
-            report.error(newMsg(data, bundle, "ARRAY_IS_TOO_SHORT")
-                .put(keyword, intValue).put("found", size));
+            report.error(newMsg(data, bundle,
+                "err.common.minItems.arrayTooShort")
+                .putArgument(keyword, intValue).putArgument("found", size));
     }
 }

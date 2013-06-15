@@ -63,7 +63,8 @@ public final class UniqueItemsValidator
 
         for (final JsonNode element: node)
             if (!set.add(EQUIVALENCE.wrap(element))) {
-                report.error(newMsg(data, bundle, "ELEMENTS_NOT_UNIQUE"));
+                report.error(newMsg(data, bundle,
+                    "err.common.uniqueItems.duplicateElements"));
                 return;
             }
     }

@@ -6,8 +6,11 @@
     {
         "data": "a++",
         "valid": false,
-        "message": "invalidECMA262Regex",
-        "msgData": {}
+        "message": "err.format.invalidRegex",
+        "msgData": {
+            "value": "a++"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "^[^.]+(?=ab)",
@@ -20,7 +23,10 @@
     {
         "data": "a{4,5}(?<=b)",
         "valid": false,
-        "message": "invalidECMA262Regex",
-        "msgData": {}
+        "message": "err.format.invalidRegex",
+        "msgData": {
+            "value": "a{4,5}(?<=b)"
+        },
+        "msgParams": [ "value" ]
     }
 ]

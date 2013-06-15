@@ -54,16 +54,17 @@ public final class MinimumValidator
             return;
 
         if (instanceValue < longValue) {
-            report.error(newMsg(data, bundle, "NUMBER_TOO_SMALL")
-                .put(keyword, number).put("found", instance));
+            report.error(newMsg(data, bundle, "err.common.minimum.tooSmall")
+                .putArgument(keyword, number).putArgument("found", instance));
             return;
         }
 
         if (!exclusive)
             return;
 
-        report.error(newMsg(data, bundle, "NUMBER_EX_SMALL")
-            .put (keyword, number).put("exclusiveMinimum", BooleanNode.TRUE));
+        report.error(newMsg(data, bundle, "err.common.minimum.notExclusive")
+            .putArgument(keyword, number)
+            .put("exclusiveMinimum", BooleanNode.TRUE));
     }
 
     @Override
@@ -81,15 +82,16 @@ public final class MinimumValidator
             return;
 
         if (cmp < 0) {
-            report.error(newMsg(data, bundle, "NUMBER_TOO_SMALL")
-                .put(keyword, number).put("found", instance));
+            report.error(newMsg(data, bundle, "err.common.minimum.tooSmall")
+                .putArgument(keyword, number).putArgument("found", instance));
             return;
         }
 
         if (!exclusive)
             return;
 
-        report.error(newMsg(data, bundle, "NUMBER_EX_SMALL")
-            .put(keyword, number).put("exclusiveMinimum", BooleanNode.TRUE));
+        report.error(newMsg(data, bundle, "err.common.minimum.notExclusive")
+            .putArgument(keyword, number)
+            .put("exclusiveMinimum", BooleanNode.TRUE));
     }
 }

@@ -7,11 +7,12 @@
         },
         "data": -1,
         "valid": false,
-        "message": "NUMBER_TOO_SMALL",
+        "message": "err.common.minimum.tooSmall",
         "msgData": {
             "minimum": 0,
             "found": -1
-        }
+        },
+        "msgParams": [ "minimum", "found" ]
     },
     {
         "digest": {
@@ -30,8 +31,9 @@
         },
         "data": 0,
         "valid": false,
-        "message": "NUMBER_EX_SMALL",
-        "msgData": { "minimum": 0 }
+        "message": "err.common.minimum.notExclusive",
+        "msgData": { "minimum": 0 },
+        "msgParams": [ "minimum" ]
     },
     {
         "digest": {
@@ -50,11 +52,12 @@
         },
         "data": 98091239809812309812312.4329,
         "valid": false,
-        "message": "NUMBER_TOO_SMALL",
+        "message": "err.common.minimum.tooSmall",
         "msgData": {
             "minimum": 98091239809812309812312.43298,
             "found": 98091239809812309812312.4329
-        }
+        },
+        "msgParams": [ "minimum", "found" ]
     },
     {
         "digest": {
@@ -73,10 +76,11 @@
         },
         "data": 98091239809812309812312.43298,
         "valid": false,
-        "message": "NUMBER_EX_SMALL",
+        "message": "err.common.minimum.notExclusive",
         "msgData": {
             "minimum": 98091239809812309812312.43298
-        }
+        },
+        "msgParams": [ "minimum" ]
     },
     {
         "digest": {

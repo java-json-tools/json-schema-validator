@@ -2,20 +2,29 @@
     {
         "data": "10.121.13.3",
         "valid": false,
-        "message": "invalidIPV6Addr",
-        "msgData": {}
+        "message": "err.format.invalidIPV6Address",
+        "msgData": {
+            "value": "10.121.13.3"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "fffg::1",
         "valid": false,
-        "message": "invalidIPV6Addr",
-        "msgData": {}
+        "message": "err.format.invalidIPV6Address",
+        "msgData": {
+            "value": "fffg::1"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "slashdot.org",
         "valid": false,
-        "message": "invalidIPV6Addr",
-        "msgData": {}
+        "message": "err.format.invalidIPV6Address",
+        "msgData": {
+            "value": "slashdot.org"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "ea31:aea::222",

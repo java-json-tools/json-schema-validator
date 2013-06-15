@@ -6,7 +6,7 @@
     {
         "data": "2:33:33",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "2:33:33",
             "expected": "HH:mm:ss"
@@ -16,7 +16,7 @@
     {
         "data": "8pm",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "8pm",
             "expected": "HH:mm:ss"
@@ -26,7 +26,7 @@
     {
         "data": "24:00:00",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "24:00:00",
             "expected": "HH:mm:ss"
@@ -36,7 +36,7 @@
     {
         "data": "12:60:00",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "12:60:00",
             "expected": "HH:mm:ss"
@@ -46,7 +46,7 @@
     {
         "data": "12:22:60",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "12:22:60",
             "expected": "HH:mm:ss"
@@ -56,7 +56,7 @@
     {
         "data": "20:00",
         "valid": false,
-        "message": "err.common.invalidDate",
+        "message": "err.format.invalidDate",
         "msgData": {
             "value": "20:00",
             "expected": "HH:mm:ss"

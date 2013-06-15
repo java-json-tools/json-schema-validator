@@ -6,25 +6,28 @@
     {
         "data": "256.1.1.1",
         "valid": false,
-        "message": "invalidIPV4Addr",
-        "msgData": {}
-    },
-    {
-        "data": "-1.1.1.1",
-        "valid": false,
-        "message": "invalidIPV4Addr",
-        "msgData": {}
+        "message": "err.format.invalidIPv4Address",
+        "msgData": {
+            "value": "256.1.1.1"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "slashdot.org",
         "valid": false,
-        "message": "invalidIPV4Addr",
-        "msgData": {}
+        "message": "err.format.invalidIPv4Address",
+        "msgData": {
+            "value": "slashdot.org"
+        },
+        "msgParams": [ "value" ]
     },
     {
         "data": "ea31:aea::222",
         "valid": false,
-        "message": "invalidIPV4Addr",
-        "msgData": {}
+        "message": "err.format.invalidIPv4Address",
+        "msgData": {
+            "value": "ea31:aea::222"
+        },
+        "msgParams": [ "value" ]
     }
 ]

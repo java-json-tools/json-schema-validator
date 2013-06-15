@@ -14,7 +14,10 @@
     {
         "data": "+31+",
         "valid": false,
-        "message": "invalidPhoneNumber",
-        "msgData": {}
+        "message": "err.format.invalidPhoneNumber",
+        "msgData": {
+            "value": "+31+"
+        },
+        "msgParams": [ "value" ]
     }
 ]

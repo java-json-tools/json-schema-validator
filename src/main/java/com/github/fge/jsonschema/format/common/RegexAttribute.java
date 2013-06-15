@@ -17,7 +17,6 @@
 
 package com.github.fge.jsonschema.format.common;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
@@ -55,9 +54,10 @@ public final class RegexAttribute
         final MessageBundle bundle, final FullData data)
         throws ProcessingException
     {
-        final JsonNode instance = data.getInstance().getNode();
+        final String value = data.getInstance().getNode().textValue();
 
-        if (!RhinoHelper.regexIsValid(instance.textValue()))
-            report.error(newMsg(data, bundle, "invalidECMA262Regex"));
+        if (!RhinoHelper.regexIsValid(value))
+            report.error(newMsg(data, bundle, "err.format.invalidRegex")
+                .putArgument("value", value));
     }
 }

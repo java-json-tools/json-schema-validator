@@ -61,6 +61,7 @@ public final class IPv6Attribute
             .forString(ipaddr).getAddress().length == IPV6_LENGTH)
             return;
 
-        report.error(newMsg(data, bundle, "invalidIPV6Addr"));
+        report.error(newMsg(data, bundle, "err.format.invalidIPV6Address")
+            .putArgument("value", ipaddr));
     }
 }

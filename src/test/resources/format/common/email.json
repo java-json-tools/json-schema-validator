@@ -6,7 +6,7 @@
     {
         "data": "foo",
         "valid": false,
-        "message": "err.common.invalidEmail",
+        "message": "err.format.invalidEmail",
         "msgData": {
             "value": "foo"
         },
@@ -15,7 +15,7 @@
     {
         "data": "éioaj@my.name",
         "valid": false,
-        "message": "err.common.invalidEmail",
+        "message": "err.format.invalidEmail",
         "msgData": {
             "value": "éioaj@my.name"
         },
@@ -24,7 +24,7 @@
     {
         "data": "a@",
         "valid": false,
-        "message": "err.common.invalidEmail",
+        "message": "err.format.invalidEmail",
         "msgData": {
             "value": "a@"
         },

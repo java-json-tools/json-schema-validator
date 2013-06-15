@@ -22,10 +22,11 @@
         },
         "data": [ 1, 2, 3, 4 ],
         "valid": false,
-        "message": "ADDITIONAL_ITEMS_NOT_ALLOWED",
+        "message": "err.common.additionalItems.notAllowed",
         "msgData": {
             "allowed": 3,
             "found": 4
-        }
+        },
+        "msgParams": [ "allowed", "found" ]
     }
 ]

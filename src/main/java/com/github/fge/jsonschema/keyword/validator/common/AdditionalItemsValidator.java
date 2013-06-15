@@ -52,8 +52,9 @@ public final class AdditionalItemsValidator
 
         final int size = data.getInstance().getNode().size();
         if (size > itemsSize)
-            report.error(newMsg(data, bundle, "ADDITIONAL_ITEMS_NOT_ALLOWED")
-                .put("allowed", itemsSize).put("found", size));
+            report.error(newMsg(data, bundle,
+                "err.common.additionalItems.notAllowed")
+                .putArgument("allowed", itemsSize).putArgument("found", size));
     }
 
     @Override

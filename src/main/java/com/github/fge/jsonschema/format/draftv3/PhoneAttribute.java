@@ -79,7 +79,8 @@ public final class PhoneAttribute
             else
                 PARSER.parse(input, "FR");
         } catch (NumberParseException ignored) {
-            report.error(newMsg(data, bundle, "invalidPhoneNumber"));
+            report.error(newMsg(data, bundle, "err.format.invalidPhoneNumber")
+                .putArgument("value", input));
         }
     }
 }
