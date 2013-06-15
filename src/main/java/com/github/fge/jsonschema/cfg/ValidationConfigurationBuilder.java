@@ -118,6 +118,8 @@ public final class ValidationConfigurationBuilder
         libraries = Maps.newHashMap(cfg.libraries);
         defaultLibrary = cfg.defaultLibrary;
         useFormat = cfg.useFormat;
+        syntaxMessages = cfg.syntaxMessages;
+        validationMessages = cfg.validationMessages;
     }
 
     /**
