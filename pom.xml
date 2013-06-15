@@ -60,6 +60,23 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <!--
+                                It is necessary to call this target instead of "jar". See here:
+                                http://stackoverflow.com/questions/10567551/difference-between-maven-source-plugin-jar-and-jar-no-fork-goal
+                            -->
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9</version>
                 <configuration>
@@ -70,6 +87,8 @@
                         <link>http://joda-time.sourceforge.net/api-release</link>
                         <link>http://docs.guava-libraries.googlecode.com/git/javadoc</link>
                         <link>http://fge.github.com/json-schema-core/devel/</link>
+                        <link>http://jsr-305.googlecode.com/svn/trunk/javadoc</link>
+                        <link>http://fge.github.com/jackson-coreutils</link>
                     </links>
                     <docfilessubdirs>true</docfilessubdirs>
                 </configuration>
@@ -77,7 +96,7 @@
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>javadoc</goal>
+                            <goal>jar</goal>
                         </goals>
                     </execution>
                 </executions>
