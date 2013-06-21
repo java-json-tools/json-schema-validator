@@ -19,7 +19,7 @@ This project also has a dedicated [Google group](https://groups.google.com/forum
 
 ## Versions
 
-* development version: **2.1.5**
+* development version: **2.1.6**
 * ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel),
   [Javadoc](http://fge.github.io/json-schema-validator/old/index.html), [code
   samples](http://fge.github.io/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
