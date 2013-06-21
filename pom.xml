@@ -131,6 +131,35 @@
                     </instructions>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <property name="jarname"
+                                    value="${project.name}-${project.version}.jar"/>
+                                <property name="victim"
+                                    value="${project.build.directory}/${jarname}"/>
+                                <property name="serviceFile"
+                                    value="${project.build.directory}/classes/META-INF/services/${serviceName}"/>
+                                <echo>${victim}</echo>
+                                <echo>${serviceFile}</echo>
+                                <jar destfile="${victim}" update="true">
+                                    <zipfileset file="${serviceFile}"
+                                        prefix="META-INF/services/"/>
+                                </jar>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
     <dependencies>
