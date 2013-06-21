@@ -20,7 +20,6 @@ package com.github.fge.jsonschema.cfg;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
@@ -29,7 +28,6 @@ import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
@@ -130,9 +128,8 @@ public final class ValidationConfigurationBuilder
      * @param library the library
      * @return this
      * @throws NullPointerException URI us null or library is null
-     * @throws IllegalArgumentException a library already exists for that URI
-     * @throws JsonReferenceError string is not a URI, or not an absolute JSON
-     * Reference
+     * @throws IllegalArgumentException string is not a URI, or not an absolute
+     * JSON Reference; or a library already exists at this URI.
      */
     public ValidationConfigurationBuilder addLibrary(final String uri,
         final Library library)
@@ -141,14 +138,12 @@ public final class ValidationConfigurationBuilder
 
         try {
             ref = JsonRef.fromString(uri);
-            if (!ref.isAbsolute())
-                throw new JsonReferenceError(new ProcessingMessage()
-                    .setMessage(CORE_BUNDLE.getMessage("uriNotAbsolute"))
-                    .put("ref", ref));
         } catch (JsonReferenceException e) {
-            throw new JsonReferenceError(e.getProcessingMessage());
+            throw new IllegalArgumentException(e.getMessage());
         }
 
+        BUNDLE.checkArgumentPrintf(ref.isAbsolute(),
+            "refProcessing.uriNotAbsolute", ref);
         BUNDLE.checkNotNull(library, "nullLibrary");
         BUNDLE.checkArgumentPrintf(libraries.put(ref, library) == null,
             "dupLibrary", ref);

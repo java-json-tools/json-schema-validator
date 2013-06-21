@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.JsonReferenceError;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.processing.ProcessingResult;
@@ -143,7 +142,7 @@ public final class JsonValidator
      * @return a {@link JsonSchema}
      * @throws ProcessingException invalid URI, or URI did not resolve to a
      * JSON Schema
-     * @throws JsonReferenceError URI is null
+     * @throws NullPointerException URI is null
      */
     JsonSchema buildJsonSchema(final String uri)
         throws ProcessingException
