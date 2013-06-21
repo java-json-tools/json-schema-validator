@@ -26,10 +26,10 @@ import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.syntax.SyntaxMessageBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
@@ -102,7 +102,8 @@ public final class ValidationConfigurationBuilder
             library = entry.getValue();
             libraries.put(ref, library);
         }
-        syntaxMessages = SyntaxMessageBundle.get();
+        syntaxMessages = MessageBundleFactory
+            .getBundle(JsonSchemaSyntaxMessageBundle.class);
         validationMessages = MessageBundleFactory
             .getBundle(JsonSchemaValidationBundle.class);
     }
