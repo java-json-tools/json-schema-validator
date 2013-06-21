@@ -1,3 +1,9 @@
+### 2.1.6
+
+* Update json-schema-core dependency to 1.1.7.
+* Fix a bug in pom.xml which would cause the service file to not be generated.
+* Fix two places where core messages would not be fetched properly.
+
 ### 2.1.5
 
 * Update json-schema-core dependency to 1.1.6.
