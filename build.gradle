@@ -81,6 +81,10 @@ javadoc.options {
     docFilesSubDirs = true;
 }
 
+/*
+ * Equally annoyingly, the docFilesSubDirs option above does not seem to have
+ * any effect :/
+ */
 task copyDocFiles(dependsOn: javadoc) << {
     copy {
         from("src/main/javadoc") {
