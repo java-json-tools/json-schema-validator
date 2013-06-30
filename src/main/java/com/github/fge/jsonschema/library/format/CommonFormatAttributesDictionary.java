@@ -41,6 +41,8 @@ public final class CommonFormatAttributesDictionary
         final DictionaryBuilder<FormatAttribute> builder
             = Dictionary.newBuilder();
 
+        builder.addAll(ExtraFormatsDictionary.get());
+
         String name;
         FormatAttribute attribute;
 

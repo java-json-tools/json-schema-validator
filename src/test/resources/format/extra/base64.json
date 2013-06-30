@@ -1,0 +1,30 @@
+[
+    {
+        "data": "dTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw0",
+        "valid": true
+    },
+    {
+        "data": "TNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw0",
+        "valid": false
+    },
+    {
+        "data": "ddTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw0",
+        "valid": false
+    },
+    {
+        "data": "dTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw=",
+        "valid": true
+    },
+    {
+        "data": "dTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeOb==",
+        "valid": true
+    },
+    {
+        "data": "dTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeO===",
+        "valid": false
+    },
+    {
+        "data": "dTN,FJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw0",
+        "valid": false
+    }
+]

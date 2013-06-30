@@ -1,0 +1,26 @@
+[
+    {
+        "data": "e3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": true
+    },
+    {
+        "data": "E3C8123F19E0C955D9D0580A186BDF0DA2F6C67D",
+        "valid": true
+    },
+    {
+        "data": "-3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false
+    },
+    {
+        "data": "ae3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false
+    },
+    {
+        "data": "3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false
+    },
+    {
+        "data": "e3c8123g19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false
+    }
+]

@@ -1,0 +1,22 @@
+[
+    {
+        "data": "0ae95135-a637-4d27-a843-0624b6f9e1ff",
+        "valid": true
+    },
+    {
+        "data": "0AE95135-A637-4D27-A843-0624B6F9E1FF",
+        "valid": true
+    },
+    {
+        "data": "0aE95135-a637-4D27-A843-0624B6f9E1fF",
+        "valid": true
+    },
+    {
+        "data": "ae95135-a637-4d27-a843-0624b6f9e1ff",
+        "valid": true
+    },
+    {
+        "data": "aae95135-a637-4d27-a843-0624b6f9e1f",
+        "valid": true
+    }
+]
