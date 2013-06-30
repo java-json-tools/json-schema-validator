@@ -77,7 +77,7 @@ public final class Base64FormatAttribute
          */
         if (input.length() % 4 != 0) {
             report.error(newMsg(data, bundle, "err.format.base64.badLength")
-                .putArgument("found", input.length()));
+                .putArgument("length", input.length()));
             return;
         }
 
@@ -88,6 +88,7 @@ public final class Base64FormatAttribute
             return;
 
         report.error(newMsg(data, bundle, "err.format.base64.illegalChars")
-            .put("index", index));
+            .putArgument("character", Character.toString(input.charAt(index)))
+            .putArgument("index", index));
     }
 }

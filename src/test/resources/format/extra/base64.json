@@ -5,11 +5,21 @@
     },
     {
         "data": "TNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw0",
-        "valid": false
+        "valid": false,
+        "message": "err.format.base64.badLength",
+        "msgData": {
+            "length": 59
+        },
+        "msgParams": [ "length" ]
     },
     {
         "data": "ddTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw0",
-        "valid": false
+        "valid": false,
+        "message": "err.format.base64.badLength",
+        "msgData": {
+            "length": 61
+        },
+        "msgParams": [ "length" ]
     },
     {
         "data": "dTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw=",
@@ -21,10 +31,22 @@
     },
     {
         "data": "dTNHFJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeO===",
-        "valid": false
+        "valid": false,
+        "message": "err.format.base64.illegalChars",
+        "msgData": {
+            "character": "=",
+            "index": 57
+        },
+        "msgParams": [ "character", "index" ]
     },
     {
         "data": "dTN,FJZWs6tjEyNI7AFQTkjyz05Pfa0EQTHVkW7tv7Rym4591YCHDYHeObw0",
-        "valid": false
+        "valid": false,
+        "message": "err.format.base64.illegalChars",
+        "msgData": {
+            "character": ",",
+            "index": 3
+        },
+        "msgParams": [ "character", "index" ]
     }
 ]
