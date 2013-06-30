@@ -75,11 +75,22 @@ task sourcesJar(type: Jar, dependsOn: classes) {
  * automatically...
  */
 
-javadoc {
-    options.overview = "src/main/java/overview.html";
+javadoc.options {
+    overview = "src/main/javadoc/overview.html";
+    extDirs = [ file("src/main/javadoc") ];
+    docFilesSubDirs = true;
 }
 
-task javadocJar(type: Jar, dependsOn: javadoc) {
+task copyDocFiles(dependsOn: javadoc) << {
+    copy {
+        from("src/main/javadoc") {
+            include "**/doc-files/**";
+        };
+        into javadoc.destinationDir;
+    }
+}
+
+task javadocJar(type: Jar, dependsOn: copyDocFiles) {
     classifier = "javadoc";
     from javadoc.destinationDir;
 }
