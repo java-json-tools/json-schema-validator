@@ -1,3 +1,10 @@
+### 2.1.7
+
+* Import all format attributes from
+  [json-schema-formats](https://github.com/fge/json-schema-formats).
+* Switch to gradle for build.
+* Major dependencies updates; drop ServiceLoader for message bundles.
+
 ### 2.1.6
 
 * Update json-schema-core dependency to 1.1.7.
