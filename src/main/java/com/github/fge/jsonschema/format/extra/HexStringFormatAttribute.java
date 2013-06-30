@@ -52,6 +52,10 @@ public abstract class HexStringFormatAttribute
         if (HEX_CHARS.matchesAllOf(input))
             return;
 
-        report.error(newMsg(data, bundle, "err.format.hexString.illegalChars"));
+        final int index = HEX_CHARS.negate().indexIn(input);
+
+        report.error(newMsg(data, bundle, "err.format.hexString.illegalChar")
+            .putArgument("character", Character.toString(input.charAt(index)))
+            .putArgument("index", index));
     }
 }

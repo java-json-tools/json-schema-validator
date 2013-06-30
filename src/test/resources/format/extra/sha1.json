@@ -1,0 +1,50 @@
+[
+    {
+        "data": "e3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": true
+    },
+    {
+        "data": "E3C8123F19E0C955D9D0580A186BDF0DA2F6C67D",
+        "valid": true
+    },
+    {
+        "data": "-3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false,
+        "message": "err.format.hexString.illegalChar",
+        "msgData": {
+            "character": "-",
+            "index": 0
+        },
+        "msgParams": [ "character", "index" ]
+    },
+    {
+        "data": "ae3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false,
+        "message": "err.format.hexString.badLength",
+        "msgData": {
+            "actual": 41,
+            "expected": 40
+        },
+        "msgParams": [ "actual", "expected" ]
+    },
+    {
+        "data": "3c8123f19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false,
+        "message": "err.format.hexString.badLength",
+        "msgData": {
+            "actual": 39,
+            "expected": 40
+        },
+        "msgParams": [ "actual", "expected" ]
+    },
+    {
+        "data": "e3c8123g19e0c955d9d0580a186bdf0da2f6c67d",
+        "valid": false,
+        "message": "err.format.hexString.illegalChar",
+        "msgData": {
+            "character": "g",
+            "index": 7
+        },
+        "msgParams": [ "character", "index" ]
+    }
+]
