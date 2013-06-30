@@ -1,13 +1,14 @@
 package com.github.fge.jsonschema.format.extra;
 
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute;
 
 /**
  * Format specifier for {@code sha1}
  *
  * <p>This format will be quite familiar to git users!</p>
  *
- * @see HexStringFormatAttribute
+ * @see com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute
  */
 public final class SHA1FormatAttribute
     extends HexStringFormatAttribute

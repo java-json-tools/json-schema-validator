@@ -1,11 +1,12 @@
 package com.github.fge.jsonschema.format.extra;
 
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute;
 
 /**
  * Format specifier for {@code sha256}
  *
- * @see HexStringFormatAttribute
+ * @see com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute
  */
 public final class SHA256FormatAttribute
     extends HexStringFormatAttribute

@@ -1,4 +1,4 @@
-package com.github.fge.jsonschema.format.extra;
+package com.github.fge.jsonschema.format.helpers;
 
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
