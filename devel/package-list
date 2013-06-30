@@ -1,13 +1,11 @@
 com.github.fge.jsonschema.cfg
 com.github.fge.jsonschema.examples
 com.github.fge.jsonschema.exceptions
-com.github.fge.jsonschema.exceptions.unchecked
 com.github.fge.jsonschema.format
 com.github.fge.jsonschema.format.common
 com.github.fge.jsonschema.format.draftv3
-com.github.fge.jsonschema.format.draftv4
+com.github.fge.jsonschema.format.extra
 com.github.fge.jsonschema.format.helpers
-com.github.fge.jsonschema.keyword
 com.github.fge.jsonschema.keyword.digest
 com.github.fge.jsonschema.keyword.digest.common
 com.github.fge.jsonschema.keyword.digest.draftv3
@@ -24,11 +22,9 @@ com.github.fge.jsonschema.library.format
 com.github.fge.jsonschema.library.validator
 com.github.fge.jsonschema.main
 com.github.fge.jsonschema.messages
-com.github.fge.jsonschema.processors
 com.github.fge.jsonschema.processors.build
 com.github.fge.jsonschema.processors.data
 com.github.fge.jsonschema.processors.digest
 com.github.fge.jsonschema.processors.format
-com.github.fge.jsonschema.processors.ref
 com.github.fge.jsonschema.processors.syntax
 com.github.fge.jsonschema.processors.validation
