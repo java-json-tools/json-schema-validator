@@ -39,5 +39,6 @@ javadoc.options.links("http://fge.github.io/btf");
 javadoc.options.links("http://fge.github.io/msg-simple");
 javadoc.options.links("http://fge.github.io/jackson-coreutils");
 javadoc.options.links("http://fge.github.io/uri-template");
+javadoc.options.links("http://fge.github.io/json-schema-core/devel");
 javadoc.options.links("http://google-guice.googlecode.com/git/javadoc");
 
