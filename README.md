@@ -16,6 +16,8 @@ this web site and run it yourself](https://github.com/fge/json-schema-validator-
 
 This project also has a dedicated [Google group](https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator).
 
+Note: this project uses [Gradle](http://www.gradle.org) as the build system. See file `BUILD.md` for
+details.
 
 ## Versions
 
@@ -31,9 +33,17 @@ This project also has a dedicated [Google group](https://groups.google.com/forum
 Since version 2.1.5, this package is available on
 [Bintray](https://bintray.com/fge/maven/json-schema-validator).
 
-## Maven artifact
+## Gradle/Maven artifact
 
-In the example below, substitute `your-version-here` for the version you want.
+Gradle:
+
+```groovy
+dependencies {
+    compile(group: "com.github.fge", name: "json-schema-validator", version: "yourVersionHere");
+}
+```
+
+Maven:
 
 ```xml
 <dependency>
