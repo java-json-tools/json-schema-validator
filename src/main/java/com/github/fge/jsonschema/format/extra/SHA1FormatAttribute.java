@@ -8,7 +8,7 @@ import com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute;
  *
  * <p>This format will be quite familiar to git users!</p>
  *
- * @see com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute
+ * @see HexStringFormatAttribute
  */
 public final class SHA1FormatAttribute
     extends HexStringFormatAttribute

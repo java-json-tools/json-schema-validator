@@ -6,7 +6,7 @@ import com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute;
 /**
  * Format specifier for {@code md5}
  *
- * @see com.github.fge.jsonschema.format.helpers.HexStringFormatAttribute
+ * @see HexStringFormatAttribute
  */
 public final class MD5FormatAttribute
     extends HexStringFormatAttribute

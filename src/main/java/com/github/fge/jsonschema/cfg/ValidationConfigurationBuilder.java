@@ -24,13 +24,11 @@ import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
-import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -45,8 +43,6 @@ public final class ValidationConfigurationBuilder
 {
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaConfigurationBundle.class);
-    private static final MessageBundle CORE_BUNDLE
-        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * Default libraries to use
