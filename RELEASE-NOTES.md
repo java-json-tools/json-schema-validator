@@ -4,6 +4,7 @@
   [json-schema-formats](https://github.com/fge/json-schema-formats).
 * Switch to gradle for build.
 * Major dependencies updates; drop ServiceLoader for message bundles.
+* Fix javadoc generation.
 
 ### 2.1.6
 
