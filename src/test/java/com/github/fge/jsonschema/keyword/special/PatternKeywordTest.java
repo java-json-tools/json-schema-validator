@@ -34,7 +34,7 @@ import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.DataProvider;
@@ -60,7 +60,7 @@ public final class PatternKeywordTest
      */
 
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaValidationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
 
     private final Constructor<? extends KeywordValidator> constructor;
     private final JsonNode testData;

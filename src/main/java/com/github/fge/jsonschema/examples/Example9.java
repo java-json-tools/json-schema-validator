@@ -43,7 +43,7 @@ import com.github.fge.jsonschema.syntax.checkers.AbstractSyntaxChecker;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.github.fge.msgsimple.source.MapMessageSource;
 import com.github.fge.msgsimple.source.MessageSource;
 import com.google.common.collect.ImmutableList;
@@ -137,7 +137,7 @@ public final class Example9
         final MessageSource source = MapMessageSource.newBuilder()
             .put(key, value).build();
         final MessageBundle bundle
-            = MessageBundleFactory.getBundle(JsonSchemaValidationBundle.class)
+            = MessageBundles.getBundle(JsonSchemaValidationBundle.class)
             .thaw().appendSource(source).freeze();
 
         /*

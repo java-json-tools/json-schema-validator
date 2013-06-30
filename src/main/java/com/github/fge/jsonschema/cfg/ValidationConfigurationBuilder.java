@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.ref.JsonRef;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
 import com.google.common.collect.Maps;
 
@@ -43,9 +44,9 @@ public final class ValidationConfigurationBuilder
     implements Thawed<ValidationConfiguration>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaConfigurationBundle.class);
     private static final MessageBundle CORE_BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     /**
      * Default libraries to use
@@ -100,9 +101,9 @@ public final class ValidationConfigurationBuilder
             library = entry.getValue();
             libraries.put(ref, library);
         }
-        syntaxMessages = MessageBundleFactory
+        syntaxMessages = MessageBundles
             .getBundle(JsonSchemaSyntaxMessageBundle.class);
-        validationMessages = MessageBundleFactory
+        validationMessages = MessageBundles
             .getBundle(JsonSchemaValidationBundle.class);
     }
 

@@ -36,7 +36,7 @@ import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -50,7 +50,7 @@ import static org.testng.Assert.*;
 public abstract class CallbackValidatorTest
 {
     protected static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaValidationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
     protected static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     protected static final ProcessingMessage MSG = new ProcessingMessage();
 

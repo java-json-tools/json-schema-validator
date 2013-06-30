@@ -28,7 +28,7 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -38,7 +38,7 @@ import static org.testng.Assert.*;
 public final class KeywordTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaConfigurationBundle.class);
     private static final String KEYWORD = "foo";
 
     private KeywordBuilder builder;

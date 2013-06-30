@@ -19,7 +19,9 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
+import com.github.fge.jackson.JsonNumEquals;
 import com.github.fge.jsonschema.keyword.digest.Digester;
+import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -32,6 +34,9 @@ import static org.testng.Assert.*;
 
 public final class ArraySchemaDigesterTest
 {
+    private static final Equivalence<JsonNode> EQUIVALENCE
+        = JsonNumEquals.getInstance();
+
     private final Digester digester = ArraySchemaDigester.getInstance();
     private final JsonNode testNode;
 
@@ -60,7 +65,7 @@ public final class ArraySchemaDigesterTest
     public void digestsAreCorrectlyComputed(final JsonNode digest,
         final JsonNode input)
     {
-        assertEquals(digester.digest(input), digest,
+        assertTrue(EQUIVALENCE.equivalent(digester.digest(input), digest),
             "digested form is incorrect");
     }
 }

@@ -24,7 +24,6 @@ import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.exceptions.unchecked.ProcessingError;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.load.SchemaLoader;
@@ -40,10 +39,9 @@ import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.base.Function;
 
 import javax.annotation.concurrent.Immutable;
@@ -69,9 +67,9 @@ public final class JsonSchemaFactory
     implements Frozen<JsonSchemaFactoryBuilder>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaConfigurationBundle.class);
     private static final MessageBundle CORE_BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private static final Function<SchemaContext, JsonRef> FUNCTION
         = new Function<SchemaContext, JsonRef>()
@@ -204,8 +202,7 @@ public final class JsonSchemaFactory
         } catch (JsonPointerException ignored) {
             // Cannot happen
         }
-        throw new ProcessingError(new ProcessingMessage()
-            .setMessage("How did I get there??"));
+        throw new IllegalStateException("How did I get there??");
     }
 
     /**

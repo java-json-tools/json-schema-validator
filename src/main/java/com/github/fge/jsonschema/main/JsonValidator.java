@@ -36,7 +36,7 @@ import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -55,7 +55,7 @@ import javax.annotation.concurrent.Immutable;
 public final class JsonValidator
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class);
+        = MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class);
 
     private final SchemaLoader loader;
     private final ValidationProcessor processor;
@@ -172,7 +172,7 @@ public final class JsonValidator
     private FullData buildData(final JsonNode schema, final JsonNode instance)
     {
         BUNDLE.checkNotNull(schema, "nullSchema");
-        MessageBundleFactory.getBundle(JsonSchemaCoreMessageBundle.class)
+        MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class)
             .checkNotNull(instance, "nullInstance");
         final SchemaTree schemaTree = loader.load(schema);
         final JsonTree tree = new SimpleJsonTree(instance);

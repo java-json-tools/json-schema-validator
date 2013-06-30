@@ -22,6 +22,7 @@ import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.load.SchemaLoader;
 import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.load.uri.URITransformer;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.JsonSchemaFactoryBuilder;
@@ -74,8 +75,10 @@ public final class Example5
         final JsonNode bad = Utils.loadResource("/fstab-bad.json");
         final JsonNode bad2 = Utils.loadResource("/fstab-bad2.json");
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+        final URITransformer transformer = URITransformer.newBuilder()
             .setNamespace(NAMESPACE).freeze();
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .setURITransformer(transformer).freeze();
 
         final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
             .setLoadingConfiguration(cfg).freeze();

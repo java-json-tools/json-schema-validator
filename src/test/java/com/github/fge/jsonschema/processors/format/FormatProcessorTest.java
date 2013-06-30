@@ -39,7 +39,7 @@ import com.github.fge.jsonschema.tree.JsonTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
 import com.github.fge.jsonschema.tree.SimpleJsonTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
 import org.mockito.ArgumentCaptor;
 import org.testng.annotations.BeforeMethod;
@@ -58,7 +58,7 @@ import static org.testng.Assert.*;
 public final class FormatProcessorTest
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaValidationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
     private static final JsonNodeFactory FACTORY = JacksonUtils.nodeFactory();
     private static final String FMT = "fmt";
     private static final EnumSet<NodeType> SUPPORTED

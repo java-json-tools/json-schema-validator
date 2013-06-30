@@ -25,7 +25,7 @@ import com.github.fge.jsonschema.report.ListReportProvider;
 import com.github.fge.jsonschema.report.LogLevel;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 
 import javax.annotation.concurrent.NotThreadSafe;
 
@@ -48,7 +48,7 @@ public final class JsonSchemaFactoryBuilder
     implements Thawed<JsonSchemaFactory>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaConfigurationBundle.class);
 
     ReportProvider reportProvider;
     LoadingConfiguration loadingCfg;

@@ -1,0 +1,199 @@
+/*
+ * Copyright (c) 2013, Francis Galiegue <fgaliegue@gmail.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the Lesser GNU General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * Lesser GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/*
+ * This has to be here... It will not be taken into account in common.gradle!
+ *
+ * Looks like a serious bug... See also:
+ *
+ * http://forums.gradle.org/gradle/topics/buildscript_in_subprojects_ignored
+ */
+buildscript {
+    repositories {
+        mavenCentral();
+    }
+    dependencies {
+        classpath(group: "eu.appsatori", name: "gradle-fatjar-plugin",
+            version: "0.2-rc2");
+    }
+};
+
+apply(plugin: "java");
+apply(plugin: "maven");
+apply(plugin: "signing");
+apply(plugin: "osgi");
+apply(plugin: "fatjar");
+apply(plugin: "idea");
+apply(plugin: "eclipse");
+
+apply(from: "project.gradle");
+
+/*
+ * Repositories to use
+ */
+repositories {
+    mavenCentral();
+}
+
+/*
+ * Necessary! Otherwise TestNG will not be used...
+ *
+ * Also, we don't want gradle's default HTML report: it does not support
+ * parameterized tests which I use a _lot_.
+ */
+test {
+    useTestNG() {
+        useDefaultListeners = true;
+    };
+    testReport = false;
+}
+
+/*
+ * Necessary to generate the source and javadoc jars
+ */
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = "sources";
+    from sourceSets.main.allSource;
+}
+
+/*
+ * Javadoc: we need to tell where the overview.html is, it will not pick it up
+ * automatically...
+ */
+
+javadoc {
+    options.overview = "src/main/java/overview.html";
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = "javadoc";
+    from javadoc.destinationDir;
+}
+
+fatJar {
+    classifier = "full";
+}
+
+artifacts {
+    archives jar;
+    archives sourcesJar;
+    archives javadocJar;
+// bad idea:    archives fatJar;
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = "1.6";
+}
+
+task pom << {
+    pom {}.writeTo("${projectDir}/pom.xml");
+}
+
+/*
+ * SIGNING
+ */
+
+project.ext {
+    gitrwscm = sprintf("git@github.com:fge/%s", name);
+    gitroscm = sprintf("https://github.com/fge/%s.git", name);
+    projectURL = sprintf("https://github.com/fge/%s", name);
+    sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
+    sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
+};
+
+task checkSigningRequirements << {
+    def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
+    def noDice = false;
+    requiredProperties.each {
+        if (project.properties[it] == null) {
+            noDice = true;
+            System.err.printf("property \"%s\" is not defined!")
+        }
+    }
+    if (noDice)
+        throw new IllegalStateException("missing required properties for " +
+            "upload");
+}
+
+uploadArchives {
+    dependsOn(checkSigningRequirements);
+    repositories {
+        mavenDeployer {
+            beforeDeployment {
+                MavenDeployment deployment -> signing.signPom(deployment);
+            }
+
+            repository(url: "${sonatypeStaging}") {
+                authentication(
+                    userName: project.properties["sonatypeUsername"],
+                    password: project.properties["sonatypePassword"]
+                );
+            }
+
+            snapshotRepository(url: "${sonatypeSnapshots}") {
+                authentication(
+                    userName: project.properties["sonatypeUsername"],
+                    password: project.properties["sonatypePassword"]
+                );
+            }
+        }
+    }
+}
+
+/*
+ * Configure pom.xml on install, uploadArchives
+ */
+[
+    install.repositories.mavenInstaller,
+    uploadArchives.repositories.mavenDeployer
+]*.pom*.whenConfigured { pom ->
+    pom.project {
+        name "${name}";
+        packaging "jar";
+        description "${description}";
+        url "${projectURL}";
+
+        scm {
+            url "${gitrwscm}";
+            connection "${gitrwscm}";
+            developerConnection "${gitroscm}";
+        }
+
+        licenses {
+            license {
+                name "Lesser General Public License, version 3 or greater";
+                url "http://www.gnu.org/licenses/lgpl.html";
+                distribution "repo";
+            }
+        }
+
+        developers {
+            developer {
+                id "fge";
+                name "Francis Galiegue";
+                email "fgaliegue@gmail.com";
+            }
+        }
+    }
+}
+
+ext.forRelease = !version.endsWith("-SNAPSHOT");
+signing {
+    required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
+    sign configurations.archives;
+}
+

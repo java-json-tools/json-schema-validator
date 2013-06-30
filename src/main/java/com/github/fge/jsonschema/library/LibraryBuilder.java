@@ -24,7 +24,7 @@ import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 
 import java.lang.reflect.Constructor;
 
@@ -42,7 +42,7 @@ public final class LibraryBuilder
     implements Thawed<Library>
 {
     private static final MessageBundle BUNDLE
-        = MessageBundleFactory.getBundle(JsonSchemaConfigurationBundle.class);
+        = MessageBundles.getBundle(JsonSchemaConfigurationBundle.class);
     /**
      * Dictionary builder of syntax checkers
      */

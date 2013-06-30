@@ -33,7 +33,7 @@ import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Lists;
 
@@ -75,8 +75,7 @@ public final class FormatProcessor
     FormatProcessor(final Dictionary<FormatAttribute> dict)
     {
         attributes = dict.entries();
-        bundle = MessageBundleFactory
-            .getBundle(JsonSchemaValidationBundle.class);
+        bundle = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
     }
 
     @Override

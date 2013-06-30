@@ -32,7 +32,7 @@ import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.msgsimple.serviceloader.MessageBundleFactory;
+import com.github.fge.msgsimple.load.MessageBundles;
 import com.github.fge.msgsimple.source.MapMessageSource;
 import com.github.fge.msgsimple.source.MessageSource;
 
@@ -93,7 +93,7 @@ public final class Example8
         final MessageSource source = MapMessageSource.newBuilder()
             .put(key, value).build();
         final MessageBundle bundle
-            = MessageBundleFactory.getBundle(JsonSchemaValidationBundle.class)
+            = MessageBundles.getBundle(JsonSchemaValidationBundle.class)
             .thaw().appendSource(source).freeze();
 
         /*
