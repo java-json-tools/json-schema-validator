@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import java.io.IOException;
 
 /**
- * Fourth example: schema Utils.loading via URIs, and subschema addressing
+ * Fourth example: schema loading via URIs, and subschema addressing
  *
  * <p><a href="doc-files/Example4.java">link to source code</a></p>
  *
