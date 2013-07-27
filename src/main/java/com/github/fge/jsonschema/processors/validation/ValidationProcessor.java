@@ -90,7 +90,7 @@ public final class ValidationProcessor
          */
         final SchemaContext newContext = fullContext.getContext();
         final FullData data = new FullData(newContext.getSchema(),
-            input.getInstance());
+            input.getInstance(), input.isDeepCheck());
 
         /*
          * Validate against all keywords.
@@ -100,9 +100,10 @@ public final class ValidationProcessor
 
         /*
          * At that point, if the report is a failure, we quit: there is no
-         * reason to go any further.
+         * reason to go any further. Unless the user has asked to continue even
+         * in this case.
          */
-        if (!report.isSuccess())
+        if (!(report.isSuccess() || data.isDeepCheck()))
             return input;
 
         /*

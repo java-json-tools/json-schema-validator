@@ -39,11 +39,19 @@ public final class FullData
 {
     private final SchemaTree schema;
     private final JsonTree instance;
+    private final boolean deepCheck;
 
-    public FullData(final SchemaTree schema, final JsonTree instance)
+    public FullData(final SchemaTree schema, final JsonTree instance,
+        final boolean deepCheck)
     {
         this.schema = schema;
         this.instance = instance;
+        this.deepCheck = deepCheck;
+    }
+
+    public FullData(final SchemaTree schema, final JsonTree instance)
+    {
+        this(schema, instance, false);
     }
 
     public FullData(final SchemaTree schema)
@@ -61,6 +69,11 @@ public final class FullData
         return instance;
     }
 
+    public boolean isDeepCheck()
+    {
+        return deepCheck;
+    }
+
     /**
      * Return a new full data with another schema
      *
@@ -69,7 +82,7 @@ public final class FullData
      */
     public FullData withSchema(final SchemaTree schema)
     {
-        return new FullData(schema, instance);
+        return new FullData(schema, instance, deepCheck);
     }
 
     /**
@@ -80,7 +93,7 @@ public final class FullData
      */
     public FullData withInstance(final JsonTree instance)
     {
-        return new FullData(schema, instance);
+        return new FullData(schema, instance, deepCheck);
     }
 
     @Override
