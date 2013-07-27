@@ -27,8 +27,12 @@ import javax.annotation.concurrent.Immutable;
 /**
  * Validation data for a validation processor
  *
- * <p>The included data are the schema (in the shape of a {@link SchemaTree} and
- * the instance to validate (in the shape of a {@link JsonTree}.</p>
+ * <p>The included data are the schema (in the shape of a {@link SchemaTree},
+ * the instance to validate (in the shape of a {@link JsonTree} and a boolean
+ * indicating whether validation should go as deep as posssible.</p>
+ *
+ * <p>If the boolean argument is false, then container children (array elements
+ * or object members) will not be validated if the </p>
  *
  * <p>The {@link ProcessingMessage} template generated contains information
  * about both the schema and instance.</p>

@@ -20,9 +20,11 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processing.ProcessingResult;
+import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.jsonschema.report.ListProcessingReport;
+import com.github.fge.jsonschema.report.MessageProvider;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.jsonschema.tree.SchemaTree;
@@ -62,19 +64,23 @@ public final class JsonSchema
         this.reportProvider = reportProvider;
     }
 
-    private ProcessingReport doValidate(final JsonNode node)
+    private ProcessingReport doValidate(final JsonNode node,
+        final boolean deepCheck)
         throws ProcessingException
     {
-        final FullData data = new FullData(schema, new SimpleJsonTree(node));
+        final FullData data = new FullData(schema, new SimpleJsonTree(node),
+            deepCheck);
         final ProcessingReport report = reportProvider.newReport();
         final ProcessingResult<FullData> result
             =  ProcessingResult.of(processor, report, data);
         return result.getReport();
     }
 
-    private ProcessingReport doValidateUnchecked(final JsonNode node)
+    private ProcessingReport doValidateUnchecked(final JsonNode node,
+        final boolean deepCheck)
     {
-        final FullData data = new FullData(schema, new SimpleJsonTree(node));
+        final FullData data = new FullData(schema, new SimpleJsonTree(node),
+            deepCheck);
         final ProcessingReport report = reportProvider.newReport();
         final ProcessingResult<FullData> result
             =  ProcessingResult.uncheckedResult(processor, report, data);
@@ -85,13 +91,36 @@ public final class JsonSchema
      * Validate an instance and return a processing report
      *
      * @param instance the instance to validate
+     * @param deepCheck validate children even if container (array, object) is
+     * invalid
+     * @return a processing report
+     * @throws ProcessingException a processing error occurred during validation
+     *
+     * @see JsonValidator#validate(JsonNode, JsonNode, boolean)
+     *
+     * @since 2.1.8
+     */
+    public ProcessingReport validate(final JsonNode instance,
+        final boolean deepCheck)
+        throws ProcessingException
+    {
+        return doValidate(instance, deepCheck);
+    }
+
+    /**
+     * Validate an instance and return a processing report
+     *
+     * <p>This calls {@link #validate(JsonNode, boolean)} with {@code false} as
+     * a third argument.</p>
+     *
+     * @param instance the instance to validate
      * @return a processing report
      * @throws ProcessingException a processing error occurred during validation
      */
     public ProcessingReport validate(final JsonNode instance)
         throws ProcessingException
     {
-        return doValidate(instance);
+        return validate(instance, false);
     }
 
     /**
@@ -105,12 +134,37 @@ public final class JsonSchema
      * JSON Reference, or an invalid schema, are <b>masked</b>!</p>
      *
      * @param instance the instance to validate
+     * @param deepCheck validate children even if container (array, object) is
+     * invalid
+     * @return a report (a {@link ListProcessingReport} if an exception was
+     * thrown during processing)
+     *
+     *
+     * @see ProcessingResult#uncheckedResult(Processor, ProcessingReport,
+     * MessageProvider)
+     * @see JsonValidator#validate(JsonNode, JsonNode, boolean)
+     *
+     * @since 2.1.8
+     */
+    public ProcessingReport validateUnchecked(final JsonNode instance,
+        final boolean deepCheck)
+    {
+        return doValidateUnchecked(instance, deepCheck);
+    }
+
+    /**
+     * Validate an instance and return a processing report (unchecked version)
+     *
+     * <p>This calls {@link #validateUnchecked(JsonNode, boolean)} with {@code
+     * false} as a third argument.</p>
+     *
+     * @param instance the instance to validate
      * @return a report (a {@link ListProcessingReport} if an exception was
      * thrown during processing)
      */
     public ProcessingReport validateUnchecked(final JsonNode instance)
     {
-        return doValidateUnchecked(instance);
+        return doValidateUnchecked(instance, false);
     }
 
     /**
@@ -123,7 +177,7 @@ public final class JsonSchema
     public boolean validInstance(final JsonNode instance)
         throws ProcessingException
     {
-        return doValidate(instance).isSuccess();
+        return doValidate(instance, false).isSuccess();
     }
 
     /**
@@ -138,6 +192,6 @@ public final class JsonSchema
      */
     public boolean validInstanceUnchecked(final JsonNode instance)
     {
-        return doValidateUnchecked(instance).isSuccess();
+        return doValidateUnchecked(instance, false).isSuccess();
     }
 }
