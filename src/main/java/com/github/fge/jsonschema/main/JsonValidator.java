@@ -172,8 +172,7 @@ public final class JsonValidator
     private FullData buildData(final JsonNode schema, final JsonNode instance)
     {
         BUNDLE.checkNotNull(schema, "nullSchema");
-        MessageBundles.getBundle(JsonSchemaCoreMessageBundle.class)
-            .checkNotNull(instance, "nullInstance");
+        BUNDLE.checkNotNull(instance, "nullInstance");
         final SchemaTree schemaTree = loader.load(schema);
         final JsonTree tree = new SimpleJsonTree(instance);
         return new FullData(schemaTree, tree);
