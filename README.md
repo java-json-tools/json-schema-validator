@@ -56,7 +56,7 @@ Maven:
 ## Extending usage beyond validation
 
 This library's dependency on [json-schema-core](https://github.com/fge/json-schema-core) opens up
-many possibilities for extensions. A [decicated
+many possibilities for extensions. A [dedicated
 project](https://github.com/fge/json-schema-processor-examples) already has a few examples.
 
 The [site mentioned above](http://json-schema-validator.herokuapp.com) already has a few examples of
