@@ -23,7 +23,7 @@ details.
 
 * development version: **2.1.7**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel),
-  [Javadoc](http://fge.github.io/json-schema-validator/old/index.html), [code
+  [Javadoc](http://fge.github.io/json-schema-validator/devel/index.html), [code
   samples](http://fge.github.io/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 * stable version: **2.0.1**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable),
