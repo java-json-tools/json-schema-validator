@@ -22,15 +22,38 @@
  *
  * http://forums.gradle.org/gradle/topics/buildscript_in_subprojects_ignored
  */
+/*
+ * This has to be here... It will not be taken into account in common.gradle!
+ *
+ * Looks like a serious bug... See also:
+ *
+ * http://forums.gradle.org/gradle/topics/buildscript_in_subprojects_ignored
+ *
+ * We also use Spring's propdeps plugin to have a _real_ provided scope. See:
+ *
+ * https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
+ */
 buildscript {
     repositories {
         mavenCentral();
+        maven {
+            url "http://repo.springsource.org/plugins-release";
+        }
     }
     dependencies {
         classpath(group: "eu.appsatori", name: "gradle-fatjar-plugin",
             version: "0.2-rc2");
+        classpath(group: "org.springframework.build.gradle",
+            name: "propdeps-plugin", version: "0.0.5");
     }
 };
+
+configure(allprojects) {
+    apply(plugin: "propdeps");
+    apply(plugin: "propdeps-maven");
+    apply(plugin: "propdeps-idea");
+    apply(plugin: "propdeps-eclipse");
+}
 
 apply(plugin: "java");
 apply(plugin: "maven");
