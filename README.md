@@ -19,6 +19,10 @@ This project also has a dedicated [Google group](https://groups.google.com/forum
 Note: this project uses [Gradle](http://www.gradle.org) as the build system. See file `BUILD.md` for
 details.
 
+## Contributing
+
+See file `CONTRIBUTING.md`.
+
 ## Versions
 
 * development version: **2.1.7**
