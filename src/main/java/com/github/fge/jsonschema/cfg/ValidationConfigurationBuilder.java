@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.cfg;
 
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.SchemaVersion;
-import com.github.fge.jsonschema.exceptions.JsonReferenceException;
+import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.library.DraftV3Library;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;

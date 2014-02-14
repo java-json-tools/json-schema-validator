@@ -18,7 +18,9 @@
 package com.github.fge.jsonschema.processors.validation;
 
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.util.ValueHolder;
+import com.github.fge.jsonschema.core.util.equivalence.SchemaTreeEquivalence;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.load.RefResolver;
 import com.github.fge.jsonschema.processing.CachingProcessor;
@@ -33,8 +35,6 @@ import com.github.fge.jsonschema.report.ListProcessingReport;
 import com.github.fge.jsonschema.report.ProcessingReport;
 import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.ValueHolder;
-import com.github.fge.jsonschema.util.equivalence.SchemaTreeEquivalence;
 import com.google.common.base.Equivalence;
 
 /**

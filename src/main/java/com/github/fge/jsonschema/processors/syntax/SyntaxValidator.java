@@ -19,6 +19,7 @@ package com.github.fge.jsonschema.processors.syntax;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
+import com.github.fge.jsonschema.core.util.ValueHolder;
 import com.github.fge.jsonschema.library.Dictionary;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
@@ -33,7 +34,6 @@ import com.github.fge.jsonschema.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.tree.SchemaTree;
-import com.github.fge.jsonschema.util.ValueHolder;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.base.Function;
 

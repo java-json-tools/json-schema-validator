@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.keyword.validator;
 
 import com.github.fge.jsonschema.exceptions.InvalidInstanceException;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.report.ProcessingReport;

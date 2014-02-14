@@ -1,5 +1,6 @@
 package com.github.fge.jsonschema.exceptions;
 
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.report.ProcessingMessage;
 
 /**

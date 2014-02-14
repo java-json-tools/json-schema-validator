@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RhinoHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
