@@ -19,7 +19,7 @@ package com.github.fge.jsonschema.main;
 
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
-import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.jsonschema.report.ListReportProvider;
 import com.github.fge.jsonschema.report.LogLevel;

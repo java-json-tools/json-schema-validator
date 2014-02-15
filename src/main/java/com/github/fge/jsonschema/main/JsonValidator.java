@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.node.MissingNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.load.SchemaLoader;
+import com.github.fge.jsonschema.core.load.SchemaLoader;
 import com.github.fge.jsonschema.messages.JsonSchemaCoreMessageBundle;
 import com.github.fge.jsonschema.processing.ProcessingResult;
 import com.github.fge.jsonschema.processing.Processor;
