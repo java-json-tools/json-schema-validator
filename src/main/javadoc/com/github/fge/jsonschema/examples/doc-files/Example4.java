@@ -18,7 +18,7 @@
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.report.ProcessingReport;
@@ -26,7 +26,7 @@ import com.github.fge.jsonschema.report.ProcessingReport;
 import java.io.IOException;
 
 /**
- * Fourth example: schema Utils.loading via URIs, and subschema addressing
+ * Fourth example: schema loading via URIs, and subschema addressing
  *
  * <p><a href="doc-files/Example4.java">link to source code</a></p>
  *
