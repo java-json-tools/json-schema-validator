@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.core.keyword.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.library.digest.DraftV3DigesterDictionary;
 import com.github.fge.jsonschema.library.format.DraftV3FormatAttributesDictionary;
 import com.github.fge.jsonschema.library.validator.DraftV3ValidatorDictionary;
-import com.github.fge.jsonschema.syntax.dictionaries.DraftV3SyntaxCheckerDictionary;
 
 /**
  * Library of all draft v3 core schema keywords and format attributes

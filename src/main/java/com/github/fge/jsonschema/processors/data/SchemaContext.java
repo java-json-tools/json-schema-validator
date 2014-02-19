@@ -19,12 +19,12 @@ package com.github.fge.jsonschema.processors.data;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
+import com.github.fge.jsonschema.core.report.MessageProvider;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.tree.JsonTree;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
-import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.tree.JsonTree;
-import com.github.fge.jsonschema.tree.SchemaTree;
 
 /**
  * Input for both a {@link SchemaDigester} and a {@link ValidationChain}

@@ -18,6 +18,8 @@
 package com.github.fge.jsonschema.library.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.fge.jsonschema.core.util.Dictionary;
+import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.DependenciesValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.AllOfValidator;
@@ -29,8 +31,6 @@ import com.github.fge.jsonschema.keyword.validator.draftv4.MultipleOfValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.OneOfValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.RequiredKeywordValidator;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 import java.lang.reflect.Constructor;
 

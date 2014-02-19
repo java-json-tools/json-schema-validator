@@ -19,14 +19,14 @@ package com.github.fge.jsonschema.library;
 
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
+import com.github.fge.jsonschema.core.processing.Processor;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.common.MinItemsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
-import com.github.fge.jsonschema.processing.Processor;
 import com.github.fge.jsonschema.processors.data.FullData;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.checkers.SyntaxChecker;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.BeforeMethod;

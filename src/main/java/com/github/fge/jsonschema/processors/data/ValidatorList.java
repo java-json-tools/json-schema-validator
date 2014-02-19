@@ -17,11 +17,11 @@
 
 package com.github.fge.jsonschema.processors.data;
 
+import com.github.fge.jsonschema.core.report.MessageProvider;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
-import com.github.fge.jsonschema.report.MessageProvider;
-import com.github.fge.jsonschema.report.ProcessingMessage;
 import com.google.common.collect.ImmutableList;
 
 import java.util.Collection;

@@ -19,9 +19,9 @@ package com.github.fge.jsonschema;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.NodeType;
-import com.github.fge.jsonschema.report.ProcessingMessage;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.tree.SchemaTree;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Lists;
 import org.mockito.verification.VerificationMode;

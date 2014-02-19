@@ -17,11 +17,11 @@
 
 package com.github.fge.jsonschema.library.format;
 
+import com.github.fge.jsonschema.core.util.Dictionary;
+import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.helpers.IPv4FormatAttribute;
 import com.github.fge.jsonschema.format.helpers.SharedHostNameAttribute;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 /**
  * Draft v4 specific format attributes

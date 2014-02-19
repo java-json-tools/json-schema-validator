@@ -20,10 +20,10 @@ package com.github.fge.jsonschema.main;
 import com.github.fge.Thawed;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.core.report.ListReportProvider;
+import com.github.fge.jsonschema.core.report.LogLevel;
+import com.github.fge.jsonschema.core.report.ReportProvider;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
-import com.github.fge.jsonschema.report.ListReportProvider;
-import com.github.fge.jsonschema.report.LogLevel;
-import com.github.fge.jsonschema.report.ReportProvider;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 

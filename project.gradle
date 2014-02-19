@@ -15,7 +15,7 @@ project.ext {
  */
 dependencies {
     compile(group: "com.github.fge", name: "json-schema-core",
-        version: "1.1.9-SNAPSHOT");
+        version: "1.1.9");
     compile(group: "javax.mail", name: "mailapi", version: "1.4.3");
     compile(group: "joda-time", name: "joda-time", version: "2.2");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber",

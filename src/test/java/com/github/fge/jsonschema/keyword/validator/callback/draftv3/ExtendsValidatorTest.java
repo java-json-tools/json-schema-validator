@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.report.ProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 
 import static com.github.fge.jsonschema.TestUtils.*;
 import static org.mockito.Mockito.*;

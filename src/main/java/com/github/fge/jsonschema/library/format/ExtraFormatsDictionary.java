@@ -1,5 +1,7 @@
 package com.github.fge.jsonschema.library.format;
 
+import com.github.fge.jsonschema.core.util.Dictionary;
+import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.extra.Base64FormatAttribute;
 import com.github.fge.jsonschema.format.extra.JsonPointerFormatAttribute;
@@ -9,8 +11,6 @@ import com.github.fge.jsonschema.format.extra.SHA1FormatAttribute;
 import com.github.fge.jsonschema.format.extra.SHA256FormatAttribute;
 import com.github.fge.jsonschema.format.extra.SHA512FormatAttribute;
 import com.github.fge.jsonschema.format.extra.UUIDFormatAttribute;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 public final class ExtraFormatsDictionary
 {

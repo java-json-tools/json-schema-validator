@@ -17,10 +17,10 @@
 
 package com.github.fge.jsonschema.library;
 
+import com.github.fge.jsonschema.core.keyword.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
 import com.github.fge.jsonschema.library.digest.DraftV4DigesterDictionary;
 import com.github.fge.jsonschema.library.format.DraftV4FormatAttributesDictionary;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
-import com.github.fge.jsonschema.syntax.dictionaries.DraftV4SyntaxCheckerDictionary;
 
 /**
  * Library of all draft v4 core schema keywords and format attributes

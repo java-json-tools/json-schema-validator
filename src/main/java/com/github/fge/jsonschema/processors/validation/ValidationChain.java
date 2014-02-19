@@ -19,22 +19,22 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.keyword.syntax.SyntaxProcessor;
 import com.github.fge.jsonschema.core.load.RefResolver;
+import com.github.fge.jsonschema.core.processing.CachingProcessor;
+import com.github.fge.jsonschema.core.processing.Processor;
+import com.github.fge.jsonschema.core.processing.ProcessorChain;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.util.ValueHolder;
 import com.github.fge.jsonschema.core.util.equivalence.SchemaTreeEquivalence;
 import com.github.fge.jsonschema.library.Library;
-import com.github.fge.jsonschema.processing.CachingProcessor;
-import com.github.fge.jsonschema.processing.Processor;
-import com.github.fge.jsonschema.processing.ProcessorChain;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
-import com.github.fge.jsonschema.report.ListProcessingReport;
-import com.github.fge.jsonschema.report.ProcessingReport;
-import com.github.fge.jsonschema.syntax.SyntaxProcessor;
-import com.github.fge.jsonschema.tree.SchemaTree;
 import com.google.common.base.Equivalence;
 
 /**
@@ -63,7 +63,8 @@ public final class ValidationChain
     {
         final SyntaxProcessor syntaxProcessor = new SyntaxProcessor(
             cfg.getSyntaxMessages(), library.getSyntaxCheckers());
-        final ProcessorChain<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>> chain1
+        final ProcessorChain<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>
+            chain1
             = ProcessorChain.startWith(refResolver).chainWith(syntaxProcessor);
 
         resolver = new CachingProcessor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>(

@@ -17,14 +17,14 @@
 
 package com.github.fge.jsonschema.library.format;
 
+import com.github.fge.jsonschema.core.util.Dictionary;
+import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.common.DateTimeAttribute;
 import com.github.fge.jsonschema.format.common.EmailAttribute;
 import com.github.fge.jsonschema.format.common.IPv6Attribute;
 import com.github.fge.jsonschema.format.common.RegexAttribute;
 import com.github.fge.jsonschema.format.common.URIAttribute;
-import com.github.fge.jsonschema.library.Dictionary;
-import com.github.fge.jsonschema.library.DictionaryBuilder;
 
 /**
  * Format attributes common to draft v4 and v3
