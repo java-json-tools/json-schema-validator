@@ -69,7 +69,6 @@ apply(from: "project.gradle");
  * Repositories to use
  */
 repositories {
-    mavenLocal();
     mavenCentral();
 }
 
