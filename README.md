@@ -19,10 +19,6 @@ This project also has a dedicated [Google group](https://groups.google.com/forum
 Note: this project uses [Gradle](http://www.gradle.org) as the build system. See file `BUILD.md` for
 details.
 
-## Contributing
-
-See file `CONTRIBUTING.md`.
-
 ## Versions
 
 * development version: **2.1.7**
@@ -31,7 +27,7 @@ See file `CONTRIBUTING.md`.
   samples](http://fge.github.io/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 * stable version: **2.0.1**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable),
-  [Javadoc](http://fge.github.io/json-schema-validator/old/index.html), [code
+  [Javadoc](http://fge.github.io/json-schema-validator/stable/index.html), [code
   samples](http://fge.github.io/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 
 Since version 2.1.5, this package is available on
