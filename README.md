@@ -1,7 +1,8 @@
 ## Read me first
 
-The license of this project is LGPLv3 or later. See file src/main/resources/LICENSE for the full
-text.
+This project, as of version 2.1.8, is licensed under both LGPLv3 and ASL 2.0.
+See file LICENSE for more details. Versions 2.1.7 and lower are licensed under
+LGPLv3 only.
 
 This implementation has complete validation support for the latest draft (v4) and the previous draft
 (v3). More generally, it has quite an [extensive list of
@@ -18,6 +19,15 @@ This project also has a dedicated [Google group](https://groups.google.com/forum
 
 Note: this project uses [Gradle](http://www.gradle.org) as the build system. See file `BUILD.md` for
 details.
+
+## Versioning scheme policy
+
+The versioning scheme is defined by the **middle digit** of the version number:
+
+* if this number is **even**, then this is the **stable** version; no new features will be
+  added to such versions, and the user API will not change (save for some additions if requested).
+* if this number is **odd**, then this is the **development** version; new features will be
+  added to those versions only, **and the user API may change**.
 
 ## Versions
 
@@ -61,15 +71,6 @@ project](https://github.com/fge/json-schema-processor-examples) already has a fe
 
 The [site mentioned above](http://json-schema-validator.herokuapp.com) already has a few examples of
 what is possible. Much more is doable. In fact, the only limiting factor is your own imagination!
-
-## Versioning scheme policy
-
-The versioning scheme is defined by the **middle digit** of the version number:
-
-* if this number is **even**, then this is the **stable** version; no new features will be
-  added to such versions, and the user API will not change (save for some additions if requested).
-* if this number is **odd**, then this is the **development** version; new features will be
-  added to those versions only, **and the user API may change**.
 
 ## Relevant documents
 

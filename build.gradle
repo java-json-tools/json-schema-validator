@@ -216,6 +216,11 @@ uploadArchives {
                 name "Lesser General Public License, version 3 or greater";
                 url "http://www.gnu.org/licenses/lgpl.html";
                 distribution "repo";
+            };
+            license {
+                name "Apache Software License, version 2.0";
+                url "http://www.apache.org/licenses/LICENSE-2.0";
+                distribution "repo";
             }
         }
 
