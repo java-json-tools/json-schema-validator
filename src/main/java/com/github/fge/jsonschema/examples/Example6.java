@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
+import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
