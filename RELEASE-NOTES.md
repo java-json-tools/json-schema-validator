@@ -1,3 +1,10 @@
+### 2.1.8
+
+* Add "deep validation": validate children even if container fails
+* -core update to 1.1.9: package changes (BREAKS OLDER CODE)
+* Change licensing to dual LGPLv3/ ASL 2.0
+* Dependencies updates (Joda Time 2.3, libphonenumber 5.9)
+
 ### 2.1.7
 
 * Import all format attributes from
