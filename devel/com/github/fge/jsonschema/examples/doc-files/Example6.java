@@ -1,30 +1,31 @@
 /*
- * Copyright (c) 2012, Francis Galiegue <fgaliegue@gmail.com>
+ * Copyright (c) 2014, Francis Galiegue (fgaliegue@gmail.com)
  *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the Lesser GNU General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License, or (at your option) any later version.
+ * This software is dual-licensed under:
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * Lesser GNU General Public License for more details.
+ * - the Lesser General Public License (LGPL) version 3.0 or, at your option, any
+ *   later version;
+ * - the Apache Software License (ASL) version 2.0.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * The text of both licenses is available under the src/resources/ directory of
+ * this project (under the names LGPL-3.0.txt and ASL-2.0.txt respectively).
+ *
+ * Direct link to the sources:
+ *
+ * - LGPL 3.0: https://www.gnu.org/licenses/lgpl-3.0.txt
+ * - ASL 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
 package com.github.fge.jsonschema.examples;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jsonschema.exceptions.ProcessingException;
-import com.github.fge.jsonschema.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.load.configuration.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBuilder;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
+import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
-import com.github.fge.jsonschema.ref.JsonRef;
-import com.github.fge.jsonschema.report.ProcessingReport;
 
 import java.io.IOException;
 
@@ -65,8 +66,11 @@ public final class Example6
         final JsonNode bad = Utils.loadResource("/fstab-bad.json");
         final JsonNode bad2 = Utils.loadResource("/fstab-bad2.json");
 
-        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+        final URITranslatorConfiguration translatorCfg
+            = URITranslatorConfiguration.newBuilder()
             .addSchemaRedirect(FROM, TO).freeze();
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .setURITranslatorConfiguration(translatorCfg).freeze();
 
         final JsonSchemaFactory factory = JsonSchemaFactory.newBuilder()
             .setLoadingConfiguration(cfg).freeze();
