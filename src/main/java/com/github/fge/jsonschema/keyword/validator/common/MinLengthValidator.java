@@ -41,8 +41,8 @@ public final class MinLengthValidator
         final ProcessingReport report, final FullData data)
         throws ProcessingException
     {
-        final int size = data.getInstance().getNode().textValue()
-            .length();
+        final String value = data.getInstance().getNode().textValue();
+        final int size = value.codePointCount(0, value.length());
 
         if (size < intValue)
             report.error(newMsg(data).message(STRING_TOO_SHORT)

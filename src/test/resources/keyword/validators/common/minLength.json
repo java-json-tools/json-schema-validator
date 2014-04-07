@@ -18,5 +18,15 @@
         "digest": { "minLength": 4 },
         "data": "foobar",
         "valid": true
+    },
+    {
+        "digest": { "minLength": 4 },
+        "data": "\uD83D\uDCA9\uD83D\uDCA9",
+        "valid": false,
+        "message": "STRING_TOO_SHORT",
+        "msgData": {
+            "minLength": 4,
+            "found": 2
+        }
     }
 ]
