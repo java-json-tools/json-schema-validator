@@ -37,7 +37,7 @@
 ### 2.1.3
 
 * Modify date/time format checkings to accurately check for the required number
-* of digits
+  of digits
 
 ### 2.1.2
 
