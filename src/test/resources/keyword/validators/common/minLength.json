@@ -20,5 +20,17 @@
         "digest": { "minLength": 4 },
         "data": "foobar",
         "valid": true
+    },
+    {
+        "digest": { "minLength": 4 },
+        "data": "\uD83D\uDCA9\uD83D\uDCA9",
+        "valid": false,
+        "message": "err.common.minLength.tooShort",
+        "msgData": {
+            "value": "\uD83D\uDCA9\uD83D\uDCA9",
+            "minLength": 4,
+            "found": 2
+        },
+        "msgParams": [ "value", "found", "minLength" ]
     }
 ]

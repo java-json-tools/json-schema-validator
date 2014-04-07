@@ -43,7 +43,7 @@ public final class MaxLengthValidator
         throws ProcessingException
     {
         final String value = data.getInstance().getNode().textValue();
-        final int size = value.length();
+        final int size = value.codePointCount(0, value.length());
 
         if (size > intValue)
             report.error(newMsg(data, bundle, "err.common.maxLength.tooLong")

@@ -20,5 +20,10 @@
         "digest": { "maxLength": 4 },
         "data": "foo",
         "valid": true
+    },
+    {
+        "digest": { "maxLength": 3 },
+        "data": "\uD83D\uDCA9\uD83D\uDCA9",
+        "valid": true
     }
 ]
