@@ -133,7 +133,8 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "1.10";
+    gradleVersion = "1.11";
+    distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
 task pom << {
