@@ -20,7 +20,7 @@ dependencies {
     compile(group: "joda-time", name: "joda-time", version: "2.3");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber",
         version: "5.9");
-    provided(group: "com.google.code.findbugs", name: "jsr305",
+    compile(group: "com.google.code.findbugs", name: "jsr305",
         version: "2.0.1");
     testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
         exclude(group: "junit", module: "junit");

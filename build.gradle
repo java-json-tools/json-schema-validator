@@ -33,33 +33,33 @@
  *
  * https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
  */
-buildscript {
-    repositories {
-        mavenCentral();
-        maven {
-            url "http://repo.springsource.org/plugins-release";
-        }
-    }
-    dependencies {
-        classpath(group: "eu.appsatori", name: "gradle-fatjar-plugin",
-            version: "0.2-rc2");
-        classpath(group: "org.springframework.build.gradle",
-            name: "propdeps-plugin", version: "0.0.5");
-    }
-};
-
-configure(allprojects) {
-    apply(plugin: "propdeps");
-    apply(plugin: "propdeps-maven");
-    apply(plugin: "propdeps-idea");
-    apply(plugin: "propdeps-eclipse");
-}
+//buildscript {
+//    repositories {
+//        mavenCentral();
+//        maven {
+//            url "http://repo.springsource.org/plugins-release";
+//        }
+//    }
+//    dependencies {
+//        classpath(group: "eu.appsatori", name: "gradle-fatjar-plugin",
+//            version: "0.2-rc2");
+//        classpath(group: "org.springframework.build.gradle",
+//            name: "propdeps-plugin", version: "0.0.5");
+//    }
+//};
+//
+//configure(allprojects) {
+//    apply(plugin: "propdeps");
+//    apply(plugin: "propdeps-maven");
+//    apply(plugin: "propdeps-idea");
+//    apply(plugin: "propdeps-eclipse");
+//}
 
 apply(plugin: "java");
 apply(plugin: "maven");
 apply(plugin: "signing");
 apply(plugin: "osgi");
-apply(plugin: "fatjar");
+//apply(plugin: "fatjar");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
 
@@ -122,9 +122,9 @@ task javadocJar(type: Jar, dependsOn: copyDocFiles) {
     from javadoc.destinationDir;
 }
 
-fatJar {
-    classifier = "full";
-}
+//fatJar {
+//    classifier = "full";
+//}
 
 artifacts {
     archives jar;
