@@ -36,6 +36,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
+@Test
 public abstract class TestSuite
 {
     private final JsonValidator validator;

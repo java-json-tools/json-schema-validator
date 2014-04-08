@@ -35,6 +35,7 @@ import java.util.List;
 
 import static org.testng.Assert.*;
 
+@Test
 public abstract class AbstractDigesterTest
 {
     private static final Equivalence<JsonNode> EQUIVALENCE

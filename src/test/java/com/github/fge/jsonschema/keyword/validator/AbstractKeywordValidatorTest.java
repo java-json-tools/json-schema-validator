@@ -51,6 +51,7 @@ import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
 import static org.mockito.Mockito.*;
 import static org.testng.Assert.*;
 
+@Test
 public abstract class AbstractKeywordValidatorTest
 {
     private static final MessageBundle BUNDLE
