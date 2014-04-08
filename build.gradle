@@ -62,8 +62,11 @@ apply(plugin: "osgi");
 //apply(plugin: "fatjar");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
+apply plugin: 'application'
 
 apply(from: "project.gradle");
+
+mainClassName = "com.github.fge.jsonschema.Main"
 
 /*
  * Repositories to use
