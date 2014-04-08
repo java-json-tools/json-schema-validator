@@ -24,6 +24,7 @@ import com.github.fge.jsonschema.core.exceptions.JsonReferenceException;
 import com.github.fge.jsonschema.core.messages.JsonSchemaSyntaxMessageBundle;
 import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.library.DraftV3Library;
+import com.github.fge.jsonschema.library.DraftV4HyperSchemaLibrary;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
@@ -60,6 +61,8 @@ public final class ValidationConfigurationBuilder
         DEFAULT_LIBRARIES = Maps.newEnumMap(SchemaVersion.class);
         DEFAULT_LIBRARIES.put(SchemaVersion.DRAFTV3, DraftV3Library.get());
         DEFAULT_LIBRARIES.put(SchemaVersion.DRAFTV4, DraftV4Library.get());
+        DEFAULT_LIBRARIES.put(SchemaVersion.DRAFTV4_HYPERSCHEMA,
+            DraftV4HyperSchemaLibrary.get());
     }
 
     /**
