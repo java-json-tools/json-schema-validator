@@ -21,8 +21,8 @@ package com.github.fge.jsonschema.examples;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
-import com.github.fge.jsonschema.core.load.configuration.LoadingConfigurationBuilder;
 import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfigurationBuilder;
 import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
@@ -42,10 +42,10 @@ import java.io.IOException;
  * located under URI {@code
  * resource:/org/eel/kitchen/jsonschema/examples/fstab.json#}.</p>
  *
- * <p>The solution is here again to build a custom {@link LoadingConfiguration},
- * which allows to add schema redirections (using {@link
- * LoadingConfigurationBuilder#addSchemaRedirect(String, String)}. This method
- * can be called for as many schemas as you wish to redirect.</p>
+ * <p>The solution here is to build a custom {@link URITranslatorConfiguration},
+ * which allows to customize URI handling; in this case, a schema redirection
+ * using the {@link URITranslatorConfigurationBuilder#addSchemaRedirect(String,
+ * String)}. We then inject this into a custom {@link LoadingConfiguration}.</p>
  *
  * <p>The effect is that if you required a schema via URI {@code
  * http://my.site/schemas/fstab.json#}, it will silently transform this URI into
