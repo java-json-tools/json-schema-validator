@@ -1,3 +1,12 @@
+### 2.1.9
+
+* Fix bug with string length calculations: it is the number of Unicode code
+  points which matters, not the number of `char`s (issue #92).
+* Depend on -core 1.1.10: schema sources with trailing input are now considered
+  illegal.
+* Make all tests run from the command line.
+* Small javadoc fixes.
+
 ### 2.1.8
 
 * Add "deep validation": validate children even if container fails
