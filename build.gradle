@@ -125,9 +125,6 @@ task fullJar(type: OneJar) {
     mainClass = "com.github.fge.jsonschema.main.Main";
     mergeManifestFromJar = true;
     archiveName = "jsonschema.jar";
-    manifest {
-        attributes 'One-Jar-Silent': true;
-    }
 }
 
 artifacts {
