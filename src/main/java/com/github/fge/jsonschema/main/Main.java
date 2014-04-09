@@ -19,12 +19,12 @@
 package com.github.fge.jsonschema.main;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
-import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import joptsimple.HelpFormatter;
 import joptsimple.OptionDescriptor;
@@ -32,8 +32,9 @@ import joptsimple.OptionException;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
-import javax.annotation.Nullable;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -42,28 +43,24 @@ import java.util.Set;
 
 public final class Main
 {
+    private static final int ALL_OK = 0;
+    private static final int CMD_ERROR = 2;
+    private static final int VALIDATION_FAILURE = 100;
+
     private static final String LINE_SEPARATOR
         = System.getProperty("line.separator", "\n");
+
     private static final Joiner JOINER = Joiner.on(LINE_SEPARATOR);
-    private static final Function<String, String> ADD_NEWLINE
-        = new Function<String, String>()
-    {
-        @Nullable
-        @Override
-        public String apply(@Nullable final String input)
-        {
-            return Optional.fromNullable(input).or("") + '\n';
-        }
-    };
+
     private static final Joiner OPTIONS_JOINER = Joiner.on(", ");
+
     private static final String HELP_PREAMBLE
         = "Syntax: java -jar jsonschema.jar [options] file [file...]";
 
     private static final HelpFormatter HELP = new CustomHelpFormatter();
 
-    private final HelpFormatter helpFormatter = new CustomHelpFormatter();
     private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-
+    private final ObjectMapper mapper = JacksonUtils.newMapper();
 
     public static void main(final String... args)
         throws IOException
@@ -105,6 +102,12 @@ public final class Main
             System.exit(2);
         }
 
+        final List<URI> files = Lists.newArrayList();
+        for (final String target: arguments)
+            files.add(new File(target).getCanonicalFile().toURI());
+
+        final Main main = new Main(isSyntax, files);
+
         final String input = "{" +
             "\"$schema\": \"http://json-schema.org/draft-04/hyper-schema#\"," +
             "\"links\":null" +
@@ -115,6 +118,38 @@ public final class Main
         final ProcessingReport report = validator.validateSchema(node);
         System.out.println(report);
     }
+
+    private Main(final boolean isSyntax, final List<URI> files)
+        throws IOException
+    {
+        System.exit(isSyntax ? doSyntax(files): 0);
+    }
+
+    private int doSyntax(final List<URI> files)
+        throws IOException
+    {
+        final SyntaxValidator validator = factory.getSyntaxValidator();
+
+        ProcessingReport report;
+        String path;
+        int retcode = ALL_OK;
+
+        JsonNode node;
+
+        for (final URI uri: files) {
+            path = uri.getPath();
+            node = mapper.readValue(new File(path), JsonNode.class);
+            System.out.println("--- BEGIN " + path + "---");
+            report = validator.validateSchema(node);
+            System.out.println(report);
+            if (!report.isSuccess())
+                retcode = VALIDATION_FAILURE;
+            System.out.println("--- END " + path + "---");
+        }
+
+        return retcode;
+    }
+
 
     private static final class CustomHelpFormatter
         implements HelpFormatter
