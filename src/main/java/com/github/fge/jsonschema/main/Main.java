@@ -21,7 +21,7 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jackson.JsonLoader;
+import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import com.google.common.base.Joiner;
@@ -34,7 +34,6 @@ import joptsimple.OptionSet;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -63,7 +62,7 @@ public final class Main
     private final ObjectMapper mapper = JacksonUtils.newMapper();
 
     public static void main(final String... args)
-        throws IOException
+        throws IOException, ProcessingException
     {
         final OptionParser parser = new OptionParser();
         parser.accepts("syntax",
@@ -102,52 +101,63 @@ public final class Main
             System.exit(2);
         }
 
-        final List<URI> files = Lists.newArrayList();
+        final List<File> files = Lists.newArrayList();
         for (final String target: arguments)
-            files.add(new File(target).getCanonicalFile().toURI());
+            files.add(new File(target).getCanonicalFile());
 
-        final Main main = new Main(isSyntax, files);
-
-        final String input = "{" +
-            "\"$schema\": \"http://json-schema.org/draft-04/hyper-schema#\"," +
-            "\"links\":null" +
-            "}";
-        final JsonNode node = JsonLoader.fromString(input);
-        final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-        final SyntaxValidator validator = factory.getSyntaxValidator();
-        final ProcessingReport report = validator.validateSchema(node);
-        System.out.println(report);
+        new Main().proceed(isSyntax, files);
     }
 
-    private Main(final boolean isSyntax, final List<URI> files)
-        throws IOException
+    private void proceed(final boolean isSyntax, final List<File> files)
+        throws IOException, ProcessingException
     {
-        System.exit(isSyntax ? doSyntax(files): 0);
+        System.exit(isSyntax ? doSyntax(files): doValidation(files));
     }
 
-    private int doSyntax(final List<URI> files)
+    private int doSyntax(final List<File> files)
         throws IOException
     {
         final SyntaxValidator validator = factory.getSyntaxValidator();
 
         ProcessingReport report;
-        String path;
         int retcode = ALL_OK;
 
         JsonNode node;
 
-        for (final URI uri: files) {
-            path = uri.getPath();
-            node = mapper.readValue(new File(path), JsonNode.class);
-            System.out.println("--- BEGIN " + path + "---");
+        for (final File file: files) {
+            node = mapper.readTree(file);
+            System.out.println("--- BEGIN " + file + "---\n");
             report = validator.validateSchema(node);
             System.out.println(report);
             if (!report.isSuccess())
                 retcode = VALIDATION_FAILURE;
-            System.out.println("--- END " + path + "---");
+            System.out.println("--- END " + file + "---");
         }
 
         return retcode;
+    }
+
+    private int doValidation(final List<File> files)
+        throws IOException, ProcessingException
+    {
+        final JsonNode schemaNode = mapper.readTree(files.remove(0));
+        final JsonSchema schema = factory.getJsonSchema(schemaNode);
+
+        JsonNode node;
+        ProcessingReport report;
+        int ret = ALL_OK;
+
+        for (final File file: files) {
+            System.out.println("--- BEGIN " + file + "---\n");
+            node = mapper.readTree(file);
+            report = schema.validate(node);
+            System.out.println(report);
+            if (!report.isSuccess())
+                ret = VALIDATION_FAILURE;
+            System.out.println("--- END " + file + "---");
+        }
+
+        return ret;
     }
 
 
