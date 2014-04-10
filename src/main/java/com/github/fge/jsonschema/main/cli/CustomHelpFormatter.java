@@ -79,7 +79,7 @@ final class CustomHelpFormatter
     {
         final List<String> list = Lists.newArrayList();
         for (final String name : names)
-            list.add("--" + name);
+            list.add((name.length() == 1 ? "-" : "--") + name);
         return OPTIONS_JOINER.join(list);
     }
 }

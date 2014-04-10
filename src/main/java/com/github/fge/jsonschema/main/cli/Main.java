@@ -33,6 +33,7 @@ import joptsimple.OptionSet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.github.fge.jsonschema.main.cli.RetCode.*;
@@ -53,7 +54,10 @@ public final class Main
         final OptionParser parser = new OptionParser();
         parser.accepts("syntax",
             "check the syntax of schema(s) given as argument(s)");
-        parser.accepts("brief", "only show validation status (OK/NOT OK)");
+        parser.acceptsAll(Arrays.asList("s", "brief"),
+            "only show validation status (OK/NOT OK)");
+        parser.acceptsAll(Arrays.asList("q", "quiet"),
+            "no output; exit with the relevant return code (see below)");
         parser.accepts("help", "show this help").forHelp();
         parser.formatHelpWith(HELP);
 
@@ -64,16 +68,24 @@ public final class Main
 
         try {
             optionSet = parser.parse(args);
-            if (optionSet.has("help")) {
-                parser.printHelpOn(System.out);
-                System.exit(ALL_OK.get());
-            }
         } catch (OptionException e) {
             System.err.println("unrecognized option(s): "
                 + CustomHelpFormatter.OPTIONS_JOINER.join(e.options()));
             parser.printHelpOn(System.err);
             System.exit(CMD_ERROR.get());
             throw new IllegalStateException("WTF??");
+        }
+
+        if (optionSet.has("help")) {
+            parser.printHelpOn(System.out);
+            System.exit(ALL_OK.get());
+        }
+
+        if (optionSet.has("s") && optionSet.has("q")) {
+            System.err.println("cannot specify both \"--brief\" and " +
+                "\"--quiet\"");
+            parser.printHelpOn(System.err);
+            System.exit(CMD_ERROR.get());
         }
 
         isSyntax = optionSet.has("syntax");
@@ -95,6 +107,11 @@ public final class Main
 
         if (optionSet.has("brief"))
             reporter = Reporters.BRIEF;
+        else if (optionSet.has("quiet")) {
+            System.out.close();
+            System.err.close();
+            reporter = Reporters.QUIET;
+        }
 
         new Main().proceed(reporter, isSyntax, files);
     }

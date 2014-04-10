@@ -90,5 +90,23 @@ enum Reporters
             System.out.printf("%s: %s\n", fileName, valid ? "OK": "NOT OK");
             return valid ? ALL_OK : VALIDATION_FAILURE;
         }
+    },
+    QUIET
+    {
+        @Override
+        public RetCode validateSchema(final SyntaxValidator validator,
+            final String fileName, final JsonNode node)
+            throws IOException
+        {
+            return validator.schemaIsValid(node) ? ALL_OK : SCHEMA_SYNTAX_ERROR;
+        }
+
+        @Override
+        public RetCode validateInstance(final JsonSchema schema,
+            final String fileName, final JsonNode node)
+            throws IOException, ProcessingException
+        {
+            return schema.validInstance(node) ? ALL_OK : VALIDATION_FAILURE;
+        }
     }
 }
