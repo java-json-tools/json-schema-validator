@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.report.ProcessingReport;
+import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
@@ -78,13 +78,13 @@ public final class Main
             optionSet = parser.parse(args);
             if (optionSet.has("help")) {
                 parser.printHelpOn(System.out);
-                System.exit(0);
+                System.exit(ALL_OK);
             }
         } catch (OptionException e) {
             System.err.println("unrecognized option(s): "
                 + OPTIONS_JOINER.join(e.options()));
             parser.printHelpOn(System.err);
-            System.exit(2);
+            System.exit(CMD_ERROR);
             throw new IllegalStateException("WTF??");
         }
 
@@ -98,7 +98,7 @@ public final class Main
         if (arguments.size() < requiredArgs) {
             System.err.println("missing arguments");
             parser.printHelpOn(System.err);
-            System.exit(2);
+            System.exit(CMD_ERROR);
         }
 
         final List<File> files = Lists.newArrayList();
@@ -119,16 +119,16 @@ public final class Main
     {
         final SyntaxValidator validator = factory.getSyntaxValidator();
 
-        ProcessingReport report;
+        ListProcessingReport report;
         int retcode = ALL_OK;
 
         JsonNode node;
 
         for (final File file: files) {
             node = mapper.readTree(file);
-            System.out.println("--- BEGIN " + file + "---\n");
-            report = validator.validateSchema(node);
-            System.out.println(report);
+            System.out.println("--- BEGIN " + file + "---");
+            report = (ListProcessingReport) validator.validateSchema(node);
+            System.out.println(JacksonUtils.prettyPrint(report.asJson()));
             if (!report.isSuccess())
                 retcode = VALIDATION_FAILURE;
             System.out.println("--- END " + file + "---");
@@ -144,14 +144,14 @@ public final class Main
         final JsonSchema schema = factory.getJsonSchema(schemaNode);
 
         JsonNode node;
-        ProcessingReport report;
+        ListProcessingReport report;
         int ret = ALL_OK;
 
         for (final File file: files) {
-            System.out.println("--- BEGIN " + file + "---\n");
+            System.out.println("--- BEGIN " + file + "---");
             node = mapper.readTree(file);
-            report = schema.validate(node);
-            System.out.println(report);
+            report = (ListProcessingReport) schema.validate(node);
+            System.out.println(JacksonUtils.prettyPrint(report.asJson()));
             if (!report.isSuccess())
                 ret = VALIDATION_FAILURE;
             System.out.println("--- END " + file + "---");
