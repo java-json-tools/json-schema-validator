@@ -33,40 +33,62 @@ enum Reporters
     implements Reporter
 {
     DEFAULT
+    {
+        @Override
+        public RetCode validateSchema(final SyntaxValidator validator,
+            final String fileName, final JsonNode node)
+            throws IOException
         {
-            @Override
-            public RetCode validateSchema(final SyntaxValidator validator,
-                final String fileName, final JsonNode node)
-                throws IOException
-            {
-                final ListProcessingReport report
-                    = (ListProcessingReport) validator.validateSchema(node);
-                final boolean success = report.isSuccess();
-                System.out.println("--- BEGIN " + fileName + "---");
-                System.out.println("validation: " + (success ? "SUCCESS"
-                    : "FAILURE"));
-                if (!success)
-                    System.out.println(JacksonUtils.prettyPrint(report.asJson()));
-                System.out.println("--- END " + fileName + "---");
-                return success ? ALL_OK : SCHEMA_SYNTAX_ERROR;
-            }
-
-            @Override
-            public RetCode validateInstance(final JsonSchema schema,
-                final String fileName, final JsonNode node)
-                throws IOException, ProcessingException
-            {
-                final ListProcessingReport report
-                    = (ListProcessingReport) schema.validate(node);
-                final boolean success = report.isSuccess();
-                System.out.println("--- BEGIN " + fileName + "---");
-                System.out.println("validation: " + (success ? "SUCCESS"
-                    : "FAILURE"));
-                if (!success)
-                    System.out.println(JacksonUtils.prettyPrint(report
-                        .asJson()));
-                System.out.println("--- END " + fileName + "---");
-                return success ? ALL_OK : VALIDATION_FAILURE;
-            }
+            final ListProcessingReport report
+                = (ListProcessingReport) validator.validateSchema(node);
+            final boolean success = report.isSuccess();
+            System.out.println("--- BEGIN " + fileName + "---");
+            System.out.println("validation: " + (success ? "SUCCESS"
+                : "FAILURE"));
+            if (!success)
+                System.out.println(JacksonUtils.prettyPrint(report.asJson()));
+            System.out.println("--- END " + fileName + "---");
+            return success ? ALL_OK : SCHEMA_SYNTAX_ERROR;
         }
+
+        @Override
+        public RetCode validateInstance(final JsonSchema schema,
+            final String fileName, final JsonNode node)
+            throws IOException, ProcessingException
+        {
+            final ListProcessingReport report
+                = (ListProcessingReport) schema.validate(node);
+            final boolean success = report.isSuccess();
+            System.out.println("--- BEGIN " + fileName + "---");
+            System.out.println("validation: " + (success ? "SUCCESS"
+                : "FAILURE"));
+            if (!success)
+                System.out.println(JacksonUtils.prettyPrint(report
+                    .asJson()));
+            System.out.println("--- END " + fileName + "---");
+            return success ? ALL_OK : VALIDATION_FAILURE;
+        }
+    },
+    BRIEF
+    {
+        @Override
+        public RetCode validateSchema(final SyntaxValidator validator,
+            final String fileName, final JsonNode node)
+            throws IOException
+        {
+            final boolean valid = validator.schemaIsValid(node);
+            System.out.printf("%s: %s\n", fileName, valid ? "OK": "NOT OK");
+            return valid ? ALL_OK : SCHEMA_SYNTAX_ERROR;
+        }
+
+        @Override
+        public RetCode validateInstance(final JsonSchema schema,
+            final String fileName, final JsonNode node)
+            throws IOException, ProcessingException
+        {
+            final boolean valid = schema.validInstance(node);
+            System.out.printf("%s: %s\n", fileName, valid ? "OK": "NOT OK");
+            return valid ? ALL_OK : VALIDATION_FAILURE;
+        }
+    }
 }

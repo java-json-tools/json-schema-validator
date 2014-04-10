@@ -53,12 +53,14 @@ public final class Main
         final OptionParser parser = new OptionParser();
         parser.accepts("syntax",
             "check the syntax of schema(s) given as argument(s)");
+        parser.accepts("brief", "only show validation status (OK/NOT OK)");
         parser.accepts("help", "show this help").forHelp();
         parser.formatHelpWith(HELP);
 
         final OptionSet optionSet;
         final boolean isSyntax;
         final int requiredArgs;
+        Reporter reporter = Reporters.DEFAULT;
 
         try {
             optionSet = parser.parse(args);
@@ -91,21 +93,24 @@ public final class Main
         for (final String target: arguments)
             files.add(new File(target).getCanonicalFile());
 
-        new Main().proceed(isSyntax, files);
+        if (optionSet.has("brief"))
+            reporter = Reporters.BRIEF;
+
+        new Main().proceed(reporter, isSyntax, files);
     }
 
-    private void proceed(final boolean isSyntax, final List<File> files)
+    private void proceed(final Reporter reporter, final boolean isSyntax,
+        final List<File> files)
         throws IOException, ProcessingException
     {
-        final RetCode retCode = isSyntax ? doSyntax(files)
-            : doValidation(files);
+        final RetCode retCode = isSyntax ? doSyntax(reporter, files)
+            : doValidation(reporter, files);
         System.exit(retCode.get());
     }
 
-    private RetCode doSyntax(final List<File> files)
+    private RetCode doSyntax(final Reporter reporter, final List<File> files)
         throws IOException
     {
-        final Reporter reporter = Reporters.DEFAULT;
         RetCode retcode, ret = ALL_OK;
         String fileName;
         JsonNode node;
@@ -121,10 +126,10 @@ public final class Main
         return ret;
     }
 
-    private RetCode doValidation(final List<File> files)
+    private RetCode doValidation(final Reporter reporter,
+        final List<File> files)
         throws IOException, ProcessingException
     {
-        final Reporter reporter = Reporters.DEFAULT;
         final File schemaFile = files.remove(0);
         JsonNode node;
 

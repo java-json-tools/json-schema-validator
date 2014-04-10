@@ -70,6 +70,7 @@ final class CustomHelpFormatter
         lines.add("\t1: exception occurred (appears on stderr)");
         lines.add("\t2: command line syntax error (missing argument, etc)");
         lines.add("\t100: one or more file(s) failed validation");
+        lines.add("\t101: one or more schema(s) is/are invalid");
 
         return JOINER.join(lines) + LINE_SEPARATOR;
     }
