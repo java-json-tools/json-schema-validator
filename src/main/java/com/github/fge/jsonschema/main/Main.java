@@ -45,6 +45,7 @@ public final class Main
     private static final int ALL_OK = 0;
     private static final int CMD_ERROR = 2;
     private static final int VALIDATION_FAILURE = 100;
+    private static final int SCHEMA_SYNTAX_ERROR = 101;
 
     private static final String LINE_SEPARATOR
         = System.getProperty("line.separator", "\n");
@@ -58,8 +59,11 @@ public final class Main
 
     private static final HelpFormatter HELP = new CustomHelpFormatter();
 
+    private static final ObjectMapper MAPPER = JacksonUtils.newMapper();
+
     private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-    private final ObjectMapper mapper = JacksonUtils.newMapper();
+    private final SyntaxValidator syntaxValidator
+        = factory.getSyntaxValidator();
 
     public static void main(final String... args)
         throws IOException, ProcessingException
@@ -117,44 +121,41 @@ public final class Main
     private int doSyntax(final List<File> files)
         throws IOException
     {
-        final SyntaxValidator validator = factory.getSyntaxValidator();
-
-        ListProcessingReport report;
-        int retcode = ALL_OK;
-
+        final Reporter reporter = Reporters.DEFAULT;
+        int retcode, ret = ALL_OK;
+        String fileName;
         JsonNode node;
 
         for (final File file: files) {
-            node = mapper.readTree(file);
-            System.out.println("--- BEGIN " + file + "---");
-            report = (ListProcessingReport) validator.validateSchema(node);
-            System.out.println(JacksonUtils.prettyPrint(report.asJson()));
-            if (!report.isSuccess())
-                retcode = VALIDATION_FAILURE;
-            System.out.println("--- END " + file + "---");
+            fileName = file.toString();
+            node = MAPPER.readTree(file);
+            retcode = reporter.validateSchema(syntaxValidator, fileName, node);
+            if (retcode != ALL_OK)
+                ret = retcode;
         }
 
-        return retcode;
+        return ret;
     }
 
     private int doValidation(final List<File> files)
         throws IOException, ProcessingException
     {
-        final JsonNode schemaNode = mapper.readTree(files.remove(0));
-        final JsonSchema schema = factory.getJsonSchema(schemaNode);
+        final Reporter reporter = Reporters.DEFAULT;
+        final File schemaFile = files.remove(0);
+        final JsonNode node = MAPPER.readTree(schemaFile);
 
-        JsonNode node;
-        ListProcessingReport report;
-        int ret = ALL_OK;
+        if (!syntaxValidator.schemaIsValid(node)) {
+            System.err.println("Schema is invalid! Aborting...");
+            return SCHEMA_SYNTAX_ERROR;
+        }
 
+        final JsonSchema schema = factory.getJsonSchema(node);
+
+        int ret = ALL_OK, retcode;
         for (final File file: files) {
-            System.out.println("--- BEGIN " + file + "---");
-            node = mapper.readTree(file);
-            report = (ListProcessingReport) schema.validate(node);
-            System.out.println(JacksonUtils.prettyPrint(report.asJson()));
-            if (!report.isSuccess())
-                ret = VALIDATION_FAILURE;
-            System.out.println("--- END " + file + "---");
+            retcode = reporter.validateInstance(schema, file);
+            if (retcode != ALL_OK)
+                ret = retcode;
         }
 
         return ret;
@@ -204,6 +205,59 @@ public final class Main
             for (final String name: names)
                 list.add("--" + name);
             return OPTIONS_JOINER.join(list);
+        }
+    }
+
+    private interface Reporter
+    {
+        int validateSchema(final SyntaxValidator validator,
+            final String fileName, final JsonNode node)
+            throws IOException;
+        int validateInstance(final JsonSchema schema, final File file)
+            throws IOException, ProcessingException;
+    }
+
+    private enum Reporters
+        implements Reporter
+    {
+        DEFAULT
+        {
+            @Override
+            public int validateSchema(final SyntaxValidator validator,
+                final String fileName, final JsonNode node)
+                throws IOException
+            {
+                final ListProcessingReport report
+                    = (ListProcessingReport) validator.validateSchema(node);
+                final boolean success = report.isSuccess();
+                System.out.println("--- BEGIN " + fileName + "---");
+                System.out.println("validation: " + (success ? "SUCCESS"
+                    : "FAILURE"));
+                if (!success)
+                    System.out.println(JacksonUtils.prettyPrint(report
+                        .asJson()));
+                System.out.println("--- END " + fileName + "---");
+                return success ? ALL_OK : SCHEMA_SYNTAX_ERROR;
+            }
+
+            @Override
+            public int validateInstance(final JsonSchema schema,
+                final File file)
+                throws IOException, ProcessingException
+            {
+                final JsonNode node = MAPPER.readTree(file);
+                final ListProcessingReport report
+                    = (ListProcessingReport) schema.validate(node);
+                final boolean success = report.isSuccess();
+                System.out.println("--- BEGIN " + file + "---");
+                System.out.println("validation: " + (success ? "SUCCESS"
+                    : "FAILURE"));
+                if (!success)
+                    System.out.println(JacksonUtils.prettyPrint(report
+                        .asJson()));
+                System.out.println("--- END " + file + "---");
+                return success ? ALL_OK : VALIDATION_FAILURE;
+            }
         }
     }
 }
