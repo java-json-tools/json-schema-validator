@@ -130,6 +130,7 @@ artifacts {
     archives jar;
     archives sourcesJar;
     archives javadocJar;
+    archives fullJar;
 }
 
 task wrapper(type: Wrapper) {
