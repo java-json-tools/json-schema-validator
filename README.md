@@ -12,13 +12,47 @@ Should you wonder about it, this library is reported to [work on
 Android](http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema)
 :)
 
-You can [test this library online](http://json-schema-validator.herokuapp.com); you can even [fork
-this web site and run it yourself](https://github.com/fge/json-schema-validator-demo).
+### Google Group
 
-This project also has a dedicated [Google group](https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator).
+This project has a dedicated [Google
+group](https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator). For any questions
+you have about this software package, feel free to post! The author (me) will try and respond in a
+timely manner.
 
-Note: this project uses [Gradle](http://www.gradle.org) as the build system. See file `BUILD.md` for
-details.
+### Testing online
+
+You can [test this library online](http://json-schema-validator.herokuapp.com); this web site is in
+a [project of its own](https://github.com/fge/json-schema-validator-demo), which you can fork and
+run by yourself.
+
+### Command line
+
+Since 2.1.10, there is a command line application. For this, download the standalone jar from
+[Bintray](https://bintray.com/fge/maven/json-schema-validator/view) and run it. There are different
+options. Here is the output of `--help`:
+
+```
+$ java -Done-jar.silent=true -jar json-schema-validator-2.1.10-standalone.jar --help
+Syntax: java -jar jsonschema.jar [options] file [file...]
+
+Options: 
+    -s, --brief: only show validation status (OK/NOT OK)
+    --help: show this help
+    -q, --quiet: no output; exit with the relevant return code (see below)
+    --syntax: check the syntax of schema(s) given as argument(s)
+
+Exit codes:
+    0: validation successful;
+    1: exception occurred (appears on stderr)
+    2: command line syntax error (missing argument, etc)
+    100: one or more file(s) failed validation
+    101: one or more schema(s) is/are invalid
+```
+
+(note that `-Done-jar.silent=true` is needed for silent output; this is due to a bug in OneJar which
+is not silent by default; see [here](https://github.com/rholder/gradle-one-jar/issues/15) for more
+details)
+
 
 ## Versioning scheme policy
 
