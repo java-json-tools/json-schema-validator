@@ -31,7 +31,7 @@ The versioning scheme is defined by the **middle digit** of the version number:
 
 ## Versions
 
-* development version: **2.1.9**
+* development version: **2.1.10**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel),
   [Javadoc](http://fge.github.io/json-schema-validator/devel/index.html), [code
   samples](http://fge.github.io/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
