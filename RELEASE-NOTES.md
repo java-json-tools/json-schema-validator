@@ -1,3 +1,10 @@
+### 2.1.10
+
+* Plug in hyperschema syntax support...
+* Gradle 1.11.
+* Add a main method.
+* -core 1.1.11.
+
 ### 2.1.9
 
 * Fix bug with string length calculations: it is the number of Unicode code
