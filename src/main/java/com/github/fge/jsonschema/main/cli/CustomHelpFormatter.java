@@ -53,15 +53,20 @@ final class CustomHelpFormatter
         lines.add("");
         lines.add("Options: ");
 
+        final int helpIndex = lines.size();
         StringBuilder sb;
 
         for (final OptionDescriptor descriptor : opts) {
             if (descriptor.representsNonOptions())
                 continue;
+            final Collection<String> names = descriptor.options();
             sb = new StringBuilder().append('\t')
-                .append(optionsToString(descriptor.options())).append(": ")
+                .append(optionsToString(names)).append(": ")
                 .append(descriptor.description());
-            lines.add(sb.toString());
+            if (names.contains("help"))
+                lines.add(helpIndex, sb.toString());
+            else
+                lines.add(sb.toString());
         }
 
         lines.add("");

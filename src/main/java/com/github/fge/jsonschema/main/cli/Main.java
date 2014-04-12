@@ -52,13 +52,13 @@ public final class Main
         throws IOException, ProcessingException
     {
         final OptionParser parser = new OptionParser();
-        parser.accepts("syntax",
-            "check the syntax of schema(s) given as argument(s)");
+        parser.accepts("help", "show this help").forHelp();
         parser.acceptsAll(Arrays.asList("s", "brief"),
             "only show validation status (OK/NOT OK)");
         parser.acceptsAll(Arrays.asList("q", "quiet"),
             "no output; exit with the relevant return code (see below)");
-        parser.accepts("help", "show this help").forHelp();
+        parser.accepts("syntax",
+            "check the syntax of schema(s) given as argument(s)");
         parser.formatHelpWith(HELP);
 
         final OptionSet optionSet;
