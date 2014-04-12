@@ -22,6 +22,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
+import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfiguration;
+import com.github.fge.jsonschema.core.load.uri.URITranslatorConfigurationBuilder;
+import com.github.fge.jsonschema.core.util.URIUtils;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
@@ -44,9 +48,8 @@ public final class Main
 
     private static final ObjectMapper MAPPER = JacksonUtils.newMapper();
 
-    private final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
-    private final SyntaxValidator syntaxValidator
-        = factory.getSyntaxValidator();
+    private final JsonSchemaFactory factory;
+    private final SyntaxValidator syntaxValidator;
 
     public static void main(final String... args)
         throws IOException, ProcessingException
@@ -59,12 +62,17 @@ public final class Main
             "no output; exit with the relevant return code (see below)");
         parser.accepts("syntax",
             "check the syntax of schema(s) given as argument(s)");
+        parser.accepts("fakeroot",
+            "pretend that the current directory is absolute URI \"uri\"")
+            .withRequiredArg();
         parser.formatHelpWith(HELP);
 
         final OptionSet optionSet;
         final boolean isSyntax;
         final int requiredArgs;
+
         Reporter reporter = Reporters.DEFAULT;
+        String fakeRoot = null;
 
         try {
             optionSet = parser.parse(args);
@@ -87,6 +95,9 @@ public final class Main
             parser.printHelpOn(System.err);
             System.exit(CMD_ERROR.get());
         }
+
+        if (optionSet.has("fakeroot"))
+            fakeRoot = (String) optionSet.valueOf("fakeroot");
 
         isSyntax = optionSet.has("syntax");
         requiredArgs = isSyntax ? 1 : 2;
@@ -113,13 +124,28 @@ public final class Main
             reporter = Reporters.QUIET;
         }
 
-        new Main().proceed(reporter, isSyntax, files);
+        new Main(fakeRoot).proceed(reporter, files, isSyntax);
     }
 
-    private void proceed(final Reporter reporter, final boolean isSyntax,
-        final List<File> files)
+    Main(final String fakeRoot)
+        throws IOException
+    {
+        final URITranslatorConfigurationBuilder builder
+            = URITranslatorConfiguration.newBuilder();
+        if (fakeRoot != null)
+            builder.addPathRedirect(fakeRoot, getCwd());
+        final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
+            .setURITranslatorConfiguration(builder.freeze()).freeze();
+        factory = JsonSchemaFactory.newBuilder()
+            .setLoadingConfiguration(cfg).freeze();
+        syntaxValidator = factory.getSyntaxValidator();
+    }
+
+    private void proceed(final Reporter reporter, final List<File> files,
+        final boolean isSyntax)
         throws IOException, ProcessingException
     {
+
         final RetCode retCode = isSyntax ? doSyntax(reporter, files)
             : doValidation(reporter, files);
         System.exit(retCode.get());
@@ -168,5 +194,13 @@ public final class Main
         }
 
         return ret;
+    }
+
+    private static String getCwd()
+        throws IOException
+    {
+        final File cwd = new File(System.getProperty("user.dir", "."))
+            .getCanonicalFile();
+        return URIUtils.normalizeURI(cwd.toURI()).toString();
     }
 }

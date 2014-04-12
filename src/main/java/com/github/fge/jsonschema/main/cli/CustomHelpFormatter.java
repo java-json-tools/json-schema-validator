@@ -61,8 +61,10 @@ final class CustomHelpFormatter
                 continue;
             final Collection<String> names = descriptor.options();
             sb = new StringBuilder().append('\t')
-                .append(optionsToString(names)).append(": ")
-                .append(descriptor.description());
+                .append(optionsToString(names));
+            if (descriptor.requiresArgument())
+                sb.append(" uri");
+            sb.append(": ").append(descriptor.description());
             if (names.contains("help"))
                 lines.add(helpIndex, sb.toString());
             else
@@ -80,7 +82,7 @@ final class CustomHelpFormatter
         return JOINER.join(lines) + LINE_SEPARATOR;
     }
 
-    private String optionsToString(final Collection<String> names)
+    private static String optionsToString(final Collection<String> names)
     {
         final List<String> list = Lists.newArrayList();
         for (final String name : names)
