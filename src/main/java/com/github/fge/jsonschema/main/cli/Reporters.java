@@ -57,7 +57,7 @@ enum Reporters
             throws IOException, ProcessingException
         {
             final ListProcessingReport report
-                = (ListProcessingReport) schema.validate(node);
+                = (ListProcessingReport) schema.validate(node, true);
             final boolean success = report.isSuccess();
             System.out.println("--- BEGIN " + fileName + "---");
             System.out.println("validation: " + (success ? "SUCCESS"
