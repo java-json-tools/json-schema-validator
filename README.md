@@ -1,16 +1,22 @@
 ## Read me first
 
-This project, as of version 2.1.8, is licensed under both LGPLv3 and ASL 2.0.
-See file LICENSE for more details. Versions 2.1.7 and lower are licensed under
-LGPLv3 only.
+The **current** version of this project is licensed under both LGPLv3 (or later) and ASL 2.0. The old version
+(2.0.x) was licensed under LGPL 3.0 (or later) only.
 
-This implementation has complete validation support for the latest draft (v4) and the previous draft
-(v3). More generally, it has quite an [extensive list of
-features](https://github.com/fge/json-schema-validator/wiki/Features).
+**Version 2.2.0 is out**. See [here](https://github.com/fge/json-schema-validator/wiki/Whatsnew_22)
+for the list of changes compared to 2.0. And of course, it still has [all the
+features](https://github.com/fge/json-schema-validator/wiki/Features) of older versions.
+
+## What this is
+
+This is an implementation with complete validation support for the latest JSON Schema draft (v4,
+including hyperschema syntax support) and the previous draft (v3 -- no hyperschema support though).
+Its list of features would be too long to enumerate here; please refer to the links above!
 
 Should you wonder about it, this library is reported to [work on
-Android](http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema)
-:)
+Android](http://stackoverflow.com/questions/14511468/java-android-validate-string-json-against-string-schema).
+Starting with version 2.2.x, all APK conflicts have been resolved, so you can use this in this
+context as well.
 
 ### Google Group
 
@@ -27,32 +33,10 @@ run by yourself.
 
 ### Command line
 
-Since 2.1.10, there is a command line application. For this, download the standalone jar from
-[Bintray](https://bintray.com/fge/maven/json-schema-validator/view) and run it. There are different
-options. Here is the output of `--help`:
+There is a command line application. For this, download the **standalone** jar (a little more than 5
+MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
 
-```
-$ java -Done-jar.silent=true -jar json-schema-validator-2.1.10-standalone.jar --help
-Syntax: java -jar jsonschema.jar [options] file [file...]
-
-Options: 
-    -s, --brief: only show validation status (OK/NOT OK)
-    --help: show this help
-    -q, --quiet: no output; exit with the relevant return code (see below)
-    --syntax: check the syntax of schema(s) given as argument(s)
-
-Exit codes:
-    0: validation successful;
-    1: exception occurred (appears on stderr)
-    2: command line syntax error (missing argument, etc)
-    100: one or more file(s) failed validation
-    101: one or more schema(s) is/are invalid
-```
-
-(note that `-Done-jar.silent=true` is needed for silent output; this is due to a bug in OneJar which
-is not silent by default; see [here](https://github.com/rholder/gradle-one-jar/issues/15) for more
-details)
-
+Use `java -jar the.jar --help` for a detailed list of options.
 
 ## Versioning scheme policy
 
@@ -65,17 +49,16 @@ The versioning scheme is defined by the **middle digit** of the version number:
 
 ## Versions
 
-* development version: **2.1.10**
+* current stable version: **2.2.0**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel),
   [Javadoc](http://fge.github.io/json-schema-validator/devel/index.html), [code
   samples](http://fge.github.io/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
-* stable version: **2.0.3**
+* old stable version: **2.0.3**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable),
   [Javadoc](http://fge.github.io/json-schema-validator/stable/index.html), [code
   samples](http://fge.github.io/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 
-Since version 2.1.5, this package is available on
-[Bintray](https://bintray.com/fge/maven/json-schema-validator).
+2.2.x jars are available on [Bintray](https://bintray.com/fge/maven/json-schema-validator).
 
 ## Gradle/Maven artifact
 
@@ -96,15 +79,6 @@ Maven:
     <version>your-version-here</version>
 </dependency>
 ```
-
-## Extending usage beyond validation
-
-This library's dependency on [json-schema-core](https://github.com/fge/json-schema-core) opens up
-many possibilities for extensions. A [dedicated
-project](https://github.com/fge/json-schema-processor-examples) already has a few examples.
-
-The [site mentioned above](http://json-schema-validator.herokuapp.com) already has a few examples of
-what is possible. Much more is doable. In fact, the only limiting factor is your own imagination!
 
 ## Relevant documents
 
