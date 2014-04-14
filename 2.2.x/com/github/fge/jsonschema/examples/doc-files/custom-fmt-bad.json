@@ -1,0 +1,10 @@
+[
+    {
+        "id": "5aacaa7e-15f5-4798-9857-7c34a0d8fda0",
+        "name": "foo"
+    },
+    {
+        "id": "not-an-uuid",
+        "name": "bar"
+    }
+]
