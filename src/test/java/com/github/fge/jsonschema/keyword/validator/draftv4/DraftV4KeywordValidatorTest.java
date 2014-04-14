@@ -7,8 +7,9 @@
  *   later version;
  * - the Apache Software License (ASL) version 2.0.
  *
- * The text of both licenses is available under the src/resources/ directory of
- * this project (under the names LGPL-3.0.txt and ASL-2.0.txt respectively).
+ * The text of this file and of both licenses is available at the root of this
+ * project or, if you have the jar distribution, in directory META-INF/, under
+ * the names LGPL-3.0.txt and ASL-2.0.txt respectively.
  *
  * Direct link to the sources:
  *
