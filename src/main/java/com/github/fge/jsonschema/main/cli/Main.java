@@ -132,7 +132,8 @@ public final class Main
         throws IOException
     {
         final URITranslatorConfigurationBuilder builder
-            = URITranslatorConfiguration.newBuilder();
+            = URITranslatorConfiguration.newBuilder()
+                .setNamespace(getCwd());
         if (fakeRoot != null)
             builder.addPathRedirect(fakeRoot, getCwd());
         final LoadingConfiguration cfg = LoadingConfiguration.newBuilder()
@@ -175,6 +176,7 @@ public final class Main
         throws IOException, ProcessingException
     {
         final File schemaFile = files.remove(0);
+        final String uri = schemaFile.toURI().normalize().toString();
         JsonNode node;
 
         node = MAPPER.readTree(schemaFile);
@@ -183,7 +185,7 @@ public final class Main
             return SCHEMA_SYNTAX_ERROR;
         }
 
-        final JsonSchema schema = factory.getJsonSchema(node);
+        final JsonSchema schema = factory.getJsonSchema(uri);
 
         RetCode ret = ALL_OK, retcode;
 
