@@ -51,6 +51,12 @@ final class CustomHelpFormatter
         .add("    2: command line syntax error (missing argument, etc)")
         .add("  100: one or more file(s) failed validation")
         .add("  101: one or more schema(s) is/are invalid")
+        .add("")
+        .add("Note: by default, the URI of schemas you use in validation mode")
+        .add("(that is, when you don't use --syntax) is considered to be the")
+        .add("current working directory plus the filename. If your schemas")
+        .add("all have a common URI prefix in a top level \"id\", you can fake")
+        .add("that the current directory is that prefix using --fakeroot.")
         .build();
 
     private static final String LINE_SEPARATOR
@@ -76,7 +82,7 @@ final class CustomHelpFormatter
             if (descriptor.representsNonOptions())
                 continue;
             final Collection<String> names = descriptor.options();
-            sb = new StringBuilder().append('\t')
+            sb = new StringBuilder().append("    ")
                 .append(optionsToString(names));
             if (descriptor.requiresArgument())
                 sb.append(" uri");
