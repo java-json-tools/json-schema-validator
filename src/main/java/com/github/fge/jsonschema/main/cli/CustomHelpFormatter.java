@@ -20,6 +20,7 @@
 package com.github.fge.jsonschema.main.cli;
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import joptsimple.HelpFormatter;
 import joptsimple.OptionDescriptor;
@@ -33,8 +34,24 @@ import java.util.Set;
 final class CustomHelpFormatter
     implements HelpFormatter
 {
-    private static final String HELP_PREAMBLE
-        = "Syntax: java -jar jsonschema.jar [options] file [file...]";
+    private static final List<String> HELP_PREAMBLE = ImmutableList.of(
+        "Syntax:",
+        "    java -jar jsonschema.jar [options] schema file [file...]",
+        "    java -jar jsonschema.jar --syntax [options] schema [schema...]",
+        "",
+        "Options: "
+    );
+
+    private static final List<String> HELP_POST
+        = ImmutableList.<String>builder()
+        .add("")
+        .add("Exit codes:")
+        .add("    0: validation successful;")
+        .add("    1: exception occurred (appears on stderr)")
+        .add("    2: command line syntax error (missing argument, etc)")
+        .add("  100: one or more file(s) failed validation")
+        .add("  101: one or more schema(s) is/are invalid")
+        .build();
 
     private static final String LINE_SEPARATOR
         = System.getProperty("line.separator", "\n");
@@ -50,9 +67,7 @@ final class CustomHelpFormatter
         final Set<OptionDescriptor> opts = new LinkedHashSet<OptionDescriptor>(
             options.values());
 
-        lines.add(HELP_PREAMBLE);
-        lines.add("");
-        lines.add("Options: ");
+        lines.addAll(HELP_PREAMBLE);
 
         final int helpIndex = lines.size();
         StringBuilder sb;
@@ -72,13 +87,7 @@ final class CustomHelpFormatter
                 lines.add(sb.toString());
         }
 
-        lines.add("");
-        lines.add("Exit codes:");
-        lines.add("\t0: validation successful;");
-        lines.add("\t1: exception occurred (appears on stderr)");
-        lines.add("\t2: command line syntax error (missing argument, etc)");
-        lines.add("\t100: one or more file(s) failed validation");
-        lines.add("\t101: one or more schema(s) is/are invalid");
+        lines.addAll(HELP_POST);
 
         return JOINER.join(lines) + LINE_SEPARATOR;
     }
