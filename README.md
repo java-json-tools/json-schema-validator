@@ -3,7 +3,7 @@
 The **current** version of this project is licensed under both LGPLv3 (or later) and ASL 2.0. The old version
 (2.0.x) was licensed under LGPL 3.0 (or later) only.
 
-**Version 2.2.0 is out**. See [here](https://github.com/fge/json-schema-validator/wiki/Whatsnew_22)
+**Version 2.2 is out**. See [here](https://github.com/fge/json-schema-validator/wiki/Whatsnew_22)
 for the list of changes compared to 2.0. And of course, it still has [all the
 features](https://github.com/fge/json-schema-validator/wiki/Features) of older versions.
 
@@ -49,14 +49,14 @@ The versioning scheme is defined by the **middle digit** of the version number:
 
 ## Versions
 
-* current stable version: **2.2.0**
-  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.devel),
-  [Javadoc](http://fge.github.io/json-schema-validator/devel/index.html), [code
-  samples](http://fge.github.io/json-schema-validator/devel/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
+* current stable version: **2.2.1**
+  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_22x),
+  [Javadoc](http://fge.github.io/json-schema-validator/2.2.x/index.html), [code
+  samples](http://fge.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 * old stable version: **2.0.3**
-  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog.stable),
-  [Javadoc](http://fge.github.io/json-schema-validator/stable/index.html), [code
-  samples](http://fge.github.io/json-schema-validator/stable/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
+  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_20x),
+  [Javadoc](http://fge.github.io/json-schema-validator/2.0.x/index.html), [code
+  samples](http://fge.github.io/json-schema-validator/2.0.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 
 2.2.x jars are available on [Bintray](https://bintray.com/fge/maven/json-schema-validator).
 
