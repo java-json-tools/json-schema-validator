@@ -38,6 +38,20 @@ MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
 
 Use `java -jar the.jar --help` for a detailed list of options.
 
+## Versions
+
+* current stable version: **2.2.3**
+  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_22x),
+  [Javadoc](http://fge.github.io/json-schema-validator/2.2.x/index.html), [code
+  samples](http://fge.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
+* old stable version: **2.0.4**
+  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_20x),
+  [Javadoc](http://fge.github.io/json-schema-validator/2.0.x/index.html), [code
+  samples](http://fge.github.io/json-schema-validator/2.0.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
+
+2.2.x jars are available on [Bintray](https://bintray.com/fge/maven/json-schema-validator).
+
+
 ## Versioning scheme policy
 
 The versioning scheme is defined by the **middle digit** of the version number:
@@ -46,19 +60,6 @@ The versioning scheme is defined by the **middle digit** of the version number:
   added to such versions, and the user API will not change (save for some additions if requested).
 * if this number is **odd**, then this is the **development** version; new features will be
   added to those versions only, **and the user API may change**.
-
-## Versions
-
-* current stable version: **2.2.1**
-  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_22x),
-  [Javadoc](http://fge.github.io/json-schema-validator/2.2.x/index.html), [code
-  samples](http://fge.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
-* old stable version: **2.0.3**
-  ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_20x),
-  [Javadoc](http://fge.github.io/json-schema-validator/2.0.x/index.html), [code
-  samples](http://fge.github.io/json-schema-validator/2.0.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
-
-2.2.x jars are available on [Bintray](https://bintray.com/fge/maven/json-schema-validator).
 
 ## Gradle/Maven artifact
 
