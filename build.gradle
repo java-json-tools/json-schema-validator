@@ -128,11 +128,22 @@ task fullJar(type: OneJar) {
     archiveName = "jsonschema.jar";
 }
 
+/*
+ * Creates a jar that can be used as a library on java projects.
+ * This jar already includes all the dependencies.
+ */
+task libJar(type: Jar, dependsOn: jar) {
+    appendix = "lib"
+    from {configurations.compile.collect {zipTree(it)}}
+    with jar
+}
+
 artifacts {
     archives jar;
     archives sourcesJar;
     archives javadocJar;
     archives fullJar;
+    archives libJar;
 }
 
 task wrapper(type: Wrapper) {
