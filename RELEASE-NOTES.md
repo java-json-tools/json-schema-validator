@@ -1,4 +1,4 @@
-### 2.2.4 (not released yet)
+### 2.2.4
 
 * Add a "lib" target to the build.
 * Issue #99: append syntax errors when throwing an InvalidSchemaException.
