@@ -20,6 +20,8 @@
 package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.core.exceptions.InvalidSchemaException;
@@ -83,9 +85,27 @@ public final class ValidationProcessor
          */
         final ValidatorList fullContext = processor.process(report, context);
 
-        if (fullContext == null)
-            throw new InvalidSchemaException(new ProcessingMessage()
-                .setMessage(syntaxMessages.getMessage("core.invalidSchema")));
+        if (fullContext == null) {
+            /*
+             * OK, that's for issue #99 but that's ugly nevertheless.
+             *
+             * We want syntax error messages to appear in the exception text.
+             */
+            final String msg = syntaxMessages.getMessage("core.invalidSchema");
+            final ArrayNode arrayNode = JacksonUtils.nodeFactory().arrayNode();
+            JsonNode node;
+            for (final ProcessingMessage message: report) {
+                node = message.asJson();
+                if ("syntax".equals(node.path("domain").asText()))
+                    arrayNode.add(node);
+            }
+            final StringBuilder sb = new StringBuilder(msg);
+            sb.append("\nSyntax errors:\n");
+            sb.append(JacksonUtils.prettyPrint(arrayNode));
+            final ProcessingMessage message = new ProcessingMessage()
+                .setMessage(sb.toString());
+            throw new InvalidSchemaException(message);
+        }
 
         /*
          * Get the calculated context. Build the data.
