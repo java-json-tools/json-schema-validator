@@ -134,7 +134,9 @@ task fullJar(type: OneJar) {
  */
 task libJar(type: Jar, dependsOn: jar) {
     appendix = "lib"
-    from {configurations.compile.collect {zipTree(it)}}
+    from {
+        configurations.compile.collect { zipTree(it) }
+    }
     with jar
 }
 
