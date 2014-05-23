@@ -133,11 +133,11 @@ task fullJar(type: OneJar) {
  * This jar already includes all the dependencies.
  */
 task libJar(type: Jar, dependsOn: jar) {
-    appendix = "lib"
+    classifier = "lib";
     from {
         configurations.compile.collect { zipTree(it) }
-    }
-    with jar
+    };
+    with jar;
 }
 
 artifacts {
