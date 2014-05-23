@@ -18,29 +18,22 @@ Android](http://stackoverflow.com/questions/14511468/java-android-validate-strin
 Starting with version 2.2.x, all APK conflicts have been resolved, so you can use this in this
 context as well.
 
-### Google Group
+## Google Group
 
 This project has a dedicated [Google
 group](https://groups.google.com/forum/?fromgroups#!forum/json-schema-validator). For any questions
 you have about this software package, feel free to post! The author (me) will try and respond in a
 timely manner.
 
-### Testing online
+## Testing online
 
 You can [test this library online](http://json-schema-validator.herokuapp.com); this web site is in
 a [project of its own](https://github.com/fge/json-schema-validator-demo), which you can fork and
 run by yourself.
 
-### Command line
-
-There is a command line application. For this, download the **standalone** jar (a little more than 5
-MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
-
-Use `java -jar the.jar --help` for a detailed list of options.
-
 ## Versions
 
-* current stable version: **2.2.3**
+* current stable version: **2.2.4**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_22x),
   [Javadoc](http://fge.github.io/json-schema-validator/2.2.x/index.html), [code
   samples](http://fge.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
@@ -49,19 +42,11 @@ Use `java -jar the.jar --help` for a detailed list of options.
   [Javadoc](http://fge.github.io/json-schema-validator/2.0.x/index.html), [code
   samples](http://fge.github.io/json-schema-validator/2.0.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 
-2.2.x jars are available on [Bintray](https://bintray.com/fge/maven/json-schema-validator).
+## Available downloads
 
+### Gradle/maven
 
-## Versioning scheme policy
-
-The versioning scheme is defined by the **middle digit** of the version number:
-
-* if this number is **even**, then this is the **stable** version; no new features will be
-  added to such versions, and the user API will not change (save for some additions if requested).
-* if this number is **odd**, then this is the **development** version; new features will be
-  added to those versions only, **and the user API may change**.
-
-## Gradle/Maven artifact
+This package is available on Maven central; the artifact is as follows:
 
 Gradle:
 
@@ -80,6 +65,30 @@ Maven:
     <version>your-version-here</version>
 </dependency>
 ```
+
+### "Full" jar
+
+This jar contains the library plus all its dependencies. Download the **lib** jar (a little more
+than 6 MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
+
+### Command line
+
+There is a command line application. For this, download the **standalone** jar (a little more than 5
+MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
+
+Use `java -jar the.jar --help` for a detailed list of options.
+
+
+2.2.x jars are available on [Bintray](https://bintray.com/fge/maven/json-schema-validator).
+
+## Versioning scheme policy
+
+The versioning scheme is defined by the **middle digit** of the version number:
+
+* if this number is **even**, then this is the **stable** version; no new features will be
+  added to such versions, and the user API will not change (save for some additions if requested).
+* if this number is **odd**, then this is the **development** version; new features will be
+  added to those versions only, **and the user API may change**.
 
 ## Relevant documents
 
