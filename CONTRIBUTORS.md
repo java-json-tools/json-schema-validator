@@ -1,3 +1,7 @@
+### Pablo Pinhero
+
+* Add a "lib" target to the build: jar with all dependencies builtin.
+
 ### Corey Sciuto
 
 * Tests for date-time format attribute; date-time-millis format attribute (now

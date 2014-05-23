@@ -1,3 +1,7 @@
+### 2.2.4 (not released yet)
+
+* Add a "lib" target to the build
+
 ### 2.2.3
 
 * Re-release... 2.2.2 was compiled with JDK 8 :/
