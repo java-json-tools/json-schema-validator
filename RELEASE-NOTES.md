@@ -1,6 +1,9 @@
 ### 2.2.4 (not released yet)
 
-* Add a "lib" target to the build
+* Add a "lib" target to the build.
+* Issue #99: append syntax errors when throwing an InvalidSchemaException.
+* Issue #100: attempt to load resources from the context classloader if loading
+  from JsonLoader.class fails.
 
 ### 2.2.3
 
