@@ -31,12 +31,15 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonValidator;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.uritemplate.URITemplate;
 import com.github.fge.uritemplate.URITemplateException;
+import com.github.fge.uritemplate.URITemplateParseException;
 import com.github.fge.uritemplate.vars.VariableMap;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
@@ -50,7 +53,16 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Main validation processor
+ * Processor for validating one schema/instance pair
+ *
+ * <p>One such processor is created for each schema/instance validation.</p>
+ *
+ * <p>Internally, all validation operations provided by the API (whether that
+ * be a {@link JsonSchema}, via {@link JsonValidator} or using {@link
+ * ValidationProcessor} directly) will eventually instantiate one of these. More
+ * precisely, this is instantiated by {@link
+ * ValidationProcessor#process(ProcessingReport, FullData)}.</p>
+ *
  */
 @NotThreadSafe
 @ParametersAreNonnullByDefault
@@ -71,7 +83,7 @@ public final class InstanceValidator
      * Whatever the data, validation will end up validating, for a same pointer
      * into the instance, the following pointers into the schema:
      *
-     * "" -> "/oneOf/0" -> "/oneOf/1" -> "" <-- LOOP
+     * "" -> "/oneOf/0" -> "/oneOf/1" -> "/oneOf/0" <-- LOOP
      *
      * This is not a JSON Reference loop here, but truly a validation loop.
      *
@@ -84,6 +96,13 @@ public final class InstanceValidator
     private final Set<Equivalence.Wrapper<FullData>> visited
         = Sets.newLinkedHashSet();
 
+    /**
+     * Constructor -- do not use directly!
+     *
+     * @param syntaxMessages the syntax message bundle
+     * @param validationMessages the validation message bundle
+     * @param keywordBuilder the keyword builder
+     */
     public InstanceValidator(final MessageBundle syntaxMessages,
         final MessageBundle validationMessages,
         final Processor<SchemaContext, ValidatorList> keywordBuilder)
@@ -98,22 +117,12 @@ public final class InstanceValidator
         final FullData input)
         throws ProcessingException
     {
-        if (!visited.add(FULL_DATA_EQUIVALENCE.wrap(input))) {
-            final String errmsg
-                = validationMessages.getMessage("err.common.validationLoop");
-            final ArrayNode node = JacksonUtils.nodeFactory().arrayNode();
-            for (final Equivalence.Wrapper<FullData> e: visited)
-                //noinspection ConstantConditions
-                node.add(toJson(e.get()));
-            final ProcessingMessage message = input.newMessage()
-                .put("domain", "validation")
-                .setMessage(errmsg)
-                .putArgument("alreadyVisited", toJson(input))
-                .putArgument("instancePointer",
-                    input.getInstance().getPointer().toString())
-                .put("validationPath", node);
-            throw new ProcessingException(message);
-        }
+        /*
+         * We don't want the same validation context to appear twice, see above
+         */
+        if (!visited.add(FULL_DATA_EQUIVALENCE.wrap(input)))
+            throw new ProcessingException(validationLoopMessage(input));
+
 
         /*
          * Build a validation context, attach a report to it
@@ -169,25 +178,10 @@ public final class InstanceValidator
         return input;
     }
 
-    private ProcessingMessage collectSyntaxErrors(final ProcessingReport report)
+    @Override
+    public String toString()
     {
-        /*
-         * OK, that's for issue #99 but that's ugly nevertheless.
-         *
-         * We want syntax error messages to appear in the exception text.
-         */
-        final String msg = syntaxMessages.getMessage("core.invalidSchema");
-        final ArrayNode arrayNode = JacksonUtils.nodeFactory().arrayNode();
-        JsonNode node;
-        for (final ProcessingMessage message: report) {
-            node = message.asJson();
-            if ("syntax".equals(node.path("domain").asText()))
-                arrayNode.add(node);
-        }
-        final StringBuilder sb = new StringBuilder(msg);
-        sb.append("\nSyntax errors:\n");
-        sb.append(JacksonUtils.prettyPrint(arrayNode));
-        return new ProcessingMessage().setMessage(sb.toString());
+        return "instance validator";
     }
 
     private void processArray(final ProcessingReport report,
@@ -200,7 +194,8 @@ public final class InstanceValidator
         final JsonNode schema = tree.getNode();
         final JsonNode node = instance.getNode();
 
-        final JsonNode digest = ArraySchemaDigester.getInstance().digest(schema);
+        final JsonNode digest = ArraySchemaDigester.getInstance()
+            .digest(schema);
         final ArraySchemaSelector selector = new ArraySchemaSelector(digest);
 
         final int size = node.size();
@@ -248,21 +243,58 @@ public final class InstanceValidator
         }
     }
 
-    @Override
-    public String toString()
+    private ProcessingMessage validationLoopMessage(final FullData input)
     {
-        return "instance validator";
+        final String errmsg
+            = validationMessages.getMessage("err.common.validationLoop");
+        final ArrayNode node = JacksonUtils.nodeFactory().arrayNode();
+        for (final Equivalence.Wrapper<FullData> e: visited)
+            //noinspection ConstantConditions
+            node.add(toJson(e.get()));
+        return input.newMessage()
+            .put("domain", "validation")
+            .setMessage(errmsg)
+            .putArgument("alreadyVisited", toJson(input))
+            .putArgument("instancePointer",
+                input.getInstance().getPointer().toString())
+            .put("validationPath", node);
+    }
+
+    private ProcessingMessage collectSyntaxErrors(final ProcessingReport report)
+    {
+        /*
+         * OK, that's for issue #99 but that's ugly nevertheless.
+         *
+         * We want syntax error messages to appear in the exception text.
+         */
+        final String msg = syntaxMessages.getMessage("core.invalidSchema");
+        final ArrayNode arrayNode = JacksonUtils.nodeFactory().arrayNode();
+        JsonNode node;
+        for (final ProcessingMessage message: report) {
+            node = message.asJson();
+            if ("syntax".equals(node.path("domain").asText()))
+                arrayNode.add(node);
+        }
+        final StringBuilder sb = new StringBuilder(msg);
+        sb.append("\nSyntax errors:\n");
+        sb.append(JacksonUtils.prettyPrint(arrayNode));
+        return new ProcessingMessage().setMessage(sb.toString());
     }
 
     private static String toJson(final FullData data)
     {
         final SchemaTree tree = data.getSchema();
         final URI baseUri = tree.getLoadingRef().getLocator();
+        final VariableMap vars = VariableMap.newBuilder().addScalarValue("ptr",
+            tree.getPointer()).freeze();
+        // TODO: there should be an easier way to do that...
+        final URITemplate template;
         try {
-            // TODO: there should be an easier way to do that...
-            final URITemplate template = new URITemplate(baseUri + "{+ptr}");
-            final VariableMap vars = VariableMap.newBuilder().addScalarValue(
-                "ptr", tree.getPointer()).freeze();
+            template = new URITemplate(baseUri + "{+ptr}");
+        } catch (URITemplateParseException e) {
+            throw new IllegalStateException("wtf??", e);
+        }
+        try {
             return template.toString(vars);
         } catch (URITemplateException e) {
             throw new IllegalStateException("wtf??", e);

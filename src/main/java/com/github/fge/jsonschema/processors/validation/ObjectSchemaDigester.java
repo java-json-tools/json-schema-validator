@@ -31,7 +31,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 
 /**
- * JSON Schema digester for an {@link ObjectSchemaDigester}
+ * JSON Schema digester for an {@link ObjectSchemaSelector}
  */
 public final class ObjectSchemaDigester
     extends AbstractDigester
