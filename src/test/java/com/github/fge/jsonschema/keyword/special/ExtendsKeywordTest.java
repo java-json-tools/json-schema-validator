@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.DraftV3ValidatorDictionary;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
@@ -81,7 +82,8 @@ public final class ExtendsKeywordTest
 
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("extends", FACTORY.objectNode());
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 
         final JsonTree instance = new SimpleJsonTree(FACTORY.nullNode());
         data = new FullData(tree, instance);

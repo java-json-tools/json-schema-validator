@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
@@ -108,7 +109,8 @@ public final class PatternKeywordTest
         throws IllegalAccessException, InvocationTargetException,
         InstantiationException, ProcessingException
     {
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final JsonTree instance = new SimpleJsonTree(node);
         final FullData data = new FullData(tree, instance);
 
