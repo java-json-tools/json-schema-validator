@@ -19,8 +19,6 @@
 
 package com.github.fge.jsonschema.processors.validation;
 
-import com.github.fge.jsonschema.core.tree.SchemaTree;
-import com.github.fge.jsonschema.core.util.equivalence.SchemaTreeEquivalence;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.google.common.base.Equivalence;
 
@@ -36,16 +34,12 @@ import com.google.common.base.Equivalence;
  *     <li>and the type of the instance is the same.</li>
  * </ul>
  *
- * @see SchemaTreeEquivalence
  */
 public final class SchemaContextEquivalence
     extends Equivalence<SchemaContext>
 {
     private static final Equivalence<SchemaContext> INSTANCE
         = new SchemaContextEquivalence();
-
-    private static final Equivalence<SchemaTree> TREE_EQUIVALENCE
-        = SchemaTreeEquivalence.getInstance();
 
     public static Equivalence<SchemaContext> getInstance()
     {
@@ -55,14 +49,13 @@ public final class SchemaContextEquivalence
     @Override
     protected boolean doEquivalent(final SchemaContext a, final SchemaContext b)
     {
-        return TREE_EQUIVALENCE.equivalent(a.getSchema(), b.getSchema())
+        return a.getSchema().equals(b.getSchema())
             && a.getInstanceType() == b.getInstanceType();
     }
 
     @Override
     protected int doHash(final SchemaContext t)
     {
-        return 31 * TREE_EQUIVALENCE.hash(t.getSchema())
-            + t.getInstanceType().hashCode();
+        return t.getSchema().hashCode() ^ t.getInstanceType().hashCode();
     }
 }
