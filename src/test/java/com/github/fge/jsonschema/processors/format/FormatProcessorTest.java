@@ -33,6 +33,7 @@ import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
@@ -87,7 +88,8 @@ public final class FormatProcessorTest
         throws ProcessingException
     {
         final ObjectNode schema = FACTORY.objectNode();
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final SchemaContext context = new SchemaContext(tree, NodeType.NULL);
         final ValidatorList in = new ValidatorList(context,
             Collections.<KeywordValidator>emptyList());
@@ -105,7 +107,8 @@ public final class FormatProcessorTest
     {
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", "foo");
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final SchemaContext context = new SchemaContext(tree, NodeType.NULL);
         final ValidatorList in = new ValidatorList(context,
             Collections.<KeywordValidator>emptyList());
@@ -133,7 +136,8 @@ public final class FormatProcessorTest
     {
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", FMT);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final SchemaContext context = new SchemaContext(tree, NodeType.NULL);
         final ValidatorList in = new ValidatorList(context,
             Collections.<KeywordValidator>emptyList());
@@ -157,7 +161,8 @@ public final class FormatProcessorTest
     {
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", FMT);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final JsonTree instance = new SimpleJsonTree(node);
         final FullData data = new FullData(tree, instance);
         final SchemaContext context = new SchemaContext(data);
@@ -192,7 +197,8 @@ public final class FormatProcessorTest
     {
         final ObjectNode schema = FACTORY.objectNode();
         schema.put("format", FMT);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final SchemaContext context
             = new SchemaContext(tree, NodeType.getNodeType(node));
         final ValidatorList in = new ValidatorList(context,

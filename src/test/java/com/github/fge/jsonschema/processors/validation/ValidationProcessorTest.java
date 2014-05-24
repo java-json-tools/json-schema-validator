@@ -38,6 +38,7 @@ import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Keyword;
@@ -104,7 +105,8 @@ public final class ValidationProcessorTest
     public void childrenAreNotExploredByDefaultIfContainerFails()
         throws ProcessingException
     {
-        final SchemaTree schema = new CanonicalSchemaTree(RAWSCHEMA);
+        final SchemaTree schema
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), RAWSCHEMA);
         final JsonTree instance = new SimpleJsonTree(RAWINSTANCE);
         final FullData data = new FullData(schema, instance);
         final ProcessingReport report = mock(ProcessingReport.class);
@@ -116,7 +118,8 @@ public final class ValidationProcessorTest
     public void childrenAreExploredOnDemandEvenIfContainerFails()
         throws ProcessingException
     {
-        final SchemaTree schema = new CanonicalSchemaTree(RAWSCHEMA);
+        final SchemaTree schema
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), RAWSCHEMA);
         final JsonTree instance = new SimpleJsonTree(RAWINSTANCE);
         final FullData data = new FullData(schema, instance, true);
         final ProcessingReport report = mock(ProcessingReport.class);

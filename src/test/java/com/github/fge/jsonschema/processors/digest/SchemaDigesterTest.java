@@ -29,6 +29,7 @@ import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.keyword.digest.Digester;
@@ -100,7 +101,8 @@ public final class SchemaDigesterTest
         throws ProcessingException
     {
         final NodeType type = NodeType.getNodeType(node);
-        final SchemaTree tree = new CanonicalSchemaTree(schema);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
         final SchemaContext context = new SchemaContext(tree, type);
         final ProcessingReport report = mock(ProcessingReport.class);
 
@@ -129,7 +131,8 @@ public final class SchemaDigesterTest
     {
         final ObjectNode node = FACTORY.objectNode();
         node.put(K1, K1);
-        final SchemaTree schemaTree = new CanonicalSchemaTree(node);
+        final SchemaTree schemaTree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), node);
         final SchemaContext context
             = new SchemaContext(schemaTree, NodeType.NULL);
         final ProcessingReport report = mock(ProcessingReport.class);
