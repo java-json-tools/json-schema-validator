@@ -35,27 +35,6 @@
  *
  * https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
  */
-buildscript {
-    repositories {
-        mavenCentral();
-//        maven {
-//            url "http://repo.springsource.org/plugins-release";
-//        }
-    }
-    dependencies {
-        classpath(group: "com.github.rholder", name: "gradle-one-jar",
-            version: "1.0.4");
-//        classpath(group: "org.springframework.build.gradle",
-//            name: "propdeps-plugin", version: "0.0.5");
-    }
-};
-
-//configure(allprojects) {
-//    apply(plugin: "propdeps");
-//    apply(plugin: "propdeps-maven");
-//    apply(plugin: "propdeps-idea");
-//    apply(plugin: "propdeps-eclipse");
-//}
 
 apply(plugin: "java");
 apply(plugin: "maven");
@@ -63,7 +42,6 @@ apply(plugin: "signing");
 apply(plugin: "osgi");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
-apply(plugin: "gradle-one-jar");
 
 group = "com.github.fge";
 version = "2.2.5-SNAPSHOT";
@@ -164,11 +142,6 @@ task javadocJar(type: Jar, dependsOn: copyDocFiles) {
     from javadoc.destinationDir;
 }
 
-task fullJar(type: OneJar) {
-    mainClass = "com.github.fge.jsonschema.main.cli.Main";
-    archiveName = "jsonschema.jar";
-}
-
 /*
  * Creates a jar that can be used as a library on java projects.
  * This jar already includes all the dependencies.
@@ -181,11 +154,15 @@ task libJar(type: Jar, dependsOn: jar) {
     with jar;
 }
 
+jar {
+    manifest {
+        attributes("Main-Class": "com.github.fge.jsonschema.main.cli.Main");
+    }
+}
 artifacts {
     archives jar;
     archives sourcesJar;
     archives javadocJar;
-    archives fullJar;
     archives libJar;
 }
 
