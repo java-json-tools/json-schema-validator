@@ -37,9 +37,7 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
@@ -54,8 +52,6 @@ public final class ValidationProcessor
     private final MessageBundle syntaxMessages;
     private final MessageBundle validationMessages;
     private final Processor<SchemaContext, ValidatorList> processor;
-    private final LoadingCache<JsonNode, ArraySchemaSelector> arrayCache;
-    private final LoadingCache<JsonNode, ObjectSchemaSelector> objectCache;
 
     public ValidationProcessor(final ValidationConfiguration cfg,
         final Processor<SchemaContext, ValidatorList> processor)
@@ -65,8 +61,6 @@ public final class ValidationProcessor
         this.processor = new CachingProcessor<SchemaContext, ValidatorList>(
             processor, SchemaContextEquivalence.getInstance()
         );
-        arrayCache = CacheBuilder.newBuilder().build(arrayLoader());
-        objectCache = CacheBuilder.newBuilder().build(objectLoader());
     }
 
     @Override
@@ -155,7 +149,7 @@ public final class ValidationProcessor
         final JsonNode node = instance.getNode();
 
         final JsonNode digest = ArraySchemaDigester.getInstance().digest(schema);
-        final ArraySchemaSelector selector = arrayCache.getUnchecked(digest);
+        final ArraySchemaSelector selector = new ArraySchemaSelector(digest);
 
         final int size = node.size();
 
@@ -184,7 +178,7 @@ public final class ValidationProcessor
 
         final JsonNode digest = ObjectSchemaDigester.getInstance()
             .digest(schema);
-        final ObjectSchemaSelector selector = objectCache.getUnchecked(digest);
+        final ObjectSchemaSelector selector = new ObjectSchemaSelector(digest);
 
         final List<String> fields = Lists.newArrayList(node.fieldNames());
         Collections.sort(fields);
