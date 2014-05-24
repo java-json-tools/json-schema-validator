@@ -31,6 +31,7 @@ import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -110,7 +111,8 @@ public abstract class AbstractKeywordValidatorTest
         InstantiationException, ProcessingException
     {
         // FIXME: dummy, but we have no choice
-        final SchemaTree tree = new CanonicalSchemaTree(digest);
+        final SchemaTree tree
+            = new CanonicalSchemaTree(SchemaKey.anonymousKey(), digest);
         final JsonTree instance = new SimpleJsonTree(node);
         final FullData data = new FullData(tree, instance);
 
