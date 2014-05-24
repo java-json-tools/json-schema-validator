@@ -61,6 +61,26 @@ public final class InstanceValidator
     private final MessageBundle validationMessages;
     private final Processor<SchemaContext, ValidatorList> keywordBuilder;
 
+    /*
+     * It is possible to trigger a validation loop if there is a repeated
+     * triplet schema ID/schema pointer/instance pointer while we validate;
+     * example schema:
+     *
+     * { "oneOf": [ {}, { "$ref": "#" } ] }
+     *
+     * Whatever the data, validation will end up validating, for a same pointer
+     * into the instance, the following pointers into the schema:
+     *
+     * "" -> "/oneOf/0" -> "/oneOf/1" -> "" <-- LOOP
+     *
+     * This is not a JSON Reference loop here, but truly a validation loop.
+     *
+     * We therefore use this set to record the triplets seen by using an
+     * Equivalence over FullData which detects this. This is helped by the fact
+     * that SchemaTree now implements equals()/hashCode() in -core; since this
+     * class is instantiated for each instance validation, we are certain that
+     * what instance pointer is seen is the one of the instance we validate.
+     */
     private final Set<Equivalence.Wrapper<FullData>> visited
         = Sets.newLinkedHashSet();
 
@@ -88,7 +108,10 @@ public final class InstanceValidator
             final ProcessingMessage message = input.newMessage()
                 .put("domain", "validation")
                 .setMessage(errmsg)
-                .put("visited", node);
+                .putArgument("alreadyVisited", toJson(input))
+                .putArgument("instancePointer",
+                    input.getInstance().getPointer().toString())
+                .put("validationPath", node);
             throw new ProcessingException(message);
         }
 
@@ -231,15 +254,16 @@ public final class InstanceValidator
         return "instance validator";
     }
 
-    private static JsonNode toJson(final FullData data)
+    private static String toJson(final FullData data)
     {
         final SchemaTree tree = data.getSchema();
         final URI baseUri = tree.getLoadingRef().getLocator();
         try {
+            // TODO: there should be an easier way to do that...
             final URITemplate template = new URITemplate(baseUri + "{+ptr}");
             final VariableMap vars = VariableMap.newBuilder().addScalarValue(
                 "ptr", tree.getPointer()).freeze();
-            return JacksonUtils.nodeFactory().textNode(template.toString(vars));
+            return template.toString(vars);
         } catch (URITemplateException e) {
             throw new IllegalStateException("wtf??", e);
         }

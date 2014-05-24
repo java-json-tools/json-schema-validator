@@ -26,10 +26,13 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.NodeType;
+import com.github.fge.jackson.jsonpointer.JsonPointer;
+import com.github.fge.jackson.jsonpointer.JsonPointerException;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.core.processing.Processor;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.JsonTree;
@@ -49,8 +52,11 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.net.URI;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
@@ -120,7 +126,7 @@ public final class ValidationProcessorTest
 
     @Test(timeOut = 1000)
     public void circularReferencingDuringValidationIsDetected()
-        throws IOException, ProcessingException
+        throws IOException, ProcessingException, JsonPointerException
     {
         final JsonNode schemaNode
             = JsonLoader.fromResource("/other/issue102.json");
@@ -128,15 +134,22 @@ public final class ValidationProcessorTest
         final JsonValidator validator = factory.getValidator();
         final MessageBundle bundle
             = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
-        final String expectedMsg
-            = bundle.getMessage("err.common.validationLoop");
 
         try {
             validator.validate(schemaNode,
                 JacksonUtils.nodeFactory().nullNode());
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            assertEquals(e.getProcessingMessage().getMessage(), expectedMsg);
+            final URI uri = URI.create("#/oneOf/0");
+            final ProcessingMessage message = e.getProcessingMessage();
+            final String expectedMessage
+                = bundle.printf("err.common.validationLoop", uri, "");
+            assertMessage(message)
+                .hasMessage(expectedMessage)
+                .hasField("alreadyVisited", uri)
+                .hasField("instancePointer", JsonPointer.empty().toString())
+                .hasField("validationPath",
+                    Arrays.asList("#", "#/oneOf/0", "#/oneOf/1"));
         }
         assertTrue(true);
     }
