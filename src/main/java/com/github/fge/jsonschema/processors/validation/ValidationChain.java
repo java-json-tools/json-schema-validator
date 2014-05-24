@@ -30,7 +30,6 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.util.ValueHolder;
-import com.github.fge.jsonschema.core.util.equivalence.SchemaTreeEquivalence;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processors.build.ValidatorBuilder;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
@@ -38,6 +37,8 @@ import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.digest.SchemaDigester;
 import com.github.fge.jsonschema.processors.format.FormatProcessor;
 import com.google.common.base.Equivalence;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 /**
  * A validation chain
@@ -80,8 +81,7 @@ public final class ValidationChain
             = ProcessorChain.startWith(digester).chainWith(keywordBuilder);
 
         if (cfg.getUseFormat()) {
-            final FormatProcessor format
-                = new FormatProcessor(library, cfg);
+            final FormatProcessor format = new FormatProcessor(library, cfg);
             chain2 = chain2.chainWith(format);
         }
 
@@ -120,26 +120,24 @@ public final class ValidationChain
         return resolver + " -> " + builder;
     }
 
+    @ParametersAreNonnullByDefault
     private static final class SchemaHolderEquivalence
         extends Equivalence<ValueHolder<SchemaTree>>
     {
         private static final Equivalence<ValueHolder<SchemaTree>> INSTANCE
             = new SchemaHolderEquivalence();
 
-        private static final Equivalence<SchemaTree> EQUIVALENCE
-            = SchemaTreeEquivalence.getInstance();
-
         @Override
         protected boolean doEquivalent(final ValueHolder<SchemaTree> a,
             final ValueHolder<SchemaTree> b)
         {
-            return EQUIVALENCE.equivalent(a.getValue(), b.getValue());
+            return a.getValue().equals(b.getValue());
         }
 
         @Override
         protected int doHash(final ValueHolder<SchemaTree> t)
         {
-            return EQUIVALENCE.hash(t.getValue());
+            return t.getValue().hashCode();
         }
     }
 }
