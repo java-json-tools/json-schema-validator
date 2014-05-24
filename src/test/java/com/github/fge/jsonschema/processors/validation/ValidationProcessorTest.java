@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
+import com.github.fge.jackson.JsonLoader;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -39,15 +40,18 @@ import com.github.fge.jsonschema.library.DraftV4Library;
 import com.github.fge.jsonschema.library.Keyword;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
+import com.github.fge.jsonschema.main.JsonValidator;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public final class ValidationProcessorTest
 {
@@ -109,6 +113,19 @@ public final class ValidationProcessorTest
         final ProcessingReport report = mock(ProcessingReport.class);
         processor.process(report, data);
         assertEquals(COUNT.get(), 1);
+    }
+
+    @Test(timeOut = 1000)
+    public void circularReferencingDuringValidationIsDetected()
+        throws IOException, ProcessingException
+    {
+        final JsonNode schemaNode
+            = JsonLoader.fromResource("/other/issue102.json");
+        final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+        final JsonValidator validator = factory.getValidator();
+
+        validator.validate(schemaNode, JacksonUtils.nodeFactory().nullNode());
+        assertTrue(true);
     }
 
     public static final class K1Validator
