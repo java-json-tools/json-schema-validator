@@ -1,3 +1,9 @@
+### 2.2.5
+
+* Fix issue #102: detect, and fail on, circular validation.
+* Simplify ValidationProcessor.
+* Remove one-jar generation; the -lib jar now includes Main-Class.
+
 ### 2.2.4
 
 * Add a "lib" target to the build.
