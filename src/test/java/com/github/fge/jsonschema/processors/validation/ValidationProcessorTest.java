@@ -136,7 +136,7 @@ public final class ValidationProcessorTest
                 JacksonUtils.nodeFactory().nullNode());
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            assertEquals(e.getMessage(), expectedMsg);
+            assertEquals(e.getProcessingMessage().getMessage(), expectedMsg);
         }
         assertTrue(true);
     }
