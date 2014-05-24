@@ -61,6 +61,7 @@ public final class FullData
         this(schema, instance, false);
     }
 
+    @Deprecated
     public FullData(final SchemaTree schema)
     {
         this(schema, null);
