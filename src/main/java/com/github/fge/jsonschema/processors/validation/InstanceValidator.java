@@ -21,7 +21,6 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.InvalidSchemaException;
@@ -36,12 +35,16 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.uritemplate.URITemplate;
+import com.github.fge.uritemplate.URITemplateException;
+import com.github.fge.uritemplate.vars.VariableMap;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.NotThreadSafe;
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -230,10 +233,16 @@ public final class InstanceValidator
 
     private static JsonNode toJson(final FullData data)
     {
-        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
-        node.put("schema", data.getSchema().asJson());
-        node.put("instance", data.getInstance().asJson());
-        return node;
+        final SchemaTree tree = data.getSchema();
+        final URI baseUri = tree.getLoadingRef().getLocator();
+        try {
+            final URITemplate template = new URITemplate(baseUri + "{+ptr}");
+            final VariableMap vars = VariableMap.newBuilder().addScalarValue(
+                "ptr", tree.getPointer()).freeze();
+            return JacksonUtils.nodeFactory().textNode(template.toString(vars));
+        } catch (URITemplateException e) {
+            throw new IllegalStateException("wtf??", e);
+        }
     }
 
     @ParametersAreNonnullByDefault
