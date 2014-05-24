@@ -41,8 +41,10 @@ import com.github.fge.jsonschema.library.Keyword;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.main.JsonValidator;
+import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
+import com.github.fge.msgsimple.load.MessageBundles;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -52,6 +54,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.mockito.Mockito.mock;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static org.testng.Assert.fail;
 
 public final class ValidationProcessorTest
 {
@@ -123,8 +126,18 @@ public final class ValidationProcessorTest
             = JsonLoader.fromResource("/other/issue102.json");
         final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
         final JsonValidator validator = factory.getValidator();
+        final MessageBundle bundle
+            = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
+        final String expectedMsg
+            = bundle.getMessage("err.common.validationLoop");
 
-        validator.validate(schemaNode, JacksonUtils.nodeFactory().nullNode());
+        try {
+            validator.validate(schemaNode,
+                JacksonUtils.nodeFactory().nullNode());
+            fail("No exception thrown!");
+        } catch (ProcessingException e) {
+            assertEquals(e.getMessage(), expectedMsg);
+        }
         assertTrue(true);
     }
 
