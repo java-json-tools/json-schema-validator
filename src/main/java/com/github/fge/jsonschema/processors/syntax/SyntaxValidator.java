@@ -32,6 +32,7 @@ import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.tree.CanonicalSchemaTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
+import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.ValueHolder;
 import com.github.fge.jsonschema.library.Library;
@@ -147,6 +148,6 @@ public final class SyntaxValidator
     private static ValueHolder<SchemaTree> holder(final JsonNode node)
     {
         return ValueHolder.<SchemaTree>hold("schema",
-            new CanonicalSchemaTree(node));
+            new CanonicalSchemaTree(SchemaKey.anonymousKey(), node));
     }
 }
