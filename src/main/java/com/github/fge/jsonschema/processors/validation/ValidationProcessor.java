@@ -58,9 +58,7 @@ public final class ValidationProcessor
     {
         syntaxMessages = cfg.getSyntaxMessages();
         validationMessages = cfg.getValidationMessages();
-        this.processor = new CachingProcessor<SchemaContext, ValidatorList>(
-            processor, SchemaContextEquivalence.getInstance()
-        );
+        this.processor = processor;
     }
 
     @Override

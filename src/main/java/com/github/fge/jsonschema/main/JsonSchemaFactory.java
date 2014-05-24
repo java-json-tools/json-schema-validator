@@ -30,6 +30,7 @@ import com.github.fge.jsonschema.core.load.RefResolver;
 import com.github.fge.jsonschema.core.load.SchemaLoader;
 import com.github.fge.jsonschema.core.load.configuration.LoadingConfiguration;
 import com.github.fge.jsonschema.core.messages.JsonSchemaCoreMessageBundle;
+import com.github.fge.jsonschema.core.processing.CachingProcessor;
 import com.github.fge.jsonschema.core.processing.Processor;
 import com.github.fge.jsonschema.core.processing.ProcessorMap;
 import com.github.fge.jsonschema.core.ref.JsonRef;
@@ -40,6 +41,7 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.syntax.SyntaxValidator;
+import com.github.fge.jsonschema.processors.validation.SchemaContextEquivalence;
 import com.github.fge.jsonschema.processors.validation.ValidationChain;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -270,6 +272,9 @@ public final class JsonSchemaFactory
             map.addEntry(ref, chain);
         }
 
-        return map.getProcessor();
+        final Processor<SchemaContext, ValidatorList> processor
+            = map.getProcessor();
+        return new CachingProcessor<SchemaContext, ValidatorList>(processor,
+            SchemaContextEquivalence.getInstance());
     }
 }
