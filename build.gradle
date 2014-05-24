@@ -44,7 +44,7 @@ apply(plugin: "idea");
 apply(plugin: "eclipse");
 
 group = "com.github.fge";
-version = "2.2.5-SNAPSHOT";
+version = "2.2.5";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
