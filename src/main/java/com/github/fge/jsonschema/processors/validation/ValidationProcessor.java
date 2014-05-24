@@ -19,29 +19,14 @@
 
 package com.github.fge.jsonschema.processors.validation;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.github.fge.jackson.JacksonUtils;
-import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
-import com.github.fge.jsonschema.core.exceptions.InvalidSchemaException;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
-import com.github.fge.jsonschema.core.processing.CachingProcessor;
 import com.github.fge.jsonschema.core.processing.Processor;
-import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.core.tree.JsonTree;
-import com.github.fge.jsonschema.core.tree.SchemaTree;
-import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.google.common.cache.CacheLoader;
-import com.google.common.collect.Lists;
-
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Main validation processor
@@ -66,156 +51,9 @@ public final class ValidationProcessor
         final FullData input)
         throws ProcessingException
     {
-        /*
-         * Build a validation context, attach a report to it
-         */
-        final SchemaContext context = new SchemaContext(input);
-
-        /*
-         * Get the full context from the cache. Inject the messages into the
-         * main report.
-         */
-        final ValidatorList fullContext = processor.process(report, context);
-
-        if (fullContext == null) {
-            /*
-             * OK, that's for issue #99 but that's ugly nevertheless.
-             *
-             * We want syntax error messages to appear in the exception text.
-             */
-            final String msg = syntaxMessages.getMessage("core.invalidSchema");
-            final ArrayNode arrayNode = JacksonUtils.nodeFactory().arrayNode();
-            JsonNode node;
-            for (final ProcessingMessage message: report) {
-                node = message.asJson();
-                if ("syntax".equals(node.path("domain").asText()))
-                    arrayNode.add(node);
-            }
-            final StringBuilder sb = new StringBuilder(msg);
-            sb.append("\nSyntax errors:\n");
-            sb.append(JacksonUtils.prettyPrint(arrayNode));
-            final ProcessingMessage message = new ProcessingMessage()
-                .setMessage(sb.toString());
-            throw new InvalidSchemaException(message);
-        }
-
-        /*
-         * Get the calculated context. Build the data.
-         */
-        final SchemaContext newContext = fullContext.getContext();
-        final FullData data = new FullData(newContext.getSchema(),
-            input.getInstance(), input.isDeepCheck());
-
-        /*
-         * Validate against all keywords.
-         */
-        for (final KeywordValidator validator: fullContext)
-            validator.validate(this, report, validationMessages, data);
-
-        /*
-         * At that point, if the report is a failure, we quit: there is no
-         * reason to go any further. Unless the user has asked to continue even
-         * in this case.
-         */
-        if (!(report.isSuccess() || data.isDeepCheck()))
-            return input;
-
-        /*
-         * Now check whether this is a container node with a size greater than
-         * 0. If not, no need to go see the children.
-         */
-        final JsonNode node = data.getInstance().getNode();
-        if (node.size() == 0)
-            return input;
-
-        if (node.isArray())
-            processArray(report, data);
-        else
-            processObject(report, data);
-
-        return input;
-    }
-
-    private void processArray(final ProcessingReport report,
-        final FullData input)
-        throws ProcessingException
-    {
-        final SchemaTree tree = input.getSchema();
-        final JsonTree instance = input.getInstance();
-
-        final JsonNode schema = tree.getNode();
-        final JsonNode node = instance.getNode();
-
-        final JsonNode digest = ArraySchemaDigester.getInstance().digest(schema);
-        final ArraySchemaSelector selector = new ArraySchemaSelector(digest);
-
-        final int size = node.size();
-
-        FullData data;
-        JsonTree newInstance;
-
-        for (int index = 0; index < size; index++) {
-            newInstance = instance.append(JsonPointer.of(index));
-            data = input.withInstance(newInstance);
-            for (final JsonPointer ptr: selector.selectSchemas(index)) {
-                data = data.withSchema(tree.append(ptr));
-                process(report, data);
-            }
-        }
-    }
-
-    private void processObject(final ProcessingReport report,
-        final FullData input)
-        throws ProcessingException
-    {
-        final SchemaTree tree = input.getSchema();
-        final JsonTree instance = input.getInstance();
-
-        final JsonNode schema = tree.getNode();
-        final JsonNode node = instance.getNode();
-
-        final JsonNode digest = ObjectSchemaDigester.getInstance()
-            .digest(schema);
-        final ObjectSchemaSelector selector = new ObjectSchemaSelector(digest);
-
-        final List<String> fields = Lists.newArrayList(node.fieldNames());
-        Collections.sort(fields);
-
-        FullData data;
-        JsonTree newInstance;
-
-        for (final String field: fields) {
-            newInstance = instance.append(JsonPointer.of(field));
-            data = input.withInstance(newInstance);
-            for (final JsonPointer ptr: selector.selectSchemas(field)) {
-                data = data.withSchema(tree.append(ptr));
-                process(report, data);
-            }
-        }
-    }
-
-    private static CacheLoader<JsonNode, ArraySchemaSelector> arrayLoader()
-    {
-        return new CacheLoader<JsonNode, ArraySchemaSelector>()
-        {
-            @Override
-            public ArraySchemaSelector load(final JsonNode key)
-            {
-                return new ArraySchemaSelector(key);
-            }
-        };
-    }
-
-    private static CacheLoader<JsonNode, ObjectSchemaSelector> objectLoader()
-    {
-        return new CacheLoader<JsonNode, ObjectSchemaSelector>()
-        {
-            @Override
-            public ObjectSchemaSelector load(final JsonNode key)
-            {
-                return new ObjectSchemaSelector(key);
-            }
-        };
+        final InstanceValidator validator = new InstanceValidator(
+            syntaxMessages, validationMessages, processor);
+        return validator.process(report, input);
     }
 
     @Override

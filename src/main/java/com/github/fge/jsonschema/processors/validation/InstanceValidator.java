@@ -21,6 +21,7 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
 import com.github.fge.jsonschema.core.exceptions.InvalidSchemaException;
@@ -77,10 +78,14 @@ public final class InstanceValidator
         if (!visited.add(FULL_DATA_EQUIVALENCE.wrap(input))) {
             final String errmsg
                 = validationMessages.getMessage("err.common.validationLoop");
+            final ArrayNode node = JacksonUtils.nodeFactory().arrayNode();
+            for (final Equivalence.Wrapper<FullData> e: visited)
+                //noinspection ConstantConditions
+                node.add(toJson(e.get()));
             final ProcessingMessage message = input.newMessage()
                 .put("domain", "validation")
                 .setMessage(errmsg)
-                .put("visited", visited);
+                .put("visited", node);
             throw new ProcessingException(message);
         }
 
@@ -221,6 +226,14 @@ public final class InstanceValidator
     public String toString()
     {
         return "instance validator";
+    }
+
+    private static JsonNode toJson(final FullData data)
+    {
+        final ObjectNode node = JacksonUtils.nodeFactory().objectNode();
+        node.put("schema", data.getSchema().asJson());
+        node.put("instance", data.getInstance().asJson());
+        return node;
     }
 
     @ParametersAreNonnullByDefault
