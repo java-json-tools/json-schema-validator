@@ -33,7 +33,7 @@ run by yourself.
 
 ## Versions
 
-* current stable version: **2.2.4**
+* current stable version: **2.2.5**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_22x),
   [Javadoc](http://fge.github.io/json-schema-validator/2.2.x/index.html), [code
   samples](http://fge.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
@@ -66,20 +66,10 @@ Maven:
 </dependency>
 ```
 
-### "Full" jar
+### "Full" jar; command line
 
 This jar contains the library plus all its dependencies. Download the **lib** jar (a little more
 than 6 MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
-
-### Command line
-
-There is a command line application. For this, download the **standalone** jar (a little more than 5
-MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
-
-Use `java -jar the.jar --help` for a detailed list of options.
-
-
-2.2.x jars are available on [Bintray](https://bintray.com/fge/maven/json-schema-validator).
 
 ## Versioning scheme policy
 
