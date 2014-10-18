@@ -1,0 +1,66 @@
+{
+    "schema":
+    {
+        "$schema": "http://json-schema.org/draft-04/schema#",
+
+        "definitions": {
+            "unit-value": {
+                "type": "object",
+                "properties": {
+                    "unit": {
+                        "type": "string"
+                    },
+                    "value": {
+                        "type": "number"
+                    }
+                }
+            },
+            "length-unit-value": {
+                "type": "object",
+                "allOf": [
+                    {
+                        "$ref": "#/definitions/unit-value"
+                    },
+                    {
+                        "properties": {
+                            "unit": {
+                                "type": "string",
+                                "enum": [
+                                    "cm",
+                                    "in"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "something-containing-unit-value": {
+                "type": "object",
+                "properties": {
+                    "unit-value": {
+                        "$ref": "#/definitions/unit-value"
+                    }
+                },
+                "required": [ "unit-value"]
+            }
+        },
+
+        "type": "object",
+        "allOf": [
+            {
+                "$ref": "#/definitions/something-containing-unit-value"
+            },
+            {
+                "properties": {
+                    "unit-value": {
+                        "$ref": "#/definitions/length-unit-value"
+                    }
+                }
+            }
+        ]
+    },
+    "instance": {
+        "unit": "cm",
+        "unit-value": { "unit": "" }
+    }
+}

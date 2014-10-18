@@ -157,6 +157,28 @@ public final class ValidationProcessorTest
         assertTrue(true);
     }
 
+    /*
+     * Issue #112: what was called a "validation loop" in issue #102 was in fact
+     * not really one; it is possible to enter the same subschema using
+     * different paths.
+     *
+     * The real thing which must be checked for is a full schema pointer loop.
+     */
+    @Test
+    public void enteringSamePointerWithDifferentPathsDoesNotThrowException()
+        throws IOException, ProcessingException
+    {
+        final JsonNode node = JsonLoader.fromResource("/other/issue112.json");
+        final JsonNode schemaNode = node.get("schema");
+        final JsonSchemaFactory factory = JsonSchemaFactory.byDefault();
+        final JsonValidator validator = factory.getValidator();
+
+        final JsonNode instance = node.get("instance");
+
+        assertTrue(validator.validate(schemaNode, instance).isSuccess());
+        assertTrue(true);
+    }
+
     public static final class K1Validator
         extends AbstractKeywordValidator
     {
