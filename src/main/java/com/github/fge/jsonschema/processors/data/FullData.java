@@ -25,8 +25,6 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 
-import javax.annotation.concurrent.Immutable;
-
 /**
  * Validation data for a validation processor
  *
@@ -41,12 +39,11 @@ import javax.annotation.concurrent.Immutable;
  * <p>The {@link ProcessingMessage} template generated contains information
  * about both the schema and instance.</p>
  */
-@Immutable
 public final class FullData
     implements MessageProvider
 {
-    private final SchemaTree schema;
-    private final JsonTree instance;
+    private SchemaTree schema;
+    private JsonTree instance;
     private final boolean deepCheck;
 
     public FullData(final SchemaTree schema, final JsonTree instance,
@@ -81,6 +78,16 @@ public final class FullData
     public boolean isDeepCheck()
     {
         return deepCheck;
+    }
+
+    public void setSchema(final SchemaTree schema)
+    {
+        this.schema = schema;
+    }
+
+    public void setInstance(final JsonTree instance)
+    {
+        this.instance = instance;
     }
 
     /**
