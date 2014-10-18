@@ -20,10 +20,16 @@
 package com.github.fge.jsonschema.processors.data;
 
 
+import com.github.fge.jsonschema.core.ref.JsonRef;
 import com.github.fge.jsonschema.core.report.MessageProvider;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
+import com.google.common.base.Function;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Queues;
+
+import java.util.Deque;
 
 /**
  * Validation data for a validation processor
@@ -39,12 +45,20 @@ import com.github.fge.jsonschema.core.tree.SchemaTree;
  * <p>The {@link ProcessingMessage} template generated contains information
  * about both the schema and instance.</p>
  */
+// TODO: rework, rename; nulls are badly handled, etc
 public final class FullData
     implements MessageProvider
 {
     private SchemaTree schema;
     private JsonTree instance;
     private final boolean deepCheck;
+
+    /*
+     * Deque of SchemaTrees we had to go through during validation of a
+     * particular instance/pointer pair; when the latter changes,the deque is
+     * emptied.
+     */
+    private final Deque<SchemaTree> schemaPath = Queues.newArrayDeque();
 
     public FullData(final SchemaTree schema, final JsonTree instance,
         final boolean deepCheck)
@@ -121,5 +135,19 @@ public final class FullData
         if (instance != null)
             ret.put("instance", instance);
         return ret;
+    }
+
+    public Iterable<JsonRef> getSchemaPath()
+    {
+        final Iterable<JsonRef> iterable = Iterables.transform(schemaPath,
+            new Function<SchemaTree, JsonRef>()
+            {
+                @Override
+                public JsonRef apply(final SchemaTree input)
+                {
+                    return input.getContext();
+                }
+            });
+        return Iterables.unmodifiableIterable(iterable);
     }
 }
