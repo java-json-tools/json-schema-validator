@@ -35,7 +35,8 @@ import javax.annotation.concurrent.Immutable;
  * indicating whether validation should go as deep as posssible.</p>
  *
  * <p>If the boolean argument is false, then container children (array elements
- * or object members) will not be validated if the </p>
+ * or object members) will not be validated if the container itself fails
+ * validation.</p>
  *
  * <p>The {@link ProcessingMessage} template generated contains information
  * about both the schema and instance.</p>
