@@ -26,9 +26,11 @@ import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.tree.JsonTree;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Queues;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Deque;
 
 /**
@@ -46,6 +48,7 @@ import java.util.Deque;
  * about both the schema and instance.</p>
  */
 // TODO: rework, rename; nulls are badly handled, etc
+@ParametersAreNonnullByDefault
 public final class FullData
     implements MessageProvider
 {
@@ -63,8 +66,8 @@ public final class FullData
     public FullData(final SchemaTree schema, final JsonTree instance,
         final boolean deepCheck)
     {
-        this.schema = schema;
-        this.instance = instance;
+        this.schema = Preconditions.checkNotNull(schema);
+        this.instance = Preconditions.checkNotNull(instance);
         this.deepCheck = deepCheck;
     }
 
@@ -73,6 +76,11 @@ public final class FullData
         this(schema, instance, false);
     }
 
+    /**
+     * <b>UNUSED</b>
+     *
+     * @param schema the schema
+     */
     @Deprecated
     public FullData(final SchemaTree schema)
     {
@@ -96,12 +104,12 @@ public final class FullData
 
     public void setSchema(final SchemaTree schema)
     {
-        this.schema = schema;
+        this.schema = Preconditions.checkNotNull(schema);
     }
 
     public void setInstance(final JsonTree instance)
     {
-        this.instance = instance;
+        this.instance = Preconditions.checkNotNull(instance);
     }
 
     /**
