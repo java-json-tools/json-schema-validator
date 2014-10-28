@@ -41,7 +41,7 @@
                         "$ref": "#/definitions/unit-value"
                     }
                 },
-                "required": [ "unit-value"]
+                "required": [ "unit-value" ]
             }
         },
 
@@ -61,6 +61,6 @@
     },
     "instance": {
         "unit": "cm",
-        "unit-value": { "unit": "" }
+        "unit-value": { "unit": "cm" }
     }
 }
