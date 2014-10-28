@@ -37,20 +37,12 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaContext;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.msgsimple.bundle.MessageBundle;
-import com.github.fge.uritemplate.URITemplate;
-import com.github.fge.uritemplate.URITemplateException;
-import com.github.fge.uritemplate.URITemplateParseException;
-import com.github.fge.uritemplate.vars.VariableMap;
-import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.NotThreadSafe;
-import java.net.URI;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Processor for validating one schema/instance pair
@@ -73,28 +65,7 @@ public final class InstanceValidator
     private final MessageBundle validationMessages;
     private final Processor<SchemaContext, ValidatorList> keywordBuilder;
 
-    /*
-     * It is possible to trigger a validation loop if there is a repeated
-     * triplet schema ID/schema pointer/instance pointer while we validate;
-     * example schema:
-     *
-     * { "oneOf": [ {}, { "$ref": "#" } ] }
-     *
-     * Whatever the data, validation will end up validating, for a same pointer
-     * into the instance, the following pointers into the schema:
-     *
-     * "" -> "/oneOf/0" -> "/oneOf/1" -> "/oneOf/0" <-- LOOP
-     *
-     * This is not a JSON Reference loop here, but truly a validation loop.
-     *
-     * We therefore use this set to record the triplets seen by using an
-     * Equivalence over FullData which detects this. This is helped by the fact
-     * that SchemaTree now implements equals()/hashCode() in -core; since this
-     * class is instantiated for each instance validation, we are certain that
-     * what instance pointer is seen is the one of the instance we validate.
-     */
-    private final Set<Equivalence.Wrapper<FullData>> visited
-        = Sets.newLinkedHashSet();
+    private final ValidationStack stack;
 
     /**
      * Constructor -- do not use directly!
@@ -110,6 +81,10 @@ public final class InstanceValidator
         this.syntaxMessages = syntaxMessages;
         this.validationMessages = validationMessages;
         this.keywordBuilder = keywordBuilder;
+
+        final String errmsg
+            = validationMessages.getMessage("err.common.validationLoop");
+        stack = new ValidationStack(errmsg);
     }
 
     @Override
@@ -120,8 +95,7 @@ public final class InstanceValidator
         /*
          * We don't want the same validation context to appear twice, see above
          */
-        if (!visited.add(FULL_DATA_EQUIVALENCE.wrap(input)))
-            throw new ProcessingException(validationLoopMessage(input));
+        stack.push(input);
 
 
         /*
@@ -159,22 +133,25 @@ public final class InstanceValidator
          * reason to go any further. Unless the user has asked to continue even
          * in this case.
          */
-        if (!(report.isSuccess() || data.isDeepCheck()))
+        if (!(report.isSuccess() || data.isDeepCheck())) {
+            stack.pop();
             return input;
+        }
 
         /*
          * Now check whether this is a container node with a size greater than
          * 0. If not, no need to go see the children.
          */
         final JsonNode node = data.getInstance().getNode();
-        if (node.size() == 0)
-            return input;
 
-        if (node.isArray())
-            processArray(report, data);
-        else
-            processObject(report, data);
+        if (node.isContainerNode()) {
+            if (node.isArray())
+                processArray(report, data);
+            else
+                processObject(report, data);
+        }
 
+        stack.pop();
         return input;
     }
 
@@ -243,23 +220,6 @@ public final class InstanceValidator
         }
     }
 
-    private ProcessingMessage validationLoopMessage(final FullData input)
-    {
-        final String errmsg
-            = validationMessages.getMessage("err.common.validationLoop");
-        final ArrayNode node = JacksonUtils.nodeFactory().arrayNode();
-        for (final Equivalence.Wrapper<FullData> e: visited)
-            //noinspection ConstantConditions
-            node.add(toJson(e.get()));
-        return input.newMessage()
-            .put("domain", "validation")
-            .setMessage(errmsg)
-            .putArgument("alreadyVisited", toJson(input))
-            .putArgument("instancePointer",
-                input.getInstance().getPointer().toString())
-            .put("validationPath", node);
-    }
-
     private ProcessingMessage collectSyntaxErrors(final ProcessingReport report)
     {
         /*
@@ -280,45 +240,4 @@ public final class InstanceValidator
         sb.append(JacksonUtils.prettyPrint(arrayNode));
         return new ProcessingMessage().setMessage(sb.toString());
     }
-
-    private static String toJson(final FullData data)
-    {
-        final SchemaTree tree = data.getSchema();
-        final URI baseUri = tree.getLoadingRef().getLocator();
-        final VariableMap vars = VariableMap.newBuilder().addScalarValue("ptr",
-            tree.getPointer()).freeze();
-        // TODO: there should be an easier way to do that...
-        final URITemplate template;
-        try {
-            template = new URITemplate(baseUri + "{+ptr}");
-        } catch (URITemplateParseException e) {
-            throw new IllegalStateException("wtf??", e);
-        }
-        try {
-            return template.toString(vars);
-        } catch (URITemplateException e) {
-            throw new IllegalStateException("wtf??", e);
-        }
-    }
-
-    @ParametersAreNonnullByDefault
-    private static final Equivalence<FullData> FULL_DATA_EQUIVALENCE
-        = new Equivalence<FullData>()
-    {
-        @Override
-        protected boolean doEquivalent(final FullData a, final FullData b)
-        {
-            final JsonPointer ptra = a.getInstance().getPointer();
-            final JsonPointer ptrb = b.getInstance().getPointer();
-            return a.getSchema().equals(b.getSchema())
-                && ptra.equals(ptrb);
-        }
-
-        @Override
-        protected int doHash(final FullData t)
-        {
-            return t.getSchema().hashCode()
-                ^ t.getInstance().getPointer().hashCode();
-        }
-    };
 }
