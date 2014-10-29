@@ -58,7 +58,7 @@ import java.util.List;
  */
 @NotThreadSafe
 @ParametersAreNonnullByDefault
-public final class InstanceValidator
+final class InstanceValidator
     implements Processor<FullData, FullData>
 {
     private final MessageBundle syntaxMessages;
@@ -74,7 +74,7 @@ public final class InstanceValidator
      * @param validationMessages the validation message bundle
      * @param keywordBuilder the keyword builder
      */
-    public InstanceValidator(final MessageBundle syntaxMessages,
+    InstanceValidator(final MessageBundle syntaxMessages,
         final MessageBundle validationMessages,
         final Processor<SchemaContext, ValidatorList> keywordBuilder)
     {

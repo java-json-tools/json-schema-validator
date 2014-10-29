@@ -143,7 +143,7 @@ public final class ValidationProcessorTest
                 JacksonUtils.nodeFactory().nullNode());
             fail("No exception thrown!");
         } catch (ProcessingException e) {
-            final URI uri = URI.create("#/oneOf/0");
+            final URI uri = URI.create("#/oneOf/1");
             final ProcessingMessage message = e.getProcessingMessage();
             final String expectedMessage
                 = bundle.printf("err.common.validationLoop", uri, "");
@@ -152,7 +152,7 @@ public final class ValidationProcessorTest
                 .hasField("alreadyVisited", uri)
                 .hasField("instancePointer", JsonPointer.empty().toString())
                 .hasField("validationPath",
-                    Arrays.asList("#", "#/oneOf/0", "#/oneOf/1"));
+                    Arrays.asList("#", "#/oneOf/1"));
         }
         assertTrue(true);
     }
