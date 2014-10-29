@@ -33,7 +33,7 @@ run by yourself.
 
 ## Versions
 
-* current stable version: **2.2.5**
+* current stable version: **2.2.6**
   ([ChangeLog](https://github.com/fge/json-schema-validator/wiki/ChangeLog_22x),
   [Javadoc](http://fge.github.io/json-schema-validator/2.2.x/index.html), [code
   samples](http://fge.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
