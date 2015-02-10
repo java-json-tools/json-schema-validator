@@ -25,7 +25,7 @@
         "message": "err.format.invalidDate",
         "msgData": {
             "value": "2012-02-30T00:00:00+0000",
-            "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}Z" ]
         },
         "msgParams": [ "value", "expected" ]
     },
@@ -35,8 +35,48 @@
         "message": "err.format.invalidDate",
         "msgData": {
             "value": "201202030",
-            "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ" ]
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}Z" ]
         },
         "msgParams": [ "value", "expected" ]
+    },
+    {
+      "data": "2012-08-07T20:42:32.1234Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.12345Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.123456Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.1234567Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.12345678Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.12345678Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.123456789Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.1234567890Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.12345678901Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.123456789012Z",
+      "valid": true
     }
 ]

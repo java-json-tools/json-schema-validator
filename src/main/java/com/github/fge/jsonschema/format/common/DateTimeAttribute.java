@@ -42,13 +42,13 @@ public final class DateTimeAttribute
     extends AbstractFormatAttribute
 {
     private static final List<String> FORMATS = ImmutableList.of(
-        "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}Z"
     );
     private static final DateTimeFormatter FORMATTER;
 
     static {
-        final DateTimeParser msParser = new DateTimeFormatterBuilder()
-            .appendLiteral('.').appendDecimal(millisOfSecond(), 1, 3)
+        final DateTimeParser secFracsParser = new DateTimeFormatterBuilder()
+            .appendLiteral('.').appendFractionOfSecond(1,12)
             .toParser();
 
         DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
@@ -64,7 +64,7 @@ public final class DateTimeAttribute
             .appendFixedDecimal(minuteOfHour(), 2)
             .appendLiteral(':')
             .appendFixedDecimal(secondOfMinute(), 2)
-            .appendOptional(msParser)
+            .appendOptional(secFracsParser)
             .appendTimeZoneOffset("Z", false, 2, 2);
 
         FORMATTER = builder.toFormatter();
