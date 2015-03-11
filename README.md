@@ -1,3 +1,13 @@
+# This project is looking for a new maintainer
+
+I don't have the time, nor incentive anymore, to maintain this project.
+
+I am fully aware that there are now quite a few people/entities which use this project, as such I am
+looking fow a new maintainer, whether that be an individual or an entity, willing to take over.
+
+Please [contact me personally](mailto:fgaliegue@gmail.com) if you are interested. Ideally, you
+should be equally committed to this project **and** JSON Schema as a whole.
+
 ## Read me first
 
 The **current** version of this project is licensed under both LGPLv3 (or later) and ASL 2.0. The old version
