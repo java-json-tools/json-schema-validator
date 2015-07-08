@@ -56,7 +56,6 @@ project.ext {
  * Repositories to use
  */
 repositories {
-    mavenLocal();
     mavenCentral();
 }
 
