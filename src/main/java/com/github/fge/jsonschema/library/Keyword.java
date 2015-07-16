@@ -22,9 +22,7 @@ package com.github.fge.jsonschema.library;
 import com.github.fge.Frozen;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-
-import java.lang.reflect.Constructor;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
 
 
 /**
@@ -51,9 +49,9 @@ public final class Keyword
     final Digester digester;
 
     /**
-     * {@link KeywordValidator} constructor
+     * Validator factory
      */
-    final Constructor<? extends KeywordValidator> constructor;
+    final KeywordValidatorFactory validatorFactory;
 
     /**
      * Instantiate a new keyword builder
@@ -79,7 +77,7 @@ public final class Keyword
         name = builder.name;
         syntaxChecker = builder.syntaxChecker;
         digester = builder.digester;
-        constructor = builder.constructor;
+        validatorFactory = builder.validatorFactory;
     }
 
     /**

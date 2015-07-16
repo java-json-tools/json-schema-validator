@@ -19,10 +19,11 @@
 
 package com.github.fge.jsonschema.library.validator;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
+import com.github.fge.jsonschema.keyword.validator.ReflectionKeywordValidatorFactory;
 import com.github.fge.jsonschema.keyword.validator.common.DependenciesValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.AllOfValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.AnyOfValidator;
@@ -34,27 +35,25 @@ import com.github.fge.jsonschema.keyword.validator.draftv4.NotValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.OneOfValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv4.RequiredKeywordValidator;
 
-import java.lang.reflect.Constructor;
-
 /**
  * Draft v4 specific keyword validator constructors
  */
 public final class DraftV4ValidatorDictionary
 {
-    private static final Dictionary<Constructor<? extends KeywordValidator>>
+    private static final Dictionary<KeywordValidatorFactory>
         DICTIONARY;
 
     private DraftV4ValidatorDictionary()
     {
     }
 
-    public static Dictionary<Constructor<? extends KeywordValidator>> get()
+    public static Dictionary<KeywordValidatorFactory> get()
     {
         return DICTIONARY;
     }
 
     static {
-        final DictionaryBuilder<Constructor<? extends KeywordValidator>>
+        final DictionaryBuilder<KeywordValidatorFactory>
             builder = Dictionary.newBuilder();
 
         String keyword;
@@ -67,60 +66,56 @@ public final class DraftV4ValidatorDictionary
          */
         keyword = "multipleOf";
         c = MultipleOfValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         /*
          * Object
          */
         keyword = "minProperties";
         c = MinPropertiesValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "maxProperties";
         c = MaxPropertiesValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "required";
         c = RequiredKeywordValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "dependencies";
         c = DependenciesValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         /*
          * All
          */
         keyword = "anyOf";
         c = AnyOfValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "allOf";
         c = AllOfValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "oneOf";
         c = OneOfValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "not";
         c = NotValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "type";
         c = DraftV4TypeValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         DICTIONARY = builder.freeze();
     }
 
-    private static Constructor<? extends KeywordValidator> constructor(
+    private static KeywordValidatorFactory factory(String name,
         final Class<? extends KeywordValidator> c)
     {
-        try {
-            return c.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("No appropriate constructor found", e);
-        }
+        return new ReflectionKeywordValidatorFactory(name, c);
     }
 }

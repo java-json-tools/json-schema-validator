@@ -19,7 +19,6 @@
 
 package com.github.fge.jsonschema.library;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.Thawed;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
@@ -27,11 +26,11 @@ import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.github.fge.jsonschema.keyword.digest.helpers.IdentityDigester;
 import com.github.fge.jsonschema.keyword.digest.helpers.SimpleDigester;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
+import com.github.fge.jsonschema.keyword.validator.ReflectionKeywordValidatorFactory;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-
-import java.lang.reflect.Constructor;
 
 /**
  * A keyword builder -- the thawed version of a {@link Keyword}
@@ -48,7 +47,7 @@ public final class KeywordBuilder
     final String name;
     SyntaxChecker syntaxChecker;
     Digester digester;
-    Constructor<? extends KeywordValidator> constructor;
+    KeywordValidatorFactory validatorFactory;
 
     /**
      * Create a new, empty keyword builder
@@ -74,7 +73,7 @@ public final class KeywordBuilder
         name = keyword.name;
         syntaxChecker = keyword.syntaxChecker;
         digester = keyword.digester;
-        constructor = keyword.constructor;
+        validatorFactory = keyword.validatorFactory;
     }
 
     /**
@@ -149,7 +148,20 @@ public final class KeywordBuilder
     public KeywordBuilder withValidatorClass(
         final Class<? extends KeywordValidator> c)
     {
-        constructor = getConstructor(name, c);
+        validatorFactory = new ReflectionKeywordValidatorFactory(name, c);
+        return this;
+    }
+
+    /**
+     * Set the validator factory for this keyword
+     *
+     * @param factory the factory
+     * @return this
+     */
+    public KeywordBuilder withValidatorFactory(
+        KeywordValidatorFactory factory)
+    {
+        validatorFactory = factory;
         return this;
     }
 
@@ -169,22 +181,9 @@ public final class KeywordBuilder
          * We can have a keyword without a validator; however, if there is one,
          * there must be a digester.
          */
-        BUNDLE.checkArgumentPrintf(constructor == null || digester != null,
+        BUNDLE.checkArgumentPrintf(validatorFactory == null || digester != null,
             "malformedKeyword", name);
         return new Keyword(this);
-    }
-
-
-    private static Constructor<? extends KeywordValidator> getConstructor(
-        final String name, final Class<? extends KeywordValidator> c)
-    {
-        try {
-            return c.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException ignored) {
-            throw new IllegalArgumentException(BUNDLE.printf(
-                "noAppropriateConstructor", name, c.getCanonicalName()
-            ));
-        }
     }
 
     private static NodeType checkType(final NodeType type)

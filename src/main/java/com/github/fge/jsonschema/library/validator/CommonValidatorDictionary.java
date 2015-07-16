@@ -19,10 +19,11 @@
 
 package com.github.fge.jsonschema.library.validator;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
+import com.github.fge.jsonschema.keyword.validator.ReflectionKeywordValidatorFactory;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalItemsValidator;
 import com.github.fge.jsonschema.keyword.validator.common.AdditionalPropertiesValidator;
 import com.github.fge.jsonschema.keyword.validator.common.EnumValidator;
@@ -35,27 +36,25 @@ import com.github.fge.jsonschema.keyword.validator.common.MinimumValidator;
 import com.github.fge.jsonschema.keyword.validator.common.PatternValidator;
 import com.github.fge.jsonschema.keyword.validator.common.UniqueItemsValidator;
 
-import java.lang.reflect.Constructor;
-
 /**
  * Keyword validator constructors common to draft v4 and v3
  */
 public final class CommonValidatorDictionary
 {
-    private static final Dictionary<Constructor<? extends KeywordValidator>>
+    private static final Dictionary<KeywordValidatorFactory>
         DICTIONARY;
 
     private CommonValidatorDictionary()
     {
     }
 
-    public static Dictionary<Constructor<? extends KeywordValidator>> get()
+    public static Dictionary<KeywordValidatorFactory> get()
     {
         return DICTIONARY;
     }
 
     static {
-        final DictionaryBuilder<Constructor<? extends KeywordValidator>>
+        final DictionaryBuilder<KeywordValidatorFactory>
             builder = Dictionary.newBuilder();
 
         String keyword;
@@ -66,67 +65,63 @@ public final class CommonValidatorDictionary
          */
         keyword = "additionalItems";
         c = AdditionalItemsValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "minItems";
         c = MinItemsValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "maxItems";
         c = MaxItemsValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "uniqueItems";
         c = UniqueItemsValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         /*
          * Numbers and integers
          */
         keyword = "minimum";
         c = MinimumValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "maximum";
         c = MaximumValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         /*
          * Objects
          */
         keyword = "additionalProperties";
         c = AdditionalPropertiesValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         /*
          * Strings
          */
         keyword = "minLength";
         c = MinLengthValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "maxLength";
         c = MaxLengthValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "pattern";
         c = PatternValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "enum";
         c = EnumValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         DICTIONARY = builder.freeze();
     }
 
-    private static Constructor<? extends KeywordValidator> constructor(
+    private static KeywordValidatorFactory factory(String name,
         final Class<? extends KeywordValidator> c)
     {
-        try {
-            return c.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("No appropriate constructor", e);
-        }
+        return new ReflectionKeywordValidatorFactory(name, c);
     }
 }
