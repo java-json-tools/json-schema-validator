@@ -19,6 +19,22 @@
 
 package com.github.fge.jsonschema.keyword.special;
 
+import static com.github.fge.jsonschema.TestUtils.anyMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.List;
+
+import org.mockito.ArgumentCaptor;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JsonLoader;
@@ -33,26 +49,13 @@ import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
 import com.github.fge.jsonschema.library.validator.CommonValidatorDictionary;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
-import org.mockito.ArgumentCaptor;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
-import java.util.List;
-
-import static com.github.fge.jsonschema.TestUtils.*;
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class PatternKeywordTest
 {
@@ -65,20 +68,20 @@ public final class PatternKeywordTest
     private static final MessageBundle BUNDLE
         = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
 
-    private final Constructor<? extends KeywordValidator> constructor;
+    private final KeywordValidatorFactory factory;
     private final JsonNode testData;
 
     public PatternKeywordTest()
         throws IOException
     {
-        constructor = CommonValidatorDictionary.get().entries().get("pattern");
+        factory = CommonValidatorDictionary.get().entries().get("pattern");
         testData = JsonLoader.fromResource("/keyword/special/pattern.json");
     }
 
     @Test
     public void keywordExists()
     {
-        assertNotNull(constructor, "no support for pattern??");
+        assertNotNull(factory, "no support for pattern??");
     }
 
     @DataProvider
@@ -120,7 +123,7 @@ public final class PatternKeywordTest
 
         // It is a null node which is ignored by the constructor, so we can
         // do that
-        final KeywordValidator validator = constructor.newInstance(schema);
+        final KeywordValidator validator = factory.getKeywordValidator(schema);
         validator.validate(processor, report, BUNDLE, data);
 
         if (valid) {
