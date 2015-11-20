@@ -71,7 +71,7 @@ public final class ValidationChain
             = ProcessorChain.startWith(refResolver).chainWith(syntaxProcessor);
 
         resolver = new CachingProcessor<ValueHolder<SchemaTree>, ValueHolder<SchemaTree>>(
-            chain1.getProcessor(), SchemaHolderEquivalence.INSTANCE
+            chain1.getProcessor(), SchemaHolderEquivalence.INSTANCE, cfg.getCacheSize()
         );
 
         final SchemaDigester digester = new SchemaDigester(library);
@@ -86,7 +86,7 @@ public final class ValidationChain
         }
 
         builder = new CachingProcessor<SchemaContext, ValidatorList>(
-            chain2.getProcessor(), SchemaContextEquivalence.getInstance()
+            chain2.getProcessor(), SchemaContextEquivalence.getInstance(), cfg.getCacheSize()
         );
     }
 

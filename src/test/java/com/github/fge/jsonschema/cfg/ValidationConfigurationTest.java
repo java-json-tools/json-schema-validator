@@ -104,6 +104,18 @@ public final class ValidationConfigurationTest
     }
 
     @Test
+    public void cannotPutInvalidCacheSize()
+    {
+        try {
+            cfg.setCacheSize(-2);
+            fail("No exception thrown!!");
+        } catch (IllegalArgumentException e) {
+            assertEquals(e.getMessage(),
+                BUNDLE.getMessage("invalidCacheSize"));
+        }
+    }
+
+    @Test
     public void defaultLibraryIsDraftV4()
     {
         final ValidationConfiguration defaultConfiguration

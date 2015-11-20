@@ -80,6 +80,11 @@ public final class ValidationConfigurationBuilder
      * Whether to use {@code format} ({@code true} by default)
      */
     boolean useFormat = true;
+    
+    /**
+     * Cache maximum size of 512 records by default
+     */
+    int cacheSize = 512;
 
     /**
      * The set of syntax messages
@@ -119,6 +124,7 @@ public final class ValidationConfigurationBuilder
         libraries = Maps.newHashMap(cfg.libraries);
         defaultLibrary = cfg.defaultLibrary;
         useFormat = cfg.useFormat;
+        cacheSize = cfg.cacheSize;
         syntaxMessages = cfg.syntaxMessages;
         validationMessages = cfg.validationMessages;
     }
@@ -214,6 +220,14 @@ public final class ValidationConfigurationBuilder
     {
         BUNDLE.checkNotNull(validationMessages, "nullMessageBundle");
         this.validationMessages = validationMessages;
+        return this;
+    }
+
+    public ValidationConfigurationBuilder setCacheSize(
+            final int cacheSize)
+    {
+        BUNDLE.checkArgument(cacheSize >= -1, "invalidCacheSize");
+        this.cacheSize = cacheSize;
         return this;
     }
 
