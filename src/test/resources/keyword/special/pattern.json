@@ -10,6 +10,32 @@
         "valid": true
     },
     {
+      "schema": {"pattern": "^some.pattern$"},
+      "data":"some_pattern",
+      "valid": true
+    },
+    {
+      "schema": {"pattern": "^some.pattern$"},
+      "data":"somePpattern",
+      "valid": true
+    },
+    {
+      "schema":{"pattern": "^some\\.pattern$"},
+      "data":"some.pattern",
+      "valid":true
+    },
+    {
+      "schema":{"pattern":"^some\\.pattern$"},
+      "data":"some_pattern",
+      "valid":false,
+      "message":"err.common.pattern.noMatch",
+      "msgData": {
+        "regex": "^some\\.pattern$",
+        "string": "some_pattern"
+      },
+      "msgParams": ["regex", "string"]
+    },
+    {
         "schema": { "pattern": "^[Aa]" },
         "data": "foobar",
         "valid": false,
