@@ -196,4 +196,13 @@ public final class JsonSchema
     {
         return doValidateUnchecked(instance, false).isSuccess();
     }
+
+    /**
+     * Returns JsonSchema as JsonNode
+     *
+     * @return JsonNode (a {@link JsonNode}
+     */
+    public JsonNode asJson(){
+        return schema.asJson();
+    }
 }
