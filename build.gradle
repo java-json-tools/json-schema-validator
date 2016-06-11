@@ -36,62 +36,58 @@
  * https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
  */
 
-apply(plugin: "java");
-apply(plugin: "maven");
-apply(plugin: "signing");
-apply(plugin: "osgi");
-apply(plugin: "idea");
-apply(plugin: "eclipse");
+apply(plugin: "java")
+apply(plugin: "maven")
+apply(plugin: "signing")
+apply(plugin: "osgi")
+apply(plugin: "idea")
+apply(plugin: "eclipse")
 
-group = "com.github.fge";
-version = "2.2.6";
-sourceCompatibility = "1.6";
-targetCompatibility = "1.6"; // defaults to sourceCompatibility
+group = "com.github.fge"
+version = "2.2.6"
+sourceCompatibility = "1.6"
+targetCompatibility = "1.6" // defaults to sourceCompatibility
 
 project.ext {
-    description = "A Java implementation of the JSON Schema specification";
-};
+    description = "A Java implementation of the JSON Schema specification"
+}
 
 /*
  * Repositories to use
  */
 repositories {
-    mavenCentral();
+    mavenCentral()
 }
 
 /*
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.fge", name: "json-schema-core",
-        version: "1.2.5");
-    compile(group: "javax.mail", name: "mailapi", version: "1.4.3");
-    compile(group: "joda-time", name: "joda-time", version: "2.3");
+    compile(group: "com.github.fge", name: "json-schema-core", version: "1.2.5")
+    compile(group: "javax.mail", name: "mailapi", version: "1.4.3")
+    compile(group: "joda-time", name: "joda-time", version: "2.3")
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber",
-        version: "6.2");
-    compile(group: "com.google.code.findbugs", name: "jsr305",
-        version: "3.0.0");
-    compile(group: "net.sf.jopt-simple", name: "jopt-simple", version: "4.6");
+            version: "6.2")
+    compile(group: "net.sf.jopt-simple", name: "jopt-simple", version: "4.6")
     testCompile(group: "org.testng", name: "testng", version: "6.8.7") {
-        exclude(group: "junit", module: "junit");
-        exclude(group: "org.beanshell", module: "bsh");
-        exclude(group: "org.yaml", module: "snakeyaml");
-    };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "1.9.5");
-    testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4");
+        exclude(group: "junit", module: "junit")
+        exclude(group: "org.beanshell", module: "bsh")
+        exclude(group: "org.yaml", module: "snakeyaml")
+    }
+    testCompile(group: "org.mockito", name: "mockito-core", version: "1.9.5")
+    testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4")
 }
 
-javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
-javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
-javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0/");
-javadoc.options.links("http://fasterxml.github.com/jackson-core/javadoc/2.2.0/");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v16.0.1/javadoc/");
-javadoc.options.links("http://fge.github.io/btf/");
-javadoc.options.links("http://fge.github.io/msg-simple/");
-javadoc.options.links("http://fge.github.io/jackson-coreutils/");
-javadoc.options.links("http://fge.github.io/uri-template/");
-javadoc.options.links("http://fge.github.io/json-schema-core/1.2.x/");
-
+javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/")
+javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/")
+javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0/")
+javadoc.options.links("http://fasterxml.github.com/jackson-core/javadoc/2.2.0/")
+javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v16.0.1/javadoc/")
+javadoc.options.links("http://fge.github.io/btf/")
+javadoc.options.links("http://fge.github.io/msg-simple/")
+javadoc.options.links("http://fge.github.io/jackson-coreutils/")
+javadoc.options.links("http://fge.github.io/uri-template/")
+javadoc.options.links("http://fge.github.io/json-schema-core/1.2.x/")
 
 /*
  * Necessary! Otherwise TestNG will not be used...
@@ -101,27 +97,26 @@ javadoc.options.links("http://fge.github.io/json-schema-core/1.2.x/");
  */
 test {
     useTestNG() {
-        useDefaultListeners = true;
-    };
+        useDefaultListeners = true
+    }
 }
 
 /*
  * Necessary to generate the source and javadoc jars
  */
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = "sources";
-    from sourceSets.main.allSource;
+    classifier = "sources"
+    from sourceSets.main.allSource
 }
 
 /*
  * Javadoc: we need to tell where the overview.html is, it will not pick it up
  * automatically...
  */
-
 javadoc.options {
-    overview = "src/main/javadoc/overview.html";
-    extDirs = [ file("src/main/javadoc") ];
-    docFilesSubDirs = true;
+    overview = "src/main/javadoc/overview.html"
+    extDirs = [file("src/main/javadoc")]
+    docFilesSubDirs = true
 }
 
 /*
@@ -131,15 +126,15 @@ javadoc.options {
 task copyDocFiles(dependsOn: javadoc) << {
     copy {
         from("src/main/javadoc") {
-            include "**/doc-files/**";
-        };
-        into javadoc.destinationDir;
+            include "**/doc-files/**"
+        }
+        into javadoc.destinationDir
     }
 }
 
 task javadocJar(type: Jar, dependsOn: copyDocFiles) {
-    classifier = "javadoc";
-    from javadoc.destinationDir;
+    classifier = "javadoc"
+    from javadoc.destinationDir
 }
 
 /*
@@ -147,32 +142,32 @@ task javadocJar(type: Jar, dependsOn: copyDocFiles) {
  * This jar already includes all the dependencies.
  */
 task libJar(type: Jar, dependsOn: jar) {
-    classifier = "lib";
+    classifier = "lib"
     from {
         configurations.compile.collect { zipTree(it) }
-    };
-    with jar;
+    }
+    with jar
 }
 
 jar {
     manifest {
-        attributes("Main-Class": "com.github.fge.jsonschema.main.cli.Main");
+        attributes("Main-Class": "com.github.fge.jsonschema.main.cli.Main")
     }
 }
 artifacts {
-    archives jar;
-    archives sourcesJar;
-    archives javadocJar;
-    archives libJar;
+    archives jar
+    archives sourcesJar
+    archives javadocJar
+    archives libJar
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "1.11";
-    distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
+    gradleVersion = "1.11"
+    distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip"
 }
 
 task pom << {
-    pom {}.writeTo("${projectDir}/pom.xml");
+    pom {}.writeTo("${projectDir}/pom.xml")
 }
 
 /*
@@ -180,47 +175,46 @@ task pom << {
  */
 
 project.ext {
-    gitrwscm = sprintf("git@github.com:fge/%s", name);
-    gitroscm = sprintf("https://github.com/fge/%s.git", name);
-    projectURL = sprintf("https://github.com/fge/%s", name);
-    sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
-    sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
-};
+    gitrwscm = sprintf("git@github.com:fge/%s", name)
+    gitroscm = sprintf("https://github.com/fge/%s.git", name)
+    projectURL = sprintf("https://github.com/fge/%s", name)
+    sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+    sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/"
+}
 
 task checkSigningRequirements << {
-    def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
-    def noDice = false;
+    def requiredProperties = ["sonatypeUsername", "sonatypePassword"]
+    def noDice = false
     requiredProperties.each {
         if (project.properties[it] == null) {
-            noDice = true;
-            System.err.printf("property \"%s\" is not defined!", it);
+            noDice = true
+            System.err.printf("property \"%s\" is not defined!", it)
         }
     }
     if (noDice)
-        throw new IllegalStateException("missing required properties for " +
-            "upload");
+        throw new IllegalStateException("missing required properties for upload")
 }
 
 uploadArchives {
-    dependsOn(checkSigningRequirements);
+    dependsOn(checkSigningRequirements)
     repositories {
         mavenDeployer {
             beforeDeployment {
-                MavenDeployment deployment -> signing.signPom(deployment);
+                MavenDeployment deployment -> signing.signPom(deployment)
             }
 
             repository(url: "${sonatypeStaging}") {
                 authentication(
-                    userName: project.properties["sonatypeUsername"],
-                    password: project.properties["sonatypePassword"]
-                );
+                        userName: project.properties["sonatypeUsername"],
+                        password: project.properties["sonatypePassword"]
+                )
             }
 
             snapshotRepository(url: "${sonatypeSnapshots}") {
                 authentication(
-                    userName: project.properties["sonatypeUsername"],
-                    password: project.properties["sonatypePassword"]
-                );
+                        userName: project.properties["sonatypeUsername"],
+                        password: project.properties["sonatypePassword"]
+                )
             }
         }
     }
@@ -230,47 +224,46 @@ uploadArchives {
  * Configure pom.xml on install, uploadArchives
  */
 [
-    install.repositories.mavenInstaller,
-    uploadArchives.repositories.mavenDeployer
+        install.repositories.mavenInstaller,
+        uploadArchives.repositories.mavenDeployer
 ]*.pom*.whenConfigured { pom ->
     pom.project {
-        name "${name}";
-        packaging "jar";
-        description "${description}";
-        url "${projectURL}";
+        name "${name}"
+        packaging "jar"
+        description "${description}"
+        url "${projectURL}"
 
         scm {
-            url "${gitrwscm}";
-            connection "${gitrwscm}";
-            developerConnection "${gitroscm}";
+            url "${gitrwscm}"
+            connection "${gitrwscm}"
+            developerConnection "${gitroscm}"
         }
 
         licenses {
             license {
-                name "Lesser General Public License, version 3 or greater";
-                url "http://www.gnu.org/licenses/lgpl.html";
-                distribution "repo";
-            };
+                name "Lesser General Public License, version 3 or greater"
+                url "http://www.gnu.org/licenses/lgpl.html"
+                distribution "repo"
+            }
             license {
-                name "Apache Software License, version 2.0";
-                url "http://www.apache.org/licenses/LICENSE-2.0";
-                distribution "repo";
+                name "Apache Software License, version 2.0"
+                url "http://www.apache.org/licenses/LICENSE-2.0"
+                distribution "repo"
             }
         }
 
         developers {
             developer {
-                id "fge";
-                name "Francis Galiegue";
-                email "fgaliegue@gmail.com";
+                id "fge"
+                name "Francis Galiegue"
+                email "fgaliegue@gmail.com"
             }
         }
     }
 }
 
-ext.forRelease = !version.endsWith("-SNAPSHOT");
+ext.forRelease = !version.endsWith("-SNAPSHOT")
 signing {
-    required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
-    sign configurations.archives;
+    required { forRelease && gradle.taskGraph.hasTask("uploadArchives") }
+    sign configurations.archives
 }
-
