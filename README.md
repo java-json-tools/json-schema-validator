@@ -1,3 +1,5 @@
+[![Build Status][Travis badge]][Travis]
+
 ## Travis builds now enabled
 
 Builds are now verified by Travis (see [issue #20](https://github.com/daveclayton/json-patch/issues/20) from the json-patch project for details)
@@ -105,3 +107,5 @@ For a detailed discussion of the implementation, see
 Please see the [wiki](https://github.com/daveclayton/json-schema-validator/wiki/) for more
 details.
 
+[Travis Badge]: https://api.travis-ci.org/daveclayton/json-schema-validator.svg?branch=master
+[Travis]: https://travis-ci.org/daveclayton/json-schema-validator
