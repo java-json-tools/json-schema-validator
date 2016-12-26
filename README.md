@@ -1,6 +1,7 @@
 [![License LGPLv3][LGPLv3 badge]][LGPLv3]
 [![License ASL 2.0][ASL 2.0 badge]][ASL 2.0]
 [![Build Status][Travis badge]][Travis]
+![Maven Central](https://img.shields.io/maven-central/v/com.github.fge/json-schema-validator.svg)
 
 ## Travis builds now enabled
 
