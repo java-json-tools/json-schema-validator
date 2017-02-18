@@ -38,13 +38,18 @@ import joptsimple.OptionSet;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import static com.github.fge.jsonschema.main.cli.RetCode.*;
 
 public final class Main
 {
+    private static final String DIRECTORY = "directory";
+
     private static final HelpFormatter HELP = new CustomHelpFormatter();
 
     private static final ObjectMapper MAPPER = JacksonUtils.newMapper();
@@ -63,6 +68,9 @@ public final class Main
             "no output; exit with the relevant return code (see below)");
         parser.accepts("syntax",
             "check the syntax of schema(s) given as argument(s)");
+        parser.accepts(DIRECTORY,
+            "directory which contains the schema files. If this parameter is provided then you don't need to provide files in argument list")
+            .withRequiredArg();
         parser.accepts("fakeroot",
             "pretend that the current directory is absolute URI \"uri\"")
             .withRequiredArg();
@@ -70,10 +78,11 @@ public final class Main
 
         final OptionSet optionSet;
         final boolean isSyntax;
-        final int requiredArgs;
+        int requiredArgs;
 
         Reporter reporter = Reporters.DEFAULT;
         String fakeRoot = null;
+        String schemaDirectoryPath = null;
 
         try {
             optionSet = parser.parse(args);
@@ -100,13 +109,19 @@ public final class Main
         if (optionSet.has("fakeroot"))
             fakeRoot = (String) optionSet.valueOf("fakeroot");
 
+        if (optionSet.has(DIRECTORY))
+            schemaDirectoryPath = (String) optionSet.valueOf(DIRECTORY);
+
         isSyntax = optionSet.has("syntax");
         requiredArgs = isSyntax ? 1 : 2;
+
+        // If directory argument is present then there is no other argument expected
+        requiredArgs = optionSet.has(DIRECTORY) ? 0 : requiredArgs;
 
         @SuppressWarnings("unchecked")
         final List<String> arguments
             = (List<String>) optionSet.nonOptionArguments();
-
+            
         if (arguments.size() < requiredArgs) {
             System.err.println("missing arguments");
             parser.printHelpOn(System.err);
@@ -114,8 +129,23 @@ public final class Main
         }
 
         final List<File> files = Lists.newArrayList();
-        for (final String target: arguments)
-            files.add(new File(target).getCanonicalFile());
+
+        if (schemaDirectoryPath != null) {
+
+            File directory = new File(schemaDirectoryPath);
+            if(!directory.isDirectory()) {
+                System.err.println(String.format("Given directory path(%s) is not a directory",
+                                                  schemaDirectoryPath));
+                parser.printHelpOn(System.err);
+                System.exit(CMD_ERROR.get());
+            } else {
+               files.addAll(getFilesFromGivenDirectory(directory));
+            }
+
+        } else {
+            for (final String target: arguments)
+                files.add(new File(target).getCanonicalFile());
+        }
 
         if (optionSet.has("brief"))
             reporter = Reporters.BRIEF;
@@ -141,6 +171,24 @@ public final class Main
         factory = JsonSchemaFactory.newBuilder()
             .setLoadingConfiguration(cfg).freeze();
         syntaxValidator = factory.getSyntaxValidator();
+    }
+
+    private static List<File> getFilesFromGivenDirectory(File directory)
+        throws IOException {
+        List<File> files = new ArrayList<File>();
+        Queue<File> queue = new LinkedList<File>();
+        queue.offer(directory);
+        while(!queue.isEmpty()) {
+            File tempDirectory = queue.poll();
+            for(File entry : tempDirectory.listFiles()) {
+                if(entry.isFile()) {
+                    files.add(entry.getCanonicalFile());
+                } else {
+                    queue.offer(entry);
+                }
+            }
+        }
+        return files;
     }
 
     private void proceed(final Reporter reporter, final List<File> files,
