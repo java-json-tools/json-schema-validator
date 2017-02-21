@@ -113,7 +113,7 @@ public final class JsonSchema
      * Validate an instance and return a processing report
      *
      * <p>This calls {@link #validate(JsonNode, boolean)} with {@code false} as
-     * a third argument.</p>
+     * a second argument.</p>
      *
      * @param instance the instance to validate
      * @return a processing report
