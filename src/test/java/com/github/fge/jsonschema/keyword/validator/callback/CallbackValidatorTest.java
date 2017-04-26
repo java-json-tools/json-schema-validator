@@ -19,6 +19,21 @@
 
 package com.github.fge.jsonschema.keyword.validator.callback;
 
+import static com.github.fge.jsonschema.TestUtils.anyReport;
+import static com.github.fge.jsonschema.TestUtils.onlyOnce;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -36,19 +51,11 @@ import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import static com.github.fge.jsonschema.TestUtils.*;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 @Test
 public abstract class CallbackValidatorTest
@@ -62,7 +69,7 @@ public abstract class CallbackValidatorTest
     protected static final ObjectNode sub2 = FACTORY.objectNode();
 
     protected final String keyword;
-    private final Constructor<? extends KeywordValidator> constructor;
+    private final KeywordValidatorFactory factory;
     protected final JsonPointer ptr1;
     protected final JsonPointer ptr2;
 
@@ -72,21 +79,20 @@ public abstract class CallbackValidatorTest
     private KeywordValidator validator;
 
     protected CallbackValidatorTest(
-        final Dictionary<Constructor<? extends KeywordValidator>> dict,
+        final Dictionary<KeywordValidatorFactory> dict,
         final String keyword, final JsonPointer ptr1, final JsonPointer ptr2)
     {
         this.keyword = keyword;
-        constructor = dict.entries().get(keyword);
+        factory = dict.entries().get(keyword);
         this.ptr1 = ptr1;
         this.ptr2 = ptr2;
     }
 
     @BeforeMethod
     protected final void initEnvironment()
-        throws IllegalAccessException, InvocationTargetException,
-        InstantiationException
+        throws ProcessingException
     {
-        if (constructor == null)
+        if (factory == null)
             return;
 
         final SchemaTree tree = new CanonicalSchemaTree(
@@ -95,13 +101,13 @@ public abstract class CallbackValidatorTest
         data = new FullData(tree, instance);
         report = mock(ProcessingReport.class);
         when(report.getLogLevel()).thenReturn(LogLevel.DEBUG);
-        validator = constructor.newInstance(generateDigest());
+        validator = factory.getKeywordValidator(generateDigest());
     }
 
     @Test
     public final void keywordExists()
     {
-        assertNotNull(constructor, "no support for " + keyword + "??");
+        assertNotNull(factory, "no support for " + keyword + "??");
     }
 
     @Test(dependsOnMethods = "keywordExists")

@@ -19,10 +19,11 @@
 
 package com.github.fge.jsonschema.library.validator;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
+import com.github.fge.jsonschema.keyword.validator.ReflectionKeywordValidatorFactory;
 import com.github.fge.jsonschema.keyword.validator.common.DependenciesValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv3.DisallowKeywordValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv3.DivisibleByValidator;
@@ -30,27 +31,25 @@ import com.github.fge.jsonschema.keyword.validator.draftv3.DraftV3TypeValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv3.ExtendsValidator;
 import com.github.fge.jsonschema.keyword.validator.draftv3.PropertiesValidator;
 
-import java.lang.reflect.Constructor;
-
 /**
  * Draft v3 specific keyword validator constructors
  */
 public final class DraftV3ValidatorDictionary
 {
-    private static final Dictionary<Constructor<? extends KeywordValidator>>
+    private static final Dictionary<KeywordValidatorFactory>
         DICTIONARY;
 
     private DraftV3ValidatorDictionary()
     {
     }
 
-    public static Dictionary<Constructor<? extends KeywordValidator>> get()
+    public static Dictionary<KeywordValidatorFactory> get()
     {
         return DICTIONARY;
     }
 
     static {
-        final DictionaryBuilder<Constructor<? extends KeywordValidator>>
+        final DictionaryBuilder<KeywordValidatorFactory>
             builder = Dictionary.newBuilder();
 
         String keyword;
@@ -63,41 +62,37 @@ public final class DraftV3ValidatorDictionary
          */
         keyword = "divisibleBy";
         c = DivisibleByValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         /*
          * Object
          */
         keyword = "properties";
         c = PropertiesValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "dependencies";
         c = DependenciesValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "type";
         c = DraftV3TypeValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "disallow";
         c = DisallowKeywordValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         keyword = "extends";
         c = ExtendsValidator.class;
-        builder.addEntry(keyword, constructor(c));
+        builder.addEntry(keyword, factory(keyword, c));
 
         DICTIONARY = builder.freeze();
     }
 
-    private static Constructor<? extends KeywordValidator> constructor(
+    private static KeywordValidatorFactory factory(String name,
         final Class<? extends KeywordValidator> c)
     {
-        try {
-            return c.getConstructor(JsonNode.class);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("No appropriate constructor found", e);
-        }
+        return new ReflectionKeywordValidatorFactory(name, c);
     }
 }
