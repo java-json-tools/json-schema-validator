@@ -60,7 +60,7 @@ import java.util.Map;
  *     <li>a {@link SyntaxValidator}, to validate schemas;</li>
  *     <li>a {@link JsonValidator}, to validate an instance against a schema;
  *     </li>
- *     <li>a {@link JsonSchema}, to validate instances against a fixed schema.
+ *     <li>a {@link JsonSchemaImpl}, to validate instances against a fixed schema.
  *     </li>
  * </ul>
  *

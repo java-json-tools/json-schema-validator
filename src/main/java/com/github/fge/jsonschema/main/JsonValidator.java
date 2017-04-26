@@ -188,7 +188,7 @@ public final class JsonValidator
         if (tree.getNode().isMissingNode())
             throw new JsonReferenceException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("danglingRef")));
-        return new JsonSchema(processor, tree, reportProvider);
+        return new JsonSchemaImpl(processor, tree, reportProvider);
     }
 
     /**
@@ -212,7 +212,7 @@ public final class JsonValidator
         if (tree.getNode().isMissingNode())
             throw new JsonReferenceException(new ProcessingMessage()
                 .setMessage(BUNDLE.getMessage("danglingRef")));
-        return new JsonSchema(processor, tree, reportProvider);
+        return new JsonSchemaImpl(processor, tree, reportProvider);
     }
 
     /**
