@@ -1,15 +1,15 @@
 ## Travis builds now enabled
 
-Builds are now verified by Travis (see [issue #20](https://github.com/huggsboson/json-patch/issues/20) from the json-patch project for details)
+Builds are now verified by Travis (see [issue #20](https://github.com/java-json-tools/json-patch/issues/20) from the json-patch project for details)
 
-https://travis-ci.org/huggsboson/json-schema-validator
+https://travis-ci.org/java-json-tools/json-schema-validator
 
 ## Read me first
 
 The **current** version of this project is licensed under both LGPLv3 (or later) and ASL 2.0. The old version
 (2.0.x) was licensed under LGPL 3.0 (or later) only.
 
-**Version 2.2 is out**. See [here](https://github.com/huggsboson/json-schema-validator/wiki/Whatsnew_22)
+**Version 2.2 is out**. See [here](https://github.com/java-json-tools/json-schema-validator/wiki/Whatsnew_22)
 for the list of changes compared to 2.0. And of course, it still has [all the
 features](https://github.com/daveclayton/json-schema-validator/wiki/Features) of older versions.
 
@@ -34,19 +34,19 @@ timely manner.
 ## Testing online
 
 You can [test this library online](http://json-schema-validator.herokuapp.com); this web site is in
-a [project of its own](https://github.com/huggsboson/json-schema-validator-demo), which you can fork and
+a [project of its own](https://github.com/java-json-tools/json-schema-validator-demo), which you can fork and
 run by yourself.
 
 ## Versions
 
 * current stable version: **2.2.6**
-  ([ChangeLog](https://github.com/huggsboson/json-schema-validator/wiki/ChangeLog_22x),
-  [Javadoc](http://huggsboson.github.io/json-schema-validator/2.2.x/index.html), [code
-  samples](http://huggsboson.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
+  ([ChangeLog](https://github.com/java-json-tools/json-schema-validator/wiki/ChangeLog_22x),
+  [Javadoc](http://java-json-tools.github.io/json-schema-validator/2.2.x/index.html), [code
+  samples](http://java-json-tools.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 * old stable version: **2.0.4**
-  ([ChangeLog](https://github.com/huggsboson/json-schema-validator/wiki/ChangeLog_20x),
-  [Javadoc](http://huggsboson.github.io/json-schema-validator/2.0.x/index.html), [code
-  samples](http://huggsboson.github.io/json-schema-validator/2.0.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
+  ([ChangeLog](https://github.com/java-json-tools/json-schema-validator/wiki/ChangeLog_20x),
+  [Javadoc](http://java-json-tools.github.io/json-schema-validator/2.0.x/index.html), [code
+  samples](http://java-json-tools.github.io/json-schema-validator/2.0.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
 
 ## Available downloads
 
@@ -100,8 +100,8 @@ This implementation is based on the following drafts:
 ## More...
 
 For a detailed discussion of the implementation, see
-[here](https://github.com/huggsboson/json-schema-validator/wiki/Status).
+[here](https://github.com/java-json-tools/json-schema-validator/wiki/Status).
 
-Please see the [wiki](https://github.com/huggsboson/json-schema-validator/wiki/) for more
+Please see the [wiki](https://github.com/java-json-tools/json-schema-validator/wiki/) for more
 details.
 
