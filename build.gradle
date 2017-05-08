@@ -44,7 +44,7 @@ apply(plugin: "idea");
 apply(plugin: "eclipse");
 
 group = "com.github.fge";
-version = "2.2.6";
+version = "2.2.7";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
@@ -64,7 +64,7 @@ repositories {
  */
 dependencies {
     compile(group: "com.github.fge", name: "json-schema-core",
-        version: "1.2.5");
+        version: "1.2.6");
     compile(group: "javax.mail", name: "mailapi", version: "1.4.3");
     compile(group: "joda-time", name: "joda-time", version: "2.3");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber",
