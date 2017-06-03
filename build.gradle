@@ -25,7 +25,7 @@ apply(plugin: "idea");
 apply(plugin: "eclipse");
 
 group = "com.github.java-json-tools";
-version = "2.2.7";
+version = "2.2.8";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
