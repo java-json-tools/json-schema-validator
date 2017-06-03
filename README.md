@@ -1,3 +1,8 @@
+[![License LGPLv3][LGPLv3 badge]][LGPLv3]
+[![License ASL 2.0][ASL 2.0 badge]][ASL 2.0]
+[![Build Status][Travis badge]][Travis]
+![Maven Central](https://img.shields.io/maven-central/v/com.github.fge/json-schema-validator.svg)
+
 ## Travis builds now enabled
 
 Builds are now verified by Travis (see [issue #20](https://github.com/java-json-tools/json-patch/issues/20) from the json-patch project for details)
@@ -6,8 +11,8 @@ https://travis-ci.org/java-json-tools/json-schema-validator
 
 ## Read me first
 
-The **current** version of this project is licensed under both LGPLv3 (or later) and ASL 2.0. The old version
-(2.0.x) was licensed under LGPL 3.0 (or later) only.
+The **current** version of this project is licensed under both [LGPLv3] (or later) and [ASL 2.0]. The old version
+(2.0.x) was licensed under [LGPL 3.0][LGPLv3] (or later) only.
 
 **Version 2.2 is out**. See [here](https://github.com/java-json-tools/json-schema-validator/wiki/Whatsnew_22)
 for the list of changes compared to 2.0. And of course, it still has [all the
@@ -105,3 +110,9 @@ For a detailed discussion of the implementation, see
 Please see the [wiki](https://github.com/java-json-tools/json-schema-validator/wiki/) for more
 details.
 
+[LGPLv3 badge]: https://img.shields.io/:license-LGPLv3-blue.svg
+[LGPLv3]: http://www.gnu.org/licenses/lgpl-3.0.html
+[ASL 2.0 badge]: https://img.shields.io/:license-Apache%202.0-blue.svg 
+[ASL 2.0]: http://www.apache.org/licenses/LICENSE-2.0.html
+[Travis Badge]: https://api.travis-ci.org/daveclayton/json-schema-validator.svg?branch=master
+[Travis]: https://travis-ci.org/daveclayton/json-schema-validator
