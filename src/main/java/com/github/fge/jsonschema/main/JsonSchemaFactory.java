@@ -275,6 +275,6 @@ public final class JsonSchemaFactory
         final Processor<SchemaContext, ValidatorList> processor
             = map.getProcessor();
         return new CachingProcessor<SchemaContext, ValidatorList>(processor,
-            SchemaContextEquivalence.getInstance());
+            SchemaContextEquivalence.getInstance(), validationCfg.getCacheSize());
     }
 }

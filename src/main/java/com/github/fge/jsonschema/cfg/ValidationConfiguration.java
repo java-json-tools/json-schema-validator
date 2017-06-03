@@ -70,6 +70,11 @@ public final class ValidationConfiguration
      * Whether to use {@code format} in the resulting factory
      */
     final boolean useFormat;
+    
+    /**
+     * Cache size for processing validations
+     */
+    final int cacheSize;
 
     /**
      * The set of syntax messages
@@ -113,6 +118,7 @@ public final class ValidationConfiguration
         libraries = ImmutableMap.copyOf(builder.libraries);
         defaultLibrary = builder.defaultLibrary;
         useFormat = builder.useFormat;
+        cacheSize = builder.cacheSize;
         syntaxMessages = builder.syntaxMessages;
         validationMessages = builder.validationMessages;
     }
@@ -145,6 +151,11 @@ public final class ValidationConfiguration
     public boolean getUseFormat()
     {
         return useFormat;
+    }
+    
+    public int getCacheSize()
+    {
+    	return cacheSize;
     }
 
     public MessageBundle getSyntaxMessages()
