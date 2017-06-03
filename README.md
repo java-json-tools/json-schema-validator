@@ -1,13 +1,7 @@
 [![License LGPLv3][LGPLv3 badge]][LGPLv3]
 [![License ASL 2.0][ASL 2.0 badge]][ASL 2.0]
 [![Build Status][Travis badge]][Travis]
-![Maven Central](https://img.shields.io/maven-central/v/com.github.fge/json-schema-validator.svg)
-
-## Travis builds now enabled
-
-Builds are now verified by Travis (see [issue #20](https://github.com/java-json-tools/json-patch/issues/20) from the json-patch project for details)
-
-https://travis-ci.org/java-json-tools/json-schema-validator
+![Maven Central](https://img.shields.io/maven-central/v/com.github.java-json-tools/json-schema-validator.svg)
 
 ## Read me first
 
@@ -16,7 +10,7 @@ The **current** version of this project is licensed under both [LGPLv3] (or late
 
 **Version 2.2 is out**. See [here](https://github.com/java-json-tools/json-schema-validator/wiki/Whatsnew_22)
 for the list of changes compared to 2.0. And of course, it still has [all the
-features](https://github.com/daveclayton/json-schema-validator/wiki/Features) of older versions.
+features](https://github.com/java-json-tools/json-schema-validator/wiki/Features) of older versions.
 
 ## What this is
 
@@ -63,7 +57,7 @@ Gradle:
 
 ```groovy
 dependencies {
-    compile(group: "com.github.fge", name: "json-schema-validator", version: "yourVersionHere");
+    compile(group: "com.github.java-json-tools", name: "json-schema-validator", version: "2.2.8");
 }
 ```
 
@@ -71,13 +65,14 @@ Maven:
 
 ```xml
 <dependency>
-    <groupId>com.github.fge</groupId>
+    <groupId>com.github.java-json-tools</groupId>
     <artifactId>json-schema-validator</artifactId>
-    <version>your-version-here</version>
+    <version>2.2.8</version>
 </dependency>
 ```
 
 ### "Full" jar; command line
+OUTDATED: Let me know if you need this in the issues section.
 
 This jar contains the library plus all its dependencies. Download the **lib** jar (a little more
 than 6 MiB) from [Bintray](https://bintray.com/fge/maven/json-schema-validator/view).
@@ -114,5 +109,5 @@ details.
 [LGPLv3]: http://www.gnu.org/licenses/lgpl-3.0.html
 [ASL 2.0 badge]: https://img.shields.io/:license-Apache%202.0-blue.svg 
 [ASL 2.0]: http://www.apache.org/licenses/LICENSE-2.0.html
-[Travis Badge]: https://api.travis-ci.org/daveclayton/json-schema-validator.svg?branch=master
-[Travis]: https://travis-ci.org/daveclayton/json-schema-validator
+[Travis Badge]: https://api.travis-ci.org/java-json-tools/json-schema-validator.svg?branch=master
+[Travis]: https://travis-ci.org/java-json-tools/json-schema-validator
