@@ -40,6 +40,7 @@ import com.github.fge.jsonschema.library.KeywordBuilder;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.library.LibraryBuilder;
 import com.github.fge.jsonschema.main.JsonSchema;
+import com.github.fge.jsonschema.main.JsonSchemaImpl;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;

@@ -17,25 +17,6 @@
  * - ASL 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
-/*
- * This has to be here... It will not be taken into account in common.gradle!
- *
- * Looks like a serious bug... See also:
- *
- * http://forums.gradle.org/gradle/topics/buildscript_in_subprojects_ignored
- */
-/*
- * This has to be here... It will not be taken into account in common.gradle!
- *
- * Looks like a serious bug... See also:
- *
- * http://forums.gradle.org/gradle/topics/buildscript_in_subprojects_ignored
- *
- * We also use Spring's propdeps plugin to have a _real_ provided scope. See:
- *
- * https://github.com/spring-projects/gradle-plugins/tree/master/propdeps-plugin
- */
-
 apply(plugin: "java");
 apply(plugin: "maven");
 apply(plugin: "signing");
@@ -43,14 +24,10 @@ apply(plugin: "osgi");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
 
-group = "com.github.fge";
-version = "2.2.6";
+group = "com.github.java-json-tools";
+version = "2.2.7";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
-
-project.ext {
-    description = "A Java implementation of the JSON Schema specification";
-};
 
 /*
  * Repositories to use
@@ -63,7 +40,7 @@ repositories {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.fge", name: "json-schema-core", version: "1.2.5");
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.8");
     compile(group: "javax.mail", name: "mailapi", version: "1.4.3");
     compile(group: "joda-time", name: "joda-time", version: "2.9.7");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.0.0");
@@ -87,7 +64,7 @@ javadoc.options.links("http://fge.github.io/btf/");
 javadoc.options.links("http://fge.github.io/msg-simple/");
 javadoc.options.links("http://fge.github.io/jackson-coreutils/");
 javadoc.options.links("http://fge.github.io/uri-template/");
-javadoc.options.links("http://fge.github.io/json-schema-core/1.2.x/");
+javadoc.options.links("http://java-json-tools.github.io/json-schema-core/1.2.x/");
 
 
 /*
@@ -125,12 +102,14 @@ javadoc.options {
  * Equally annoyingly, the docFilesSubDirs option above does not seem to have
  * any effect :/
  */
-task copyDocFiles(dependsOn: javadoc) << {
-    copy {
-        from("src/main/javadoc") {
-            include "**/doc-files/**";
-        };
-        into javadoc.destinationDir;
+task copyDocFiles(dependsOn: javadoc) {
+    doLast {
+        copy {
+            from("src/main/javadoc") {
+                include "**/doc-files/**";
+            };
+            into javadoc.destinationDir;
+        }
     }
 }
 
@@ -164,12 +143,14 @@ artifacts {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = "1.11";
+    gradleVersion = "3.5";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
-task pom << {
-    pom {}.writeTo("${projectDir}/pom.xml");
+task pom {
+    doLast {
+        pom {}.writeTo("${projectDir}/pom.xml");
+    }
 }
 
 /*
@@ -177,25 +158,27 @@ task pom << {
  */
 
 project.ext {
-    gitrwscm = sprintf("git@github.com:fge/%s", name);
-    gitroscm = sprintf("https://github.com/fge/%s.git", name);
-    projectURL = sprintf("https://github.com/fge/%s", name);
+    description = "A Java implementation of the JSON Schema specification";
+    scmUrl = sprintf("git@github.com:box-metadata/%s", name);
+    projectURL = sprintf("https://github.com/box-metadata/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };
 
-task checkSigningRequirements << {
-    def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
-    def noDice = false;
-    requiredProperties.each {
-        if (project.properties[it] == null) {
-            noDice = true;
-            System.err.printf("property \"%s\" is not defined!", it);
+task checkSigningRequirements {
+    doLast {
+        def requiredProperties = [ "sonatypeUsername", "sonatypePassword" ];
+        def noDice = false;
+        requiredProperties.each {
+            if (project.properties[it] == null) {
+                noDice = true;
+                System.err.printf("property \"%s\" is not defined!", it);
+            }
         }
+        if (noDice)
+            throw new IllegalStateException("missing required properties for " +
+                "upload");
     }
-    if (noDice)
-        throw new IllegalStateException("missing required properties for " +
-            "upload");
 }
 
 uploadArchives {
@@ -231,15 +214,15 @@ uploadArchives {
     uploadArchives.repositories.mavenDeployer
 ]*.pom*.whenConfigured { pom ->
     pom.project {
-        name "${name}";
+        name "${project.name}";
         packaging "jar";
-        description "${description}";
+        description "${project.ext.description}";
         url "${projectURL}";
 
         scm {
-            url "${gitrwscm}";
-            connection "${gitrwscm}";
-            developerConnection "${gitroscm}";
+            url "${scmUrl}";
+            connection "scm:git:${scmUrl}";
+            developerConnection "scm:git:${scmUrl}";
         }
 
         licenses {
@@ -257,9 +240,9 @@ uploadArchives {
 
         developers {
             developer {
-                id "fge";
-                name "Francis Galiegue";
-                email "fgaliegue@gmail.com";
+                id "huggsboson";
+                name "John Huffaker";
+                email "jhuffaker+java-json-tools@gmail.com";
             }
         }
     }

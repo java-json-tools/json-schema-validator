@@ -19,6 +19,22 @@
 
 package com.github.fge.jsonschema.keyword.validator;
 
+import static com.github.fge.jsonschema.TestUtils.anyMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.testng.Assert.assertNotNull;
+
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Iterator;
+import java.util.List;
+
+import org.mockito.ArgumentCaptor;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JsonLoader;
@@ -38,20 +54,6 @@ import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
 import com.google.common.collect.Lists;
-import org.mockito.ArgumentCaptor;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
-
-import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Iterator;
-import java.util.List;
-
-import static com.github.fge.jsonschema.TestUtils.*;
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 @Test
 public abstract class AbstractKeywordValidatorTest
@@ -60,16 +62,16 @@ public abstract class AbstractKeywordValidatorTest
         = MessageBundles.getBundle(JsonSchemaValidationBundle.class);
 
     private final String keyword;
-    private final Constructor<? extends KeywordValidator> constructor;
+    private final KeywordValidatorFactory factory;
     private final JsonNode testNode;
 
     protected AbstractKeywordValidatorTest(
-        final Dictionary<Constructor<? extends KeywordValidator>> dict,
+        final Dictionary<KeywordValidatorFactory> dict,
         final String prefix, final String keyword)
         throws IOException
     {
         this.keyword = keyword;
-        constructor = dict.entries().get(keyword);
+        factory = dict.entries().get(keyword);
         final String resourceName
             = String.format("/keyword/validators/%s/%s.json", prefix, keyword);
         testNode = JsonLoader.fromResource(resourceName);
@@ -78,7 +80,7 @@ public abstract class AbstractKeywordValidatorTest
     @Test
     public final void keywordExists()
     {
-        assertNotNull(constructor, "no support for " + keyword + "??");
+        assertNotNull(factory, "no support for " + keyword + "??");
     }
 
     @DataProvider
@@ -120,7 +122,7 @@ public abstract class AbstractKeywordValidatorTest
         @SuppressWarnings("unchecked")
         final Processor<FullData, FullData> processor = mock(Processor.class);
 
-        final KeywordValidator validator = constructor.newInstance(digest);
+        final KeywordValidator validator = factory.getKeywordValidator(digest);
         validator.validate(processor, report, BUNDLE, data);
 
         if (valid) {

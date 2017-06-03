@@ -19,6 +19,16 @@
 
 package com.github.fge.jsonschema.processors.build;
 
+import static org.mockito.Mockito.mock;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertSame;
+import static org.testng.Assert.fail;
+
+import java.util.List;
+import java.util.Map;
+
+import org.testng.annotations.Test;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -27,20 +37,14 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
+import com.github.fge.jsonschema.keyword.validator.ReflectionKeywordValidatorFactory;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import org.testng.annotations.Test;
-
-import java.lang.reflect.Constructor;
-import java.util.List;
-import java.util.Map;
-
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class ValidatorBuilderTest
 {
@@ -53,17 +57,17 @@ public final class ValidatorBuilderTest
     public ValidatorBuilderTest()
         throws NoSuchMethodException
     {
-        final DictionaryBuilder<Constructor<? extends KeywordValidator>>
+        final DictionaryBuilder<KeywordValidatorFactory>
             builder = Dictionary.newBuilder();
 
-        Constructor<? extends KeywordValidator> constructor;
+        KeywordValidatorFactory factory;
 
-        constructor = Keyword1.class .getConstructor(JsonNode.class);
-        builder.addEntry(K1, constructor);
-        constructor = Keyword2.class.getConstructor(JsonNode.class);
-        builder.addEntry(K2, constructor);
-        constructor = Challenged.class.getConstructor(JsonNode.class);
-        builder.addEntry(CHALLENGED, constructor);
+        factory = new ReflectionKeywordValidatorFactory(K1, Keyword1.class);
+        builder.addEntry(K1, factory);
+        factory = new ReflectionKeywordValidatorFactory(K2, Keyword2.class);
+        builder.addEntry(K2, factory);
+        factory = new ReflectionKeywordValidatorFactory(CHALLENGED, Challenged.class);
+        builder.addEntry(CHALLENGED, factory);
 
         validatorBuilder = new ValidatorBuilder(builder.freeze());
     }

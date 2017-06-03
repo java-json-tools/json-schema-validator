@@ -26,9 +26,7 @@ import com.github.fge.jsonschema.core.keyword.syntax.checkers.SyntaxChecker;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
-
-import java.lang.reflect.Constructor;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
 
 /**
  * A schema keyword library
@@ -54,9 +52,9 @@ public final class Library
     final Dictionary<Digester> digesters;
 
     /**
-     * Dictionary of keyword validator constructors
+     * Dictionary of keyword validator factories
      */
-    final Dictionary<Constructor<? extends KeywordValidator>> validators;
+    final Dictionary<KeywordValidatorFactory> validators;
 
     /**
      * Dictionary of format attributes
@@ -97,7 +95,7 @@ public final class Library
      */
     Library(final Dictionary<SyntaxChecker> syntaxCheckers,
         final Dictionary<Digester> digesters,
-        final Dictionary<Constructor<? extends KeywordValidator>> validators,
+        final Dictionary<KeywordValidatorFactory> validators,
         final Dictionary<FormatAttribute> formatAttributes)
     {
         this.syntaxCheckers = syntaxCheckers;
@@ -131,7 +129,7 @@ public final class Library
      *
      * @return a dictionary
      */
-    public Dictionary<Constructor<? extends KeywordValidator>> getValidators()
+    public Dictionary<KeywordValidatorFactory> getValidators()
     {
         return validators;
     }

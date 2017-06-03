@@ -25,12 +25,10 @@ import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.keyword.digest.Digester;
-import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
 import com.github.fge.jsonschema.messages.JsonSchemaConfigurationBundle;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-
-import java.lang.reflect.Constructor;
 
 /**
  * Mutable version of a library
@@ -60,7 +58,7 @@ public final class LibraryBuilder
     /**
      * Dictionary builder of keyword validator constructors
      */
-    final DictionaryBuilder<Constructor<? extends KeywordValidator>> validators;
+    final DictionaryBuilder<KeywordValidatorFactory> validators;
 
     /**
      * Dictionary builder of format attributes
@@ -107,9 +105,9 @@ public final class LibraryBuilder
 
         syntaxCheckers.addEntry(name, keyword.syntaxChecker);
 
-        if (keyword.constructor != null) {
+        if (keyword.validatorFactory != null) {
             digesters.addEntry(name, keyword.digester);
-            validators.addEntry(name, keyword.constructor);
+            validators.addEntry(name, keyword.validatorFactory);
         }
         return this;
     }

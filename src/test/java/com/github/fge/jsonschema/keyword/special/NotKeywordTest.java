@@ -19,6 +19,20 @@
 
 package com.github.fge.jsonschema.keyword.special;
 
+import static com.github.fge.jsonschema.TestUtils.anyMessage;
+import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.assertMessage;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
+
+import org.mockito.ArgumentCaptor;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JacksonUtils;
@@ -34,22 +48,12 @@ import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.core.tree.key.SchemaKey;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
 import com.github.fge.jsonschema.library.validator.DraftV4ValidatorDictionary;
 import com.github.fge.jsonschema.messages.JsonSchemaValidationBundle;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.github.fge.msgsimple.load.MessageBundles;
-import org.mockito.ArgumentCaptor;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
-import static com.github.fge.jsonschema.TestUtils.*;
-import static com.github.fge.jsonschema.matchers.ProcessingMessageAssert.*;
-import static org.mockito.Mockito.*;
-import static org.testng.Assert.*;
 
 public final class NotKeywordTest
 {
@@ -65,13 +69,12 @@ public final class NotKeywordTest
     private ProcessingReport report;
 
     public NotKeywordTest()
-        throws IllegalAccessException, InvocationTargetException,
-        InstantiationException
+        throws ProcessingException
     {
-        final Constructor<? extends KeywordValidator> constructor
+        final KeywordValidatorFactory factory
             = DraftV4ValidatorDictionary.get().entries().get("not");
-        validator = constructor == null ? null
-            : constructor.newInstance(FACTORY.nullNode());
+        validator = factory == null ? null
+            : factory.getKeywordValidator(FACTORY.nullNode());
     }
 
     @BeforeMethod

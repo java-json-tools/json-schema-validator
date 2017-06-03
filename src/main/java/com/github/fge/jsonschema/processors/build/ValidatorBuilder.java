@@ -19,22 +19,21 @@
 
 package com.github.fge.jsonschema.processors.build;
 
+import java.util.Map;
+import java.util.SortedMap;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.processing.Processor;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.keyword.validator.KeywordValidator;
+import com.github.fge.jsonschema.keyword.validator.KeywordValidatorFactory;
 import com.github.fge.jsonschema.library.Library;
 import com.github.fge.jsonschema.processors.data.SchemaDigest;
 import com.github.fge.jsonschema.processors.data.ValidatorList;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
 import com.google.common.collect.Maps;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
-import java.util.SortedMap;
 
 /**
  * Keyword builder processor
@@ -48,20 +47,18 @@ import java.util.SortedMap;
 public final class ValidatorBuilder
     implements Processor<SchemaDigest, ValidatorList>
 {
-    private static final String ERRMSG = "failed to build keyword validator";
-
-    private final Map<String, Constructor<? extends KeywordValidator>>
-        constructors;
+    private final Map<String, KeywordValidatorFactory>
+        factories;
 
     public ValidatorBuilder(final Library library)
     {
-        constructors = library.getValidators().entries();
+        factories = library.getValidators().entries();
     }
 
     public ValidatorBuilder(
-        final Dictionary<Constructor<? extends KeywordValidator>> dict)
+        final Dictionary<KeywordValidatorFactory> dict)
     {
-        constructors = dict.entries();
+        factories = dict.entries();
     }
 
     /**
@@ -82,33 +79,17 @@ public final class ValidatorBuilder
         String keyword;
         JsonNode digest;
         KeywordValidator validator;
-        Constructor<? extends KeywordValidator> constructor;
+        KeywordValidatorFactory factory;
 
         for (final Map.Entry<String, JsonNode> entry:
             input.getDigests().entrySet()) {
             keyword = entry.getKey();
             digest = entry.getValue();
-            constructor = constructors.get(keyword);
-            validator = buildKeyword(constructor, digest);
+            factory = factories.get(keyword);
+            validator = factory.getKeywordValidator(digest);
             map.put(keyword, validator);
         }
         return new ValidatorList(input.getContext(), map.values());
-    }
-
-    private static KeywordValidator buildKeyword(
-        final Constructor<? extends KeywordValidator> constructor,
-        final JsonNode node)
-        throws ProcessingException
-    {
-        try {
-            return constructor.newInstance(node);
-        } catch (InstantiationException e) {
-            throw new ProcessingException(ERRMSG, e);
-        } catch (IllegalAccessException e) {
-            throw new ProcessingException(ERRMSG, e);
-        } catch (InvocationTargetException e) {
-            throw new ProcessingException(ERRMSG, e);
-        }
     }
 
     @Override
