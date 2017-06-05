@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "example allOf object",
+  "type": "object",
+  "required": [
+    "foo"
+  ],
+  "properties": {
+    "foo": {
+      "type": "object",
+      "allOf": [
+        {
+          "$ref": "#/definitions/simpleString"
+        }
+      ],
+      "properties": {
+        "simpleString": {
+          "type": "object",
+          "description": "This object should override the string type."
+        }
+      }
+    }
+  },
+  "definitions": {
+    "simpleString": {
+      "type": "string"
+    }
+  }
+}
