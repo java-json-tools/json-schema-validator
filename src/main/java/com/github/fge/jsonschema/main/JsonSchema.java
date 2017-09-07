@@ -26,6 +26,8 @@ import com.github.fge.jsonschema.core.processing.Processor;
 import com.github.fge.jsonschema.core.report.ListProcessingReport;
 import com.github.fge.jsonschema.core.report.MessageProvider;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Single-schema instance validator
@@ -122,4 +124,54 @@ public interface JsonSchema {
      * @return true if the instance is valid
      */
     boolean validInstanceUnchecked(JsonNode instance);
+
+    /**
+     * Method to retrieve all JSON Schema property names.
+     *
+     * @return An iterator with all property names
+     */
+    Iterator<String> getPropertyNames();
+
+    /**
+     * Method to retrieve a JSON Schema attribute enum values.
+     * If no matching attribute is found, returns null.
+     *
+     * @param name Name of attribute to look for
+     *
+     * @return List of the enum values of the attribute, if is enum type; empty if it is not
+     */
+
+    List<String> getPropertyEnum(final String name);
+
+    /**
+     * Method to retrieve a JSON Schema property type.
+     * If no matching attribute is found, returns null.
+     *
+     * @param name Name of property to look for
+     *
+     * @return a JSON Schema property type as text
+     */
+
+    String getPropertyType(final String name);
+
+    /**
+     * Method to retrieve a JSON Schema property description.
+     * If no matching attribute is found, returns null.
+     *
+     * @param name Name of property to look for
+     *
+     * @return a JSON Schema property description as text
+     */
+
+    String getPropertyDescription(final String name);
+
+    /**
+     * Method for checking if a JSON Schema attribute with specified name is required.
+     * If no matching attribute is found, returns null.
+     *
+     * @param name Name of attribute to look for
+     *
+     * @return true if it is required, false if not
+     */
+    boolean isRequired(final String name);
 }

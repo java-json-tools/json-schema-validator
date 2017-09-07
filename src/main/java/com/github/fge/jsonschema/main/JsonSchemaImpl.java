@@ -22,16 +22,16 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.processing.ProcessingResult;
-import com.github.fge.jsonschema.core.processing.Processor;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.MessageProvider;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.report.ReportProvider;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.tree.SimpleJsonTree;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.jsonschema.processors.validation.ValidationProcessor;
-
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import javax.annotation.concurrent.Immutable;
 
 /**
@@ -146,5 +146,127 @@ final class JsonSchemaImpl implements JsonSchema
     public boolean validInstanceUnchecked(final JsonNode instance)
     {
         return doValidateUnchecked(instance, false).isSuccess();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<String> getPropertyNames() {
+        return getProperties().fieldNames();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getPropertyEnum(final String name) {
+        final JsonNode node = getProperty(name);
+        if (node != null) {
+            return getElementsAsText(node.get("enum"));
+        }
+        return Collections.emptyList();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getPropertyType(final String name) {
+        return getPropertyElementAsText(name, "type");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getPropertyDescription(final String name) {
+        return getPropertyElementAsText(name, "description");
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isRequired(final String name) {
+        final JsonNode requiredNode = schema.getNode().findValue("required");
+        if (requiredNode != null) {
+            final Iterator<JsonNode> it = requiredNode.elements();
+            while (it.hasNext()) {
+                if (name.equals(it.next().asText())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*
+    /**********************************************************
+    /* Internal methods
+    /**********************************************************
+     */
+
+    /**
+     * Method to retrieve all JSON Schema attributes.
+     *
+     * @return Node of the attributes
+     */
+    private JsonNode getProperties() {
+        return schema.getNode().findValue("properties");
+    }
+
+    /**
+     * Method to finding a JSON Schema attribute with specified name and returning the node.
+     * If no matching attribute is found, returns null.
+     *
+     * @param name Name of attribute to look for
+     *
+     * @return Node of the attribute, if any; null if none
+     */
+    private JsonNode getProperty(final String name) {
+        return getProperties().get(name);
+    }
+
+    /**
+     * Method to retrieve a JSON Schema property element as text.
+     * If no matching attribute is found, returns null.
+     *
+     * @param name Name of property to look for
+     * @param element Name of the element of the property
+     *
+     * @return a JSON Schema property element as text; null if it is not exist
+     */
+
+    private String getPropertyElementAsText(final String name, final String element) {
+        final JsonNode node = getProperty(name);
+        if (node == null) {
+            return null;
+        }
+        final JsonNode nodeElement = node.get(element);
+        if (nodeElement == null) {
+            return null;
+        }
+        return nodeElement.asText();
+    }
+
+    /**
+     * Method to retrieve a JsonNode elements as text.
+     *
+     * @param node Node to look for
+     *
+     * @return List of the elements of the node
+     */
+
+    private List<String> getElementsAsText(final JsonNode node) {
+        if (node == null) {
+            return Collections.emptyList();
+        }
+        final List<String> nodeNames = new ArrayList<String>();
+        final Iterator<JsonNode> it = node.elements();
+        while (it.hasNext()) {
+            nodeNames.add(it.next().asText());
+        }
+        return nodeNames;
     }
 }
