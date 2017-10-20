@@ -22,9 +22,6 @@ package com.github.fge.jsonschema.main;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.processing.ProcessingResult;
-import com.github.fge.jsonschema.core.processing.Processor;
-import com.github.fge.jsonschema.core.report.ListProcessingReport;
-import com.github.fge.jsonschema.core.report.MessageProvider;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.core.report.ReportProvider;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
@@ -146,5 +143,14 @@ final class JsonSchemaImpl implements JsonSchema
     public boolean validInstanceUnchecked(final JsonNode instance)
     {
         return doValidateUnchecked(instance, false).isSuccess();
+    }
+
+    /**
+     * Returns JsonSchema as JsonNode
+     *
+     * @return JsonNode
+     */
+    public JsonNode asJson() {
+        return schema.asJson();
     }
 }
