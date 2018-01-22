@@ -22,6 +22,7 @@ package com.github.fge.jsonschema.library.format;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.format.common.DateAttribute;
 import com.github.fge.jsonschema.format.common.EmailAttribute;
 import com.github.fge.jsonschema.format.common.IPv6Attribute;
 import com.github.fge.jsonschema.format.common.RFC3339DateTimeAttribute;
@@ -50,6 +51,10 @@ public final class CommonFormatAttributesDictionary
 
         name = "date-time";
         attribute = RFC3339DateTimeAttribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "date";
+        attribute = DateAttribute.getInstance();
         builder.addEntry(name, attribute);
 
         name = "email";
