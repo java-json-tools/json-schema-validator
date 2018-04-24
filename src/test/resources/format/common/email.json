@@ -14,12 +14,7 @@
     },
     {
         "data": "éioaj@my.name",
-        "valid": false,
-        "message": "err.format.invalidEmail",
-        "msgData": {
-            "value": "éioaj@my.name"
-        },
-        "msgParams": [ "value" ]
+        "valid": true
     },
     {
         "data": "a@",
