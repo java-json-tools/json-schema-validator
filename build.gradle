@@ -25,7 +25,7 @@ apply(plugin: "idea");
 apply(plugin: "eclipse");
 
 group = "com.github.java-json-tools";
-version = "2.2.8";
+version = "2.2.10-SNAPSHOT";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
@@ -40,7 +40,7 @@ repositories {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.8");
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.9");
     compile(group: "javax.mail", name: "mailapi", version: "1.4.3");
     compile(group: "joda-time", name: "joda-time", version: "2.9.7");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.0.0");
