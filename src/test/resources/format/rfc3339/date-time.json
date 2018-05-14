@@ -1,0 +1,154 @@
+[
+    {
+        "data": "2012-12-02T13:05:00+01:00",
+        "valid": true
+    },
+    {
+        "data": "2001-02-12T00:00:00Z",
+        "valid": true
+    },
+    {
+        "data": "2012-08-07T20:42:32Z",
+        "valid": true
+    },
+    {
+        "data": "2012-08-07T20:42:32.123Z",
+        "valid": true
+    },
+    {
+        "data": "2012-08-07T20:42:32.13Z",
+        "valid": true
+    },
+    {
+        "data": "2012-08-07T20:42:32+10:00",
+        "valid": true
+    },    
+    {
+        "data": "2012-08-07T20:42:32-05:30",
+        "valid": true
+    },
+    {
+        "data": "201202030",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "201202030",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    },
+    {
+        "data": "2012-12-02T13:05:00+0100",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "2012-12-02T13:05:00+0100",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    },
+    {
+        "data": "2012-12-02T13:05:00+01:30:30",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "2012-12-02T13:05:00+01:30:30",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    },
+    {
+        "data": "2012-12-02T13:05:00Z[Europe/Paris]",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "2012-12-02T13:05:00Z[Europe/Paris]",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    }, 
+    {
+        "data": "2012-12-02T13:05:00+10:00Z",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "2012-12-02T13:05:00+10:00Z",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    },
+    {
+        "data": "2012-12-02T13:05:00America/New_York",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "2012-12-02T13:05:00America/New_York",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    },
+    {
+        "data": "2012-12-02T13:05:00[America/New_York]",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "2012-12-02T13:05:00[America/New_York]",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    },
+    {
+        "data": "2012-12-02T13:05:00.123456",
+        "valid": false,
+        "message": "err.format.invalidDate",
+        "msgData": {
+            "value": "2012-12-02T13:05:00.123456",
+            "expected": [ "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)" ]
+        },
+        "msgParams": [ "value", "expected" ]
+    },
+    {
+      "data": "2012-08-07T20:42:32.1234Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.1234+05:00",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.12345Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.123456Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.1234567Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.12345678Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.123456789Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.1234567890Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.12345678901Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.123456789012Z",
+      "valid": true
+    },
+    {
+      "data": "2012-08-07T20:42:32.123456789012+05:00",
+      "valid": true
+    }
+]
