@@ -33,7 +33,7 @@ timely manner.
 ## Testing online
 
 You can [test this library online](http://json-schema-validator.herokuapp.com); this web site is in
-a [project of its own](https://github.com/java-json-tools/json-schema-validator-demo), which you can fork and
+a [project of its own](https://github.com/fge/json-schema-validator-demo), which you can fork and
 run by yourself.
 
 ## Versions
