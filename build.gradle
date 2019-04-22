@@ -142,8 +142,8 @@ artifacts {
     archives libJar;
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "3.5";
+wrapper {
+    gradleVersion = "5.6.1";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
@@ -172,7 +172,7 @@ task checkSigningRequirements {
         requiredProperties.each {
             if (project.properties[it] == null) {
                 noDice = true;
-                System.err.printf("property \"%s\" is not defined!", it);
+                System.err.printf("property \"%s\" is not defined!\n", it);
             }
         }
         if (noDice)
