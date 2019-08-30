@@ -97,7 +97,7 @@ or may not, be a valid JSON Schema).</p>
 <p>Note that any failure in $ref validation is considered a fatal error.</p>
 
 <p>The processor in charge of this step is {@link
-com.github.fge.jsonschema.processors.ref.RefResolver}. It is located in package
+com.github.fge.jsonschema.core.load.RefResolver}. It is located in package
 <span style="font-family: monospace">json-schema-core</span>.</p>
 
 <h2>Schema syntax checking</h2>
@@ -113,7 +113,7 @@ formed: this simplifies later processing. Note however that syntax checking will
 not follow JSON References.</p>
 
 <p>The processor in charge of this step is {@link
-com.github.fge.jsonschema.processors.syntax.SyntaxProcessor}. It is located in
+com.github.fge.jsonschema.core.keyword.syntax.SyntaxProcessor}. It is located in
 the <span style="font-family: monospace">json-schema-core</span> package.</p>
 
 <h2>Digesting</h2>
@@ -154,7 +154,7 @@ when the instance to validate is an array will therefore be the same. This
 allows to prune a lot of duplicates out of keyword caching.</p>
 
 <p>The processor in charge of this step is {@link
-com.github.fge.jsonschema.processing.digest.SchemaDigester}.</p>
+com.github.fge.jsonschema.processors.digest.SchemaDigester}.</p>
 
 <h2>Keyword building</h2>
 
