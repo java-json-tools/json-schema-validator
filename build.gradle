@@ -94,7 +94,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 javadoc.options {
     overview = "src/main/javadoc/overview.html";
-    extDirs = [ file("src/main/javadoc") ];
     docFilesSubDirs = true;
 }
 
