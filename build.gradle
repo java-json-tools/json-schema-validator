@@ -56,10 +56,10 @@ dependencies {
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
-javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
+javadoc.options.links("http://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
 javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0/");
 javadoc.options.links("http://fasterxml.github.com/jackson-core/javadoc/2.2.0/");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v16.0.1/javadoc/");
+javadoc.options.links("http://www.javadoc.io/doc/com.google.guava/guava/16.0.1/");
 javadoc.options.links("http://fge.github.io/btf/");
 javadoc.options.links("http://fge.github.io/msg-simple/");
 javadoc.options.links("http://fge.github.io/jackson-coreutils/");
