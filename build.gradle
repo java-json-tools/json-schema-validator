@@ -40,7 +40,6 @@ repositories {
  * List of dependencies
  */
 dependencies {
-=======
     compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.9");
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.1");
     compile(group: "joda-time", name: "joda-time", version: "2.9.7");
