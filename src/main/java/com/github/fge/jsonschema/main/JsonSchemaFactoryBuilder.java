@@ -74,12 +74,7 @@ public final class JsonSchemaFactoryBuilder
      * @param factory the factory
      * @see JsonSchemaFactory#thaw()
      */
-    JsonSchemaFactoryBuilder(final JsonSchemaFactory factory)
-    {
-        reportProvider = factory.reportProvider;
-        loadingCfg = factory.loadingCfg;
-        validationCfg = factory.validationCfg;
-    }
+    JsonSchemaFactoryBuilder(final JsonSchemaFactory factory) {}
 
     /**
      * Set a new report provider for this factory
@@ -135,6 +130,12 @@ public final class JsonSchemaFactoryBuilder
     @Override
     public JsonSchemaFactory freeze()
     {
+        if (reportProvider == null)
+            reportProvider = new ListReportProvider(LogLevel.INFO, LogLevel.FATAL);
+        if (loadingCfg == null)
+            loadingCfg = LoadingConfiguration.byDefault();
+        if (validationCfg == null)
+            validationCfg = ValidationConfiguration.byDefault();
         return new JsonSchemaFactory(this);
     }
 }

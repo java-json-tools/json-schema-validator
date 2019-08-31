@@ -4,3 +4,4 @@ target
 build
 .gradle
 out
+/.nb-gradle/

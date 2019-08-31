@@ -25,7 +25,7 @@ apply(plugin: "idea");
 apply(plugin: "eclipse");
 
 group = "com.github.java-json-tools";
-version = "2.2.8";
+version = "2.2.10-SNAPSHOT";
 sourceCompatibility = "1.6";
 targetCompatibility = "1.6"; // defaults to sourceCompatibility
 
@@ -40,11 +40,12 @@ repositories {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.8");
+=======
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.9");
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.1");
     compile(group: "joda-time", name: "joda-time", version: "2.9.7");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.0.0");
-    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.1");
+    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
     compile(group: "net.sf.jopt-simple", name: "jopt-simple", version: "5.0.3");
     testCompile(group: "org.testng", name: "testng", version: "6.10") {
         exclude(group: "junit", module: "junit");
@@ -56,10 +57,10 @@ dependencies {
 }
 
 javadoc.options.links("http://docs.oracle.com/javase/6/docs/api/");
-javadoc.options.links("http://jsr-305.googlecode.com/svn/trunk/javadoc/");
+javadoc.options.links("http://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
 javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0/");
 javadoc.options.links("http://fasterxml.github.com/jackson-core/javadoc/2.2.0/");
-javadoc.options.links("http://docs.guava-libraries.googlecode.com/git-history/v16.0.1/javadoc/");
+javadoc.options.links("http://www.javadoc.io/doc/com.google.guava/guava/16.0.1/");
 javadoc.options.links("http://fge.github.io/btf/");
 javadoc.options.links("http://fge.github.io/msg-simple/");
 javadoc.options.links("http://fge.github.io/jackson-coreutils/");
@@ -94,7 +95,6 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 javadoc.options {
     overview = "src/main/javadoc/overview.html";
-    extDirs = [ file("src/main/javadoc") ];
     docFilesSubDirs = true;
 }
 
@@ -142,8 +142,8 @@ artifacts {
     archives libJar;
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = "3.5";
+wrapper {
+    gradleVersion = "5.6.1";
     distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
@@ -172,7 +172,7 @@ task checkSigningRequirements {
         requiredProperties.each {
             if (project.properties[it] == null) {
                 noDice = true;
-                System.err.printf("property \"%s\" is not defined!", it);
+                System.err.printf("property \"%s\" is not defined!\n", it);
             }
         }
         if (noDice)
