@@ -38,7 +38,7 @@ run by yourself.
 
 ## Versions
 
-* current stable version: **2.2.10**
+* current stable version: **2.2.11**
   ([ChangeLog](https://github.com/java-json-tools/json-schema-validator/wiki/ChangeLog_22x),
   [Javadoc](http://java-json-tools.github.io/json-schema-validator/2.2.x/index.html), [code
   samples](http://java-json-tools.github.io/json-schema-validator/2.2.x/index.html?com/github/fge/jsonschema/examples/package-summary.html)).
@@ -57,7 +57,7 @@ Gradle:
 
 ```groovy
 dependencies {
-    compile(group: "com.github.java-json-tools", name: "json-schema-validator", version: "2.2.10");
+    compile(group: "com.github.java-json-tools", name: "json-schema-validator", version: "2.2.11");
 }
 ```
 
@@ -67,7 +67,7 @@ Maven:
 <dependency>
     <groupId>com.github.java-json-tools</groupId>
     <artifactId>json-schema-validator</artifactId>
-    <version>2.2.10</version>
+    <version>2.2.11</version>
 </dependency>
 ```
 
