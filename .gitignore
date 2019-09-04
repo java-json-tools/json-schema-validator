@@ -2,3 +2,6 @@
 *.iml
 target
 META-INF
+out
+.gradle
+build
