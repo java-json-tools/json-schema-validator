@@ -1,3 +1,28 @@
+### 2.2.11
+
+* Depend on -core 1.2.10.
+* Update dependencies on jsr305.
+* Fix javadoc generation.
+* Fix issue #293: Lazily instantiate defaults for `JsonSchemaFactoryBuilder`.
+
+### 2.2.10
+
+* Revert strict date-time validation from 2.2.9; now such validation is opt-in.
+
+### 2.2.9
+
+* Use stricter date-time attribute formatter.
+* Added a cache size for # of records in ValidationConfiguration.
+
+### 2.2.8
+
+* TODO
+
+### 2.2.7
+
+* First time publishing under com.github.java-json-tools.
+* TODO
+
 ### 2.2.6
 
 * Fix issue #112: fix circular validation detection; use a "validation stack" to
