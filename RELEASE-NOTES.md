@@ -16,12 +16,14 @@
 
 ### 2.2.8
 
-* TODO
+* update important dependencies like libphonenumber and others. See #210 and #209
 
 ### 2.2.7
 
 * First time publishing under com.github.java-json-tools.
-* TODO
+* The secFracs field will support up to 12 chars
+* Switch KeywordValidators to use a factory model
+* Changed JsonSchema to an interface
 
 ### 2.2.6
 
