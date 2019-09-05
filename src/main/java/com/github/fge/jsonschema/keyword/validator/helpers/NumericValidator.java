@@ -77,7 +77,8 @@ public abstract class NumericValidator
      * @param report the validation report
      * @param bundle the message bundle to use
      * @param data the validation data
-     */
+     * @throws ProcessingException a processing error occurred during validation
+    */
     protected abstract void validateLong(final ProcessingReport report,
         final MessageBundle bundle, final FullData data)
         throws ProcessingException;
@@ -89,6 +90,7 @@ public abstract class NumericValidator
      * @param report the validation report
      * @param bundle the message bundle to use
      * @param data the validation data
+     * @throws ProcessingException a processing error occurred during validation
      */
     protected abstract void validateDecimal(final ProcessingReport report,
         final MessageBundle bundle, final FullData data)

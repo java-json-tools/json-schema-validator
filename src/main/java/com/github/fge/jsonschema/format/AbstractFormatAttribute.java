@@ -72,6 +72,7 @@ public abstract class AbstractFormatAttribute
      * Return a new message for this format attribute
      *
      * @param data the validation context
+     * @param bundle the format bundle
      * @param key key in the format bundle message
      * @return a new message
      */

@@ -18,8 +18,7 @@ import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableList;
 
 /**
- * A {@link DateTimeFormatter} for date and time format defined in RFC3339.  
- * @see <a href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 - Section 5.6</a>
+ * A {@link DateTimeFormatter} for date and time format defined in RFC3339.
  *
  * This is backwards incompat with the original DateTimeAttribute.  It will become the default in the future
  * to use it currently you need to:
@@ -27,6 +26,8 @@ import com.google.common.collect.ImmutableList;
  *     .addFormatAttribute("date-time", RFC3339DateTimeAttribute.getInstance())
  *     .freeze();
  * Then follow the rest of the steps in example 8 to hook it into your flow.
+ *
+ * @see <a href="https://tools.ietf.org/html/rfc3339#section-5.6">RFC 3339 - Section 5.6</a>
  */
 public class RFC3339DateTimeAttribute extends AbstractFormatAttribute {
 
