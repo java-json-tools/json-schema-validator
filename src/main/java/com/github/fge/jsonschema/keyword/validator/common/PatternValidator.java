@@ -19,6 +19,9 @@
 
 package com.github.fge.jsonschema.keyword.validator.common;
 
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.processing.Processor;
@@ -31,13 +34,15 @@ import com.github.fge.msgsimple.bundle.MessageBundle;
 /**
  * Keyword validator for {@code pattern}
  *
- * @see RhinoHelper
  */
 public final class PatternValidator
     extends AbstractKeywordValidator
 {
+    private HashMap<String, Pattern> _patterns;
+    
     public PatternValidator(final JsonNode digest)
     {
+        _patterns = new HashMap<String, Pattern>();
         super("pattern");
     }
 
@@ -50,7 +55,11 @@ public final class PatternValidator
         final String regex = data.getSchema().getNode().get(keyword)
             .textValue();
         final String value = data.getInstance().getNode().textValue();
-        if (!RhinoHelper.regMatch(regex, value))
+        
+        Pattern pattern = getPattern(regex);
+        Matcher matches = pattern.matcher(value);
+
+        if (!matches.find())
             report.error(newMsg(data, bundle, "err.common.pattern.noMatch")
                 .putArgument("regex", regex).putArgument("string", value));
     }
@@ -59,5 +68,16 @@ public final class PatternValidator
     public String toString()
     {
         return keyword;
+    }
+
+    private Pattern getPattern(String regex)
+    {
+        // If there is not any existing compiled pattern, create one now!
+        if (!_patterns.containsKey(regex))
+        {
+            _patterns.put(regex, Pattern.compile(regex));
+        }
+
+        return _patterns.get(regex);
     }
 }
