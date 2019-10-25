@@ -17,12 +17,17 @@
  * - ASL 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
+plugins {
+    id("net.ltgt.errorprone") version "0.8.1" apply false
+}
+
 apply(plugin: "java");
 apply(plugin: "maven");
 apply(plugin: "signing");
 apply(plugin: "osgi");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
+apply(plugin: "net.ltgt.errorprone");
 
 group = "com.github.java-json-tools";
 version = "2.2.12-SNAPSHOT";
@@ -34,6 +39,14 @@ targetCompatibility = "1.6"; // defaults to sourceCompatibility
  */
 repositories {
     mavenCentral();
+}
+
+/*
+ * Add errorprone checking.
+ */
+dependencies {
+    errorprone("com.google.errorprone:error_prone_core:2.3.3")
+    errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
 }
 
 /*
@@ -85,6 +98,17 @@ test {
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = "sources";
     from sourceSets.main.allSource;
+}
+
+/*
+ * Lint all the things!
+ */
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:all"
+        }
+    }
 }
 
 /*
