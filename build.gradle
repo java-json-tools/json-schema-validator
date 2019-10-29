@@ -68,17 +68,17 @@ dependencies {
     testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4");
 }
 
+// FIXME: For some reason, making this https causes OpenJDK 11 to fail.
 javadoc.options.links("http://docs.oracle.com/javase/7/docs/api/");
-javadoc.options.links("http://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
-javadoc.options.links("http://fasterxml.github.com/jackson-databind/javadoc/2.2.0/");
-javadoc.options.links("http://fasterxml.github.com/jackson-core/javadoc/2.2.0/");
-javadoc.options.links("http://www.javadoc.io/doc/com.google.guava/guava/16.0.1/");
-javadoc.options.links("http://fge.github.io/btf/");
-javadoc.options.links("http://fge.github.io/msg-simple/");
-javadoc.options.links("http://fge.github.io/jackson-coreutils/");
-javadoc.options.links("http://fge.github.io/uri-template/");
-javadoc.options.links("http://java-json-tools.github.io/json-schema-core/1.2.x/");
-
+javadoc.options.links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
+javadoc.options.links("https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/");
+javadoc.options.links("https://fasterxml.github.io/jackson-core/javadoc/2.2.0/");
+javadoc.options.links("https://www.javadoc.io/doc/com.google.guava/guava/25.1-jre/");
+javadoc.options.links("https://java-json-tools.github.io/btf/");
+javadoc.options.links("https://java-json-tools.github.io/msg-simple/");
+javadoc.options.links("https://java-json-tools.github.io/jackson-coreutils/");
+javadoc.options.links("https://java-json-tools.github.io/uri-template/");
+javadoc.options.links("https://java-json-tools.github.io/json-schema-core/1.2.x/");
 
 /*
  * Necessary! Otherwise TestNG will not be used...
