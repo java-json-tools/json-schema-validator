@@ -34,7 +34,7 @@ import java.util.Set;
 final class CustomHelpFormatter
     implements HelpFormatter
 {
-    private static final List<String> HELP_PREAMBLE = ImmutableList.of(
+    private static final ImmutableList<String> HELP_PREAMBLE = ImmutableList.of(
         "Syntax:",
         "    java -jar jsonschema.jar [options] schema file [file...]",
         "    java -jar jsonschema.jar --syntax [options] schema [schema...]",
@@ -42,7 +42,7 @@ final class CustomHelpFormatter
         "Options: "
     );
 
-    private static final List<String> HELP_POST
+    private static final ImmutableList<String> HELP_POST
         = ImmutableList.<String>builder()
         .add("")
         .add("Exit codes:")

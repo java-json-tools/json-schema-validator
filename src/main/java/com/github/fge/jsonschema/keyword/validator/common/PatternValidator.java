@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.processing.Processor;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.core.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RegexECMA262Helper;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -31,7 +31,7 @@ import com.github.fge.msgsimple.bundle.MessageBundle;
 /**
  * Keyword validator for {@code pattern}
  *
- * @see RhinoHelper
+ * @see RegexECMA262Helper
  */
 public final class PatternValidator
     extends AbstractKeywordValidator
@@ -50,7 +50,7 @@ public final class PatternValidator
         final String regex = data.getSchema().getNode().get(keyword)
             .textValue();
         final String value = data.getInstance().getNode().textValue();
-        if (!RhinoHelper.regMatch(regex, value))
+        if (!RegexECMA262Helper.regMatch(regex, value))
             report.error(newMsg(data, bundle, "err.common.pattern.noMatch")
                 .putArgument("regex", regex).putArgument("string", value));
     }

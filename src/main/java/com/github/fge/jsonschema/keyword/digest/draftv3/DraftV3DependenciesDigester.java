@@ -91,6 +91,9 @@ public final class DraftV3DependenciesDigester
                 case STRING:
                     propertyDeps.put(key, FACTORY.arrayNode()
                         .add(value.textValue()));
+                    break;
+                default:
+                    break;
             }
         }
 

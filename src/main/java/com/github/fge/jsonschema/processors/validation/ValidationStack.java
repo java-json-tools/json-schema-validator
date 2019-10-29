@@ -59,12 +59,6 @@ import java.util.Deque;
 final class ValidationStack
 {
     /*
-     * Sentinel which is always the first element of the stack; we use it in
-     * order to simplify the pop code.
-     */
-    private static final Element NULL_ELEMENT = new Element(null, null);
-
-    /*
      * Queue of visited contexts
      */
     private final Deque<Element> validationQueue = Queues.newArrayDeque();
