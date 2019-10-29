@@ -21,7 +21,7 @@ package com.github.fge.jsonschema.keyword.validator.callback;
 
 import static com.github.fge.jsonschema.TestUtils.anyReport;
 import static com.github.fge.jsonschema.TestUtils.onlyOnce;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
@@ -247,6 +247,7 @@ public abstract class CallbackValidatorTest
         }
 
         @Override
+        @SuppressWarnings("ReferenceEquality")
         public FullData process(final ProcessingReport report,
             final FullData input)
             throws ProcessingException

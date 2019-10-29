@@ -25,7 +25,7 @@ import com.github.fge.jackson.JacksonUtils;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.processing.Processor;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.core.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RegexECMA262Helper;
 import com.github.fge.jsonschema.keyword.validator.AbstractKeywordValidator;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
@@ -84,7 +84,7 @@ public final class AdditionalPropertiesValidator
 
         for (final String field: fields)
             for (final String regex: patternProperties)
-                if (RhinoHelper.regMatch(regex, field))
+                if (RegexECMA262Helper.regMatch(regex, field))
                     tmp.add(field);
 
         fields.removeAll(tmp);

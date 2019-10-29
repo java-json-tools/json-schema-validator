@@ -22,7 +22,7 @@ package com.github.fge.jsonschema.format.common;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
-import com.github.fge.jsonschema.core.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RegexECMA262Helper;
 import com.github.fge.jsonschema.format.AbstractFormatAttribute;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
@@ -34,7 +34,7 @@ import com.github.fge.msgsimple.bundle.MessageBundle;
  * <p>Again, here, we do <b>not</b> use {@link java.util.regex} because it does
  * not fit the bill.</p>
  *
- * @see RhinoHelper
+ * @see RegexECMA262Helper
  */
 public final class RegexAttribute
     extends AbstractFormatAttribute
@@ -58,7 +58,7 @@ public final class RegexAttribute
     {
         final String value = data.getInstance().getNode().textValue();
 
-        if (!RhinoHelper.regexIsValid(value))
+        if (!RegexECMA262Helper.regexIsValid(value))
             report.error(newMsg(data, bundle, "err.format.invalidRegex")
                 .putArgument("value", value));
     }

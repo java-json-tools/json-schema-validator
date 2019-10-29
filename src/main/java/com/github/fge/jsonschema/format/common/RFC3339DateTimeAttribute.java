@@ -1,7 +1,5 @@
 package com.github.fge.jsonschema.format.common;
 
-import java.util.List;
-
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.library.DraftV4Library;
 import org.joda.time.format.DateTimeFormatter;
@@ -31,7 +29,7 @@ import com.google.common.collect.ImmutableList;
  */
 public class RFC3339DateTimeAttribute extends AbstractFormatAttribute {
 
-	private static final List<String> RFC3339_FORMATS = ImmutableList.of(
+	private static final ImmutableList<String> RFC3339_FORMATS = ImmutableList.of(
 	        "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)"
 	    );
 	

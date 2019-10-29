@@ -31,8 +31,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
 import org.joda.time.format.DateTimeParser;
 
-import java.util.List;
-
 import static org.joda.time.DateTimeFieldType.*;
 
 /**
@@ -41,7 +39,7 @@ import static org.joda.time.DateTimeFieldType.*;
 public final class DateTimeAttribute
     extends AbstractFormatAttribute
 {
-    private static final List<String> FORMATS = ImmutableList.of(
+    private static final ImmutableList<String> FORMATS = ImmutableList.of(
         "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}Z"
     );
     private static final DateTimeFormatter FORMATTER;

@@ -21,7 +21,7 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.jsonpointer.JsonPointer;
-import com.github.fge.jsonschema.core.util.RhinoHelper;
+import com.github.fge.jsonschema.core.util.RegexECMA262Helper;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 
@@ -73,7 +73,7 @@ public final class ObjectSchemaSelector
             list.add(PROPERTIES.append(memberName));
 
         for (final String regex: patternProperties)
-            if (RhinoHelper.regMatch(regex, memberName))
+            if (RegexECMA262Helper.regMatch(regex, memberName))
                 list.add(PATTERNPROPERTIES.append(regex));
 
         if (!list.isEmpty())
