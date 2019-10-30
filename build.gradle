@@ -175,8 +175,8 @@ artifacts {
 }
 
 wrapper {
-    gradleVersion = "5.6.2";
-    distributionUrl = "http://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
+    gradleVersion = "5.6.3";
+    distributionUrl = "https://services.gradle.org/distributions/gradle-${gradleVersion}-all.zip";
 }
 
 task pom {
