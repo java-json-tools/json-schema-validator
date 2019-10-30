@@ -53,6 +53,7 @@ dependencies {
  * List of dependencies
  */
 dependencies {
+    compile(group: "com.google.guava", name: "guava", version: "25.1-android");
     compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.10");
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.1");
     compile(group: "joda-time", name: "joda-time", version: "2.9.7");
@@ -73,7 +74,7 @@ javadoc.options.links("http://docs.oracle.com/javase/7/docs/api/");
 javadoc.options.links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
 javadoc.options.links("https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/");
 javadoc.options.links("https://fasterxml.github.io/jackson-core/javadoc/2.2.0/");
-javadoc.options.links("https://www.javadoc.io/doc/com.google.guava/guava/25.1-jre/");
+javadoc.options.links("https://www.javadoc.io/doc/com.google.guava/guava/25.1-android/");
 javadoc.options.links("https://java-json-tools.github.io/btf/");
 javadoc.options.links("https://java-json-tools.github.io/msg-simple/");
 javadoc.options.links("https://java-json-tools.github.io/jackson-coreutils/");
