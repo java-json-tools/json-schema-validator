@@ -69,17 +69,25 @@ dependencies {
     testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4");
 }
 
-// FIXME: For some reason, making this https causes OpenJDK 11 to fail.
-javadoc.options.links("http://docs.oracle.com/javase/7/docs/api/");
-javadoc.options.links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
-javadoc.options.links("https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/");
-javadoc.options.links("https://fasterxml.github.io/jackson-core/javadoc/2.2.0/");
-javadoc.options.links("https://www.javadoc.io/doc/com.google.guava/guava/25.1-android/");
-javadoc.options.links("https://java-json-tools.github.io/btf/");
-javadoc.options.links("https://java-json-tools.github.io/msg-simple/");
-javadoc.options.links("https://java-json-tools.github.io/jackson-coreutils/");
-javadoc.options.links("https://java-json-tools.github.io/uri-template/");
-javadoc.options.links("https://java-json-tools.github.io/json-schema-core/1.2.x/");
+javadoc {
+    options {
+        def currentJavaVersion = org.gradle.api.JavaVersion.current()
+        // FIXME: https://github.com/gradle/gradle/issues/11182
+        if (currentJavaVersion.compareTo(org.gradle.api.JavaVersion.VERSION_1_9) >= 0) {
+            addStringOption("-release", "7");
+        }
+        links("https://docs.oracle.com/javase/7/docs/api/");
+        links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
+        links("https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/");
+        links("https://fasterxml.github.io/jackson-core/javadoc/2.2.0/");
+        links("https://www.javadoc.io/doc/com.google.guava/guava/25.1-android/");
+        links("https://java-json-tools.github.io/btf/");
+        links("https://java-json-tools.github.io/msg-simple/");
+        links("https://java-json-tools.github.io/jackson-coreutils/");
+        links("https://java-json-tools.github.io/uri-template/");
+        links("https://java-json-tools.github.io/json-schema-core/1.2.x/");
+    }
+}
 
 /*
  * Necessary! Otherwise TestNG will not be used...
