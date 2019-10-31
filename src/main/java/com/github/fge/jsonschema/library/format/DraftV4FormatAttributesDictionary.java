@@ -22,6 +22,7 @@ package com.github.fge.jsonschema.library.format;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.format.FormatAttribute;
+import com.github.fge.jsonschema.format.draftv3.DateAttribute;
 import com.github.fge.jsonschema.format.helpers.IPv4FormatAttribute;
 import com.github.fge.jsonschema.format.helpers.SharedHostNameAttribute;
 
@@ -46,6 +47,8 @@ public final class DraftV4FormatAttributesDictionary
 
         builder.addEntry("ipv4", new IPv4FormatAttribute("ipv4"));
 
+        builder.addEntry("date", DateAttribute.getInstance());
+        
         DICTIONARY = builder.freeze();
     }
 
