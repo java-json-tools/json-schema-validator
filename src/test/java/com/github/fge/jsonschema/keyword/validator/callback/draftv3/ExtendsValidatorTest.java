@@ -66,7 +66,7 @@ public final class ExtendsValidatorTest
         schemas.add(sub1);
         schemas.add(sub2);
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, schemas);
+        ret.set(keyword, schemas);
         return ret;
     }
 

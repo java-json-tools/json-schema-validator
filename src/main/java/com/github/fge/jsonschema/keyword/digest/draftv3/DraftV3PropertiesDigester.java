@@ -56,7 +56,7 @@ public final class DraftV3PropertiesDigester
         // TODO: return an array directly (same for "required" in v4)
         final ObjectNode ret = FACTORY.objectNode();
         final ArrayNode required = FACTORY.arrayNode();
-        ret.put("required", required);
+        ret.set("required", required);
 
         final JsonNode node = schema.get(keyword);
         final List<String> list = Lists.newArrayList(node.fieldNames());

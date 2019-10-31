@@ -68,8 +68,8 @@ public final class AnyOfValidatorTest
 
         final ArrayNode oneReport = FACTORY.arrayNode();
         oneReport.add(MSG.asJson());
-        reports.put(ptr1.toString(), oneReport);
-        reports.put(ptr2.toString(), oneReport);
+        reports.set(ptr1.toString(), oneReport);
+        reports.set(ptr2.toString(), oneReport);
 
         assertMessage(message)
             .isValidationError(keyword,
@@ -84,7 +84,7 @@ public final class AnyOfValidatorTest
         schemas.add(sub1);
         schemas.add(sub2);
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, schemas);
+        ret.set(keyword, schemas);
         return ret;
     }
 

@@ -63,11 +63,11 @@ public final class DependenciesValidatorTest
     protected JsonNode generateSchema()
     {
         final ObjectNode value = FACTORY.objectNode();
-        value.put("a", sub1);
-        value.put("b", sub2);
+        value.set("a", sub1);
+        value.set("b", sub2);
 
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, value);
+        ret.set(keyword, value);
         return ret;
     }
 
@@ -88,8 +88,8 @@ public final class DependenciesValidatorTest
         schemaDeps.add("b");
 
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put("propertyDeps", FACTORY.objectNode());
-        ret.put("schemaDeps", schemaDeps);
+        ret.set("propertyDeps", FACTORY.objectNode());
+        ret.set("schemaDeps", schemaDeps);
         return ret;
     }
 }

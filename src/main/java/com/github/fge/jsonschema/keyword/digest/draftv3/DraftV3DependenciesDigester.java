@@ -61,10 +61,10 @@ public final class DraftV3DependenciesDigester
         final ObjectNode ret = FACTORY.objectNode();
 
         final ObjectNode propertyDeps = FACTORY.objectNode();
-        ret.put("propertyDeps", propertyDeps);
+        ret.set("propertyDeps", propertyDeps);
 
         final ArrayNode schemaDeps = FACTORY.arrayNode();
-        ret.put("schemaDeps", schemaDeps);
+        ret.set("schemaDeps", schemaDeps);
 
         final List<String> list = Lists.newArrayList();
 
@@ -86,10 +86,10 @@ public final class DraftV3DependenciesDigester
                 case ARRAY:
                     final JsonNode node = sortedSet(value);
                     if (node.size() != 0)
-                        propertyDeps.put(key, node);
+                        propertyDeps.set(key, node);
                     break;
                 case STRING:
-                    propertyDeps.put(key, FACTORY.arrayNode()
+                    propertyDeps.set(key, FACTORY.arrayNode()
                         .add(value.textValue()));
                     break;
                 default:

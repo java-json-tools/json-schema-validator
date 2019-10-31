@@ -83,7 +83,7 @@ public final class ExtendsKeywordTest
             return;
 
         final ObjectNode schema = FACTORY.objectNode();
-        schema.put("extends", FACTORY.objectNode());
+        schema.set("extends", FACTORY.objectNode());
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);
 

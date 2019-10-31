@@ -49,9 +49,9 @@ public final class DraftV3TypeKeywordDigester
     {
         final ObjectNode ret = FACTORY.objectNode();
         final ArrayNode simpleTypes = FACTORY.arrayNode();
-        ret.put(keyword, simpleTypes);
+        ret.set(keyword, simpleTypes);
         final ArrayNode schemas = FACTORY.arrayNode();
-        ret.put("schemas", schemas);
+        ret.set("schemas", schemas);
 
         final JsonNode node = schema.get(keyword);
 

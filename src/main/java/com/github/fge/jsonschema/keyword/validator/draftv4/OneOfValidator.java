@@ -66,7 +66,7 @@ public final class OneOfValidator
             ptr = schemaPointer.append(JsonPointer.of(keyword, index));
             newData = data.withSchema(tree.setPointer(ptr));
             processor.process(subReport, newData);
-            fullReport.put(ptr.toString(), subReport.asJson());
+            fullReport.set(ptr.toString(), subReport.asJson());
             if (subReport.isSuccess())
                 nrSuccess++;
         }
