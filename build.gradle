@@ -34,11 +34,18 @@ version = "2.2.12-SNAPSHOT";
 sourceCompatibility = JavaVersion.VERSION_1_7;
 targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
 
+ext.forRelease = !version.endsWith("-SNAPSHOT");
+
 /*
  * Repositories to use
  */
 repositories {
     mavenCentral();
+    if (!forRelease) {
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+    }
 }
 
 /*
@@ -54,7 +61,7 @@ dependencies {
  */
 dependencies {
     compile(group: "com.google.guava", name: "guava", version: "25.1-android");
-    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.10");
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.12-SNAPSHOT");
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.1");
     compile(group: "joda-time", name: "joda-time", version: "2.9.7");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.0.0");
@@ -280,7 +287,6 @@ uploadArchives {
     }
 }
 
-ext.forRelease = !version.endsWith("-SNAPSHOT");
 signing {
     required { forRelease && gradle.taskGraph.hasTask("uploadArchives") };
     sign configurations.archives;
