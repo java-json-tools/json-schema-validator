@@ -54,8 +54,8 @@ public final class DisallowValidatorTest
         final ObjectNode reports = FACTORY.objectNode();
 
         final ArrayNode oneReport = FACTORY.arrayNode();
-        reports.put(ptr1.toString(), oneReport);
-        reports.put(ptr2.toString(), oneReport);
+        reports.set(ptr1.toString(), oneReport);
+        reports.set(ptr2.toString(), oneReport);
 
         assertMessage(message)
             .isValidationError(keyword,
@@ -78,8 +78,8 @@ public final class DisallowValidatorTest
 
         final ArrayNode oneReport = FACTORY.arrayNode();
         oneReport.add(MSG.asJson());
-        reports.put(ptr1.toString(), FACTORY.arrayNode());
-        reports.put(ptr2.toString(), oneReport);
+        reports.set(ptr1.toString(), FACTORY.arrayNode());
+        reports.set(ptr2.toString(), oneReport);
 
         assertMessage(message)
             .isValidationError(keyword,
@@ -102,7 +102,7 @@ public final class DisallowValidatorTest
         schemas.add(sub1);
         schemas.add(sub2);
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, schemas);
+        ret.set(keyword, schemas);
         return ret;
     }
 
@@ -116,11 +116,11 @@ public final class DisallowValidatorTest
     protected JsonNode generateDigest()
     {
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, FACTORY.arrayNode());
+        ret.set(keyword, FACTORY.arrayNode());
         final ArrayNode schemas = FACTORY.arrayNode();
         schemas.add(0);
         schemas.add(1);
-        ret.put("schemas", schemas);
+        ret.set("schemas", schemas);
         return ret;
     }
 }

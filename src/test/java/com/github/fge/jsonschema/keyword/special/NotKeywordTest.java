@@ -84,7 +84,7 @@ public final class NotKeywordTest
             return;
 
         final ObjectNode schema = FACTORY.objectNode();
-        schema.put("not", FACTORY.objectNode());
+        schema.set("not", FACTORY.objectNode());
 
         final SchemaTree tree
             = new CanonicalSchemaTree(SchemaKey.anonymousKey(), schema);

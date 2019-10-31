@@ -60,10 +60,10 @@ public final class DraftV4DependenciesDigester
         final ObjectNode ret = FACTORY.objectNode();
 
         final ObjectNode propertyDeps = FACTORY.objectNode();
-        ret.put("propertyDeps", propertyDeps);
+        ret.set("propertyDeps", propertyDeps);
 
         final ArrayNode schemaDeps = FACTORY.arrayNode();
-        ret.put("schemaDeps", schemaDeps);
+        ret.set("schemaDeps", schemaDeps);
 
         final List<String> list = Lists.newArrayList();
 
@@ -79,7 +79,7 @@ public final class DraftV4DependenciesDigester
             if (value.isObject()) // schema dep
                 list.add(key);
             else // property dep
-                propertyDeps.put(key, sortedSet(value));
+                propertyDeps.set(key, sortedSet(value));
         }
 
         for (final String s: Ordering.natural().sortedCopy(list))

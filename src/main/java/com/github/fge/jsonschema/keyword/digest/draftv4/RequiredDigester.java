@@ -57,7 +57,7 @@ public final class RequiredDigester
     {
         final ObjectNode ret = FACTORY.objectNode();
         final ArrayNode required = FACTORY.arrayNode();
-        ret.put(keyword, required);
+        ret.set(keyword, required);
 
         final List<JsonNode> list = Lists.newArrayList(schema.get(keyword));
 

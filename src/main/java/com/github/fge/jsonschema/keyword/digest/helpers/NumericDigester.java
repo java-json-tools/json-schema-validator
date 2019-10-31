@@ -67,14 +67,14 @@ public abstract class NumericDigester
         ret.put("valueIsLong", isLong);
 
         if (isLong) {
-            ret.put(keyword, node.canConvertToInt()
+            ret.set(keyword, node.canConvertToInt()
                 ? FACTORY.numberNode(node.intValue())
                 : FACTORY.numberNode(node.longValue()));
             return ret;
         }
 
         final BigDecimal decimal = node.decimalValue();
-        ret.put(keyword, decimal.scale() == 0
+        ret.set(keyword, decimal.scale() == 0
             ? FACTORY.numberNode(decimal.toBigIntegerExact())
             : node);
 

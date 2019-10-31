@@ -43,7 +43,7 @@ public final class SimpleDigester
     public JsonNode digest(final JsonNode schema)
     {
         final ObjectNode ret = FACTORY.objectNode();
-        ret.put(keyword, schema.get(keyword));
+        ret.set(keyword, schema.get(keyword));
         return ret;
     }
 }

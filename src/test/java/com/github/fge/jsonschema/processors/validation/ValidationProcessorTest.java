@@ -75,7 +75,7 @@ public final class ValidationProcessorTest
 
         RAWSCHEMA = factory.objectNode();
         RAWSCHEMA.put("minItems", 2)
-            .put("items", factory.objectNode().put(K1, 0));
+            .set("items", factory.objectNode().put(K1, 0));
 
         RAWINSTANCE = factory.arrayNode();
         RAWINSTANCE.add(1);

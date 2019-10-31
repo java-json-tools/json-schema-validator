@@ -59,7 +59,7 @@ public final class DraftV4TypeDigester
     {
         final ObjectNode ret = FACTORY.objectNode();
         final ArrayNode allowedTypes = FACTORY.arrayNode();
-        ret.put(keyword, allowedTypes);
+        ret.set(keyword, allowedTypes);
 
         final JsonNode node = schema.get(keyword);
 

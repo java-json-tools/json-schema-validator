@@ -59,14 +59,14 @@ public final class ObjectSchemaDigester
         ArrayNode node;
 
         node = FACTORY.arrayNode();
-        ret.put("properties", node);
+        ret.set("properties", node);
 
         set = Sets.newHashSet(schema.path("properties").fieldNames());
         for (final String field: Ordering.natural().sortedCopy(set))
             node.add(field);
 
         node = FACTORY.arrayNode();
-        ret.put("patternProperties", node);
+        ret.set("patternProperties", node);
 
         set = Sets.newHashSet(schema.path("patternProperties").fieldNames());
         for (final String field: Ordering.natural().sortedCopy(set))

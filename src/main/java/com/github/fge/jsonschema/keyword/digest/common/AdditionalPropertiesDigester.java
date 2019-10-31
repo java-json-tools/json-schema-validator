@@ -64,8 +64,8 @@ public final class AdditionalPropertiesDigester
          * not be the case if and only if it has boolean value false.
          */
         ret.put(keyword, true);
-        ret.put("properties", properties);
-        ret.put("patternProperties", patternProperties);
+        ret.set("properties", properties);
+        ret.set("patternProperties", patternProperties);
 
         if (schema.get(keyword).asBoolean(true))
             return ret;
