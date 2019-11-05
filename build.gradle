@@ -73,7 +73,8 @@ dependencies {
         exclude(group: "org.yaml", module: "snakeyaml");
     };
     testCompile(group: "org.mockito", name: "mockito-core", version: "2.4.2");
-    testCompile(group: "org.easytesting", name: "fest-assert", version: "1.4");
+    // FIXME: update to 3.x once we're off of Java 7.
+    testCompile(group: "org.assertj", name: "assertj-core", version: "2.9.1");
 }
 
 javadoc {

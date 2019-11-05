@@ -19,6 +19,7 @@
 
 package com.github.fge.jsonschema.matchers;
 
+import org.assertj.core.api.AbstractAssert;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -27,16 +28,15 @@ import com.github.fge.jsonschema.core.report.LogLevel;
 import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.tree.SchemaTree;
 import com.github.fge.jsonschema.core.util.AsJson;
-import org.fest.assertions.GenericAssert;
 
 import java.util.Collection;
 import java.util.Map;
 
-import static org.fest.assertions.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import static org.testng.Assert.*;
 
 public final class ProcessingMessageAssert
-    extends GenericAssert<ProcessingMessageAssert, ProcessingMessage>
+    extends AbstractAssert<ProcessingMessageAssert, ProcessingMessage>
 {
     private final JsonNode msg;
 
@@ -48,7 +48,7 @@ public final class ProcessingMessageAssert
 
     private ProcessingMessageAssert(final ProcessingMessage actual)
     {
-        super(ProcessingMessageAssert.class, actual);
+        super(actual, ProcessingMessageAssert.class);
         msg = actual.asJson();
     }
 
@@ -88,9 +88,10 @@ public final class ProcessingMessageAssert
         assertThat(msg.has(name)).isTrue();
         final String input = msg.get(name).textValue();
         final String expected = value.toString();
-        assertThat(input).isEqualTo(expected)
+        assertThat(input)
             .overridingErrorMessage("Strings differ: wanted " + expected
-                + " but got " + input);
+                + " but got " + input)
+            .isEqualTo(expected);
         return this;
     }
 
