@@ -17,6 +17,15 @@
  * - ASL 2.0: http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'biz.aQute.bnd:biz.aQute.bnd.gradle:4.2.0'
+  }
+}
+
 plugins {
     id("net.ltgt.errorprone") version "0.8.1" apply false
 }
@@ -24,7 +33,7 @@ plugins {
 apply(plugin: "java");
 apply(plugin: "maven");
 apply(plugin: "signing");
-apply(plugin: "osgi");
+apply(plugin: "biz.aQute.bnd.builder");
 apply(plugin: "idea");
 apply(plugin: "eclipse");
 apply(plugin: "net.ltgt.errorprone");
