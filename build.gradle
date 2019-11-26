@@ -132,7 +132,10 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 allprojects {
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
-            options.compilerArgs << "-Xlint:all"
+            options.compilerArgs << "-Xlint:all" << "-Werror"
+        }
+        tasks.withType(Javadoc) {
+            options.addStringOption('Xwerror', '-quiet')
         }
     }
 }
