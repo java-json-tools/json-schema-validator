@@ -17,5 +17,5 @@
 # 5. Login as sonatypeUsername
 # 6. Follow the instructions here: http://central.sonatype.org/pages/releasing-the-deployment.html
 
-./gradlew clean test uploadArchives
+./gradlew --refresh-dependencies clean test uploadArchives
 
