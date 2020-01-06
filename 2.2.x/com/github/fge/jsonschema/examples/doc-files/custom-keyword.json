@@ -1,7 +1,0 @@
-{
-    "type": "array",
-    "items": {
-        "type": "integer",
-        "divisors": [ 2, 3 ]
-    }
-}
