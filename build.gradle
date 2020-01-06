@@ -39,7 +39,7 @@ apply(plugin: "eclipse");
 apply(plugin: "net.ltgt.errorprone");
 
 group = "com.github.java-json-tools";
-version = "2.2.12-SNAPSHOT";
+version = "2.2.12";
 sourceCompatibility = JavaVersion.VERSION_1_7;
 targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
 
@@ -80,7 +80,7 @@ dependencies {
  */
 dependencies {
     compile(group: "com.google.guava", name: "guava", version: "28.1-android");
-    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.12-SNAPSHOT");
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.12");
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.1");
     compile(group: "joda-time", name: "joda-time", version: "2.9.7");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.10.22");
