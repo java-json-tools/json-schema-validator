@@ -55,6 +55,16 @@ repositories {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
     }
+    /* Allow staging references for last pre-release testing. */
+    if (project.properties.containsKey("sonatypeUsername")) {
+        maven {
+            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            credentials {
+                username = project.properties["sonatypeUsername"]
+                password = project.properties["sonatypePassword"]
+            }
+        }
+    }
 }
 
 /*
