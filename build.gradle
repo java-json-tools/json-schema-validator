@@ -39,7 +39,7 @@ apply(plugin: "eclipse");
 apply(plugin: "net.ltgt.errorprone");
 
 group = "com.github.java-json-tools";
-version = "2.2.12";
+version = "2.2.13-SNAPSHOT";
 sourceCompatibility = JavaVersion.VERSION_1_7;
 targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
 
