@@ -38,10 +38,9 @@ apply(plugin: "idea");
 apply(plugin: "eclipse");
 apply(plugin: "net.ltgt.errorprone");
 
+apply(from: "project.gradle");
+
 group = "com.github.java-json-tools";
-version = "2.2.13-SNAPSHOT";
-sourceCompatibility = JavaVersion.VERSION_1_7;
-targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
 
 ext.forRelease = !version.endsWith("-SNAPSHOT");
 
@@ -73,47 +72,6 @@ repositories {
 dependencies {
     errorprone("com.google.errorprone:error_prone_core:2.3.3")
     errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
-}
-
-/*
- * List of dependencies
- */
-dependencies {
-    compile(group: "com.google.guava", name: "guava", version: "28.1-android");
-    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.12");
-    compile(group: "com.sun.mail", name: "mailapi", version: "1.6.1");
-    compile(group: "joda-time", name: "joda-time", version: "2.9.7");
-    compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.10.22");
-    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
-    compile(group: "net.sf.jopt-simple", name: "jopt-simple", version: "5.0.3");
-    testCompile(group: "org.testng", name: "testng", version: "6.10") {
-        exclude(group: "junit", module: "junit");
-        exclude(group: "org.beanshell", module: "bsh");
-        exclude(group: "org.yaml", module: "snakeyaml");
-    };
-    testCompile(group: "org.mockito", name: "mockito-core", version: "2.4.2");
-    // FIXME: update to 3.x once we're off of Java 7.
-    testCompile(group: "org.assertj", name: "assertj-core", version: "2.9.1");
-}
-
-javadoc {
-    options {
-        def currentJavaVersion = org.gradle.api.JavaVersion.current()
-        // FIXME: https://github.com/gradle/gradle/issues/11182
-        if (currentJavaVersion.compareTo(org.gradle.api.JavaVersion.VERSION_1_9) >= 0) {
-            addStringOption("-release", "7");
-        }
-        links("https://docs.oracle.com/javase/7/docs/api/");
-        links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.1/");
-        links("https://fasterxml.github.io/jackson-databind/javadoc/2.2.0/");
-        links("https://fasterxml.github.io/jackson-core/javadoc/2.2.0/");
-        links("https://www.javadoc.io/doc/com.google.guava/guava/28.1-android/");
-        links("https://java-json-tools.github.io/btf/");
-        links("https://java-json-tools.github.io/msg-simple/");
-        links("https://java-json-tools.github.io/jackson-coreutils/");
-        links("https://java-json-tools.github.io/uri-template/");
-        links("https://java-json-tools.github.io/json-schema-core/1.2.x/");
-    }
 }
 
 /*
@@ -221,8 +179,8 @@ task pom {
 
 project.ext {
     description = "A Java implementation of the JSON Schema specification";
-    scmUrl = sprintf("git@github.com:box-metadata/%s", name);
-    projectURL = sprintf("https://github.com/box-metadata/%s", name);
+    scmUrl = sprintf("git@github.com:java-json-tools/%s.git", name);
+    projectURL = sprintf("https://github.com/java-json-tools/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
     sonatypeSnapshots = "https://oss.sonatype.org/content/repositories/snapshots/";
 };
@@ -283,7 +241,7 @@ uploadArchives {
 
         scm {
             url "${scmUrl}";
-            connection "scm:git:${scmUrl}";
+            connection "${scmUrl}";
             developerConnection "scm:git:${scmUrl}";
         }
 
