@@ -178,7 +178,6 @@ task pom {
  */
 
 project.ext {
-    description = "A Java implementation of the JSON Schema specification";
     scmUrl = sprintf("git@github.com:java-json-tools/%s.git", name);
     projectURL = sprintf("https://github.com/java-json-tools/%s", name);
     sonatypeStaging = "https://oss.sonatype.org/service/local/staging/deploy/maven2/";
