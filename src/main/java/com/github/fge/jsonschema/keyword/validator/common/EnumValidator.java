@@ -20,7 +20,7 @@
 package com.github.fge.jsonschema.keyword.validator.common;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.JsonNumEquivalence;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
 import com.github.fge.jsonschema.core.processing.Processor;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
@@ -32,13 +32,13 @@ import com.google.common.base.Equivalence;
 /**
  * Keyword validator for {@code enum}
  *
- * @see JsonNumEquals
+ * @see JsonNumEquivalence
  */
 public final class EnumValidator
     extends AbstractKeywordValidator
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNumEquals.getInstance();
+        = JsonNumEquivalence.getInstance();
 
     private final JsonNode values;
 

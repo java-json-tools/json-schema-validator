@@ -21,7 +21,7 @@ package com.github.fge.jsonschema.keyword.digest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
-import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.JsonNumEquivalence;
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.core.util.Dictionary;
 import com.google.common.base.Equivalence;
@@ -40,7 +40,7 @@ import static org.testng.Assert.*;
 public abstract class AbstractDigesterTest
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNumEquals.getInstance();
+        = JsonNumEquivalence.getInstance();
 
     private final String keyword;
     private final Digester digester;

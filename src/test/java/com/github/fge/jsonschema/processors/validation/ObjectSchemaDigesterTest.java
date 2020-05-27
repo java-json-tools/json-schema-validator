@@ -21,7 +21,7 @@ package com.github.fge.jsonschema.processors.validation;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
-import com.github.fge.jackson.JsonNumEquals;
+import com.github.fge.jackson.JsonNumEquivalence;
 import com.github.fge.jsonschema.keyword.digest.Digester;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Lists;
@@ -37,7 +37,7 @@ import static org.testng.Assert.*;
 public final class ObjectSchemaDigesterTest
 {
     private static final Equivalence<JsonNode> EQUIVALENCE
-        = JsonNumEquals.getInstance();
+        = JsonNumEquivalence.getInstance();
 
     private final Digester digester = ObjectSchemaDigester.getInstance();
     private final JsonNode testNode;
