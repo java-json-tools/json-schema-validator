@@ -21,7 +21,7 @@
  * Project-specific settings. Unfortunately we cannot put the name in there!
  */
 group = "com.github.java-json-tools";
-version = "2.2.14-SNAPSHOT";
+version = "2.2.14";
 sourceCompatibility = JavaVersion.VERSION_1_7;
 targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
 
@@ -34,8 +34,8 @@ project.ext {
  */
 dependencies {
     compile(group: "com.google.guava", name: "guava", version: "28.2-android");
-    compile(group: "com.github.java-json-tools", name: "jackson-coreutils-equivalence", version: "1.0-SNAPSHOT");
-    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.14-SNAPSHOT");
+    compile(group: "com.github.java-json-tools", name: "jackson-coreutils-equivalence", version: "1.0");
+    compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.14");
     // FIXME: 1.6.4 exists, but has different license (EDL 1.0, EPL 2.0). Can update?
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.2");
     compile(group: "joda-time", name: "joda-time", version: "2.10.5");
