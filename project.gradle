@@ -33,7 +33,7 @@ project.ext {
  * List of dependencies
  */
 dependencies {
-    compile(group: "com.google.guava", name: "guava", version: "28.2-android");
+    compile(group: "com.google.guava", name: "guava", version: "30.0-android");
     compile(group: "com.github.java-json-tools", name: "jackson-coreutils-equivalence", version: "1.0");
     compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.14");
     // FIXME: 1.6.4 exists, but has different license (EDL 1.0, EPL 2.0). Can update?
