@@ -14,6 +14,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 
 /**
@@ -89,7 +90,7 @@ public class RFC3339DateTimeAttribute extends AbstractFormatAttribute {
             	throw new IllegalArgumentException();
             }
             
-        } catch (IllegalArgumentException ignored) {
+        } catch (DateTimeParseException | IllegalArgumentException ignored) {
     		report.error(newMsg(data, bundle, "err.format.invalidDate")
 			    .putArgument("value", value).putArgument("expected", RFC3339_FORMATS));
         }

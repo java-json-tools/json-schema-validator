@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableList;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoField;
 
 /**
@@ -87,7 +88,7 @@ public final class DateTimeAttribute
 
         try {
             FORMATTER.parse(value);
-        } catch (IllegalArgumentException ignored) {
+        } catch (DateTimeParseException ignored) {
             report.error(newMsg(data, bundle, "err.format.invalidDate")
                 .putArgument("value", value).putArgument("expected", FORMATS));
         }
