@@ -2,9 +2,6 @@ package com.github.fge.jsonschema.format.common;
 
 import com.github.fge.jsonschema.cfg.ValidationConfiguration;
 import com.github.fge.jsonschema.library.DraftV4Library;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.DateTimeParser;
 
 import com.github.fge.jackson.NodeType;
 import com.github.fge.jsonschema.core.exceptions.ProcessingException;
@@ -14,6 +11,11 @@ import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableList;
+
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoField;
 
 /**
  * A {@link DateTimeFormatter} for date and time format defined in RFC3339.
@@ -30,20 +32,20 @@ import com.google.common.collect.ImmutableList;
 public class RFC3339DateTimeAttribute extends AbstractFormatAttribute {
 
 	private static final ImmutableList<String> RFC3339_FORMATS = ImmutableList.of(
-	        "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)"
+	        "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,9}((+|-)HH:mm|Z)"
 	    );
 	
     private static final DateTimeFormatter FORMATTER;
 
     static {
-        final DateTimeParser secFracsParser = new DateTimeFormatterBuilder()
-                .appendLiteral('.').appendFractionOfSecond(1,12)
-                .toParser();
+        final DateTimeFormatter secFracsParser = new DateTimeFormatterBuilder()
+                .appendFraction(ChronoField.OFFSET_SECONDS, 1, 9, true)
+                .toFormatter();
 
         DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
                 .appendPattern("yyyy-MM-dd'T'HH:mm:ss")
                 .appendOptional(secFracsParser)
-                .appendTimeZoneOffset("Z", true, 2, 2);
+                .appendZoneOrOffsetId();
 
         FORMATTER = builder.toFormatter();
     }
@@ -69,7 +71,7 @@ public class RFC3339DateTimeAttribute extends AbstractFormatAttribute {
 
         try 
         {
-            FORMATTER.parseDateTime(value);
+            FORMATTER.parse(value);
 
             final String secFracsAndOffset = value.substring("yyyy-MM-ddTHH:mm:ss".length());
             final String offset;
@@ -88,7 +90,7 @@ public class RFC3339DateTimeAttribute extends AbstractFormatAttribute {
             	throw new IllegalArgumentException();
             }
             
-        } catch (IllegalArgumentException ignored) {
+        } catch (DateTimeParseException | IllegalArgumentException ignored) {
     		report.error(newMsg(data, bundle, "err.format.invalidDate")
 			    .putArgument("value", value).putArgument("expected", RFC3339_FORMATS));
         }

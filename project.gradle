@@ -22,8 +22,8 @@
  */
 group = "com.github.java-json-tools";
 version = "2.2.14";
-sourceCompatibility = JavaVersion.VERSION_1_7;
-targetCompatibility = JavaVersion.VERSION_1_7; // defaults to sourceCompatibility
+sourceCompatibility = JavaVersion.VERSION_1_8;
+targetCompatibility = JavaVersion.VERSION_1_8; // defaults to sourceCompatibility
 
 project.ext {
     description = "A Java implementation of the JSON Schema specification";
@@ -38,7 +38,6 @@ dependencies {
     compile(group: "com.github.java-json-tools", name: "json-schema-core", version: "1.2.14");
     // FIXME: 1.6.4 exists, but has different license (EDL 1.0, EPL 2.0). Can update?
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.2");
-    compile(group: "joda-time", name: "joda-time", version: "2.10.5");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.11.1");
     compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
     compile(group: "net.sf.jopt-simple", name: "jopt-simple", version: "5.0.4");
@@ -57,9 +56,9 @@ javadoc {
         def currentJavaVersion = org.gradle.api.JavaVersion.current()
         // FIXME: https://github.com/gradle/gradle/issues/11182
         if (currentJavaVersion.compareTo(org.gradle.api.JavaVersion.VERSION_1_9) >= 0) {
-            addStringOption("-release", "7");
+            addStringOption("-release", "8");
         }
-        links("https://docs.oracle.com/javase/7/docs/api/");
+        links("https://docs.oracle.com/javase/8/docs/api/");
         links("https://www.javadoc.io/doc/com.google.code.findbugs/jsr305/3.0.2/");
         links("https://fasterxml.github.io/jackson-databind/javadoc/2.11/");
         links("https://fasterxml.github.io/jackson-core/javadoc/2.11/");

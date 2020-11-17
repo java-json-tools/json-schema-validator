@@ -21,10 +21,10 @@ package com.github.fge.jsonschema.format.draftv3;
 
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.helpers.AbstractDateFormatAttribute;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
 
-import static org.joda.time.DateTimeFieldType.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 
 public final class DateAttribute
     extends AbstractDateFormatAttribute
@@ -44,13 +44,12 @@ public final class DateAttribute
     @Override
     protected DateTimeFormatter getFormatter()
     {
-        DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
-
-        builder = builder.appendFixedDecimal(year(), 4)
-            .appendLiteral('-')
-            .appendFixedDecimal(monthOfYear(), 2)
-            .appendLiteral('-')
-            .appendFixedDecimal(dayOfMonth(), 2);
+        DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
+                .appendValue(ChronoField.YEAR, 4)
+                .appendLiteral('-')
+                .appendValue(ChronoField.MONTH_OF_YEAR, 2)
+                .appendLiteral('-')
+                .appendValue(ChronoField.DAY_OF_MONTH, 2);
 
         return builder.toFormatter();
     }
