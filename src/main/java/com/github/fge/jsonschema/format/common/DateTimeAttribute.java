@@ -27,11 +27,10 @@ import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.processors.data.FullData;
 import com.github.fge.msgsimple.bundle.MessageBundle;
 import com.google.common.collect.ImmutableList;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
-import org.joda.time.format.DateTimeParser;
 
-import static org.joda.time.DateTimeFieldType.*;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 
 /**
  * Validator for the {@code date-time} format attribute
@@ -45,25 +44,24 @@ public final class DateTimeAttribute
     private static final DateTimeFormatter FORMATTER;
 
     static {
-        final DateTimeParser secFracsParser = new DateTimeFormatterBuilder()
-            .appendLiteral('.').appendFractionOfSecond(1,12)
-            .toParser();
+        final DateTimeFormatter secFracsParser = new DateTimeFormatterBuilder()
+                .appendFraction(ChronoField.OFFSET_SECONDS, 1, 9, true)
+                .toFormatter();
 
-        DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder();
-
-        builder = builder.appendFixedDecimal(year(), 4)
-            .appendLiteral('-')
-            .appendFixedDecimal(monthOfYear(), 2)
-            .appendLiteral('-')
-            .appendFixedDecimal(dayOfMonth(), 2)
-            .appendLiteral('T')
-            .appendFixedDecimal(hourOfDay(), 2)
-            .appendLiteral(':')
-            .appendFixedDecimal(minuteOfHour(), 2)
-            .appendLiteral(':')
-            .appendFixedDecimal(secondOfMinute(), 2)
-            .appendOptional(secFracsParser)
-            .appendTimeZoneOffset("Z", false, 2, 2);
+        DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder()
+                .appendValue(ChronoField.YEAR, 4)
+                .appendLiteral('-')
+                .appendValue(ChronoField.MONTH_OF_YEAR, 2)
+                .appendLiteral('-')
+                .appendValue(ChronoField.DAY_OF_MONTH, 2)
+                .appendLiteral('T')
+                .appendValue(ChronoField.HOUR_OF_DAY, 2)
+                .appendLiteral(':')
+                .appendValue(ChronoField.MINUTE_OF_HOUR, 2)
+                .appendLiteral(':')
+                .appendValue(ChronoField.SECOND_OF_MINUTE, 2)
+                .appendOptional(secFracsParser)
+                .appendZoneOrOffsetId();
 
         FORMATTER = builder.toFormatter();
     }
@@ -88,7 +86,7 @@ public final class DateTimeAttribute
         final String value = data.getInstance().getNode().textValue();
 
         try {
-            FORMATTER.parseDateTime(value);
+            FORMATTER.parse(value);
         } catch (IllegalArgumentException ignored) {
             report.error(newMsg(data, bundle, "err.format.invalidDate")
                 .putArgument("value", value).putArgument("expected", FORMATS));
