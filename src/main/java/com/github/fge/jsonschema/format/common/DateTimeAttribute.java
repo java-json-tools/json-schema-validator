@@ -39,7 +39,7 @@ public final class DateTimeAttribute
     extends AbstractFormatAttribute
 {
     private static final ImmutableList<String> FORMATS = ImmutableList.of(
-        "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}Z"
+        "yyyy-MM-dd'T'HH:mm:ssZ", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,9}Z"
     );
     private static final DateTimeFormatter FORMATTER;
 

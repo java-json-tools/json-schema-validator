@@ -31,7 +31,7 @@ import java.time.temporal.ChronoField;
 public class RFC3339DateTimeAttribute extends AbstractFormatAttribute {
 
 	private static final ImmutableList<String> RFC3339_FORMATS = ImmutableList.of(
-	        "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,12}((+|-)HH:mm|Z)"
+	        "yyyy-MM-dd'T'HH:mm:ss((+|-)HH:mm|Z)", "yyyy-MM-dd'T'HH:mm:ss.[0-9]{1,9}((+|-)HH:mm|Z)"
 	    );
 	
     private static final DateTimeFormatter FORMATTER;
