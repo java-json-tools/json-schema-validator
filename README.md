@@ -97,6 +97,10 @@ This implementation is based on the following drafts:
   3](http://tools.ietf.org/html/draft-pbryan-zyp-json-ref-03);
 * [JSON Pointer (RFC 6901)](http://tools.ietf.org/html/rfc6901).
 
+## Project location and organization migration
+
+This project was original available under the organization com.github.fge.  Builds prior to 2.2.7 are available under that organization.
+
 ## More...
 
 For a detailed discussion of the implementation, see
