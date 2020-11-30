@@ -1,0 +1,19 @@
+[
+    {
+        "data": "USD",
+        "valid": true
+    },
+    {
+        "data": "CAD",
+        "valid": true
+    },
+    {
+        "data": "ATF",
+        "valid": false,
+        "message": "err.format.currency.invalid",
+        "msgData": {
+            "value": "ATF"
+        },
+        "msgParams": [ "value" ]
+    }
+]

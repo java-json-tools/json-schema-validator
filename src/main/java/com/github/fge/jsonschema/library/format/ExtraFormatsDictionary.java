@@ -23,6 +23,7 @@ import com.github.fge.jsonschema.core.util.Dictionary;
 import com.github.fge.jsonschema.core.util.DictionaryBuilder;
 import com.github.fge.jsonschema.format.FormatAttribute;
 import com.github.fge.jsonschema.format.extra.Base64FormatAttribute;
+import com.github.fge.jsonschema.format.extra.CurrencyFormatAttribute;
 import com.github.fge.jsonschema.format.extra.JsonPointerFormatAttribute;
 import com.github.fge.jsonschema.format.extra.MD5FormatAttribute;
 import com.github.fge.jsonschema.format.extra.MacAddressFormatAttribute;
@@ -76,6 +77,10 @@ public final class ExtraFormatsDictionary
 
         name = "uuid";
         attribute = UUIDFormatAttribute.getInstance();
+        builder.addEntry(name, attribute);
+
+        name = "currency";
+        attribute = CurrencyFormatAttribute.getInstance();
         builder.addEntry(name, attribute);
 
         DICTIONARY = builder.freeze();
