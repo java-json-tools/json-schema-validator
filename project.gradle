@@ -40,7 +40,7 @@ dependencies {
     compile(group: "com.sun.mail", name: "mailapi", version: "1.6.2");
     compile(group: "joda-time", name: "joda-time", version: "2.10.5");
     compile(group: "com.googlecode.libphonenumber", name: "libphonenumber", version: "8.11.1");
-    compile(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
+    compileOnly(group: "com.google.code.findbugs", name: "jsr305", version: "3.0.2");
     compile(group: "net.sf.jopt-simple", name: "jopt-simple", version: "5.0.4");
     testCompile(group: "org.testng", name: "testng", version: "7.1.0") {
         exclude(group: "junit", module: "junit");
