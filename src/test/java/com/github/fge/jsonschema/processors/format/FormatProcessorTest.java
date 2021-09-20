@@ -98,7 +98,7 @@ public final class FormatProcessorTest
 
         assertTrue(Lists.newArrayList(out).isEmpty());
 
-        verifyZeroInteractions(report);
+        verifyNoMoreInteractions(report);
     }
 
     @Test

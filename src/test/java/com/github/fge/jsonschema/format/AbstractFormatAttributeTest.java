@@ -125,7 +125,7 @@ public abstract class AbstractFormatAttributeTest
         attribute.validate(report, BUNDLE, data);
 
         if (valid) {
-            verifyZeroInteractions(report);
+            verifyNoMoreInteractions(report);
             return;
         }
 
