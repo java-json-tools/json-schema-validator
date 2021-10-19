@@ -98,6 +98,15 @@ task sourcesJar(type: Jar, dependsOn: classes) {
  * Lint all the things!
  */
 allprojects {
+    tasks.withType(Test).configureEach {
+        maxParallelForks = 4
+    }
+
+    tasks.withType(Test).configureEach {
+        forkEvery = 100
+    }
+
+
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs << "-Xlint:all" << "-Werror"
