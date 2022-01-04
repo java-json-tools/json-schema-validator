@@ -175,10 +175,10 @@ final class InstanceValidator
         final ArraySchemaSelector selector = new ArraySchemaSelector(digest);
 
         final int size = node.size();
-
+        if(size=0){throws ProcessingException}
         FullData data;
         JsonTree newInstance;
-
+        
         for (int index = 0; index < size; index++) {
             newInstance = instance.append(JsonPointer.of(index));
             data = input.withInstance(newInstance);
