@@ -251,7 +251,7 @@ uploadArchives {
                 distribution "repo";
             };
             license {
-                name "Apache Software License, version 2.0";
+                name "Apache License, version 2.0";
                 url "http://www.apache.org/licenses/LICENSE-2.0";
                 distribution "repo";
             }
